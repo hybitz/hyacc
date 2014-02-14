@@ -1,0 +1,13 @@
+<%#
+# $Id: _search.html.erb 3339 2014-02-01 02:09:34Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 20px;">
+  <%= form_tag({:action => 'index'}, :method => 'get') do %>
+    年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
+    計上部門：<%= select('finder', 'branch_id', to_options( @branches ), :include_blank => false ) %>
+    <%= submit_tag "表示" %>
+  <% end %>
+</div>

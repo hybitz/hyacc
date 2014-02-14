@@ -1,0 +1,11 @@
+//= require jquery/jquery.cookie
+//= require jquery/tree.jquery
+//= require shortcut
+//= require yui/yahoo-dom-event/yahoo-dom-event
+//= require yui/animation/animation
+//= require yui/connection/connection
+//= require yui/element/element
+//= require yui/datasource/datasource
+//= require yui/autocomplete/autocomplete
+//= require yui/datatable/datatable
+//= require yui/button/button

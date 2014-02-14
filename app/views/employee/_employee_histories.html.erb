@@ -1,0 +1,35 @@
+<%#
+# $Id: _customer_names.html.erb 1490 2010-01-19 13:17:25Z ichy $
+# Product: hyacc
+# Copyright 2010-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  function add_employee_history() {
+    var table = jQuery('#employee_histories_table');
+    var index = table.find('tr').length - 3; // ヘッダと追加の行を引く
+    jQuery.get('<%= url_for :action => 'add_employee_history' %>',
+      {index: index}
+    );
+  }
+</script>
+<table id="employee_histories_table" style="margin-top: 10px;">
+  <tr>
+    <th colspan="4">時系列情報</th>
+  </tr>
+  <tr>
+    <th>扶養親族の数</th>
+    <th>有効開始日</th>
+    <th>削除</th>
+  </tr>
+
+  <% @e.employee_histories.each_with_index do |eh, i| %>
+    <%= render 'employee_history_fields', :eh => eh, :index => i %>
+  <% end %>
+
+  <tr>
+    <td colspan="4" align="right">
+      <a href="javascript:add_employee_history();">追加</a>
+    </td>
+  </tr>
+</table>

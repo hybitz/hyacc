@@ -1,0 +1,343 @@
+# coding: UTF-8
+#
+# $Id: hyacc_constants.rb 3013 2013-03-15 11:20:35Z hiro $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+#
+module HyaccConstants
+
+  # 管理者用メールアドレス
+  ADMIN_MAIL_ADDRESS = 'admin@hybitz.co.jp'
+  # HyaccマスタのURL
+  HYACC_MASTER_URL = "hyacc-master.hybitz.co.jp"
+  
+  # 勘定科目区分
+  ACCOUNT_TYPES = {
+    ACCOUNT_TYPE_ASSET = 1 => '資産',
+    ACCOUNT_TYPE_DEBT = 2 => '負債',
+    ACCOUNT_TYPE_CAPITAL = 3 => '資本',
+    ACCOUNT_TYPE_PROFIT = 4 => '収益',
+    ACCOUNT_TYPE_EXPENSE = 5 => '費用',
+  }
+
+  # 承認ステータス
+  APPROVAL_STATUS = {
+    APPROVAL_STATUS_NOT_APPROVED = 1 => '未承認',
+    APPROVAL_STATUS_APPROVED = 2 => '承認済',
+    APPROVAL_STATUS_REJECTED = 3 => '承認却下',
+  }
+
+  # 資産ステータス
+  ASSET_STATUS = {
+    ASSET_STATUS_CREATED = 1 => '登録済',
+    ASSET_STATUS_WAITING = 2 => '償却待',
+    ASSET_STATUS_DEPRECIATING = 3 => '償却中',
+    ASSET_STATUS_DEPRECIATED = 4 => '償却済',
+  }
+
+  # 自動仕訳区分
+  AUTO_JOURNAL_TYPES = {
+    AUTO_JOURNAL_TYPE_PREPAID_EXPENSE = 1 => 'TransferJournal::PrepaidExpenseFactory',
+    AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE = 2 => 'TransferJournal::AccruedExpenseFactory',
+    AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE = 3 => 'TransferJournal::ExpenseFactory',
+    AUTO_JOURNAL_TYPE_INTERNAL_TRADE = 4 => 'TransferJournal::InternalTradeFactory',
+    AUTO_JOURNAL_TYPE_ALLOCATED_COST = 5 => 'TransferJournal::AllocatedCostFactory',
+    AUTO_JOURNAL_TYPE_DEPRECIATION = 6 => 'Journal::DepreciationFactory',
+    AUTO_JOURNAL_TYPE_PAYROLL = 7 => 'Journal::PayrollFactory',
+    AUTO_JOURNAL_TYPE_ALLOCATED_ASSETS = 8 => 'TransferJournal::AllocatedAssetsFactory',
+    AUTO_JOURNAL_TYPE_TEMPORARY_DEBT = 9 => 'Journal::TemporaryDebtFactory',
+    AUTO_JOURNAL_TYPE_HOUSEWORK = 10 => 'Journal::HouseworkFactory',
+    AUTO_JOURNAL_TYPE_CARRY_FORWARD = 11 => 'Journal::CarryForwardFactory',
+    AUTO_JOURNAL_TYPE_DEEMED_TAX = 12 => 'Journal::DeemedTaxFactory',
+  }
+
+  # 給与振込口座
+  BANK_ACCOUNT_ID_FOR_PAY = 1
+
+  # ボタン名称
+  BUTTON_NAMES = {
+    'list' => '登録',
+    'create_simple' => '登録',
+    'new' => '登録',
+    'create' => '登録',
+    'edit' => '更新',
+    'update' => '更新',
+  }
+
+  # 繰越状態（個人事業主用）
+  CARRY_STATUS = {
+    CARRY_STATUS_NOT_CARRIED = false => '未繰越',
+    CARRY_STATUS_CARRIED = true => '繰越済',
+  }
+  
+  # 締め状態
+  CLOSING_STATUS = {
+    CLOSING_STATUS_OPEN = 1 => '通常',
+    CLOSING_STATUS_CLOSING = 2 => '仮締',
+    CLOSING_STATUS_CLOSED = 3 => '本締',
+  }
+  
+  # 消費税申告区分
+  CONSUMPTION_ENTRY_TYPES = {
+    CONSUMPTION_ENTRY_TYPE_GENERAL = 1 => '一般用',
+    CONSUMPTION_ENTRY_TYPE_SIMPLIFIED = 2 => '簡易課税用',
+  }
+
+  # 会社形態区分
+  COMPANY_TYPES = {
+    COMPANY_TYPE_COLTD = 1 => '株式会社',
+    COMPANY_TYPE_GP = 2 => '合名会社',
+    COMPANY_TYPE_LP = 3 => '合資会社',
+    COMPANY_TYPE_LLC = 4 => '合同会社',
+    COMPANY_TYPE_PRIVATE = 5 => '有限会社',
+    COMPANY_TYPE_PERSONAL = 9 => '個人事業主',
+  }
+  
+  # 法人税区分
+  CORPORATE_TAX_TYPES = {
+    CORPORATE_TAX_TYPE_CORPORATE_TAX = 1 => '法人税',
+    CORPORATE_TAX_TYPE_PREFECTURAL_TAX = 2 => '道府県民税',
+    CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX = 3 => '市町村民税',
+  }
+  
+  # 減価償却方法
+  DEPRECIATION_METHODS = {
+    DEPRECIATION_METHOD_FIXED_AMOUNT = 1 => '定額法',
+    DEPRECIATION_METHOD_FIXED_RATE = 2 => '定率法',
+    DEPRECIATION_METHOD_LUMP = 3 => '一括償却',
+  }
+
+  # 明細区分
+  DETAIL_TYPES = {
+    DETAIL_TYPE_NORMAL = 1 => '通常',
+    DETAIL_TYPE_TAX = 2 => '消費税',
+  }
+
+  # 貸借区分
+  DC_TYPES = {
+    DC_TYPE_DEBIT = 1 => '借方',
+    DC_TYPE_CREDIT = 2 => '貸方',
+  }
+
+  # 削除区分
+  DELETED_TYPES = {
+    DELETED_TYPE_USE = false => '有効',
+    DELETED_TYPE_STOP = true => '無効',
+  }
+  
+  # 金融口座区分
+  FINANCIAL_ACCOUNT_TYPES = {
+    FINANCIAL_ACCOUNT_TYPE_SAVING = 1 => '普通預金', # 銀行口座
+    FINANCIAL_ACCOUNT_TYPE_CHECKING = 2 => '当座預金', # 銀行口座
+    FINANCIAL_ACCOUNT_TYPE_GENERAL = 3 => '一般口座', # 株式口座
+    FINANCIAL_ACCOUNT_TYPE_SPECIFIC = 4 => '特定口座（源泉徴収なし）', # 株式口座（源泉徴収なし）
+    FINANCIAL_ACCOUNT_TYPE_SPECIFIC_WITHHOLD = 5 => '特定口座（源泉徴収あり）', # 株式口座（源泉徴収あり）
+  }
+  
+  # テンプレート適応後のフォーカス項目
+  FOCUS_ON_COMPLETES = {
+    FOCUS_ON_COMPLETE_DAY = 'day' => '日',
+    FOCUS_ON_COMPLETE_AMOUNT = 'amount' => '金額',
+    FOCUS_ON_COMPLETE_TAX_AMOUNT = 'tax_amount' => '消費税額',
+    FOCUS_ON_COMPLETE_TAX_TYPE = 'tax_type' => '消費税区分',
+  }
+
+  # 入力区分
+  INPUT_TYPES = {
+    INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID = 1 => '簡易入力の勘定科目',
+    INPUT_TYPE_JOURNAL_ACCOUNT_ID = 2 => '振替伝票の勘定科目',
+  }
+  
+  # 所有者区分
+  OWNER_TYPES = {
+    OWNER_TYPE_COMPANY = 1 => '会社',
+    OWNER_TYPE_BRANCH = 2 => '部門',
+    OWNER_TYPE_EMPLOYEE = 3 => '従業員',
+  }
+
+  # 状態区分
+  RENT_STATUS_TYPES = {
+    RENT_STATUS_TYPE_USE = 1 => '使用中',
+    RENT_STATUS_TYPE_STOP = 2 => '停止中',
+  }
+  
+  # 地代家賃区分
+  RENT_TYPES = {
+    RENT_TYPE_LAND = 1 => '地代',
+    RENT_TYPE_HOUSE = 2 => '家賃',
+  }
+
+  # 用途区分
+  RENT_USAGE_TYPES = {
+    RENT_USAGE_TYPE_BUSINESS = 1 => '事業所',
+    RENT_USAGE_TYPE_RENT = 2 => '借家',
+  }
+
+  # 帳票区分
+  REPORT_TYPES = {
+    REPORT_TYPE_BS = 1 => '貸借対照表',
+    REPORT_TYPE_PL = 2 => '損益計算書',
+    REPORT_TYPE_CF = 3 => 'キャッシュフロー計算書',
+    REPORT_TYPE_TRADE_ACCOUNT_PAYABLE = 4 => '⑨　買掛金の内訳書',
+    REPORT_TYPE_RENT = 5 => '⑮　地代家賃等の内訳書',
+    REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK = 6 => '別表5(1)　利益積立金額及び資本金等の計算に関する明細書',
+    REPORT_TYPE_TAX_AND_DUES = 7 => '別表5(2)　租税公課の納付状況等に関する明細書',
+    REPORT_TYPE_SOCIAL_EXPENSE = 8 => '別表15　交際費等の損金算入に関する明細書',
+    REPORT_TYPE_INCOME = 9 => '別表四　所得の金額の計算に関する明細書',
+    REPORT_TYPE_WITHHOLDING_SUMMARY = 20 => '給与所得の源泉徴収等の法定調書合計表',
+    REPORT_TYPE_WITHHOLDING_DETAILS = 21 => '給与所得の源泉徴収票'
+  }
+
+  # 帳票様式
+  REPORT_STYLES = {
+    REPORT_STYLE_MONTHLY = 1 => '月別',
+    REPORT_STYLE_YEARLY = 2 => '年間',
+  }
+
+  # 決算区分
+  SETTLEMENT_TYPES = {
+    SETTLEMENT_TYPE_HALF = 1 => '中間決算',
+    SETTLEMENT_TYPE_FULL = 2 => '本決算',
+    SETTLEMENT_TYPE_ADJUST = 3 => '決算調整仕訳',
+    SETTLEMENT_TYPE_TRANSFER = 4 => '決算振替仕訳',
+  }
+
+  # 性別区分
+  SEX_TYPES = {
+    SEX_TYPE_M = 'M' => '男',
+    SEX_TYPE_F = 'F' => '女',
+  }
+
+  # 伝票区分
+  SLIP_TYPES = {
+    SLIP_TYPE_SIMPLIFIED = 0 => '簡易入力',
+    SLIP_TYPE_TRANSFER = 1 => '一般振替',
+    SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE = 2 => '前払振替',
+    SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE = 3 => '未払振替',
+    SLIP_TYPE_AUTO_TRANSFER_EXPENSE = 4 => '計上日振替',
+    SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE = 5 => '内部取引',
+    SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION = 6 => '給与',
+    SLIP_TYPE_DEPRECIATION = 7 => '減価償却',
+    SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST = 8 => '費用配賦',
+    SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS = 9 => '資産配賦',
+    SLIP_TYPE_TEMPORARY_DEBT = 10 => '負債清算',
+    SLIP_TYPE_HOUSEWORK = 11 => '家事按分',
+    SLIP_TYPE_CARRY_FORWARD = 12 => '年次繰越',
+    SLIP_TYPE_DEEMED_TAX = 13 => 'みなし消費税',
+  }
+
+  # 状態区分
+  STATUS_TYPES = {
+    STATUS_TYPE_ON = true => '有効',
+    STATUS_TYPE_OFF = false => '無効',
+  }
+
+  # 補助科目区分
+  SUB_ACCOUNT_TYPES = {
+    SUB_ACCOUNT_TYPE_NORMAL = 1 => '通常',
+    SUB_ACCOUNT_TYPE_EMPLOYEE = 2 => '従業員',
+    SUB_ACCOUNT_TYPE_CUSTOMER = 3 => '取引先',
+    SUB_ACCOUNT_TYPE_SAVING_ACCOUNT = 4 => '普通預金',
+    SUB_ACCOUNT_TYPE_RENT = 5 => '地代家賃契約先',
+    SUB_ACCOUNT_TYPE_ORDER_ENTRY = 6 => '受注先',
+    SUB_ACCOUNT_TYPE_ORDER_PLACEMENT = 7 => '発注先',
+    SUB_ACCOUNT_TYPE_BRANCH = 8 => '部門',
+    SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE = 9 => '接待交際費',
+    SUB_ACCOUNT_TYPE_CORPORATE_TAX = 10 => '法人税',
+    SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT = 11 => '一般口座',
+  }
+
+  # 消費税取り扱い区分
+  TAX_MANAGEMENT_TYPES = {
+    TAX_MANAGEMENT_TYPE_EXEMPT = 1 => '非課税',
+    TAX_MANAGEMENT_TYPE_DEEMED = 2 => 'みなし消費税',
+    TAX_MANAGEMENT_TYPE_INCLUSIVE = 3 => '税込経理方式',
+    TAX_MANAGEMENT_TYPE_EXCLUSIVE = 4 => '税抜経理方式',
+  }
+
+  # 消費税区分
+  TAX_TYPES = {
+    TAX_TYPE_NONTAXABLE = Tax::TAX_TYPE_NONTAXABLE => Tax::TAX_TYPES[Tax::TAX_TYPE_NONTAXABLE],
+    TAX_TYPE_INCLUSIVE = Tax::TAX_TYPE_INCLUSIVE => Tax::TAX_TYPES[Tax::TAX_TYPE_INCLUSIVE],
+    TAX_TYPE_EXCLUSIVE = Tax::TAX_TYPE_EXCLUSIVE => Tax::TAX_TYPES[Tax::TAX_TYPE_EXCLUSIVE],
+  }
+
+  # 取引区分
+  TRADE_TYPES = {
+    TRADE_TYPE_EXTERNAL = 1 => '外部取引',
+    TRADE_TYPE_INTERNAL = 2 => '内部取引',
+  }
+
+  # 勘定科目コード
+  ACCOUNT_CODE_ACCRUED_EXPENSE = '3183' # 未払費用
+  ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE = '3184' # 未払費用（従業員）
+  ACCOUNT_CODE_ADVANCE_MONEY_FOR_BRANCH = '1831' # 立替金（部門）
+  ACCOUNT_CODE_ASSETS = '1000' # 資産の部
+  ACCOUNT_CODE_CAPITAL = '4000' # 純資産の部
+  ACCOUNT_CODE_CAPITAL_STOCK = '4311' # 資本金
+  ACCOUNT_CODE_CASH = '1111' # 現金
+  ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE = '3191' # 未払消費税
+  ACCOUNT_CODE_CORPORATE_TAXES = '8911' # 法人税等
+  ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE = '3185' # 未払法人税等
+  ACCOUNT_CODE_COST_OF_SALES = '8101' # 売上原価
+  ACCOUNT_CODE_CREDIT_BY_OWNER = '2901' # 事業主貸
+  ACCOUNT_CODE_CURRENT_ASSETS = '1100' # 流動資産の部
+  ACCOUNT_CODE_DEBT = '3000' # 負債の部
+  ACCOUNT_CODE_DEBT_TO_OWNER = '4313' # 事業主借
+  ACCOUNT_CODE_DEPOSITS_RECEIVED = '3301' # 預り金
+  ACCOUNT_CODE_DEPRECIATION = '8531' # 減価償却費
+  ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD = '4516' # 繰越利益剰余金
+  ACCOUNT_CODE_EXPENSE = '8000' # 費用の部
+  ACCOUNT_CODE_EXTRAORDINARY_EXPENSE = '8900' # 特別損失
+  ACCOUNT_CODE_EXTRAORDINARY_PROFIT = '6300' # 特別利益
+  ACCOUNT_CODE_FIXED_ASSET = '2100' # 固定資産
+  ACCOUNT_CODE_HEAD_OFFICE = '4999' # 本店勘定
+  ACCOUNT_CODE_HEAD_OFFICE_TAXES = '8988' # 法人税等配賦
+  ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE = '8989' # 法人税等負担
+  ACCOUNT_CODE_NON_OPERATING_PROFIT = '6200' # 営業外収益
+  ACCOUNT_CODE_NON_OPERATING_EXPENSE = '8800' # 営業外費用
+  ACCOUNT_CODE_ORDINARY_DIPOSIT = '1311' # 普通預金
+  ACCOUNT_CODE_PAID_FEE = '8681' # 支払手数料
+  ACCOUNT_CODE_PERSONAL_CAPITAL = '4312' # 元入金
+  ACCOUNT_CODE_PREPAID_EXPENSE = '1841' # 前払費用
+  ACCOUNT_CODE_PROFIT = '6000' # 収益の部
+  ACCOUNT_CODE_RECEIVABLE = '1551' # 売掛金
+  ACCOUNT_CODE_REVENUE = '4511' # 利益余剰金
+  ACCOUNT_CODE_SALE = '6121' # 売上高
+  ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE = '8300' # 販売費および一般管理費
+  ACCOUNT_CODE_SMALL_CASH = '1121' # 小口現金
+  ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED = '3201' # 借受消費税
+  ACCOUNT_CODE_SOCIAL_EXPENSE = '8491' # 接待交際費
+  ACCOUNT_CODE_TAX_AND_DUES = '8311' # 租税公課
+  ACCOUNT_CODE_TEMP_PAY_TAX = '1891' # 仮払消費税
+  ACCOUNT_CODE_TEMPORARY_ASSETS  = '1851' # 仮資産
+  ACCOUNT_CODE_TEMPORARY_PAYMENT = '1881' # 仮払金
+  ACCOUNT_CODE_TEMPORARY_DEBT = '3501' # 仮負債
+  ACCOUNT_CODE_UNPAID_EMPLOYEE = '3171' # 未払金（従業員）
+  ACCOUNT_CODE_VARIOUS = '0' # 諸口
+  ACCOUNT_CODE_BRANCH_OFFICE = '2999' # 支店勘定
+  ACCOUNT_CODE_HEAD_OFFICE_COST = '8888' # 本社費用配賦
+  ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE = '8889' # 本社費用負担
+  ACCOUNT_CODE_DIRECTOR_SALARY = '8322' # 役員給与
+  ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS = '3352' # 未払役員賞与
+  ACCOUNT_CODE_LEGAL_WELFARE = '8441' # 法定福利費
+  ACCOUNT_CODE_ADVANCE_MONEY = '1821' # 立替金
+  ACCOUNT_CODE_COMMISSION_PAID = '8681' # 支払手数料
+  ACCOUNT_CODE_RENT = '8551' # 地代家賃
+  
+  # 補助科目コード
+  SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY = '100' # 源泉所得税（立替金）
+  SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_ADVANCE_MONEY = '200' # 健康保険料（立替金）
+  SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_ADVANCE_MONEY = '300' # 厚生年金（立替金）
+  SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_ADVANCE_MONEY = '400' # 住民税（立替金）
+  SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED = '100' # 源泉所得税（預り金）
+  SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_DEPOSITS_RECEIVED = '200' # 健康保険料（預り金）
+  SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED = '300' # 厚生年金（預り金）
+  SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_DEPOSITS_RECEIVED = '400' # 住民税（預り金）
+  SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_LEGAL_WELFARE = '200' # 健康保険料（法定福利費）
+  SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_LEGAL_WELFARE = '300' # 厚生年金（法定福利費）
+  SUB_ACCOUNT_CODE_BUSINESS_TAX = '400' # 事業税
+  SUB_ACCOUNT_CODE_OTHERS = '900' # その他
+  
+end

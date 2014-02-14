@@ -1,0 +1,6 @@
+/*
+ *= require vendor
+ */
+.yui-skin-sam .yui-dt-body { cursor:pointer; }
+.yui-skin-sam .yui-dt td.amount { text-align:right; }
+.yui-skin-sam .yui-dt td.social_expense_number_of_people { text-align:center; }

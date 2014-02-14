@@ -1,0 +1,18 @@
+<%#
+# $Id: index.html.erb 2984 2013-02-11 05:42:27Z ichy $
+# Product: hyacc
+# Copyright 2009-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div  style="margin: 20px;">
+  <%= error_messages_for :withheld_tax if @list %>
+</div>
+<div  style="margin: 20px;"> 
+  <%= render 'search' %>
+</div>
+<div  style="margin: 20px;"> 
+  <%= link_to '一括登録', new_withheld_tax_path %>
+</div>
+<div  style="margin: 20px;"> 
+  <%= render 'list' if @list %>
+</div>

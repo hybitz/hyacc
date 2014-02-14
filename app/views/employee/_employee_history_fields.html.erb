@@ -1,0 +1,16 @@
+<%#
+# $Id: _customer_name_fields.html.erb 1490 2010-01-19 13:17:25Z ichy $
+# Product: hyacc
+# Copyright 2010-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= fields_for "e[employee_histories_attributes]", eh, :index=>index do |eh_fields| %>
+<tr>
+  <td align="center">
+    <%= eh_fields.hidden_field :employee_id %>
+    <%= eh_fields.text_field :num_of_dependent, :maxlength=>2, :style=>'text-align: right' %>人
+  </td>
+  <td><%= eh_fields.date_select :start_date %></td>
+  <td><%= eh_fields.check_box :_destroy %></td>
+</tr>
+<% end %>

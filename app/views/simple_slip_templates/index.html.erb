@@ -1,0 +1,18 @@
+<%#
+# $Id: index.html.erb 3364 2014-02-07 09:00:18Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= render 'search' %>
+
+<% if @templates.empty? %>
+  <div style="margin: 10px">登録されているテンプレートはありません。</div>
+<% else %>
+  <%= render 'index' %>
+<% end %>
+
+<div style="margin: 10px;">
+  <%= will_paginate @templates, :style=>'display: inline;' if @templates.present? %>
+  <%= link_to '追加', {:action => :new}, :remote => true, :style => 'margin: 0 20px;' %>
+</div>

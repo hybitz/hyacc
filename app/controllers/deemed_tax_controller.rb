@@ -1,0 +1,55 @@
+# -*- encoding : utf-8 -*-
+#
+# $Id: deemed_tax_controller.rb 3033 2013-06-21 02:17:14Z ichy $
+# Product: hyacc
+# Copyright 2009-2011 by Hybitz.co.ltd
+# ALL Rights Reserved.
+#
+class DeemedTaxController < Base::HyaccController
+  include JournalUtil
+
+  layout 'application'
+  available_for :type=>:consumption_entry_type, :only=>CONSUMPTION_ENTRY_TYPE_SIMPLIFIED
+  view_attribute :title=>'みなし消費税'
+  
+  before_filter :check_business_type
+  
+  def index
+    fy = current_user.company.current_fiscal_year
+    logic = DeemedTax::DeemedTaxLogic.new(fy)
+    @dtm = logic.get_deemed_tax_model
+  end
+  
+  def create_journal
+    begin
+      fy = current_user.company.current_fiscal_year
+      fy.transaction do
+        # 既存の仕訳を破棄
+        fy.get_deemed_tax_journals.each do |jh|
+          raise HyaccException.new(ERR_DB) unless jh.destroy
+        end
+        
+        # 新たに作成
+        param = Auto::Journal::DeemedTaxParam.new(fy, current_user)
+        factory = Auto::AutoJournalFactory.get_instance(param)
+        factory.make_journals.each do |jh|
+          validate_journal(jh)
+          jh.save!
+        end
+      end
+      
+      flash[:notice] = '消費税仕訳を作成しました。'
+    rescue Exception=>e
+      handle(e)
+    end
+    
+    redirect_to :action=>:index
+  end
+  
+private
+  def check_business_type
+    unless current_user.company.business_type
+      render :action=>:business_type_required
+    end
+  end
+end

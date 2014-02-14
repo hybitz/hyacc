@@ -1,0 +1,34 @@
+<%#
+# $Id: _header.html.erb 3065 2013-06-21 03:17:21Z ichy $
+# Product: hyacc
+# Copyright 2009-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div class="header">
+  <% if @company.logo_path && File.exist?(url_for_file_column('company', 'logo_path')) %>
+    <div style="float: left;">
+      <a href="<%= url_for root_path %>"><%= image_tag url_for_file_column('company', 'logo_path') %></a>
+    </div>
+    <div style="float: left; vertical-align: top;">
+      <%= current_user.company.current_fiscal_year_int %>年度
+    </div>
+  <% else %>
+    <div style="float: left; margin-left: 10px;">
+      <a href="<%= url_for root_path %>" style="text-decoration: none;"><%= @company.name %></a>
+      |
+      <%= current_user.company.current_fiscal_year_int %>年度
+    </div>
+  <% end %>
+
+  <div style="text-align: right;">
+    <nobr>
+        <%= current_user.employee.last_name %>&nbsp;<%= current_user.employee.first_name %> さん
+        |
+        <% if branch_mode %>
+        &nbsp;所属部門：<%= current_user.employee.default_branch.name %>
+        |
+        <% end %>
+        <%= link_to 'ログアウト', :controller => 'login', :action => 'logout' %>
+    </nobr>
+  </div>
+</div>

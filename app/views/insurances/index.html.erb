@@ -1,0 +1,16 @@
+<%#
+# $Id: index.html.erb 2957 2012-11-09 07:45:31Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+
+<div style="margin: 20px;">
+  <%= error_messages_for :insurance if @list %>
+</div>
+<div style="margin: 20px;">
+  <%= render 'search' %>
+</div>
+<div style="margin: 20px;">
+  <%= render 'list' if @list %>
+</div>

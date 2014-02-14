@@ -1,0 +1,207 @@
+<%#
+# $Id: pl_monthly.html.erb 3163 2014-01-01 09:03:01Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  function add_all_months( account1, account2, account3 ) {
+    var tr1 = document.getElementById( account1 );
+    var tr2 = document.getElementById( account2 );
+    var tr3 = document.getElementById( account3 );
+
+    for ( var i = 0; i < tr1.childNodes.length; i ++ ) {
+      var td1 = tr1.childNodes[i];
+      if ( td1.id && td1.id.match(/.+_[0-9]{6}/i) != null ) {
+        var td2 = tr2.childNodes[i];
+        var td3 = tr3.childNodes[i];
+        add(td1, td2, td3);
+      }
+    }
+  }
+  
+  function subtract_all_months( account1, account2, account3 ) {
+    var tr1 = document.getElementById( account1 );
+    var tr2 = document.getElementById( account2 );
+    var tr3 = document.getElementById( account3 );
+    if(!tr2){return;}
+    for ( var i = 0; i < tr1.childNodes.length; i ++ ) {
+      var td1 = tr1.childNodes[i];
+      if ( td1.id && td1.id.match(/.+_[0-9]{6}/i) != null ) {
+        var td2 = tr2.childNodes[i];
+        var td3 = tr3.childNodes[i];
+        sub(td1, td2, td3);
+      }
+    }
+  }
+
+  function calc_sum( account ) {
+    var tr = document.getElementById( account );
+    
+    var sum = 0;
+    for ( var i = 0; i < tr.childNodes.length; i ++ ) {
+      var td = tr.childNodes[i];
+      if ( td.id && td.id.match(/.+_[0-9]{6}/i) != null ) {
+        sum += getValue( td );
+      }
+    }
+    document.getElementById( account + '_sum' ).innerHTML = toAmount( sum );
+  }
+</script>
+
+<table id="plContainer" border="1">
+  <%# 見出し %>
+  <tr>
+    <th colspan="<%= colspan( 2 ) %>">勘定科目</th>
+    <% @finder.get_ym_range.each do |ym| %>
+    <th align="center"><%= ym %></th>
+    <% end %>
+    <th align="center">累計</th>
+  </tr>
+
+  <%# 売上高 %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_SALE, :style=>'font-weight: bold;' %>
+    
+  <%# 売上原価 %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_COST_OF_SALES %>
+  
+  <%# 売上総利益 %>
+  <tr id="grossProfit" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">売上総利益</td>  
+    <% @finder.get_ym_range.each do |ym| %>
+      <td id="grossProfit_<%= ym %>" align="right"></td>
+    <% end %>
+    <td id="grossProfit_sum" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          subtract_all_months(ACCOUNT_CODE_SALE, ACCOUNT_CODE_COST_OF_SALES, 'grossProfit');
+          calc_sum('grossProfit');
+        });
+      </script>
+    </td>
+  </tr>
+
+  <%# 販売費および一般管理費に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:account].children.each do |child| %>
+    <%= render 'line_pl_monthly', :account_code=>child.code %>
+  <% end %>
+
+  <%# 販売費および一般管理費 %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE, :style=>'font-weight: bold;' %>
+
+  <%# 営業利益 %>
+  <tr id="operatingIncome" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">営業利益</td>  
+    <% @finder.get_ym_range.each do |ym| %>
+      <td id="operatingIncome_<%= ym %>" align="right"></td>
+    <% end %>
+    <td id="operatingIncome_sum" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          subtract_all_months('grossProfit', ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE, 'operatingIncome');
+          calc_sum('operatingIncome');
+        });
+      </script>
+    </td>
+  </tr>
+  
+  <%# 営業外収益に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:account].children.each do |child| %>
+    <%= render 'line_pl_monthly', :account_code=>child.code %>
+  <% end %>
+
+  <%# 営業外収益 %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT %>
+
+  <%# 営業外費用に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE][:account].children.each do |child| %>
+    <%= render 'line_pl_monthly', :account_code=>child.code %>
+  <% end %>
+
+  <%# 営業外費用 %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE %>
+
+  <%# 経常利益 %>
+  <tr id="ordinaryIncome" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">経常利益</td>  
+    <% @finder.get_ym_range.each do |ym| %>
+      <td id="ordinaryIncome_<%= ym %>" align="right"></td>
+    <% end %>
+    <td id="ordinaryIncome_sum" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          add_all_months('operatingIncome', ACCOUNT_CODE_NON_OPERATING_PROFIT, 'ordinaryIncome');
+          subtract_all_months('ordinaryIncome', ACCOUNT_CODE_NON_OPERATING_EXPENSE, 'ordinaryIncome');
+          calc_sum('ordinaryIncome');
+        });
+      </script>
+    </td>
+  </tr>
+
+  <%# 特別利益に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:account].children.each do |child| %>
+    <%= render 'line_pl_monthly', :account_code=>child.code %>
+  <% end %>
+
+  <%# 特別利益 %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT %>
+
+  <%# 特別費用に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:account].children.each do |child| %>
+    <%= render 'line_pl_monthly', :account_code=> child.code %>
+  <% end %>
+
+  <%# 特別費用 %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE %>
+
+  <%# 税引前当期利益 %>
+  <tr id="pretaxProfit" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">税引前当期利益</td>  
+    <% @finder.get_ym_range.each do |ym| %>
+      <td id="pretaxProfit_<%= ym %>" align="right"></td>
+    <% end %>
+    <td id="pretaxProfit_sum" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          add_all_months('ordinaryIncome', ACCOUNT_CODE_EXTRAORDINARY_PROFIT, 'pretaxProfit');
+          subtract_all_months('pretaxProfit', ACCOUNT_CODE_EXTRAORDINARY_EXPENSE, 'pretaxProfit');
+          calc_sum('pretaxProfit');
+        });
+      </script>
+    </td>
+  </tr>
+
+  <%# 法人税等 %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_CORPORATE_TAXES %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE %>
+  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_HEAD_OFFICE_TAXES %>
+
+  <%# 当期利益 %>
+  <tr id="profit" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">当期利益</td>  
+    <% @finder.get_ym_range.each do |ym| %>
+      <td id="profit_<%= ym %>" align="right"></td>
+    <% end %>
+    <td id="profit_sum" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          // 税引前当期利益から法人税等を減算し当期利益にセット
+          subtract_all_months('pretaxProfit', ACCOUNT_CODE_CORPORATE_TAXES, 'profit');
+          // 法人税等負担を減算
+          subtract_all_months('profit', ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE, 'profit');
+          // 法人税等配賦を減算
+          subtract_all_months('profit', ACCOUNT_CODE_HEAD_OFFICE_TAXES, 'profit');
+          // 累計を計算
+          calc_sum('profit');
+        });
+      </script>
+    </td>
+  </tr>
+</table>
+
+<script>
+  jQuery(document).ready(function() {
+    updateAmountColor('plContainer', /.+_[0-9]{6}/i);
+    updateAmountColor('plContainer', /.+_sum/i);
+  });
+</script>

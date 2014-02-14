@@ -1,0 +1,29 @@
+<%#
+# $Id: index.html.erb 3180 2014-01-18 03:53:23Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 20px;">
+  <%= error_messages_for :withheld_tax if @list %>
+</div>
+<div style="margin: 20px;"> 
+  <%= render 'search' %>
+</div>
+<div style="margin: 20px;"> 
+  <%= link_to '一括登録', new_inhabitant_tax_path %>
+</div>
+
+<% if @list.present? %>
+  <div style="margin: 20px;">
+    <div class="div_th_yyyy">年月</div>
+    <div class="div_th_user">従業員</div>
+    <div class="div_th_money">金額</div>
+    <div class="div_th_link"></div>
+    <br clear="all" />
+    
+    <% @list.each do |data| %>
+      <%= render 'line', :data => data %>
+    <% end %>
+  </div>
+<% end %>

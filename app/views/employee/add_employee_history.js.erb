@@ -1,0 +1,8 @@
+<%#
+# $Id: add_employee_history.js.erb 2949 2012-11-09 03:17:44Z ichy $
+# Product: hyacc
+# Copyright 2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+var tr = jQuery('#employee_histories_table tr').last();
+tr.before('<%= escape_javascript(render('employee_history_fields', :eh => @employee_history, :index => params[:index])) %>');

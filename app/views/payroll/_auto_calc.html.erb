@@ -1,0 +1,30 @@
+<%#
+# $Id: _auto_calc.html.erb 2972 2012-12-21 06:29:43Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<tr>
+  <td width="120">健康保険料</td>
+  <td>
+    <%= text_field 'payroll', 'insurance', :maxlength=>10 %>
+    <%= radio_button 'payroll', 'credit_account_type_of_insurance', '0' %>預り金
+    <%= radio_button 'payroll', 'credit_account_type_of_insurance', '1' %>立替金
+  </td>
+</tr>
+<tr>
+  <td>厚生年金保険料</td>
+  <td>
+    <%= text_field 'payroll', 'pension', :maxlength=>10 %>
+    <%= radio_button 'payroll', 'credit_account_type_of_pension', '0' %>預り金
+    <%= radio_button 'payroll', 'credit_account_type_of_pension', '1' %>立替金
+  </td>
+</tr>
+<tr>
+  <td>所得税</td>
+  <td>
+    <%= text_field 'payroll', 'income_tax', :maxlength=>10 %>
+    <%= radio_button 'payroll', 'credit_account_type_of_income_tax', '0' %>預り金
+    <%= radio_button 'payroll', 'credit_account_type_of_income_tax', '1' %>立替金
+  </td>
+</tr>

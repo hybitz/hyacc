@@ -1,0 +1,11 @@
+<%#
+# $Id: _get_branches_employees.html.erb 2972 2012-12-21 06:29:43Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<span id="branches_employees">
+  <% if @employees.present? %>
+    従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'name') %>
+  <% end %>
+</span>

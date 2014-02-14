@@ -1,0 +1,25 @@
+<%#
+# $Id: _search.html.erb 2891 2012-07-20 04:58:10Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= form_tag( {:action=>"index"}, {:method=>"get"} ) do %>
+  <div style="margin: 10px;">
+    <div>
+      年月：<%= text_field 'finder', 'ym', :maxlength=>6 %>
+      勘定科目：<%= select("finder", "account_id", to_options_code_and_name( @accounts ), :class=>'accountSelect', :include_blank=>true ) %>
+      
+      <% if branch_mode %>
+      部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank => true ) %>
+      <% end %>
+    </div>
+    <div>
+      摘要：<%= text_field 'finder', 'remarks' %>
+    </div>
+    <div>
+      伝票区分：<%= render 'common/slip_type_selection' %>
+      <%= submit_tag "検索" %>
+    </div>
+  </div>
+<% end %>

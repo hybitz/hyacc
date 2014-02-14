@@ -1,0 +1,22 @@
+<%#
+# $Id: _line.html.erb 2899 2012-08-31 02:38:30Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= fields_for "bank[bank_offices_attributes][]", bank_office, :index=>index do |f| %>
+  <tr>
+    <td>
+      <% if bank_office.new_record? %>
+        <%= f.text_field :code %>
+      <% else %>
+        <%= f.hidden_field :id %>
+        <%= f.hidden_field :code %>
+        <%= bank_office.code %>
+      <% end %>
+    </td>
+    <td><%= f.text_field :name %></td>
+    <td><%= f.select :deleted, @deleted_types %></td>
+  </tr>
+<% end %>
+

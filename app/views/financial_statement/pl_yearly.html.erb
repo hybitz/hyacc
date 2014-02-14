@@ -1,0 +1,159 @@
+<%#
+# $Id: pl_yearly.html.erb 3162 2014-01-01 08:45:50Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  // 構成比の計算
+  function calcRatio( id, totalAmount ) {
+    var ratio = 0;
+    if (!isNaN(totalAmount) && totalAmount != 0) {
+      var amount = getValue(document.getElementById(id + '_amount'));
+      ratio = amount / totalAmount;
+      ratio = parseInt(ratio * 10000) / 100;
+    }
+    document.getElementById( id + '_ratio').innerHTML = ratio;
+  }  
+</script>
+
+<table id="plContainer" border="1">
+  <%# 見出し %>
+  <tr>
+    <th colspan="<%= colspan( 2 ) %>">勘定科目</th>
+    <th align="center">金額</th>
+    <th align="center">構成比（％）</th>
+  </tr>
+
+  <%# 売上高 %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_SALE, :style=>'font-weight: bold;' %>
+    
+  <%# 売上原価 %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_COST_OF_SALES %>
+  
+  <%# 売上総利益 %>
+  <tr id="grossProfit" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">売上総利益</td>  
+    <td id="grossProfit_amount" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          sub(ACCOUNT_CODE_SALE + '_amount', ACCOUNT_CODE_COST_OF_SALES + '_amount', 'grossProfit_amount');
+        });
+      </script>
+    </td>
+    <td id="grossProfit_ratio" align="right"></td>
+  </tr>
+
+  <%# 販売費および一般管理費に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:account].children.each do |child| %>
+    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:amount], :account_code=>child.code %>
+  <% end %>
+
+  <%# 販売費および一般管理費 %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE, :style=>'font-weight: bold;' %>
+
+  <%# 営業利益 %>
+  <tr id="operatingIncome" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">営業利益</td>  
+    <td id="operatingIncome_amount" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          sub('grossProfit_amount', ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE + '_amount', 'operatingIncome_amount');
+        });
+      </script>
+    </td>
+    <td id="operatingIncome_ratio" align="right"></td>
+  </tr>
+  
+  <%# 営業外収益に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:account].children.each do |child| %>
+    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:amount], :account_code=>child.code %>
+  <% end %>
+
+  <%# 営業外収益 %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT %>
+
+  <%# 営業外費用に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE][:account].children.each do |child| %>
+    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:amount], :account_code=>child.code %>
+  <% end %>
+
+  <%# 営業外費用 %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE %>
+
+  <%# 経常利益 %>
+  <tr id="ordinaryIncome" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">経常利益</td>  
+    <td id="ordinaryIncome_amount" align="right"></td>
+    <td id="ordinaryIncome_ratio" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          add('operatingIncome_amount', ACCOUNT_CODE_NON_OPERATING_PROFIT + '_amount', 'ordinaryIncome_amount');
+          sub('ordinaryIncome_amount', ACCOUNT_CODE_NON_OPERATING_EXPENSE + '_amount', 'ordinaryIncome_amount');
+        });
+      </script>
+    </td>
+  </tr>
+
+  <%# 特別利益に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:account].children.each do |child| %>
+    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:amount], :account_code=>child.code %>
+  <% end %>
+
+  <%# 特別利益 %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT %>
+
+  <%# 特別費用に関する科目 %>
+  <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:account].children.each do |child| %>
+    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:amount], :account_code=> child.code %>
+  <% end %>
+
+  <%# 特別費用 %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE %>
+
+  <%# 税引前当期利益 %>
+  <tr id="pretaxProfit" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">税引前当期利益</td>  
+    <td id="pretaxProfit_amount" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          add('ordinaryIncome_amount', ACCOUNT_CODE_EXTRAORDINARY_PROFIT + '_amount', 'pretaxProfit_amount');
+          sub('pretaxProfit_amount', ACCOUNT_CODE_EXTRAORDINARY_EXPENSE + '_amount', 'pretaxProfit_amount');
+        });
+      </script>
+    </td>
+    <td id="pretaxProfit_ratio" align="right"></td>
+  </tr>
+
+  <%# 法人税等 %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_CORPORATE_TAXES %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_HEAD_OFFICE_TAXES %>
+  
+  <%# 当期利益 %>
+  <tr id="profit" style="font-weight: bold;">
+    <td colspan="<%= colspan( 2 ) %>">当期利益</td>
+    <td id="profit_amount" align="right">
+      <script>
+        jQuery(document).ready(function() {
+          // 税引前当期利益から法人税等を減算し当期利益にセット
+          sub('pretaxProfit_amount', ACCOUNT_CODE_CORPORATE_TAXES + '_amount', 'profit_amount');
+          
+          <% if branch_mode %>
+          // 法人税等負担を減算
+          sub('profit_amount', ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE + '_amount', 'profit_amount');
+          // 法人税等配賦を減算
+          sub('profit_amount', ACCOUNT_CODE_HEAD_OFFICE_TAXES + '_amount', 'profit_amount');
+          <% end %>
+        });
+      </script>
+    </td>
+    <td id="profit_ratio" align="right"></td>
+  </tr>
+</table>
+
+<script>
+  jQuery(document).ready(function() {
+    updateAmountColor('plContainer', /.+(_amount|_ratio)/i);
+  });
+</script>

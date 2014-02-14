@@ -1,0 +1,79 @@
+* {
+  font-family: "ＭＳ Ｐ明朝", serif;
+  vertical-align: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-color: white;
+  background-image: none;
+  font-size: 10pt;
+  color:#000000;
+  line-height: 1.4;
+}
+
+table, th, td {
+  border: 1px solid #000000;
+}
+
+table {
+  border: 2px solid #000000;
+  border-collapse: collapse;
+  empty-cells: show;
+}
+
+th {
+  border: 2px solid #000000;
+  background-color: lightgrey;
+  font-size: 12pt;  
+  font-weight: bolder;
+}
+
+td {
+  border: 1px solid #000000;
+}
+
+.content {
+  margin: 0px;
+}
+
+.header {
+  display: none;
+}
+
+.menu {
+  display: none;
+}
+
+.subMenu {
+  display: none;
+}
+
+.showCareers {
+  width: 100%;
+}
+
+.showCareers .employee {
+  white-space: nowrap;
+  text-align: left;
+}
+
+.showCareers .yearsOfCareer {
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.showCareers .description {
+  width: 55%;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.showCareers .skill {
+  width: 15%;
+  vertical-align: top;
+  white-space: nowrap;
+}

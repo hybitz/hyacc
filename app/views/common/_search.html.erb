@@ -1,0 +1,88 @@
+<%#
+# $Id: _search.html.erb 3357 2014-02-07 02:54:34Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div id="search" style="margin: 15px;">
+  <%= form_tag({:action => action_name}, :method => "get") do %>
+    <% if @ym_list %>
+      年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
+    <% end %>
+    
+    <% if @prefectures %>
+      都道府県：<%= select('finder', 'prefecture_id', to_options(@prefectures) ) %>
+    <% end %>
+
+    <% if @business_offices %>
+      事業所：<%= select('finder', 'business_office_id', to_options(@business_offices) ) %>
+    <% end %>
+
+    <% if branch_mode and @branches %>
+      部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank=>true ) %>
+    <% end %>
+      
+    <% if @accounts %>
+      勘定科目：
+      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", :include_blank=>true) %>
+      <script>
+        jQuery(document).ready(function() {
+          jQuery('#finder_account_id').change(function() {
+            var account_id = jQuery(this).val();
+            jQuery.get('<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
+                {
+                  format: 'json',
+                  order: 'code',
+                  account_id: account_id
+                },
+                function(data) {
+                  reloadSubAccounts(data);
+                }
+            );
+          });
+        });
+      </script>
+  
+      <% if @sub_accounts %>
+        <span id="finder_sub_account_id_title" style="display: <%= @sub_accounts.empty? ? 'none' : '' %>;">補助科目：</span>
+        <%= collection_select("finder", "sub_account_id", @sub_accounts, "id", "name",
+              {
+              :include_blank=>true
+              },
+              {
+              :style=>'display: ' + (@sub_accounts.empty? ? 'none' : '') + ';'
+              }
+            ) %>
+
+        <script>
+          function reloadSubAccounts(data){
+            replace_options('#finder_sub_account_id', data, true);
+            var subAccount = jQuery('#finder_sub_account_id');
+            if (subAccount != null) {
+              jQuery('#finder_sub_account_id_title').css('display', subAccount.css('display'));
+            }
+          }
+        </script>
+      <% end %>
+    <% end %>
+    
+    <% if @deleted_types %>
+      状態：<%= select('finder', 'deleted', @deleted_types, :include_blank=>true ) %>
+    <% end %>
+
+    <% if @finder.enable_employee_id and @employees %>
+      従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'full_name', {:include_blank=>true}) %>
+    <% end %>
+    
+    <% if @report_types %>
+      帳票様式：<%= collection_select("finder", "report_type", @report_types, "value", "name") %>
+    <% end %>
+     
+    <% if @report_styles %>
+      <%= select('finder', 'report_style', @report_styles ) %>
+    <% end %>
+
+    <%= submit_tag "表示" %>
+  <% end %>
+  
+</div>

@@ -1,0 +1,20 @@
+<%#
+# $Id: notification.html.erb 3190 2014-01-21 13:41:42Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>お知らせ: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render 'common/header' %>
+  <%= render 'common/menu' %>
+  <%= yield %>
+</body>
+</html>

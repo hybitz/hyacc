@@ -1,0 +1,24 @@
+<%#
+# $Id: _form_receipt.html.erb 3123 2013-08-12 13:42:12Z ichy $
+# Product: hyacc
+# Copyright 2009-2011 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div id="receipt_status">
+  <script>
+    function delete_receipt() {
+      jQuery.get('<%= url_for :action => 'delete_receipt', :id => @journal_header.id %>',
+      function(html) {
+        jQuery('#receipt_status').replaceWith(html);
+      });
+    }
+  </script>
+  <% if @journal_header.receipt_path.nil? %>
+    <%= file_field 'journal_header', 'receipt_file', 'size' => 60 %>
+    <%= hidden_field 'journal_header', 'delete_flag_of_receipt_file' %>
+  <% else %>
+    （<%= link_to"#{File::basename(@journal_header.receipt_path)}", {:action => 'download_receipt', :id => @journal_header.id} %>）
+    &nbsp;&nbsp;
+    <input type="button" value="領収書削除" onclick="delete_receipt();" />
+  <% end %>
+</div>

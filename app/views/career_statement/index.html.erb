@@ -1,0 +1,33 @@
+<%#
+#
+# $Id: index.html.erb 2958 2012-11-09 08:02:34Z ichy $
+# Product: hyacc
+# Copyright 2009 by Hybitz.co.ltd
+# ALL Rights Reserved.
+#
+%>
+<table>
+  <tr>
+    <th>氏名</th>
+    <% if branch_mode %>
+    <th>所属部門</th>
+    <% end %>
+    <th>業務経歴</th>
+    <th>状態</th>
+    <th></th>
+  </tr>
+  
+  <% @employees.each do |e| %>
+    <tr>
+      <td><%= e.full_name %></td>
+      <% if branch_mode %>
+      <td><%= e.default_branch.name %></td>
+      <% end %>
+      <td align="right"><%= e.years_of_career %>年</td>
+      <td><%= e.deleted_name %></td>
+      <td><a href="<%= url_for :action=>:show, :id=>e %>">参照</a></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @employees %>

@@ -1,0 +1,28 @@
+<%#
+# $Id: _search.html.erb 3145 2013-10-24 13:46:20Z ichy $
+# Product: hyacc
+# Copyright 2009-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 10px;">
+  <%= form_tag( {:action=>'index'}, {:method=>'get'} ) do %>
+    <div>
+      <%= select('finder', 'fiscal_year', @ym_list ) %>年度
+      
+      <% if branch_mode %>
+      部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank => true ) %>
+      <% end %>
+      
+      <%= submit_tag "表示", :id=>'search_button' %>
+    </div>
+    <div>
+      <label><%= check_box('finder', 'include_has_tax') %> 消費税を含む伝票も表示</label>
+    </div>
+    <div>
+      <label><%= check_box('finder', 'include_nontaxable') %> 非課税のみの伝票も表示</label>
+    </div>
+    <div>
+      <label><%= check_box('finder', 'include_checked') %> 確認済みの伝票も表示</label>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,61 @@
+<%#
+# $Id: _index.html.erb 3323 2014-01-29 03:44:48Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  jQuery(function() {
+    var container = jQuery('#asset_container');
+    var search = jQuery('#search');
+    var notice = jQuery('#notice');
+    search.css('marginBottom', '-5px');
+    notice.css('marginLeft', container.width() - notice.width() + 'px');
+    notice.css('marginBottom', '-5px');
+  });
+</script>
+
+<div id="notice"><%= flash_notice_in_span %></div>
+
+<table id="asset_container" style="margin: 10px;">
+  <tr>
+    <th>資産コード</th>
+    <th>資産名</th>
+    <th>勘定科目</th>
+    <th>補助科目</th>
+    <% if branch_mode %><th>部門</th><% end %>
+    <th>取得年月日</th>
+    <th>償却方法</th>
+    <th>耐用年数</th>
+    <th>取得価額</th>
+    <th>期首簿価</th>
+    <th>期末簿価</th>
+    <th>ステータス</th>
+    <th></th>
+  </tr>
+
+  <% @assets.each do |asset| %>
+    <tr>
+      <td><%= asset.code %></td>
+      <td><%= asset.name %></td>
+      <td><%= asset.account.name %></td>
+      <td><%= asset.sub_account.name if asset.sub_account %></td>
+      <% if branch_mode %><td><%= asset.branch.name %></td><% end %>
+      <td align="center"><%= render_ymd(asset) %></td>
+      <td align="center"><%= asset.depreciation_method_name %></td>
+      <td align="center"><%= asset.durable_years.to_i > 0 ? "#{asset.durable_years}年" : "" %></td>
+      <td class="amount"><%= to_amount(asset.amount) %></td>
+      <td class="amount"><%= to_amount(asset.amount_at_start(@finder.fiscal_year)) %></td>
+      <td class="amount"><%= to_amount(asset.amount_at_end(@finder.fiscal_year), :show_zero=>true) %></td>
+      <td align="center"><%= asset.status_name %></td>
+      <td>
+        <%= link_to '参照', {:action => :show, :id => asset}, :remote => true %>
+        <%= link_to '編集', {:action => :edit, :id => asset}, :remote => true %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<div style="margin: 10px;">
+  <%= will_paginate @assets, :style=>'display: inline;' if @assets.present? %>
+</div>

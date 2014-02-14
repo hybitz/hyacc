@@ -1,0 +1,31 @@
+data1:
+  id: 1
+  name: 北海道銀行
+  code: '0116'
+  deleted: 0
+  created_at: 2010-04-01 21:47:14
+  updated_at: 2010-04-01 21:47:14
+
+data2:
+  id: 2
+  name: イーバンク銀行
+  code: '0036'
+  deleted: 0
+  created_at: 2010-04-01 21:45:00
+  updated_at: 2010-04-01 21:45:00
+
+data3:
+  id: 3
+  name: 三菱東京UFJ銀行
+  code: '0005'
+  deleted: 0
+  created_at: 2010-04-01 20:37:48
+  updated_at: 2010-04-01 20:47:19
+
+b4:
+  id: 4
+  code: '0001'
+  name: みずほ銀行
+  deleted: 0
+  created_at: 2009-01-01 00:00:00
+  updated_at: 2009-01-01 00:00:00

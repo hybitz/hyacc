@@ -1,0 +1,36 @@
+<%#
+# $Id: _todo_events.html.erb 2971 2012-12-21 06:03:29Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div id="todo_events" style="margin: 10px;">
+  <%= flash_notice %>
+
+  <% if @events %>
+    <table>
+      <tr>
+        <th>日時</th>
+        <th>タイトル</th>
+        <th>期限</th>
+        <th>場所</th>
+        <th>カレンダー</th>
+      </tr>
+      <% @events.each do |e| %>
+      <tr>
+        <td><%= format_datetime(e.st.localtime, '%Y/%m/%d %H:%M') %></td>
+        <td><%= e.title %></td>
+        <td nowrap>
+          <% if e.allday %>
+            終日
+          <% elsif e.en %>
+            <%= format_datetime(e.en.localtime, '%Y/%m/%d %H:%M') %>
+          <% end %>
+        </td>
+        <td><%= e.where %></td>
+        <td nowrap><%= e.who %></td>
+      </tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>

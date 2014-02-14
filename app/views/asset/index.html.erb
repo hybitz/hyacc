@@ -1,0 +1,14 @@
+<%#
+# $Id: index.html.erb 3256 2014-01-22 15:01:09Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= render 'common/search' %>
+
+<% if @assets.empty? %>
+  <div style="margin: 10px">登録されている資産はありません。</div>
+<% else %>
+  <%= render 'index' %>
+<% end %>
+

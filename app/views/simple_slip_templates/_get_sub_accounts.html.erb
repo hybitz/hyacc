@@ -1,0 +1,11 @@
+<%#
+# $Id: _get_sub_accounts.html.erb 2976 2012-12-21 08:28:10Z ichy $
+# Product: hyacc
+# Copyright 2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<% if @sub_accounts.present? %>
+  <%= fields_for 'simple_slip_template' do |f| %>
+    <%= f.collection_select :sub_account_id, @sub_accounts, :id, :name, :selected => params[:selected], :include_blank => true %>
+  <% end %>
+<% end %>

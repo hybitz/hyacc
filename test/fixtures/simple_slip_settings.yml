@@ -1,0 +1,29 @@
+sss_1:
+  id: 1
+  user_id: 1
+  account_id: 3
+  shortcut_key: CTRL+1
+
+sss_2:
+  id: 2
+  user_id: 1
+  account_id: 5
+  shortcut_key: CTRL+2
+
+sss_3:
+  id: 3
+  user_id: 2
+  account_id: 3
+  shortcut_key: CTRL+1
+
+sss_4:
+  id: 4
+  user_id: 2
+  account_id: 5
+  shortcut_key: CTRL+2
+
+sss_5:
+  id: 5
+  user_id: 2
+  account_id: 13
+  shortcut_key: CTRL+3

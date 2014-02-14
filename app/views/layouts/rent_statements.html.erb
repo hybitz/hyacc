@@ -1,0 +1,22 @@
+<%#
+# $Id: rent_statements.html.erb 3288 2014-01-23 01:16:26Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>地代家賃等の内訳書: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'hyacc' %>
+  <%= stylesheet_link_tag 'scaffold' %>
+</head>
+<body>
+
+<%= render 'common/header' %>
+<%= render 'common/menu' %>
+<%= yield %>
+
+</body>
+</html>

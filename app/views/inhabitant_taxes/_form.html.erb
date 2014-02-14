@@ -1,0 +1,27 @@
+<%#
+# $Id: _form.html.erb 3180 2014-01-18 03:53:23Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+
+<div id="data_<%= @data.id %>">
+  <%= form_for(@data, :remote => true) do |f| %>
+    <div class="div_td_yyyy">
+      <%= f.text_field :ym, :maxlength=>6, :size=>6 %>
+    </div>
+    <div class="div_td_user">
+      <%= f.select :employee_id, to_options(Employee.find(:all)) %>
+    </div>
+    <div class="div_td_money">
+      <%= f.text_field :amount, :maxlength=>8, :size=>6 %>
+    </div>
+    <div class="div_td_link">
+      <%= f.submit button_name %>
+      <span style="font-size: 9px;">
+        <%= link_to 'キャンセル', @data, :remote=>true %>
+      </span>
+    </div>
+    <br clear="all" />
+  <% end %>
+</div>

@@ -1,0 +1,63 @@
+<%#
+# $Id: _form.html.erb 2925 2012-09-21 03:51:20Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= form_for @c do |f| %>
+  <div style="margin:0px 10px 5px 0px; text-align: right;">
+    <%= dojo_submit_tag button %>
+  </div>
+  <table>
+    <tr>
+      <th>従業員</th><td><%= f.collection_select :employee_id, @employees, 'id', 'full_name' %></td>
+    </tr>
+    <tr>
+      <th>取引先</th><td><%= f.collection_select :customer_id, @customers, 'id', 'name' %></td>
+    </tr>
+    <tr>
+      <th>プロジェクト名</th><td><%= f.text_field :project_name %></td>
+    </tr>
+    <tr>
+      <th>期間</th>
+      <td>
+        <%= f.date_select :start_from %>
+        <b>～</b>
+        <%= f.date_select :end_to %>
+      </td>
+    </tr>
+    <tr>
+      <th>概要</th><td><%= f.text_area :description, :rows=>3 %></td>
+    </tr>
+    <tr>
+      <th>規模</th><td><%= f.text_field :project_size %></td>
+    </tr>
+    <tr>
+      <th>工程</th><td><%= f.text_field :process %></td>
+    </tr>
+    <tr>
+      <th>役割</th><td><%= f.text_field :role %></td>
+    </tr>
+    <tr>
+      <th>スキル</th>
+      <td>
+        <table>
+          <tr>
+            <th>機種</th>
+            <th>OS</th>
+            <th>DB</th>
+            <th>言語</th>
+            <th>その他</th>
+          </tr>
+          <tr>
+            <td><%= f.text_area :hardware_skill, :rows=>3, :cols=>15 %></td>
+            <td><%= f.text_area :os_skill, :rows=>3, :cols=>15 %></td>
+            <td><%= f.text_area :db_skill, :rows=>3, :cols=>15 %></td>
+            <td><%= f.text_area :language_skill, :rows=>3, :cols=>15 %></td>
+            <td><%= f.text_area :other_skill, :rows=>3, :cols=>15 %></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+<% end %>

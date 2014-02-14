@@ -1,0 +1,15 @@
+<%#
+# $Id: _search.html.erb 2894 2012-07-20 07:19:35Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 15px;">
+  <%= form_tag( {:action=>'index'}, {:method=>"get"} ) do %>
+    勘定科目区分：<%= select('finder', 'account_type', @account_types ) %>
+    リーフのみ表示：<%= check_box 'finder', 'leaf_only' %>
+       
+    <%= submit_tag "表示" %>
+  <% end %>
+  
+</div>

@@ -1,0 +1,55 @@
+<%#
+# $Id: _form.html.erb 3295 2014-01-24 01:03:37Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= form_for @rent, :remote => true do |f| %>
+  <p>
+    <%= f.submit %>
+  </p>
+  <p>
+    <b>地代家賃</b><br />
+    <%= f.select :rent_type, rent_types %>
+  </p>
+
+  <p>
+    <b>用途</b><br />
+    <%= f.select :usage_type, rent_usage_types %>
+  </p>
+
+  <p>
+    <b>契約開始日</b><br />
+    <%= f.text_field :ymd_start, :maxlength=>8 %>(YYYYMMDD)
+  </p>
+
+  <p>
+    <b>契約終了日</b><br />
+    <%= f.text_field :ymd_end, :maxlength=>8 %>(YYYYMMDD)
+  </p>
+
+  <p>
+    <b>郵便番号</b><br />
+    <%= f.text_field :zip_code, :maxlength=>7 %>
+  </p>
+
+  <p>
+    <b>住所</b><br />
+    <%= f.text_field :address %>
+  </p>
+
+  <p>
+    <b>取引先</b><br />
+    <%= f.select :customer_id, @customers.map{|c| [c.name, c.id]} %>
+  </p>
+
+  <p>
+    <b>表示名</b><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <b>状態</b><br />
+    <%= f.select :status, rent_status_types %>
+  </p>
+<% end %>

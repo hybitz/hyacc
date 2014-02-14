@@ -1,0 +1,56 @@
+<%#
+# $Id: _form.html.erb 3177 2014-01-15 03:53:43Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+
+<div style="margin:0px 10px 10px 0px; text-align: right;">
+  <%= dojo_submit_tag button_name %>
+</div>
+<div>
+  <div style="float: left;">
+    <table>
+      <tr>
+        <th><%= e_form.label :last_name %></th>
+        <td>
+          <%= e_form.hidden_field :id %>
+          <%= e_form.text_field :last_name %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= e_form.label :first_name %></th>
+        <td><%= e_form.text_field :first_name %></td>
+      </tr>
+      <tr>
+        <th><%= e_form.label :sex %></th>
+        <td><%= e_form.select :sex, sex_types %></td>
+      </tr>
+      <tr>
+        <th><%= e_form.label :zip_code %></th>
+        <td><%= e_form.text_field :zip_code %></td>
+      </tr>
+      <tr>
+        <th><%= e_form.label :address, '住所' %></th>
+        <td><%= e_form.text_field :address %></td>
+      </tr>
+      <tr>
+        <th><%= e_form.label :employment_date %></th>
+        <td><%= e_form.date_select :employment_date %></td>
+      </tr>
+      <tr>
+        <th><%= e_form.label :business_office_id %></th>
+        <td><%= e_form.collection_select :business_office_id, @business_offices, 'id', 'name' %></td>
+      </tr>
+    </table>
+  </div>
+  
+  <div style="margin-left: 5px; float: left;">
+    <%= render 'branches_employees' %>
+  </div>
+
+  <div style="clear: left;"></div>
+</div>
+
+<%= render 'employee_histories' %>

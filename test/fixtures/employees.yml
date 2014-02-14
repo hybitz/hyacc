@@ -1,0 +1,44 @@
+user1:
+  id: 1
+  company_id: 1
+  last_name: 本店
+  first_name: 一郎
+  employment_date: 2009-01-01
+  sex: M
+  business_office_id: 1
+
+user2:
+  id: 2
+  company_id: 1
+  last_name: 経理
+  first_name: 次郎
+  employment_date: 2009-01-01
+  sex: M
+  business_office_id: 1
+
+user3:
+  id: 3
+  company_id: 2
+  last_name: テスト姓3
+  first_name: テスト名3
+  employment_date: 2009-01-01
+  sex: F
+  business_office_id: 1
+
+user4:
+  id: 4
+  company_id: 3
+  last_name: フリー
+  first_name: ランス
+  employment_date: 2009-01-01
+  sex: M
+  business_office_id: 1
+
+user6:
+  id: 6
+  company_id: 1
+  last_name: 営業
+  first_name: 花子
+  employment_date: 2009-01-01
+  sex: F
+  business_office_id: 1

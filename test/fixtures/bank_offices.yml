@@ -1,0 +1,26 @@
+data1:
+  id: 1
+  bank_id: 1
+  name: 本店営業部
+  code: 101
+  deleted: 0
+  created_at: 2010-04-01 22:35:07
+  updated_at: 2010-04-01 22:35:07
+
+data2:
+  id: 2
+  bank_id: 2
+  name: ジャズ支店
+  code: 201
+  deleted: 0
+  created_at: 2010-04-01 22:50:46
+  updated_at: 2010-04-01 22:50:46
+
+data3:
+  id: 3
+  bank_id: 3
+  name: 新橋支店
+  code: 433
+  deleted: 0
+  created_at: 2010-04-01 22:35:34
+  updated_at: 2010-04-01 22:35:34

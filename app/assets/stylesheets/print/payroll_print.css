@@ -1,0 +1,22 @@
+#search {
+  display: none;
+}
+
+#payroll_header_table {
+  margin-bottom: 10px;
+  border: solid 1px;
+}
+
+th {
+  border: 1px solid #000000;
+  border-bottom: 2px solid #000000;
+}
+
+td {
+  vertical-align: middle;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}

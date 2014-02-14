@@ -1,0 +1,22 @@
+<%#
+# $Id: _message.html.erb 3066 2013-06-21 03:20:28Z ichy $
+# Product: hyacc
+# Copyright 2009-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div id="messageDiv" style="
+            width: 500px; height: 20px;
+            margin-bottom: 5px;
+            border-bottom-style: solid;
+            border-bottom-color: gray;
+            border-bottom-width: 1px;">
+  <%= flash_notice_in_span %>
+</div>
+<script>
+  jQuery(document).ready(function() {
+    var table = document.getElementById('slipTable');
+    var messageDiv = document.getElementById('messageDiv');
+    messageDiv.style.marginTop = (- table.offsetHeight - 35) + "px";
+    messageDiv.style.marginLeft = (table.offsetWidth - 500) + "px";
+  });
+</script>

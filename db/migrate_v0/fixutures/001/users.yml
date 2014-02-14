@@ -1,0 +1,15 @@
+ichy:
+  id: 1
+  code: 1001
+  login_id: ichy
+  password: ichy
+  last_name: 松田
+  first_name: 雄一
+hiro:
+  id: 2
+  code: 1002
+  login_id: hiro
+  password: hiro
+  last_name: 鈴木
+  first_name: 博之
+  

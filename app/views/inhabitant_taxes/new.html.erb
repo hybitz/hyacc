@@ -1,0 +1,17 @@
+<%#
+# $Id: new.html.erb 3180 2014-01-18 03:53:23Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 20px;">
+  <%= error_messages_for :inhabitant_tax %>
+  <%= form_tag( {:action => "upload"},{ :multipart => true }) do %>
+  <p>アップロードファイル<br>
+    <%= file_field_tag(:file) %>
+  </p>
+  <%= submit_tag("アップロード") %>
+  <% end -%>
+  
+  <%= link_to '戻る', inhabitant_taxes_path %>
+</div>

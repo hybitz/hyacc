@@ -1,0 +1,286 @@
+<%#
+# $Id: _list.html.erb 3370 2014-02-13 03:30:29Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= form_tag({:action => 'create', :account_code => @finder.account_code}, {:id => 'slip_new_form', :enctype => 'multipart/form-data', :method => 'post'}) do %>
+  <table id="slipTable" class="slipTable">
+    <tr>
+      <th>年　月</th>
+      <th>日</th>
+      <th>摘　　要</th>
+      <th>勘定科目</th>
+      <th>補助科目</th>
+      <% if branch_mode %><th>計上部門</th><% end %>
+      <th>増　加</th>
+      <th>減　少</th>
+      <th>累　計</th>
+      <th style="width: 4em;">振　替</th>
+      <th style="width: 4em;">領収書</th>
+      <th colspan="4"></th>
+    </tr>
+    
+    <tr id="cashSumBefore" class="cashRow">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <% if branch_mode %><td></td><% end %>
+      <td></td>
+      <td></td>
+      <td class="amountSum" <%= 'style="color: red;"' if @pre_sum_amount < 0 %>><%= to_amount( @pre_sum_amount, :show_zero=>true ) %></td>
+      <td></td>
+      <td></td>
+      <td colspan="4" align="center">
+        <%= link_to( '△', :action=>'index', 'finder[offset]'=>@finder.prev_offset, 'finder[keep_paging]'=>true) if @finder.prev_offset %>
+      </td>
+    </tr>
+  
+    <% @slips.each do |slip| %>
+    <tr class="cashRow hover" slip_id="<%= slip.id %>">
+      <%= render 'show_line', :slip => slip %>
+    </tr>
+    <% end %>
+    
+    <tr id="cashSumAfter" class="cashRow">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <% if branch_mode %><td></td><% end %>
+      <td></td>
+      <td></td>
+      <td class="amountSum" <%= 'style="color: red;"' if @sum_amount < 0 %>><%= to_amount( @sum_amount, :show_zero => true ) %></td>
+      <td></td>
+      <td></td>
+      <td colspan="4" align="center">
+        <%= link_to( '▽', :action=>'index', 'finder[offset]'=>@finder.next_offset, 'finder[keep_paging]'=>true) if @finder.next_offset %>
+      </td>
+    </tr>
+    
+    <%= render 'form' %>
+  </table>
+<% end %>
+
+<%= render 'message' %>
+
+<script>
+  function calcSum( containerId ) {
+    var container = document.getElementById( containerId );
+    var rows = container.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+
+    var sum = 0;
+    for ( var i = 0; i < rows.length; i ++ ) {
+      var row = rows[i];
+      if ( row.id == undefined ) {
+        continue;
+      }
+      
+      // 前回まで累計
+      if ( row.id.match(/cashSumBefore/i) != null ) {
+        div = findElementByClassName( row, 'amountSum' );
+        sum += toInt( div.innerHTML );
+      }
+      // 伝票の表示行の場合は、累計を計算する
+      else if ( jQuery(row).attr('slip_id') ) {
+        // 増加分を加算
+        increaseDiv = findElementByClassName( row, 'amountIncrease' );
+        sum += toInt( increaseDiv.innerHTML );
+
+        // 減少分を減算
+        decreaseDiv = findElementByClassName( row, 'amountDecrease' );
+        sum -= toInt( decreaseDiv.innerHTML );
+        
+        // 累計行に表示
+        sumDiv = findElementByClassName( row, 'amountSum' );
+        sumDiv.innerHTML = toAmount( sum );
+
+        // 累計がマイナスの場合は、金額を赤色表示
+        if ( sum < 0 ) {
+          if ( sumDiv.style ) {
+            sumDiv.style.color = 'red';
+          }
+        }
+      }
+    }
+  }
+
+  jQuery(document).ready(function() {
+    var slipDay = document.getElementById('slip_day');
+    if (slipDay != null) {
+      slipDay.focus();
+    }
+  
+    calcSum('slipTable');
+
+    // 消費税欄を初期化
+    var form = jQuery('#slip_new_form');
+    <% if 'index' == action_name %>
+      var url = '<%= url_for :action => 'update_tax_type', :account_code => @finder.account_code %>';
+      var params = {account_id: form.find('.accountSelect').val()}; 
+  
+      jQuery.get(url, params, function(tax_type) {
+        form.find('.taxTypeSelect').val(tax_type);
+        updateTaxAmountSimple(form);
+      });
+    <% else %>
+      updateTaxAmountSimple(form, jQuery('#slip_tax_amount_increase').val(), jQuery('#slip_tax_amount_decrease').val());
+    <% end %>
+  });
+
+  function validateAmountOnOneSide( form, showAlert ) {
+    if (! form && jQuery(form).length == 0) {
+      alert('システムエラー');
+      return null;
+    }
+
+    form = jQuery(form);
+    
+    var increase = form.find('[name*=\\[amount_increase\\]]').val().toInt();
+    var decrease = form.find('[name*=\\[amount_decrease\\]]').val().toInt();
+    
+    if ( increase == 0 && decrease == 0 ) {
+      if ( showAlert ) {
+        alert('金額を入力してください。');
+      }
+      return null;
+    } else if ( increase != 0 && decrease != 0 ) {
+      if ( showAlert ) {
+        alert('金額は増加・減少のどちらか一方に入力してください。');
+      }
+      return null;
+    } else if ( increase < 0 || decrease < 0 ) {
+      if ( showAlert ) {
+        alert('金額がマイナスです。');
+      }
+      return null;
+    }
+    
+    return increase > 0 ? increase : decrease;
+  }
+  
+  function updateTaxAmountSimple(form, taxAmountIncrease, taxAmountDecrease) {
+    form = jQuery(form);
+    var amountFieldIncrease = form.find('[name*=\\[amount_increase\\]]');
+    var taxFieldIncrease = form.find('[name*=\\[tax_amount_increase\\]]');
+    var sumAmountDivIncrease = form.find('.sum_amount_increase');
+    var amountFieldDecrease = form.find('[name*=\\[amount_decrease\\]]');
+    var taxFieldDecrease = form.find('[name*=\\[tax_amount_decrease\\]]');
+    var sumAmountDivDecrease = form.find('.sum_amount_decrease');
+    var taxTypeSelect = form.find('[name*=\\[tax_type\\]]');
+    var taxRatePercentField = form.find('[name*=\\[tax_rate_percent\\]]');
+    var ymField = form.find('[name*=\\[ym\\]]');
+
+    var taxType = taxTypeSelect.val();
+    var amount = validateAmountOnOneSide(form, false);
+
+    if (!amount) {
+      taxFieldIncrease.val('');
+      sumAmountDivIncrease.text('');
+      taxFieldDecrease.val('');
+      sumAmountDivDecrease.text('');
+
+      // 非課税の場合は消費税入力欄を非活性にする
+      if (taxType == tax.TAX_TYPE_NONTAXABLE) {
+        taxFieldIncrease.attr('disabled', true);
+        taxFieldDecrease.attr('disabled', true);
+      }
+
+      return;
+    }
+    
+    var taxAmount;
+    var taxField;
+    var sumAmountDiv;
+    if ( amountFieldIncrease.val().isPresent() ) {
+      taxAmount = taxAmountIncrease;
+      taxField = taxFieldIncrease;
+      sumAmountDiv = sumAmountDivIncrease;
+      taxFieldDecrease.val('');
+      sumAmountDivDecrease.text('');
+    } else if ( amountFieldDecrease.val().isPresent() ) {
+      taxAmount = taxAmountDecrease;
+      taxField = taxFieldDecrease;
+      sumAmountDiv = sumAmountDivDecrease;
+      taxFieldIncrease.val('');
+      sumAmountDivIncrease.text('');
+    } else {
+      return;
+    }
+
+    var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
+    var taxRate = tax.getRateOn(date);
+
+    // 非課税の場合は消費税入力欄を非活性にする
+    if ( taxType == tax.TAX_TYPE_NONTAXABLE ) {
+      taxRatePercentField.val('');
+      taxFieldIncrease.val('');
+      taxFieldIncrease.attr('disabled', true);
+      taxFieldDecrease.val('');
+      taxFieldDecrease.attr('disabled', true);
+      sumAmountDiv.text(amount ? toAmount(amount) : '');
+    }
+    // 内税の場合は消費税を自動計算する
+    else if ( taxType == tax.TAX_TYPE_INCLUSIVE ) {
+      taxRatePercentField.val(taxRate * 100);
+      taxField.val(taxAmount ? taxAmount : tax.calcTaxAmount(taxType, taxRate, amount));
+      taxFieldIncrease.attr('disabled', false);
+      taxFieldDecrease.attr('disabled', false);
+      sumAmountDiv.text(amount ? toAmount(amount) : '');
+    }
+    // 外税の場合は消費税を自動計算する
+    else if ( taxType == tax.TAX_TYPE_EXCLUSIVE ) {
+      taxRatePercentField.val(taxRate * 100);
+      taxField.val(taxAmount ? taxAmount : tax.calcTaxAmount(taxType, taxRate, amount));
+      taxFieldIncrease.attr('disabled', false);
+      taxFieldDecrease.attr('disabled', false);
+      sumAmountDiv.text(amount ? toAmount(amount + taxField.val().toInt()) : '');
+    }
+  }
+  
+  function validateSlip( form ) {
+    if ( validateAmountOnOneSide(form, true) == null) {
+      return false;
+    }
+    
+    if ( ! checkExclusive(form, 'slip[auto_journal_type]', '自動振替は複数指定できません。') ) {
+      return false;
+    }
+    
+    if ( ! checkAutoTransferDate( form, 'slip', 'slip', '振替日の指定が不正です。') ) {
+      return false;
+    }
+
+    setMySubAccount(form);
+    return true;
+  }
+
+  function submitSlip( form ) {
+    if ( validateAmountOnOneSide(form, true) == null) {
+      return false;
+    }
+    
+    if ( ! checkExclusive(form, 'slip[auto_journal_type]', '自動振替は複数指定できません。') ) {
+      return false;
+    }
+    
+    if ( ! checkAutoTransferDate( form, 'slip', 'slip', '振替日の指定が不正です。') ) {
+      return false;
+    }
+
+    setMySubAccount(form);
+    return true;
+  }
+
+  // 親画面上で表示している補助科目（検索条件の補助科目）をフォームにセットする
+  function setMySubAccount(form) {
+    if (form.action.match('.*create')) {
+      if (document.getElementById('finder_sub_account_id') != null) {
+        document.getElementById('slip_my_sub_account_id').value = document.getElementById('finder_sub_account_id').value;
+      }
+    }
+  }
+</script>

@@ -1,0 +1,33 @@
+<%#
+# $Id: list_tree.html.erb 2989 2013-02-15 06:39:42Z ichy $
+# Product: hyacc
+# Copyright 2009-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  var data = [
+    <% @accounts.each do |a| %>
+      <%= convert_to_json(a) %>,
+    <% end %>
+  ];
+  
+  jQuery(document).ready(function() {
+    jQuery('#account_tree').tree(
+      {
+        data: data,
+        saveState: 'account_tree',
+        autoEscape: false,
+        dragAndDrop: true,
+      }
+    );
+    
+    jQuery('#account_tree').bind('tree.move', function(event) {
+      jQuery.post('<%= url_for :action => 'update_tree' %>', {
+        moved: event.move_info.moved_node.id,
+        target: event.move_info.target_node.id,
+        position: event.move_info.position
+      });
+    });
+  });
+</script>
+<div id="account_tree" style="margin-left: 20px; display: inline-block;"></div>

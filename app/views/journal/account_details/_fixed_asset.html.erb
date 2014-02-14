@@ -1,0 +1,12 @@
+<%#
+# $Id: _fixed_asset.html.erb 2963 2012-11-29 13:46:19Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<input type="hidden" name="journal_details[<%= jd.detail_no %>][asset_id]" value="<%= jd.asset.id if jd.asset %>"/>
+<input type="hidden" name="journal_details[<%= jd.detail_no %>][asset_lock_version]" value="<%= jd.asset.lock_version if jd.asset %>"/>
+
+<% if jd.asset and jd.asset.id.to_i > 0 %>
+  資産コード：<%= jd.asset.code %>
+<% end %>

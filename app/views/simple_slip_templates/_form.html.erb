@@ -1,0 +1,91 @@
+<%#
+# $Id: _form.html.erb 3364 2014-02-07 09:00:18Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 5px;">
+  <script>
+    jQuery(document).ready(function() {
+      // キーワード生成
+      jQuery('input[value=キーワード生成]').click(function() {
+        var url = '<%= url_for :action => :get_keywords %>';
+        var params = {remarks: jQuery('#simple_slip_template_remarks').val()};
+        jQuery.get(url, params, function(data) {
+          jQuery('#simple_slip_template_keywords').val(data);
+        });
+      });
+
+      // 勘定科目の変更
+      var initial_value = '<%= @simple_slip_template.sub_account_id %>';
+      jQuery('#simple_slip_template_account_id').change(function(eventData) {
+        var account = jQuery(this);
+        var url = '<%= url_for :action => 'get_sub_accounts' %>';
+        var params = {account_id: account.val(), selected: initial_value, format: 'html'};
+        jQuery.get(url, params, function(data) {
+          account.closest('td').next().html(data);
+        });
+        initial_value = '';
+      }).change();
+    });
+  </script>
+
+  <%= flash_notice %>
+
+  <%= form_for @simple_slip_template, :remote => true do |f| %>
+    <%= f.hidden_field :owner_type %>
+    <%= f.hidden_field :owner_id %>
+
+    <div style="margin:0px 10px 5px 0px; text-align: right;">
+      <%= f.submit %>
+    </div>
+
+    <table>
+      <tr>
+        <th>摘要</th>
+        <td colspan="<%= branch_mode ? '5' : '4' %>" align="center">
+          <%= f.text_field :remarks, :style => 'width:99%;' %>
+        </td>
+        <td colspan="2" align="center">
+          <input type="button" value="キーワード生成"/>
+        </td>
+      </tr>
+      <tr>
+        <th>説明</th>
+        <td colspan="<%= branch_mode ? '7' : '6' %>" align="center">
+          <%= f.text_field :description, :style=>'width:99%;' %>
+        </td>
+      </tr>
+      <tr>
+        <th>キーワード</th>
+        <td colspan="<%= branch_mode ? '7' : '6' %>" align="center">
+          <%= f.text_field :keywords, :style=>'width:99%;' %>
+        </td>
+      </tr>
+      <tr>
+        <th class="accountName">勘定科目</th>
+        <th class="subAccountName">補助科目</th>
+        <% if branch_mode %>
+          <th class="branchName">計上部門</th>
+        <% end %>
+        <th>貸借区分</th>
+        <th>消費税区分</th>
+        <th class="amount">金額</th>
+        <th class="taxAmount">消費税額</th>
+        <th>フォーカス項目</th>
+      </tr>
+      <tr>
+        <td><%= h_account_select('simple_slip_template', 'account_id') %></td>
+        <td width="100px;"></td>
+        <% if branch_mode %>
+        <td><%= h_branch_select('simple_slip_template', :include_blank=>true) %></td>
+        <% end %>
+        <td><%= h_dc_type_select('simple_slip_template', :include_blank=>true) %></td>
+        <td><%= h_tax_type_select('simple_slip_template', :include_blank=>true) %></td>
+        <td><%= h_amount_field('simple_slip_template', :property_name=>'amount') %></td>
+        <td><%= h_amount_field('simple_slip_template', :property_name=>'tax_amount') %></td>
+        <td><%= f.select :focus_on_complete, focus_on_completes, {:include_blank=>true}, {:class=>'focusOnCompleteSelect'} %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

@@ -1,0 +1,35 @@
+<%#
+# $Id: show.html.erb 2943 2012-10-19 07:46:19Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<p>
+  <b>取引先コード:</b>
+  <%= @customer.code %>
+</p>
+
+<p>
+  <b>取引先名（正式名）:</b>
+  <%= @customer.formal_name %>
+</p>
+
+<p>
+  <b>取引先名（省略）:</b>
+  <%= @customer.name %>
+</p>
+
+<p>
+  <b>受注フラグ:</b>
+  <%= HyaccConstants::STATUS_TYPES[ @customer.is_order_entry ] %>
+</p>
+
+<p>
+  <b>発注フラグ:</b>
+  <%= HyaccConstants::STATUS_TYPES[ @customer.is_order_placement ] %>
+</p>
+
+<p>
+  <b>状態:</b>
+  <%= HyaccConstants::DELETED_TYPES[ @customer.deleted ] %>
+</p>

@@ -1,0 +1,8 @@
+/**
+ * $Id: add_detail.js.erb 3114 2013-08-07 03:58:38Z ichy $
+ * Product: hyacc
+ * Copyright 2011-2013 by Hybitz.co.ltd
+ * ALL Rights Reserved.
+ */
+jQuery('#add_detail').before('<%=j render("detail_line", :jd => @journal_detail) %>');
+jQuery('#add_detail').replace('<%=j render("add_detail_line") %>');

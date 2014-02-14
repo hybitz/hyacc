@@ -1,0 +1,77 @@
+<%#
+# $Id: _financial_statement_js.html.erb 3162 2014-01-01 08:45:50Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  // セル内の金額または構成比を取得
+  function getValue( td ) {
+    if (td == null) {
+      return 0;
+    }
+    
+    var aTags = td.getElementsByTagName('a');
+    if ( aTags.length > 0 ) {
+      return toFloat(aTags[0].innerHTML);
+    }
+    else {
+      return toFloat(td.innerHTML);
+    }
+  }
+  
+  // セル１とセル２の値を足し、セル３にセットする
+  function add( cell1, cell2, cell3 ) {
+    var c1 = getTableCellElement(cell1);
+    var c2 = getTableCellElement(cell2);
+    var c3 = getTableCellElement(cell3);
+    c3.innerHTML = toAmount( getValue( c1 ) + getValue( c2 ) );
+  }
+
+  // セル１からセル２の値を引き、セル３にセットする
+  function sub( cell1, cell2, cell3 ) {
+    var c1 = getTableCellElement(cell1);
+    var c2 = getTableCellElement(cell2);
+    var c3 = getTableCellElement(cell3);
+    c3.innerHTML = toAmount( getValue( c1 ) - getValue( c2 ) );
+  }
+  
+  function getTableCellElement(id) {
+    var elem = id;
+    if (typeof id === "string") {
+      elem = document.getElementById( id );
+    }
+    return elem;
+  }
+
+  // 値がマイナスの場合、文字の色を赤にする
+  function updateAmountColor( id, regex ) {
+    var elem = getTableCellElement(id);
+    if (elem == null) {
+      return;
+    }
+
+    if (elem.id != null) {
+      if (elem.id.match(regex) != null) {
+        // 金額がマイナスの場合
+        if (getValue(elem) < 0) {
+          var aTags = elem.getElementsByTagName('a');
+          if ( aTags.length > 0 ) {
+            aTags[0].style.color = 'red';
+          }
+          else {
+            elem.style.color = 'red';
+          }
+        }
+        
+        // 金額のノードまで達したら終了
+        return;
+      }
+    }
+
+    // 再帰的に子ノードを走査
+    for (var i = 0; i < elem.childNodes.length; i++) {
+      updateAmountColor(elem.childNodes[i], regex);
+    }
+  }
+</script>

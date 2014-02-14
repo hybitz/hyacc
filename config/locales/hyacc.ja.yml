@@ -1,0 +1,289 @@
+ja:
+  activerecord:
+    models: 
+      account: "勘定科目"  
+      asset: "資産"
+      bank_account: "銀行口座"  
+      branch: "部門"  
+      branches_user: "支店のユーザー"  
+      company: "会社"  
+      customer: "顧客"  
+      fiscal_year: "年度"  
+      insurance: "保険料"  
+      inhabitant_tax: "住民税"
+      journal_detail: "仕訳明細"
+      journal_header: "仕訳ヘッダ"
+      payroll: "給与"  
+      rent: 地代家賃
+      sub_account: 補助科目
+      tax_admin_info: "税務管理インフォメーション"
+      user: "ユーザ"  
+      withheld_tax: "源泉徴収税"  
+
+    attributes: 
+      account: 
+        code: "勘定科目コード"  
+        deleted_sub_accounts: 削除指定された補助科目
+        name: "勘定科目名"
+        dc_type: "貸借区分"  
+        account_type: "勘定科目区分"
+        short_description: 概要
+        description: 説明
+        depreciable: 減価償却可否
+        depreciation_method: 減価償却方法
+        deleted: "を削除"  
+        created_on: "創作に"  
+        updated_on: "更新"  
+        display_order: "の表示順"  
+        path: "道"  
+        system_required: "システム必須"  
+        trade_type: "取引区分"  
+        is_settlement_report_account: 決算書出力
+        is_trade_account_payable: 買掛金科目
+        is_revenue_reserve_account: 利益積立金科目
+        journalizable: 仕訳登録可否
+        sub_account_type: 補助科目区分
+        tax_type: "税金区分"  
+        children: "子供たち"  
+        parent: "親"
+        parent_id: 親勘定科目
+        
+      asset:
+        code: 資産コード
+        depreciation_limit: 償却限度額
+        durable_years: 耐用年数
+        name: 資産名
+
+      bank_account: 
+        name: "名前"  
+        deleted: "を削除"  
+        created_on: "創作に"  
+        updated_on: "更新"  
+        code: "コード"  
+
+      bank: 
+        name: "名称"  
+        deleted: "削除フラグ"  
+        created_on: "登録日時"  
+        updated_on: "更新日時"  
+        code: "コード"  
+
+      bank_office: 
+        name: "名称"  
+        bank_id: "金融機関コード"  
+        deleted: "削除フラグ"  
+        created_on: "登録日時"  
+        updated_on: "更新日時"  
+        code: "コード"  
+
+      branch: 
+        code: "コード"  
+        name: "名前"  
+        deleted: "を削除"  
+        created_on: "創作に"  
+        updated_on: "更新"  
+        is_head_office: "ヘッドオフィスです"  
+        users: "ユーザ"  
+        branches_users: "支店のユーザー"  
+
+      branches_user: 
+        cost_ratio: "費比率"  
+        default_branch: "デフォルトブランチ"  
+        created_on: "創作に"  
+        updated_on: "更新"  
+        branch: "枝"  
+        user: "ユーザ"
+      
+      business_office:
+        name: 事業所名
+        prefecture_id: 都道府県
+        address1: 住所１
+        address2: 住所２
+        tel: 電話番号
+        is_head: 本社フラグ
+
+      company: 
+        name: "名前"  
+        fiscal_year: "年度"  
+        start_month_of_fiscal_year: "2002年度のスタート月"  
+        deleted: "を削除"  
+        created_on: "創作に"  
+        updated_on: "更新"  
+        logo_path: "ロゴ経路"  
+        founded_date: "設立日"  
+        users: "ユーザ"  
+        fiscal_years: "事業年度"  
+
+      customer: 
+        code: "取引先コード"  
+        customer_names:
+          formal_name: "正式名称"
+          name: "略称"
+        deleted: "を削除"
+        formal_name: "取引先目（正式名）"  
+        name: "取引先目（省略名）"  
+        address: "住所"  
+        is_order_entry: "受注フラグ"  
+        is_order_placement: "発注フラグ"  
+
+      employee:
+        business_office_id: 所属する事業所
+        employment_date: 入社年月日
+        first_name: 名
+        last_name: 姓
+        sex: 性別
+        zip_code: 郵便番号
+
+      fiscal_year: 
+        fiscal_year: "会計年度"
+        closing_status: "閉会ステータス"  
+        deleted: "を削除"  
+        created_on: "創作に"  
+        updated_on: "更新"  
+        tax_management_type: "税務管理のタイプ"  
+        company: "会社"  
+      
+      housework:
+        fiscal_year: 会計年度
+        business_ratio: 事業費率
+
+      insurance: 
+        apply_start_ym: "適用開始ym"  
+        apply_end_ym: "適用終了ym"  
+        pay_range_above: "有料範囲を超えて"  
+        pay_range_under: "有料の範囲の下で"  
+        monthly_earnings: "毎月の収益"  
+        daily_earnings: "毎日の収益"  
+        health_insurance_all: "健康保険のすべて"  
+        health_insurance_half: "健康保険の半分"  
+        health_insurance_all_care: "健康保険の全てのケア"  
+        health_insurance_half_care: "健康保険の半分ケア"  
+        welfare_pension_insurance_all: "厚生年金保険のすべて"  
+        welfare_pension_insurance_half: "厚生年金保険料の半分"  
+        grade: "グレード"  
+
+      inhabitant_tax: 
+        amount: 金額
+        employee_id: 従業員
+        ym: 年月
+        
+      journal_detail: &journal_detail
+        detail_no: "明細番号"  
+        dc_type: "貸借区分"  
+        amount: "金額"  
+        created_on: "登録日時"  
+        updated_on: "更新日時"  
+        note: "備考"  
+        social_expense_number_of_people: "接待交際の参加人数"  
+        detail_type: "明細区分"  
+        tax_type: 消費税区分
+        tax_rate: 消費税率
+        journal_header: "仕訳ヘッダ"  
+        tax_journal_detail: "税金仕分明細"  
+        branch: "計上部門"  
+        main_journal_detail: "メインジャーナルの詳細"  
+        account: "勘定科目"  
+        sub_account: 補助科目
+      
+      journal_details:
+        <<: *journal_detail
+
+      journal_header: 
+        day: "日"  
+        remarks: "摘要"  
+        amount: "伝票金額"  
+        created_on: "登録日時"  
+        updated_on: "更新日時"  
+        slip_type: "伝票区分"  
+        ym: "年月"  
+        finder_key: "検索キー"  
+        receipt_path: "領収書ファイルのパス"  
+        transfer_journals: "振替元伝票ID"  
+        journal_details:
+          social_expense_number_of_people: "接待交際の参加人数"  
+        tax_admin_info: "消費税管理情報"
+
+      payroll: 
+        ym: "年月"  
+        days_of_work: "労働日数"  
+        hours_of_work: "労働時間数"  
+        hours_of_day_off_work: "休日労働時間数"  
+        hours_of_early_for_work: "早出残業時間数"  
+        hours_of_late_night_work: "深夜労働時間数"  
+        payroll_journal_headers: "給与伝票"  
+        pay_journal_headers: "支払伝票"  
+        insurance: "健康保険料"  
+        base_salary: "基本給"  
+        pension: "厚生年金保険料"  
+        income_tax: "所得税"  
+        inhabitant_tax: "住民税"  
+        accrued_liability: "従業員への未払費用"  
+        year_end_adjustment_liability: "年末調整額（過払分）"  
+        pay_day: "給与支払日"  
+
+      rent: 
+        rent_type: "家賃のタイプ"  
+        usage_type: "使い方タイプ"  
+        zip_code: "郵便番号"
+        address: "住所"
+        name: "名前"  
+        status: "地位"  
+        ymd_start: "契約開始日"
+        ymd_end: "契約終了日"
+
+      simple_slip_setting:
+        shortcut_key: ショートカットキー
+
+      simple_slip_template:
+        remarks: "摘要"
+        keywords: "キーワード"
+
+      sub_account: 
+        code: "コード"  
+        name: "名前"  
+        created_on: "創作に"  
+        updated_on: "更新"  
+        deleted: "を削除"  
+        account: "口座"  
+        
+      tax_admin_info: 
+        should_include_tax: "税金は含まれば"  
+        checked: "チェック"  
+        journal_header: "雑誌ヘッダ"
+        
+      user: 
+        code: "コード"  
+        password: パスワード  
+        first_name: "名前"  
+        last_name: "姓"
+        login_id: ログインID
+        deleted: "を削除"  
+        created_on: "創作に"  
+        updated_on: "更新"  
+        email: "メールアドレス"  
+        slips_per_page: "伝票は1ページあたり"  
+        employment_date: "就業日"  
+        sex: "性別"  
+        company: "会社"  
+        branches: "支店"  
+        branches_users: "支店のユーザー"  
+        simple_slip_settings:
+          shortcut_key: ショートカットキー
+
+      withheld_tax: 
+        apply_start_ym: "適用開始ym"  
+        apply_end_ym: "適用終了ym"  
+        pay_range_above: "有料範囲を超えて"  
+        pay_range_under: "有料の範囲の下で"  
+        no_dependent: "いいえに依存"  
+        one_dependent: "1依存"  
+        two_dependent: "の2つ依存"  
+        three_dependent: "3依存性"  
+        four_dependent: "四つ依存"  
+        five_dependent: "5依存"  
+        six_dependent: "6人に依存する"  
+        seven_dependent: "セブン依存"  
+
+  errors:
+    messages:
+      sub_accounts_duplicated: 補助科目が重複しています。

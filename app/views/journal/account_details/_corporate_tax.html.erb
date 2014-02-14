@@ -1,0 +1,14 @@
+<%#
+# $Id: _corporate_tax.html.erb 2958 2012-11-09 08:02:34Z ichy $
+# Product: hyacc
+# Copyright 2010-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+決算区分：
+<select id="journal_details_<%= jd.detail_no %>_settlement_type"
+       name="journal_details[<%= jd.detail_no %>][settlement_type]">
+    
+    <% settlement_types.each do |key, value| %>
+    <option value="<%= value %>" <%= "selected" if value == jd.settlement_type %>><%= key %></option>
+    <% end %>
+</select>

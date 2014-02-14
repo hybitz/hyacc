@@ -1,0 +1,14 @@
+<%#
+#
+# $Id: _fixed_asset.html.erb 1877 2010-03-24 10:49:10Z ichy $
+# Product: hyacc
+# Copyright 2009 by Hybitz.co.ltd
+# ALL Rights Reserved.
+#
+%>
+<%= hidden_field 'slip', 'asset_id' %>
+<%= hidden_field 'slip', 'asset_lock_version' %>
+
+<% if @slip and @slip.asset_id.to_i > 0 %>
+  資産コード：<%= @slip.asset_code %>
+<% end %>

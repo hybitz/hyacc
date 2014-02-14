@@ -1,0 +1,30 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  id: 1
+  apply_start_ym: 200901
+  apply_end_ym: 200912
+  pay_range_above: 1007000
+  pay_range_under: 1010000
+  no_dependent: 130960
+  one_dependent: 120510
+  two_dependent: 112920
+  three_dependent: 105640
+  four_dependent: 98360
+  five_dependent: 91070
+  six_dependent: 83790
+  seven_dependent: 76990
+two:
+  id: 2
+  apply_start_ym: 1
+  apply_end_ym: 1
+  pay_range_above: 1
+  pay_range_under: 1
+  no_dependent: 1
+  one_dependent: 1
+  two_dependent: 1
+  three_dependent: 1
+  four_dependent: 1
+  five_dependent: 1
+  six_dependent: 1
+  seven_dependent: 1

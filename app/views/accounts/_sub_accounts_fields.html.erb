@@ -1,0 +1,34 @@
+<%#
+# $Id: _form_sub_accounts.html.erb 2901 2012-08-31 04:54:48Z ichy $
+# Product: hyacc
+# Copyright 2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  function add_sub_account(trigger) {
+    var params = {
+      index: jQuery(trigger).closest('table').find('tr').length,
+      format: 'html'
+    };
+    jQuery.get('<%= url_for :action => 'add_sub_account' %>', params, function(html) {
+      jQuery(trigger).closest('tr').before(html);
+    });
+  }
+</script>
+<table>
+  <tr>
+    <th>コード</th>
+    <th>補助科目名</th>
+    <th>状態</th>
+  </tr>
+  
+  <% @account.sub_accounts_all.each_with_index do |sa, i| %>
+    <%= render 'sub_account_fields', :sub_account => sa, :index => i %>
+  <% end %>
+  
+  <tr>
+    <td colspan="4" style="text-align: right;">
+      <%= link_to_function '追加', 'add_sub_account(this);' %>
+    </td>
+  </tr>
+</table>

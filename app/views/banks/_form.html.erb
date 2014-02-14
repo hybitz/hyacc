@@ -1,0 +1,38 @@
+<%#
+# $Id: _form.html.erb 3296 2014-01-24 04:00:10Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+
+<%= form_for @bank, :remote => true do |f| %>
+  <div style="margin:0px 10px 0px 0px; text-align: right;">
+    <%= f.submit %>
+  </div>
+  
+  <% if @bank.new_record? %>
+    <p>
+      <%= f.label :code %><br />
+      <%= f.text_field :code %>
+    </p>
+  <% else %>
+    <p>
+      <%= Bank.label :code %>：<%= @bank.code %>
+    </p>
+  <% end %>
+
+  <p>
+    <%= Bank.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+
+  <p>
+    <%= Bank.label :deleted %><br />
+    <%= f.select :deleted, @deleted_types %>
+  </p>
+
+  <%= render 'bank_offices/list', :builder => f, :bank_offices => @bank.bank_offices %>
+<% end %>
+
+  

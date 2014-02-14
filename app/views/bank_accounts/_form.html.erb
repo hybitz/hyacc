@@ -1,0 +1,54 @@
+<%#
+# $Id: _form.html.erb 3304 2014-01-26 13:02:26Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+
+<%= form_for @bank_account, :remote => true do |f| %>
+  <div style="margin:0px 10px 0px 0px; text-align: right;">
+    <%= f.submit %>
+  </div>
+
+  <table style="margin:5px;">
+    <tr>
+      <th>金融機関</th>
+      <td>
+        <%= f.collection_select :bank_id, @banks, :id, :name %>
+        <script>
+          jQuery(function() {
+            jQuery('#bank_account_bank_id').change(function() {
+              jQuery.get('<%= url_for :controller=>'master_data', :action=>'get_bank_offices' %>',
+                { format: 'json', order: 'code', bank_id: jQuery(this).val() },
+                function(data) {
+                  replace_options('#bank_account_bank_office_id', data, true);
+              }
+            );
+            });
+          });
+        </script>
+      </td>
+    </tr>
+    <tr>
+      <th>支店</th>
+      <td><%= f.collection_select :bank_office_id, @bank_offices, :id, :name, :include_blank => true %></td>
+    </tr>
+    <tr>
+      <th>区分</th>
+      <td><%= f.select :financial_account_type, financial_account_types %></td>
+    </tr>
+    <tr>
+      <th>口座番号</th>
+      <td><%= f.text_field :code, :maxlength => 10, :size => 6 %></td>
+    </tr>
+    <tr>
+      <th>口座名</th>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <th>口座名義</th>
+      <td><%= f.text_field :holder_name %></td>
+    </tr>
+  </table>
+<% end %>

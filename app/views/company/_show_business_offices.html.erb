@@ -1,0 +1,35 @@
+<%#
+# $Id: show.html.erb 2226 2010-06-19 03:05:34Z ichy $
+# Product: hyacc
+# Copyright 2011-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<table id="business_offices_table">
+	<tr>
+		<th>事業所名</th>
+		<th>都道府県</th>
+		<th>所在地</th>
+		<th>電話番号</th>
+		<th>本社フラグ</th>
+		<th></th>
+	</tr>
+	
+	<% @company.business_offices.each do |bo| %>
+	<tr>
+    <td><%= bo.name %></td>
+    <td><%= bo.prefecture_name %></td>
+    <td><%= bo.address1 %><%= bo.address2 %></td>
+    <td><%= bo.tel %></td>
+    <td class="center"><%= '★' if bo.is_head? %></td>
+    <td>
+		  <%= link_to_dialog '編集', edit_business_office_path(bo), {:title=>'事業所　編集', :dimension=>[320, 240]} %>
+		  <%= link_to '削除', business_office_path(bo), {:confirm=>'削除します。よろしいですか？', :method=>:delete} %>
+    </td>
+	</tr>
+	<% end %>
+	<tr>
+		<td colspan="6" align="right">
+			<%= link_to_dialog '追加', new_business_office_path(:company_id=>@company.id), {:title=>'事業所　追加', :dimension=>[320, 240]} %>
+		</td>
+	</tr>
+</table>

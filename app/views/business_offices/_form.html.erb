@@ -1,0 +1,39 @@
+<%#
+# $Id: _form.html.erb 2995 2013-02-15 08:22:39Z hiro $
+# Product: hyacc
+# Copyright 2011-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+<%= form_for @bo do |f| %>
+  <%= f.hidden_field :id %>
+  <%= f.hidden_field :company_id %>
+  <%= dojo_submit_tag button_name %>
+
+  <table>
+    <tr>
+      <th><%= f.label :name %></th>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :prefecture_id %></th>
+      <td><%= f.select :prefecture_id, @prefectures %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :address1 %></th>
+      <td><%= f.text_field :address1 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :address2 %></th>
+      <td><%= f.text_field :address2 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :tel %></th>
+      <td><%= f.text_field :tel %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :is_head %></th>
+      <td><%= f.check_box :is_head ,{}, true, false%></td>
+    </tr>
+  </table>
+<% end %>

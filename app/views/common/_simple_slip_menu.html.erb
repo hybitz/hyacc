@@ -1,0 +1,19 @@
+<%#
+# $Id: _simple_slip_menu.html.erb 3190 2014-01-21 13:41:42Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<% current_user.simple_slip_settings.each do |sst| %>
+  <%= link_to "#{sst.shortcut_key[5]}.#{sst.account.name}", { :controller=>"simple/#{sst.account.code}" },
+        { :style=>style_for_menu(sst.account.code), :title=>"#{sst.account.name}　　#{sst.shortcut_key}" } %>
+  |
+<% end %>
+
+<script>
+  <% current_user.simple_slip_settings.each do |sst| %>
+    shortcut.add("<%= sst.shortcut_key %>", function() { 
+      document.location.href = "<%= url_for :controller=>"simple/#{sst.account.code}" %>";
+    });
+  <% end %>
+</script>

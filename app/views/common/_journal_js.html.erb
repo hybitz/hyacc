@@ -1,0 +1,274 @@
+<%#
+# $Id: _journal_js.html.erb 3371 2014-02-13 04:00:06Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  // 自動振替の単一選択チェック
+  function checkAutoJournalType( element ) {
+    return checkExclusive(element.form, element.name, '自動振替は複数指定できません。');
+  }
+  
+  // 自動振替時の日付必須チェック
+  function checkAutoTransferDate( form, idPrefix, namePrefix, message ) {
+    var elementName = namePrefix + '[auto_journal_type]';
+    
+    var autoJournalType = 0;
+    for ( var i = 0; i < form.elements.length; i ++ ) {
+      var elem = form.elements[i];
+      if ( ! elem.name ) continue;
+      if ( elem.name == elementName && elem.checked ) {
+        autoJournalType = elem.value;
+        break;
+      }
+    }
+    
+    if ( autoJournalType == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ) {
+      var year = toInt( document.getElementById(idPrefix + '_auto_journal_year').value );
+      var month = toInt( document.getElementById(idPrefix + '_auto_journal_month').value );
+      var day = toInt( document.getElementById(idPrefix + '_auto_journal_day').value );
+
+      if ( ! checkDate(year, month, day) ) {
+        alert(message);
+        return false;
+      }
+    }
+  
+    return true;
+  }
+
+  function updateTaxAmountAll(form) {
+    var details = [];
+    var table = jQuery(form).find('tr[id^="journal_details_"]').each(function() {
+      if (jQuery(this).attr('id').split('_').length == 3) {
+        details.push(jQuery(this).attr('id'));
+      }
+    });
+    
+    for (var i = 0; i < details.length; i ++) {
+      updateTaxAmount(details[i]);
+    }
+  }
+
+  function updateTaxAmount( detailId ) {
+    var detailTr = document.getElementById( detailId );
+    var taxAmountField = document.getElementById( detailTr.id + '_tax_amount' );
+    var amount = parseInt( document.getElementById( detailTr.id + '_input_amount' ).value );
+    var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
+    var ymField = document.getElementById('journal_header_ym');
+    var taxRatePercentField = document.getElementById( detailTr.id + '_tax_rate_percent' );
+
+    var date = ymField.value.substring(0, 4) + '-' + ymField.value.substring(4, 6) + '-01';
+    var taxRate = tax.getRateOn(date);
+
+    // 非課税の場合は消費税入力欄を非活性にする
+    if ( taxType == tax.TAX_TYPE_NONTAXABLE ) {
+      taxRatePercentField.value = '';
+      taxAmountField.value = '';
+      taxAmountField.disabled = 'disabled';
+    }
+    // 内税の場合は消費税を自動計算する
+    else if ( taxType == tax.TAX_TYPE_INCLUSIVE ) {
+      taxRatePercentField.value = taxRate * 100;
+      taxAmountField.value = tax.calcTaxAmount(taxType, taxRate, amount);
+      taxAmountField.disabled = null;
+    }
+    // 外税の場合は消費税を自動計算する
+    else if ( taxType == tax.TAX_TYPE_EXCLUSIVE ) {
+      taxRatePercentField.value = taxRate * 100;
+      taxAmountField.value = tax.calcTaxAmount(taxType, taxRate, amount);
+      taxAmountField.disabled = null;
+    }
+    
+    calcTotalAmount();
+  }
+
+  function calcTotalAmount() {
+    var debitAmount = 0;
+    var creditAmount = 0;
+  
+    var detailTrs = getDetailTrs();
+    for ( var i = 0; i < detailTrs.length; i ++ ) {
+        var detailTr = detailTrs[i];
+        
+        var amount = parseInt( document.getElementById( detailTr.id + '_input_amount' ).value );
+        if ( isNaN( amount ) ) {
+          amount = 0;
+        }
+        
+        var taxAmount = parseInt( document.getElementById( detailTr.id + '_tax_amount' ).value );
+        if ( isNaN( taxAmount ) ) {
+          taxAmount = 0;
+        }
+        
+        var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
+        if ( taxType == tax.TAX_TYPE_EXCLUSIVE ) {
+          amount += taxAmount;
+        }
+        
+        document.getElementById( detailTr.id + '_amount_sum').innerHTML = toAmount( amount );
+
+        var dcType = document.getElementById( detailTr.id + '_dc_type' ).value;
+        if ( dcType == DC_TYPE_DEBIT ) {
+          debitAmount += amount;
+        }
+        else if ( dcType == DC_TYPE_CREDIT ) {
+          creditAmount += amount;
+        }
+        else {
+          alert('貸借が不正です。');
+        }
+    }
+    
+    document.getElementById('journal_header_debit_amount_sum').innerHTML = toAmount( debitAmount );
+    document.getElementById('journal_header_credit_amount_sum').innerHTML = toAmount( creditAmount );
+  }
+  
+  function validateAmountBalance() {
+    debitAmountSpan = document.getElementById('journal_header_debit_amount_sum');
+    debit = debitAmountSpan.innerHTML;
+    
+    creditAmountSpan = document.getElementById('journal_header_credit_amount_sum');
+    credit = creditAmountSpan.innerHTML;
+    
+    if ( debit != credit ) {
+      alert('貸借の金額が一致しません。');
+      return false;
+    }
+    else if ( debit == 0 ) {
+      alert('金額が０円です。');
+      return false;
+    }
+    
+    return true;
+  }
+  
+  function getDetailTrs() {
+    var ret = new Array();
+  
+    detailTable = document.getElementById('journal_details');
+    detailTrs = detailTable.getElementsByTagName('tr');
+    for ( var i = 0; i < detailTrs.length; i ++ ) {
+        detailTr = detailTrs[i];
+        if ( ! detailTr.id ) continue; // idがないということはヘッダ行
+        else if ( detailTr.id.match(/add_detail/) ) continue; // 明細追加の行
+        else if ( detailTr.id.match(/journal_details_[0-9]+_[0-9]+/) ) continue; // 明細の先頭行以外は無視
+        
+        ret.push( detailTr );
+    }
+    
+    return ret;
+  }
+  
+  function validateAmount() {
+    var detailTrs = getDetailTrs();
+    for ( var i = 0; i < detailTrs.length; i ++ ) {
+      var detailTr = detailTrs[i];
+        
+      var amount = parseInt( document.getElementById( detailTr.id + '_input_amount' ).value );
+      if ( isNaN( amount ) || amount == 0 ) {
+        alert((i + 1) + '行目の金額が未入力です。');
+        return false;  
+      }
+    }
+    
+    return true;
+  }
+  
+  function showDetailIfHidden(trId) {
+    var detail2 = $(trId + '_2');
+    if (detail2.style.display == 'none') {
+      flipDetail(trId);
+    }
+  }
+  
+  // 全明細の自動振替の単一選択チェック
+  function checkAutoJournalTypes( form ) {
+    var detailTrs = getDetailTrs();
+    for ( var i = 0; i < detailTrs.length; i ++ ) {
+      var detailTr = detailTrs[i];
+        
+      var result = checkExclusive(form, document.getElementById( detailTr.id + '_auto_journal_type').name, '【明細' + (i+1) + '】自動振替は複数指定できません。');
+      if ( ! result ) {
+        showDetailIfHidden(detailTr.id);
+        return false;  
+      }
+    }
+    
+    return true;
+  }
+  
+  // 全明細の自動振替日付チェック
+  function checkAutoJournalDates( form ) {
+    var detailTrs = getDetailTrs();
+    for ( var i = 0; i < detailTrs.length; i ++ ) {
+      var detailTr = detailTrs[i];
+      
+      // TRのidからnameの接頭語を算出
+      var index = detailTr.id.lastIndexOf('_') + 1;
+      var namePrefix = 'journal_details[' + detailTr.id.substring(index) + ']';
+      
+      var result = checkAutoTransferDate( form, detailTr.id, namePrefix, '【明細' + (i+1) + '】振替日の指定が不正です。');
+      if ( ! result ) {
+        showDetailIfHidden(detailTr.id);
+        return false;  
+      }
+    }
+    
+    return true;
+  }
+  
+  function flipDetails(show){
+    var detailTrs = getDetailTrs();
+    
+    for (var i = 0; i < detailTrs.length; i++) {
+      var detail = detailTrs[i];
+      var detail2 = document.getElementById(detail.id + '_2');
+      var detail3 = document.getElementById(detail.id + '_3');
+      var detail4 = document.getElementById(detail.id + '_4');
+      var link = document.getElementById(detail.id + '_link');
+      
+      if (show) {
+        detail2.style.display = 'table-row';
+        detail3.style.display = 'table-row';
+        detail4.style.display = 'table-row';
+        link.innerHTML = '<%= message_for_details(true) %>'
+      }
+      else {
+        detail2.style.display = 'none';
+        detail3.style.display = 'none';
+        detail4.style.display = 'none';
+        link.innerHTML = '<%= message_for_details(false) %>'
+      }
+    }
+  }
+
+  function flipDetail(id){
+    var detail2 = document.getElementById(id + '_2');
+    var detail3 = document.getElementById(id + '_3');
+    var detail4 = document.getElementById(id + '_4');
+    var link = document.getElementById(id + '_link');
+    
+    if (detail2.style.display == 'none') {
+      detail2.style.display = 'table-row';
+      detail3.style.display = 'table-row';
+      detail4.style.display = 'table-row';
+      link.innerHTML = '<%= message_for_details(true) %>'
+    }
+    else {
+      detail2.style.display = 'none';
+      detail3.style.display = 'none';
+      detail4.style.display = 'none';
+      link.innerHTML = '<%= message_for_details(false) %>'
+    }
+  }
+  
+  function removeDetail(id){
+    document.getElementById(id + '_4').remove();
+    document.getElementById(id + '_3').remove();
+    document.getElementById(id + '_2').remove();
+    document.getElementById(id).remove();
+  }
+</script>
+

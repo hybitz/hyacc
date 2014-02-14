@@ -1,0 +1,153 @@
+payroll_00045: 
+  updated_at: 2009-04-21 08:19:36 +09:00
+  hours_of_work: 0
+  payroll_journal_header_id: 4453
+  id: 45
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 4467
+  hours_of_late_night_work: 0
+  employee_id: 2
+  ym: 200812
+  hours_of_day_off_work: 0
+  days_of_work: 31
+  created_at: 2009-04-21 08:19:36 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "0"
+payroll_00046: 
+  updated_at: 2009-04-21 08:19:36 +09:00
+  hours_of_work: 0
+  payroll_journal_header_id: 4705
+  id: 46
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 4750
+  hours_of_late_night_work: 0
+  employee_id: 2
+  ym: 200901
+  hours_of_day_off_work: 0
+  days_of_work: 31
+  created_at: 2009-04-21 08:19:36 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "1"
+payroll_00066: 
+  updated_at: 2009-06-30 22:34:54 +09:00
+  hours_of_work: 248
+  payroll_journal_header_id: 5869
+  id: 66
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 5870
+  hours_of_late_night_work: 0
+  employee_id: 1
+  ym: 200805
+  hours_of_day_off_work: 0
+  days_of_work: 31
+  created_at: 2009-06-30 22:34:54 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "0"
+payroll_00067: 
+  updated_at: 2009-06-30 22:35:17 +09:00
+  hours_of_work: 240
+  payroll_journal_header_id: 5871
+  id: 67
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 5872
+  hours_of_late_night_work: 0
+  employee_id: 1
+  ym: 200806
+  hours_of_day_off_work: 0
+  days_of_work: 30
+  created_at: 2009-06-30 22:35:17 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "0"
+payroll_00068: 
+  updated_at: 2009-06-30 22:35:43 +09:00
+  hours_of_work: 248
+  payroll_journal_header_id: 5873
+  id: 68
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 5874
+  hours_of_late_night_work: 0
+  employee_id: 1
+  ym: 200807
+  hours_of_day_off_work: 0
+  days_of_work: 31
+  created_at: 2009-06-30 22:35:43 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "0"
+payroll_00069: 
+  updated_at: 2009-06-30 22:36:08 +09:00
+  hours_of_work: 248
+  payroll_journal_header_id: 5875
+  id: 69
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 5876
+  hours_of_late_night_work: 0
+  employee_id: 1
+  ym: 200808
+  hours_of_day_off_work: 0
+  days_of_work: 31
+  created_at: 2009-06-30 22:36:08 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "0"
+payroll_00070: 
+  updated_at: 2009-06-30 22:36:29 +09:00
+  hours_of_work: 240
+  payroll_journal_header_id: 5877
+  id: 70
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 5878
+  hours_of_late_night_work: 0
+  employee_id: 1
+  ym: 200809
+  hours_of_day_off_work: 0
+  days_of_work: 30
+  created_at: 2009-06-30 22:36:29 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "0"
+payroll_00071: 
+  updated_at: 2009-06-30 22:36:50 +09:00
+  hours_of_work: 248
+  payroll_journal_header_id: 5879
+  id: 71
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 5880
+  hours_of_late_night_work: 0
+  employee_id: 1
+  ym: 200810
+  hours_of_day_off_work: 0
+  days_of_work: 31
+  created_at: 2009-06-30 22:36:50 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "0"
+payroll_00065: 
+  updated_at: 2009-06-30 22:34:23 +09:00
+  hours_of_work: 240
+  payroll_journal_header_id: 5867
+  id: 65
+  hours_of_early_for_work: 0
+  pay_journal_header_id: 5868
+  hours_of_late_night_work: 0
+  employee_id: 1
+  ym: 200804
+  hours_of_day_off_work: 0
+  days_of_work: 30
+  created_at: 2009-06-30 22:34:23 +09:00
+  credit_account_type_of_income_tax: "0"
+  credit_account_type_of_pension: "0"
+  credit_account_type_of_insurance: "0"
+  credit_account_type_of_inhabitant_tax: "0"

@@ -1,0 +1,10 @@
+<%#
+# $Id: edit.js.erb 3295 2014-01-24 01:03:37Z ichy $
+# Product: hyacc
+# Copyright 2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+
+var title = '<%= @title.present? ? @title + '　編集' : '編集' %>';
+var html = '<%=j render 'form' %>';
+new hyacc.Dialog({title: title}).show(html);

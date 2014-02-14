@@ -1,0 +1,34 @@
+a:
+  id: 1
+  name: 株式会社テストA
+  founded_date: 20070228
+  fiscal_year: 2009
+  start_month_of_fiscal_year: 12
+  type_of: 1
+  admin_email: admin@test.com
+  lock_version: 1
+b:
+  id: 2
+  name: 有限会社テストB
+  founded_date: 20060912
+  fiscal_year: 2007
+  start_month_of_fiscal_year: 4
+  type_of: 5
+  lock_version: 0
+c:
+  id: 3
+  name: フリーランス
+  founded_date: 20090714
+  fiscal_year: 2009
+  start_month_of_fiscal_year: 1
+  type_of: 9
+  lock_version: 0
+d:
+  id: 4
+  name: 株式会社テストD
+  founded_date: 20090801
+  fiscal_year: 2010
+  start_month_of_fiscal_year: 4
+  type_of: 1
+  business_type_id: 5
+  lock_version: 0

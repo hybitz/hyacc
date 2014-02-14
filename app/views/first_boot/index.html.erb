@@ -1,0 +1,54 @@
+<%#
+# $Id: index.html.erb 3185 2014-01-21 11:55:28Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="text-align: center; margin:20px;">
+  <div>
+    Hyaccをご利用いただき、まことにありがとうございます。
+    <br/>
+    初期設定を行います。
+  </div>
+  
+  <%= form_tag( {:action=>"create"} ) do %>
+    <div style="margin:20px;">
+      <%= flash_notice_in_span %>
+    </div>
+    <table align="center">
+      <tr>
+        <th>会社名（屋号）</th><td><%= text_field :c, :name %></td>
+      </tr>
+      <tr>
+        <th>事業開始年月日</th><td><%= date_select :c, :founded_date %></td>
+      </tr>
+      <tr>
+        <th>事業形態</th><td><%= select(:c, :type_of, company_types ) %></td>
+      </tr>
+      <tr>
+        <th>消費税</th><td><%= select(:fy, :tax_management_type, tax_management_types ) %></td>
+      </tr>
+      <tr>
+        <th>代表者　姓</th><td><%= text_field :e, :last_name %></td>
+      </tr>
+      <tr>
+        <th>代表者　名</th><td><%= text_field :e, :first_name %></td>
+      </tr>
+      <tr>
+        <th>性別</th><td><%= select(:e, :sex, sex_types ) %></td>
+      </tr>
+      <tr>
+        <th>ログインID</th><td><%= text_field :u, :login_id %></td>
+      </tr>
+      <tr>
+        <th>パスワード</th><td><%= password_field :u, :password %></td>
+      </tr>
+      <tr>
+        <th>メールアドレス</th><td><%= text_field :u, :email %></td>
+      </tr>
+    </table>
+    <div style="margin:10px;">
+      <%= submit_tag '登録' %>
+    </div>
+  <% end %>
+</div>

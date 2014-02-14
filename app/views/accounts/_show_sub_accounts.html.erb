@@ -1,0 +1,53 @@
+<%#
+# $Id: _show_sub_accounts.html.erb 2901 2012-08-31 04:54:48Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<% if @account.has_normal_sub_accounts %>
+  <div>
+    <b>補助科目</b>
+    <div class="subAccountRowHeader">
+      <div class="code">補助科目コード</div>
+      <div class="name">補助科目名</div>
+    </div>
+    
+    <% if @account.sub_accounts.present? %>
+    <% @account.sub_accounts.each{ | sa | %>
+      <div class="subAccountRow">
+        <div class="code"><%= sa.code %></div>
+        <div class="name"><%= sa.name %></div>
+      </div>
+      <div style="clear:left;"></div>
+    <% }%>
+    <% else %>
+    <div style="clear:left;">
+      補助科目は設定されていません。
+    </div>
+    <% end %>
+  </div>
+<% end %>
+
+<% if @account.has_bank_accounts %>
+  <div>
+    <%= link_to '金融口座管理へ', :controller=>'bank_accounts' %>
+  </div>
+<% end %>
+
+<% if @account.has_customers %>
+  <div>
+    <%= link_to '取引先管理へ', :controller=>'customers' %>
+  </div>
+<% end %>
+
+<% if @account.has_employees %>
+  <div>
+    <%= link_to 'ユーザ管理へ', :controller=>'user' %>
+  </div>
+<% end %>
+
+<% if @account.has_rents %>
+  <div>
+    <%= link_to '地代家賃管理へ', :controller=>'rents' %>
+  </div>
+<% end %>

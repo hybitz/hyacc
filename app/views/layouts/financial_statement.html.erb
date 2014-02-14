@@ -1,0 +1,25 @@
+<%#
+# $Id: financial_statement.html.erb 3162 2014-01-01 08:45:50Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render_meta %>
+  <%= render_title %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+  <%= render 'common/common_js' %>
+  <%= render 'financial_statement_js' %>
+</head>
+<body>
+
+<%= render_header %>
+<%= render_menu %>
+<%= render 'common/search' %>
+<%= yield %>
+
+</body>
+</html>

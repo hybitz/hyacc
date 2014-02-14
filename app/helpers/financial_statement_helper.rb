@@ -1,0 +1,78 @@
+# -*- encoding : utf-8 -*-
+#
+# $Id: financial_statement_helper.rb 2469 2011-03-23 14:57:42Z ichy $
+# Product: hyacc
+# Copyright 2009 by Hybitz.co.ltd
+# ALL Rights Reserved.
+#
+module FinancialStatementHelper
+  include HyaccConstants
+
+  def colspan( node_level )
+    @max_node_level - node_level + 1
+  end
+  
+  # 貸借対照表で表示対象の科目かどうか
+  def is_visible_on_bs( account, branch_id )
+    return false unless is_visible_on_report( account, branch_id )
+    
+    # 以下、部門別で表示対象か確認
+    
+    # 検索条件に部門指定がない場合は全社での出力なので内部取引は表示しない
+    if branch_id.to_i == 0
+      return false if account.trade_type == TRADE_TYPE_INTERNAL
+    else
+      branch = Branch.find( branch_id )
+  
+      # 本店の場合は本店勘定を表示しない
+      if account.code == ACCOUNT_CODE_HEAD_OFFICE
+        return false if branch.is_head_office
+      end
+      
+      # 支店の場合は支店勘定を表示しない
+      if account.code == ACCOUNT_CODE_BRANCH_OFFICE
+        return false unless branch.is_head_office
+      end
+    end
+    
+    true
+  end
+  
+  # 損益計算書で表示対象の科目かどうか
+  def is_visible_on_pl( account, branch_id )
+    return false unless is_visible_on_report( account, branch_id )
+    
+    # 以下、部門別で表示対象か確認
+    
+    # 検索条件に部門指定がない場合は全社での出力なので内部取引は表示しない
+    if branch_id.to_i == 0
+      return false if account.trade_type == TRADE_TYPE_INTERNAL
+    else
+      branch = Branch.find( branch_id )
+      
+      if branch.is_head_office
+        # 本店の場合に表示しない
+        return false if [ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE,
+                         ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE].include? account.code
+      else
+        # 支店の場合に表示しない
+        return false if [ACCOUNT_CODE_HEAD_OFFICE_COST,
+                         ACCOUNT_CODE_HEAD_OFFICE_TAXES].include? account.code
+      end
+    end
+    
+    true
+  end
+  
+private
+  def is_visible_on_report( account, branch_id )
+    # 削除された科目は表示しない
+    return false if account.deleted
+    
+    # 決算書科目以外は表示しない
+    return false unless account.is_settlement_report_account
+    
+    true
+  end
+
+end

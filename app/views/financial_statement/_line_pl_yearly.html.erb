@@ -1,0 +1,29 @@
+<%#
+# $Id: _line_pl_yearly.html.erb 3162 2014-01-01 08:45:50Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%# 非表示の科目はスキップする %>
+<% return unless @sum[account_code] %>
+<% return unless is_visible_on_pl( @sum[account_code][:account], @finder.branch_id ) %>
+
+<tr id="<%= account_code %>" style="<%= defined?(style) ? style : '' %>">
+  <% (@sum[account_code][:account].node_level - 2).times do |n| %>
+    <td width="20">&nbsp;</td>
+  <% end %>
+  
+  <td colspan="<%= colspan( @sum[account_code][:account].node_level ) %>" nowrap>
+    <%= @sum[account_code][:account].name %>
+  </td>
+  <td id="<%= account_code + '_amount' %>" align="right">
+    <%= to_amount(@sum[account_code][:amount], :show_zero=>true) %>
+  </td>
+  <td id="<%= account_code + '_ratio' %>" align="right">
+    <script>
+      jQuery(document).ready(function(){
+        calcRatio('<%= account_code %>', <%= defined?(total_amount) ? total_amount : @sum[account_code][:amount] %>);
+      });
+    </script>
+  </td>
+</tr>

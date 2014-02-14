@@ -1,0 +1,26 @@
+.showCareers {
+  width: 100%;
+}
+
+.showCareers .employee {
+  white-space: nowrap;
+  text-align: left;
+}
+
+.showCareers .yearsOfCareer {
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.showCareers .description {
+  width: 55%;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.showCareers .skill {
+  width: 15%;
+  vertical-align: top;
+  white-space: nowrap;
+}

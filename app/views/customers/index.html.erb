@@ -1,0 +1,42 @@
+<%#
+# $Id: index.html.erb 3338 2014-01-31 03:52:13Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= render 'common/search' %>
+<%= flash_notice %>
+
+<table>
+  <tr>
+    <th>取引先コード</th>
+    <th>取引先名（正式名）</th>
+    <th>取引先名（省略名）</th>
+    <th>受注先</th>
+    <th>発注先</th>
+    <th>状態</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @customers.each do |c| %>
+  <tr>
+    <td><%= c.code %></td>
+    <td><%= c.formal_name %></td>
+    <td><%= c.name %></td>
+    <td align="center"><%= render_checkmark c.is_order_entry %>
+    <td align="center"><%= render_checkmark c.is_order_placement %>
+    <td align="center"><%= HyaccConstants::DELETED_TYPES[c.deleted] %></td>
+    <td><%= link_to_dialog '参照', customer_path(c) %></td>
+    <td><%= link_to_dialog '編集', edit_customer_path(c) %></td>
+    <td><%= link_to '削除', customer_path(c), :method=>:delete, :confirm=>"「#{c.name}」を削除します。よろしいですか？" %></td>
+  </tr>
+<% end %>
+</table>
+
+<div style="margin: 10px;">
+  <%= will_paginate @customers, :style=>'display: inline;' %>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <%= link_to '追加', new_customer_path, :remote => true %>
+</div>

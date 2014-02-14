@@ -1,0 +1,114 @@
+<%#
+# $Id: _form.html.erb 3310 2014-01-27 13:20:06Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 10px;">
+  <%= flash_notice %>
+</div>
+
+<script>
+  function setSubAccountsVisible() {
+    var value = jQuery('#account_sub_account_type').val();
+    if (value == SUB_ACCOUNT_TYPE_NORMAL || value == SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE) {
+      jQuery('#form_sub_accounts').show();
+    }
+    else {
+      jQuery('#form_sub_accounts').hide();
+    }
+  }  
+</script>
+
+<%= form_for @account do |f| %>
+  <p>
+  <%= f.submit %>
+  </p>
+
+  <table>
+    <tr>
+      <th><%= f.label :parent_id %></th>
+      <td>
+        <%= f.hidden_field :parent_id %>
+        <%= "#{@account.parent.code}：#{@account.parent.name}" if @account.parent %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= f.label :code %></th>
+      <td><%= f.text_field :code, :disabled => ! @account.new_record?, :class=>'codeText' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :name %></th>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :short_description %></th>
+      <td><%= f.text_field :short_description %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :description %></th>
+      <td><%= f.text_area :description, {:rows => 5} %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :dc_type %></th>
+      <td><%= f.hidden_field :dc_type %><%= @account.dc_type_name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :account_type %></th>
+      <td><%= f.hidden_field :account_type %><%= @account.account_type_name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :tax_type %></th>
+      <td><%= f.select :tax_type, tax_types %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :trade_type %></th>
+      <td><%= f.select :trade_type, trade_types %></td>
+    </tr>
+    
+    <% if @account.path.include? HyaccConstants::ACCOUNT_CODE_FIXED_ASSET %>
+    <tr>
+      <th><%= f.label :depreciable %></th>
+      <td><%= f.select :depreciable, {'可' => true, '不可' => false} %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :depreciation_method %></th>
+      <td><%= f.select :depreciation_method, depreciation_methods, :include_blank=>true %></td>
+    </tr>
+    <% end %>
+    
+    <tr>
+      <th><%= f.label :is_settlement_report_account %></th>
+      <td><%= f.select :is_settlement_report_account, {'出力対象'=>true, '出力対象外'=>false} %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :journalizable %></th>
+      <td><%= f.select :journalizable, {'可' => true, '不可' => false} %></td>
+    </tr>
+    <% if @account.is_debt %>
+    <tr>
+      <th><%= f.label :is_trade_account_payable %></th>
+      <td><%= f.select :is_trade_account_payable, {'はい' => true, 'いいえ' => false} %></td>
+    </tr>
+    <% end %>
+    <% if @account.is_capital %>
+    <tr>
+      <th><%= f.label :is_revenue_reserve_account %></th>
+      <td><%= f.select :is_revenue_reserve_account, {'はい' => true, 'いいえ' => false} %></td>
+    </tr>
+    <% end %>
+    <tr>
+      <th><%= f.label :sub_account_type %></th>
+      <td>
+        <% if @account.account_control.sub_account_editable %>
+          <%= f.select :sub_account_type, sub_account_types, {}, :onchange=>"setSubAccountsVisible();" %>
+          <div id="form_sub_accounts">
+            <%= render 'sub_accounts_fields' %>
+          </div>
+        <% else %>
+    	    <%= @account.sub_account_type_name %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+<% end %>

@@ -1,0 +1,12 @@
+<%#
+# $Id: _action_menu.html.erb 2925 2012-09-21 03:51:20Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 10px;">
+  <% actions.each_with_index do |action, index| %>
+    <%= ' | ' if index > 0 %>
+    <%= link_to titles[index], { :action=>action }, { :style=>style_for_action(action) } %>
+  <% end %>
+</div>

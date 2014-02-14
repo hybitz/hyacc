@@ -1,0 +1,20 @@
+<%#
+# $Id: _search.html.erb 2957 2012-11-09 07:45:31Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= form_tag( {:action=> 'index' }, {:method=>"get"} ) do %>
+  <table class="none_border" cellpadding="3">
+    <tr>
+      <td class="none_border">都道府県：<%= select 'finder', 'prefecture_id', @prefectures %></td>
+      <td class="none_border">年月：<%= text_field 'finder', 'ym', :maxlength=>6, :size=>6 %></td>
+      <td class="none_border">等級：
+        <%= text_field 'finder', 'grade_start', :maxlength=>2 %>～
+        <%= text_field 'finder', 'grade_end', :maxlength=>2 %>
+      </td>
+      <td class="none_border">月額報酬：<%= text_field 'finder', 'base_salary', :maxlength=>10 %></td>
+      <td class="none_border"><%= submit_tag "表示" %></td>
+    </tr>
+  </table>
+<% end %>

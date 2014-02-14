@@ -1,0 +1,24 @@
+<%#
+# $Id: payroll.html.erb 3288 2014-01-23 01:16:26Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render_meta %>
+  <%= render_title %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag 'application-print', :media => 'print' %>
+  <%= javascript_include_tag "application" %>
+  <%= render 'common/jquery_config' %>
+  <%= render 'common/common_js' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render_header :only => 'index' %>
+  <%= render_menu :only => 'index' %>
+  <%= yield %>
+</body>
+</html>

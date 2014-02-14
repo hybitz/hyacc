@@ -1,0 +1,73 @@
+<%#
+# $Id: show.html.erb 3187 2014-01-21 13:08:58Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<table class="showCareers">
+  <tr>
+    <th class="employee"><%= company_label(@e.company.type_of) %>： <%= @e.company.name %></th>
+    <th class="yearsOfCareer" rowspan="2" colspan="3">業務経歴： <%= @e.years_of_career %>年</th>
+  </tr>
+  <tr>
+    <th class="employee">氏名： <%= @e.full_name %></th>
+  </tr>
+  <% @careers.each_with_index do |c, index| %>
+  <tr>
+    <th colspan="4">
+      <div style="float: left;"><%= index+1 %>. <%= c.project_name %></div>
+      <div style="text-align:right;">
+        <%= c.start_from.strftime('%Y年%m月') %>
+        ～
+        <% if c.is_up_to_today %>
+        至現在
+        <% else %>
+          <%= c.end_to_or_today.strftime('%Y年%m月') %>
+        <% end %>
+        （<%= render_duration(*c.duration_ym) %>）
+      </div>
+    </th>
+  </tr>
+  <tr>
+    <td class="description">
+      【概要】
+      <% c.description.to_s.split("\n").each do |line| %>
+      <br/>
+      <%= line %>
+      <% end %>
+    </td>
+    <td rowspan="4" class="skill">
+      【機種・OS】
+      <% c.hardware_skill.to_s.split("\n").each do |line| %>
+      <br/>
+      ・<%= line %>
+      <% end %>
+      <% c.os_skill.to_s.split("\n").each do |line| %>
+      <br/>
+      ・<%= line %>
+      <% end %>
+    </td>
+    <td rowspan="4" class="skill">
+      【DB・言語】
+      <% c.db_skill.to_s.split("\n").each do |line| %>
+      <br/>
+      ・<%= line %>
+      <% end %>
+      <% c.language_skill.to_s.split("\n").each do |line| %>
+      <br/>
+      ・<%= line %>
+      <% end %>
+    </td>
+    <td rowspan="4" class="skill">
+      【その他】
+      <% c.other_skill.to_s.split("\n").each do |line| %>
+      <br/>
+      ・<%= line %>
+      <% end %>
+    </td>
+  </tr>
+  <tr><td class="subInfo">【開発規模】 <%= c.project_size %></td></tr>
+  <tr><td class="subInfo">【開発工程】 <%= c.process %></td></tr>
+  <tr><td class="subInfo">【担当役割】 <%= c.role %></td></tr>
+  <% end %>
+</table>

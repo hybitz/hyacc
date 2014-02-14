@@ -1,0 +1,436 @@
+html, body {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  margin: 0;
+  padding: 0;  
+}
+
+a { color: #000; }
+a:visited { color: #000; }
+a:hover { color: #fff; background: #000; }
+
+input {
+  background: #FFFAFA;
+}
+
+input[disabled] {
+  background: #EEEEEE;
+}
+
+input[type="file"] {
+  background: #FFFFFF;
+  width: 36em;
+}
+
+button, input[type="button"], input[type="submit"] {
+  background: ButtonFace;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px;
+}
+
+table, th, td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  empty-cells: show;
+}
+
+tr {
+  height: 20px;
+}
+
+tr.hover:hover {
+  background: #EEEEEE;
+}
+
+th {
+  background: #D3D3D3;
+}
+
+th, td {
+  margin: 0;
+  padding: 0.1em 0.2em;
+  vertical-align: middle;
+}
+
+.action {
+  width: 3em;
+  text-align: center;
+}
+
+.content {
+  margin: 10px;
+}
+
+.header {
+  margin: 0px 0px 5px 0px;
+  padding: 2px;
+  background-color: #CCCCCC;
+  border-color: grey;
+  border-style: solid;
+  border-width: 1px 0px 1px 0px;
+}
+
+.menu {
+  margin: 0px 10px 10px 10px;
+}
+
+.none_border {
+  border: 0px;
+  border-collapse: collapse;
+  empty-cells: show;
+}
+
+.subMenu {
+  margin: 10px;
+}
+
+.tr_emphasized {
+  background-color: #CCEEFF;
+}
+
+#bsContainer {
+  margin: 10px;  
+}
+
+#notice {
+  width: 400px;
+  height: 20px;
+  border-bottom-style: solid;
+  border-bottom-color: gray;
+  border-bottom-width: 1px;
+}
+
+#plContainer {
+  margin: 10px;  
+}
+
+#remarksAutoComplete {
+  margin-top: -10px;
+}
+
+#remarksAutoComplete #templates {
+  padding: 0px;
+  margin-left: -2px;
+}
+
+.yearMonth {
+  width: 4em;
+  height: 1em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.yearMonthText {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  vertical-align: middle;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.socialExpenseNumberOfPeopleText {
+  width: 30px;
+  height: 20px;
+  text-align: center;
+}
+
+.codeText {
+  width: 40px;
+  height: 20px;
+  text-align: center;
+}
+
+.nameText {
+  width: 150px;
+  height: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+.noteText {
+  width: 20em;
+  height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.day {
+  width: 2em;
+  height: 22px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.dayText {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.durableYearsText {
+  width: 30px;
+  height: 22px;
+  text-align: center;
+  vertical-align: middle;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.slipType {
+  width: 80px;
+  height: 22px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.remarks {
+  width: 20em;
+  height: 22px;
+  vertical-align: middle;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.remarksText {
+  width: 100%;
+  height: 20px;
+  vertical-align: middle;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.accountName {
+  width: 12em;
+  height: 22px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th.accountName {
+  text-align: center;
+}
+
+.accountSelect {
+  width: 100%;
+  height: 20px;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.depreciationMethodSelect {
+  width: 110px;
+  height: 20px;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.focusOnCompleteSelect {
+  height: 20px;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.branchName {
+  width: 6em;
+  height: 1em;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.branchSelect {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.subAccountName {
+  width: 6em;
+  height: 22px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.subAccountSelect {
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+
+.dcTypeSelect {
+  width: 100%;
+  height: 20px;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.amount {
+  width: 7em;
+  height: 22px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+
+.amountIncrease {
+  width: 7em;
+  height: 22px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+th.amountIncrease {
+  text-align: center;
+}
+
+.amountDecrease {
+  width: 7em;
+  height: 22px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+th.amountDecrease {
+  text-align: center;
+}
+
+.amountMonthlySum {
+  width: 80px;
+  height: 22px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+.amountSum {
+  width: 8em;
+  height: 22px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+th.amountSum {
+  text-align: center;
+}
+
+.mark {
+  width: 30px;
+  height: 22px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.amountText {
+  width: 100%;
+  height: 100%;
+  text-align: right;
+  border: none;
+}
+
+.taxRatePercentText {
+  width: 2em;
+  height: 100%;
+  border: none;
+  text-align: center;
+}
+
+.taxTypeSelect {
+  height: 100%;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.taxAmount {
+  width: 6em;
+  height: 1em;
+  text-align: right;
+}
+
+th.taxAmount {
+  text-align: center;
+}
+
+th.amount {
+  text-align: center;
+}
+
+.taxAmountText {
+  width: 100%;
+  height: 100%;
+  text-align: right;
+  border: none;
+}
+
+.amountDebit {
+  width: 80px;
+  height: 22px;
+  text-align: right;
+}
+
+.amountCredit {
+  width: 80px;
+  height: 22px;
+  text-align: right;
+}
+
+.submit {
+  height: 22px;
+}
+
+#ledgerContainer {
+  margin: 10px;
+  border-collapse: collapse;
+  border-color: gray;
+}
+
+#ledgerContainer td {
+  padding: 2px;
+}
+
+.showCareers .employee {
+  white-space: nowrap;
+  text-align: left;
+}
+
+.showCareers .yearsOfCareer {
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.showCareers .description {
+  width: 50%;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.showCareers .subInfo {
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.showCareers .skill {
+  width: 10%;
+  vertical-align: top;
+  white-space: nowrap;
+}

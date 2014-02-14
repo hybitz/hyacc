@@ -1,0 +1,42 @@
+<%#
+# $Id: rent.html.erb 2958 2012-11-09 08:02:34Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div  style="margin: 10px;">
+    <table class="none_border" width="1050">
+      <tr>
+        <td class="none_border"><b>地代家賃の内訳書</b></td>
+      </tr>
+    </table>
+    <br/>
+    <table width="1050">
+      <tr style="background-color: lightgrey;">
+        <td rowspan="2" width="100">地代・家賃<br/>の区分</td>
+        <td width="300">借地（借家）物件の用途</td>
+        <td width="300">貸主の名称（氏名）</td>
+        <td width="250">支払対象期間</td>
+        <td rowspan="2" width="100">摘要</td>
+      </tr>
+      <tr style="background-color: lightgrey;">
+        <td>所在地</td>
+        <td>貸主の所在地（住所）</td>
+        <td>支払賃借料</td>
+      </tr>
+      <% @rents.each do |id,rent| %>
+      <tr>
+        <td rowspan="2"><%= HyaccConstants::RENT_TYPES[ rent.rent_type ] %></td>
+        <td height="40"><%= HyaccConstants::RENT_USAGE_TYPES[ rent.usage_type ] %></td>
+        <td><%= rent.customer.formal_name %></td>
+        <td><%= rent.ymd_start.to_s.slice(0,4) %>.<%= rent.ymd_start.to_s.slice(4,2) %>.<%= rent.ymd_start.to_s.slice(6,2) %>～<%= rent.ymd_end.to_s.slice(0,4) %>.<%= rent.ymd_end.to_s.slice(4,2) %>.<%= rent.ymd_end.to_s.slice(6,2) %></td>
+        <td rowspan="2"><%= rent.remarks %></td>
+      </tr>
+      <tr>
+        <td height="40"><%= rent.address %></td>
+        <td><%= rent.customer.address %> </td>
+        <td><%= number_to_currency(rent.total_amount, :unit => "￥",:precision => 0, :format => "%u%n") %></td>
+      </tr>
+      <% end %>
+    </table>
+</div>

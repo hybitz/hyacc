@@ -1,0 +1,14 @@
+<%#
+# $Id: _jquery_config.html.erb 3197 2014-01-22 03:42:47Z ichy $
+# Product: hyacc
+# Copyright 2012-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= stylesheet_link_tag 'jqtree.css' %>
+<script>
+  jQuery.noConflict();
+
+  jQuery(document).ready(function() {
+    jQuery('.datepicker').datepicker({dateFormat: 'yy-mm-dd'});
+  });
+</script>

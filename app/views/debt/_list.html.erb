@@ -1,0 +1,148 @@
+<%#
+# $Id: _list.html.erb 3340 2014-02-01 02:50:49Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  jQuery(document).ready(function() {
+    jQuery('#finder_account_id').change(function() {
+      hide_sub_accounts();
+
+      jQuery.get('<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
+        {format: 'json', order: 'code', account_id: jQuery(this).val()},
+        function(data) {
+          reload_sub_accounts(data);
+        }
+      );
+    });
+    
+    jQuery('#debts_display_flag').click(function() {
+      changeDisplayFlag();
+    });
+    
+    changeDisplayFlag();
+  });
+
+  function hide_sub_accounts() {
+    var sub_account = jQuery('#finder_sub_account_id');
+    var sub_account_label = jQuery('#finder_sub_account_id_title');
+    sub_account.hide();
+    sub_account_label.hide();
+  }
+
+  function reload_sub_accounts(json) {
+    replace_options('#finder_sub_account_id', json, true);
+    var sub_account = jQuery('#finder_sub_account_id');
+    var sub_account_label = jQuery('#finder_sub_account_id_title'); 
+    sub_account_label.css('display', sub_account.css('display'));
+  }
+
+  function changeDisplayFlag() {
+    var checked = jQuery('#debts_display_flag').attr('checked'); 
+    jQuery('tr[id^="debts_"]').each(function() {
+      if (jQuery(this).find('div[id^="status_"] a').text() == '精算済み') {
+        if (checked) {
+          jQuery(this).show();
+        } else {
+          jQuery(this).hide();
+        }
+      }
+    });
+  }
+  
+  // 選択された精算科目の確認
+  function confirm_current_account(){
+    var account_name = jQuery('#finder_account_id option:selected').text();
+    var sub_account_name = jQuery('#finder_sub_account_id option:selected').text();
+
+    if (sub_account_name) {
+      return confirm('精算科目「' + account_name + '」、補助科目「' + sub_account_name + '」でよろしいですか？');
+    } else {
+      return confirm('精算科目「' + account_name + '」でよろしいですか？');
+    }
+  }
+  
+  function close_journal(id, branch_id) {
+    if (!confirm_current_account()) {
+      return false;
+    }
+
+    var url = '<%= url_for :action => 'update' %>';
+    var params = {
+      id: id,
+      branch_id: branch_id,
+      account_id: jQuery('#finder_account_id').val(),
+      sub_account_id: jQuery('#finder_sub_account_id').val(),
+      ymd: jQuery('#ymd').val(),
+      format: 'html'
+    };
+
+    jQuery.post(url, params, function(data) {
+      jQuery('#status_' + id).html(data);
+    })
+    .fail(function() {
+      alert('仮負債の精算に失敗しました。');
+      location.reload();
+    });
+  }
+</script>
+  
+<div style="margin:10px;">
+  <span style="margin:5px;">仮負債合計金額 <%= number_to_currency(@sum, :unit => '', :precision => 0) %> 円</span>
+  <div style="margin:5px;">
+    <%= form_tag :action => 'index' do %>
+      <label for="ymd">精算日</label>：<%= text_field_tag 'ymd', @ymd, :class => 'datepicker' %>
+      <label for="finder_account_id">精算科目</label>：
+      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name") %>
+
+      <% if @sub_accounts %>
+        <span id="finder_sub_account_id_title" style="<%= 'display: none;' if @sub_accounts.empty? %>">
+          <label for="finder_sub_account_id">補助科目</label>：</span>
+        <%= select("finder", "sub_account_id", to_options(@sub_accounts),
+              {:include_blank=>false},
+              {:style=>'display: ' + (@sub_accounts.empty? ? 'none' : '') + ';'}
+            ) %>
+      <% end %>
+    <% end %>
+  </div>
+  <div style="margin:5px;">
+    <label><input type="checkbox" id="debts_display_flag"/>精算済みの伝票も表示</label>
+  </div>
+  <div style="margin:5px;">
+    <table id="debt_table">
+      <tr>
+        <th>年月</th>
+        <th>日</th>
+        <th>摘要</th>
+        <th>計上部門</th>
+        <th>相手部門</th>
+        <th>金額</th>
+        <th>元伝票</th>
+        <th>個別精算</th>
+      </tr>
+    <% @debts.each do |debts| %>
+      <tr id="debts_<%= debts.id.to_s %>">
+        <td class="yearMonth"><%= debts.ym.to_s %></td>
+        <td class="day"><%= debts.day.to_s %></td>
+        <td class="remarks"><%= debts.remarks %></td>
+        <td class="branchName"><%= debts.branch_name %></td>
+        <td class="branchName"><%= debts.opposite_branch_name %></td>
+        <td class="amountSum"><%= number_to_currency(debts.amount, :unit => "",:precision => 0) %></td>
+        <td style="text-align: center;">
+          <%= link_to '参照', {:controller => 'journal', :action => 'show', :id => debts.id, :copy_link => 'false'}, :remote => true %>
+        </td>
+        <td style="text-align: center;">
+          <div id="status_<%= debts.id.to_s %>">
+          <% if debts.closed_id %>
+            <%= render 'closed_link', :closed_id => debts.closed_id %>
+          <% else %>
+            <input type="button" value="精算" onclick="close_journal(<%= debts.id %>, <%= debts.branch_id %>);" />
+          <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  </div>
+</div>

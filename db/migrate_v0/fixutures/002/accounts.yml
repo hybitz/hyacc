@@ -1,0 +1,190 @@
+# 資産
+諸口:
+  code: 0000
+  name: 諸口
+  dc_type: 1
+  account_type: 1
+現金:
+  code: 1111
+  name: 現金
+  dc_type: 1
+  account_type: 1
+小口現金:
+  code: 1121
+  name: 小口現金
+  dc_type: 1
+  account_type: 1
+普通預金:
+  code: 1311
+  name: 普通預金
+  dc_type: 1
+  account_type: 1
+売掛金:
+  code: 1551
+  name: 売掛金
+  dc_type: 1
+  account_type: 1
+立替金:
+  code: 1821
+  name: 立替金
+  dc_type: 1
+  account_type: 1
+仮払金:
+  code: 1881
+  name: 仮払金
+  dc_type: 1
+  account_type: 1
+仮払消費税:
+  code: 1891
+  name: 仮払消費税
+  dc_type: 1
+  account_type: 1
+工具器具備品:
+  code: 2161
+  name: 工具器具備品
+  dc_type: 1
+  account_type: 1
+設立費:
+  code: 2261
+  name: 設立費
+  dc_type: 1
+  account_type: 1
+事業主貸:
+  code: 3041
+  name: 事業主貸
+  dc_type: 1
+  account_type: 1
+
+# 負債
+買掛金:
+  code: 3141
+  name: 買掛金
+  dc_type: 2
+  account_type: 2
+未払金:
+  code: 3181
+  name: 未払金
+  dc_type: 2
+  account_type: 2
+未払費用:
+  code: 3183
+  name: 未払費用
+  dc_type: 2
+  account_type: 2
+未払消費税:
+  code: 3191
+  name: 未払消費税
+  dc_type: 2
+  account_type: 2
+
+仮受消費税:
+  code: 3201
+  name: 仮受消費税
+  dc_type: 2
+  account_type: 2
+預り金:
+  code: 3301
+  name: 預り金
+  dc_type: 2
+  account_type: 2
+  
+# 資本
+受取利息:
+  code: 4221
+  name: 受取利息
+  dc_type: 2
+  account_type: 3
+事業主借:
+  code: 4281
+  name: 事業主借
+  dc_type: 2
+  account_type: 3
+
+# 収益
+売上高:
+  code: 6121
+  name: 売上高
+  dc_type: 2
+  account_type: 4
+
+# 費用
+役員報酬:
+  code: 8322
+  name: 役員報酬
+  dc_type: 1
+  account_type: 5
+福利厚生費:
+  code: 8451
+  name: 福利厚生費
+  dc_type: 1
+  account_type: 5
+荷造運賃:
+  code: 8461
+  name: 荷造運賃
+  dc_type: 1
+  account_type: 5
+旅費交通費:
+  code: 8471
+  name: 旅費交通費
+  dc_type: 1
+  account_type: 5
+通信費:
+  code: 8481
+  name: 通信費
+  dc_type: 1
+  account_type: 5
+接待交際費:
+  code: 8491
+  name: 接待交際費
+  dc_type: 1
+  account_type: 5
+会議費:
+  code: 8521
+  name: 会議費
+  dc_type: 1
+  account_type: 5
+減価償却費:
+  code: 8531
+  name: 減価償却費
+  dc_type: 1
+  account_type: 5
+地代家賃:
+  code: 8551
+  name: 地代家賃
+  dc_type: 1
+  account_type: 5
+水道光熱費:
+  code: 8591
+  name: 水道光熱費
+  dc_type: 1
+  account_type: 5
+燃料費:
+  code: 8611
+  name: 燃料費
+  dc_type: 1
+  account_type: 5
+消耗品費:
+  code: 8621
+  name: 消耗品費
+  dc_type: 1
+  account_type: 5
+事務用品費:
+  code: 8661
+  name: 事務用品費
+  dc_type: 1
+  account_type: 5
+支払手数料:
+  code: 8681
+  name: 支払手数料
+  dc_type: 1
+  account_type: 5
+新聞図書費:
+  code: 8711
+  name: 新聞図書費
+  dc_type: 1
+  account_type: 5
+雑費:
+  code: 8811
+  name: 雑費
+  dc_type: 1
+  account_type: 5

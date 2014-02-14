@@ -1,0 +1,20 @@
+<%#
+# $Id: _new.html.erb 3314 2014-01-28 04:06:06Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+<hr/>
+<b>給与明細</b>
+</br>
+<%= form_tag({:action => 'create'}, :id => 'payroll_form', :remote => true) do %>
+  <%= render 'form' %>
+  <table width="400">
+    <tr>
+      <td colspan="2">
+        <%= submit_tag '登録', :id => 'payroll_submit', :disable_with => '送信中...', :disabled => true %>
+      </td>
+    </tr>
+  </table>
+<% end %>

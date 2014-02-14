@@ -1,0 +1,84 @@
+rent_00001: 
+  status: 1
+  name: 地代家賃1
+  ymd_start: 20070401
+  updated_at: 2009-06-14 22:44:32 +09:00
+  usage_type: 1
+  rent_type: 2
+  ymd_end: 
+  id: 1
+  customer_id: 6
+  address: 住所1
+  created_at: 2009-05-12 08:47:22 +09:00
+rent_00002: 
+  status: 1
+  name: 地代家賃2
+  ymd_start: 20080829
+  updated_at: 2009-06-14 22:44:32 +09:00
+  usage_type: 2
+  rent_type: 2
+  ymd_end: 
+  id: 2
+  customer_id: 7
+  address: 住所2
+  created_at: 2009-05-12 08:47:55 +09:00
+rent_00003: 
+  status: 2
+  name: 地代家賃3
+  ymd_start: 20080804
+  updated_at: 2009-06-14 22:44:32 +09:00
+  usage_type: 2
+  rent_type: 2
+  ymd_end: 20080930
+  id: 3
+  customer_id: 8
+  address: 住所3
+  created_at: 2009-05-17 21:30:22 +09:00
+rent_00004: 
+  status: 2
+  name: 地代家賃4
+  ymd_start: 20070327
+  updated_at: 2009-06-14 22:44:32 +09:00
+  usage_type: 2
+  rent_type: 2
+  ymd_end: 20070426
+  id: 4
+  customer_id: 9
+  address: 住所4
+  created_at: 2009-05-17 21:32:26 +09:00
+rent_00005: 
+  status: 2
+  name: 地代家賃5
+  ymd_start: 20070507
+  updated_at: 2009-06-14 22:44:32 +09:00
+  usage_type: 2
+  rent_type: 2
+  ymd_end: 20071228
+  id: 5
+  customer_id: 10
+  address: 住所5
+  created_at: 2009-05-17 21:35:19 +09:00
+rent_00006: 
+  status: 2
+  name: 地代家賃6
+  ymd_start: 20080108
+  updated_at: 2009-06-14 22:44:32 +09:00
+  usage_type: 2
+  rent_type: 2
+  ymd_end: 20080329
+  id: 6
+  customer_id: 10
+  address: 住所6
+  created_at: 2009-05-17 21:37:28 +09:00
+rent_00007: 
+  status: 2
+  name: 地代家賃7
+  ymd_start: 20080507
+  updated_at: 2009-06-14 22:44:32 +09:00
+  usage_type: 2
+  rent_type: 2
+  ymd_end: 20080828
+  id: 7
+  customer_id: 10
+  address: 住所7
+  created_at: 2009-05-17 21:38:29 +09:00

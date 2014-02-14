@@ -1,0 +1,9 @@
+<%#
+# $Id: edit_logo_path.js.erb 2942 2012-10-19 07:27:56Z ichy $
+# Product: hyacc
+# Copyright 2011-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+document.getElementById('logo_path').innerHTML = '<%= hidden_field 'company', 'id' %><%= file_column_field 'company', 'logo_path' %>';
+document.getElementById('logo_path_form').innerHTML = '<%= submit_tag '更新' %> <input type="button" value="キャンセル" onclick="document.location.reload();"/>';
+document.getElementById('company_form').action = '<%= url_for :action=>"update_logo_path" %>';

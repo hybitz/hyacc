@@ -1,0 +1,33 @@
+--- 
+inhabitant_taxes_00001: 
+  oct: 20100
+  jul: 20100
+  jan: 20100
+  dec: 20100
+  jun: 20500
+  feb: 20100
+  apr: 20100
+  may: 20100
+  id: 1
+  user_id: 2
+  sep: 20100
+  mar: 20100
+  fy: 2009
+  aug: 20100
+  nov: 20100
+inhabitant_taxes_00002: 
+  oct: 17000
+  jul: 17000
+  jan: 17000
+  dec: 17000
+  jun: 17000
+  feb: 17000
+  apr: 17000
+  may: 17000
+  id: 2
+  user_id: 1
+  sep: 17000
+  mar: 17000
+  fy: 2009
+  aug: 17000
+  nov: 17000

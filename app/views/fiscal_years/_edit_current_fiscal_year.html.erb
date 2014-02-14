@@ -1,0 +1,18 @@
+<%#
+# $Id: _edit_current_fiscal_year.html.erb 3324 2014-01-29 03:50:03Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+
+<div style="margin: 5px;">
+  <%= form_tag({:action => 'update_current_fiscal_year'}, :remote => true) do %>
+    <%= hidden_field_tag :company_id, @c.id %>
+    <%= hidden_field :c, :lock_version %>
+          会計年度を
+    <%= collection_select(:c, :fiscal_year, @c.fiscal_years, :fiscal_year, :fiscal_year) %>
+          年度に  
+    <%= submit_tag '変更' %>
+  <% end %>
+</div>

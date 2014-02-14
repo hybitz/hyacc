@@ -1,0 +1,176 @@
+.div_th_yyyy{
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 65px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 1px;
+  font-weight:bold;
+}
+.div_th_yyyymm{
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 75px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 0px;
+  font-weight:bold;
+}
+.div_th_grade{
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 50px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 0px;
+  font-weight:bold;
+}
+
+.div_th_user {
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 100px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 0px;
+  font-weight:bold;
+}
+
+.div_th_money{
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 75px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 0px;
+  font-weight:bold;
+}
+
+.div_th_money10{
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 85px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 0px;
+  font-weight:bold;
+}
+
+.div_th_money20{
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 150px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 0px;
+  font-weight:bold;
+}
+
+.div_th_yyyymmdd{
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 80px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 0px;
+  font-weight:bold;
+}
+
+.div_th_link{
+  float:left;
+  border:1px solid #000000;
+  background-color: lightgrey;
+  width: 120px;
+  height: 20px;
+  text-align: center;
+  border-width: 1px 1px 1px 0px;
+  font-weight:bold;
+}
+
+.div_td_money{
+  float:left;
+  border:1px solid #000000;
+  width: 75px;
+  height: 30px;
+  text-align: right;
+  border-width: 0px 1px 1px 0px;
+}
+
+.div_td_money10{
+  float:left;
+  border:1px solid #000000;
+  width: 85px;
+  height: 30px;
+  text-align: right;
+  border-width: 0px 1px 1px 0px;
+}
+
+.div_td_money20{
+  float:left;
+  border:1px solid #000000;
+  width: 150px;
+  height: 30px;
+  text-align: right;
+  border-width: 0px 1px 1px 0px;
+}
+.div_td_yyyy{
+  float:left;
+  border:1px solid #000000;
+  width: 65px;
+  height: 30px;
+  text-align: right;
+  border-width: 0px 1px 1px 1px;
+}
+
+.div_td_yyyymm{
+  float:left;
+  border:1px solid #000000;
+  width: 75px;
+  height: 30px;
+  text-align: center;
+  border-width: 0px 1px 1px 0px;
+}
+
+.div_td_grade{
+  float:left;
+  border:1px solid #000000;
+  width: 50px;
+  height: 30px;
+  text-align: right;
+  border-width: 0px 1px 1px 0px;
+}
+.div_td_user {
+  float:left;
+  border:1px solid #000000;
+  width: 100px;
+  height: 30px;
+  text-align: left;
+  border-width: 0px 1px 1px 0px;
+}
+
+.div_td_yyyymmdd{
+  float:left;
+  border:1px solid #000000;
+  width: 60px;
+  height: 30px;
+  text-align: right;
+  border-width: 0px 1px 1px 0px;
+}
+
+.div_td_link{
+  float:left;
+  border:1px solid #000000;
+  width: 120px;
+  height: 30px;
+  text-align: center;
+  border-width: 0px 1px 1px 0px;
+}
+

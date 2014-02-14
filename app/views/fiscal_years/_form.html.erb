@@ -1,0 +1,33 @@
+<%#
+# $Id: _form.html.erb 3297 2014-01-24 13:28:32Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+
+<%= form_for @fiscal_year, :remote => true do |f| %>
+  <%= f.hidden_field :company_id %>
+
+  <div style="margin:0px 10px 0px 0px; text-align: right;">
+    <%= f.submit %>
+  </div>
+
+  <table style="margin:5px;">
+    <tr>
+      <th>会計年度</th>
+      <th>締め状態</th>
+      <th>消費税</th>
+      <th>消費税申告</th>
+    </tr>
+    <tr>
+      <td align="center">
+        <%= @fiscal_year.fiscal_year %>
+        <%= f.hidden_field :fiscal_year %>
+      </td>
+      <td align="center"><%= f.select :closing_status, closing_status %></td>
+      <td align="center"><%= f.select :tax_management_type, tax_management_types %></td>
+      <td align="center"><%= f.select :consumption_entry_type, consumption_entry_types, :include_blank => true %></td>
+    </tr>  
+  </table>
+<% end %>

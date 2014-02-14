@@ -1,0 +1,58 @@
+<%#
+# $Id: trade_account_payable.html.erb 2950 2012-11-09 03:25:02Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 10px;">
+<p style="font-weight: bold;">買掛金（未払金　未払費用）の内訳書</p>
+
+<table width="800">
+  <tr>
+    <th rowspan="2">科目</th>
+    <th colspan="2">相手先</th>
+    <th rowspan="2">期末現在高</th>
+    <th rowspan="2" width="30%">摘要</th>
+  </tr>
+  <tr>
+    <th>名称（氏名）</th>
+    <th>所在地（住所）</th>
+  </tr>
+  
+  <% @report.details.each_with_index do |d, index| %>
+    <tr>
+      <td><%= d.account.name %></td>
+      <td><%= d.name %></td>
+      <td><%= d.address %></td>
+      <td class="amount"><%= to_amount(d.amount_at_end) %></td>
+      <td><%= d.remarks %></td>
+    </tr>
+    <% if should_display_sum(@report, index) %>
+      <tr>
+        <td>計</td>
+        <td></td>
+        <td></td>
+        <td class="amount"><%= to_amount(@report.amountSumByAccount[d.account.code]) %></td>
+        <td></td>
+      </tr>
+    <% end %>
+    <% if should_display_empty_row(@report, index) %>
+      <tr>
+        <td>&nbsp;</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+  <% end %>
+
+  <tr style="font-weight: bold;">
+    <td>計</td>
+    <td></td>
+    <td></td>
+    <td class="amount"><%= to_amount(@report.amountSum) %></td>
+    <td></td>
+  </tr>
+</table>
+</div>

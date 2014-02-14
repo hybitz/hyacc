@@ -1,0 +1,44 @@
+<%#
+# $Id: bs_monthly.html.erb 3162 2014-01-01 08:45:50Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<table id="bsContainer" border="1" style="margin: 10px;">
+  <%# 見出し %>
+  <tr>
+    <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
+    <% @finder.get_ym_range.each do |ym| %>
+    <th align="center"><%= ym %></th>
+    <% end %>
+  </tr>
+
+  <%# 資産の部 %>
+  <%= render 'line_bs_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_ASSETS %>
+
+  <%# 負債の部 %>
+  <%= render 'line_bs_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_DEBT %>
+  
+  <%# 純資産の部 %>
+  <%= render 'line_bs_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_CAPITAL %>
+  
+  <%# 負債および純資産合計 %>
+  <tr id="credit_sum" style="font-weight: bold;">
+    <td colspan="<%= colspan( 1 ) %>">
+      負債および純資産合計
+    </td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td id="credit_sum_<%= ym %>_amount" align="right"></td>
+    <% end %>
+  </tr>
+</table>
+
+<script>
+  // 負債および純資産合計の計算
+  <% @finder.get_ym_range.each do |ym| %>
+    add(ACCOUNT_CODE_DEBT + '_<%= ym %>_amount', ACCOUNT_CODE_CAPITAL + '_<%= ym %>_amount', 'credit_sum_<%= ym %>_amount');
+  <% end %>
+  
+  // マイナス金額の色を更新
+  updateAmountColor('bsContainer', /.+_amount/i);
+</script>

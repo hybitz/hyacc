@@ -1,0 +1,8 @@
+<%#
+# $Id: add_branch.js.erb 2949 2012-11-09 03:17:44Z ichy $
+# Product: hyacc
+# Copyright 2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+var tr = jQuery('#branches_employees_table tr').last();
+tr.before('<%= escape_javascript(render('branches_employee_fields', :be => @branches_employee, :index => params[:index])) %>');

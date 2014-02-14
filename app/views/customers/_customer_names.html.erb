@@ -1,0 +1,37 @@
+<%#
+# $Id: _customer_names.html.erb 2991 2013-02-15 07:27:01Z ichy $
+# Product: hyacc
+# Copyright 2009-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<table>
+  <tr>
+    <th colspan="4">時系列名称</th>
+  </tr>
+  <tr>
+    <th>正式名称</th>
+    <th>略称</th>
+    <th>有効開始日</th>
+    <th></th>
+  </tr>
+
+  <% customer.customer_names.each_with_index do |cn, i| %>
+    <%= render 'customer_name_fields', :cn => cn, :index => i %>
+  <% end %>
+
+  <tr id="add_customer_name">
+    <script>
+      var index = <%= customer.customer_names.length %>;
+      
+      function add_customer_name() {
+        index ++;
+        jQuery.get('<%= url_for :action => 'add_customer_name' %>',
+          {index: index}
+        );
+      }
+    </script>
+    <td colspan="4" align="right">
+      <a href="#" onclick="add_customer_name();">追加</a>
+    </td>
+  </tr>
+</table>

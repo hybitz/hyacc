@@ -1,0 +1,45 @@
+<%#
+# $Id: _edit.html.erb 3359 2014-02-07 07:52:56Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div id="target_account_info" style="margin: 0px 10px 0px 10px;">
+  <%# 補助科目が存在する科目の場合は補助科目名を表示する %>
+  <% if @account.sub_accounts_all.length > 0 %>
+    <%= get_sub_account_title( @account ) %>：
+    <b><%= @account.get_sub_account_by_id(@slip.my_sub_account_id).name if @slip.my_sub_account_id.to_i > 0 %></b>
+  <% else %>
+    &nbsp;
+  <% end %>
+</div>
+
+<%= form_tag({:controller=>"simple/#{@account.code}", :action => 'update'}, :id => "slip_edit_form", :enctype => "multipart/form-data", :remote => true) do %>
+  <table class="slipTable">
+    <tr>
+      <th class="yearMonth">年　月</th>
+      <th class="day">日</th>
+      <th class="remarks">摘　　要</th>
+      <th class="accountName">勘定科目</th>
+      <th class="subAccountName">補助科目</th>
+      <% if branch_mode %><th class="branchName">計上部門</th><% end %>
+      <th>増　加</th>
+      <th>減　少</th>
+  
+      <% unless action_name == 'show' %>
+        <th></th>
+      <% end %>
+    </tr>
+    <%= render 'form' %>
+  </table>
+<% end %>
+
+<% if action_name == 'show' %>
+  <script>
+    jQuery(document).ready(function() {
+      jQuery('#slip_edit_form :input').attr('disabled', true);
+    });
+  </script>
+<% end %>
+
+<%= render 'message' %>

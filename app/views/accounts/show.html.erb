@@ -1,0 +1,78 @@
+<%#
+# $Id: show.html.erb 3177 2014-01-15 03:53:43Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+
+<p>
+  <b>勘定科目コード:</b> <%= @account.code %>
+</p>
+<p>
+  <b>勘定科目名:</b> <%= @account.name %>
+</p>
+<p>
+  <b>貸借区分:</b> <%= @account.dc_type_name %>
+</p>
+<p>
+  <b>勘定科目区分:</b> <%= @account.account_type_name %>
+</p>
+<p>
+  <b>税区分:</b> <%= @account.tax_type_name %>
+</p>
+<p>
+  <b>システム必須:</b> <%= @account.account_control.system_required ? '必須' : '任意' %>
+</p>
+<p>
+  <b>取引区分:</b> <%= @account.trade_type_name %>
+</p>
+
+<% if @account.path.include? HyaccConstants::ACCOUNT_CODE_FIXED_ASSET %>
+  <p>
+    <b>減価償却可能:</b> <%= @account.depreciable ? 'はい' : 'いいえ' %>
+  </p>
+  <% if @account.depreciable %>
+  <p>
+    <b>減価償却方法:</b> <%= @account.depreciation_method_name %>
+  </p>
+  <% end %>
+<% end %>
+
+<p>
+  <b>決算書科目:</b> <%= @account.is_settlement_report_account ? '出力対象' : '出力対象外' %>
+</p>
+<p>
+  <b>仕訳登録可能:</b> <%= @account.journalizable ? 'はい' : 'いいえ' %>
+</p>
+<% if @account.is_debt %>
+<p>
+  <b>買掛金科目:</b> <%= @account.is_trade_account_payable ? 'はい' : 'いいえ' %>
+</p>
+<% end %>
+<% if @account.is_capital %>
+<p>
+  <b>利益積立金科目:</b> <%= @account.is_revenue_reserve_account ? 'はい' : 'いいえ' %>
+</p>
+<% end %>
+<p>
+  <b>登録日時:</b> <%= format_datetime( @account.created_on ) %>
+</p>
+<p>
+  <b>更新日時:</b> <%= format_datetime( @account.updated_on ) %>
+</p>
+<% if @account.journalizable %>
+<p>
+  <b>補助科目区分:</b> <%= @account.sub_account_type_name %>
+</p>
+<% end %>
+
+<%= render 'show_sub_accounts' %>
+
+<div style="margin:10px;">
+  <%= link_to '編集', edit_account_path(@account) unless @account.deleted %>
+  <% unless @account.deleted or @account.account_control.system_required %>
+    |
+    <%= link_to '削除', account_path(@account), :confirm => '削除します。よろしいですか？', :method => :delete %>
+  <% end %>
+</div>

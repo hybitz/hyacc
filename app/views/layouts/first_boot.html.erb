@@ -1,0 +1,20 @@
+<%#
+# $Id: first_boot.html.erb 3185 2014-01-21 11:55:28Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render_meta %>
+  <title>Hyaccへようこそ</title>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+</head>
+<body onload="document.getElementById('c_name').focus();">
+
+<%= yield %>
+
+</body>
+</html>

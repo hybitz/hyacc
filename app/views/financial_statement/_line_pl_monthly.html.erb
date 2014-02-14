@@ -1,0 +1,42 @@
+<%#
+# $Id: _line_pl_monthly.html.erb 3163 2014-01-01 09:03:01Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%# 非表示の科目はスキップする %>
+<% return unless @sum[account_code] %>
+<% return unless is_visible_on_pl( @sum[account_code][:account], @finder.branch_id ) %>
+
+<tr id="<%= account_code %>" style="<%= defined?(style) ? style : '' %>">
+  <% (@sum[account_code][:account].node_level - 2).times{ |n| %>
+    <td width="20">&nbsp;</td>
+  <% } %>
+  
+  <td colspan="<%= colspan( @sum[account_code][:account].node_level ) %>">
+    <%= @sum[account_code][:account].name %>
+  </td>
+
+  <% @sum[account_code][:ym].each do |ym| %>
+  <td id="<%= account_code + '_' + ym[:ym].to_s %>" align="right">
+    <%= link_to_if @sum[account_code][:account].journalizable,
+       to_amount( ym[:amount], :show_zero=>true ),
+       { :controller=>'ledger',
+         'finder[fiscal_year]'=>@finder.fiscal_year,
+         'finder[account_id]'=>@sum[account_code][:account].id,
+         'finder[branch_id]'=>@finder.branch_id,
+         :ym=>ym[:ym],
+       },
+       { :style=>'text-decoration: none;' }
+    %>
+  </td>
+  <% end %>
+ 
+  <td id="<%= account_code + '_sum' %>" align="right">
+    <script>
+      jQuery(document).ready(function() {
+        calc_sum('<%= account_code %>');
+      });
+    </script>
+  </td>
+</tr>

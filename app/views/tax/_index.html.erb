@@ -1,0 +1,68 @@
+<%#
+# $Id: _index.html.erb 3176 2014-01-11 00:41:10Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<table style="margin: 10px;">
+  <tr>
+    <th>年月</th>
+    <th>日</th>
+    <th>摘要</th>
+    <th>伝票金額</th>
+    <th>勘定科目</th>
+    <th>補助科目</th>
+    <th>計上部門</th>
+    <th>借方金額</th>
+    <th>貸方金額</th>
+    <th></th>
+    <th></th>
+  </tr>
+  
+  <% unless @journal_headers.present? %>
+    <tr>
+      <td colspan="11">該当する伝票はありません。</td>
+    </tr>
+  <% else %>
+    <% @journal_headers.each do |jh| %>
+    <tr>
+      <% target_account = find_target_account(jh) %>
+      <td><%= jh.ym %></td>
+      <td><%= jh.day %></td>
+      <td><%= jh.remarks %></td>
+      <td align="right"><%= to_amount(jh.amount) %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>
+        <%= link_to_dialog '編集', {:controller=>:journal, :action=>:edit, :id=>jh.id}, {:title=>'振替伝票　編集', :dimensions=>[920, 480]} %>
+      </td>
+      <td>
+        <% checked = jh.tax_admin_info.nil? ? false : jh.tax_admin_info.checked %>
+        <% if checked %>
+          確認済
+        <% else %>
+          <%= link_to '確認', url_for(:action=>:update_checked, :id=>jh.id), :remote=>true %>
+        <% end %>
+      </td>
+    </tr>
+      <% jh.journal_details.each do |jd| %>
+      <tr>
+        <td></td>
+        <td></td>
+        <td><%= '　　　' << jd.note.to_s %></td>
+        <td></td>
+        <td><%= jd.account_name %></td>
+        <td><%= jd.sub_account_name %></td>
+        <td><%= jd.branch_name %></td>
+        <td align="right"><%= to_amount(jd.dc_type == HyaccConstants::DC_TYPE_DEBIT ? jd.amount : nil) %></td>
+        <td align="right"><%= to_amount(jd.dc_type == HyaccConstants::DC_TYPE_CREDIT ? jd.amount : nil) %></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <% end %>
+    <% end %>
+  <% end %>
+</table>

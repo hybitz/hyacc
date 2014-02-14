@@ -1,0 +1,41 @@
+# -*- encoding : utf-8 -*-
+#
+# $Id: fiscal_year_test.rb 2491 2011-03-31 11:18:25Z ichy $
+# Product: hyacc
+# Copyright 2009-2011 by Hybitz.co.ltd
+# ALL Rights Reserved.
+#
+require 'test_helper'
+
+class FiscalYearTest < ActiveRecord::TestCase
+
+  def test_create
+    assert_not_nil FiscalYear.find_by_company_id_and_fiscal_year(3, 2011)
+    assert_raise(ActiveRecord::RecordNotUnique) {
+      FiscalYear.new(:company_id=>3, :fiscal_year=>2011).save(:validate=>false)
+    }
+  end
+  
+  def test_validates_uniqueness_of
+    assert_not_nil FiscalYear.find_by_company_id_and_fiscal_year(3, 2011)
+    assert_raise(ActiveRecord::RecordInvalid) {
+      FiscalYear.new(:company_id=>3, :fiscal_year=>2011).save!
+    }
+  end
+  
+  def test_year_month_range
+    # 初年度は9月開始
+    fy = FiscalYear.find(5)
+    range = fy.year_month_range
+    assert_equal 7, range.size
+    assert_equal 200609, range[0]
+    assert_equal 200703, range[6]
+    
+    # 翌年度以降は年間12ヶ月
+    fy = FiscalYear.find(6)
+    range = fy.year_month_range
+    assert_equal 12, range.size
+    assert_equal 200704, range[0]
+    assert_equal 200803, range[11]
+  end
+end

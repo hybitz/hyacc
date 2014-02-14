@@ -1,0 +1,45 @@
+<%#
+# $Id: index.html.erb 3256 2014-01-22 15:01:09Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= render 'common/search' if branch_mode %>
+<%= flash_notice %>
+
+<% if @careers.present? %>
+  <table>
+    <tr>
+      <th>期間</th>
+      <th>氏名</th>
+      <th>取引先</th>
+      <th>プロジェクト名</th>
+      <th colspan="2"></th>
+    </tr>
+    
+    <% @careers.each do |c| %>
+      <tr>
+        <td><%= format_date(c.start_from) %> ～ <%= format_date(c.end_to) %></td>
+        <td><%= c.employee.full_name %></td>
+        <td><%= c.customer_name %></td>
+        <td><%= c.project_name %></td>
+        <td><%= link_to_dialog '編集', edit_career_path(c) %></td>
+        <td><%= link_to '削除', career_path(c), :confirm=>'削除します。よろしいですか？', :method=>:delete %></td>
+      </tr>
+    <% end %>
+  </table>
+  <%= will_paginate @careers %>
+<% elsif @careers %>
+  <div>該当するデータが見つかりませんでした。</div>
+<% end %>
+
+<div style="margin: 10px;">
+  <% if @customers.present? %>
+    <%= link_to_dialog '追加', new_career_path %>
+  <% else %>
+    業務経歴を追加するには受注先の登録が必要です。
+    <div>
+      <%= link_to '取引先管理へ', :controller=>'customers' %>
+    </div>
+  <% end %>
+</div>

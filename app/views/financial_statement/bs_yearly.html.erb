@@ -1,0 +1,95 @@
+<%#
+# $Id: bs_yearly.html.erb 3162 2014-01-01 08:45:50Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  // 構成比の計算
+  function updateRatio( id, totalId ) {
+    var elem = getTableCellElement( id );
+    if (elem == null) {
+      return;
+    }
+
+    var totalAmount = getValue( getTableCellElement( totalId + '_amount' ) );
+    
+    for ( var i = 0; i < elem.childNodes.length; i ++ ) {
+      var child = elem.childNodes[i];
+      updateRatio( child, totalId );
+    }
+    
+    if ( elem.id == null ) return;
+    else if ( elem.id.match(/.+_amount/i) != null ) {
+      var amount = getValue( elem );
+      var ratio = amount / totalAmount;
+      ratio = parseInt(ratio * 10000 ) / 100;
+      
+      var ratioTd = getTableCellElement( elem.id.substring( 0, elem.id.length - 7 ) + '_ratio');
+      ratioTd.innerHTML = ratio;
+    }
+  }
+</script>
+
+<table id="bsContainer">
+  <tr>
+    <td valign="top">
+      <table id="debit_table" border="1">
+        <%# 見出し %>
+        <tr>
+          <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
+          <th align="center">金額</th>
+          <th align="center">構成比（％）</th>
+        </tr>
+      
+        <%# 資産の部 %>
+        <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_ASSETS][:account] %>
+      </table>
+    </td>
+    <td valign="top">
+      <table id="credit_table" border="1">
+        <%# 見出し %>
+        <tr>
+          <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
+          <th align="center">金額</th>
+          <th align="center">構成比（％）</th>
+        </tr>
+      
+        <%# 負債の部 %>
+        <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_DEBT][:account] %>
+        
+        <%# 純資産の部 %>
+        <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_CAPITAL][:account] %>
+        
+        <%# 負債および純資産合計 %>
+        <tr id="credit_sum" style="font-weight: bold;">
+          <td colspan="<%= colspan( 1 ) %>">
+            負債および純資産合計
+          </td>
+          <td id="credit_sum_amount" align="right"></td>
+          <td id="credit_sum_ratio" align="right"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<%# 貸方の合計の調整（利益余剰金の反映）%>
+<script>
+  // 負債および純資産合計
+  add(ACCOUNT_CODE_DEBT + '_amount', ACCOUNT_CODE_CAPITAL + '_amount', 'credit_sum_amount');
+</script>
+
+<%# 構成比の計算 %>
+<script>
+  updateRatio('debit_table', ACCOUNT_CODE_ASSETS);
+  updateRatio('credit_table', 'credit_sum');
+</script>
+
+<%# マイナス金額の色を更新 %>
+<script>
+  updateAmountColor('debit_table', /.+_amount/i);
+  updateAmountColor('debit_table', /.+_ratio/i);
+  updateAmountColor('credit_table', /.+_amount/i);
+  updateAmountColor('credit_table', /.+_ratio/i);
+</script>

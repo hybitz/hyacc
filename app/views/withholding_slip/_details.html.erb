@@ -1,0 +1,163 @@
+<%#
+# $Id: _details.html.erb 3132 2013-08-16 05:46:04Z hiro $
+# Product: hyacc
+# Copyright 2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<br />
+<div  style="margin: 10px;">
+    <table class="none_border" width="900">
+      <tr>
+        <td class="none_border" align="center"><b><%= Gengou.to_wareki(@data.fiscal_year) %>年分　給与所得の源泉徴収</b></td>
+      </tr>
+    </table>
+    <br/>
+    <table width="900">
+    	<tr>
+    		<td colspan="2" rowspan="3" style="background-color: lightgrey;">支払いを受ける者</td>
+    		<td colspan="2" rowspan="3" style="background-color: lightgrey;">住所</td>
+    		<td colspan="10" rowspan="3"><%= @data.employee.address %></td>
+    		<td colspan="1" rowspan="3" style="background-color: lightgrey;">氏名</td>
+    		<td colspan="10">（受給者番号）</td>
+  		</tr>
+  		<tr>
+  			<td colspan="10">（フリガナ）<%=  %></td>
+  		</tr>
+  		<tr>
+  			<td  colspan="10">（役職名）<%=  %><br /><%= [@data.employee.last_name, @data.employee.first_name].join("　") %></td>
+  		</tr>
+    	<tr style="background-color: lightgrey;">
+    		<td colspan="5">種別</td>
+    		<td colspan="5">支払金額</td>
+    		<td colspan="5">給与所得控除後の金額</td>
+    		<td colspan="5">所得控除の額の合計</td>
+    		<td colspan="5">源泉徴収税額</td>
+  		</tr>
+    	<tr>
+    		<td colspan="5">給与</td>
+    		<td colspan="5"><%= number_to_currency(@data.total_salary, :format=>"%n") %></td>
+    		<td colspan="5"><%= number_to_currency(@data.after_exemption, :format=>"%n") %></td>
+    		<td colspan="5"><%= number_to_currency(@data.exemption, :format=>"%n") %></td>
+    		<td colspan="5"><%= number_to_currency(@data.withholding_tax, :format=>"%n") %></td>
+  		</tr>
+    	<tr style="background-color: lightgrey;">
+    		<td colspan="5">控除対象配偶者の有無等</td>
+    		<td colspan="2" rowspan="2">配偶者特別控除の額</td>
+    		<td colspan="7">控除対象扶養親族の数</td>
+    		<td colspan="3">障害者の数</td>
+    		<td colspan="2" rowspan="2">社会保険料等の金額</td>
+    		<td colspan="2" rowspan="2">生命保険料の控除額</td>
+    		<td colspan="2" rowspan="2">地震保険料の控除額</td>
+    		<td colspan="2" rowspan="2">住宅借入金等特別控除の額</td>
+  		</tr>
+    	<tr style="background-color: lightgrey;">
+    		<td>有</td>
+    		<td>無</td>
+    		<td>従有</td>
+    		<td>従無</td>
+    		<td>老人</td>
+    		<td colspan="2">特定</td>
+    		<td colspan="3">老人</td>
+    		<td colspan="2">その他</td>
+    		<td colspan="2">特別</td>
+    		<td>その他</td>
+  		</tr>
+    	<tr>
+    		<td><br></td>
+    		<td>★</td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td colspan="2"><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td width="15">-</td>
+    		<td><br></td>
+    		<td colspan="2"><%= number_to_currency(@data.social_insurance, :format=>"%n") %></td>
+    		<td colspan="2"><%= number_to_currency(@data.life_insurance_deduction, :format=>"%n") %></td>
+    		<td colspan="2">0</td>
+    		<td colspan="2">0</td>
+  		</tr>
+    	<tr>
+    		<td colspan="19" rowspan="3">摘要</td>
+    		<td colspan="3" style="background-color: lightgrey;">配偶者の合計</td>
+    		<td colspan="3">XXXXXXXXX円</td>
+  		</tr>
+    	<tr>
+    		<td colspan="3" style="background-color: lightgrey;">個人年金保険料の金額</td>
+    		<td colspan="3">XXXXXXXXX円</td>
+  		</tr>
+    	<tr>
+    		<td colspan="3" style="background-color: lightgrey;">旧長期損害保険料の金額</td>
+    		<td colspan="3">XXXXXXXXX円</td>
+  		</tr>
+    	<tr style="background-color: lightgrey;">
+    		<td colspan="2" rowspan="2">16歳未満</td>
+    		<td rowspan="2">未成年</td>
+    		<td rowspan="2">外国人</td>
+    		<td rowspan="2">死亡</td>
+    		<td rowspan="2">災害</td>
+    		<td rowspan="2">乙</td>
+    		<td colspan="2">本人が障害者</td>
+    		<td colspan="2">寡婦</td>
+    		<td rowspan="2">寡夫</td>
+    		<td rowspan="2">学生</td>
+    		<td colspan="6">中途就・退職</td>
+    		<td colspan="6">受給者絵生年月日</td>
+  		</tr>
+    	<tr style="background-color: lightgrey;">
+    		<td>特別</td>
+    		<td>その他</td>
+    		<td>一般</td>
+    		<td>その他</td>
+    		<td>就職</td>
+    		<td>退職</td>
+    		<td colspan="2">年</td>
+    		<td>月</td>
+    		<td>日</td>
+    		<td colspan="2">元号</td>
+    		<td colspan="2">年</td>
+    		<td colspan="1">月</td>
+    		<td colspan="1">日</td>
+  		</tr>
+    	<tr>
+    		<td colspan="2"><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td colspan="2"><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td colspan="2"><br></td>
+    		<td colspan="2"><br></td>
+    		<td><br></td>
+    		<td><br></td>
+  		</tr>
+    	<tr>
+    		<td rowspan="2" colspan="2" style="background-color: lightgrey;">支払者</td>
+    		<td colspan="3" style="background-color: lightgrey;">住所又は所在地</td>
+    		<td colspan="20"><%= @data.head_business_office.address1 + @data.head_business_office.address2 %></td>
+  		</tr>
+    	<tr>
+    		<td colspan="3" style="background-color: lightgrey;">氏名又は所在地</td>
+    		<td colspan="13"><%= @data.company.name %></td>
+    		<td colspan="7">（電話）<%= @data.head_business_office.tel %></td>
+  		</tr>
+    </table>
+</div>

@@ -1,0 +1,30 @@
+<%#
+# $Id: index.html.erb 3256 2014-01-22 15:01:09Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= render 'common/search' %>
+<%= flash_notice %>
+
+<table>
+  <tr>
+    <th>氏名</th>
+    <th>所属部門</th>
+    <th>業務経歴</th>
+    <th>状態</th>
+    <th colspan="3"></th>
+  </tr>
+  <% @employees.each do |e| %>
+    <tr>
+      <td><%= e.full_name %></td>
+      <td><%= e.default_branch.name %></td>
+      <td align="right"><a href="<%= url_for :controller=>:career_statement, :action=>:show, :id=>e %>"><%= e.years_of_career %>年</a></td>
+      <td><%= e.deleted_name %></td>
+      <td><%= link_to_dialog '修正', {:action=>:edit, :id=>e.id}, {:dimensions=>[800, 600]} %></td>
+      <td><%= link_to '削除', { :action=>'destroy', :id=>e }, :confirm => '削除します。よろしいですか？', :method=>:post %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%= will_paginate @employees %>

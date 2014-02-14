@@ -1,0 +1,23 @@
+<%#
+# $Id: _add.html.erb 2899 2012-08-31 02:38:30Z ichy $
+# Product: hyacc
+# Copyright 2009-2012 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<tr id="add_bank_office">
+  <td colspan="4" align="right">
+    <script>
+      function add_bank_office() {
+        var index = jQuery('#add_bank_office_index');
+        jQuery.get('<%= add_bank_office_bank_offices_path %>',
+          { index: index.val() },
+          function() {
+            index.val(parseInt(index.val()) + 1);
+          }
+        );
+      }
+    </script>
+    <input type="hidden" id="add_bank_office_index" value="<%= @bank.bank_offices.size %>" />
+    <a href="javascript:add_bank_office();">追加</a>
+  </td>
+</tr>

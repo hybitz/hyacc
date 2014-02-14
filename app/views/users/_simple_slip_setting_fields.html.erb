@@ -1,0 +1,17 @@
+<%#
+# $Id: _simple_slip_setting_fields.html.erb 3293 2014-01-23 15:08:24Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= fields_for "user[simple_slip_settings_attributes]", sss, :index => index do |f| %>
+  <tr>
+    <td><%= f.check_box '_destroy' %></td>
+    <td>
+        <%= f.hidden_field :id %>
+        <%= f.hidden_field :user_id %>
+        <%= f.select :account_id, to_options(@accounts) %>
+    </td>
+    <td><%= f.text_field :shortcut_key, :maxlength => 6 %></td>
+  </tr>
+<% end %>

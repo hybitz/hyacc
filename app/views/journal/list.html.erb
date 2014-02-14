@@ -1,0 +1,43 @@
+<%#
+# $Id: list.html.erb 3362 2014-02-07 08:10:27Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= render 'search' %>
+<%= flash_notice %>
+
+<table id="journals_table" style="margin: 10px;">
+  <tr>
+    <th>年月</th>
+    <th>日</th>
+    <th>伝票区分</th>
+    <th>摘要</th>
+    <th>金額</th>
+    <th></th>
+  </tr>
+  
+  <% @journal_headers.each do |jh| %>
+    <tr class="hover">
+      <td class="yearMonth"><%= jh.ym %></td>
+      <td class="day"><%= jh.day %></td>
+      <td class="slipType"><%= jh.slip_type_name %></td>
+      <td class="remarks"><%= jh.remarks %></td>
+      <td class="amount"><%= to_amount( jh.amount ) %></td>
+      <td>
+        <%= link_to '参照', {:action => :show, :id => jh}, :remote => true %>
+        <%= link_to '編集', {:action => :edit, :id => jh}, :remote => true if can_edit( jh ) %>
+        <% if can_delete( jh ) %>
+          <%= link_to '削除', {:action => :destroy, :id => jh, :lock_version => jh.lock_version},
+                :confirm => '伝票を削除します。よろしいですか？', :method => :post %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<div style="margin: 10px;">
+  <%= will_paginate @journal_headers, :style=>'display: inline;' %>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <%= link_to '追加', :action => 'new', :remote => true %>
+</div>

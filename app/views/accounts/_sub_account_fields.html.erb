@@ -1,0 +1,15 @@
+<%= fields_for "sub_accounts[#{index}]", sub_account do |f| %>
+  <tr>
+    <td>
+      <%= f.hidden_field :id %>
+      <%= f.hidden_field :deleted %>
+      <%= f.text_field :code %>
+    </td>
+    <td>
+      <%= f.text_field :name %>
+    </td>
+    <td>
+      <%= f.select :deleted, deleted_types %>
+    </td>
+  </tr>
+<% end %>

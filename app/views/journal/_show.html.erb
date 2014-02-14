@@ -1,0 +1,68 @@
+<%#
+# $Id: _show.html.erb 3298 2014-01-24 15:36:58Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= render 'common/journal_js' %>
+
+<form id="journal_show_form" action="#">
+  <div style="margin:5px;">
+    <table>
+      <tr>
+        <th>年月</th>
+        <th>日</th>
+        <th>伝票区分</th>
+        <th>摘要</th>
+        <th>借方金額</th>
+        <th>貸方金額</th>
+      </tr>
+    
+      <tr>
+        <td><%= @journal_header.ym %></td>
+        <td><%= @journal_header.day %></td>
+        <td class="slipType"><%= @journal_header.slip_type_name %></td>
+        <td><%= @journal_header.remarks %></td>
+        <td class="amount"><%= to_amount(@journal_header.amount) %></td>
+        <td class="amount"><%= to_amount(@journal_header.amount) %></td>
+      </tr>
+    </table>
+    
+    <% if @journal_header.receipt_path %>
+      <table style="margin-top: 10px;">
+        <tr>
+          <th>領収書</th>
+          <td>
+            <div id="receipt_status">
+              （<%= link_to"#{File::basename(@journal_header.receipt_path)}", {:action=>:download_receipt, :id=>@journal_header} %>）
+            </div>
+        </tr>
+      </table>
+    <% end %>
+  
+    <table id="journal_details" style="margin-top: 10px;">
+      <tr>
+        <th>貸借</th>
+        <th>勘定科目</th>
+        <th>補助科目</th>
+        <% if branch_mode %><th>計上部門</th><% end %>
+        <th>金額</th>
+        <th colspan="2">消費税</th>
+        <th>合計</th>
+        <th>
+          すべて<a id="flip_details_link" href="#" onclick="flipDetails(true);">表示</a>／<a id="flip_details_link" href="#" onclick="flipDetails(false);">隠す</a>
+        </th>
+      </tr>
+      
+      <% @journal_header.normal_details.each do |jd| %>
+        <%= render 'show_detail_line', :jd => jd %>
+      <% end %>
+    </table>
+  </div>
+
+  <% if @copy_link %>
+    <div style="margin-top: 10px;">
+      <%= link_to_dialog 'コピーを新規登録', {:action=>:new_from_copy, :id=>@journal_header}, :title=> '振替伝票　追加' %>
+    </div>
+  <% end %>
+</form>

@@ -1,0 +1,27 @@
+<%#
+# $Id: inhabitant_taxes.html.erb 3180 2014-01-18 03:53:23Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render_meta %>
+  <%= render_title %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+  <%= render 'common/jquery_config' %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+
+<%= render 'common/header' %>
+<%= render 'common/menu' %>
+
+<p style="color: green"><%= flash[:notice] %></p>
+
+<%= yield %>
+
+</body>
+</html>

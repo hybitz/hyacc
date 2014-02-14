@@ -1,0 +1,46 @@
+<%#
+# $Id: _show.html.erb 3149 2013-11-01 07:46:25Z ichy $
+# Product: hyacc
+# Copyright 2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+
+<table>
+  <tr>
+    <th>資産コード</td>
+    <th colspan="2">資産名</th>
+    <th>取得価額</th>
+    <th>勘定科目</th>
+    <th>補助科目</th>
+    <% if branch_mode %><th>計上部門</th><% end %>
+  </tr>
+  <tr>
+    <td align="center">
+      <%= hidden_field 'asset', 'lock_version' %>
+      <%= @asset.code %>
+    </td>
+    <td colspan="2"><%= @asset.name %></td>
+    <td class="amount"><%= to_amount(@asset.amount) %></td>
+    <td><%= @asset.account.name %></td>
+    <td><%= @asset.sub_account.name if @asset.sub_account %></td>
+    <% if branch_mode %><td><%= @asset.branch.name %></td><% end %>
+  </tr>
+  <tr>
+    <th>取得年月日</th>
+    <th>償却方法</th>
+    <th>耐用年数</th>
+    <th>償却限度額</th>
+    <th colspan="3">摘要</th>
+  </tr>
+  <tr>
+    <td><%= render_ymd(@asset) %></td>
+    <td><%= @asset.depreciation_method_name %></td>
+    <td align="center"><%= @asset.durable_years %>年</td>
+    <td class="amount"><%= @asset.depreciation_limit %></td>
+    <td colspan="<%= colspan_of_asset_remarks %>"><%= @asset.remarks %></td>
+  </tr>
+</table>
+
+<%= render 'show_depreciations' %>
+

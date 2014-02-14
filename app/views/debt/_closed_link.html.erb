@@ -1,0 +1,7 @@
+<%#
+# $Id: _closed_link.html.erb 3339 2014-02-01 02:09:34Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= link_to '精算済み', {:controller => 'journal', :action => 'show', :id => closed_id, :copy_link => 'false'}, :remote => true %>

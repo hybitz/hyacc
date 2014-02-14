@@ -1,0 +1,46 @@
+<%#
+# $Id: _show_depreciations.html.erb 3150 2013-11-01 08:06:20Z ichy $
+# Product: hyacc
+# Copyright 2009-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<% if @asset.has_depreciations? %>
+  <script>
+    jQuery('#depreciations_link').click(function(){
+      if (jQuery(this).text() == '償却情報を表示') {
+        jQuery(this).text('償却情報を非表示');
+       }
+      else {
+        jQuery(this).text('償却情報を表示');
+       }
+      jQuery('#depreciations').toggle();
+    });
+  </script>
+
+  <div style="margin:10px 0px 0px 0px;">
+    <a id="depreciations_link" href="#">償却情報を表示</a>
+  </div>
+  <div id="depreciations" style="margin: 10px 0px 0px 0px; display: none;">
+    <table>
+      <tr>
+        <th>年数</th>
+        <th>年度</th>
+        <th>期首簿価</th>
+        <th>償却額</th>
+        <th>期末簿価</th>
+        <th>償却状況</th>
+      </tr>
+      
+      <% @asset.depreciations.order(:fiscal_year).each_with_index do |d, i| %>
+        <tr>
+          <td><%= i+1 %>年目</td>
+          <td><%= d.fiscal_year %></td>
+          <td class="amount"><%= to_amount(d.amount_at_start) %></td>
+          <td class="amount"><%= to_amount(d.amount_depreciated) %></td>
+          <td class="amount"><%= to_amount(d.amount_at_end, :show_zero => true) %></td>
+          <td align="center"><%= d.depreciated ? '償却済' : '償却予定' %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+<% end %>

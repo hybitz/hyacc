@@ -1,0 +1,12 @@
+<%#
+# $Id: _add_detail_line.html.erb 3359 2014-02-07 07:52:56Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<tr id="add_detail">
+  <td colspan="<%= branch_mode ? 8 : 7 %>"></td>
+  <td align="center" colspan="2">
+    <%= link_to '明細追加', {:action => 'add_detail', :detail_no => @detail_no}, :remote => true %>
+  </td>
+</tr>

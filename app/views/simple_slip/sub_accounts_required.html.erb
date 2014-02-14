@@ -1,0 +1,37 @@
+<%#
+# $Id: sub_accounts_required.html.erb 3303 2014-01-26 08:47:36Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin:20px;">
+  <div>
+    <%= @account.sub_account_type_name %>が登録されていません。
+  </div>
+  
+  <div>
+    <% if @account.has_bank_accounts %>
+    <div>
+      <%= link_to '金融口座管理へ', bank_accounts_path %>
+    </div>
+    <% end %>
+    
+    <% if @account.has_customers or @account.has_order_entry or @account.has_order_placement %>
+    <div>
+      <%= link_to '取引先管理へ', customers_path %>
+    </div>
+    <% end %>
+    
+    <% if @account.has_employees %>
+    <div>
+      <%= link_to 'ユーザ管理へ', users_path %>
+    </div>
+    <% end %>
+    
+    <% if @account.has_rents %>
+    <div>
+      <%= link_to '地代家賃管理へ', rents_path %>
+    </div>
+    <% end %>
+  </div>
+</div>

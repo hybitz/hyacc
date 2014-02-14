@@ -1,0 +1,17 @@
+<%#
+# $Id: new.html.erb 2984 2013-02-11 05:42:27Z ichy $
+# Product: hyacc
+# Copyright 2009-2013 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<div style="margin: 20px;">
+<%= error_messages_for :withheld_tax %>
+<%= form_tag( {:action => "upload"},{ :multipart => true }) do -%>
+<p>アップロードファイル<br>
+  <%= file_field_tag(:file) %>
+</p>
+<%= submit_tag("アップロード") %>
+<% end -%>
+
+<%= link_to '戻る', withheld_taxes_path %>
+</div>

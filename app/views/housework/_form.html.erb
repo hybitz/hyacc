@@ -1,0 +1,59 @@
+<%#
+# $Id: _form.html.erb 3358 2014-02-07 05:27:26Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<script>
+  jQuery(document).ready(function() {
+    jQuery('#hwd_account_id').change(function() {
+      var url = '<%= url_for :controller=>'master_data', :action=>'get_sub_accounts' %>';
+      var params = {
+        account_id: jQuery(this).val(),
+        format: 'json',
+        order: 'code'
+       };
+     
+      jQuery.get(url, params, function(data) {
+        replace_options('#hwd_sub_account_id', data);
+      });
+    });
+  });
+</script>
+
+<%= flash_notice %>
+
+<%= form_tag({:action => @hwd.new_record? ? 'create' : 'update', :id => @hwd.id}, :remote => true) do %>
+  <div style="margin:0px 10px 0px 0px; text-align: right;">
+    <%= submit_tag button_name %>
+  </div>
+  
+  <%= hidden_field :hwd, :housework_id %>
+  
+  <table style="margin:5px;">
+    <tr>
+      <th>勘定科目</th>
+      <th>補助科目</th>
+      <th>事業費率</th>
+    </tr>
+    <tr>
+      <td align="center">
+        <% if @hwd.id %>
+         <%= @hwd.account.name %>
+        <% else %>
+         <%= h_account_select('hwd', 'account_id') %>
+         <% end %>
+      </td>
+      <td align="center">
+        <% if @hwd.id %>
+         <%= @hwd.sub_account.name if @hwd.sub_account %>
+        <% else %>
+         <%= h_sub_account_select('hwd') %>
+        <% end %>
+      </td>
+      <td align="center">
+        <%= text_field :hwd, :business_ratio, :maxlength=>6, :size=>4 %>
+      </td>
+    </tr>  
+  </table>
+<% end %>

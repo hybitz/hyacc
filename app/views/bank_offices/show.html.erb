@@ -1,0 +1,20 @@
+<p>
+  <b>Bank id:</b>
+  <%= @bank_office.bank_id %>
+</p>
+<p>
+  <b>Name:</b>
+  <%= @bank_office.name %>
+</p>
+<p>
+  <b>Code:</b>
+  <%= @bank_office.code %>
+</p>
+<p>
+  <b>Deleted:</b>
+  <%= @bank_office.deleted %>
+</p>
+
+
+<%= link_to 'Edit', edit_bank_office_path(@bank_office) %> |
+<%= link_to 'Back', bank_offices_path %>

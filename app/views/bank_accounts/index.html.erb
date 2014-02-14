@@ -1,0 +1,38 @@
+<%#
+# $Id: index.html.erb 3304 2014-01-26 13:02:26Z ichy $
+# Product: hyacc
+# Copyright 2009-2014 by Hybitz.co.ltd
+# ALL Rights Reserved.
+%>
+<%= flash_notice %>
+
+<table>
+  <tr>
+    <th>金融機関</th>
+    <th>支店</th>
+    <th>区分</th>
+    <th>口座番号</th>
+    <th>口座名</th>
+    <th>口座名義</th>
+    <th></th>
+  </tr>
+
+  <% @bank_accounts.each do |ba| %>
+    <tr>
+      <td align="center"><%= ba.bank_name %></td>
+      <td align="center"><%= ba.bank_office_name %></td>
+      <td align="center"><%= ba.financial_account_type_name %></td>
+      <td align="center"><%= ba.code %></td>
+      <td align="center"><%= ba.name %></td>
+      <td align="center"><%= ba.holder_name %></td>
+      <td>
+          <%= link_to '編集', edit_bank_account_path(ba), :remote => true %>
+          <%= link_to '削除', bank_account_path(ba), :confirm => '削除します。よろしいですか？', :method => :delete %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<div style="margin: 10px;">
+  <%= link_to '追加', new_bank_account_path, :remote => true %>
+</div>

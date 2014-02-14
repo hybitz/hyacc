@@ -1,6 +1,5 @@
 # coding: UTF-8
 #
-# $Id: asset_controller.rb 3323 2014-01-29 03:44:48Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -8,11 +7,11 @@
 class AssetController < Base::HyaccController
   include Depreciation::DepreciationUtil
 
-  view_attribute :title=>'資産管理'
-  view_attribute :finder, :class=>AssetFinder, :only=>:index
-  view_attribute :ym_list, :only=>:index
-  view_attribute :branches, :only=>:index
-  view_attribute :accounts, :only=>:index,
+  view_attribute :title => '資産管理'
+  view_attribute :finder, :class => AssetFinder, :only=>:index
+  view_attribute :ym_list, :only => :index
+  view_attribute :branches, :only => :index
+  view_attribute :accounts, :only => :index,
     :conditions=>['account_type=? and trade_type=? and deleted=? and depreciable=?',
       ACCOUNT_TYPE_ASSET, TRADE_TYPE_EXTERNAL, false, true]
 

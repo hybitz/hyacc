@@ -1,11 +1,10 @@
 <%#
-# $Id: _list.html.erb 3296 2014-01-24 04:00:10Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 
-<table>
+<table class="banks">
   <tr>
     <th><%= Bank.label :code %></th>
     <th><%= Bank.label :name %></th>
@@ -16,19 +15,16 @@
   </tr>
 
   <% @banks.each do |bank| %>
-  <tr>
-    <td><%= bank.code %></td>
-    <td><%= bank.name %></td>
-    <td align="center"><%= HyaccConstants::DELETED_TYPES[bank.deleted] %></td>
-    <td><%= link_to '参照', bank_path(bank), :remote => true %></td>
-    <td><%= link_to '編集', edit_bank_path(bank), :remote => true %></td>
-    <td><%= link_to '削除', bank, :confirm => '削除します。よろしいですか？', :method => :delete %></td>
-  </tr>
+    <tr class="hover">
+      <td><%= bank.code %></td>
+      <td><%= bank.name %></td>
+      <td align="center"><%= HyaccConstants::DELETED_TYPES[bank.deleted] %></td>
+      <td><%= link_to '参照', bank_path(bank), :remote => true %></td>
+      <td><%= link_to '編集', edit_bank_path(bank), :remote => true %></td>
+      <td><%= link_to '削除', bank, :confirm => '削除します。よろしいですか？', :method => :delete %></td>
+    </tr>
   <% end %>
 </table>
 
-<div style="margin: 10px;">
-  <%= will_paginate @banks, :style=>'display: inline;' %>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <%= link_to '追加', new_bank_path, :remote => true %>
-</div>
+<%= will_paginate @banks if @banks.present? %>
+<%= link_to '追加', new_bank_path, :class => 'add', :remote => true %>

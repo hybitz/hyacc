@@ -1,5 +1,4 @@
 <%#
-# $Id: _index.html.erb 3323 2014-01-29 03:44:48Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -17,7 +16,7 @@
 
 <div id="notice"><%= flash_notice_in_span %></div>
 
-<table id="asset_container" style="margin: 10px;">
+<table id="asset_container">
   <tr>
     <th>資産コード</th>
     <th>資産名</th>
@@ -35,7 +34,7 @@
   </tr>
 
   <% @assets.each do |asset| %>
-    <tr>
+    <tr class="hover">
       <td><%= asset.code %></td>
       <td><%= asset.name %></td>
       <td><%= asset.account.name %></td>
@@ -56,6 +55,4 @@
   <% end %>
 </table>
 
-<div style="margin: 10px;">
-  <%= will_paginate @assets, :style=>'display: inline;' if @assets.present? %>
-</div>
+<%= will_paginate @assets %>

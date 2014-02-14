@@ -1,5 +1,4 @@
 <%#
-# $Id: index.html.erb 3256 2014-01-22 15:01:09Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -7,7 +6,7 @@
 <%= render 'common/search' %>
 <%= flash_notice %>
 
-<table>
+<table class="rents">
   <tr>
     <th>地代/家賃</th>
     <th>表示名</th>
@@ -21,25 +20,22 @@
     <th colspan="2"></th>
   </tr>
 
-<% @rents.each do |rent| %>
-  <tr id="rent_show_<%= rent.id %>">
-    <td><%= HyaccConstants::RENT_TYPES[ rent.rent_type ] %></td>
-    <td><%= rent.name %></td>
-    <td><%= HyaccConstants::RENT_USAGE_TYPES[ rent.usage_type ] %></td>
-    <td><%= rent.ymd_start %></td>
-    <td><%= rent.ymd_end %></td>
-    <td><%= rent.zip_code %></td>
-    <td><%= rent.address %></td>
-    <td><%= rent.customer.formal_name %></td>
-    <td><%= HyaccConstants::RENT_STATUS_TYPES[ rent.status ] %></td>
-    <td><%= link_to_dialog '編集', :action=>:edit, :id=>rent.id %></td>
-    <td><%= link_to '削除', rent, :confirm => '削除しますか？', :method => :delete %></td>
-  </tr>
-<% end %>
+  <% @rents.each do |rent| %>
+    <tr id="rent_show_<%= rent.id %>" class="hover">
+      <td><%= HyaccConstants::RENT_TYPES[ rent.rent_type ] %></td>
+      <td><%= rent.name %></td>
+      <td><%= HyaccConstants::RENT_USAGE_TYPES[ rent.usage_type ] %></td>
+      <td><%= rent.ymd_start %></td>
+      <td><%= rent.ymd_end %></td>
+      <td><%= rent.zip_code %></td>
+      <td><%= rent.address %></td>
+      <td><%= rent.customer.formal_name %></td>
+      <td><%= HyaccConstants::RENT_STATUS_TYPES[ rent.status ] %></td>
+      <td><%= link_to '編集', edit_rent_path(rent), :remote => true %></td>
+      <td><%= link_to '削除', rent, :confirm => '削除しますか？', :method => :delete %></td>
+    </tr>
+  <% end %>
 </table>
 
-<div style="margin: 10px;">
-  <%= will_paginate @rets, :style=>'display: inline;' %>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <%= link_to_dialog '追加', :action=>:new %>
-</div>
+<%= will_paginate @rents %>
+<%= link_to '追加', new_rent_path, :class => 'add', :remote => true %>

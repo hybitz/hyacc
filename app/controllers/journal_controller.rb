@@ -1,6 +1,5 @@
 # coding: UTF-8
 #
-# $Id: journal_controller.rb 3299 2014-01-24 16:18:08Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.

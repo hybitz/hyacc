@@ -1,5 +1,4 @@
 <%#
-# $Id: list.html.erb 3362 2014-02-07 08:10:27Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -36,8 +35,5 @@
   <% end %>
 </table>
 
-<div style="margin: 10px;">
-  <%= will_paginate @journal_headers, :style=>'display: inline;' %>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <%= link_to '追加', :action => 'new', :remote => true %>
-</div>
+<%= will_paginate @journal_headers %>
+<%= link_to '追加', :action => 'new', :class => 'add', :remote => true %>

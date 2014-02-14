@@ -1,12 +1,11 @@
 <%#
-# $Id: index.html.erb 3295 2014-01-24 01:03:37Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <%= flash_notice %>
 
-<table>
+<table class="users">
   <tr>
     <th>ログインID</th>
     <th>氏名</th>
@@ -27,6 +26,5 @@
 </table>
 
 <%= will_paginate @users %>
-<br/>
-<%= link_to '追加', {:action => 'new'}, :remote => true %>
+<%= link_to '追加', {:action => 'new'}, :class => 'add', :remote => true %>
 

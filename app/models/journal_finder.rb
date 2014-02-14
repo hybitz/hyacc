@@ -1,8 +1,8 @@
-# -*- encoding : utf-8 -*-
+# coding: UTF-8
 #
 # $Id: journal_finder.rb 2471 2011-03-23 14:59:36Z ichy $
 # Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 #
 class JournalFinder < Base::Finder
@@ -44,9 +44,9 @@ class JournalFinder < Base::Finder
     # 伝票を取得
     JournalHeader.paginate(
       :page=>@page,
-      :conditions=>conditions,
-      :order=>"ym, day, created_on",
-      :per_page=>@slips_per_page)
+      :conditions => conditions,
+      :order => "ym, day, created_on",
+      :per_page => @slips_per_page)
   end
   
 private

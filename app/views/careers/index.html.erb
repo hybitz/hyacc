@@ -8,7 +8,7 @@
 <%= flash_notice %>
 
 <% if @careers.present? %>
-  <table>
+  <table class="careers">
     <tr>
       <th>期間</th>
       <th>氏名</th>
@@ -29,17 +29,15 @@
     <% end %>
   </table>
   <%= will_paginate @careers %>
+  <%= link_to '追加', new_career_path, :class => 'add', :remote => true if @customers.present? %>
 <% elsif @careers %>
   <div>該当するデータが見つかりませんでした。</div>
-<% end %>
-
-<div style="margin: 10px;">
   <% if @customers.present? %>
-    <%= link_to '追加', new_career_path, :remote => true %>
+    <%= link_to '追加', new_career_path, :class => 'add', :remote => true %>
   <% else %>
     業務経歴を追加するには受注先の登録が必要です。
     <div>
       <%= link_to '取引先管理へ', :controller=>'customers' %>
     </div>
   <% end %>
-</div>
+<% end %>

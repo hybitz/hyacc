@@ -1,9 +1,10 @@
 <%#
-# $Id: _form.html.erb 3295 2014-01-24 01:03:37Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
+<%= error_messages_for :rent %>
+
 <%= form_for @rent, :remote => true do |f| %>
   <p>
     <%= f.submit %>

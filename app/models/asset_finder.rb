@@ -1,8 +1,7 @@
 # coding: UTF-8
 #
-# $Id: asset_finder.rb 3147 2013-11-01 02:13:51Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 #
 class AssetFinder < Base::Finder

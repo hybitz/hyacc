@@ -1,5 +1,4 @@
 <%#
-# $Id: _index.html.erb 3366 2014-02-07 09:17:22Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -21,11 +20,20 @@
       detail2.show();
     }
   }
+
+  jQuery(document).ready(function() {
+    var container = document.getElementById('template_container');
+    var search = document.getElementById('search');
+    var notice = document.getElementById('notice');
+    search.style.marginBottom = "-10px";
+    notice.style.marginLeft = (container.offsetWidth - notice.offsetWidth) + "px";
+    notice.style.marginBottom = "-5px";
+  });
 </script>
 
 <div id="notice"><%= flash_notice_in_span %></div>
 
-<table id="template_container"">
+<table id="template_container">
   <tr>
     <th>摘要</th>
     <th>勘定科目</th>
@@ -72,14 +80,3 @@
     </tr>
   <% end %>
 </table>
-
-<script>
-  jQuery(document).ready(function() {
-    var container = document.getElementById('template_container');
-    var search = document.getElementById('search');
-    var notice = document.getElementById('notice');
-    search.style.marginBottom = "-10px";
-    notice.style.marginLeft = (container.offsetWidth - notice.offsetWidth) + "px";
-    notice.style.marginBottom = "-5px";
-  });
-</script>

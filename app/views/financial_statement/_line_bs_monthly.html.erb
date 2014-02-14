@@ -71,7 +71,7 @@
   <%# 合計金額を集計 %>
   <% @finder.get_ym_range.each do |ym| %>
     <% account.children.each do |a| %>
-      <script type="text/javascript">
+      <script>
           add('<%= account.code %>_<%= ym %>_amount', '<%= a.code %>_<%= ym %>_amount', '<%= account.code %>_<%= ym %>_amount');
       </script>
     <% end %>

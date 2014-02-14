@@ -215,6 +215,9 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
+    turbo-sprockets-rails3 (0.3.11)
+      railties (> 3.2.8, < 4.0.0)
+      sprockets (>= 2.2.0)
     turn (0.9.6)
       ansi
     tzinfo (0.3.38)
@@ -259,6 +262,7 @@ DEPENDENCIES
   simplecov-rcov
   therubyracer
   thin
+  turbo-sprockets-rails3
   turn
   uglifier (>= 1.0.3)
   unicorn

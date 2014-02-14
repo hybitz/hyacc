@@ -18,13 +18,13 @@
     </tr>
     
     <% @careers.each do |c| %>
-      <tr>
+      <tr class="hover">
         <td><%= format_date(c.start_from) %> ～ <%= format_date(c.end_to) %></td>
         <td><%= c.employee.full_name %></td>
         <td><%= c.customer_name %></td>
         <td><%= c.project_name %></td>
-        <td><%= link_to_dialog '編集', edit_career_path(c) %></td>
-        <td><%= link_to '削除', career_path(c), :confirm=>'削除します。よろしいですか？', :method=>:delete %></td>
+        <td><%= link_to '編集', edit_career_path(c), :remote => true %></td>
+        <td><%= link_to '削除', career_path(c), :confirm => '削除します。よろしいですか？', :method=>:delete %></td>
       </tr>
     <% end %>
   </table>
@@ -35,7 +35,7 @@
 
 <div style="margin: 10px;">
   <% if @customers.present? %>
-    <%= link_to_dialog '追加', new_career_path %>
+    <%= link_to '追加', new_career_path, :remote => true %>
   <% else %>
     業務経歴を追加するには受注先の登録が必要です。
     <div>

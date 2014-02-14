@@ -5,20 +5,20 @@
 # ALL Rights Reserved.
 %>
 <script>
-  function flipDetail(link_id, detail1_id, detail2_id){
-    var link = $(link_id);
-    var detail1 = $(detail1_id);
-    var detail2 = $(detail2_id);
+  function flipDetail(link) {
+    var link = jQuery(link);
+    var tr = link.closest('tr');
+    var detail1 = tr.next();
+    var detail2 = detail1.next();
     
-    if (detail1.style.display == 'none') {
-      link.innerHTML = '詳細を隠す'
-      detail1.style.display = 'table-row';
-      detail2.style.display = 'table-row';
-    }
-    else {
-      link.innerHTML = '詳細を表示'
-      detail1.style.display = 'none';
-      detail2.style.display = 'none';
+    if (detail1.is(':visible')) {
+      link.text('詳細を表示');
+      detail1.hide();
+      detail2.hide();
+    } else {
+      link.text('詳細を隠す');
+      detail1.show();
+      detail2.show();
     }
   }
 </script>
@@ -57,10 +57,8 @@
       <td class="amount"><%= to_amount(t.tax_amount) %></td>
       <td align="center"><%= t.focus_on_complete_name %></td>
       <td><%= link_to '編集', {:action => :edit, :id => t.id}, :remote => true %></td>
-      <td>
-        <%= link_to '削除', {:action => 'destroy', :id => t.id}, :confirm => '削除します。よろしいですか？', :method => 'delete' %>
-      </td>
-      <td><a id="detail_link_<%= t.id %>" href="#" onclick="flipDetail(this.id, 'detail_1_<%= t.id %>', 'detail_2_<%= t.id %>');");">詳細を表示</a></td>
+      <td><%= link_to '削除', {:action => 'destroy', :id => t.id}, :confirm => '削除します。よろしいですか？', :method => 'delete' %></td>
+      <td><%= link_to_function '詳細を表示', 'flipDetail(this);' %></td>
     </tr>
     <tr id="detail_1_<%= t.id %>" style="display:none;">
       <td rowspan="2"></td>

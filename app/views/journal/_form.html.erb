@@ -25,9 +25,9 @@
     return true
   }
   
-  jQuery(document).ready(function($){
-    $('input[id$=_input_amount]').each(function(){
-      var id = $(this).attr('id');
+  jQuery(document).ready(function(){
+    jQuery('input[id$=_input_amount]').each(function(){
+      var id = jQuery(this).attr('id');
       shortcut.add("Down",
         function() {
             var detail_no = parseInt(id.split('_')[2]);

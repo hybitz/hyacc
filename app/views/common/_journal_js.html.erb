@@ -177,7 +177,7 @@
   }
   
   function showDetailIfHidden(trId) {
-    var detail2 = $(trId + '_2');
+    var detail2 = document.getElementById(trId + '_2');
     if (detail2.style.display == 'none') {
       flipDetail(trId);
     }

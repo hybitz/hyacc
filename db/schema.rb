@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140207092028) do
+ActiveRecord::Schema.define(:version => 20140214050911) do
 
   create_table "account_controls", :force => true do |t|
     t.integer  "account_id",                              :null => false
@@ -303,15 +303,16 @@ ActiveRecord::Schema.define(:version => 20140207092028) do
   end
 
   create_table "input_frequencies", :force => true do |t|
-    t.integer  "user_id",                  :null => false
-    t.integer  "input_type",  :limit => 1, :null => false
-    t.string   "input_value"
-    t.integer  "frequency",                :null => false
+    t.integer  "user_id",                                    :null => false
+    t.integer  "input_type",   :limit => 1,                  :null => false
+    t.string   "input_value",  :limit => 30, :default => ""
+    t.integer  "frequency",                                  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "input_value2", :limit => 30, :default => ""
   end
 
-  add_index "input_frequencies", ["user_id", "input_type", "input_value"], :name => "index_input_frequencies_for_unique_key", :unique => true
+  add_index "input_frequencies", ["user_id", "input_type", "input_value", "input_value2"], :name => "index_input_frequencies_for_unique_key", :unique => true
 
   create_table "insurances", :force => true do |t|
     t.integer  "apply_start_ym",                 :default => 999912, :null => false

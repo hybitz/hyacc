@@ -18,8 +18,8 @@ class DebtController < Base::HyaccController
   view_attribute :sub_accounts, :include => :deleted, :only => :index
 
   def index
-    @ymd = params[:ymd] || Date.today.end_of_month
     @debts, @sum = finder.list if finder.commit
+    setup_view_attributes
   end
   
   # 仮負債を精算する
@@ -39,7 +39,6 @@ class DebtController < Base::HyaccController
   private
   
   def save_input_frequencies(params)
-      #jd.sub_account_id = @params[:sub_account_id] unless @params[:sub_account_id].nil?
     InputFrequency.save_input_frequency(current_user.id, INPUT_TYPE_DEBT_ACCOUNT_ID, params['account_id'], params['sub_account_id'])
   end
 
@@ -69,4 +68,17 @@ class DebtController < Base::HyaccController
     end
     jh.transfer_journals.last.id
   end
+
+
+  def setup_view_attributes
+    @ymd = params[:ymd] || Date.today.end_of_month
+
+    # 直近で選択した勘定科目
+    @frequency = InputFrequency.find(
+        :first,
+        :conditions=>['user_id=? and input_type=?', current_user.id, INPUT_TYPE_DEBT_ACCOUNT_ID],
+        :order=>'updated_at desc')
+  end
+
+
 end

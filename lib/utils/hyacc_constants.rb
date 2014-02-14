@@ -147,6 +147,7 @@ module HyaccConstants
   INPUT_TYPES = {
     INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID = 1 => '簡易入力の勘定科目',
     INPUT_TYPE_JOURNAL_ACCOUNT_ID = 2 => '振替伝票の勘定科目',
+    INPUT_TYPE_DEBT_ACCOUNT_ID = 3 => '仮負債精算の勘定科目',
   }
   
   # 所有者区分

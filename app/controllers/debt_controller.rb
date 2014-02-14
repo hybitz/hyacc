@@ -18,7 +18,7 @@ class DebtController < Base::HyaccController
   view_attribute :sub_accounts, :include => :deleted, :only => :index
 
   def index
-    @ymd = params[:ymd] || Date.today
+    @ymd = params[:ymd] || Date.today.end_of_month
     @debts, @sum = finder.list if finder.commit
   end
   

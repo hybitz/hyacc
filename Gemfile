@@ -48,11 +48,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'ci_reporter'
   gem 'minitest-rails'
   gem 'rails-csv-fixtures'
-  gem 'simplecov'
-  gem 'simplecov-rcov'
   gem 'turn'
 end
 

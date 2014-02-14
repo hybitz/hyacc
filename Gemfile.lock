@@ -241,7 +241,6 @@ DEPENDENCIES
   acts_as_tree
   bcrypt-ruby (~> 3.0.0)
   capistrano (< 3.0.0)
-  ci_reporter
   coffee-rails (~> 3.2.1)
   daddy
   dalli
@@ -258,8 +257,6 @@ DEPENDENCIES
   rake
   remotipart
   sass-rails (~> 3.2.3)
-  simplecov
-  simplecov-rcov
   therubyracer
   thin
   turbo-sprockets-rails3

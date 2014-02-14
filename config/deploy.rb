@@ -9,7 +9,7 @@ set :default_run_options, :pty => true
 set :use_sudo, false
 
 set :application, "hyacc"
-set :repository,  "git@github.com:hybitz/hyacc.git"
+set :repository,  "git://github.com/hybitz/hyacc.git"
 set :scm, :git
 set :branch, 'master'
 

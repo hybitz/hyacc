@@ -26,6 +26,9 @@ class DebtController < Base::HyaccController
   def update
     begin
       closed_id = do_close(params, current_user)
+      # 選択した勘定科目をカウント
+      save_input_frequencies(params)
+      
       render :partial => 'closed_link', :locals => {:closed_id => closed_id}
     rescue Exception => e
       handle(e)
@@ -35,6 +38,11 @@ class DebtController < Base::HyaccController
   
   private
   
+  def save_input_frequencies(params)
+      #jd.sub_account_id = @params[:sub_account_id] unless @params[:sub_account_id].nil?
+    InputFrequency.save_input_frequency(current_user.id, INPUT_TYPE_DEBT_ACCOUNT_ID, params['account_id'], params['sub_account_id'])
+  end
+
   # 仮負債を精算する
   def do_close(params, user)
     split = params[:ymd].split('-')

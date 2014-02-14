@@ -94,14 +94,15 @@
     <%= form_tag :action => 'index' do %>
       <label for="ymd">精算日</label>：<%= text_field_tag 'ymd', @ymd, :class => 'datepicker' %>
       <label for="finder_account_id">精算科目</label>：
-      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", {:selected=>@frequency.input_value}) %>
+      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name",
+            {:selected => @frequency ? @frequency.input_value : nil}) %>
 
       <% if @sub_accounts %>
         <span id="finder_sub_account_id_title" style="<%= 'display: none;' if @sub_accounts.empty? %>">
           <label for="finder_sub_account_id">補助科目</label>：</span>
         <%= select("finder", "sub_account_id", to_options(@sub_accounts),
-              {:include_blank=>false, :selected=>@frequency.input_value2},
-              {:style=>'display: ' + (@sub_accounts.empty? ? 'none' : '') + ';'}
+              {:include_blank => false, :selected => @frequency ? @frequency.input_value2 : nil},
+              {:style => 'display: ' + (@sub_accounts.empty? ? 'none' : '') + ';'}
             ) %>
       <% end %>
     <% end %>

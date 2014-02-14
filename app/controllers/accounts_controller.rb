@@ -144,11 +144,11 @@ class AccountsController < Base::HyaccController
   end
 
   def is_already_used(account)
-    JournalDetail.count(:conditions=>["account_id = ? ", @account]) > 0
+    JournalDetail.where(:account_id => account).present?
   end
   
   def is_normal_sub_account_without_sub_accounts(account)
-    SubAccount.count(:all, :conditions=>['account_id=?', account]) == 0
+    SubAccount.where(:account_id => account).present?
   end
     
   def load_account

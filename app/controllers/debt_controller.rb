@@ -1,6 +1,5 @@
 # coding: UTF-8
 #
-# $Id: debt_controller.rb 3340 2014-02-01 02:50:49Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -69,16 +68,11 @@ class DebtController < Base::HyaccController
     jh.transfer_journals.last.id
   end
 
-
   def setup_view_attributes
     @ymd = params[:ymd] || Date.today.end_of_month
 
     # 直近で選択した勘定科目
-    @frequency = InputFrequency.find(
-        :first,
-        :conditions=>['user_id=? and input_type=?', current_user.id, INPUT_TYPE_DEBT_ACCOUNT_ID],
-        :order=>'updated_at desc')
+    @frequency = InputFrequency.where(:user_id => current_user.id, :input_type => INPUT_TYPE_DEBT_ACCOUNT_ID).order('updated_at desc').first
   end
-
 
 end

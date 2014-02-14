@@ -72,11 +72,11 @@ protected
   end
   
   def get_banks(options = {})
-    Bank.find(:all)
+    Bank.all
   end
   
   def load_bank_offices(bank_id, options={})
-    BankOffice.find(:all, :conditions=>['bank_id=?', bank_id])
+    BankOffice.where(:bank_id => bank_id)
   end
 
   # 勘定科目を取得します。
@@ -130,7 +130,7 @@ protected
     if options[:conditions]
       Customer.find(:all, :conditions=>options[:conditions])
     else
-      Customer.find(:all)
+      Customer.all
     end
   end
 

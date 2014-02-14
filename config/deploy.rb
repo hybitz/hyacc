@@ -9,15 +9,15 @@ set :default_run_options, :pty => true
 set :use_sudo, false
 
 set :application, "hyacc"
-set :repository,  "https://www.hybitz.com/svn/hyacc/trunk"
-set :scm, :subversion
-set :scm_command, 'env LANG=ja_JP.UTF-8 svn'
+set :repository,  "https://github.com/hybitz/hyacc.git"
+set :scm, :git
+set :branch, 'master'
 
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 set :user, ENV['USER']
-set :deploy_via, :export
+set :deploy_via, :remote_cache
 set :deploy_to, "/home/#{user}/apps/#{application}"
 
 set :keep_releases, 5

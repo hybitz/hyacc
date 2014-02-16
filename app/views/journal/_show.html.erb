@@ -1,12 +1,17 @@
 <%#
-# $Id: _show.html.erb 3298 2014-01-24 15:36:58Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <%= render 'common/journal_js' %>
 
-<form id="journal_show_form" action="#">
+<script>
+  $(document).ready(function() {
+    $('#journal_show_form').find('input').attr('disabled', true);
+  });
+</script>
+
+<form id="journal_show_form">
   <div style="margin:5px;">
     <table>
       <tr>
@@ -62,7 +67,7 @@
 
   <% if @copy_link %>
     <div style="margin-top: 10px;">
-      <%= link_to_dialog 'コピーを新規登録', {:action=>:new_from_copy, :id=>@journal_header}, :title=> '振替伝票　追加' %>
+      <%= link_to 'コピーを追加', {:action => :new_from_copy, :id => @journal_header}, :remote => true %>
     </div>
   <% end %>
 </form>

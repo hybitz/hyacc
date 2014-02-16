@@ -1,7 +1,6 @@
 <%#
-# $Id: _show_detail_line.html.erb 3114 2013-08-07 03:58:38Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <tr id="journal_details_<%= jd.detail_no %>">
@@ -27,13 +26,12 @@
            name="journal_details[<%= jd.detail_no %>][auto_journal_type]"
            value="<%= HyaccConstants::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
            <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %>
-           onclick="checkAutoJournalType(this);"
-           disabled="disabled" />
+           onclick="checkAutoJournalType(this);" />
     翌月の費用
   </td>
   
   <% if branch_mode %>
-  <td><%= render 'get_allocation', :jd=>jd %></td>
+  <td><%= render 'get_allocation', :jd => jd %></td>
   <% end %>
   
   <td colspan="3">
@@ -51,8 +49,7 @@
            name="journal_details[<%= jd.detail_no %>][auto_journal_type]"
            value="<%= HyaccConstants::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
            <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %>
-           onclick="checkAutoJournalType(this);"
-           disabled="disabled" />
+           onclick="checkAutoJournalType(this);" />
     前月の費用
   </td>
   <td rowspan="2" colspan="<%= colspan_of_account_details_for_show %>">
@@ -69,8 +66,7 @@
            name="journal_details[<%= jd.detail_no %>][auto_journal_type]"
            value="<%= HyaccConstants::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
            <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %>
-           onclick="checkAutoJournalType(this);"
-           disabled="disabled" />
+           onclick="checkAutoJournalType(this);" />
     <input type="text" id="journal_details_<%= jd.detail_no %>_auto_journal_year"
            name="journal_details[<%= jd.detail_no %>][auto_journal_year]" value="<%= jd.auto_journal_year %>" size="4" maxlength="4"/>
     年

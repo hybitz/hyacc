@@ -1,5 +1,4 @@
 <%#
-# $Id: index.html.erb 3190 2014-01-21 13:41:42Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -32,10 +31,10 @@
 <div id="todo_events" style="margin: 10px;">
   TODOリストを取得しています・・・
   <script>
-    jQuery(document).ready(function() {
+    $(document).ready(function() {
       var url = '<%= url_for :action => 'get_todo_events' %>';
-      jQuery.get(url, function(data) {
-        jQuery('#todo_events').html(data);
+      $.get(url, function(data) {
+        $('#todo_events').html(data);
       });
     });
   </script>

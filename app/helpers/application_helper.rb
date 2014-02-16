@@ -1,6 +1,5 @@
 # coding: UTF-8
 #
-# $Id: application_helper.rb 3333 2014-01-30 14:18:42Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -23,8 +22,8 @@ module ApplicationHelper
   def hide_if_no_options(selector)
     ret = <<-"SCRIPT"
       <script>
-        jQuery(document).ready(function() {
-          var select = jQuery('#{selector}');
+        $(document).ready(function() {
+          var select = $('#{selector}');
           var hide = false;
           if (select.find('option').length == 0) {
             hide = true;

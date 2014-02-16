@@ -1,5 +1,4 @@
 <%#
-# $Id: _line_pl_monthly.html.erb 3163 2014-01-01 09:03:01Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -34,7 +33,7 @@
  
   <td id="<%= account_code + '_sum' %>" align="right">
     <script>
-      jQuery(document).ready(function() {
+      $(document).ready(function() {
         calc_sum('<%= account_code %>');
       });
     </script>

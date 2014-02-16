@@ -1,28 +1,27 @@
 <%#
-# $Id: _form.html.erb 3364 2014-02-07 09:00:18Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <div style="margin: 5px;">
   <script>
-    jQuery(document).ready(function() {
+    $(document).ready(function() {
       // キーワード生成
-      jQuery('input[value=キーワード生成]').click(function() {
+      $('input[value=キーワード生成]').click(function() {
         var url = '<%= url_for :action => :get_keywords %>';
-        var params = {remarks: jQuery('#simple_slip_template_remarks').val()};
-        jQuery.get(url, params, function(data) {
-          jQuery('#simple_slip_template_keywords').val(data);
+        var params = {remarks: $('#simple_slip_template_remarks').val()};
+        $.get(url, params, function(data) {
+          $('#simple_slip_template_keywords').val(data);
         });
       });
 
       // 勘定科目の変更
       var initial_value = '<%= @simple_slip_template.sub_account_id %>';
-      jQuery('#simple_slip_template_account_id').change(function(eventData) {
-        var account = jQuery(this);
+      $('#simple_slip_template_account_id').change(function(eventData) {
+        var account = $(this);
         var url = '<%= url_for :action => 'get_sub_accounts' %>';
         var params = {account_id: account.val(), selected: initial_value, format: 'html'};
-        jQuery.get(url, params, function(data) {
+        $.get(url, params, function(data) {
           account.closest('td').next().html(data);
         });
         initial_value = '';

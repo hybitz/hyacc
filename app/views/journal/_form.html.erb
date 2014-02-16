@@ -1,5 +1,4 @@
 <%#
-# $Id: _form.html.erb 3371 2014-02-13 04:00:06Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -25,9 +24,9 @@
     return true
   }
   
-  jQuery(document).ready(function(){
-    jQuery('input[id$=_input_amount]').each(function(){
-      var id = jQuery(this).attr('id');
+  $(document).ready(function(){
+    $('input[id$=_input_amount]').each(function(){
+      var id = $(this).attr('id');
       shortcut.add("Down",
         function() {
             var detail_no = parseInt(id.split('_')[2]);

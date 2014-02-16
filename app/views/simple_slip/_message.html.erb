@@ -1,7 +1,6 @@
 <%#
-# $Id: _message.html.erb 3066 2013-06-21 03:20:28Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <div id="messageDiv" style="
@@ -13,7 +12,7 @@
   <%= flash_notice_in_span %>
 </div>
 <script>
-  jQuery(document).ready(function() {
+  $(document).ready(function() {
     var table = document.getElementById('slipTable');
     var messageDiv = document.getElementById('messageDiv');
     messageDiv.style.marginTop = (- table.offsetHeight - 35) + "px";

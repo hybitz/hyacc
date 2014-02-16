@@ -5,7 +5,7 @@
 %>
 <script>
   function flipDetail(link) {
-    var link = jQuery(link);
+    var link = $(link);
     var tr = link.closest('tr');
     var detail1 = tr.next();
     var detail2 = detail1.next();
@@ -21,7 +21,7 @@
     }
   }
 
-  jQuery(document).ready(function() {
+  $(document).ready(function() {
     var container = document.getElementById('template_container');
     var search = document.getElementById('search');
     var notice = document.getElementById('notice');

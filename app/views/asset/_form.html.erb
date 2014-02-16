@@ -1,5 +1,4 @@
 <%#
-# $Id: _form.html.erb 3323 2014-01-29 03:44:48Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -75,7 +74,7 @@
   <% if @asset.status_created? %>
     <script>
       function updateDurableYears(depreciationMethod){
-        var durableYears = jQuery('#asset_durable_years');
+        var durableYears = $('#asset_durable_years');
         if (depreciationMethod == DEPRECIATION_METHOD_LUMP) {
           durableYears.attr('disabled', true);
           durableYears.val('');
@@ -85,10 +84,10 @@
         }
       }
     
-      var depreciationMethod = jQuery('#asset_depreciation_method');
+      var depreciationMethod = $('#asset_depreciation_method');
       updateDurableYears(depreciationMethod.val());
       depreciationMethod.change(function(){
-        updateDurableYears(jQuery(this).val());
+        updateDurableYears($(this).val());
       });
     </script>
   <% end %>

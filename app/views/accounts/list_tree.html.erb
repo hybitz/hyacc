@@ -1,7 +1,6 @@
 <%#
-# $Id: list_tree.html.erb 2989 2013-02-15 06:39:42Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <script>
@@ -11,8 +10,8 @@
     <% end %>
   ];
   
-  jQuery(document).ready(function() {
-    jQuery('#account_tree').tree(
+  $(document).ready(function() {
+    $('#account_tree').tree(
       {
         data: data,
         saveState: 'account_tree',
@@ -21,8 +20,8 @@
       }
     );
     
-    jQuery('#account_tree').bind('tree.move', function(event) {
-      jQuery.post('<%= url_for :action => 'update_tree' %>', {
+    $('#account_tree').bind('tree.move', function(event) {
+      $.post('<%= url_for :action => 'update_tree' %>', {
         moved: event.move_info.moved_node.id,
         target: event.move_info.target_node.id,
         position: event.move_info.position

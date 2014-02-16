@@ -1,12 +1,11 @@
 <%#
-# $Id: _form.html.erb 3314 2014-01-28 04:06:06Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <script>
-  jQuery(document).ready(function() {
-    jQuery('#payroll_base_salary').focus();
+  $(document).ready(function() {
+    $('#payroll_base_salary').focus();
   });
 </script>
 
@@ -44,13 +43,13 @@
       <%= text_field 'payroll', 'base_salary', :maxlength=>10 %>
       <% if ['new', 'create'].include? controller.action_name %>
         <script>
-          jQuery(document).ready(function() {
-            jQuery('#payroll_base_salary').blur(function() {
-              jQuery.get('<%= url_for :action => 'auto_calc', :format => 'html' %>',
-                  jQuery('#payroll_form').serialize(),
+          $(document).ready(function() {
+            $('#payroll_base_salary').blur(function() {
+              $.get('<%= url_for :action => 'auto_calc', :format => 'html' %>',
+                  $('#payroll_form').serialize(),
                   function(html) {
-                    jQuery('#auto_calc').html(html);
-                    jQuery('#payroll_submit').attr('disabled', false);
+                    $('#auto_calc').html(html);
+                    $('#payroll_submit').attr('disabled', false);
                   }
               );
             });

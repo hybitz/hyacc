@@ -40,9 +40,9 @@
 
   function updateTaxAmountAll(form) {
     var details = [];
-    var table = jQuery(form).find('tr[id^="journal_details_"]').each(function() {
-      if (jQuery(this).attr('id').split('_').length == 3) {
-        details.push(jQuery(this).attr('id'));
+    var table = $(form).find('tr[id^="journal_details_"]').each(function() {
+      if ($(this).attr('id').split('_').length == 3) {
+        details.push($(this).attr('id'));
       }
     });
     

@@ -1,7 +1,6 @@
 <%#
-# $Id: _customer_names.html.erb 2991 2013-02-15 07:27:01Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <table>
@@ -25,7 +24,7 @@
       
       function add_customer_name() {
         index ++;
-        jQuery.get('<%= url_for :action => 'add_customer_name' %>',
+        $.get('<%= url_for :action => 'add_customer_name' %>',
           {index: index}
         );
       }

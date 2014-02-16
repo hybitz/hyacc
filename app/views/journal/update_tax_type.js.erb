@@ -1,8 +1,7 @@
 <%#
-# $Id: update_tax_type.js.erb 3082 2013-07-16 12:58:14Z ichy $
 # Product: hyacc
-# Copyright 2013 by Hybitz.co.ltd
+# Copyright 2013-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
-jQuery('#journal_details_<%= params[:detail_no] %>_tax_type').val(<%= @tax_type %>);
+$('#journal_details_<%= params[:detail_no] %>_tax_type').val(<%= @tax_type %>);
 updateTaxAmount('journal_details_<%= params[:detail_no] %>');

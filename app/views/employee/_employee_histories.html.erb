@@ -1,14 +1,13 @@
 <%#
-# $Id: _customer_names.html.erb 1490 2010-01-19 13:17:25Z ichy $
 # Product: hyacc
-# Copyright 2010-2012 by Hybitz.co.ltd
+# Copyright 2010-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <script>
   function add_employee_history() {
-    var table = jQuery('#employee_histories_table');
+    var table = $('#employee_histories_table');
     var index = table.find('tr').length - 3; // ヘッダと追加の行を引く
-    jQuery.get('<%= url_for :action => 'add_employee_history' %>',
+    $.get('<%= url_for :action => 'add_employee_history' %>',
       {index: index}
     );
   }

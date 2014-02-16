@@ -1,20 +1,20 @@
 var data = eval('(' + '<%=j @json.html_safe %>' + ')');
-jQuery('#slip_remarks').val(data.remarks);
-jQuery('#slip_account_id').val(data.account_id);
-jQuery('#slip_sub_account_id').val(data.sub_account_id);
-if (jQuery('#slip_branch_id').length > 0) {
-  jQuery('#slip_branch_id').val(data.branch_id);
+$('#slip_remarks').val(data.remarks);
+$('#slip_account_id').val(data.account_id);
+$('#slip_sub_account_id').val(data.sub_account_id);
+if ($('#slip_branch_id').length > 0) {
+  $('#slip_branch_id').val(data.branch_id);
 }
-jQuery('#slip_amount_increase').val(data.amount_increase);
-jQuery('#slip_amount_decrease').val(data.amount_decrease);
-jQuery('#slip_tax_type').val(data.tax_type);
-jQuery('#slip_tax_amount_increase').val(data.tax_amount_increase);
-jQuery('#slip_tax_amount_decrease').val(data.tax_amount_decrease);
-if (jQuery('#slip_sub_account_id').length > 0) {
+$('#slip_amount_increase').val(data.amount_increase);
+$('#slip_amount_decrease').val(data.amount_decrease);
+$('#slip_tax_type').val(data.tax_type);
+$('#slip_tax_amount_increase').val(data.tax_amount_increase);
+$('#slip_tax_amount_decrease').val(data.tax_amount_decrease);
+if ($('#slip_sub_account_id').length > 0) {
   replace_options('#slip_sub_account_id', data.sub_accounts);
-  jQuery('#slip_sub_account_id').val(data.sub_account_id);
+  $('#slip_sub_account_id').val(data.sub_account_id);
 }
-jQuery('#account_detail').innerHTML = data.account_detail;
+$('#account_detail').html(data.account_detail);
 
-updateTaxAmountSimple(jQuery('#slip_new_form'));
-jQuery('#slip_day').focus();
+updateTaxAmountSimple($('#slip_new_form'));
+$('#slip_day').focus();

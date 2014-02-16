@@ -36,7 +36,7 @@
     <td colspan="<%= colspan( 2 ) %>">売上総利益</td>  
     <td id="grossProfit_amount" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           sub(ACCOUNT_CODE_SALE + '_amount', ACCOUNT_CODE_COST_OF_SALES + '_amount', 'grossProfit_amount');
         });
       </script>
@@ -57,7 +57,7 @@
     <td colspan="<%= colspan( 2 ) %>">営業利益</td>  
     <td id="operatingIncome_amount" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           sub('grossProfit_amount', ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE + '_amount', 'operatingIncome_amount');
         });
       </script>
@@ -87,7 +87,7 @@
     <td id="ordinaryIncome_amount" align="right"></td>
     <td id="ordinaryIncome_ratio" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           add('operatingIncome_amount', ACCOUNT_CODE_NON_OPERATING_PROFIT + '_amount', 'ordinaryIncome_amount');
           sub('ordinaryIncome_amount', ACCOUNT_CODE_NON_OPERATING_EXPENSE + '_amount', 'ordinaryIncome_amount');
         });
@@ -116,7 +116,7 @@
     <td colspan="<%= colspan( 2 ) %>">税引前当期利益</td>  
     <td id="pretaxProfit_amount" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           add('ordinaryIncome_amount', ACCOUNT_CODE_EXTRAORDINARY_PROFIT + '_amount', 'pretaxProfit_amount');
           sub('pretaxProfit_amount', ACCOUNT_CODE_EXTRAORDINARY_EXPENSE + '_amount', 'pretaxProfit_amount');
         });
@@ -135,7 +135,7 @@
     <td colspan="<%= colspan( 2 ) %>">当期利益</td>
     <td id="profit_amount" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           // 税引前当期利益から法人税等を減算し当期利益にセット
           sub('pretaxProfit_amount', ACCOUNT_CODE_CORPORATE_TAXES + '_amount', 'profit_amount');
           
@@ -153,7 +153,7 @@
 </table>
 
 <script>
-  jQuery(document).ready(function() {
+  $(document).ready(function() {
     updateAmountColor('plContainer', /.+(_amount|_ratio)/i);
   });
 </script>

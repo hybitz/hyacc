@@ -1,5 +1,4 @@
 <%#
-# $Id: _line_pl_yearly.html.erb 3162 2014-01-01 08:45:50Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -21,7 +20,7 @@
   </td>
   <td id="<%= account_code + '_ratio' %>" align="right">
     <script>
-      jQuery(document).ready(function(){
+      $(document).ready(function(){
         calcRatio('<%= account_code %>', <%= defined?(total_amount) ? total_amount : @sum[account_code][:amount] %>);
       });
     </script>

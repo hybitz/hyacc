@@ -1,19 +1,18 @@
 <%#
-# $Id: _show_depreciations.html.erb 3150 2013-11-01 08:06:20Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <% if @asset.has_depreciations? %>
   <script>
-    jQuery('#depreciations_link').click(function(){
-      if (jQuery(this).text() == '償却情報を表示') {
-        jQuery(this).text('償却情報を非表示');
+    $('#depreciations_link').click(function(){
+      if ($(this).text() == '償却情報を表示') {
+        $(this).text('償却情報を非表示');
        }
       else {
-        jQuery(this).text('償却情報を表示');
+        $(this).text('償却情報を表示');
        }
-      jQuery('#depreciations').toggle();
+      $('#depreciations').toggle();
     });
   </script>
 

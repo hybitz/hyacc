@@ -1,1 +1,1 @@
-jQuery('#add_bank_office').before('<%= escape_javascript render('line', :bank_office => @bank_office, :index => params[:index]) %>');
+$('#add_bank_office').before('<%=j render('line', :bank_office => @bank_office, :index => params[:index]) %>');

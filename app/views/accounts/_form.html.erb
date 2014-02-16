@@ -1,5 +1,4 @@
 <%#
-# $Id: _form.html.erb 3310 2014-01-27 13:20:06Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -10,12 +9,12 @@
 
 <script>
   function setSubAccountsVisible() {
-    var value = jQuery('#account_sub_account_type').val();
+    var value = $('#account_sub_account_type').val();
     if (value == SUB_ACCOUNT_TYPE_NORMAL || value == SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE) {
-      jQuery('#form_sub_accounts').show();
+      $('#form_sub_accounts').show();
     }
     else {
-      jQuery('#form_sub_accounts').hide();
+      $('#form_sub_accounts').hide();
     }
   }  
 </script>

@@ -85,7 +85,7 @@
         sum += toInt( div.innerHTML );
       }
       // 伝票の表示行の場合は、累計を計算する
-      else if ( jQuery(row).attr('slip_id') ) {
+      else if ( $(row).attr('slip_id') ) {
         // 増加分を加算
         increaseDiv = findElementByClassName( row, 'amountIncrease' );
         sum += toInt( increaseDiv.innerHTML );
@@ -108,7 +108,7 @@
     }
   }
 
-  jQuery(document).ready(function() {
+  $(document).ready(function() {
     var slipDay = document.getElementById('slip_day');
     if (slipDay != null) {
       slipDay.focus();
@@ -117,27 +117,27 @@
     calcSum('slipTable');
 
     // 消費税欄を初期化
-    var form = jQuery('#slip_new_form');
+    var form = $('#slip_new_form');
     <% if 'index' == action_name %>
       var url = '<%= url_for :action => 'update_tax_type', :account_code => @finder.account_code %>';
       var params = {account_id: form.find('.accountSelect').val()}; 
   
-      jQuery.get(url, params, function(tax_type) {
+      $.get(url, params, function(tax_type) {
         form.find('.taxTypeSelect').val(tax_type);
         updateTaxAmountSimple(form);
       });
     <% else %>
-      updateTaxAmountSimple(form, jQuery('#slip_tax_amount_increase').val(), jQuery('#slip_tax_amount_decrease').val());
+      updateTaxAmountSimple(form, $('#slip_tax_amount_increase').val(), $('#slip_tax_amount_decrease').val());
     <% end %>
   });
 
   function validateAmountOnOneSide( form, showAlert ) {
-    if (! form && jQuery(form).length == 0) {
+    if (! form && $(form).length == 0) {
       alert('システムエラー');
       return null;
     }
 
-    form = jQuery(form);
+    form = $(form);
     
     var increase = form.find('[name*=\\[amount_increase\\]]').val().toInt();
     var decrease = form.find('[name*=\\[amount_decrease\\]]').val().toInt();
@@ -163,7 +163,7 @@
   }
   
   function updateTaxAmountSimple(form, taxAmountIncrease, taxAmountDecrease) {
-    form = jQuery(form);
+    form = $(form);
     var amountFieldIncrease = form.find('[name*=\\[amount_increase\\]]');
     var taxFieldIncrease = form.find('[name*=\\[tax_amount_increase\\]]');
     var sumAmountDivIncrease = form.find('.sum_amount_increase');

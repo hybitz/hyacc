@@ -1,15 +1,14 @@
 <%#
-# $Id: _add.html.erb 2899 2012-08-31 02:38:30Z ichy $
 # Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <tr id="add_bank_office">
   <td colspan="4" align="right">
     <script>
       function add_bank_office() {
-        var index = jQuery('#add_bank_office_index');
-        jQuery.get('<%= add_bank_office_bank_offices_path %>',
+        var index = $('#add_bank_office_index');
+        $.get('<%= add_bank_office_bank_offices_path %>',
           { index: index.val() },
           function() {
             index.val(parseInt(index.val()) + 1);

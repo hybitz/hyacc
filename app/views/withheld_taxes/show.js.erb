@@ -4,5 +4,5 @@
 # Copyright 2009-2013 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
-var html = '<%= escape_javascript(render 'line', :data => @data) %>';
-jQuery('#data_<%= @data.id %>').html(html);
+var html = '<%=j render('line', :data => @data) %>';
+$('#data_<%= @data.id %>').html(html);

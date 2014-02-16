@@ -1,14 +1,13 @@
 <%#
-# $Id: _branches_employees.html.erb 2949 2012-11-09 03:17:44Z ichy $
 # Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <script>
   function add_branch() {
-    var table = jQuery('#branches_employees_table');
+    var table = $('#branches_employees_table');
     var index = table.find('tr').length - 3; // ヘッダと追加の行を引く
-    jQuery.get('<%= url_for :action => 'add_branch' %>',
+    $.get('<%= url_for :action => 'add_branch' %>',
       {index: index}
     );
   }

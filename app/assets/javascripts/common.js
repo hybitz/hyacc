@@ -95,7 +95,7 @@ function replaceOptions(selectId, jsonText, includeBlank){
 }
 
 function replace_options(selector, json, include_blank) {
-  select = jQuery(selector);
+  select = $(selector);
   select.empty();
   
   if (json.length > 0) {

@@ -1,15 +1,14 @@
 <%#
-# $Id: _search.html.erb 3066 2013-06-21 03:20:28Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <script>
-  jQuery(document).ready(function() {
-    jQuery('#finder_branch_id').change(function() {
+  $(document).ready(function() {
+    $('#finder_branch_id').change(function() {
       var url = '<%= url_for :action=>'get_branches_employees' %>';
-      jQuery.get(url, {branch_id: jQuery(this).val(), format: 'html'}, function(html) {
-        jQuery('#branches_employees').html(html);
+      $.get(url, {branch_id: $(this).val(), format: 'html'}, function(html) {
+        $('#branches_employees').html(html);
       });
     }).change();
   });

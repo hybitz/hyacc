@@ -73,7 +73,7 @@
     <% end %>
     <td id="grossProfit_sum" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           subtract_all_months(ACCOUNT_CODE_SALE, ACCOUNT_CODE_COST_OF_SALES, 'grossProfit');
           calc_sum('grossProfit');
         });
@@ -97,7 +97,7 @@
     <% end %>
     <td id="operatingIncome_sum" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           subtract_all_months('grossProfit', ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE, 'operatingIncome');
           calc_sum('operatingIncome');
         });
@@ -129,7 +129,7 @@
     <% end %>
     <td id="ordinaryIncome_sum" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           add_all_months('operatingIncome', ACCOUNT_CODE_NON_OPERATING_PROFIT, 'ordinaryIncome');
           subtract_all_months('ordinaryIncome', ACCOUNT_CODE_NON_OPERATING_EXPENSE, 'ordinaryIncome');
           calc_sum('ordinaryIncome');
@@ -162,7 +162,7 @@
     <% end %>
     <td id="pretaxProfit_sum" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           add_all_months('ordinaryIncome', ACCOUNT_CODE_EXTRAORDINARY_PROFIT, 'pretaxProfit');
           subtract_all_months('pretaxProfit', ACCOUNT_CODE_EXTRAORDINARY_EXPENSE, 'pretaxProfit');
           calc_sum('pretaxProfit');
@@ -184,7 +184,7 @@
     <% end %>
     <td id="profit_sum" align="right">
       <script>
-        jQuery(document).ready(function() {
+        $(document).ready(function() {
           // 税引前当期利益から法人税等を減算し当期利益にセット
           subtract_all_months('pretaxProfit', ACCOUNT_CODE_CORPORATE_TAXES, 'profit');
           // 法人税等負担を減算
@@ -200,7 +200,7 @@
 </table>
 
 <script>
-  jQuery(document).ready(function() {
+  $(document).ready(function() {
     updateAmountColor('plContainer', /.+_[0-9]{6}/i);
     updateAmountColor('plContainer', /.+_sum/i);
   });

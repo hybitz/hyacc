@@ -1,5 +1,4 @@
 <%#
-# $Id: _form.html.erb 3304 2014-01-26 13:02:26Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -17,10 +16,10 @@
       <td>
         <%= f.collection_select :bank_id, @banks, :id, :name %>
         <script>
-          jQuery(function() {
-            jQuery('#bank_account_bank_id').change(function() {
-              jQuery.get('<%= url_for :controller=>'master_data', :action=>'get_bank_offices' %>',
-                { format: 'json', order: 'code', bank_id: jQuery(this).val() },
+          $(document).ready(function() {
+            $('#bank_account_bank_id').change(function() {
+              $.get('<%= url_for :controller=>'master_data', :action=>'get_bank_offices' %>',
+                { format: 'json', order: 'code', bank_id: $(this).val() },
                 function(data) {
                   replace_options('#bank_account_bank_office_id', data, true);
               }

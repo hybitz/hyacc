@@ -1,5 +1,4 @@
 <%#
-# $Id: _detail_line.html.erb 3371 2014-02-13 04:00:06Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -16,15 +15,15 @@
                {:class=>'dcTypeSelect', :onchange=>"calcTotalAmount();"})%>
     <% if branch_mode %>
       <script>
-        jQuery('#journal_details_<%= jd.detail_no %>_dc_type').change(function() {
-          jQuery.get('<%= url_for :action => 'get_allocation', :detail_no => jd.detail_no %>',
+        $('#journal_details_<%= jd.detail_no %>_dc_type').change(function() {
+          $.get('<%= url_for :action => 'get_allocation', :detail_no => jd.detail_no %>',
             {
-              dc_type: jQuery(this).val(),
-              account_id: jQuery('#journal_details_<%= jd.detail_no %>_account_id').val(),
-              branch_id: jQuery('#journal_details_<%= jd.detail_no %>_branch_id').val()
+              dc_type: $(this).val(),
+              account_id: $('#journal_details_<%= jd.detail_no %>_account_id').val(),
+              branch_id: $('#journal_details_<%= jd.detail_no %>_branch_id').val()
             },
             function(html) {
-              jQuery('#jd_<%= jd.detail_no %>_allocation').html(html);
+              $('#jd_<%= jd.detail_no %>_allocation').html(html);
           });
         });
       </script>
@@ -34,42 +33,42 @@
     <%= collection_select_code_and_name("journal_details[" + jd.detail_no.to_s + "]", "account_id", @accounts, "id", "name",
           {:selected=>jd.account_id, :frequencies=>@frequencies}, {:class=>"accountSelect"}) %>
     <script>
-      jQuery('#journal_details_<%= jd.detail_no %>_account_id').change(function() {
-        jQuery.get('<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
+      $('#journal_details_<%= jd.detail_no %>_account_id').change(function() {
+        $.get('<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
           {
             format: 'json',
             order: 'code',
-            account_id: jQuery(this).val()
+            account_id: $(this).val()
           },
           function(data) {
             replace_options('#journal_details_<%= jd.detail_no %>_sub_account_id', data);
           });
           
-        jQuery.get('<%= url_for :action => 'update_tax_type' %>',
+        $.get('<%= url_for :action => 'update_tax_type' %>',
           {
             format: 'js',
             detail_no: <%= jd.detail_no %>,
-            account_id: jQuery(this).val()
+            account_id: $(this).val()
           }
         );
         
-        jQuery.get('<%= url_for :action => 'get_account_detail', :id => jd.id, :detail_no => jd.detail_no %>',
+        $.get('<%= url_for :action => 'get_account_detail', :id => jd.id, :detail_no => jd.detail_no %>',
           {
-            account_id: jQuery(this).val()
+            account_id: $(this).val()
           },
           function(html) {
-            jQuery('#journal_details_<%= jd.detail_no %>_account_detail').html(html);
+            $('#journal_details_<%= jd.detail_no %>_account_detail').html(html);
           });
           
           <% if branch_mode %>
-            jQuery.get('<%= url_for :action => 'get_allocation', :detail_no => jd.detail_no %>',
+            $.get('<%= url_for :action => 'get_allocation', :detail_no => jd.detail_no %>',
               {
-                account_id: jQuery(this).val(),
-                branch_id: jQuery('#journal_details_<%= jd.detail_no %>_branch_id').val(),
-                dc_type: jQuery('#journal_details_<%= jd.detail_no %>_dc_type').val()
+                account_id: $(this).val(),
+                branch_id: $('#journal_details_<%= jd.detail_no %>_branch_id').val(),
+                dc_type: $('#journal_details_<%= jd.detail_no %>_dc_type').val()
               },
               function(html) {
-                jQuery('#jd_<%= jd.detail_no %>_allocation').html(html);
+                $('#jd_<%= jd.detail_no %>_allocation').html(html);
               });
           <% end %>
       });
@@ -91,16 +90,16 @@
   <td>
     <%= collection_select("journal_details[" + jd.detail_no.to_s + "]", "branch_id", @branches, "id", "name", {:selected=>jd.branch_id}, {:class => 'branchSelect'}) %>
     <script>
-      jQuery('#journal_details_<%= jd.detail_no %>_branch_id').change(function() {
-        jQuery.get('<%= url_for :action => 'get_allocation' %>',
+      $('#journal_details_<%= jd.detail_no %>_branch_id').change(function() {
+        $.get('<%= url_for :action => 'get_allocation' %>',
           {
             detail_no: <%= jd.detail_no %>,
-            account_id: jQuery('#journal_details_<%= jd.detail_no %>_account_id').val(),
-            branch_id: jQuery(this).val(),
-            dc_type: jQuery('#journal_details_<%= jd.detail_no %>_dc_type').val()
+            account_id: $('#journal_details_<%= jd.detail_no %>_account_id').val(),
+            branch_id: $(this).val(),
+            dc_type: $('#journal_details_<%= jd.detail_no %>_dc_type').val()
           },
           function(html) {
-            jQuery('#jd_<%= jd.detail_no %>_allocation').html(html);
+            $('#jd_<%= jd.detail_no %>_allocation').html(html);
           });
       });
     </script>

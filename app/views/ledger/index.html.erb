@@ -8,16 +8,16 @@
 
 <script>
   <% if @ledgers.present? %>
-    jQuery(document).ready(function() {
+    $(document).ready(function() {
       calcSum(<%= @account.dc_type if @account %>);
     });
   <% end %>
 
   function show_journals(ym) {
-    jQuery.get('<%= url_for :action => 'list_journals' %>',
+    $.get('<%= url_for :action => 'list_journals' %>',
       { ym: ym },
       function(data) {
-        var ymRow = jQuery('#ledger_row_' + ym);
+        var ymRow = $('#ledger_row_' + ym);
         ymRow.after(data);
         ymRow.remove();
         calcSum(<%= @account.dc_type if @account %>);
@@ -30,17 +30,17 @@
     var monthlySum = 0;
     var sum = <%= @last_year_balance || 0 %>;
 
-    var container = jQuery('#ledgerContainer');
+    var container = $('#ledgerContainer');
     container.find('.ledgerRow').each(function() {
       // 年月が異なれば月別累計を初期化
-      var ym = toInt(jQuery(this).find('.yearMonth').text());
+      var ym = toInt($(this).find('.yearMonth').text());
       if ( yearMonth != ym ) {
         yearMonth = ym;
         monthlySum = 0;
       }
 
       // 借方
-      var debitAmount = toInt(jQuery(this).find('.amountDebit').text());
+      var debitAmount = toInt($(this).find('.amountDebit').text());
       if ( dcType == DC_TYPE_DEBIT ) {
         monthlySum += debitAmount;
         sum += debitAmount;
@@ -50,7 +50,7 @@
       }
 
       // 貸方
-      var creditAmount = toInt(jQuery(this).find('.amountCredit').text());
+      var creditAmount = toInt($(this).find('.amountCredit').text());
       if ( dcType == DC_TYPE_CREDIT ) {
         monthlySum += creditAmount;
         sum += creditAmount;
@@ -60,12 +60,12 @@
       }
 
       // 月別累計は月累計表示行のみ表示する
-      jQuery(this).find('.amountMonthlySum').text(toAmount(monthlySum));
-      jQuery(this).find('.amountSum').text(toAmount(sum));
+      $(this).find('.amountMonthlySum').text(toAmount(monthlySum));
+      $(this).find('.amountSum').text(toAmount(sum));
     });
 
     // 今期末残高の表示
-    jQuery(container).find('tr:last').find('.amountSum').text(toAmount(sum));
+    $(container).find('tr:last').find('.amountSum').text(toAmount(sum));
   }  
 </script>
 

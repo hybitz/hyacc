@@ -24,12 +24,12 @@
         function add_simple_slip_setting(trigger) {
           var url = '<%= url_for :action => 'add_simple_slip_setting' %>';
           var params = {
-            index: jQuery(trigger).closest('table').find('tr').length,
+            index: $(trigger).closest('table').find('tr').length,
             format: 'html'
           };
 
-          jQuery.get(url, params, function(html) {
-            jQuery(trigger).before(html);
+          $.get(url, params, function(html) {
+            $(trigger).before(html);
           });
         }
       </script>

@@ -43,11 +43,11 @@
           };
           oAC.itemSelectEvent.subscribe(function(sType, aArgs) {
             var oData = aArgs[2];
-            jQuery('#slip_account_id').val(oData[1]);
+            $('#slip_account_id').val(oData[1]);
             
             if ( document.getElementById('slip_sub_account_id') != null ) {
               replace_options('#slip_sub_account_id', oData[11]);
-              jQuery('#slip_sub_account_id').val(oData[4]);
+              $('#slip_sub_account_id').val(oData[4]);
             }
             
             if ( document.getElementById('slip_branch_id') != null) {
@@ -80,7 +80,7 @@
             
             document.getElementById('account_detail').innerHTML = oData[12];
 
-            var form = jQuery('#<%= @slip.new_record? ? 'slip_new_form' : 'slip_edit_form' %>');
+            var form = $('#<%= @slip.new_record? ? 'slip_new_form' : 'slip_edit_form' %>');
             updateTaxAmountSimple(form, document.getElementById('slip_tax_amount_increase').value, document.getElementById('slip_tax_amount_decrease').value);
             
             var focus = oData[10];
@@ -94,7 +94,7 @@
             }
             
             if (focus != null) {
-              jQuery('#slip_' + focus).focus();
+              $('#slip_' + focus).focus();
             }
           });
     </script>

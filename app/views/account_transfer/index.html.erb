@@ -1,5 +1,4 @@
 <%#
-# $Id: index.html.erb 3333 2014-01-30 14:18:42Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -22,12 +21,12 @@
           勘定科目を
           <%= h_account_select("finder", "to_account_id", :class=>nil) %>
           <script>
-            jQuery('#finder_to_account_id').change(function() {
-              jQuery.get(
+            $('#finder_to_account_id').change(function() {
+              $.get(
                 '<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
                   {
                   format: 'json',
-                  account_id: jQuery(this).value
+                  account_id: $(this).value
                   },
                 function(data) {
                   replace_options('#finder_to_sub_account_id', data);

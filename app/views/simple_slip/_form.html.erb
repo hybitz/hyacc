@@ -1,5 +1,4 @@
 <%#
-# $Id: _form.html.erb 3370 2014-02-13 03:30:29Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -17,26 +16,26 @@
   <td>
     <%= collection_select_code_and_name("slip", "account_id", @accounts, "id", "name", {:selected=>@slip.account_id, :frequencies=>@frequencies}, {:class=>'accountSelect'}) %>
     <script>
-      jQuery(document).ready(function() {
-        var form = jQuery('#<%= @slip.new_record? ? 'slip_new_form' : 'slip_edit_form' %>');
+      $(document).ready(function() {
+        var form = $('#<%= @slip.new_record? ? 'slip_new_form' : 'slip_edit_form' %>');
 
         form.find('.accountSelect').change(function() {
-          jQuery.get('<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
-            {format: 'json', order: 'code', account_id: jQuery(this).val()},
+          $.get('<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
+            {format: 'json', order: 'code', account_id: $(this).val()},
             function(data) {
               replace_options(form.find('.subAccountSelect'), data);
             }
           );
 
           var url = '<%= url_for :action => 'update_tax_type', :account_code => params[:account_code] %>';
-          var params = {account_id: jQuery(this).val()};
-          jQuery.get(url, params, function(tax_type) {
+          var params = {account_id: $(this).val()};
+          $.get(url, params, function(tax_type) {
             form.find('.taxTypeSelect').val(tax_type);
             updateTaxAmountSimple(form);
           });
 
-          jQuery.get('<%= url_for :action => 'get_account_details', :account_code => params[:account_code] %>',
-            {account_id: jQuery(this).val()},
+          $.get('<%= url_for :action => 'get_account_details', :account_code => params[:account_code] %>',
+            {account_id: $(this).val()},
             function(html) {
               form.find('.account_detail').html(html);
             }

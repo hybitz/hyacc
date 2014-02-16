@@ -1,8 +1,8 @@
 <%#
 # $Id: edit.js.erb 2984 2013-02-11 05:42:27Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 var html = '<%= escape_javascript(render 'form') %>';
-jQuery('#data_<%= @data.id %>').html(html);
+$('#data_<%= @data.id %>').html(html);

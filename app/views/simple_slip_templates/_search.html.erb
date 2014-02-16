@@ -10,9 +10,9 @@
 
     勘定科目：<%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", :include_blank=>true) %>
     <script>
-      jQuery('#finder_account_id').change(function() {
-        jQuery.get('<%= url_for :controller=>'master_data', :action=>'get_sub_accounts' %>',
-        {format: 'json', order: 'code', account_id: jQuery(this).val()},
+      $('#finder_account_id').change(function() {
+        $.get('<%= url_for :controller=>'master_data', :action=>'get_sub_accounts' %>',
+        {format: 'json', order: 'code', account_id: $(this).val()},
         function(data) {
           var subAccount = document.getElementById('finder_sub_account_id');
           var subAccountTitle = document.getElementById('finder_sub_account_id_title'); 

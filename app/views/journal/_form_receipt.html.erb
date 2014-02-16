@@ -1,15 +1,14 @@
 <%#
-# $Id: _form_receipt.html.erb 3123 2013-08-12 13:42:12Z ichy $
 # Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <div id="receipt_status">
   <script>
     function delete_receipt() {
-      jQuery.get('<%= url_for :action => 'delete_receipt', :id => @journal_header.id %>',
+      $.get('<%= url_for :action => 'delete_receipt', :id => @journal_header.id %>',
       function(html) {
-        jQuery('#receipt_status').replaceWith(html);
+        $('#receipt_status').replaceWith(html);
       });
     }
   </script>

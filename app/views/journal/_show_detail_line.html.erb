@@ -11,7 +11,10 @@
     <td><%= jd.branch_name %></td>
   <% end %>
   <td class="amount"><%= to_amount(jd.input_amount) %></td>
-  <td align="center"><%= jd.tax_type_name %></td>
+  <td>
+    <%= jd.tax_type_name %>
+    <%= "#{jd.tax_rate_percent}%" unless jd.tax_type_nontaxable? %>
+  </td>
   <td class="amount"><%= to_amount(jd.tax_amount, :show_zero=>true) %></td>
   <td class="amount"><%= to_amount(jd.tax_type == HyaccConstants::TAX_TYPE_EXCLUSIVE ? jd.input_amount + jd.tax_amount : jd.input_amount ) %></td>
   <td nowrap>

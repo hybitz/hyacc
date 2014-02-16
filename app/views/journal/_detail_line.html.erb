@@ -117,7 +117,8 @@
     </select>
     <input type="text" id="journal_details_<%= jd.detail_no %>_tax_rate_percent" class="taxRatePercentText"
            name="journal_details[<%= jd.detail_no %>][tax_rate_percent]"
-           value="<%= jd.tax_rate_percent %>" onchange="updateTaxAmount('journal_details_<%= jd.detail_no %>');"/>
+           value="<%= jd.tax_rate_percent unless jd.tax_type_nontaxable? %>" onchange="updateTaxAmount('journal_details_<%= jd.detail_no %>');"/>
+    %
   </td>
   <td nowrap>
     <input type="text" id="journal_details_<%= jd.detail_no %>_tax_amount" class="amountText"

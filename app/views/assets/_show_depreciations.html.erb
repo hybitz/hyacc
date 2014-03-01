@@ -8,8 +8,7 @@
     $('#depreciations_link').click(function(){
       if ($(this).text() == '償却情報を表示') {
         $(this).text('償却情報を非表示');
-       }
-      else {
+       } else {
         $(this).text('償却情報を表示');
        }
       $('#depreciations').toggle();
@@ -32,7 +31,7 @@
       
       <% @asset.depreciations.order(:fiscal_year).each_with_index do |d, i| %>
         <tr>
-          <td><%= i+1 %>年目</td>
+          <td><%= i + 1 %>年目</td>
           <td><%= d.fiscal_year %></td>
           <td class="amount"><%= to_amount(d.amount_at_start) %></td>
           <td class="amount"><%= to_amount(d.amount_depreciated) %></td>

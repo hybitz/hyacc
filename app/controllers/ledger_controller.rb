@@ -1,6 +1,5 @@
 # coding: UTF-8
 #
-# $Id: ledger_controller.rb 3357 2014-02-07 02:54:34Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.

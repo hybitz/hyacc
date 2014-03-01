@@ -3,32 +3,32 @@
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
-<%= form_tag({:action=>'update', :id=>@asset}, :id => 'asset_form', :remote => true) do %>
+<%= form_for @asset, :remote => true do |f| %>
   <div style="margin:0px 10px 0px 0px; text-align: right;">
-    <input type="hidden" name="update_type"/>
+    <%= hidden_field_tag :update_type %>
   
     <span style="margin-left: 5px;">
-      <%= submit_tag '更新' %>
+      <%= f.submit '更新' %>
     </span>
     <% if @asset.status_created? %>
       <span style="margin-left: 5px;">
-        <%= submit_tag '償却待に設定' %>
+        <%= f.submit '償却待に設定' %>
       </span>
     <% elsif @asset.status_waiting? %>
       <span style="margin-left: 5px;">
-        <%= submit_tag '償却待を解除' %>
+        <%= f.submit '償却待を解除' %>
       </span>
     <% end %>
     
     <% if @asset.status_waiting? or @asset.status_depreciating? %>
       <span style="margin-left: 5px;">
-        <%= submit_tag '償却実行', :onclick => "if ( confirm('#{current_user.company.current_fiscal_year_int}年度分を償却します。よろしいですか？')) {return true;} return false;" %>
+        <%= f.submit '償却実行', :onclick => "if ( confirm('#{current_user.company.current_fiscal_year_int}年度分を償却します。よろしいですか？')) {return true;} return false;" %>
       </span>
     <% end %>
   </div>
-  
+
   <%= flash_notice %>
-  
+
   <table>
     <tr>
       <th>資産コード</td>
@@ -40,10 +40,10 @@
     </tr>
     <tr>
       <td align="center">
-        <%= hidden_field 'asset', 'lock_version' %>
+        <%= f.hidden_field :lock_version %>
         <%= @asset.code %>
       </td>
-      <td colspan="2"><%= text_field 'asset', 'name', :class=>'nameText' %></td>
+      <td colspan="2"><%= f.text_field :name, :class => 'nameText' %></td>
       <td class="amount"><%= to_amount(@asset.amount) %></td>
       <td><%= @asset.account.name %></td>
       <td><%= @asset.sub_account.name if @asset.sub_account %></td>
@@ -60,14 +60,14 @@
       <td><%= render_ymd(@asset) %></td>
       <td>
         <% if @asset.status_created? %>
-          <%= select 'asset', 'depreciation_method', depreciation_methods, :class=>'depreciationMethodSelect' %>
+          <%= f.select :depreciation_method, depreciation_methods, :class => 'depreciationMethodSelect' %>
         <% else %>
           <%= @asset.depreciation_method_name %>
         <% end %>
       </td>
-      <td><%= text_field 'asset', 'durable_years', :maxlength=>2, :class=>'durableYearsText', :disabled=>!@asset.status_created? %></td>
-      <td><%= text_field 'asset', 'depreciation_limit', :class=>'amountText', :disabled=>!@asset.status_created? %></td>
-      <td colspan="<%= colspan_of_asset_remarks %>"><%= text_field 'asset', 'remarks', :size=>60, :maxlength=>250, :class=>'remarksText' %></td>
+      <td><%= f.text_field :durable_years, :maxlength => 2, :class => 'durableYearsText', :disabled => !@asset.status_created? %></td>
+      <td><%= f.text_field :depreciation_limit, :class => 'amountText', :disabled => !@asset.status_created? %></td>
+      <td colspan="<%= colspan_of_asset_remarks %>"><%= f.text_field :remarks, :size => 60, :maxlength => 250, :class => 'remarksText' %></td>
     </tr>
   </table>
   
@@ -78,16 +78,17 @@
         if (depreciationMethod == DEPRECIATION_METHOD_LUMP) {
           durableYears.attr('disabled', true);
           durableYears.val('');
-        }
-        else {
+        } else {
           durableYears.attr('disabled', false);
         }
       }
-    
-      var depreciationMethod = $('#asset_depreciation_method');
-      updateDurableYears(depreciationMethod.val());
-      depreciationMethod.change(function(){
-        updateDurableYears($(this).val());
+
+      $(document).ready(function() {
+        var depreciationMethod = $('#asset_depreciation_method');
+        updateDurableYears(depreciationMethod.val());
+        depreciationMethod.change(function(){
+          updateDurableYears($(this).val());
+        });
       });
     </script>
   <% end %>

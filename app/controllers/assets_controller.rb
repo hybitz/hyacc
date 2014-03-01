@@ -4,7 +4,7 @@
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 #
-class AssetController < Base::HyaccController
+class AssetsController < Base::HyaccController
   include Depreciation::DepreciationUtil
 
   view_attribute :title => '資産管理'
@@ -12,7 +12,7 @@ class AssetController < Base::HyaccController
   view_attribute :ym_list, :only => :index
   view_attribute :branches, :only => :index
   view_attribute :accounts, :only => :index,
-    :conditions=>['account_type=? and trade_type=? and deleted=? and depreciable=?',
+    :conditions => ['account_type=? and trade_type=? and deleted=? and depreciable=?',
       ACCOUNT_TYPE_ASSET, TRADE_TYPE_EXTERNAL, false, true]
 
   def index

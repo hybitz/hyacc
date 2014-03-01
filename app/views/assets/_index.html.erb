@@ -48,8 +48,8 @@
       <td class="amount"><%= to_amount(asset.amount_at_end(@finder.fiscal_year), :show_zero=>true) %></td>
       <td align="center"><%= asset.status_name %></td>
       <td>
-        <%= link_to '参照', {:action => :show, :id => asset}, :remote => true %>
-        <%= link_to '編集', {:action => :edit, :id => asset}, :remote => true %>
+        <%= link_to '参照', asset_path(asset), :remote => true %>
+        <%= link_to '編集', edit_asset_path(asset), :remote => true %>
       </td>
     </tr>
   <% end %>

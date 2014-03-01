@@ -1,5 +1,4 @@
 <%#
-# $Id: _menu.html.erb 3344 2014-02-03 04:00:32Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -66,11 +65,11 @@
   |
 
   <% if is_available('payroll') %>
-  <%= link_to '賃金台帳', { :controller => 'payroll' }, { :style => style_for_menu('payroll') } %>
-  |
+    <%= link_to '賃金台帳', { :controller => 'payroll' }, { :style => style_for_menu('payroll') } %>
+    |
   <% end %>
 
-  <%= link_to '資産管理', { :controller=>'asset' }, { :style=>style_for_menu('asset') } %>
+  <%= link_to '資産管理', { :controller => 'assets' }, :style => style_for_menu('assets') %>
   |
   <%= link_to '締め処理', { :controller=>'closing' }, { :style=>style_for_menu(closing_controllers) } %>
   |
@@ -83,9 +82,9 @@
   <%= link_to 'マスタビューア', { :controller => 'mv' }, { :style => style_for_menu(mv_controllers) } %>
 </div>
 
-<%= render 'common/sub_menu', :controllers=>journal_admin_controllers %>
-<%= render 'common/sub_menu', :controllers=>closing_controllers %>
-<%= render 'common/sub_menu', :controllers=>report_controllers %>
-<%= render 'common/sub_menu', :controllers=>mm_controllers %>
-<%= render 'common/sub_menu', :controllers=>mv_controllers %>
+<%= render 'common/sub_menu', :controllers => journal_admin_controllers %>
+<%= render 'common/sub_menu', :controllers => closing_controllers %>
+<%= render 'common/sub_menu', :controllers => report_controllers %>
+<%= render 'common/sub_menu', :controllers => mm_controllers %>
+<%= render 'common/sub_menu', :controllers => mv_controllers %>
 

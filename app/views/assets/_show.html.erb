@@ -1,7 +1,6 @@
 <%#
-# $Id: _show.html.erb 3149 2013-11-01 07:46:25Z ichy $
 # Product: hyacc
-# Copyright 2013 by Hybitz.co.ltd
+# Copyright 2013-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <%= flash_notice %>
@@ -16,10 +15,7 @@
     <% if branch_mode %><th>計上部門</th><% end %>
   </tr>
   <tr>
-    <td align="center">
-      <%= hidden_field 'asset', 'lock_version' %>
-      <%= @asset.code %>
-    </td>
+    <td align="center"><%= @asset.code %></td>
     <td colspan="2"><%= @asset.name %></td>
     <td class="amount"><%= to_amount(@asset.amount) %></td>
     <td><%= @asset.account.name %></td>

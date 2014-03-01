@@ -1,11 +1,12 @@
 # coding: UTF-8
 #
-# $Id: routes.rb 3344 2014-02-03 04:00:32Z ichy $
 # Product: hyacc
 # Copyright 2008-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 #
 Hyacc::Application.routes.draw do
+  resources :assets
+
   resources :accounts do
     collection do
       get  'add_sub_account'

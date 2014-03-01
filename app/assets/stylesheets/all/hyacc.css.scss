@@ -5,6 +5,10 @@ html, body {
   padding: 0;  
 }
 
+html.busy, html.busy * {  
+  cursor: wait !important;
+}
+
 a { color: #000; }
 a:visited { color: #000; }
 a:hover { color: #fff; background: #000; }
@@ -61,7 +65,7 @@ th, td {
 }
 
 .action {
-  width: 2em;
+  width: 3em;
   text-align: center;
 }
 

@@ -1,0 +1,2 @@
+cucumber:
+  use_feature_name: false

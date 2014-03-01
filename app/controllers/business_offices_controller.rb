@@ -1,60 +1,50 @@
 # coding: UTF-8
 #
-# $Id: company_controller.rb 2419 2011-01-14 03:26:53Z ichy $
 # Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 #
 class BusinessOfficesController < Base::HyaccController
-  layout 'application'
-  view_attribute :title=>'事業所'
+  view_attribute :title => '事業所'
+  before_filter :setup_view_attributes
 
   def new
-    begin
-      setup_view_attributes
-      @bo = BusinessOffice.new(:company_id=>params[:company_id])
-    rescue Exception => e
-      handle(e)
-    end
+    @bo = BusinessOffice.new(:company_id => params[:company_id])
   end
-  
+
   def create
     begin
-      setup_view_attributes
       @bo = BusinessOffice.new(params[:business_office])
-      @bo.prefecture_name = @prefectures.find{|p| p[1] == @bo.prefecture_id}[0]
+      @bo.transaction do
+        @bo.prefecture_name = @prefectures.find{|p| p[1] == @bo.prefecture_id}[0]
+        @bo.save!
+      end
 
-      @bo.save!
       flash[:notice] = '事業所を登録しました。'
-      render :partial=>'common/reload_dialog'
-    rescue Exception => e
+      render 'common/reload'
+
+    rescue => e
       handle(e)
-      render :action => 'add'
+      render :action => 'new'
     end
   end
   
   def edit
-    begin
-      setup_view_attributes
-      @bo = BusinessOffice.find(params[:id])
-    rescue Exception => e
-      handle(e)
-    end
+    @bo = BusinessOffice.find(params[:id])
   end
   
   def update
     begin
-      setup_view_attributes
       @bo = BusinessOffice.find(params[:id])
-      @bo.prefecture_name = @prefectures.find{|p| p[1] == @bo.prefecture_id}[0]
-
-      unless @bo.update_attributes(params[:business_office])
-        raise HyacccException.new(ERR_DB)
+      @bo.transaction do
+        @bo.attributes = params[:business_office]
+        @bo.prefecture_name = @prefectures.find{|p| p[1] == @bo.prefecture_id}[0]
+        @bo.save!
       end
       
       flash[:notice] = '事業所を更新しました。'
-      render :partial=>'common/reload_dialog'
-    rescue Exception => e
+      render 'common/reload'
+    rescue => e
       handle(e)
       render :action => 'edit'
     end
@@ -62,7 +52,6 @@ class BusinessOfficesController < Base::HyaccController
   
   def destroy
     begin
-      setup_view_attributes
       @bo = BusinessOffice.find(params[:id])
 
       unless @bo.destroy
@@ -70,15 +59,17 @@ class BusinessOfficesController < Base::HyaccController
       end
       
       flash[:notice] = '事業所を削除しました。'
-    rescue Exception => e
+    rescue => e
       handle(e)
     end
     
     redirect_to :controller=>:company
   end
 
-private
+  private
+
   def setup_view_attributes
     @prefectures = get_prefectures.collect{|p| [p[:name], p[:id]]}
   end
+
 end

@@ -1,14 +1,14 @@
 <%#
-# $Id: _form.html.erb 2995 2013-02-15 08:22:39Z hiro $
 # Product: hyacc
-# Copyright 2011-2012 by Hybitz.co.ltd
+# Copyright 2011-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 %>
 <%= flash_notice %>
-<%= form_for @bo do |f| %>
+
+<%= form_for @bo, :remote => true do |f| %>
   <%= f.hidden_field :id %>
   <%= f.hidden_field :company_id %>
-  <%= dojo_submit_tag button_name %>
+  <%= f.submit %>
 
   <table>
     <tr>

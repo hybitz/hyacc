@@ -1,10 +1,12 @@
-# -*- encoding : utf-8 -*-
+# coding: UTF-8
 #
-# $Id: business_office.rb 2471 2011-03-23 14:59:36Z ichy $
 # Product: hyacc
-# Copyright 2011 by Hybitz.co.ltd
+# Copyright 2011-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 #
 class BusinessOffice < ActiveRecord::Base
   belongs_to :company
+
+  validates :name, :presence => true
+  validates :prefecture_id, :presence => true
 end

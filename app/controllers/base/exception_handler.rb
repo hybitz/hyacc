@@ -1,6 +1,5 @@
 # coding: UTF-8
 #
-# $id$
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.

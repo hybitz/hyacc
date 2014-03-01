@@ -1,8 +1,7 @@
 # coding: UTF-8
 #
-# $Id: login_controller.rb 3164 2014-01-01 11:07:49Z ichy $
 # Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
+# Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
 #
 class LoginController < Base::HyaccController
@@ -11,12 +10,12 @@ class LoginController < Base::HyaccController
   layout false
   
   def index
-    render :action=>'login'
+    render :action => 'login'
   end
   
   def login
     unless params[:user]
-      render :action=>'login' and return
+      render :action => 'login' and return
     end
     
     @user = User.new( params[:user] )
@@ -24,10 +23,12 @@ class LoginController < Base::HyaccController
     if user_on_db.nil? or ! user_on_db.authoricate(@user.login_id, @user.password)
       # ログイン失敗時にメールを送信
       to = get_alert_mail_to(user_on_db)
-      assigns = {:now=>Time.now.strftime("%Y/%m/%d %H:%M:%S"), :who=>@user}
-      LoginNotice.invoice_login_fail(to, assigns).deliver
+      if to.present?
+        assigns = {:now=>Time.now.strftime("%Y/%m/%d %H:%M:%S"), :who=>@user}
+        LoginNotice.invoice_login_fail(to, assigns).deliver
+      end
 
-      render :action=>'login' and return
+      render :action => 'login' and return
     end
     
     session[:user_id] = user_on_db.id
@@ -44,7 +45,8 @@ class LoginController < Base::HyaccController
     redirect_to root_path
   end
 
-private
+  private
+
   # ログイン後の画面に遷移します。
   def jump_to_user_page
     if session[:jump_to].nil?

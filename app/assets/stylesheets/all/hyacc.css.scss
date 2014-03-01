@@ -61,7 +61,7 @@ th, td {
 }
 
 .action {
-  width: 3em;
+  width: 2em;
   text-align: center;
 }
 
@@ -199,7 +199,7 @@ th, td {
 }
 
 .remarks {
-  width: 20em;
+  width: 18em;
   height: 22px;
   vertical-align: middle;
   overflow: hidden;
@@ -250,7 +250,7 @@ th.accountName {
 }
 
 .branchName {
-  width: 6em;
+  width: 5em;
   height: 1em;
   text-align: center;
   vertical-align: middle;
@@ -288,33 +288,29 @@ th.accountName {
   margin: 0;
 }
 
-.amount {
-  width: 7em;
-  height: 22px;
-  text-align: right;
-  vertical-align: middle;
-}
-
-
+.amount,
+.amountDecrease,
 .amountIncrease {
   width: 7em;
-  height: 22px;
+  height: 1em;
   text-align: right;
   vertical-align: middle;
 }
 
+.taxAmount {
+  width: 6em;
+  height: 1em;
+  text-align: right;
+  vertical-align: middle;
+}
+
+th.amount,
+th.amountDecrease,
 th.amountIncrease {
   text-align: center;
 }
 
-.amountDecrease {
-  width: 7em;
-  height: 22px;
-  text-align: right;
-  vertical-align: middle;
-}
-
-th.amountDecrease {
+th.taxAmount {
   text-align: center;
 }
 
@@ -362,27 +358,6 @@ th.amountSum {
   border: none;
   padding: 0;
   margin: 0;
-}
-
-.taxAmount {
-  width: 6em;
-  height: 1em;
-  text-align: right;
-}
-
-th.taxAmount {
-  text-align: center;
-}
-
-th.amount {
-  text-align: center;
-}
-
-.taxAmountText {
-  width: 100%;
-  height: 100%;
-  text-align: right;
-  border: none;
 }
 
 .amountDebit {

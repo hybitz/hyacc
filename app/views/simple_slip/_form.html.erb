@@ -93,10 +93,10 @@
     <span>%</span>
   </td>
   <td>
-    <%= text_field 'slip', 'tax_amount_increase', {:class=>'taxAmountText', :onchange=>"updateTaxAmountSimple(this.form, this.value, null);"} %>
+    <%= text_field 'slip', 'tax_amount_increase', {:class=>'amountText', :onchange=>"updateTaxAmountSimple(this.form, this.value, null);"} %>
   </td>
   <td>
-    <%= text_field 'slip', 'tax_amount_decrease', {:class=>'taxAmountText', :onchange=>"updateTaxAmountSimple(this.form, null, this.value);"} %>
+    <%= text_field 'slip', 'tax_amount_decrease', {:class=>'amountText', :onchange=>"updateTaxAmountSimple(this.form, null, this.value);"} %>
   </td>
   <%# 一覧画面の表示かどうかで列数を調整 %>
   <% if ['index', 'create'].include? action_name %>

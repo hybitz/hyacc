@@ -105,7 +105,7 @@
     </script>
   </td>
   <% end %>
-  <td>
+  <td class="amount">
     <input type="text" id="journal_details_<%= jd.detail_no %>_input_amount" class="amountText"
            name="journal_details[<%= jd.detail_no %>][input_amount]"
            value="<%= jd.input_amount.to_i %>" onchange="updateTaxAmount('journal_details_<%= jd.detail_no %>');"/>
@@ -120,7 +120,7 @@
            value="<%= jd.tax_rate_percent unless jd.tax_type_nontaxable? %>" onchange="updateTaxAmount('journal_details_<%= jd.detail_no %>');"/>
     %
   </td>
-  <td nowrap>
+  <td class="amount">
     <input type="text" id="journal_details_<%= jd.detail_no %>_tax_amount" class="amountText"
            name="journal_details[<%= jd.detail_no %>][tax_amount]"
            value="<%= jd.tax_amount.to_i %>" onchange="calcTotalAmount();"/>

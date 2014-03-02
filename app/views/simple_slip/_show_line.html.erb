@@ -1,5 +1,4 @@
 <%#
-# $Id: _show_line.html.erb 3360 2014-02-07 08:06:41Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -13,8 +12,10 @@
 <td class="amountIncrease"><%= to_amount( slip.slip_amount_increase ) %></td>
 <td class="amountDecrease"><%= to_amount( slip.slip_amount_decrease ) %></td>
 <td class="amountSum"></td>
-<td style="text-align: center;"><%= "自振" if slip.has_auto_transfers %></td>
-<td>
+<td style="text-align: center;">
+  <%= "自振" if slip.has_auto_transfers %>
+</td>
+<td style="text-align: center;">
   <%= link_to "(電子)", {:action=>'download_receipt', :id=>slip.id} if slip.journal_header.receipt_path %>
 </td>
 <td class="action">

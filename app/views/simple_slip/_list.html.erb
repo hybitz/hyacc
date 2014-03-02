@@ -1,5 +1,4 @@
 <%#
-# $Id: _list.html.erb 3370 2014-02-13 03:30:29Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -68,53 +67,27 @@
 <%= render 'message' %>
 
 <script>
-  function calcSum( containerId ) {
-    var container = document.getElementById( containerId );
-    var rows = container.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+  function calcSum() {
+    var container = $('#slipTable');
+    var rows = container.find('tr[slip_id]');
 
-    var sum = 0;
-    for ( var i = 0; i < rows.length; i ++ ) {
-      var row = rows[i];
-      if ( row.id == undefined ) {
-        continue;
-      }
-      
-      // 前回まで累計
-      if ( row.id.match(/cashSumBefore/i) != null ) {
-        div = findElementByClassName( row, 'amountSum' );
-        sum += toInt( div.innerHTML );
-      }
-      // 伝票の表示行の場合は、累計を計算する
-      else if ( $(row).attr('slip_id') ) {
-        // 増加分を加算
-        increaseDiv = findElementByClassName( row, 'amountIncrease' );
-        sum += toInt( increaseDiv.innerHTML );
+    var sum = toInt(container.find('tr#cashSumBefore .amountSum').text());
+    container.find('tr[slip_id]').each(function() {
+      sum += toInt($(this).find('.amountIncrease').text());
+      sum -= toInt($(this).find('.amountDecrease').text());
+      $(this).find('.amountSum').text(toAmount(sum));
 
-        // 減少分を減算
-        decreaseDiv = findElementByClassName( row, 'amountDecrease' );
-        sum -= toInt( decreaseDiv.innerHTML );
-        
-        // 累計行に表示
-        sumDiv = findElementByClassName( row, 'amountSum' );
-        sumDiv.innerHTML = toAmount( sum );
-
-        // 累計がマイナスの場合は、金額を赤色表示
-        if ( sum < 0 ) {
-          if ( sumDiv.style ) {
-            sumDiv.style.color = 'red';
-          }
-        }
+      // 累計がマイナスの場合は、金額を赤色表示
+      if ( sum < 0 ) {
+        $(this).find('.amountSum').css('color', 'red');
       }
-    }
+    });
   }
 
   $(document).ready(function() {
-    var slipDay = document.getElementById('slip_day');
-    if (slipDay != null) {
-      slipDay.focus();
-    }
-  
-    calcSum('slipTable');
+    $('#slip_day').focus();
+
+    calcSum();
 
     // 消費税欄を初期化
     var form = $('#slip_new_form');

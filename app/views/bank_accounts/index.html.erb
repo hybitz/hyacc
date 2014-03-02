@@ -1,5 +1,4 @@
 <%#
-# $Id: index.html.erb 3304 2014-01-26 13:02:26Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -26,8 +25,8 @@
       <td align="center"><%= ba.name %></td>
       <td align="center"><%= ba.holder_name %></td>
       <td>
-          <%= link_to '編集', edit_bank_account_path(ba), :remote => true %>
-          <%= link_to '削除', bank_account_path(ba), :confirm => '削除します。よろしいですか？', :method => :delete %>
+        <%= link_to '編集', edit_bank_account_path(ba), :remote => true %>
+        <%= link_to '削除', bank_account_path(ba), :confirm => '削除します。よろしいですか？', :method => :delete %>
       </td>
     </tr>
   <% end %>

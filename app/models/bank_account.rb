@@ -1,16 +1,16 @@
 # coding: UTF-8
-#
-# $Id: bank_account.rb 2915 2012-08-31 08:15:35Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+
 class BankAccount < ActiveRecord::Base
   include HyaccConstants
-  after_save :reset_account_cache
-  
+
   belongs_to :bank
   belongs_to :bank_office
+
+  validates :code, :presence => true
+  validates :name, :presence => true
+  validates :holder_name, :presence => true
+
+  after_save :reset_account_cache
 
   def bank_name
     return nil unless bank

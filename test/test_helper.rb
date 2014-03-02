@@ -13,6 +13,9 @@ require 'rails/test_help'
 require "minitest/rails"
 
 class ActiveSupport::TestCase
+  include HyaccConstants
+  include HyaccErrors
+
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
@@ -27,14 +30,7 @@ class ActiveSupport::TestCase
 
 end
 
-class ActiveRecord::TestCase
-  include HyaccConstants
-  include HyaccErrors
-end
-
 class ActionController::TestCase
-  include HyaccConstants
-  include HyaccErrors
 
   protected
 

@@ -1,6 +1,5 @@
 # coding: UTF-8
 #
-# $Id: bank_accounts_controller.rb 3304 2014-01-26 13:02:26Z ichy $
 # Product: hyacc
 # Copyright 2009-2014 by Hybitz.co.ltd
 # ALL Rights Reserved.
@@ -64,9 +63,7 @@ class BankAccountsController < Base::HyaccController
 
     begin
       @bank_account.transaction do
-        unless @bank_account.destroy
-          raise HyaccException.new
-        end
+        @bank_account.destroy_logically!
       end
       
       flash[:notice] = '金融口座を削除しました。'

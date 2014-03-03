@@ -1,10 +1,6 @@
-<%#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <%= form_tag({:action => 'create', :account_code => @finder.account_code}, {:id => 'slip_new_form', :enctype => 'multipart/form-data', :method => 'post'}) do %>
-  <table id="slipTable" class="slipTable">
+  <%= render 'message' %>
+  <table id="slipTable">
     <tr>
       <th>年　月</th>
       <th>日</th>
@@ -64,24 +60,34 @@
   </table>
 <% end %>
 
-<%= render 'message' %>
-
 <script>
+  // 累計の計算
+  // 累計がマイナスの場合は、金額を赤色表示にする
   function calcSum() {
     var container = $('#slipTable');
     var rows = container.find('tr[slip_id]');
 
-    var sum = toInt(container.find('tr#cashSumBefore .amountSum').text());
+    var before = container.find('tr#cashSumBefore .amountSum');
+    var sum = toInt(before.text());
+    if ( sum < 0 ) {
+      $(before).css('color', 'red');
+    }
+
     container.find('tr[slip_id]').each(function() {
       sum += toInt($(this).find('.amountIncrease').text());
       sum -= toInt($(this).find('.amountDecrease').text());
       $(this).find('.amountSum').text(toAmount(sum));
 
-      // 累計がマイナスの場合は、金額を赤色表示
       if ( sum < 0 ) {
         $(this).find('.amountSum').css('color', 'red');
       }
     });
+
+    var after = container.find('tr#cashSumAfter .amountSum');
+    var sum = toInt(after.text()); // 過去伝票をページングして参照しているかもしれないので画面の計算値に依存しない
+    if ( sum < 0 ) {
+      $(after).css('color', 'red');
+    }
   }
 
   $(document).ready(function() {

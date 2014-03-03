@@ -1,10 +1,5 @@
 # coding: UTF-8
-#
-# $Id: simple_slip_controller.rb 3338 2014-01-31 03:52:13Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+
 class SimpleSlipController < Base::HyaccController
   before_filter :check_sub_accounts
   view_attribute :finder, :class => Slips::SlipFinder, :include_params => :account_code

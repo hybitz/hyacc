@@ -15,7 +15,8 @@
 </div>
 
 <%= form_tag({:controller=>"simple/#{@account.code}", :action => 'update'}, :id => "slip_edit_form", :enctype => "multipart/form-data", :remote => true) do %>
-  <table class="slipTable">
+  <%= render 'message' %>
+  <table>
     <tr>
       <th class="yearMonth">年　月</th>
       <th class="day">日</th>
@@ -41,5 +42,3 @@
     });
   </script>
 <% end %>
-
-<%= render 'message' %>

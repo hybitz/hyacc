@@ -1,21 +1,16 @@
-<%#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-<div id="messageDiv" style="
-            width: 500px; height: 20px;
-            margin-bottom: 5px;
-            border-bottom-style: solid;
-            border-bottom-color: gray;
-            border-bottom-width: 1px;">
+<div class="messageDiv">
   <%= flash_notice_in_span %>
+
+  <script>
+    $(document).ready(function() {
+      var message = $('.messageDiv').last();
+      var table = message.next();
+      message.position({
+        my: 'right-20 bottom-5',
+        at: 'right top',
+        of: table,
+        offset: '-5px -1em'
+      });
+    });
+  </script>
 </div>
-<script>
-  $(document).ready(function() {
-    var table = document.getElementById('slipTable');
-    var messageDiv = document.getElementById('messageDiv');
-    messageDiv.style.marginTop = (- table.offsetHeight - 35) + "px";
-    messageDiv.style.marginLeft = (table.offsetWidth - 500) + "px";
-  });
-</script>

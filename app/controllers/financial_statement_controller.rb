@@ -1,10 +1,5 @@
 # coding: UTF-8
-#
-# $Id: financial_statement_controller.rb 3162 2014-01-01 08:45:50Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+
 class FinancialStatementController < Base::HyaccController
   view_attribute :title => '決算書'
   view_attribute :finder, :class => ReportFinder
@@ -13,7 +8,7 @@ class FinancialStatementController < Base::HyaccController
   view_attribute :report_types
   view_attribute :report_styles
 
-  def list
+  def index
     if finder.commit
       if finder.report_type == REPORT_TYPE_BS
         if finder.report_style == REPORT_STYLE_MONTHLY
@@ -37,7 +32,8 @@ class FinancialStatementController < Base::HyaccController
     end
   end
 
-private
+  private
+
   def render_bs_yearly
     # BS関係の勘定科目ツリーを取得
     trees = [

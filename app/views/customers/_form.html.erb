@@ -1,26 +1,20 @@
-<%#
-# $Id: new.html.erb 3335 2014-01-30 14:43:41Z ichy $
-# Product: hyacc
-# Copyright 2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <%= flash_notice %>
 
 <%= form_for @customer, :remote => true do |f| %>
   <div style="margin: 10px; text-align: right;">
     <%= f.submit %>
   </div>
+
   <table>
-    <tr>
-      <th>取引先コード</th>
-      <td><%= f.text_field :code %></td>
-    </tr>
-    
     <% if @customer.new_record? %>
+      <tr>
+        <th>取引先コード</th>
+        <td><%= f.text_field :code %></td>
+      </tr>
       <tr>
         <th>取引先名（正式名）</th>
         <td>
-          <%= fields_for "customer[customer_names_attributes][0]", @customer.customer_names.first do |f| %>
+          <%= f.fields_for "customer_names_attributes[0]", @customer.customer_names.first do |f| %>
             <%= f.text_field :formal_name %>
           <% end %>
         </td>
@@ -28,16 +22,29 @@
       <tr>
         <th>取引先名（省略）</th>
         <td>
-          <%= fields_for "customer[customer_names_attributes][0]", @customer.customer_names.first do |f| %>
+          <%= f.fields_for "customer_names_attributes[0]", @customer.customer_names.first do |f| %>
             <%= f.text_field :name %>
           <% end %>
         </td>
+      </tr>
+    <% else %>
+      <tr>
+        <th>取引先コード</th>
+        <td><%= @customer.code %></td>
+      </tr>
+      <tr>
+        <th>取引先名（正式名）</th>
+        <td><%= @customer.formal_name %></td>
+      </tr>
+      <tr>
+        <th>取引先名（略称）</th>
+        <td><%= @customer.name %></td>
       </tr>
     <% end %>
 
     <tr>
       <th>住所</th>
-      <td><%= f.text_field :address %></td>
+      <td><%= f.text_field :address, :size=>80 %></td>
     </tr>
     <tr>
       <th>受注フラグ</th>
@@ -52,4 +59,7 @@
       <td><%= f.select :deleted, @deleted_types %></td>
     </tr>
   </table>
+  
+  <div>時系列名称</div>
+  <%= render 'customer_names', :customer => @customer unless @customer.new_record? %>
 <% end %>

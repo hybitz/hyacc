@@ -1,19 +1,13 @@
-<%#
-# $Id: _customer_name_fields.html.erb 2991 2013-02-15 07:27:01Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-<%= fields_for "customer[customer_names_attributes]", cn, :index => index do |f_cn| %>
-<tr id="customer_customer_names_attributes_<%= index %>">
+<%= fields_for "customer[customer_names_attributes]", cn, :index => index do |f| %>
+<tr>
   <td>
-    <%= f_cn.hidden_field :id %>
-    <%= f_cn.hidden_field :_destroy %>
-    <%= f_cn.hidden_field :customer_id %>
-    <%= f_cn.text_field :formal_name %>
+    <%= f.hidden_field :id %>
+    <%= f.hidden_field :_destroy %>
+    <%= f.hidden_field :customer_id %>
+    <%= f.text_field :formal_name %>
   </td>
-  <td><%= f_cn.text_field :name %></td>
-  <td><%= f_cn.date_select :start_date %></td>
-  <td><a href="javascript:document.getElementById('customer_customer_names_attributes_<%= index %>').style.display = 'none'; document.getElementById('customer_customer_names_attributes_<%= index %>__destroy').value = 'true';">削除</a></td>
+  <td><%= f.text_field :name %></td>
+  <td><%= f.date_select :start_date %></td>
+  <td><%= link_to_function '削除', 'customers.remove_customer_name(this)' %></td>
 </tr>
 <% end %>

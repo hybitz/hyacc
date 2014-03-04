@@ -169,11 +169,16 @@ th, td {
   margin: 0;
 }
 
-.day {
+.day,
+.month,
+.year {
   width: 2em;
-  height: 22px;
+  height: 1em;
   text-align: center;
   vertical-align: middle;
+}
+.year {
+  width: 4em;
 }
 
 .dayText {

@@ -45,7 +45,7 @@
   </td>
   
   <% if branch_mode %>
-    <td><%= h_branch_select 'slip', :style => 'width: 100%;' %></td>
+    <td class="branchName"><%= h_branch_select 'slip', :style => 'width: 100%;' %></td>
   <% end %>
   
   <td class="amount"><%= text_field 'slip', 'amount_increase', {:class=>'amountText', :onchange=>"updateTaxAmountSimple(this.form);"} %></td>
@@ -123,9 +123,9 @@
              onclick="checkAutoJournalType(this);" >
   </td>
   <td nowrap style="border-left-style: none;">
-      &nbsp;<%= text_field 'slip', 'auto_journal_year', :size=>4, :maxlength=>4 %> 年
-      <%= text_field 'slip', 'auto_journal_month', :size=>1, :maxlength=>2 %> 月
-      <%= text_field 'slip', 'auto_journal_day', :size=>1, :maxlength=>2 %> 日
+      &nbsp;<%= text_field 'slip', 'auto_journal_year', :maxlength => 4, :class => 'year' %> 年
+      <%= text_field 'slip', 'auto_journal_month', :maxlength => 2, :class => 'month' %> 月
+      <%= text_field 'slip', 'auto_journal_day', :maxlength => 2, :class => 'day' %> 日
   </td>
 
   <%# 一覧画面の表示かどうかで列数を調整 %>

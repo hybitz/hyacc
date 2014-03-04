@@ -13,7 +13,7 @@
 <td style="text-align: center;">
   <%= link_to "(電子)", {:action=>'download_receipt', :id=>slip.id} if slip.journal_header.receipt_path %>
 </td>
-<td class="action">
+<td class="action" style="border-right: none;">
   <%# 編集可能な伝票の場合は簡易登録画面を表示 %>
   <% if slip.editable? %>
     <%= link_to '参照', {:action => :show, :id => slip.id, :account_code => params[:account_code]}, :remote => true %>
@@ -22,7 +22,7 @@
     <%= link_to '参照', {:controller => :journal, :action => :show, :id => slip.id}, :remote => true %>
   <% end %>
 </td>
-<td class="action">
+<td class="action" style="border-left: none; border-right: none;">
   <%# 編集可能な伝票の場合は簡易登録画面を表示 %>
   <% if slip.editable? %>
     <%= link_to '編集', {:action => :edit, :id => slip.id, :account_code => params[:account_code]}, :remote => true %>
@@ -31,10 +31,10 @@
     <%= link_to '編集', {:controller => :journal, :action => :edit, :id => slip.id}, :remote => true %>
   <% end %>
 </td>
-<td class="action">
+<td class="action" style="border-left: none; border-right: none;">
   <%= link_to '削除', {:action=>:destroy, :id=>slip.id, :lock_version=>slip.lock_version, :account_code => params[:account_code]}, :confirm=>'削除します。よろしいですか？', :method=>:post %>
 </td>
-<td class="action">
+<td class="action" style="border-left: none;">
   <% if slip.editable? %>
     <%= link_to 'ｺﾋﾟｰ', url_for(:action=>'new_from_copy', :id=>slip.id, :account_code => params[:account_code]), :remote=>true %>
   <% end %>

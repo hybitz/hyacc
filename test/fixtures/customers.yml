@@ -1,12 +1,20 @@
---- 
-customer_00007: 
+1: 
+  id: 1
+  code: "100"
+  is_order_entry: true
+  deleted: false
+  is_order_placement: false
+  created_at: 2009-01-14 23:39:59 +09:00
+  updated_at: 2009-01-14 23:39:59 +09:00
+
+7:
+  id: 7
   updated_at: 2009-06-09 22:56:36 +09:00
   code: "700"
   is_order_entry: false
-  id: 7
   deleted: false
   is_order_placement: true
-  address: "\xE6\x9D\xB1\xE4\xBA\xAC\xE9\x83\xBD\xE4\xB8\x96\xE7\x94\xB0\xE8\xB0\xB7\xE5\x8C\xBA\xE8\x8B\xA5\xE6\x9E\x973-4-11\xE7\xAC\xAC7\xE6\x98\x8E\xE5\x92\x8C\xE3\x83\x93\xE3\x83\xAB"
+  address: 東京都XXX
   created_at: 2009-06-09 22:56:36 +09:00
 customer_00008: 
   updated_at: 2009-06-09 22:56:36 +09:00
@@ -15,7 +23,7 @@ customer_00008:
   id: 8
   deleted: false
   is_order_placement: true
-  address: "\xE6\x9D\xB1\xE4\xBA\xAC\xE9\x83\xBD\xE6\xB8\x8B\xE8\xB0\xB7\xE5\x8C\xBA\xE6\xB8\x8B\xE8\xB0\xB7\xEF\xBC\x92\xE4\xB8\x81\xE7\x9B\xAE2-10\xE9\x9D\x92\xE5\xB1\xB1H&A\xE3\x83\x93\xE3\x83\xAB5F"
+  address: 東京都XXX
   created_at: 2009-06-09 22:56:36 +09:00
 customer_00009: 
   updated_at: 2009-06-09 22:56:36 +09:00
@@ -24,7 +32,7 @@ customer_00009:
   id: 9
   deleted: false
   is_order_placement: true
-  address: "\xE5\x85\xB5\xE5\xBA\xAB\xE7\x9C\x8C\xE8\x8A\xA6\xE5\xB1\x8B\xE5\xB8\x82\xE5\xA4\xA7\xE6\xA1\x9D\xE7\x94\xBA7-10"
+  address: 東京都XXX
   created_at: 2009-06-09 22:56:36 +09:00
 customer_00010: 
   updated_at: 2009-06-09 22:56:36 +09:00
@@ -33,17 +41,8 @@ customer_00010:
   id: 10
   deleted: false
   is_order_placement: true
-  address: "\xE6\x9D\xB1\xE4\xBA\xAC\xE9\x83\xBD\xE8\xB1\x8A\xE5\xB3\xB6\xE5\x8C\xBA\xE9\x95\xB7\xE5\xB4\x8E2-3-13"
+  address: 東京都XXX
   created_at: 2009-06-09 22:56:36 +09:00
-customer_00001: 
-  updated_at: 2009-01-14 23:39:59 +09:00
-  code: "100"
-  is_order_entry: true
-  id: 1
-  deleted: false
-  is_order_placement: false
-  address: ""
-  created_at: 2009-01-14 23:39:59 +09:00
 customer_00002: 
   updated_at: 2009-01-14 23:40:18 +09:00
   code: "200"
@@ -87,5 +86,5 @@ customer_00006:
   id: 6
   deleted: false
   is_order_placement: true
-  address: "\xE6\x9C\xAD\xE5\xB9\x8C\xE5\xB8\x82\xE8\xB1\x8A\xE5\xB9\xB3\xE5\x8C\xBA\xE5\xB9\xB3\xE5\xB2\xB83\xE6\x9D\xA18\xE4\xB8\x81\xE7\x9B\xAE3-1-101"
+  address: 東京都XXX
   created_at: 2009-06-09 22:56:36 +09:00

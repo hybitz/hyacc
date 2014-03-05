@@ -1,16 +1,10 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: careers_controller.rb 2925 2012-09-21 03:51:20Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+# coding: UTF-8
+
 class CareersController < Base::HyaccController
-  layout 'application'
-  view_attribute :title=>'業務経歴'
-  view_attribute :finder, :class=>CareerFinder, :only=>:index
+  view_attribute :title => '業務経歴'
+  view_attribute :finder, :class => CareerFinder, :only => :index
   view_attribute :employees
-  view_attribute :customers, :conditions=>['is_order_entry=?', true]
+  view_attribute :customers, :conditions => ['is_order_entry=?', true]
   
   def index
     if @customers.size > 0
@@ -30,8 +24,8 @@ class CareersController < Base::HyaccController
       end
   
       flash[:notice] = '業務経歴を追加しました。'
-      render :partial=>'common/reload_dialog'
-    rescue Exception => e
+      render 'common/reload'
+    rescue => e
       handle(e)
       render 'new'
     end
@@ -50,8 +44,8 @@ class CareersController < Base::HyaccController
       end
 
       flash[:notice] = '業務経歴を更新しました。'
-      render :partial=>'common/reload_dialog'
-    rescue Exception => e
+      render 'common/reload'
+    rescue => e
       handle(e)
       render 'edit'
     end
@@ -61,6 +55,6 @@ class CareersController < Base::HyaccController
     c = Career.find(params[:id])
     c.destroy
     flash[:notice] = '業務経歴を削除しました。'
-    redirect_to :action=>'index'
+    redirect_to :action => 'index'
   end
 end

@@ -1,9 +1,5 @@
 # coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2008-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+
 Hyacc::Application.routes.draw do
   resources :assets
 

@@ -1,14 +1,11 @@
 # coding: UTF-8
-#
-# $Id: career.rb 3168 2014-01-01 12:39:53Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 
 class Career < ActiveRecord::Base
   belongs_to :employee
-  belongs_to :customer  
+  belongs_to :customer
+
+  validates :project_name, :presence => true
+
   before_save :update_names
 
   # マスタの名称を明細自身に設定する

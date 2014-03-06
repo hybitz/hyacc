@@ -1,7 +1,7 @@
 a:
   id: 1
   name: 株式会社テストA
-  founded_date: 20070228
+  founded_date: 2007-02-28
   fiscal_year: 2009
   start_month_of_fiscal_year: 12
   type_of: 1
@@ -10,7 +10,7 @@ a:
 b:
   id: 2
   name: 有限会社テストB
-  founded_date: 20060912
+  founded_date: 2006-09-12
   fiscal_year: 2007
   start_month_of_fiscal_year: 4
   type_of: 5
@@ -18,7 +18,7 @@ b:
 c:
   id: 3
   name: フリーランス
-  founded_date: 20090714
+  founded_date: 2009-07-14
   fiscal_year: 2009
   start_month_of_fiscal_year: 1
   type_of: 9
@@ -26,7 +26,7 @@ c:
 d:
   id: 4
   name: 株式会社テストD
-  founded_date: 20090801
+  founded_date: 2009-08-01
   fiscal_year: 2010
   start_month_of_fiscal_year: 4
   type_of: 1

@@ -30,7 +30,7 @@ class CustomersController < Base::HyaccController
   def create
     begin
       @customer = Customer.new(params[:customer])
-      @customer.customer_names[0].start_date = current_user.company.founded_date
+      @customer.customer_names.first.start_date = current_user.company.founded_date
 
       @customer.transaction do
         @customer.save!
@@ -39,7 +39,7 @@ class CustomersController < Base::HyaccController
       flash[:notice] = '取引先を登録しました。'
       render 'common/reload'
 
-    rescue Exception=>e
+    rescue =>e
       handle(e)
       render 'new'
     end

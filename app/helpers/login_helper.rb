@@ -1,9 +1,5 @@
 # coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+
 module LoginHelper
 
   # アラートメールの送信先を取得します。

@@ -51,12 +51,14 @@ after "deploy:start", "deploy:cleanup"
 # end
 namespace :deploy do
   task :start, :roles => :app, :except => { :no_release => true } do 
+    run "sudo service memcached restart"
     run "sudo service unicorn_hyacc_pro start"
   end
   task :stop, :roles => :app, :except => { :no_release => true } do 
     run "sudo service unicorn_hyacc_pro stop"
   end
   task :restart, :roles => :app, :except => { :no_release => true } do
+    run "sudo service memcached restart"
     run "sudo service unicorn_hyacc_pro restart"
   end
 end

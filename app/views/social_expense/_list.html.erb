@@ -1,9 +1,3 @@
-<%#
-# $Id: _list.html.erb 2980 2013-02-10 15:43:31Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <script>
   data = {
       journal_headers: [
@@ -101,7 +95,7 @@
         this.formatSocialExpenseNumber = function(elCell, oRecord, oColumn, oData) {
           YAHOO.widget.DataTable.formatText(elCell, oRecord, oColumn, oData);
           if ( ! isTarget( oRecord ) ) {
-            elCell.parentNode.style.background = 'grey';
+            elCell.parentNode.style.background = 'lightgrey';
           }
         }
       
@@ -109,7 +103,6 @@
           if ( isTarget( oRecord ) ) {
             YAHOO.widget.DataTable.formatText(elCell, oRecord, oColumn, toAmount( calcDeductionAmount( oRecord ) ) );
           }
-
         }
         
         this.formatSocialExpenseAmount = function(elCell, oRecord, oColumn, oData) {
@@ -174,7 +167,9 @@
           <%# 科目が接待交際費でなければエディタを起動しない %>
           if ( record.getData("account_code") != <%= HyaccConstants::ACCOUNT_CODE_SOCIAL_EXPENSE %> ) return;
           
-          this.onEventShowCellEditor( oArgs );
+          // TODO YUIをやめてjQueryにするまで無効化
+          //this.onEventShowCellEditor( oArgs );
+          return;
         }
         this.myDataTable.subscribe("cellClickEvent", this.myDataTable.showEditor);
         <% end %>
@@ -187,7 +182,7 @@
           var record = oArgs.editor.getRecord();
           YAHOO.util.Connect.asyncRequest(
                 'POST',
-                'update/' + record.getData('journal_detail_id'),
+                '<%= url_for :action => 'update' %>' + '/' + record.getData('journal_detail_id'),
                 {
                     success: function (o) {
                         if (o.responseText != 'OK') {

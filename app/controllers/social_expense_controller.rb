@@ -1,10 +1,5 @@
 # coding: UTF-8
-#
-# $Id: social_expense_controller.rb 3164 2014-01-01 11:07:49Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+
 class SocialExpenseController < Base::HyaccController
   include JournalUtil
   
@@ -13,7 +8,7 @@ class SocialExpenseController < Base::HyaccController
   view_attribute :ym_list, :except=>:update
   view_attribute :branches, :except=>:update
 
-  def list
+  def index
     @closing_status = current_user.company.get_fiscal_year( finder.fiscal_year ).closing_status
     @journal_headers = finder.list
   end

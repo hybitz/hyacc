@@ -11,7 +11,7 @@ class AccountsControllerTest < ActionController::TestCase
 
   def setup
     @first_id = Account.find(28).id
-    @request.session[:user_id] = users(:first).id
+    sign_in user
   end
 
   def test_index
@@ -22,7 +22,7 @@ class AccountsControllerTest < ActionController::TestCase
     assert_nil assigns(:accounts)
   end
 
-  def test_index
+  def test_一覧_検索
     get :index,
       :finder=>{
         :account_type=>ACCOUNT_TYPE_ASSET,

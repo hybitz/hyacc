@@ -17,18 +17,14 @@ namespace :hyacc do
       dbdata_path = __FILE__ if Rails.env != "production"
       
       # companiesテーブルから管理者メールを取得
-      to = Company.find(:first).admin_email
+      to = Company.first.admin_email
       
       # メールを送信
       mail_title = "【Hyacc】週次バックアップ(" + yyyymmdd + ")"
       mail_body = "週次バックアップ(" + yyyymmdd + ")"
       
-      HyaccLogger.info dbdata_path
-      HyaccLogger.info "TO:" + to
-      
-      
       #メールの送信
-      Mailer.create(to, mail_title, mail_body,dbdata_path).deliver if File.exist?(dbdata_path)
+      Mailer.create(to, mail_title, mail_body,dbdata_path).deliver if File.exist?(dbdata_path) && to.present?
     end
   end
 end

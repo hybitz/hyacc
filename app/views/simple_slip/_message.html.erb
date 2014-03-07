@@ -3,14 +3,16 @@
 
   <script>
     $(document).ready(function() {
-      var message = $('.messageDiv').last();
-      var table = message.next();
-      message.position({
-        my: 'right-20 bottom-5',
-        at: 'right top',
-        of: table,
-        offset: '-5px -1em'
-      });
+      setTimeout(function() {
+        $('.messageDiv').each(function() {
+          var table = $(this).next();
+          $(this).position({
+            my: 'right-20 bottom-5',
+            at: 'right top',
+            of: table
+          });
+        });
+      }, 0);
     });
   </script>
 </div>

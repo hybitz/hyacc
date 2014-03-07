@@ -1,10 +1,4 @@
-<%#
-# $Id: _edit.html.erb 3359 2014-02-07 07:52:56Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-<div id="target_account_info" style="margin: 0px 10px 0px 10px;">
+<div class="target_account_info">
   <%# 補助科目が存在する科目の場合は補助科目名を表示する %>
   <% if @account.sub_accounts_all.length > 0 %>
     <%= get_sub_account_title( @account ) %>：

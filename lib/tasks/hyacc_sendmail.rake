@@ -16,16 +16,16 @@ namespace :hyacc do
       dbdata_path = "/home/hyacc/backup/" + company_name + "/" + ym + "/" + company_name + "_pro_" + ymd + ".sql.zip"
       dbdata_path = __FILE__ if Rails.env != "production"
       
-      
       # companiesテーブルから管理者メールを取得
-      sql = "select admin_email from companies"
-      config = YAML.load_file("config/database.yml")[Rails.env]
-      ActiveRecord::Base.establish_connection config
-      to = ActiveRecord::Base.connection.select_value(sql)
-
+      to = Company.find(:first).admin_email
+      
       # メールを送信
       mail_title = "【Hyacc】週次バックアップ(" + yyyymmdd + ")"
       mail_body = "週次バックアップ(" + yyyymmdd + ")"
+      
+      HyaccLogger.info dbdata_path
+      HyaccLogger.info "TO:" + to
+      
       
       #メールの送信
       Mailer.create(to, mail_title, mail_body,dbdata_path).deliver if File.exist?(dbdata_path)

@@ -1,10 +1,5 @@
 # coding: UTF-8
-#
-# $Id: hyacc_constants.rb 3013 2013-03-15 11:20:35Z hiro $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+
 module HyaccConstants
 
   # 管理者用メールアドレス

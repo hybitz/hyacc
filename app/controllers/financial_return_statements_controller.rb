@@ -1,22 +1,15 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: financial_return_statements_controller.rb 2467 2011-03-23 14:56:39Z ichy $
-# Product: hyacc
-# Copyright 2009-2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
+# coding: UTF-8
+
 class FinancialReturnStatementsController < Base::HyaccController
   include JournalUtil
 
-  available_for :type=>:company_type, :except=>COMPANY_TYPE_PERSONAL
-  view_attribute :finder, :class=>ReportFinder
+  available_for :type => :company_type, :except => COMPANY_TYPE_PERSONAL
+  view_attribute :finder, :class => ReportFinder
   view_attribute :ym_list
   view_attribute :branches
   view_attribute :report_types
 
-  def list
-    return unless finder.commit
-      
+  def index
     case finder.report_type
       when REPORT_TYPE_INCOME
         render_income
@@ -30,10 +23,11 @@ class FinancialReturnStatementsController < Base::HyaccController
         render_tax_and_dues
       when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
         render_trade_account_payable
-    end
+    end if finder.commit
   end
 
-private
+  private
+
   def render_income
     logic = Reports::IncomeLogic.new(finder)
     @model = logic.get_income_model

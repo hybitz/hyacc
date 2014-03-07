@@ -29,6 +29,8 @@ Hyacc::Application.routes.draw do
   resources :depreciation_rates
   resources :debt, :only => ['index', 'update']
 
+  resources :financial_return_statements, :only => 'index'
+
   resources :fiscal_years do
     collection do
       get  'edit_current_fiscal_year'

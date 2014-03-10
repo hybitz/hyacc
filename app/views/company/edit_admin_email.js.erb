@@ -1,0 +1,3 @@
+document.getElementById('admin_email').innerHTML = '<%= hidden_field 'company', 'id' %><%= text_field 'company', 'admin_email' %>';
+document.getElementById('admin_email_form').innerHTML = '<%= submit_tag '更新' %> <input type="button" value="キャンセル" onclick="document.location.reload();"/>';
+document.getElementById('company_form').action = '<%= url_for :action=>"update_admin_email" %>';

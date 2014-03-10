@@ -25,7 +25,7 @@ class LoginController < Base::HyaccController
       to = get_alert_mail_to(user_on_db)
       if to.present?
         assigns = {:now=>Time.now.strftime("%Y/%m/%d %H:%M:%S"), :who=>@user}
-        LoginNotice.invoice_login_fail(to, assigns).deliver
+        LoginMailer.invoice_login_fail(to, assigns).deliver
       end
 
       render :action => 'login' and return
@@ -35,7 +35,7 @@ class LoginController < Base::HyaccController
     
     # ログイン成功時にメールを送信
     assigns = {:now=>Time.now.strftime("%Y/%m/%d %H:%M:%S"), :who=>@user}
-    LoginNotice.invoice_login(user_on_db.email, assigns).deliver
+    LoginMailer.invoice_login(user_on_db.email, assigns).deliver
     
     jump_to_user_page
   end

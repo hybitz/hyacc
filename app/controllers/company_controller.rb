@@ -43,5 +43,17 @@ class CompanyController < Base::HyaccController
     @company.logo_path = form[:logo_path]
     @company.save!
     redirect_to :action=>:index
-  end  
+  end
+  
+  def edit_admin_email
+    @company = Company.find( params[:id] )
+  end
+  
+  def update_admin_email
+    form = params[:company]
+    @company = Company.find( form[:id] )
+    @company.admin_email = form[:admin_email]
+    @company.save!
+    redirect_to :action=>:index
+  end
 end

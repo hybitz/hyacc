@@ -7,11 +7,11 @@
 #
 require 'test_helper'
 
-class LoginNoticeTest < ActionMailer::TestCase
+class LoginMailerTest < ActionMailer::TestCase
   def test_invoice_login
     params = {:time=>'20110916', :who=>User.new}
     
-    email = LoginNotice.invoice_login("admin@hybitz.co.jp", params).deliver
+    email = LoginMailer.invoice_login("admin@hybitz.co.jp", params).deliver
     assert_equal ['info@hybitz.co.jp'], email.from
   end
 end

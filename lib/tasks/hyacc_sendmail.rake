@@ -1,6 +1,4 @@
 # coding: UTF-8
-
-
 namespace :hyacc do
   namespace :sendmail do
     desc "データベースのバックアップファイルをメールで送信する。"
@@ -24,25 +22,11 @@ namespace :hyacc do
       mail_body = "週次バックアップ(" + yyyymmdd + ")"
       
       #メールの送信
-      Mailer.create(to, mail_title, mail_body,dbdata_path).deliver if File.exist?(dbdata_path) && to.present?
+      TaskMailer.create(to, mail_title, mail_body,dbdata_path).deliver if File.exist?(dbdata_path) && to.present?
     end
   end
 end
 
-
-class Mailer < ActionMailer::Base
-  default from: "info@hybitz.co.jp"
-   def create(toAddress, subject, message, attachments_path)
-     attachments[File.basename(attachments_path)] = {
-       :content => File.read(attachments_path, :mode => 'rb'),
-       :transfer_encoding => :binary
-      }
-      mail(:to => toAddress,
-           :subject => subject,
-           :body => message
-           )
-   end
-end
 
 
 

@@ -1,10 +1,4 @@
 # -*- encoding : utf-8 -*-
-#
-# $Id: login_notice_test.rb 2681 2011-09-16 08:50:24Z ichy $
-# Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class LoginMailerTest < ActionMailer::TestCase

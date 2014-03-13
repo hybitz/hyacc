@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# coding: UTF-8
+
 class LoginMailer < ActionMailer::Base
   default :from => 'info@hybitz.co.jp'
   

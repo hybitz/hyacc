@@ -1,9 +1,0 @@
-<%#
-# $Id: edit.html.erb 2949 2012-11-09 03:17:44Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-<%= form_for :e, :url=>{:action=>"update", :id=>@e} do |e_form| %>
-  <%= render 'form', :e_form=>e_form, :button_name=>'更新' %>
-<% end %>

@@ -1,0 +1,49 @@
+<%= flash_notice %>
+
+<%= form_for @e, :remote => true do |f| %>
+  <div style="margin:0px 10px 10px 0px; text-align: right;">
+    <%= f.submit %>
+  </div>
+  <div>
+    <div style="float: left;">
+      <table>
+        <tr>
+          <th><%= f.label :last_name %></th>
+          <td><%= f.text_field :last_name %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :first_name %></th>
+          <td><%= f.text_field :first_name %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :sex %></th>
+          <td><%= f.select :sex, sex_types %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :zip_code %></th>
+          <td><%= f.text_field :zip_code %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :address, '住所' %></th>
+          <td><%= f.text_field :address %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :employment_date %></th>
+          <td><%= f.date_select :employment_date %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :business_office_id %></th>
+          <td><%= f.collection_select :business_office_id, @business_offices, 'id', 'name' %></td>
+        </tr>
+      </table>
+    </div>
+    
+    <div style="margin-left: 5px; float: left;">
+      <%= render 'branches_employees' %>
+    </div>
+  
+    <div style="clear: left;"></div>
+  </div>
+
+  <%= render 'employee_histories' %>
+<% end %>

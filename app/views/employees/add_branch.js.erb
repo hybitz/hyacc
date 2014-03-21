@@ -1,7 +1,2 @@
-<%#
-# Product: hyacc
-# Copyright 2012-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 var tr = $('#branches_employees_table tr').last();
 tr.before('<%=j render('branches_employee_fields', :be => @branches_employee, :index => params[:index]) %>');

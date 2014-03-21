@@ -29,6 +29,13 @@ Hyacc::Application.routes.draw do
   resources :depreciation_rates
   resources :debt, :only => ['index', 'update']
 
+  resources :employees do
+    collection do
+      get 'add_branch'
+      get 'add_employee_history'
+    end
+  end
+
   resources :financial_return_statements, :only => 'index'
 
   resources :fiscal_years do

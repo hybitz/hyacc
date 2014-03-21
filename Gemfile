@@ -14,6 +14,7 @@ gem 'execjs'
 gem 'file-column'
 gem 'gcalapi'
 gem 'mysql2'
+gem 'rails-csv-fixtures'
 gem 'remotipart'
 gem 'will_paginate'
 
@@ -49,7 +50,6 @@ end
 
 group :test do
   gem 'minitest-rails'
-  gem 'rails-csv-fixtures'
   gem 'turn'
 end
 

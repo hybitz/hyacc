@@ -84,7 +84,7 @@ class FirstBootController < ApplicationController
 
   def load_fixtures
     now = Time.now
-    dir = File.join(Rails.root, "config/first_boot")
+    dir = File.join(Rails.root, 'config', 'first_boot')
 
     # 勘定科目、勘定科目制御の初期データロード
     ActiveRecord::Fixtures.create_fixtures(dir, "accounts")

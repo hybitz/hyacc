@@ -45,4 +45,3 @@ class ActionController::TestCase
   end
 
 end
-

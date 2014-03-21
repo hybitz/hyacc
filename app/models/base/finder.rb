@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: finder.rb 3102 2013-07-24 14:47:54Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Base
   class Finder
     include HyaccDateUtil

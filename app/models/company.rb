@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: company.rb 3061 2013-06-21 03:09:06Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class Company < ActiveRecord::Base
   include HyaccConstants
   
@@ -14,13 +7,13 @@ class Company < ActiveRecord::Base
   has_many :users
   has_many :fiscal_years
   
-  file_column :logo_path, :web_root => "system/app_files/", :root_path => File.join(Rails.root.to_s, "public", "system", "app_files")
+  file_column :logo_path, :web_root => "system/app_files/", :root_path => File.join(Rails.root, "public", "system", "app_files")
 
   validates_presence_of :name, :founded_date
   validates_format_of :admin_email, :allow_nil=>true, :allow_blank=>true, :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
 
   def current_fiscal_year
-    fiscal_years.find(:first, :conditions=>["fiscal_year=?", fiscal_year])
+    fiscal_years.where(:fiscal_year => fiscal_year).first
   end
   
   def current_fiscal_year_int

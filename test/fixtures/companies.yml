@@ -21,7 +21,7 @@ c:
   founded_date: 2009-07-14
   fiscal_year: 2009
   start_month_of_fiscal_year: 1
-  type_of: 9
+  type_of: <%= HyaccConstants::COMPANY_TYPE_PERSONAL %>
   lock_version: 0
 d:
   id: 4

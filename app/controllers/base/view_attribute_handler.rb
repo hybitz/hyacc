@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: view_attribute_handler.rb 3132 2013-08-16 05:46:04Z hiro $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Base::ViewAttributeHandler
   require 'hyacc_master/service_factory'
   require 'models/name_and_value'

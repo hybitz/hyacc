@@ -1,16 +1,9 @@
-# coding: UTF-8
-#
-# $Id: housework_controller.rb 3358 2014-02-07 05:27:26Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class HouseworkController < Base::HyaccController
   include JournalUtil
   
   available_for :type=>:company_type, :only=>COMPANY_TYPE_PERSONAL
   view_attribute :title => '家事按分'
-  view_attribute :finder, :class=>HouseworkFinder, :only=>:index
+  view_attribute :finder, :class => HouseworkFinder, :only=>:index
   view_attribute :ym_list, :only=>:index
   view_attribute :accounts, :except=>:index,
     :conditions=>['account_type=? and journalizable=?', ACCOUNT_TYPE_EXPENSE, true]
@@ -21,8 +14,8 @@ class HouseworkController < Base::HyaccController
   end
   
   def new
-    @hwd = HouseworkDetail.new
-    @hwd.housework = Housework.find_by_fiscal_year(finder.fiscal_year) 
+    hw = Housework.where(:company_id => current_user.company_id, :fiscal_year => params[:fiscal_year]).first
+    @hwd = hw.housework_details.build
   end
 
   def create

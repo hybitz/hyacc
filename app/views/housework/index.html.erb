@@ -1,9 +1,3 @@
-<%#
-# $Id: index.html.erb 3358 2014-02-07 05:27:26Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <%= render 'common/search' %>
 <%= flash_notice %>
 
@@ -42,7 +36,7 @@
 </table>
 
 <div style="margin: 10px;">
-  <%= link_to '追加', {:action => :new}, :remote => true %>
+  <%= link_to '追加', {:action => :new, :housework_id => @hw.id}, :remote => true %>
   <% if @hw.housework_details.present? %>
   |
   <%= link_to '仕訳作成', { :action=>:create_journal, :id=>@hw }, :confirm=>'家事按分仕訳を作成します。よろしいですか？', :method=>:post %>

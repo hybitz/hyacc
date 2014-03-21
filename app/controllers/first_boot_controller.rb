@@ -1,93 +1,80 @@
-# coding: UTF-8
-#
-# $Id: first_boot_controller.rb 3189 2014-01-21 13:19:49Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class FirstBootController < ApplicationController
   require 'active_record/fixtures'
   include HyaccDateUtil
   include Base::ExceptionHandler
   
-  before_filter :check_first_booted
+  before_filter :check_first_boot
 
   def index
-    @c = Company.new
-    @c.type_of = COMPANY_TYPE_PERSONAL
+    @c = Company.new(:founded_date => Date.today, :type_of => COMPANY_TYPE_PERSONAL)
     @fy = FiscalYear.new
     @u = User.new
   end
   
   def create
-    begin
-      @c = Company.new(params[:c])
-      @fy = FiscalYear.new(params[:fy])
-      @e = Employee.new(params[:e])
-      @u = User.new(params[:u])
+    @c = Company.new(params[:c])
+    @fy = FiscalYear.new(params[:fy])
+    @e = Employee.new(params[:e])
+    @u = User.new(params[:u])
 
-      valid = @c.valid?
-      if valid
-        valid = @u.valid?
-      else
-        @u.valid?
-      end
-      
-      unless valid
-        render :index and return
-      end
-      
-      # 事業開始年月
-      # 個人事業主の事業開始月は1月固定（所得税法）
-      if @c.type_of_personal
-        @c.start_month_of_fiscal_year = 1
-        @c.fiscal_year = @c.founded_date.year
-      else
-        @c.start_month_of_fiscal_year = @c.founded_date.month
-        @c.fiscal_year = @c.get_fiscal_year_int(@c.founded_date.year * 100 + @c.founded_date.month)
-      end
-      
-      @fy.fiscal_year = @c.fiscal_year
-      @fy.closing_status = CLOSING_STATUS_OPEN
-    
-      @e.employment_date = @c.founded_date
-      
-      @b = Branch.new
-      @b.code = '100'
-      @b.name = '本社'
-      @b.is_head_office = true
-      
-      @be = BranchesEmployee.new
-      @be.cost_ratio = 100
-      @be.default_branch = true
-    
-      @c.transaction do
-        @c.save!
-        @fy.company_id = @c.id
-        @fy.save!
-        @b.company_id = @c.id
-        @b.save!
-        @u.company_id = @c.id
-        @u.save!
-        @e.company_id = @c.id
-        @e.users << @u
-        @e.save!
-        @be.branch_id = @b.id
-        @be.employee_id = @e.id
-        @be.save!
-        
-        # マスタデータをロード
-        load_fixtures
-        
-        # デフォルトの簡易入力設定
-        load_simple_slip_settings
-      end
-      
-      redirect_to :action=>'ready'
-    rescue Exception=>e
-      handle(e)
-      render :index
+    valid = @c.valid?
+    if valid
+      valid = @u.valid?
+    else
+      @u.valid?
     end
+    
+    unless valid
+      render :index and return
+    end
+    
+    # 事業開始年月
+    # 個人事業主の事業開始月は1月固定（所得税法）
+    if @c.type_of_personal
+      @c.start_month_of_fiscal_year = 1
+      @c.fiscal_year = @c.founded_date.year
+    else
+      @c.start_month_of_fiscal_year = @c.founded_date.month
+      @c.fiscal_year = @c.get_fiscal_year_int(@c.founded_date.year * 100 + @c.founded_date.month)
+    end
+    
+    @fy.fiscal_year = @c.fiscal_year
+    @fy.closing_status = CLOSING_STATUS_OPEN
+  
+    @e.employment_date = @c.founded_date
+    
+    @b = Branch.new
+    @b.code = '100'
+    @b.name = '本社'
+    @b.is_head_office = true
+    
+    @be = BranchesEmployee.new
+    @be.cost_ratio = 100
+    @be.default_branch = true
+  
+    @c.transaction do
+      @c.save!
+      @fy.company_id = @c.id
+      @fy.save!
+      @b.company_id = @c.id
+      @b.save!
+      @u.company_id = @c.id
+      @u.save!
+      @e.company_id = @c.id
+      @e.users << @u
+      @e.save!
+      @be.branch_id = @b.id
+      @be.employee_id = @e.id
+      @be.save!
+      
+      # マスタデータをロード
+      load_fixtures
+      
+      # デフォルトの簡易入力設定
+      load_simple_slip_settings
+    end
+    
+    redirect_to :action => 'ready'
   end
   
   def ready
@@ -149,8 +136,8 @@ class FirstBootController < ApplicationController
   end
   
   # インストール済みかどうかチェックする
-  def check_first_booted
-    if User.count(:all) > 0 or Company.count(:all) > 0
+  def check_first_boot
+    if User.count > 0
       redirect_to :controller=>'login' and return
     end
   end

@@ -145,6 +145,8 @@ ja:
       
       housework:
         fiscal_year: 会計年度
+
+      housework_detail:
         business_ratio: 事業費率
 
       insurance: 

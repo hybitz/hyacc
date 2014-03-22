@@ -1,20 +1,20 @@
 class HouseworkController < Base::HyaccController
   include JournalUtil
   
-  available_for :type=>:company_type, :only=>COMPANY_TYPE_PERSONAL
+  available_for :type => :company_type, :only => COMPANY_TYPE_PERSONAL
   view_attribute :title => '家事按分'
-  view_attribute :finder, :class => HouseworkFinder, :only=>:index
-  view_attribute :ym_list, :only=>:index
-  view_attribute :accounts, :except=>:index,
-    :conditions=>['account_type=? and journalizable=?', ACCOUNT_TYPE_EXPENSE, true]
-  view_attribute :sub_accounts, :except=>:index
-  
+  view_attribute :finder, :class => HouseworkFinder, :only => :index
+  view_attribute :ym_list, :only => :index
+  view_attribute :accounts, :except => :index,
+    :conditions => ['account_type=? and journalizable=?', ACCOUNT_TYPE_EXPENSE, true]
+  view_attribute :sub_accounts, :except => :index
+
   def index
     @hw = finder.list
   end
   
   def new
-    hw = Housework.where(:company_id => current_user.company_id, :fiscal_year => params[:fiscal_year]).first
+    hw = Housework.find(params[:housework_id])
     @hwd = hw.housework_details.build
   end
 

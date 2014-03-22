@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: hyacc_form_helper.rb 3358 2014-02-07 05:27:26Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module HyaccFormHelper
   include HyaccViewHelper
   

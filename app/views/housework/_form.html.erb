@@ -7,11 +7,11 @@
         format: 'json',
         order: 'code'
        };
-     
+
       $.get(url, params, function(data) {
         replace_options('#hwd_sub_account_id', data);
       });
-    });
+    }).change();
   });
 </script>
 

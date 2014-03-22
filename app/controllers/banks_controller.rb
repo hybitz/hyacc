@@ -1,16 +1,8 @@
-# coding: UTF-8
-#
-# $Id: banks_controller.rb 3296 2014-01-24 04:00:10Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class BanksController < Base::BasicMasterController
-  layout 'application'
-  view_attribute :title=>'金融機関'
-  view_attribute :finder, :class=>BankFinder, :only=>:index
+  view_attribute :title => '金融機関'
+  view_attribute :finder, :class => BankFinder, :only => :index
   view_attribute :deleted_types
-  view_attribute :model, :class=>Bank
+  view_attribute :model, :class => Bank
 
   def index
     @banks = finder.list

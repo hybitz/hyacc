@@ -11,14 +11,12 @@ class HouseworkControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in freelancer
-    get :new, :format => 'js', :fiscal_year => freelancer.company.current_fiscal_year.fiscal_year
+    get :new, :format => 'js', :housework_id => housework.id
     assert_response :success
     assert_template :new
   end
 
   def test_登録
-    housework = Housework.where(:company_id => freelancer.company_id, :fiscal_year => freelancer.company.current_fiscal_year.fiscal_year).first
-
     sign_in freelancer
     post :create, :format => 'js',
         :hwd => {:housework_id => housework.id, :account_id => expense_account.id, :business_ratio => 80}

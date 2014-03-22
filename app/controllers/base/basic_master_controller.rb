@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: basic_master_controller.rb 3363 2014-02-07 08:20:26Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Base
   class BasicMasterController < HyaccController
     
@@ -58,8 +51,7 @@ module Base
           flash[:notice] = '登録に成功しました。'
           format.html { redirect_to :action => 'index' }
           format.xml  { render :xml => @data, :status => :created, :location => @data }
-        rescue Exception => e
-          #flash[:notice] = e.message
+        rescue => e
           handle(e)
           format.html { redirect_to :action => 'index', :commit=>''}
           format.xml  { render :xml => @data.errors, :status => :unprocessable_entity }
@@ -99,11 +91,11 @@ module Base
             @list << data
             line_count += 1
           end
-          
+
           flash[:notice] = "#{line_count}件のデータが登録されました"
           redirect_to :action => 'index'
         end
-      rescue Exception => e
+      rescue => e
         handle(e)
         redirect_to :action => 'new'
       end

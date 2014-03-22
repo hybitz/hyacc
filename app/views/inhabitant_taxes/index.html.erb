@@ -1,12 +1,4 @@
-<%#
-# $Id: index.html.erb 3180 2014-01-18 03:53:23Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-<div style="margin: 20px;">
-  <%= error_messages_for :withheld_tax if @list %>
-</div>
+<%= flash_notice %>
 <div style="margin: 20px;"> 
   <%= render 'search' %>
 </div>

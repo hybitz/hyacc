@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: inhabitant_taxes_controller.rb 3180 2014-01-18 03:53:23Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class InhabitantTaxesController < Base::BasicMasterController
   available_for :type=>:company_type, :except=>COMPANY_TYPE_PERSONAL
   view_attribute :title => '住民税'

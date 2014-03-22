@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class LoginController < Base::HyaccController
   include LoginHelper
   
@@ -36,7 +30,7 @@ class LoginController < Base::HyaccController
     # ログイン成功時にメールを送信
     assigns = {:now=>Time.now.strftime("%Y/%m/%d %H:%M:%S"), :who=>@user}
     LoginMailer.invoice_login(user_on_db.email, assigns).deliver
-    
+
     jump_to_user_page
   end
   

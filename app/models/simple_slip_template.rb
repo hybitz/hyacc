@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: simple_slip_template.rb 3062 2013-06-21 03:10:44Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class SimpleSlipTemplate < ActiveRecord::Base
   include HyaccConstants
   

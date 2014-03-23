@@ -6,5 +6,5 @@ end
 
 ならば /^交際費管理の一覧が表示される$/ do
   assert_url '/social_expense'
-  assert page.has_selector?('#social_expense_div')
+  assert page.has_selector?('tr[social_expense=true]')
 end

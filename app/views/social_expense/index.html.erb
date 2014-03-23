@@ -1,2 +1,59 @@
 <%= render 'common/search' %>
-<%= render 'list' if @journal_headers %>
+
+<script>
+  $(document).ready(function() {
+    $('tr[social_expense=true]').each(function() {
+      social_expense.calc_deduction_amount(this);
+    });
+  });
+</script>
+
+<% if @finder.commit %>
+  <table>
+    <tr>
+      <th>年月</th>
+      <th>日</th>
+      <th>摘要</th>
+      <th>伝票金額</th>
+      <th>勘定科目</th>
+      <th>計上部門</th>
+      <th>借方金額</th>
+      <th>貸方金額</th>
+      <th>参加人数</th>
+      <th>控除額</th>
+      <th>差引交際費</th>
+    </tr>
+  
+    <% @journal_headers.each do |jh| %>
+      <tr>
+        <td><%= jh.ym %></td>
+        <td><%= jh.day %></td>
+        <td class="remarks"><%= jh.remarks %></td>
+        <td class="amount"><%= to_amount(jh.amount) %></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+  
+      <% jh.journal_details.each do |jd| %>
+        <tr social_expense="<%= jd.account.code == HyaccConstants::ACCOUNT_CODE_SOCIAL_EXPENSE %>">
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><%= jd.account_name %></td>
+          <td><%= jd.branch_name %></td>
+          <td class="amount_debit"><%= to_amount(jd.amount) if jd.dc_type == HyaccConstants::DC_TYPE_DEBIT %></td>
+          <td class="amount_credit"><%= to_amount(jd.amount) if jd.dc_type == HyaccConstants::DC_TYPE_CREDIT %></td>
+          <td class="center number_of_people"><%= jd.social_expense_number_of_people %></td>
+          <td class="right deduction"></td>
+          <td class="right social_expense"></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+<% end %>

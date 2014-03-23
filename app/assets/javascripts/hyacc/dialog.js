@@ -1,8 +1,3 @@
-/**
- * Product: hyacc
- * Copyright 2014 by Hybitz.co.ltd
- * ALL Rights Reserved.
- */
 if (typeof hyacc === "undefined") {
   var hyacc = {};
 }

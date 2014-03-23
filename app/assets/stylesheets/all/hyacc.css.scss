@@ -301,7 +301,21 @@ th.accountName {
   margin: 0;
 }
 
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
 .amount,
+.amount_credit,
+.amount_debit,
 .amountDecrease,
 .amountIncrease {
   width: 7em;

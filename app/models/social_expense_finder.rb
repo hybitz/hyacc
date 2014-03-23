@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: social_expense_finder.rb 2471 2011-03-23 14:59:36Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class SocialExpenseFinder < Base::Finder
   include JournalUtil
 
@@ -15,7 +8,8 @@ class SocialExpenseFinder < Base::Finder
       :order=>"ym desc, day desc, created_on desc").reverse
   end
 
-protected
+  protected
+
   # 検索条件を作成する
   def make_conditions
     conditions = []

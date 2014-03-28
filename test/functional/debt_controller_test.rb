@@ -1,26 +1,18 @@
-# coding: UTF-8
-#
-# $Id: debt_controller_test.rb 3341 2014-02-01 02:53:59Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 # 仮負債精算の機能テスト
 class DebtControllerTest < ActionController::TestCase
 
   def setup
-    @request.session[:user_id] = users(:user2).id
+    sign_in users(:user2)
   end
   
   # 仮負債一覧表示
   def test_index
-    get :index, :finder => {:fiscal_year => '2009', :branch_id => '3'},
-               :commit=>'表示'
+    get :index, :finder => {:fiscal_year => '2009', :branch_id => '3'}, :commit => '表示'
 
     assert_response :success
-    assert_template 'list'
+    assert_template :index
     assert_not_nil assigns(:finder)
     assert_equal 2, assigns(:debts).size
   end

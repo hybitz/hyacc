@@ -9,8 +9,8 @@
           reload_sub_accounts(data);
         }
       );
-    });
-    
+    }).change();
+
     $('#debts_display_flag').click(function() {
       changeDisplayFlag();
     });
@@ -83,7 +83,7 @@
 </script>
   
 <div style="margin:10px;">
-  <span style="margin:5px;">仮負債合計金額 <%= number_to_currency(@sum, :unit => '', :precision => 0) %> 円</span>
+  <span style="margin:5px;">仮負債合計金額 <%= number_to_currency(@sum, :unit => nil, :precision => 0) %> 円</span>
   <div style="margin:5px;">
     <%= form_tag :action => 'index' do %>
       <label for="ymd">精算日</label>：<%= text_field_tag 'ymd', @ymd, :class => 'datepicker' %>

@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: simple_slip_controller_auto_test.rb 1201 2009-10-19 14:37:25Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 # 未払費用の計上日振替のテスト
@@ -20,7 +13,7 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
   def test_本締の年度への費用振替の登録がエラーになること
     post_jh = JournalHeader.find(12)
     
-    post :create, :format => 'js',
+    xhr :post, :create,
       :journal_header => {
         :ym => post_jh.ym,
         :day => post_jh.day,
@@ -62,8 +55,7 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
     assert post_jh.get_fiscal_year.is_open
     assert post_jh.journal_details[0].transfer_journals[0].get_fiscal_year.is_closed
     
-    post :update, :format => 'js',
-      :id => post_jh.id,
+    xhr :post, :update, :id => post_jh.id,
       :journal_header => {
         :id => post_jh.id,
         :ym => 201003, # 前月も今期中で締め状態は通常
@@ -107,8 +99,7 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
     assert post_jh.get_fiscal_year.is_open
     assert post_jh.journal_details[0].transfer_journals[0].get_fiscal_year.is_open # もともとは通常の年度に登録されている自動仕訳
     
-    post :update, :format => 'js',
-      :id => post_jh.id,
+    xhr :post, :update, :id => post_jh.id,
       :journal_header => {
         :id => post_jh.id,
         :ym => 201001,
@@ -151,9 +142,7 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
     count = JournalHeader.count(:all)
     jh = JournalHeader.find(12)
     
-    post :destroy,
-      :id => jh.id,
-      :lock_version => jh.lock_version
+    post :destroy, :id => jh.id, :lock_version => jh.lock_version
 
     assert_response :redirect
     assert_redirected_to :action => 'list'
@@ -167,7 +156,7 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
     
     post_jh = JournalHeader.find(12)
     
-    post :create, :format => 'js',
+    xhr :post, :create,
       :journal_header => {
         :ym => 201002,
         :day => 14,
@@ -301,8 +290,7 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
     post_jh = JournalHeader.find(15)
     lock_version = post_jh.lock_version
     
-    post :update, :format => 'js',
-      :id => post_jh.id,
+    xhr :post, :update, :id => post_jh.id,
       :journal_header => {
         :ym => 201002,
         :day => 10,
@@ -436,9 +424,7 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
     count = JournalHeader.count(:all)
     jh = JournalHeader.find(15)
     
-    post :destroy,
-      :id => jh.id,
-      :lock_version => jh.lock_version
+    post :destroy, :id => jh.id, :lock_version => jh.lock_version
 
     assert_response :redirect
     assert_redirected_to :action => 'list'

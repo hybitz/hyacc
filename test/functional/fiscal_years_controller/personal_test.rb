@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: personal_test.rb 3355 2014-02-07 02:27:50Z ichy $
-# Product: hyacc
-# Copyright 2010-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 # 個人事業主の会計年度のテスト
@@ -25,7 +18,7 @@ class FiscalYearsController::PersonalTest < ActionController::TestCase
     fy = FiscalYear.find(12)
     assert_equal CLOSING_STATUS_OPEN, fy.closing_status
 
-    get :confirm_carry_forward, :id => fy.id, :format => 'js'
+    xhr :get, :confirm_carry_forward, :id => fy.id
 
     assert_response :success
     assert_template :confirm_carry_forward
@@ -36,7 +29,7 @@ class FiscalYearsController::PersonalTest < ActionController::TestCase
     fy = FiscalYear.find(10)
     assert_equal CLOSING_STATUS_OPEN, fy.closing_status
 
-    post :carry_forward, :id => fy.id, :format => 'js',
+    xhr :post, :carry_forward, :id => fy.id,
       :lock_version => fy.lock_version,
       :journalize_housework => 0
 

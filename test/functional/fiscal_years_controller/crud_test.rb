@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: crud_test.rb 3355 2014-02-07 02:27:50Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class FiscalYearsController::CrudTest < ActionController::TestCase
@@ -26,7 +19,7 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     
     lv = c.lock_version
 
-    post :update_current_fiscal_year, :format => 'js',
+    xhr :post, :update_current_fiscal_year,
       :company_id => c.id,
       :c => {:fiscal_year => 2008, :lock_version => lv}
     assert_response :success
@@ -35,7 +28,7 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     c = Company.find(1)
     assert_equal 2008, c.fiscal_year
     
-    post :update_current_fiscal_year, :format => 'js',
+    xhr :post, :update_current_fiscal_year,
       :company_id => c.id,
       :c => {:fiscal_year => 2009, :lock_version => lv}
     assert_response :success

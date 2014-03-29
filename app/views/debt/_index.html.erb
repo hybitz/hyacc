@@ -1,4 +1,6 @@
 <script>
+  var initialized = false;
+
   $(document).ready(function() {
     $('#finder_account_id').change(function() {
       hide_sub_accounts();
@@ -7,6 +9,12 @@
         {format: 'json', order: 'code', account_id: $(this).val()},
         function(data) {
           reload_sub_accounts(data);
+
+          // 初回は入力頻度からデフォルトの補助科目を選択しておく
+          if (! initialized) {
+            $('#finder_sub_account_id').val(<%= @frequency ? @frequency.input_value2 : '' %>);
+            initialized = true;
+          }
         }
       );
     }).change();
@@ -44,7 +52,7 @@
       }
     });
   }
-  
+
   // 選択された精算科目の確認
   function confirm_current_account(){
     var account_name = $('#finder_account_id option:selected').text();
@@ -91,14 +99,10 @@
       <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name",
             {:selected => @frequency ? @frequency.input_value : nil}) %>
 
-      <% if @sub_accounts %>
-        <span id="finder_sub_account_id_title" style="<%= 'display: none;' if @sub_accounts.empty? %>">
-          <label for="finder_sub_account_id">補助科目</label>：</span>
-        <%= select("finder", "sub_account_id", to_options(@sub_accounts),
-              {:include_blank => false, :selected => @frequency ? @frequency.input_value2 : nil},
-              {:style => 'display: ' + (@sub_accounts.empty? ? 'none' : '') + ';'}
-            ) %>
-      <% end %>
+      <span id="finder_sub_account_id_title" style="display: none;">
+        <label for="finder_sub_account_id">補助科目</label>：
+      </span>
+      <%= select "finder", "sub_account_id", [] %>
     <% end %>
   </div>
   <div style="margin:5px;">

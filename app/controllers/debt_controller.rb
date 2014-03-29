@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class DebtController < Base::HyaccController
   include JournalUtil
   
@@ -34,9 +28,9 @@ class DebtController < Base::HyaccController
       render :nothing => true, :status => :internal_server_error
     end
   end
-  
+
   private
-  
+
   def save_input_frequencies(params)
     InputFrequency.save_input_frequency(current_user.id, INPUT_TYPE_DEBT_ACCOUNT_ID, params['account_id'], params['sub_account_id'])
   end

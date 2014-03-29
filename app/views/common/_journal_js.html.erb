@@ -1,9 +1,3 @@
-<%#
-# $Id: _journal_js.html.erb 3371 2014-02-13 04:00:06Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <script>
   // 自動振替の単一選択チェック
   function checkAutoJournalType( element ) {
@@ -147,16 +141,17 @@
   function getDetailTrs() {
     var ret = new Array();
   
-    detailTable = document.getElementById('journal_details');
-    detailTrs = detailTable.getElementsByTagName('tr');
-    for ( var i = 0; i < detailTrs.length; i ++ ) {
-        detailTr = detailTrs[i];
-        if ( ! detailTr.id ) continue; // idがないということはヘッダ行
-        else if ( detailTr.id.match(/add_detail/) ) continue; // 明細追加の行
-        else if ( detailTr.id.match(/journal_details_[0-9]+_[0-9]+/) ) continue; // 明細の先頭行以外は無視
-        
-        ret.push( detailTr );
-    }
+    $('.journal_details').find('tr[id]').each(function() {
+      var id = $(this).attr('id');
+
+      if ( id.match(/add_detail/) ) {
+        // 明細追加の行
+      } else if ( id.match(/journal_details_[0-9]+_[0-9]+/) ) {
+        // 明細の先頭行以外は無視
+      } else {
+        ret.push($(this).get(0));
+      }
+    });
     
     return ret;
   }

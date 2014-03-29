@@ -3,7 +3,7 @@ require 'test_helper'
 class FiscalYearsController::CrudTest < ActionController::TestCase
 
   def setup
-    @request.session[:user_id] = users(:first).id
+    sign_in user
   end
 
   def test_index

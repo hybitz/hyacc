@@ -8,7 +8,6 @@ class DebtController < Base::HyaccController
   view_attribute :branches, :only => :index
   # 流動資産のみ対象
   view_attribute :accounts, :only => :index, :conditions => "path like '%" + ACCOUNT_CODE_CURRENT_ASSETS + "%'"
-  view_attribute :sub_accounts, :include => :deleted, :only => :index
 
   def index
     @debts, @sum = finder.list if finder.commit

@@ -20,10 +20,18 @@
     }).change();
 
     $('#debts_display_flag').click(function() {
-      changeDisplayFlag();
-    });
-    
-    changeDisplayFlag();
+      var checked = $(this).prop('checked');
+
+      $('tr[id^="debts_"]').each(function() {
+        if ($(this).find('div[id^="status_"] a').text() == '精算済み') {
+          if (checked) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        }
+      });
+    }).prop('checked', true).click(); // チェックを入れた状態からクリックイベント実行＝＞初期表示は非表示に
   });
 
   function hide_sub_accounts() {
@@ -38,19 +46,6 @@
     var sub_account = $('#finder_sub_account_id');
     var sub_account_label = $('#finder_sub_account_id_title'); 
     sub_account_label.css('display', sub_account.css('display'));
-  }
-
-  function changeDisplayFlag() {
-    var checked = $('#debts_display_flag').attr('checked'); 
-    $('tr[id^="debts_"]').each(function() {
-      if ($(this).find('div[id^="status_"] a').text() == '精算済み') {
-        if (checked) {
-          $(this).show();
-        } else {
-          $(this).hide();
-        }
-      }
-    });
   }
 
   // 選択された精算科目の確認
@@ -111,12 +106,12 @@
   <div style="margin:5px;">
     <table id="debt_table">
       <tr>
-        <th>年月</th>
-        <th>日</th>
-        <th>摘要</th>
-        <th>計上部門</th>
-        <th>相手部門</th>
-        <th>金額</th>
+        <th class="yearMonth">年月</th>
+        <th class="yearMonth">日</th>
+        <th class="remarks">摘要</th>
+        <th class="branchName">計上部門</th>
+        <th class="branchName">相手部門</th>
+        <th class="amountSum">金額</th>
         <th>元伝票</th>
         <th>個別精算</th>
       </tr>
@@ -128,10 +123,10 @@
         <td class="branchName"><%= debts.branch_name %></td>
         <td class="branchName"><%= debts.opposite_branch_name %></td>
         <td class="amountSum"><%= number_to_currency(debts.amount, :unit => "",:precision => 0) %></td>
-        <td style="text-align: center;">
+        <td class="center">
           <%= link_to '参照', {:controller => 'journal', :action => 'show', :id => debts.id, :copy_link => 'false'}, :remote => true %>
         </td>
-        <td style="text-align: center;">
+        <td class="center">
           <div id="status_<%= debts.id.to_s %>">
           <% if debts.closed_id %>
             <%= render 'closed_link', :closed_id => debts.closed_id %>

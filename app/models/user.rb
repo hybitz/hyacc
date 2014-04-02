@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: user.rb 3293 2014-01-23 15:08:24Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'openssl'
 
 class User < ActiveRecord::Base
@@ -92,9 +85,9 @@ class User < ActiveRecord::Base
       self.crypted_google_password = User.encrypt_password(@google_password, self.salt)
     end
   end
-  
-private
-  
+
+  private
+
   # パスワード暗号化
   def self.encrypt_password(password, salt)
     return nil unless password.present?

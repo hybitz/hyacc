@@ -35,7 +35,7 @@ module Base
       @data = @model_class.find(params[:id])
       respond_to do |format|
         format.html do
-          render :partial => 'form', :locals => {:button_name => '更新' }
+          render :partial => 'form'
         end
         format.js do
           render :edit
@@ -68,7 +68,7 @@ module Base
           format.xml  { head :ok }
           format.js   { render :show }
         else
-          format.html { render :partial => "form", :locals => {:button_name => '更新'} }
+          format.html { render :partial => "form" }
           format.xml  { render :xml => @data.errors, :status => :unprocessable_entity }
           format.js   { render :js => "alert('#{@data.errors.full_messages.join('\n')}');" }
         end

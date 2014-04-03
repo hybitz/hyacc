@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class BusinessOfficesController < Base::HyaccController
   view_attribute :title => '事業所'
   before_filter :setup_view_attributes

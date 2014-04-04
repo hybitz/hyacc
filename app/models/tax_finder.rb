@@ -27,50 +27,45 @@ class TaxFinder < Base::Finder
 
   # 検索条件を作成する
   def make_conditions
-    conditions = []
+    sql = SqlBuilder.new
     
     # 年月
-    conditions[0] = "ym >= ? "
-    conditions << get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
-    conditions[0] << "and ym <= ? "
-    conditions << get_end_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+    sql.append "ym >= ? and ym <= ?",
+        get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year ),
+        get_end_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
     
     # 伝票区分
-    conditions[0] << "and slip_type in (?, ?, ?) "
-    conditions << SLIP_TYPE_SIMPLIFIED
-    conditions << SLIP_TYPE_TRANSFER
-    conditions << SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
+    sql.append "and slip_type in (?, ?, ?)",
+        SLIP_TYPE_SIMPLIFIED,
+        SLIP_TYPE_TRANSFER,
+        SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
 
     # 検索キー
-    conditions[0] << "and finder_key rlike ? "
-    conditions << build_rlike_condition( nil, 0, branch_id )
+    sql.append "and finder_key rlike ?",
+        build_rlike_condition( nil, 0, branch_id )
 
     # 消費税を含む伝票も含むかどうか
     unless include_has_tax.to_i == 1
-      conditions[0] << "and finder_key not rlike ? and finder_key not rlike ? "
-      conditions << build_rlike_condition( ACCOUNT_CODE_TEMP_PAY_TAX, 0, 0 )
-      conditions << build_rlike_condition( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED, 0, 0 )
+      sql.append "and finder_key not rlike ? and finder_key not rlike ?",
+          build_rlike_condition( ACCOUNT_CODE_TEMP_PAY_TAX, 0, 0 ),
+          build_rlike_condition( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED, 0, 0 )
     end
 
     # 非課税のみで構成されている伝票も含むかどうか
     if include_nontaxable.to_i == 1
-      conditions[0] << "and should_include_tax = ? "
-      conditions << false
+      sql.append "and should_include_tax = ?", false
     else
-      conditions[0] << "and should_include_tax = ? "
-      conditions << true
+      sql.append "and should_include_tax = ?", true
     end
     
     # 確認フラグ
     if include_checked.to_i == 1
-      conditions[0] << "and checked = ? "
-      conditions << true
+      sql.append "and checked = ?", true
     else
-      conditions[0] << "and checked = ? "
-      conditions << false
+      sql.append "and checked = ?", false
     end
     
-    conditions
+    sql.to_a
   end
 
 end

@@ -1,12 +1,24 @@
-<%#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <script>
   $(document).ready(function() {
     $('#payroll_base_salary').focus();
   });
+
+function checkForm(form){
+    var insurance = form.elements['payroll_insurance'].value;
+    var pension = form.elements['payroll_pension'].value;
+    var inhabitant_tax = form.elements['payroll_inhabitant_tax'].value;
+    var result = true;
+    if(insurance == 0){
+      result = window.confirm('健康保険料が0円です。登録しますか？')
+    }
+    if(pension == 0){
+      result = window.confirm('厚生年金保険料が0円です。登録しますか？')
+    }
+    if(inhabitant_tax == 0){
+      result = window.confirm('住民税が0円です。登録しますか？')
+    }
+    return result;
+}
 </script>
 
 <table width="400">

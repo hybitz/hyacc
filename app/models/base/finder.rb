@@ -11,6 +11,7 @@ module Base
     attr_accessor :page
     attr_accessor :ym
     attr_accessor :fiscal_year
+    attr_accessor :calendar_year
     attr_accessor :branch_id
     attr_accessor :sub_account_id
     attr_accessor :business_office_id
@@ -30,6 +31,7 @@ module Base
       @ym = nil
       @company_id = user.company_id
       @fiscal_year = user.company.current_fiscal_year.fiscal_year
+      @calendar_year = Date.today.year - 1 # 前年をデフォルト
       @branch_id = user.employee.default_branch.id
       @account_id = 0
       @sub_account_id = 0
@@ -46,6 +48,7 @@ module Base
   
       @ym = params[:ym]
       @fiscal_year = params[:fiscal_year].to_i
+      @calendar_year = params[:calendar_year].to_i
       @account_id = params[:account_id].to_i
       @branch_id = params[:branch_id].to_i
       @business_office_id = params[:business_office_id].to_i

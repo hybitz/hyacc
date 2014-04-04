@@ -19,6 +19,8 @@ protected
           @model_class = get_model_class(options)
         elsif name == :ym_list
           @ym_list = get_ym_select
+        elsif name == :cy_list
+          @cy_list = get_cy_select
         elsif name == :branches
           @branches = get_branches(options)
         elsif name == :accounts
@@ -194,6 +196,13 @@ protected
   def get_ym_select
     first = current_user.company.founded_fiscal_year.fiscal_year
     last = current_user.company.fiscal_years.last.fiscal_year
+    get_ym_list( first, 0, last - first )
+  end
+  
+  # 暦年選択リストを取得する
+  def get_cy_select
+    first = current_user.company.founded_fiscal_year.fiscal_year
+    last = Date.today.year
     get_ym_list( first, 0, last - first )
   end
 

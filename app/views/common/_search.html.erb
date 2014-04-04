@@ -9,6 +9,10 @@
       年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
     <% end %>
     
+    <% if @cy_list %>
+      暦年：<%= select('finder', 'calendar_year', @cy_list ) %>
+    <% end %>
+    
     <% if @prefectures %>
       都道府県：<%= select('finder', 'prefecture_id', to_options(@prefectures) ) %>
     <% end %>

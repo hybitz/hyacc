@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: notification_controller.rb 3034 2013-06-21 02:19:28Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class NotificationController < Base::HyaccController
   require 'uri'
   require 'gcalapi'

@@ -1,11 +1,4 @@
-# coding: UTF-8
-#
-# $Id: tax_finder.rb 3174 2014-01-09 14:57:15Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
-class TaxFinder < Base::Finder 
+class TaxFinder < Base::Finder
   include JournalUtil
 
   attr_accessor :include_has_tax
@@ -36,7 +29,8 @@ class TaxFinder < Base::Finder
       :joins=>'inner join tax_admin_infos on journal_headers.id = tax_admin_infos.journal_header_id')
   end
 
-protected
+  protected
+
   # 検索条件を作成する
   def make_conditions
     conditions = []

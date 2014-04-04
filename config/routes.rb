@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 Hyacc::Application.routes.draw do
   resources :assets
 
@@ -58,6 +56,9 @@ Hyacc::Application.routes.draw do
       get 'get_sub_accounts'
     end
   end
+
+  resources :tax
+
   resources :users do
     collection do
       get 'add_simple_slip_setting'

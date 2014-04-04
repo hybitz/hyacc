@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module ApplicationHelper
   include HyaccConstants
   include HyaccViewHelper

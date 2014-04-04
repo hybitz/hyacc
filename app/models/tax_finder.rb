@@ -16,17 +16,11 @@ class TaxFinder < Base::Finder
   end
   
   def list
-    return nil unless commit
-    
-    JournalHeader.find(:all, :conditions=>make_conditions,
-      :include=>[:journal_details],
-      :joins=>'inner join tax_admin_infos on journal_headers.id = tax_admin_infos.journal_header_id',
-      :order=>"ym desc, day desc, journal_headers.created_on desc").reverse
+    JournalHeader.where(make_conditions).includes(:journal_details).joins(:tax_admin_info).order('ym desc, day desc, journal_headers.created_on desc').reverse
   end
 
   def count
-    JournalHeader.count(:all, :conditions=>make_conditions,
-      :joins=>'inner join tax_admin_infos on journal_headers.id = tax_admin_infos.journal_header_id')
+    JournalHeader.where(make_conditions).joins(:tax_admin_info).count
   end
 
   protected

@@ -8,7 +8,7 @@ class TaxController < Base::HyaccController
 
   def index
     @closing_status = current_user.company.get_fiscal_year( finder.fiscal_year ).closing_status
-    @journal_headers = finder.list
+    @journal_headers = finder.list if finder.commit
   end
   
   def update_checked

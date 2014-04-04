@@ -1,9 +1,3 @@
-<%#
-# $Id: _line_journal.html.erb 2966 2012-12-21 05:52:07Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <tr id="ledger_row_<%= ledger.ym %>_<%= ledger.id %>" class="ledgerRow">
   <td class="yearMonth"><%= ledger.ym %></td>
   <td class="day"><%= ledger.day %></td>
@@ -17,6 +11,6 @@
   <td class="amountMonthlySum"></td>
   <td class="amountSum"></td>
   <td>
-    <%= link_to_dialog '参照', {:controller=>:journal, :action=>:show_except_copy_link, :id=>ledger.id}, {:title=>'振替伝票　参照'} %>
+    <%= link_to '参照', {:controller => 'journal', :action => 'show', :id => ledger.id, :copy_link => 'false'}, :remote => true %>
   </td>
 </tr>

@@ -1,22 +1,16 @@
-<%#
-# $Id: _index.html.erb 3176 2014-01-11 00:41:10Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <table style="margin: 10px;">
   <tr>
-    <th>年月</th>
-    <th>日</th>
-    <th>摘要</th>
-    <th>伝票金額</th>
-    <th>勘定科目</th>
-    <th>補助科目</th>
-    <th>計上部門</th>
-    <th>借方金額</th>
-    <th>貸方金額</th>
-    <th></th>
-    <th></th>
+    <th class="yearMonth">年月</th>
+    <th class="day">日</th>
+    <th class="remarks">摘要</th>
+    <th class="amount">伝票金額</th>
+    <th class="accountName">勘定科目</th>
+    <th class="subAccountName">補助科目</th>
+    <th class="branchName">計上部門</th>
+    <th class="amount">借方金額</th>
+    <th class="amount">貸方金額</th>
+    <th class="action"></th>
+    <th class="action"></th>
   </tr>
   
   <% unless @journal_headers.present? %>
@@ -36,10 +30,10 @@
       <td></td>
       <td></td>
       <td></td>
-      <td>
+      <td class="action">
         <%= link_to_dialog '編集', {:controller=>:journal, :action=>:edit, :id=>jh.id}, {:title=>'振替伝票　編集', :dimensions=>[920, 480]} %>
       </td>
-      <td>
+      <td class="action">
         <% checked = jh.tax_admin_info.nil? ? false : jh.tax_admin_info.checked %>
         <% if checked %>
           確認済

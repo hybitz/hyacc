@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: tax_controller.rb 3145 2013-10-24 13:46:20Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class TaxController < Base::HyaccController
   include JournalUtil
 

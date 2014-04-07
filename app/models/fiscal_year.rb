@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: fiscal_year.rb 3338 2014-01-31 03:52:13Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class FiscalYear < ActiveRecord::Base
   include HyaccErrors
   include HyaccDateUtil
@@ -17,8 +10,8 @@ class FiscalYear < ActiveRecord::Base
   
   def get_carry_forward_journal
     journals = JournalHeader.find_closing_journals(self, SLIP_TYPE_CARRY_FORWARD)
-    return nil if journals.size == 0
-    return journals[0] if journals.size == 1
+    return nil if journals.empty?
+    return journals.first if journals.size == 1
     raise HyaccException.new(ERR_DUPLICATEE_CARRY_FORWARD_JOURNAL)
   end
   

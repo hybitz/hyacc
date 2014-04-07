@@ -9,6 +9,7 @@
     <th>事業費率</th>
     <th>家事比率</th>
     <th>家事振替額</th>
+    <th></th>
   </tr>
   
   <% @hw.housework_details.each do |hwd| %>
@@ -28,8 +29,8 @@
       </td>
       <% end %>
       <td>
-        <%= link_to_dialog '編集', {:action=>:edit, :id=>hwd}, {:dimensions=>[320, 180]} %>
-        <%= link_to '削除', { :action=>'destroy', :id=>hwd.id }, :confirm=>'削除します。よろしいですか？', :method=>:post %>
+        <%= link_to '編集', {:action => :edit, :id => hwd}, :remote => true %>
+        <%= link_to '削除', {:action => 'destroy', :id => hwd.id }, :confirm=>'削除します。よろしいですか？', :method=>:post %>
       </td>
     </tr>
   <% end %>

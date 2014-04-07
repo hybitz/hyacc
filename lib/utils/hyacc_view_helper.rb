@@ -187,21 +187,6 @@ module HyaccViewHelper
     return value == 1 ? true : false
   end
 
-  def link_to_dialog(*args)
-    label = args[0]
-    url_options = args[1]
-    html_options = args[2] || {}
-    url = url_options.is_a?(Hash) ? url_for(url_options) : url_options
-
-    js =  %W(
-      new hyacc.Dialog({
-        title: '#{html_options[:title] || label}',
-      }).open('#{url}');
-    ).join(' ');
-
-    link_to_function label, js
-  end
-
   private
 
   def revert_and_sort( hash )

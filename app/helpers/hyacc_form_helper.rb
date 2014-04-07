@@ -1,8 +1,8 @@
 module HyaccFormHelper
   include HyaccViewHelper
   
-  def h_link_to_journal(name, jh, dialog_title=nil)
-    link_to_dialog(name, {:controller=>:journal, :action=>:show, :id=>jh}, {:title=>dialog_title} )
+  def link_to_journal(name, jh)
+    link_to(name, {:controller => :journal, :action => :show, :id => jh}, :remote => true)
   end
 
   def h_account_select(object_name, field_name, options={})

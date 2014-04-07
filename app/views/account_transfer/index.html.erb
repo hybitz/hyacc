@@ -81,8 +81,8 @@
           <td class="amount"></td>
           <td class="amount"></td>
           <td>
-            <%= link_to_dialog('参照', {:controller=>:journal, :action=>:show_except_copy_link, :id => jh}, :title => '振替伝票　参照') %>
-            <%= link_to_dialog('編集', {:controller=>:journal, :action=>:edit, :id => jh}, :title => '振替伝票　編集') if can_edit(jh) %>
+            <%= link_to '参照', {:controller=>:journal, :action=>:show_except_copy_link, :id => jh}, :remote => true %>
+            <%= link_to '編集', {:controller=>:journal, :action=>:edit, :id => jh}, :remote => true if can_edit(jh) %>
           </td>
         </tr>
         

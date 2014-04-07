@@ -279,9 +279,9 @@
     </td>
     <td>
       <% unless @pd["b2"][:payroll].is_new %>
-        <%= link_to_dialog @pd["b2"][:payroll].pay_day.slice(4,2) + "月" + @pd["b2"][:payroll].pay_day.slice(6,2) + "日",
+        <%= link_to @pd["b2"][:payroll].pay_day.slice(4,2) + "月" + @pd["b2"][:payroll].pay_day.slice(6,2) + "日",
               {:controller=>:journal, :action=>:edit, :id=>@pd["b2"][:payroll].pay_journal_header_id},
-              {:title=>'振替伝票　編集'} %>
+              :remote => true %>
       <% end %>
     </td>
     <td></td>

@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: fiscal_years_controller.rb 3324 2014-01-29 03:50:03Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class FiscalYearsController < Base::HyaccController
   view_attribute :title => '会計年度'
 

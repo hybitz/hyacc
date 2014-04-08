@@ -12,7 +12,7 @@
     <th></th>
   </tr>
   
-  <% @hw.housework_details.each do |hwd| %>
+  <% @hw.details.each do |hwd| %>
     <tr>
       <td align="center"><%= hwd.account.name %></td>
       <td align="center"><%= hwd.sub_account.name if hwd.sub_account %></td>
@@ -29,18 +29,18 @@
       </td>
       <% end %>
       <td>
-        <%= link_to '編集', {:action => :edit, :id => hwd}, :remote => true %>
-        <%= link_to '削除', {:action => 'destroy', :id => hwd.id }, :confirm=>'削除します。よろしいですか？', :method=>:post %>
+        <%= link_to '編集', edit_housework_housework_detail_path(@hw, hwd), :remote => true %>
+        <%= link_to '削除', housework_housework_detail_path(@hw, hwd), :confirm => '削除します。よろしいですか？', :method => :delete %>
       </td>
     </tr>
   <% end %>
 </table>
 
 <div style="margin: 10px;">
-  <%= link_to '追加', {:action => :new, :housework_id => @hw.id}, :remote => true %>
-  <% if @hw.housework_details.present? %>
-  |
-  <%= link_to '仕訳作成', {:action => :create_journal, :id => @hw}, :confirm => '家事按分仕訳を作成します。よろしいですか？', :method => :post %>
+  <%= link_to '追加', new_housework_housework_detail_path(@hw), :remote => true %>
+  <% if @hw.details.present? %>
+    |
+    <%= link_to '仕訳作成', {:action => :create_journal, :id => @hw}, :confirm => '家事按分仕訳を作成します。よろしいですか？', :method => :post %>
   <% end %>
 </div>
 

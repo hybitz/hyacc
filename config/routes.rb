@@ -47,10 +47,12 @@ Hyacc::Application.routes.draw do
     end
   end
 
-  resources :houseworks do
-    collection do
+  resources :houseworks, :only => 'index' do
+    member do
       post 'create_journal'
     end
+    
+    resources :housework_details, :except => 'index'
   end
 
   resources :inhabitant_taxes

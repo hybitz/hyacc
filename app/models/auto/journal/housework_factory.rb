@@ -46,7 +46,7 @@ module Auto::Journal
       jh.update_user_id = @user.id
       
       detail_no = 0
-      @housework.housework_details.each do |hwd|
+      @housework.details.each do |hwd|
         # 家事に相当する金額を算出
         net_sum_amount = VMonthlyLedger.get_net_sum_amount(ym, ym, hwd.account.id)
         next if net_sum_amount == 0

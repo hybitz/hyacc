@@ -40,7 +40,7 @@
   <%= link_to '追加', {:action => :new, :housework_id => @hw.id}, :remote => true %>
   <% if @hw.housework_details.present? %>
   |
-  <%= link_to '仕訳作成', { :action=>:create_journal, :id=>@hw }, :confirm=>'家事按分仕訳を作成します。よろしいですか？', :method=>:post %>
+  <%= link_to '仕訳作成', {:action => :create_journal, :id => @hw}, :confirm => '家事按分仕訳を作成します。よろしいですか？', :method => :post %>
   <% end %>
 </div>
 

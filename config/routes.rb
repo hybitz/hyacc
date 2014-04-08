@@ -47,6 +47,12 @@ Hyacc::Application.routes.draw do
     end
   end
 
+  resources :houseworks do
+    collection do
+      post 'create_journal'
+    end
+  end
+
   resources :inhabitant_taxes
   resources :insurances
   resources :rents

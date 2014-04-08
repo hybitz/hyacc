@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class HouseworkControllerTest < ActionController::TestCase
+class HouseworksControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in freelancer

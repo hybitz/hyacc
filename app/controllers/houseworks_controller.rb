@@ -1,4 +1,4 @@
-class HouseworkController < Base::HyaccController
+class HouseworksController < Base::HyaccController
   include JournalUtil
   
   available_for :type => :company_type, :only => COMPANY_TYPE_PERSONAL
@@ -27,7 +27,7 @@ class HouseworkController < Base::HyaccController
 
       flash[:notice] = '家事按分を登録しました。'
       render 'common/reload'
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :new
     end
@@ -47,7 +47,7 @@ class HouseworkController < Base::HyaccController
       
       flash[:notice] = '家事按分を更新しました。'
       render 'common/reload'
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :edit
     end
@@ -68,7 +68,7 @@ class HouseworkController < Base::HyaccController
       end
       
       flash[:notice] = '家事按分を削除しました。'
-    rescue Exception => e
+    rescue => e
       handle(e)
     end
     
@@ -90,7 +90,7 @@ class HouseworkController < Base::HyaccController
       end
     
       flash[:notice] = '家事按分仕訳を作成しました。'
-    rescue Exception=>e
+    rescue => e
       handle(e)
     end
       

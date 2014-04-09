@@ -62,7 +62,7 @@ module HyaccConstants
     CLOSING_STATUS_CLOSING = 2 => '仮締',
     CLOSING_STATUS_CLOSED = 3 => '本締',
   }
-  
+
   # 消費税申告区分
   CONSUMPTION_ENTRY_TYPES = {
     CONSUMPTION_ENTRY_TYPE_GENERAL = 1 => '一般用',

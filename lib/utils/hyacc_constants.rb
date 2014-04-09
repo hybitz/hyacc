@@ -50,16 +50,6 @@ module HyaccConstants
   # 給与振込口座
   BANK_ACCOUNT_ID_FOR_PAY = 1
 
-  # ボタン名称
-  BUTTON_NAMES = {
-    'list' => '登録',
-    'create_simple' => '登録',
-    'new' => '登録',
-    'create' => '登録',
-    'edit' => '更新',
-    'update' => '更新',
-  }
-
   # 繰越状態（個人事業主用）
   CARRY_STATUS = {
     CARRY_STATUS_NOT_CARRIED = false => '未繰越',

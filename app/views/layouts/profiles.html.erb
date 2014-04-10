@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render_meta %>
+  <%= render_title %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+  <%= render 'common/jquery_config' %>
+  <%= render 'common/common_js' %>
+  <%= csrf_meta_tag %>
+</head>
+<body>
+  <%= render_header %>
+  <%= render_menu %>
+
+  <div class="main">
+    <%= yield %>
+  </div>
+</body>
+</html>

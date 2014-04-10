@@ -1,9 +1,3 @@
-<%#
-# $Id: _form.html.erb 3295 2014-01-24 01:03:37Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <%= flash_notice %>
 
 <%= form_for @user, :remote => true do |f| %>
@@ -22,10 +16,6 @@
               <%= @user.login_id %>
             <% end %>
           </td>
-        </tr>
-        <tr>
-          <th><%= f.label :password %></th>
-          <td><%= f.password_field :password %></td>
         </tr>
 
         <%= f.fields_for "employee_attributes", @user.employee do |e_fields| %>
@@ -57,43 +47,7 @@
             <td><%= e_fields.text_field :address %></td>
           </tr>
         <% end %>
-
-        <tr>
-          <th><%= f.label :email, 'E-Mailアドレス' %></th>
-          <td><%= f.text_field :email %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :slips_per_page, '1ページの伝票表示数' %></th>
-          <td><%= f.number_field :slips_per_page, :maxlength => 3 %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :account_count_of_frequencies, '勘定科目の優先表示数' %></th>
-          <td><%= f.number_field :account_count_of_frequencies, :maxlength => 2 %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :show_details, '振替伝票の表示モード' %></th>
-          <td>
-            <label><%= f.radio_button :show_details, true %> 詳細を表示する</label>
-            <label><%= f.radio_button :show_details, false %> 詳細を隠す</label>
-          </td>
-        </tr>
-        <tr>
-          <th><%= f.label :google_account, 'Googleアカウント' %></th>
-          <td><%= f.text_field :google_account %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :google_password, 'Googleパスワード' %></th>
-          <td><%= f.password_field :google_password %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :yahoo_api_app_id, 'YahooAPIアプID' %></th>
-          <td><%= f.text_field :yahoo_api_app_id %></td>
-        </tr>
       </table>
-    </div>
-    
-    <div style="margin-left: 10px; float: left;">
-      <%= render 'simple_slip_settings' %>
     </div>
   </div>
 <% end %>

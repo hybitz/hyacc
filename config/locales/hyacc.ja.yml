@@ -127,6 +127,7 @@ ja:
         is_order_placement: "発注フラグ"  
 
       employee:
+        address: 住所
         business_office_id: 所属する事業所
         employment_date: 入社年月日
         first_name: 名
@@ -253,7 +254,7 @@ ja:
         checked: "チェック"  
         journal_header: "雑誌ヘッダ"
         
-      user: 
+      user:
         code: "コード"  
         password: パスワード  
         first_name: "名前"  

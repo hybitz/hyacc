@@ -18,6 +18,13 @@
           </td>
         </tr>
 
+        <% if @user.new_record? %>
+          <tr>
+            <th><%= f.label :password %></th>
+            <td><%= f.password_field :password %></td>
+          </tr>
+        <% end %>
+
         <%= f.fields_for "employee_attributes", @user.employee do |f| %>
           <tr>
             <th><%= f.label :last_name %></th>

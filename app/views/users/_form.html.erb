@@ -18,33 +18,33 @@
           </td>
         </tr>
 
-        <%= f.fields_for "employee_attributes", @user.employee do |e_fields| %>
+        <%= f.fields_for "employee_attributes", @user.employee do |f| %>
           <tr>
-            <th><%= e_fields.label :last_name, '姓' %></th>
+            <th><%= f.label :last_name %></th>
             <td>
-              <%= e_fields.hidden_field :id %>
-              <%= e_fields.text_field :last_name %>
+              <%= f.hidden_field :id %>
+              <%= f.text_field :last_name %>
             </td>
           </tr>
           <tr>
-            <th><%= e_fields.label :first_name, '名' %></th>
-            <td><%= e_fields.text_field :first_name %></td>
+            <th><%= f.label :first_name %></th>
+            <td><%= f.text_field :first_name %></td>
           </tr>
           <tr>
-            <th><%= e_fields.label :sex, '性別' %></th>
-            <td><%= e_fields.select :sex, sex_types %></td>
+            <th><%= f.label :sex %></th>
+            <td><%= f.select :sex, sex_types %></td>
           </tr>
           <tr>
-            <th><%= e_fields.label :employment_date, '入社年月日' %></th>
-            <td><%= e_fields.date_select :employment_date %></td>
+            <th><%= f.label :employment_date %></th>
+            <td><%= f.date_select :employment_date %></td>
           </tr>
           <tr>
-            <th><%= e_fields.label :zip_code, '郵便番号' %></th>
-            <td><%= e_fields.text_field :zip_code %></td>
+            <th><%= f.label :zip_code %></th>
+            <td><%= f.text_field :zip_code %></td>
           </tr>
           <tr>
-            <th><%= e_fields.label :address, '住所' %></th>
-            <td><%= e_fields.text_field :address %></td>
+            <th><%= f.label :address %></th>
+            <td><%= f.text_field :address %></td>
           </tr>
         <% end %>
       </table>

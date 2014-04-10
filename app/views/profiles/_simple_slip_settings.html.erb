@@ -8,8 +8,8 @@
     <th>ショートカットキー</th>
   </tr>
 
-  <% @profile.simple_slip_settings.each_with_index do |sss, index| %>
-    <%= render 'simple_slip_setting_fields', :sss => sss, :index => index %>
+  <% @profile.simple_slip_settings.each_with_index do |sss, i| %>
+    <%= render 'simple_slip_setting_fields', :sss => sss, :index => i %>
   <% end %>
 
   <tr>

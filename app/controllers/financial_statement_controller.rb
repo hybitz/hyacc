@@ -49,8 +49,8 @@ class FinancialStatementController < Base::HyaccController
     end
     
     # 利益剰余金の計算
-    profit_account = Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT])
-    expense_account = Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE])
+    profit_account = Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT).first
+    expense_account = Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE).first
     # 今期までの利益剰余金累計
     profit = finder.get_net_sum_amount( profit_account )
     expense = finder.get_net_sum_amount( expense_account )
@@ -67,9 +67,9 @@ class FinancialStatementController < Base::HyaccController
   def render_bs_monthly
     # BS関係の勘定科目ツリーを取得
     trees = [
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_ASSET]),
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_DEBT]),
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_CAPITAL]),
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_ASSET).first,
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_DEBT).first,
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_CAPITAL).first,
     ]
     
     # 各科目の月別ネット累計を取得
@@ -79,8 +79,8 @@ class FinancialStatementController < Base::HyaccController
     end
     
     # 利益剰余金の計算
-    profit_account = Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT])
-    expense_account = Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE])
+    profit_account = Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT).first
+    expense_account = Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE).first
     # 今期までの利益剰余金累計
     profit = finder.list_monthly_net_sum( profit_account )
     expense = finder.list_monthly_net_sum( expense_account )
@@ -151,8 +151,8 @@ class FinancialStatementController < Base::HyaccController
   def render_pl_monthly()
     # 収益と費用の勘定科目ツリーを取得
     trees = [
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT]),
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE]),
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT).first,
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE).first,
     ]
     
     # 各科目の月別累計を取得
@@ -170,8 +170,8 @@ class FinancialStatementController < Base::HyaccController
   def render_pl_yearly()
     # 収益と費用の勘定科目ツリーを取得
     trees = [
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT]),
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE]),
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT).first,
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE).first,
     ]
     
     # 各科目の月別累計を取得

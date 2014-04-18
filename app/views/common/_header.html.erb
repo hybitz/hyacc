@@ -8,7 +8,7 @@
     </div>
   <% else %>
     <div style="float: left; margin-left: 10px;">
-      <a href="<%= url_for root_path %>" style="text-decoration: none;"><%= @company.name %></a>
+      <%= link_to @company.name, root_path %>
       |
       <%= current_user.company.current_fiscal_year_int %>年度
     </div>

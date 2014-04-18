@@ -5,5 +5,5 @@ rvm:
   - 2.0.0
 before_script:
   - cp -f travis/database.yml config/
-  - rake dad:db:create
+  - bundle exec rake dad:db:create
 

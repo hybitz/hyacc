@@ -37,9 +37,9 @@ class FinancialStatementController < Base::HyaccController
   def render_bs_yearly
     # BS関係の勘定科目ツリーを取得
     trees = [
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_ASSET]),
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_DEBT]),
-      Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_CAPITAL]),
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_ASSET).first,
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_DEBT).first,
+      Account.where("account_type=? and parent_id=0", ACCOUNT_TYPE_CAPITAL).first,
     ]
     
     # 各科目のネット累計を取得

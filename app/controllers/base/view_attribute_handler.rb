@@ -60,7 +60,7 @@ protected
 
   def get_accounts(options = {})
     if options[:conditions]
-      Account.find(:all, :conditions=>options[:conditions]).select{|a| a.journalizable }
+      Account.where(options[:conditions]).where(:journalizable => true)
     else
       Account.get_journalizable_accounts
     end
@@ -123,7 +123,7 @@ protected
 
   def get_customers(options = {})
     if options[:conditions]
-      Customer.find(:all, :conditions=>options[:conditions])
+      Customer.where(options[:conditions])
     else
       Customer.all
     end

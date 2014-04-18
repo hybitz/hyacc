@@ -5,7 +5,7 @@ module PayrollInfo
     
     def initialize(finder=nil)
       @calendar_year = finder.calendar_year
-      @employee_id = finder.employee_idx
+      @employee_id = finder.employee_id
     end
     
     def get_total_base_salary

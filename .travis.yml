@@ -3,4 +3,6 @@ cache: bundler
 rvm:
   - 2.1.0
   - 2.0.0
+before_script:
+  - cp -f travis/database.yml config/
 

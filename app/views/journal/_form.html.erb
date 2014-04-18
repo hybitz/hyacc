@@ -71,7 +71,7 @@
 %>
 <%= form_tag url_options, html_options do %>
   <div style="margin: 0px 5px; 0px 5px;">
-    <%= submit_tag button_name, :onclick => "return submitJournal(this.form);" %>
+    <%= submit_tag @journal_header.new_record? ? '登録する' : '更新する', :onclick => "return submitJournal(this.form);" %>
     <%= hidden_field 'journal_header', 'lock_version' %>
   
     <table style="margin-top: 10px;">

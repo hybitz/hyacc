@@ -1,21 +1,6 @@
-# coding: UTF-8
-#
-# $Id: users_controller.rb 3295 2014-01-24 01:03:37Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class UsersController < Base::HyaccController
   view_attribute :title => 'ユーザ'
-  view_attribute :accounts, :except=>[:list, :show, :destroy],
-    :conditions=>['account_type in (?, ?) and journalizable=? and tax_type=? and deleted=?',
-      ACCOUNT_TYPE_ASSET, ACCOUNT_TYPE_DEBT, true, TAX_TYPE_NONTAXABLE, false]
          
-  def add_simple_slip_setting
-    sss = SimpleSlipSetting.new(:user_id => params[:user_id], :shortcut_key => 'Ctrl+')
-    render :partial => 'simple_slip_setting_fields', :locals => {:sss => sss, :index => params[:index]}
-  end
-
   def index
     @users = User.paginate :page=>params[:page], :per_page=>20
   end
@@ -41,7 +26,7 @@ class UsersController < Base::HyaccController
       flash[:notice] = 'ユーザを追加しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :new
     end
@@ -63,7 +48,7 @@ class UsersController < Base::HyaccController
         flash[:notice] = 'ユーザを更新しました。'
         render 'common/reload'
       end
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :edit
     end

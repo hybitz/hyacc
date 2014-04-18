@@ -1,9 +1,3 @@
-<%#
-# $Id: _form.html.erb 3295 2014-01-24 01:03:37Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <%= flash_notice %>
 
 <%= form_for @user, :remote => true do |f| %>
@@ -23,77 +17,44 @@
             <% end %>
           </td>
         </tr>
-        <tr>
-          <th><%= f.label :password %></th>
-          <td><%= f.password_field :password %></td>
-        </tr>
 
-        <%= f.fields_for "employee_attributes", @user.employee do |e_fields| %>
+        <% if @user.new_record? %>
           <tr>
-            <th><%= e_fields.label :last_name, '姓' %></th>
-            <td>
-              <%= e_fields.hidden_field :id %>
-              <%= e_fields.text_field :last_name %>
-            </td>
-          </tr>
-          <tr>
-            <th><%= e_fields.label :first_name, '名' %></th>
-            <td><%= e_fields.text_field :first_name %></td>
-          </tr>
-          <tr>
-            <th><%= e_fields.label :sex, '性別' %></th>
-            <td><%= e_fields.select :sex, sex_types %></td>
-          </tr>
-          <tr>
-            <th><%= e_fields.label :employment_date, '入社年月日' %></th>
-            <td><%= e_fields.date_select :employment_date %></td>
-          </tr>
-          <tr>
-            <th><%= e_fields.label :zip_code, '郵便番号' %></th>
-            <td><%= e_fields.text_field :zip_code %></td>
-          </tr>
-          <tr>
-            <th><%= e_fields.label :address, '住所' %></th>
-            <td><%= e_fields.text_field :address %></td>
+            <th><%= f.label :password %></th>
+            <td><%= f.password_field :password %></td>
           </tr>
         <% end %>
 
-        <tr>
-          <th><%= f.label :email, 'E-Mailアドレス' %></th>
-          <td><%= f.text_field :email %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :slips_per_page, '1ページの伝票表示数' %></th>
-          <td><%= f.number_field :slips_per_page, :maxlength => 3 %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :account_count_of_frequencies, '勘定科目の優先表示数' %></th>
-          <td><%= f.number_field :account_count_of_frequencies, :maxlength => 2 %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :show_details, '振替伝票の表示モード' %></th>
-          <td>
-            <label><%= f.radio_button :show_details, true %> 詳細を表示する</label>
-            <label><%= f.radio_button :show_details, false %> 詳細を隠す</label>
-          </td>
-        </tr>
-        <tr>
-          <th><%= f.label :google_account, 'Googleアカウント' %></th>
-          <td><%= f.text_field :google_account %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :google_password, 'Googleパスワード' %></th>
-          <td><%= f.password_field :google_password %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :yahoo_api_app_id, 'YahooAPIアプID' %></th>
-          <td><%= f.text_field :yahoo_api_app_id %></td>
-        </tr>
+        <%= f.fields_for "employee_attributes", @user.employee do |f| %>
+          <tr>
+            <th><%= f.label :last_name %></th>
+            <td>
+              <%= f.hidden_field :id %>
+              <%= f.text_field :last_name %>
+            </td>
+          </tr>
+          <tr>
+            <th><%= f.label :first_name %></th>
+            <td><%= f.text_field :first_name %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :sex %></th>
+            <td><%= f.select :sex, sex_types %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :employment_date %></th>
+            <td><%= f.date_select :employment_date %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :zip_code %></th>
+            <td><%= f.text_field :zip_code %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :address %></th>
+            <td><%= f.text_field :address %></td>
+          </tr>
+        <% end %>
       </table>
-    </div>
-    
-    <div style="margin-left: 10px; float: left;">
-      <%= render 'simple_slip_settings' %>
     </div>
   </div>
 <% end %>

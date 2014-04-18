@@ -139,11 +139,7 @@ module ApplicationHelper
       render :text=>''
     end
   end
-  
-  def button_name
-    BUTTON_NAMES[ controller.action_name ]
-  end
-  
+
   def is_available(controller_name)
     class_name = controller_name.split('_').inject(''){|ret, s| ret + s.capitalize} + 'Controller'
     eval("#{class_name}.new").is_available_controller?(current_user)

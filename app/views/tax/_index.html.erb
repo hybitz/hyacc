@@ -31,14 +31,14 @@
       <td></td>
       <td></td>
       <td class="action">
-        <%= link_to_dialog '編集', {:controller=>:journal, :action=>:edit, :id=>jh.id}, {:title=>'振替伝票　編集', :dimensions=>[920, 480]} %>
+        <%= link_to '編集', {:controller=>:journal, :action=>:edit, :id=>jh.id}, :remote => true %>
       </td>
       <td class="action">
         <% checked = jh.tax_admin_info.nil? ? false : jh.tax_admin_info.checked %>
         <% if checked %>
           確認済
         <% else %>
-          <%= link_to '確認', url_for(:action=>:update_checked, :id=>jh.id), :remote=>true %>
+          <%= button_to '確認', url_for(:action=>:update_checked, :id=>jh.id), :remote=>true %>
         <% end %>
       </td>
     </tr>

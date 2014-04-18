@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: employee.rb 3093 2013-07-17 15:21:18Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class Employee < ActiveRecord::Base
   include HyaccErrors
   include HyaccConstants

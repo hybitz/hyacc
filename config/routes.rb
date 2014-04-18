@@ -47,9 +47,24 @@ Hyacc::Application.routes.draw do
     end
   end
 
+  resources :houseworks, :only => 'index' do
+    member do
+      post 'create_journal'
+    end
+    
+    resources :housework_details, :except => 'index'
+  end
+
   resources :inhabitant_taxes
   resources :insurances
+  resources :profiles, :only => ['edit', 'update'] do
+    member do
+      get 'add_simple_slip_setting'
+    end
+  end
+
   resources :rents
+
   resources :simple_slip_templates do
     collection do
       get 'get_keywords'
@@ -58,12 +73,7 @@ Hyacc::Application.routes.draw do
   end
 
   resources :tax
-
-  resources :users do
-    collection do
-      get 'add_simple_slip_setting'
-    end
-  end
+  resources :users
   resources :withheld_taxes
 
   root :to => "notification#index"

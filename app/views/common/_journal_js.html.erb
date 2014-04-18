@@ -144,9 +144,7 @@
     $('.journal_details').find('tr[id]').each(function() {
       var id = $(this).attr('id');
 
-      if ( id.match(/add_detail/) ) {
-        // 明細追加の行
-      } else if ( id.match(/journal_details_[0-9]+_[0-9]+/) ) {
+      if ( id.match(/journal_details_[0-9]+_[0-9]+/) ) {
         // 明細の先頭行以外は無視
       } else {
         ret.push($(this).get(0));

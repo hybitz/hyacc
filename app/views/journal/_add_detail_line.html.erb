@@ -1,11 +1,22 @@
-<%#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-<tr id="add_detail">
+<tr>
   <td colspan="<%= branch_mode ? 8 : 7 %>"></td>
   <td align="center" colspan="2">
-    <%= link_to '明細追加', {:action => 'add_detail', :detail_no => @detail_no}, :remote => true %>
+    <script>
+      var next_journal_detail_no = <%= @journal_header.journal_details.size + 1 %>;
+
+      function add_journal_detail(trigger) {
+        var params = {
+          detail_no: next_journal_detail_no,
+          format: 'html'
+        }
+        next_journal_detail_no ++;
+
+        $.get('<%= url_for :action => 'add_detail' %>', params, function(html) {
+          var tr = $(trigger).closest('tr');
+          tr.before(html);
+        });
+      }
+    </script>
+    <%= link_to_function '明細追加', 'add_journal_detail(this);' %>
   </td>
 </tr>

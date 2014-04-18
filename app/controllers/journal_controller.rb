@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class JournalController < Base::HyaccController
   include JournalHelper
   include JournalUtil
@@ -57,9 +51,6 @@ class JournalController < Base::HyaccController
   
   def new
     @journal_header = create_new_journal
-
-    # 明細追加用の明細番号
-    @detail_no = @journal_header.journal_details.last.detail_no + 1
   end
 
   # 新規伝票を既存伝票のコピーから登録
@@ -69,16 +60,12 @@ class JournalController < Base::HyaccController
     @journal_header.day = @day
     clear_asset_from_details(@journal_header)
     
-    # 明細追加用の明細番号
-    @detail_no = @journal_header.journal_details.last.detail_no + 1
-    
     render 'new'
   end
 
   def add_detail
-    @journal_detail = JournalDetail.new
-    @journal_detail.detail_no = params[:detail_no].to_i
-    @detail_no = @journal_detail.detail_no + 1
+    @journal_detail = JournalDetail.new(:detail_no => params[:detail_no])
+    render :partial => 'detail_line', :locals => {:jd => @journal_detail}
   end
 
   def create

@@ -1,3 +1,4 @@
+<%= render 'common/journal_js' %>
 <script>
   function submitJournal( form ) {
     if ( ! checkAutoJournalTypes( form ) ) {
@@ -52,9 +53,12 @@
       );
     });
   });
+
+  $(document).ready(function() {
+    calcTotalAmount();
+  });
 </script>
 
-<%= render 'common/journal_js' %>
 <%= flash_notice %>
 
 <%
@@ -120,10 +124,6 @@
       <% end %>
       
       <%= render 'add_detail_line' %>
-      
-      <script>
-        calcTotalAmount();
-      </script>
     </table>
   </div>
 

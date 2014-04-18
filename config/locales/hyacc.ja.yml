@@ -88,7 +88,7 @@ ja:
 
       branches_user: 
         cost_ratio: "費比率"  
-        default_branch: "デフォルトブランチ"  
+        default_branch: 主所属部門  
         created_on: "創作に"  
         updated_on: "更新"  
         branch: "枝"  

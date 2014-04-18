@@ -19,8 +19,8 @@
         <%= link_to "#{current_user.employee.last_name} #{current_user.employee.first_name} さん", edit_profile_path(current_user) %>
         |
         <% if branch_mode %>
-        &nbsp;所属部門：<%= current_user.employee.default_branch.name %>
-        |
+          所属部門：<%= current_user.employee.default_branch_name %>
+          |
         <% end %>
         <%= link_to 'ログアウト', :controller => 'login', :action => 'logout' %>
     </nobr>

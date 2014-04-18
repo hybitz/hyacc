@@ -25,12 +25,22 @@ class Employee < ActiveRecord::Base
   end
   
   # デフォルト所属部門
-  def default_branch
-    branches_employee = branches_employees.find(:first, :conditions=>["default_branch=true"])
+  def default_branch(raise_error = true)
+    branches_employee = branches_employees.where(:default_branch => true).first
     return branches_employee.branch if branches_employee
-    raise HyaccException.new(ERR_DEFAULT_BRANCH_NOT_FOUND)
+
+    if raise_error
+      raise HyaccException.new(ERR_DEFAULT_BRANCH_NOT_FOUND)
+    end
+    
+    nil
   end
-  
+
+  def default_branch_name
+    b = default_branch(false)
+    b ? b.name : nil
+  end
+
   def deleted_name
     DELETED_TYPES[deleted]
   end

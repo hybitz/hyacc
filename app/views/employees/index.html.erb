@@ -12,7 +12,7 @@
   <% @employees.each do |e| %>
     <tr class="hover">
       <td><%= e.full_name %></td>
-      <td><%= e.default_branch.name %></td>
+      <td><%= e.default_branch_name %></td>
       <td align="right"><a href="<%= url_for :controller=>:career_statement, :action=>:show, :id=>e %>"><%= e.years_of_career %>年</a></td>
       <td><%= e.deleted_name %></td>
       <td><%= link_to '修正', edit_employee_path(e), :remote => true %></td>

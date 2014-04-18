@@ -9,7 +9,7 @@ module Reports
     
     def get_withholding_info
       model = WithholdingDetail.new
-      model.fiscal_year = @finder.fiscal_year
+      model.calendar_year = @finder.calendar_year
       model.company = Company.find(@finder.company_id)
       model.head_business_office = model.company.get_head_business_office
       model.employee = Employee.find(@finder.employee_id)
@@ -24,7 +24,7 @@ module Reports
     
     # 支払金額
     def get_total_salary
-      logic = PayrollInfo::PayrollLogic.new(@finder.fiscal_year)
+      logic = PayrollInfo::PayrollLogic.new(@finder)
       return logic.get_total_base_salary
     end
     

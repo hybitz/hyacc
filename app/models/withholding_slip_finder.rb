@@ -9,7 +9,7 @@ class WithholdingSlipFinder < Base::Finder
   attr_reader :company_id
   attr_reader :report_type
   attr_reader :report_style
-  attr_reader :fiscal_year
+  attr_reader :calendar_year
   attr_reader :employee_id
   
   def initialize(user)
@@ -22,7 +22,7 @@ class WithholdingSlipFinder < Base::Finder
     if params
       @report_type = params[:report_type].to_i
       @report_style = params[:report_style].to_i
-      @fiscal_year = params[:fiscal_year].to_i
+      @fiscal_year = params[:calendar_year].to_i
       @employee_id = params[:employee_id].to_i
     end
   end

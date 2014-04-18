@@ -1,13 +1,7 @@
 # -*- encoding : utf-8 -*-
-#
-# $Id: withholding_detail.rb 3132 2013-08-16 05:46:04Z hiro $
-# Product: hyacc
-# Copyright 2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Reports
   class WithholdingDetail
-    attr_accessor :fiscal_year
+    attr_accessor :calendar_year
     attr_accessor :head_business_office
     attr_accessor :employee
     attr_accessor :company

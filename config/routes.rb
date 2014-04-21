@@ -56,7 +56,9 @@ Hyacc::Application.routes.draw do
   end
 
   resources :inhabitant_taxes
-  resources :insurances
+  resources :insurances, :only => 'index'
+  resources :pensions, :only => 'index'
+
   resources :profiles, :only => ['edit', 'update'] do
     member do
       get 'add_simple_slip_setting'

@@ -1,9 +1,3 @@
-<%#
-# $Id: _line.html.erb 3113 2013-08-06 04:01:04Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <div>
   <div class="div_td_yyyymm" style="border-width: 0px 1px 1px 1px;"><%= data.apply_start_ym %></div>
   <div class="div_td_yyyymm"><%= data.apply_end_ym %></div>
@@ -15,4 +9,5 @@
   <div class="div_td_money10"><%= number_to_currency(data.pension_half, :precision => 2, :unit=>"") %></div>
   <div class="div_td_money20"><%= number_to_currency(data.pension2, :precision => 2, :unit=>"") %></div>
   <div class="div_td_money20"><%= number_to_currency(data.pension2_half, :precision => 2, :unit=>"") %></div>
+  <br clear="all" />
 </div>

@@ -1,3 +1,13 @@
 .banks {
   margin: 10px;
 }
+
+td.bank_office_code {
+  width: 6em;
+  text-align: center;
+  
+  input {
+    width: 96%;
+    text-align: center;
+  }
+}

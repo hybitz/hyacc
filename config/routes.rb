@@ -11,7 +11,7 @@ Hyacc::Application.routes.draw do
 
   resources :bank_accounts
 
-  resources :bank_offices do
+  resources :bank_offices, :only => [] do
     collection do
       get 'add_bank_office'
     end

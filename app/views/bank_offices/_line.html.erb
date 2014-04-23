@@ -1,12 +1,6 @@
-<%#
-# $Id: _line.html.erb 2899 2012-08-31 02:38:30Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <%= fields_for "bank[bank_offices_attributes][]", bank_office, :index=>index do |f| %>
   <tr>
-    <td>
+    <td class="bank_office_code">
       <% if bank_office.new_record? %>
         <%= f.text_field :code %>
       <% else %>

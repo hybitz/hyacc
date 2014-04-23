@@ -1,11 +1,12 @@
 <div style="margin: 20px;">
-<%= error_messages_for :withheld_tax %>
-<%= form_tag( {:action => "upload"},{ :multipart => true }) do -%>
-<p>アップロードファイル<br>
-  <%= file_field_tag(:file) %>
-</p>
-<%= submit_tag("アップロード") %>
-<% end -%>
+  <%= flash_notice %>
 
-<%= link_to '戻る', withheld_taxes_path %>
+  <%= form_tag( {:action => "upload"},{ :multipart => true }) do -%>
+    <p>アップロードファイル<br>
+      <%= file_field_tag(:file) %>
+    </p>
+    <%= submit_tag("アップロード") %>
+  <% end -%>
+  
+  <%= link_to '戻る', withheld_taxes_path %>
 </div>

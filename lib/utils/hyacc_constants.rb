@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 module HyaccConstants
 
   # 管理者用メールアドレス

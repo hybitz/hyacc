@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: accounts_controller_test.rb 3165 2014-01-01 11:37:37Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class AccountsControllerTest < ActionController::TestCase
@@ -14,7 +7,7 @@ class AccountsControllerTest < ActionController::TestCase
     sign_in user
   end
 
-  def test_index
+  def test_一覧
     get :index
 
     assert_response :success
@@ -63,7 +56,7 @@ class AccountsControllerTest < ActionController::TestCase
     assert_raise( ActiveRecord::RecordNotFound ){ get :new }
   end
 
-  def test_create
+  def test_登録
     num_accounts = Account.count
 
     post :create, :account => { :code=>'9999', :name=>'test', :dc_type=>1, :account_type=>1, :tax_type=>1 }
@@ -72,6 +65,17 @@ class AccountsControllerTest < ActionController::TestCase
     assert_redirected_to :action=>:show, :id=>Account.maximum(:id)
 
     assert_equal num_accounts + 1, Account.count
+  end
+
+  def test_登録_入力エラー
+    num_accounts = Account.count
+
+    post :create, :account => { :code=>'9999', :name=>'', :dc_type=>1, :account_type=>1, :tax_type=>1 }
+
+    assert_response :success
+    assert_template 'new'
+
+    assert_equal num_accounts, Account.count
   end
 
   def test_edit
@@ -83,7 +87,7 @@ class AccountsControllerTest < ActionController::TestCase
     assert assigns(:account).valid?
   end
 
-  test "削除状態（停止状態）でも編集画面に遷移できること" do
+  def test_削除状態_停止状態_でも編集画面に遷移できること
     Account.find( @first_id ).update_attribute(:deleted, true)
 
     get :edit, :id => @first_id
@@ -98,8 +102,7 @@ class AccountsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => 'show', :id => @first_id
   end
-  
-  
+
   def test_update_fail_duplicate_code
     a = Account.find(@first_id)
     post :update, :id => @first_id, :commit => '更新',
@@ -210,4 +213,35 @@ class AccountsControllerTest < ActionController::TestCase
     assert_redirected_to :action=>:show, :id=>Account.find_by_code(6666).id
     assert_equal 0, Account.find_by_code(6666).sub_accounts_all.size()
   end
+
+  def test_科目を別の科目の後ろに移動
+    assert parent = Account.find_by_code(ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE)
+    assert moved = Account.where(:parent_id => parent.id).not_deleted.first
+    assert target = Account.where(:parent_id => parent.id).not_deleted.last
+    assert moved.display_order < target.display_order
+    
+    post :update_tree, :moved => moved.id, :target => target.id, :position => 'after'
+
+    assert_response :success
+    assert moved.reload.display_order > target.reload.display_order
+  end
+
+  def test_科目を別の科目の中に移動
+    assert parent = Account.find_by_code(ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE)
+    assert moved = Account.where(:parent_id => parent.id).not_deleted.last
+    assert target = Account.where(:parent_id => parent.id).not_deleted.first
+    
+    post :update_tree, :moved => moved.id, :target => target.id, :position => 'inside'
+
+    assert_response :success
+    assert_equal target.id, moved.reload.parent_id
+  end
+
+  def test_補助科目を追加
+    get :add_sub_account
+    
+    assert_response :success
+    assert_template '_sub_account_fields'
+  end
+
 end

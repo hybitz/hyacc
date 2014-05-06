@@ -6,13 +6,20 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     sign_in user
   end
 
-  def test_index
+  def test_一覧
     get :index
     assert_response :success
     assert_template :index
     assert_not_nil assigns(:fiscal_years)
   end
-  
+
+  def test_編集
+    xhr :get, :edit, :id => Company.first.current_fiscal_year.id
+    assert_not_nil assigns(:fiscal_year)
+    assert_response :success
+    assert_template :edit
+  end
+
   def test_update_current_fiscal_year
     c = Company.find(1)
     assert_equal 2009, c.fiscal_year

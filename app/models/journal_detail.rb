@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class JournalDetail < ActiveRecord::Base
   include HyaccConstants
   include HyaccErrors
@@ -45,11 +39,11 @@ class JournalDetail < ActiveRecord::Base
   before_save :normalize_tax_rate
   
   def account
-    Account.get(self.account_id)
+    @_account ||= Account.get(self.account_id)
   end
   
   def branch
-    Branch.get(self.branch_id)
+    @_branch ||= Branch.get(self.branch_id)
   end
 
   def dc_type_name

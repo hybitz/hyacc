@@ -13,11 +13,12 @@ end
 
 ならば /^当該伝票が(登録|更新|削除)される$/ do |action|
   if @slip
-    if action == '更新'
-      assert page.has_no_selector?("#slip_edit_form")
-      assert page.has_no_text?('ロード中')
+    if action == '登録'
+      assert page.has_text?("伝票を#{action}しました。")
+    elsif action == '更新'
+      assert page.has_no_selector?('#slip_edit_form')
+      assert page.has_no_selector?('div.ui-dialog', :visible => true)
     end
-    assert page.has_text?("伝票を#{action}しました。")
     assert_url "^/simple/#{@account.code}$"
   else
     if action == '登録' or action == '更新'

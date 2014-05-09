@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 class SimpleSlipController < Base::HyaccController
   before_filter :check_sub_accounts
   view_attribute :finder, :class => Slips::SlipFinder, :include_params => :account_code
@@ -168,7 +166,7 @@ class SimpleSlipController < Base::HyaccController
       flash[:notice] = '伝票を更新しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       setup_view_attributes
       render 'edit'

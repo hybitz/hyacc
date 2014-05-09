@@ -39,11 +39,11 @@ class JournalDetail < ActiveRecord::Base
   before_save :normalize_tax_rate
   
   def account
-    @_account ||= Account.get(self.account_id)
+    Account.get(self.account_id)
   end
   
   def branch
-    @_branch ||= Branch.get(self.branch_id)
+    Branch.get(self.branch_id)
   end
 
   def dc_type_name

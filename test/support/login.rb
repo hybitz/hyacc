@@ -1,9 +1,8 @@
-# coding: UTF-8
-
 def sign_in(user)
   @request.session[:user_id] = user.id
+  @_current_user = user
 end
 
 def current_user
-  @_current_user ||= User.find(@request.session[:user_id])
+  @_current_user
 end

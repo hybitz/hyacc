@@ -1,18 +1,11 @@
-# coding: UTF-8
-#
-# $Id: prepaid_expense_test.rb 3367 2014-02-07 15:05:22Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 # 未払費用の計上日振替のテスト
 class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
 
 
-  def setup
-    @request.session[:user_id] = 4
+  setup do
+    sign_in User.find(4)
   end
 
   def test_本締の年度への費用振替の登録がエラーになること
@@ -40,17 +33,16 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度に費用振替が存在する伝票の更新がエラーになること
-    user = User.find(@request.session[:user_id])
-    assert user.company.get_fiscal_year(2010).is_open
-    assert user.company.get_fiscal_year(2011).is_closed
+    assert current_user.company.get_fiscal_year(2010).is_open
+    assert current_user.company.get_fiscal_year(2011).is_closed
 
-    finder = Slips::SlipFinder.new(user)
+    finder = Slips::SlipFinder.new(current_user)
     finder.account_code = Account.find(5).code # 普通預金
     slip = finder.find(18)
     assert_equal 201101, slip.journal_header.journal_details[0].transfer_journals[0].transfer_journals[0].ym
 
-    post :update, :format => 'js',
-      :account_code=>finder.account_code,
+    xhr :post, :update,
+      :account_code => finder.account_code,
       :slip => {
         "id"=>slip.id,
         "ym"=>201011,
@@ -67,7 +59,7 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
       }
 
     assert_response :success
-    assert_template 'edit'
+    assert_template :edit
     assert_not_nil assigns(:slip)
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end

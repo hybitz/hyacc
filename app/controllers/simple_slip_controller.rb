@@ -166,7 +166,7 @@ class SimpleSlipController < Base::HyaccController
       flash[:notice] = '伝票を更新しました。'
       render 'common/reload'
 
-    rescue => e
+    rescue Exception => e
       handle(e)
       setup_view_attributes
       render 'edit'

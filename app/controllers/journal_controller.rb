@@ -37,7 +37,7 @@ class JournalController < Base::HyaccController
   end
 
   def list
-    @journal_headers = finder.list
+    @journal_headers = finder.list(:per_page => current_user.slips_per_page)
   end
 
   def show

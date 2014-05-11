@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: journal_finder.rb 2471 2011-03-23 14:59:36Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class JournalFinder < Base::Finder
   include HyaccConstants
 
@@ -25,14 +18,16 @@ class JournalFinder < Base::Finder
     @remarks = params[:remarks]
   end
 
-  def list
+  def list(options = {})
+    per_page = options[:per_page] || @slips_per_page
+
     conditions = make_conditions
     
     # 初期検索でページングしていない時は一番最後（直近）のページを表示する
     if @page == 0
-      total_count = JournalHeader.count(:all, :conditions=>conditions)
+      total_count = JournalHeader.count(:all, :conditions => conditions)
       if total_count > 0
-        @page = total_count / @slips_per_page + (total_count % @slips_per_page > 0 ? 1 : 0)
+        @page = total_count / per_page + (total_count % per_page > 0 ? 1 : 0)
 
       end
 
@@ -43,13 +38,14 @@ class JournalFinder < Base::Finder
     
     # 伝票を取得
     JournalHeader.paginate(
-      :page=>@page,
+      :page => @page,
       :conditions => conditions,
       :order => "ym, day, created_on",
-      :per_page => @slips_per_page)
+      :per_page => per_page)
   end
   
-private
+  private
+
   def get_slip_types
     case @slip_type_selection
     when 1

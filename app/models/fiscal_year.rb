@@ -95,7 +95,8 @@ class FiscalYear < ActiveRecord::Base
     TAX_MANAGEMENT_TYPES[tax_management_type]
   end
 
-private
+  private
+
   # 個人事業主の場合は家事按分を作成
   def create_housework
     if company.type_of_personal

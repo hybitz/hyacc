@@ -22,6 +22,7 @@ c:
   fiscal_year: 2009
   start_month_of_fiscal_year: 1
   type_of: <%= HyaccConstants::COMPANY_TYPE_PERSONAL %>
+  business_type_id: 5
   lock_version: 0
 d:
   id: 4

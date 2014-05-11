@@ -1,10 +1,5 @@
 module HyaccConstants
 
-  # 管理者用メールアドレス
-  ADMIN_MAIL_ADDRESS = 'admin@hybitz.co.jp'
-  # HyaccマスタのURL
-  HYACC_MASTER_URL = "hyacc-master.hybitz.co.jp"
-  
   # 勘定科目区分
   ACCOUNT_TYPES = {
     ACCOUNT_TYPE_ASSET = 1 => '資産',

@@ -1,12 +1,8 @@
-# coding: UTF-8
-#
-# $Id: service.rb 3113 2013-08-06 04:01:04Z ichy $
-# Product: hyacc
-# Copyright 2012-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class HyaccMaster::Service
   include HyaccConstants
+
+  # HyaccマスタのURL
+  HYACC_MASTER_URL = "hyacc-master.hybitz.co.jp"
 
   # 都道府県一覧を取得する
   def get_prefectures
@@ -48,6 +44,32 @@ class HyaccMaster::Service
     }
     
     insurances
+  end
+
+  def get_pensions(ym = nil, base_salary = 0)
+    pensions = []
+
+    Net::HTTP.version_1_2
+    Net::HTTP.start(HYACC_MASTER_URL, 80) {|http|
+      response = http.get("/user/pension/list?ym=#{ym}&baseSalary=#{base_salary}")
+      json = ActiveSupport::JSON.decode(response.body)
+      json.each do |j|
+        p = Pension.new
+        p.apply_start_ym = j['startYm'].to_i
+        p.apply_end_ym = j['endYm'].to_i
+        p.grade = j['grade'].to_i
+        p.pay_range_above = j['startSalary'].to_i
+        p.pay_range_under = j['endSalary'].to_i
+        p.monthly_earnings = j['baseSalary'].to_i
+        p.pension = j['pension'].to_i
+        p.pension_half = j['pensionHalf'].to_i
+        p.pension2 = j['pension2'].to_i
+        p.pension2_half = j['pension2Half'].to_i
+        pensions << p
+      end
+    }
+    
+    pensions
   end
 
   def get_pension(ym = nil, base_salary = 0)

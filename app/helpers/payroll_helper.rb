@@ -131,7 +131,6 @@ module PayrollHelper
     return payroll
   end
 
-  
   def get_pension(ym = nil, base_salary = 0)
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
     service.get_pension(ym, base_salary)

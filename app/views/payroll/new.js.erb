@@ -1,10 +1,3 @@
-<%#
-# $Id: new.html.erb 3293 2014-01-23 15:08:24Z ichy $
-# Product: hyacc
-# Copyright 2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-
 var title = '<%= @title.present? ? @title + '　追加' : '追加' %>';
 var html = '<%=j render 'new' %>';
 new hyacc.Dialog({title: title}).show(html);

@@ -1,5 +1,6 @@
 <script>
   $(document).ready(function() {
+    hyacc.init_datepicker();
     $('#payroll_base_salary').focus();
   });
 
@@ -95,6 +96,6 @@ function checkForm(form){
   <% end %>
   <tr>
     <td>給与支払日</td>
-    <td><%= text_field 'payroll', 'pay_day', :maxlength=>8 %></td>
+    <td><%= text_field 'payroll', 'pay_day', :class => 'datepicker' %></td>
   </tr>
 </table>

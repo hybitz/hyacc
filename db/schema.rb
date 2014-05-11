@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140505020352) do
+ActiveRecord::Schema.define(:version => 20140511085406) do
 
   create_table "account_controls", :force => true do |t|
     t.integer  "account_id",                              :null => false
@@ -400,7 +400,7 @@ ActiveRecord::Schema.define(:version => 20140505020352) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "employee_id",                                                           :null => false
-    t.boolean  "is_bonus",                                           :default => false
+    t.boolean  "is_bonus",                                           :default => false, :null => false
   end
 
   add_index "payrolls", ["pay_journal_header_id"], :name => "fk_payrolls_pay_journal_header_id"

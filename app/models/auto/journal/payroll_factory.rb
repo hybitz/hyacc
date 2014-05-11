@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: payroll_factory.rb 3367 2014-02-07 15:05:22Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::Journal
   
   # 給与仕訳ファクトリ
@@ -223,14 +216,14 @@ module Auto::Journal
       # 氏名
       employee = Employee.find(@payroll.employee_id)
       # 給与日の設定
-      journal_header.day = @payroll.pay_day.slice(6,2)
+      journal_header.day = @payroll.pay_day.split('-').last
       # 摘要の設定
       journal_header.remarks = "給与支給、立替費用の精算　" + employee.full_name + "　" + (@payroll.ym%100).to_s + "月分"
       journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
       journal_header.create_user_id = @user.id
       journal_header.update_user_id = @user.id
       # 年月の設定
-      journal_header.ym = @payroll.pay_day.slice(0,6)
+      journal_header.ym = @payroll.pay_day.split('-')[0..1].join.to_i
       journal_header.company_id = @user.company.id
       
       # 消費税率

@@ -1,11 +1,3 @@
-# coding: UTF-8
-#
-# $Id: payroll.rb 3166 2014-01-01 12:18:52Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
-
 class Payroll < ActiveRecord::Base
   include JournalUtil
 
@@ -112,13 +104,14 @@ class Payroll < ActiveRecord::Base
       end
     end
 
-    if pay_day =~ /^[0-9]{1,}$/
-      unless Date.valid_date?(pay_day.slice(0, 4).to_i, pay_day.slice(4, 2).to_i, pay_day.slice(6, 2).to_i)
-        errors.add(:pay_day, "は存在する日付をYYYYMMDD形式で入力して下さい。")
+    if pay_day =~ /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/
+      split = pay_day.split('-').map(&:to_i)
+      unless Date.valid_date?(split[0], split[1], split[2])
+        errors.add(:pay_day, "は存在する日付をYYYY-MM-DD形式で入力して下さい。")
         result = false
       end
     else
-      errors.add(:pay_day, "は数値で入力して下さい。")
+      errors.add(:pay_day, "はYYYY-MM-DD形式で入力して下さい。")
       result = false
     end
     return result
@@ -149,7 +142,7 @@ class Payroll < ActiveRecord::Base
     # 支払の伝票取得
     if payroll.pay_journal_headers != nil
       jh = payroll.pay_journal_headers
-      payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y%m%d")
+      payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
       payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
     

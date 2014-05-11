@@ -1,25 +1,17 @@
-# coding: UTF-8
-#
-# $Id: payroll_controller_test.rb 3367 2014-02-07 15:05:22Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class PayrollControllerTest < ActionController::TestCase
   include HyaccConstants
     
-  def setup
-    # ログインした状態を再現
-    @request.session[:user_id] = users(:first).id
+  setup do
+    sign_in user
   end
   
   def test_一覧
     get :index
     assert_response :success
     assert_template 'index'
-    get :index, :commit => "表示", :finder=>{:fiscal_year => 2009, :branch_id => 2, :employee_id => 2}
+    get :index, :commit => "表示", :finder => {:fiscal_year => 2009, :branch_id => 2, :employee_id => 2}
     assert_response :success
     assert_template 'index'
   end
@@ -75,21 +67,21 @@ class PayrollControllerTest < ActionController::TestCase
   end
   
   def test_should_get_create_deposits_received
-    finder = PayrollFinder.new(User.find(session[:user_id]))
+    finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
     ym = 200902
     employee_id = 2
-    post :create, :format => 'js',
-         :payroll => {:ym => ym, :employee_id => employee_id,
+    xhr :post, :create,
+        :payroll => {:ym => ym, :employee_id => employee_id,
                       :days_of_work => 28, :hours_of_work => 224,
                       :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
                       :hours_of_late_night_work => 102, :base_salary => '394000',
                       :insurance => '10000', :pension => '20000',
                       :income_tax => '1000', :inhabitant_tax => '8400',
-                      :accrued_liability => '120000', :pay_day => '20090306',
+                      :accrued_liability => '120000', :pay_day => '2009-03-06',
                       :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
                       :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
                       :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
@@ -124,25 +116,25 @@ class PayrollControllerTest < ActionController::TestCase
   end
   
   def test_should_get_create_advance_money
-    finder = PayrollFinder.new(User.find(session[:user_id]))
+    finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
     
     ym = 200902
     employee_id = 2
-    post :create, :format => 'js',
-                  :payroll => {:ym => ym, :employee_id => employee_id,
-                               :days_of_work => 28, :hours_of_work => 224,
-                               :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
-                               :hours_of_late_night_work => 102, :base_salary => '394000',
-                               :insurance => '10000', :pension => '20000',
-                               :income_tax => '1000', :inhabitant_tax => '8400',
-                               :accrued_liability => '120000', :pay_day => '20090306',
-                               :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
+    xhr :post, :create,
+        :payroll => {:ym => ym, :employee_id => employee_id,
+                     :days_of_work => 28, :hours_of_work => 224,
+                     :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
+                     :hours_of_late_night_work => 102, :base_salary => '394000',
+                     :insurance => '10000', :pension => '20000',
+                     :income_tax => '1000', :inhabitant_tax => '8400',
+                     :accrued_liability => '120000', :pay_day => '2009-03-06',
+                     :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
     assert_response :success
     assert assigns(:payroll).errors.size == 0
     assert_template 'common/_reload_dialog'

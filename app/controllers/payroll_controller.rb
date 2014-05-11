@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: payroll_controller.rb 3322 2014-01-29 03:30:58Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class PayrollController < Base::HyaccController
   include PayrollHelper
   include JournalUtil
@@ -61,7 +54,7 @@ class PayrollController < Base::HyaccController
       while pay_day.wday == 0 or pay_day.wday == 6
         pay_day = pay_day - 1
       end
-      @payroll.pay_day = pay_day.strftime("%Y%m%d")
+      @payroll.pay_day = pay_day.strftime("%Y-%m-%d")
       # 表示対象ユーザID
       @payroll.employee_id = finder.employee_id
     end

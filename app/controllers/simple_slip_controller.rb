@@ -108,7 +108,7 @@ class SimpleSlipController < Base::HyaccController
     @slip = setup_new_slip unless slip
         
     # 登録済み伝票を検索
-    @slips = finder.list
+    @slips = finder.list(:per_page => current_user.slips_per_page)
     
     # 表示伝票直前までの累計金額、現在の累計金額の取得
     if @slips.empty?

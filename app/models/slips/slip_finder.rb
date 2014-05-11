@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: slip_finder.rb 3025 2013-05-31 17:02:36Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Slips
 
   class SlipFinder < Base::Finder
@@ -88,29 +81,31 @@ module Slips
     end
         
     # 伝票を検索する
-    def list
+    def list(options = {})
+      per_page = options[:per_page] || slips_per_page
+
       conditions = get_conditions
 
       # 条件に該当する総伝票数を取得
       total_count = count(:id, :conditions=>conditions)
       
       # 前伝票ページングのためのオフセットを計算
-      prev_count = total_count - offset.to_i - slips_per_page
+      prev_count = total_count - offset.to_i - per_page
       if prev_count <= 0
         self.prev_offset = nil
-      elsif prev_count < slips_per_page
-        self.prev_offset = total_count - slips_per_page
+      elsif prev_count < per_page
+        self.prev_offset = total_count - per_page
       else
-        self.prev_offset = offset.to_i + slips_per_page
+        self.prev_offset = offset.to_i + per_page
       end
       
       # 次伝票ページングのためのオフセットを計算
       if offset.to_i == 0
         self.next_offset = nil
-      elsif offset.to_i <  slips_per_page
+      elsif offset.to_i <  per_page
         self.next_offset = 0
       else
-        self.next_offset = offset.to_i - slips_per_page
+        self.next_offset = offset.to_i - per_page
       end
 
       # 条件に該当する伝票を取得
@@ -119,11 +114,12 @@ module Slips
         :conditions=>conditions,
         :include=>[:journal_details],
         :order=>"journal_headers.ym desc, journal_headers.day desc, journal_headers.created_on desc",
-        :limit=> ym.to_i == 0 ? slips_per_page : nil,
+        :limit=> ym.to_i == 0 ? per_page : nil,
         :offset=> offset.to_i).reverse
     end
-    
-  private
+
+    private
+
     def get_sub_account_id
       @sub_account_id = @sub_account_id_map[account_code].to_i
     end

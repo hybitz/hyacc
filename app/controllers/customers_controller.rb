@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 class CustomersController < Base::HyaccController
   view_attribute :title => '取引先'
   view_attribute :finder, :class => CustomerFinder, :only => :index
@@ -39,7 +37,7 @@ class CustomersController < Base::HyaccController
       flash[:notice] = '取引先を登録しました。'
       render 'common/reload'
 
-    rescue =>e
+    rescue => e
       handle(e)
       render 'new'
     end
@@ -67,17 +65,11 @@ class CustomersController < Base::HyaccController
   def destroy
     @customer = Customer.find(params[:id])
 
-    begin
-      @customer.transaction do
-        @customer.destroy_logically!
-      end
-
-      flash[:notice] = '取引先を削除しました。'
-
-    rescue => e
-      handle(e)
+    @customer.transaction do
+      @customer.destroy_logically!
     end
 
-    redirect_to(:action=>:index)
+    flash[:notice] = '取引先を削除しました。'
+    redirect_to :action => :index
   end
 end

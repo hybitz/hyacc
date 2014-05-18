@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: customer.rb 2991 2013-02-15 07:27:01Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class Customer < ActiveRecord::Base
   include HyaccConstants
   has_many :customer_names, :dependent=>:destroy

@@ -4,7 +4,7 @@ class HyaccMaster::Cache
   # キー：都道府県一覧
   MEM_KEY_PREFECTURE_LIST = "MEM_KEY_PREFECTURE_LIST"
   # キー：厚生年金保険料一覧
-  MEM_KEY_INSURANCE_LIST = "MEM_KEY_PENSION_LIST"
+  MEM_KEY_PENSION_LIST = "MEM_KEY_PENSION_LIST"
   # キー：健康保険料一覧
   MEM_KEY_INSURANCE_LIST = "MEM_KEY_INSURANCE_LIST"
   # キー：厚生年金保険料

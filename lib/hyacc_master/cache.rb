@@ -44,8 +44,22 @@ class HyaccMaster::Cache
     insurances
   end
 
+  def get_insurance(ym = nil, prefecture_id = nil, base_salary = 0)
+    key = MEM_KEY_INSURANCE + create_sub_key([ym, prefecture_id, base_salary])
+    insurance = Rails.cache.read(key)
+    if insurance.nil?
+      if HyaccLogger.debug?
+        HyaccLogger.debug "Cache not found " + key
+      end
+      service = HyaccMaster::Service.new
+      insurance = service.get_insurance(ym, prefecture_id, base_salary)
+      Rails.cache.write(key, insurance)
+    end
+    insurance
+  end
+  
   def get_pensions(ym = nil, base_salary = 0)
-    key = MEM_KEY_INSURANCE_LIST + create_sub_key([ym, base_salary])
+    key = MEM_KEY_PENSION_LIST + create_sub_key([ym, base_salary])
     pension = Rails.cache.read(key)
     if pension.nil?
       if HyaccLogger.debug?
@@ -72,20 +86,6 @@ class HyaccMaster::Cache
     pension
   end
 
-  def get_insurance(ym = nil, prefecture_id = nil, base_salary = 0)
-    key = MEM_KEY_INSURANCE + create_sub_key([ym, prefecture_id, base_salary])
-    insurance = Rails.cache.read(key)
-    if insurance.nil?
-      if HyaccLogger.debug?
-        HyaccLogger.debug "Cache not found " + key
-      end
-      service = HyaccMaster::Service.new
-      insurance = service.get_insurance(ym, prefecture_id, base_salary)
-      Rails.cache.write(key, insurance)
-    end
-    insurance
-  end
-  
   #標準報酬の基本情報を取得
   # TODO get_basic_infoだけキャッシュがきいていない
   def get_basic_info(ym = nil, base_salary = 0)
@@ -102,7 +102,8 @@ class HyaccMaster::Cache
     insurance
   end
   
-private
+  private
+
   # サブキーの生成
   def create_sub_key(options = [])
     key = ""

@@ -52,7 +52,11 @@ group :test do
 end
 
 # Deploy with Capistrano
-gem 'capistrano', '< 3.0.0'
+group :development do
+  gem 'capistrano'
+  #gem 'capistrano-bundler'
+  gem 'capistrano-rails'
+end
 
 # To use debugger
 # gem 'debugger'

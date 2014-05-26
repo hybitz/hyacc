@@ -47,13 +47,14 @@ module HyaccDateUtil
     end_year * 100 + end_month
   end
 
-private
+  private
+
   # 指定年月からNヶ月分の年月配列を作成する
   def get_year_months( year_month_from, number_of_months )
     year = year_month_from / 100
     month = year_month_from % 100  
 
-    ret = Array.new
+    ret = []
     
     number_of_months.times { |i|
       ret << year * 100 + month
@@ -66,7 +67,7 @@ private
       end
     }
     
-    return ret
+    ret
   end
 
   # 月末の日付を取得

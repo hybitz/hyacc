@@ -1,4 +1,5 @@
-# coding: UTF-8
+require 'rake'
+
 namespace :hyacc do
   namespace :sendmail do
     desc "データベースのバックアップファイルをメールで送信する。"
@@ -11,7 +12,8 @@ namespace :hyacc do
       yyyymmdd = Time.now.strftime("%Y/%m/%d")
       
       # 最新のDBデータファイルパスを取得
-      dbdata_path = "/home/hyacc/backup/" + company_name + "/" + ym + "/" + company_name + "_pro_" + ymd + ".sql.zip"
+      dbdata_file = company_name + "_pro_" + ymd + ".sql.zip"
+      dbdata_path = File.join("/home/hyacc/backup", company_name, ym, dbdata_file) 
       dbdata_path = __FILE__ if Rails.env != "production"
       
       # companiesテーブルから管理者メールを取得

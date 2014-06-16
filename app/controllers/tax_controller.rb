@@ -7,18 +7,14 @@ class TaxController < Base::HyaccController
   view_attribute :branches, :only => :index
 
   def index
-    @closing_status = current_user.company.get_fiscal_year( finder.fiscal_year ).closing_status
     @journal_headers = finder.list if finder.commit
   end
   
   def update_checked
     jh = JournalHeader.find(params[:id])
-    if jh.nil?
-      @message = '伝票が存在しません。id=' + params[:id]
-      return
-    elsif get_closing_status( jh ) == CLOSING_STATUS_CLOSED
-    # 本締めの場合は更新不可
-      render :text=>ERR_CLOSING_STATUS_CLOSED
+
+    if get_closing_status( jh ) == CLOSING_STATUS_CLOSED
+      # 本締めの場合は更新不可
       @message = ERR_CLOSING_STATUS_CLOSED
     else
       tai = jh.tax_admin_info

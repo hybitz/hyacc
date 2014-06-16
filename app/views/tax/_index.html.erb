@@ -13,7 +13,7 @@
     <th class="action"></th>
   </tr>
   
-  <% unless @journal_headers.present? %>
+  <% if @journal_headers.empty? %>
     <tr>
       <td colspan="11">該当する伝票はありません。</td>
     </tr>

@@ -54,7 +54,6 @@ end
 # Deploy with Capistrano
 group :development do
   gem 'capistrano'
-  #gem 'capistrano-bundler'
   gem 'capistrano-rails'
 end
 

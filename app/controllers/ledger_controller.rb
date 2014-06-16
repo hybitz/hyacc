@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class LedgerController < Base::HyaccController
   view_attribute :title => '元帳'
   view_attribute :finder, :class => LedgerFinder, :only => :index
@@ -18,7 +12,7 @@ class LedgerController < Base::HyaccController
     # 年月の指定がある場合（損益計算書・貸借対照表からの遷移）、指定月の伝票を取得
     ym = params[:ym].to_i
     if ym > 0
-      target_index = get_ym_index( finder.start_month_of_fiscal_year, ym )
+      target_index = HyaccDateUtil.get_ym_index( finder.start_month_of_fiscal_year, ym )
       @ledgers.delete_at( target_index )
       @ledgers.insert( target_index, *finder.list_journals( ym ) )
     end

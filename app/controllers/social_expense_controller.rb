@@ -7,7 +7,6 @@ class SocialExpenseController < Base::HyaccController
   view_attribute :branches, :except=>:update
 
   def index
-    @closing_status = current_user.company.get_fiscal_year( finder.fiscal_year ).closing_status
     @journal_headers = finder.list
   end
   

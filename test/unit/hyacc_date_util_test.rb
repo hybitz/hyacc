@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: hyacc_date_util_test.rb 2484 2011-03-23 15:51:29Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class HyaccDateUtilTest < Test::Unit::TestCase
@@ -118,5 +111,14 @@ class HyaccDateUtilTest < Test::Unit::TestCase
   def test_to_date
     assert_equal Date.new(2010, 1, 1), to_date(20100101)
     assert_equal Date.new(2010, 2, 4), to_date(20100204)
+  end
+
+  def test_get_ym_index
+    assert_equal 11, HyaccDateUtil.get_ym_index(1, 201312)
+    assert_equal 0, HyaccDateUtil.get_ym_index(1, 201401)
+    assert_equal 1, HyaccDateUtil.get_ym_index(1, 201402)
+    assert_equal 11, HyaccDateUtil.get_ym_index(12, 2014011)
+    assert_equal 0, HyaccDateUtil.get_ym_index(12, 201412)
+    assert_equal 1, HyaccDateUtil.get_ym_index(12, 201501)
   end
 end

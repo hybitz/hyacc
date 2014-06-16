@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: rent_test.rb 2484 2011-03-23 15:51:29Z ichy $
-# Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class RentTest < ActiveRecord::TestCase

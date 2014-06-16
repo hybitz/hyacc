@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: fiscal_year_test.rb 2491 2011-03-31 11:18:25Z ichy $
-# Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class FiscalYearTest < ActiveRecord::TestCase

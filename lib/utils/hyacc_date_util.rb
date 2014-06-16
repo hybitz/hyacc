@@ -1,12 +1,4 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: hyacc_date_util.rb 2484 2011-03-23 15:51:29Z ichy $
-# Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module HyaccDateUtil
-  require "date"
   include HyaccConstants
 
   def to_date(yyyymmdd)
@@ -45,6 +37,14 @@ module HyaccDateUtil
     end
     
     end_year * 100 + end_month
+  end
+
+  # 年月がその年度の12ヶ月の何番目の月か（0ベース）
+  def self.get_ym_index( start_month_of_fiscal_year, ym )
+    month = ym % 100
+    ret = month - start_month_of_fiscal_year
+    ret += 12 if ret < 0
+    ret
   end
 
   private
@@ -144,17 +144,9 @@ module HyaccDateUtil
     year * 100 + month
   end
   
-  # 年月がその年度の12ヶ月の何番目の月か（0ベース）
-  def get_ym_index( start_month_of_fiscal_year, ym )
-    month = ym % 100
-    ret = month - start_month_of_fiscal_year
-    ret += 12 if ret < 0
-    ret
-  end
-
   # 年度にymを含めて後何ヶ月残っているか
   def get_remaining_months(start_month_of_fiscal_year, ym)
-    12 - get_ym_index(start_month_of_fiscal_year, ym)
+    12 - HyaccDateUtil.get_ym_index(start_month_of_fiscal_year, ym)
   end
   
   module_function :last_month

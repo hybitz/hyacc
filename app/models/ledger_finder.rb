@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: ledger_finder.rb 3091 2013-07-17 14:05:59Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class LedgerFinder < Base::Finder
   include JournalUtil
 
@@ -151,7 +144,7 @@ class LedgerFinder < Base::Finder
     VMonthlyLedger.find_by_sql(["select ym, dc_type, sum(amount) as amount from (#{VMonthlyLedger::VIEW}) as monthly_ledger " +
       "where " + conditions.shift + "group by ym, dc_type "] + conditions).each do |ml|
         
-      index = get_ym_index( start_month_of_fiscal_year, ml[:ym] )
+      index = HyaccDateUtil.get_ym_index( start_month_of_fiscal_year, ml[:ym] )
       monthly_ledger = ret[index]
       monthly_ledger.ym = ml[:ym]
     

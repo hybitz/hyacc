@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class AssetsControllerTest < ActionController::TestCase

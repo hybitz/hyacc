@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# $Id: accounts_controller.rb 3310 2014-01-27 13:20:06Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
 #
 # 勘定科目マスタメンテ画面
 # 勘定科目のマスタメンテ画面では、キャッシュされている勘定科目を

@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: deemed_tax_controller.rb 2226 2010-06-19 03:05:34Z ichy $
-# Product: hyacc
-# Copyright 2009-2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module DeemedTax
   class DeemedTaxLogic
     include HyaccConstants
@@ -26,7 +19,7 @@ module DeemedTax
       dtm.business_type = @fiscal_year.company.business_type
       
       # 課税売上高
-      profit_account = Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT])
+      profit_account = Account.where(:account_type => ACCOUNT_TYPE_PROFIT, :parent_id => 0).first
       dtm.imposition_sales_amount = make_up_sales_amount(ym_from, ym_to, profit_account)
       
       # 課税標準額

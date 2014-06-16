@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: insurance_finder.rb 2957 2012-11-09 07:45:31Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class InsuranceFinder < Base::Finder
   require 'hyacc_master/service_factory'
   include JournalUtil

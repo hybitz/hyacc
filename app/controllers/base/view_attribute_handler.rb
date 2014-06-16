@@ -224,9 +224,9 @@ protected
       unless branch 
         default = options[:default]
         if default == :first
-          branch = Branch.find(:first)
+          branch = Branch.first
         elsif default == :last
-          branch = Branch.find(:last)
+          branch = Branch.last
         end
       end
       

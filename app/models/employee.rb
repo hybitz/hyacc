@@ -80,9 +80,9 @@ class Employee < ActiveRecord::Base
   
   def years_of_career
     if has_careers
-      min = Career.find(:first, :conditions=>["employee_id=?", id], :order=>"start_from")
-      max = Career.find(:first, :conditions=>["employee_id=?", id], :order=>"end_to desc")
-      
+      min = Career.where(:employee_id => id).order('start_from').first
+      max = Career.where(:employee_id => id).order('end_to desc').first
+
       end_date = Date.today
       end_date = max.end_to if max.end_to < end_date
       end_date.year - min.start_from.year

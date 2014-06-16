@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: insurance.rb 2886 2012-06-16 16:13:03Z hiro $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class Insurance < ActiveRecord::Base
   include HyaccConstants
   

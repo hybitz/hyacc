@@ -70,7 +70,7 @@ class FiscalYearsController < Base::HyaccController
  
   def carry_forward
     @fy = FiscalYear.find(params[:id])
-    next_fy = FiscalYear.find(:first, :conditions=>["company_id=? and fiscal_year=?", @fy.company_id, @fy.fiscal_year+1])
+    next_fy = FiscalYear.where(:company_id => @fy.company_id, :fiscal_year => @fy.fiscal_year + 1).first
     next_fy_created = false
     
     begin

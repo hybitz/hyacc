@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: carry_forward_factory.rb 2928 2012-09-21 07:52:49Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::Journal
   
   # 個人事業主の年次繰越仕訳ファクトリ
@@ -24,8 +17,8 @@ module Auto::Journal
       HyaccLogger.debug "今期末の元入金：#{personal_capital}"
 
       # 今期の利益
-      profit_account = Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_PROFIT])
-      expense_account = Account.find(:first, :conditions=>["account_type=? and parent_id=0", ACCOUNT_TYPE_EXPENSE])
+      profit_account = Account.where(:account_type => ACCOUNT_TYPE_PROFIT, :parent_id => 0).first
+      expense_account = Account.where(:account_type => ACCOUNT_TYPE_EXPENSE, :parent_id => 0).first
       profit = VMonthlyLedger.get_net_sum_amount( @fiscal_year.start_year_month, @fiscal_year.end_year_month, profit_account.id )
       expense = VMonthlyLedger.get_net_sum_amount( @fiscal_year.start_year_month, @fiscal_year.end_year_month, expense_account.id )
       revenue = profit - expense

@@ -25,7 +25,7 @@ class Company < ActiveRecord::Base
   end
   
   def last_fiscal_year
-    fiscal_years.find(:first, :order=>"fiscal_year desc")
+    fiscal_years.order("fiscal_year desc").first
   end
   
   def get_fiscal_year( yyyymmORyyyy )

@@ -24,7 +24,7 @@ class SocialExpenseController < Base::HyaccController
     
     # 本締めの場合は更新不可
     if get_closing_status( detail.journal_header ) == CLOSING_STATUS_CLOSED
-      render :text=>ERR_CLOSING_STATUS_CLOSED and return
+      render :text => ERR_CLOSING_STATUS_CLOSED and return
     end
     
     detail.social_expense_number_of_people = params[:social_expense_number_of_people]
@@ -32,10 +32,10 @@ class SocialExpenseController < Base::HyaccController
       render :text=>'OK' # クライアント側のAjax更新処理は成功したかどうかを「OK」という文字列で判定する
     else
       text = detail.errors[:sub_account]
-      text = detail.errors[:account] if text.nil?
-      text = detail.errors[:social_expense_number_of_people] if text.nil?
-      text = ERR_DB if text.nil?
-      render :text=>text
+      text ||= detail.errors[:account]
+      text ||= detail.errors[:social_expense_number_of_people]
+      text ||= ERR_DB
+      render :text => text
     end
     
   end

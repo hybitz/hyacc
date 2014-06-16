@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: service_mock.rb 2887 2012-06-16 16:13:09Z hiro $
-# Product: hyacc
-# Copyright 2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class HyaccMaster::ServiceMock
     
   def get_prefectures
@@ -27,18 +20,34 @@ class HyaccMaster::ServiceMock
   end
   
   def get_insurance(ym = nil, prefecture_id = nil, base_salary = 0)
-    insurance = Insurance.new
-    insurance.apply_start_ym = 201201
-    insurance.apply_end_ym = 201212
-    insurance.grade = 1
-    insurance.pay_range_above = 30
-    insurance.pay_range_under = 20
-    insurance.monthly_earnings = 25
-    insurance.health_insurance_all = 31160
-    insurance.health_insurance_half = 15580
-    insurance.health_insurance_all_care = 4000
-    insurance.health_insurance_half_care = 2000
-    insurance
+    ret = Insurance.new
+
+    case ym.to_i
+    when 200811
+      ret.apply_start_ym = 200809
+      ret.apply_end_ym = 200902
+      ret.grade = 26
+      ret.pay_range_above = 370000
+      ret.pay_range_under = 395000
+      ret.monthly_earnings = 380000
+      ret.health_insurance_all = 31160
+      ret.health_insurance_half = 15580
+      ret.health_insurance_all_care = 35454.0
+      ret.health_insurance_half_care = 17727.0
+    else
+      ret.apply_start_ym = 201201
+      ret.apply_end_ym = 201212
+      ret.grade = 1
+      ret.pay_range_above = 30
+      ret.pay_range_under = 20
+      ret.monthly_earnings = 25
+      ret.health_insurance_all = 31160
+      ret.health_insurance_half = 15580
+      ret.health_insurance_all_care = 4000
+      ret.health_insurance_half_care = 2000
+    end
+
+    ret
   end
   
   def get_basic_info(ym = nil, base_salary = 0)

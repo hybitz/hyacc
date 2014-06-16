@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: hyacc_controller.rb 3295 2014-01-24 01:03:37Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Base
   class HyaccController < ApplicationController
     include HyaccConstants
@@ -29,8 +22,9 @@ module Base
     def is_available_controller?(user)
       is_available?(controller_name, user, @@acl_table)
     end
-  
-  protected
+
+    protected
+
     # 画面表示に必要なデータを定義しているテーブル
     @@attribute_table = {}
     # アクセス制限を定義しているテーブル

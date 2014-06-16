@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140511085406) do
+ActiveRecord::Schema.define(:version => 20140616154026) do
 
   create_table "account_controls", :force => true do |t|
     t.integer  "account_id",                              :null => false
@@ -313,24 +313,6 @@ ActiveRecord::Schema.define(:version => 20140511085406) do
   end
 
   add_index "input_frequencies", ["user_id", "input_type", "input_value", "input_value2"], :name => "index_input_frequencies_for_unique_key", :unique => true
-
-  create_table "insurances", :force => true do |t|
-    t.integer  "apply_start_ym",                 :default => 999912, :null => false
-    t.integer  "apply_end_ym",                   :default => 999912, :null => false
-    t.integer  "grade",                          :default => 0,      :null => false
-    t.integer  "pay_range_above"
-    t.integer  "pay_range_under"
-    t.integer  "monthly_earnings"
-    t.integer  "daily_earnings"
-    t.float    "health_insurance_all"
-    t.float    "health_insurance_half"
-    t.float    "health_insurance_all_care"
-    t.float    "health_insurance_half_care"
-    t.float    "welfare_pension_insurance_all"
-    t.float    "welfare_pension_insurance_half"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "journal_details", :force => true do |t|
     t.integer  "journal_header_id",                                                                             :null => false

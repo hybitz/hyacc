@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class PayrollControllerTest < ActionController::TestCase
-  include HyaccConstants
-    
+
   setup do
     sign_in user
   end
@@ -233,7 +232,9 @@ class PayrollControllerTest < ActionController::TestCase
   end
   
   def test_should_get_auto_calc_insurance
-    finder = PayrollFinder.new(User.find(session[:user_id]))
+    insurances = YAML.load_file(File.join('test', 'data', 'insurances.yml'))
+
+    finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2008
     finder.employee_id = 1
     @request.session[PayrollFinder] = finder
@@ -241,6 +242,6 @@ class PayrollControllerTest < ActionController::TestCase
     post :auto_calc, :payroll => {:ym => 200811, :employee_id => 1, :base_salary => 424000 }
     assert_response :success
     assert_template '_auto_calc'
-    assert_equal insurances(:insurance_00120)["health_insurance_half"], assigns(:payroll).insurance
+    assert_equal insurances['insurance_00120']['health_insurance_half'], assigns(:payroll).insurance
   end
 end

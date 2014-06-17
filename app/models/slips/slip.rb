@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: slip.rb 3367 2014-02-07 15:05:22Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Slips
 
   class Slip

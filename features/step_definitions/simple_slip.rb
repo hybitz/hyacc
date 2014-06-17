@@ -45,7 +45,11 @@ end
     fill_in 'slip_ym', :with => @slip.ym
     fill_in 'slip_day', :with => @slip.day
     fill_in 'slip_remarks', :with => @slip.remarks
-    select Account.find(@slip.account_id).name, :from => 'slip_account_id'
+
+    account = Account.find(@slip.account_id)
+    select account.name, :from => 'slip_account_id'
+    assert page.has_select?('slip_tax_type', :selected => account.tax_type_name)
+    
     select Branch.find(@slip.branch_id).name, :from => 'slip_branch_id'
     fill_in 'slip_amount_increase', :with => @slip.amount_increase
     fill_in 'slip_amount_decrease', :with => @slip.amount_decrease

@@ -22,11 +22,11 @@
             }
           );
 
-          var url = '<%= url_for :action => 'update_tax_type', :account_code => params[:account_code] %>';
-          var params = {account_id: $(this).val()};
-          $.get(url, params, function(tax_type) {
-            form.find('.taxTypeSelect').val(tax_type);
-            updateTaxAmountSimple(form);
+          $.get('<%= url_for :action => 'update_tax_type', :account_code => params[:account_code] %>',
+            {account_id: $(this).val()},
+            function(tax_type) {
+              form.find('.taxTypeSelect').val(tax_type);
+              updateTaxAmountSimple(form);
           });
 
           $.get('<%= url_for :action => 'get_account_details', :account_code => params[:account_code] %>',

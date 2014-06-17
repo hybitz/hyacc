@@ -38,7 +38,7 @@ module ApplicationHelper
     ret.html_safe
   end
 
-  def flash_notice(div=true, margin=10)
+  def flash_notice(div = true, margin = 10)
     tag = div ? "div" : "span"
     color = flash[:is_error_message] ? "red" : "green"
     message = flash[:notice]

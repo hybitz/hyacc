@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 前提 /^(.*?)がログインしている$/ do |name|
   sign_in :name => name
   capture
@@ -17,8 +15,9 @@ end
       assert page.has_text?("伝票を#{action}しました。")
     elsif action == '更新'
       assert page.has_no_selector?('#slip_edit_form')
-      assert page.has_no_selector?('div.ui-dialog', :visible => true)
+      assert page.has_no_selector?('.reload_dialog')
     end
+    assert page.has_selector?('#slip_new_form')
     assert_url "^/simple/#{@account.code}$"
   else
     if action == '登録' or action == '更新'

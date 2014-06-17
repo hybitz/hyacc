@@ -3,9 +3,12 @@ require 'test_helper'
 class FiscalYearTest < ActiveRecord::TestCase
 
   def test_create
-    assert_not_nil FiscalYear.find_by_company_id_and_fiscal_year(3, 2011)
+    assert FiscalYear.where(:company_id => 3, :fiscal_year => 2011).present?
+
+    fy = FiscalYear.new(:company_id => 3, :fiscal_year => 2011)
+    assert fy.invalid?
     assert_raise(ActiveRecord::RecordNotUnique) {
-      FiscalYear.new(:company_id=>3, :fiscal_year=>2011).save(:validate=>false)
+      fy.save(:validate => false)
     }
   end
   

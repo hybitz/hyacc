@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: corporate_tax_test.rb 3355 2014-02-07 02:27:50Z ichy $
-# Product: hyacc
-# Copyright 2010-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 # 振替伝票登録時に費用配賦の自動仕訳が正しく作成されているか
@@ -15,8 +8,8 @@ class JournalController::CorporateTaxTest < ActionController::TestCase
   end
   
   def test_create_allocated_tax_cost
-    a = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
-    sa = SubAccount.find(:first, :conditions=>['sub_account_type=? and code=?', SUB_ACCOUNT_TYPE_CORPORATE_TAX, '200'])
+    assert a = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
+    assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
     num_journal_headers = JournalHeader.count
     post_jh = JournalHeader.new

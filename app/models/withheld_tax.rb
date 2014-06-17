@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: withheld_tax.rb 2471 2011-03-23 14:59:36Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class WithheldTax < ActiveRecord::Base
   validates_presence_of :apply_start_ym, :apply_end_ym, :message=>"を入力して下さい。"
   validates_format_of :apply_start_ym, :apply_end_ym, :with => /^[0-9]{6}$/, :message=>"は数値６桁で入力して下さい。"
@@ -42,20 +35,14 @@ class WithheldTax < ActiveRecord::Base
     end
   end
   
-  def WithheldTax.find_by_ym_and_pay(ym = nil, pay = nil)
-    # 月別情報を検索
-    conditions = []
-    conditions[0] = "apply_start_ym <= ? and apply_end_ym >= ?"
-    conditions << ym
-    conditions << ym
-    conditions[0] << " and pay_range_under > ? and pay_range_above <= ? "
-    conditions << pay
-    conditions << pay
-    withheld_tax = WithheldTax.find(:first, :conditions=>conditions)
-    if withheld_tax == nil
-      return WithheldTax.new.init
-    end
-    return withheld_tax
+  def WithheldTax.find_by_ym_and_pay(ym, pay)
+    sql = SqlBuilder.new
+    sql.append('apply_start_ym <= ? and apply_end_ym >= ?', ym, ym)
+    sql.append('and pay_range_under > ? and pay_range_above <= ?', pay, pay)
+
+    ret = WithheldTax.where(sql.to_a).first
+    ret ||= WithheldTax.new.init
+    ret
   end
   
   def init
@@ -67,6 +54,6 @@ class WithheldTax < ActiveRecord::Base
     self.five_dependent = 0
     self.six_dependent = 0
     self.seven_dependent = 0
-    return self
+    self
   end
 end

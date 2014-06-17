@@ -4,7 +4,7 @@ class FiscalYear < ActiveRecord::Base
 
   belongs_to :company
   validates_presence_of :company_id, :fiscal_year
-  validates_uniqueness_of :fiscal_year, :scope=>:company_id
+  validates_uniqueness_of :fiscal_year, :scope => :company_id
   after_save :create_housework
   after_create :create_sequence_for_asset_code
   

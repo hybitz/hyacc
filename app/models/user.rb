@@ -22,11 +22,6 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
-  # ログインIDからユーザを検索
-  def self.find_by_login_id( login_id )
-    User.find(:first, :conditions => ["login_id=?", login_id], :include=>:company)
-  end
-  
   # 部門ありモードかどうか
   def branch_mode
     company.branches.size > 1

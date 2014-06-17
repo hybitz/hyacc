@@ -49,11 +49,10 @@ class Payroll < ActiveRecord::Base
     @subtotal = 0
     @total = 0
     @inhabitant_tax = 0
-#    @standard_remuneration = 0
     @grade = 0
     @accrued_liability = 0
     @year_end_adjustment_liability = 0
-    return self
+    self
   end
   
   # 社会保険料（健康保険＋厚生年金）
@@ -117,18 +116,11 @@ class Payroll < ActiveRecord::Base
     return result
   end
   
-  # クラスメソッド
   def self.find_by_ym_and_employee_id(ym, employee_id)
     # 月別情報を検索
-    conditions = []
-    conditions[0] = "ym = ?"
-    conditions << ym
-    conditions[0] << " and employee_id = ? and is_bonus=false"
-    conditions << employee_id
-    payroll = Payroll.find(:first, :conditions=>conditions)
-    if payroll == nil
-      return Payroll.new.init
-    end
+    payroll = Payroll.where(:ym => ym, :employee_id => employee_id, :is_bonus => false).first
+    return Payroll.new.init unless payroll
+
     # アディショナル項目を初期値にセット
     payroll.init
     # 給与伝票取得

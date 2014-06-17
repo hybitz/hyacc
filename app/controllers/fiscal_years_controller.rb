@@ -23,7 +23,7 @@ class FiscalYearsController < Base::HyaccController
       flash[:notice] = '会計年度を登録しました。'
       render 'common/reload'
  
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :new
     end
@@ -58,7 +58,7 @@ class FiscalYearsController < Base::HyaccController
       flash[:notice] = '会計年度を更新しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :edit
     end
@@ -112,7 +112,7 @@ class FiscalYearsController < Base::HyaccController
       flash[:notice] << "翌期（#{next_fy.fiscal_year}年度）を作成しました。" if next_fy_created
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :confirm_carry_forward
     end
@@ -132,7 +132,7 @@ class FiscalYearsController < Base::HyaccController
       
       flash[:notice] = '会計年度を変更しました。'
       render 'common/reload'
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :edit_current_fiscal_year
     end

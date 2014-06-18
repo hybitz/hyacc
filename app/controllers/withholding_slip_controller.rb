@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: withholding_slip_controller.rb 3160 2014-01-01 06:58:14Z ichy $
-# Product: hyacc
-# Copyright 2013-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class WithholdingSlipController < Base::HyaccController
   include JournalUtil
 

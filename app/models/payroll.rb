@@ -306,6 +306,7 @@ class Payroll < ActiveRecord::Base
   # 仕分明細から給与を取得する
   def get_base_salary_from_jd
     amount = 0
+
     salary_id = Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id
     self.payroll_journal_headers.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == salary_id
@@ -313,7 +314,8 @@ class Payroll < ActiveRecord::Base
         break
       end
     end
-    return amount
+
+    amount
   end
   
   # 仕分明細から未払費用を取得する

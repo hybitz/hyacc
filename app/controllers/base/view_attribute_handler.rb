@@ -206,18 +206,14 @@ protected
   def get_employees(finder, options = {})
     employees = []
     
-    scope = options[:scope]
-    scope = :all unless scope
+    scope = options[:scope] || :all
     
     if scope == :all
-      if has_option?(options[:include], :deleted)
-        employees = Employee.find(:all)
-      else
-        employees = Employee.scoped_by_deleted(false)
-      end
+      employees = Employee.where(:company_id => current_user.company_id)
+      employees = employees.not_deleted unless has_option?(options[:include], :deleted)
     elsif scope == :branch
       branch = get_branch(finder)
-      branch = current_user.employee.default_branch unless branch 
+      branch ||= current_user.employee.default_branch
       employees = branch.employees
     end
     

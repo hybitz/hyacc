@@ -95,12 +95,8 @@ module JournalHelper
   end
 
   def can_allocate_cost( branch_id )
-    return true if branch_id.nil?
-    
-    if Branch.find(:all, :conditions => ["parent_id=?", branch_id]).size > 0
-      return true
-    end
-    return false
+    return true unless branch_id.present?
+    Branch.where(:parent_id => branch_id).present?
   end
 
   def style_for_details

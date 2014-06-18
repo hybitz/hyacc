@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: career_statement_controller.rb 3192 2014-01-21 14:17:19Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class CareerStatementController < Base::HyaccController
   view_attribute :title => '業務経歴書'
   view_attribute :finder, :class=>CareerFinder, :only=>:index

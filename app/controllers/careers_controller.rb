@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 class CareersController < Base::HyaccController
   view_attribute :title => '業務経歴'
   view_attribute :finder, :class => CareerFinder, :only => :index

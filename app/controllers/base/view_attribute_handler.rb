@@ -15,8 +15,6 @@ protected
           @banks = get_banks(options)
         elsif name == :finder
           @finder = get_finder(options)
-        elsif name == :model
-          @model_class = get_model_class(options)
         elsif name == :ym_list
           @ym_list = get_ym_select
         elsif name == :cy_list
@@ -41,8 +39,6 @@ protected
           @report_styles = get_report_styles
         elsif name == :title
           @title = options[name]
-        elsif name == :users
-          @users = get_users(finder, options)
         elsif name == :deleted_types
           @deleted_types = get_deleted_types
         end
@@ -206,38 +202,6 @@ protected
     get_ym_list( first, 0, last - first )
   end
 
-  # ユーザ一覧を取得する
-  def get_users(finder, options = {})
-    users = []
-    
-    scope = options[:scope]
-    scope = :all unless scope
-    
-    if scope == :all
-      if has_option?(options[:include], :deleted)
-        users = User.find(:all)
-      else
-        users = User.scoped_by_deleted(false)
-      end
-    elsif scope == :branch
-      branch = get_branch(finder)
-      unless branch 
-        default = options[:default]
-        if default == :first
-          branch = Branch.first
-        elsif default == :last
-          branch = Branch.last
-        end
-      end
-      
-      if branch
-        users = branch.users
-      end
-    end
-    
-    users
-  end
-  
   # 従業員一覧を取得する
   def get_employees(finder, options = {})
     employees = []
@@ -260,19 +224,14 @@ protected
     employees
   end
 
-  # Modelを取得
-  def get_model_class(options)
-    model_class = options[:class]
-    model_class
-  end
-  
   # 都道府県一覧を取得する
   def get_prefectures
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
     service.get_prefectures()
   end
 
-private
+  private
+
   # optionsの中にoptionがあるかどうか
   def has_option?(options, option)
     if options.is_a? Array

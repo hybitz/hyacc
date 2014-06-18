@@ -2,7 +2,6 @@ class BanksController < Base::BasicMasterController
   view_attribute :title => '金融機関'
   view_attribute :finder, :class => BankFinder, :only => :index
   view_attribute :deleted_types
-  view_attribute :model, :class => Bank
 
   def index
     @banks = finder.list

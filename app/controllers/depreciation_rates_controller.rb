@@ -1,6 +1,5 @@
 class DepreciationRatesController < Base::BasicMasterController
   view_attribute :finder, :class=>DepreciationRateFinder, :only=>:index
-  view_attribute :model, :class=>DepreciationRate
   
   def index
     @list = finder.list

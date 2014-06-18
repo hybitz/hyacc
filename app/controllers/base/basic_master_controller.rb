@@ -4,7 +4,7 @@ module Base
     def index
       if finder.commit
         @list = finder.list
-        @data = @data || @model_class.new
+        @data = @data || model_class.new
       end
       
       respond_to do |format|
@@ -14,7 +14,7 @@ module Base
     end
     
     def show
-      @data = @model_class.find(params[:id])
+      @data = model_class.find(params[:id])
       respond_to do |format|
         format.html {render :partial=>'line', :locals => {:data => @data}}
         format.xml  {render :xml => @data }
@@ -23,7 +23,7 @@ module Base
     end
     
     def new
-      @data = @model_class.new
+      @data = model_class.new
 
       respond_to do |format|
         format.html
@@ -32,7 +32,7 @@ module Base
     end
     
     def edit
-      @data = @model_class.find(params[:id])
+      @data = model_class.find(params[:id])
       respond_to do |format|
         format.html do
           render :partial => 'form'
@@ -44,7 +44,7 @@ module Base
     end
     
     def create
-      @data = @model_class.new(params[@model_class.name.underscore.intern])
+      @data = model_class.new(params[model_class.name.underscore.intern])
       respond_to do |format|
         begin
           @data.save!
@@ -60,10 +60,10 @@ module Base
     end
     
     def update
-      @data = @model_class.find(params[:id])
+      @data = model_class.find(params[:id])
 
       respond_to do |format|
-        if @data.update_attributes(params[@model_class.name.underscore.intern])
+        if @data.update_attributes(params[model_class.name.underscore.intern])
           format.html { render :partial=>'line', :locals => {:data => @data} }
           format.xml  { head :ok }
           format.js   { render :show }
@@ -80,11 +80,11 @@ module Base
       line_count = 0
       file = params[:file]
       begin
-        @model_class.transaction do
+        model_class.transaction do
           CSV.parse(file.tempfile) do |row|
             # コメント（#）行をスキップ
             next if row.to_a[0].slice(0, 1) == "#"
-            data = @model_class.new_by_array(make_array(row.to_a))
+            data = model_class.new_by_array(make_array(row.to_a))
             unless data != nil and data.save
               raise HyaccException.new("登録に失敗しました。：" + (line_count + 1).to_s + "件目")
             end
@@ -102,7 +102,7 @@ module Base
     end
     
     def destroy
-      data = @model_class.find(params[:id])
+      data = model_class.find(params[:id])
       data.destroy
 
       respond_to do |format|
@@ -110,12 +110,19 @@ module Base
         format.xml  { head :ok }
       end
     end
-    
+
     protected
 
     def make_array(csv_array)
       # デフォルトはCSVをそのままモデルにセット
       csv_array
     end
+
+    private
+
+    def model_class
+      @model_class ||= controller_name.singularize.classify.constantize
+    end
+
   end
 end

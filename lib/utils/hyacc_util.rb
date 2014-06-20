@@ -48,7 +48,7 @@ module HyaccUtil
     
     return db_path
   end
-  
+
   # アップロードファイル削除
   def delete_upload_file(receipt_path)
     path = File.join(UPLOAD_DIRECTORY, receipt_path)

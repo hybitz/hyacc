@@ -32,7 +32,7 @@ class DebtFinder < Base::Finder
         d.transfer_from_id = src_jh.id
       end
     
-      jh.journal_details.find(:all, :conditions=>["account_id=? and branch_id rlike ?", a.id, key_branch_id]).each do |jd|
+      jh.journal_details.where('account_id = ? and branch_id rlike ?', a.id, key_branch_id).each do |jd|
         dummy = Marshal.load(Marshal.dump(d))
         dummy.amount = jd.amount
         dummy.branch_id = jd.branch_id

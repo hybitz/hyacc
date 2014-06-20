@@ -104,12 +104,12 @@ class Account < ActiveRecord::Base
   def is_expense?
     path.index(ACCOUNT_CODE_EXPENSE) != nil
   end
-  
+
   # 流動資産の部
   def is_current_assets?
     path.index(ACCOUNT_CODE_CURRENT_ASSETS) != nil
   end
-  
+
   # 接待交際費かどうか
   def is_social_expense
     path.include? ACCOUNT_CODE_SOCIAL_EXPENSE
@@ -119,8 +119,9 @@ class Account < ActiveRecord::Base
   def is_corporate_tax
     sub_account_type == SUB_ACCOUNT_TYPE_CORPORATE_TAX
   end
-  
-private
+
+  private
+
   def validate_account_type
     unless parent.nil?
       if parent.account_type != self.account_type
@@ -128,7 +129,7 @@ private
       end
     end
   end
-  
+
   def validate_dc_type
     unless parent.nil?
       if parent.dc_type != self.dc_type

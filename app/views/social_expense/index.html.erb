@@ -40,7 +40,7 @@
       </tr>
   
       <% jh.journal_details.each do |jd| %>
-        <tr social_expense="<%= jd.account.code == HyaccConstants::ACCOUNT_CODE_SOCIAL_EXPENSE %>">
+        <tr social_expense="<%= jd.account.is_social_expense %>">
           <td></td>
           <td></td>
           <td></td>

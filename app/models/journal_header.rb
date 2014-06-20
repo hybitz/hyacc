@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: journal_header.rb 3062 2013-06-21 03:10:44Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class JournalHeader < ActiveRecord::Base
   include HyaccUtil
 
@@ -30,10 +23,7 @@ class JournalHeader < ActiveRecord::Base
   attr_accessor :delete_flag_of_receipt_file
 
   def self.find_closing_journals(fiscal_year, slip_type)
-    JournalHeader.find(:all,
-        :conditions=>['company_id=? and fiscal_year_id=? and slip_type=?',
-          fiscal_year.company_id, fiscal_year.id, slip_type
-        ]);
+    where(:company_id => fiscal_year.company_id, :fiscal_year_id => fiscal_year.id, :slip_type => slip_type)
   end
 
   # 伝票の年月日を取得

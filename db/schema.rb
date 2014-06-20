@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140616154026) do
+ActiveRecord::Schema.define(:version => 20140620033604) do
 
   create_table "account_controls", :force => true do |t|
     t.integer  "account_id",                              :null => false
@@ -182,7 +182,7 @@ ActiveRecord::Schema.define(:version => 20140616154026) do
     t.string   "name",                                    :default => "",    :null => false
     t.integer  "fiscal_year",                                                :null => false
     t.integer  "start_month_of_fiscal_year",                                 :null => false
-    t.string   "logo_path",                               :default => ""
+    t.string   "logo",                                    :default => ""
     t.date     "founded_date",                                               :null => false
     t.integer  "type_of",                    :limit => 1, :default => 0,     :null => false
     t.string   "admin_email"

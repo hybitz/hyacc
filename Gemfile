@@ -7,6 +7,7 @@ gem 'rails', '3.2.18'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'acts_as_tree'
+gem 'carrierwave'
 gem 'daddy'
 gem 'dalli'
 gem 'file-column'
@@ -14,6 +15,7 @@ gem 'gcalapi'
 gem 'mysql2'
 gem 'rails-csv-fixtures'
 gem 'remotipart'
+gem 'rmagick'
 gem 'will_paginate'
 
 

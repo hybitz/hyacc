@@ -1,7 +1,9 @@
 <div class="header">
-  <% if @company.logo_path && File.exist?(url_for_file_column('company', 'logo_path')) %>
+  <% if @company.logo.present? %>
     <div style="float: left;">
-      <a href="<%= url_for root_path %>"><%= image_tag url_for_file_column('company', 'logo_path') %></a>
+      <%= link_to root_path do %>
+        <%= image_tag show_logo_company_path(@company, :version => 'icon') %>
+      <% end %>
     </div>
     <div style="float: left; vertical-align: top;">
       <%= current_user.company.current_fiscal_year_int %>年度

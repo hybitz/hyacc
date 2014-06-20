@@ -19,6 +19,14 @@ Hyacc::Application.routes.draw do
   resources :banks
   resources :business_offices
   resources :careers
+  resources :companies, :only => ['index', 'update'] do
+    member do
+      get 'show_logo'
+      get 'edit_logo'
+      get 'edit_admin'
+      get 'edit_business_type'
+    end
+  end
   resources :customers do
     collection do
       get 'add_customer_name'

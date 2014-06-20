@@ -50,6 +50,11 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     ci_reporter (1.9.2)
@@ -75,7 +80,7 @@ GEM
       mime-types (~> 1.16)
       nokogiri (~> 1.5)
       rails (>= 3, < 5)
-    daddy (0.2.15)
+    daddy (0.2.16)
       capybara (~> 2.2)
       ci_reporter (~> 1.9)
       cucumber (~> 1.3)
@@ -198,6 +203,7 @@ GEM
       redis (~> 3.0.4)
       resque (~> 1.25.1)
       rufus-scheduler (~> 2.0.24)
+    rmagick (2.13.2)
     rubyzip (1.1.4)
     rufus-scheduler (2.0.24)
       tzinfo (>= 0.3.22)
@@ -274,6 +280,7 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
   capistrano
   capistrano-rails
+  carrierwave
   coffee-rails (~> 3.2.1)
   daddy
   dalli
@@ -287,6 +294,7 @@ DEPENDENCIES
   rails-csv-fixtures
   rake
   remotipart
+  rmagick
   sass-rails (~> 3.2.3)
   thin
   turbo-sprockets-rails3

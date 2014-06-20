@@ -1,0 +1,95 @@
+<%= flash_notice %>
+
+<script>
+  function edit(trigger, url) {
+    $.get(url, {format: 'html'}, function(html) {
+      var tr = $(trigger).closest('tr');
+      tr.find('td').first().html(html);
+      tr.find('td').last().find('a').hide();
+      tr.find('td').last().find('button').show();
+    });
+  }
+
+  function update(trigger) {
+    var tr = $(trigger).closest('tr');
+    tr.find('form').submit();
+  }
+  
+  function cancel(trigger) {
+    document.location.reload();
+  }
+  
+  $(document).ready(function() {
+    $('table.company').find('button').hide();
+  });
+</script>
+
+<table class="company">
+  <tr>
+    <th><%= company_label(@company.type_of) %></th>
+    <td><%= @company.name %></td>
+    <td></td>
+  </tr>
+
+  <% unless @company.type_of_personal %>
+    <tr>
+      <th>会社の形態</th>
+      <td><%= @company.company_type_name %></td>
+      <td></td>
+    </tr>
+  <% end %>
+
+  <tr>
+    <th>創立年月日</th>
+    <td><%= format_date(@company.founded_date) %></td>
+    <td></td>
+  </tr>
+  <tr>
+    <th>ロゴ</th>
+    <td><%= image_tag(url_for show_logo_company_path(@company)) if @company.logo.present? %></td>
+    <td>
+      <%= link_to_function '変更', "edit(this, '#{edit_logo_company_path(@company)}');" %>
+      <%= button_tag '更新', :onclick => 'update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
+    </td>
+  </tr>
+  <tr>
+    <th>管理者メールアドレス</th>
+    <td><%= @company.admin_email %></td>
+    <td>
+      <%= link_to_function '変更', "edit(this, '#{edit_admin_company_path(@company)}');" %>
+      <%= button_tag '更新', :onclick => 'update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
+    </td>
+  </tr>
+
+  <% unless current_user.company.type_of_personal %>
+    <tr>
+      <th>資本金</th>
+      <td><%= to_amount( @capital ) %>円</td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>年度の開始月</th>
+      <td><%= @company.start_month_of_fiscal_year %>月</td>
+      <td></td>
+    </tr>
+  <% end %>
+
+  <tr>
+    <th>事業区分</th>
+    <td><%= @company.business_type_name %></td>
+    <td>
+      <%= link_to_function '変更', "edit(this, '#{edit_business_type_company_path(@company)}');" %>
+      <%= button_tag '更新', :onclick => 'update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
+    </td>
+  </tr>
+</table>
+
+<% unless @company.type_of_personal %>
+  <div style="margin-top: 10px">
+    <span style="font-weight: bold;">事業所</span>
+    <%= render 'show_business_offices' %>
+  </div>
+<% end %>

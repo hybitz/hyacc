@@ -6,3 +6,7 @@ require File.expand_path('../config/application', __FILE__)
 require 'ci/reporter/rake/minitest'
 
 Hyacc::Application.load_tasks
+
+Rake::Task['environment'].enhance do
+  Rake::Task['dad:app_base_dir'].invoke
+end

@@ -102,7 +102,8 @@ ja:
         tel: 電話番号
         is_head: 本社フラグ
 
-      company: 
+      company:
+        admin_email: 管理者メールアドレス
         name: "名前"  
         fiscal_year: "年度"  
         start_month_of_fiscal_year: "2002年度のスタート月"  

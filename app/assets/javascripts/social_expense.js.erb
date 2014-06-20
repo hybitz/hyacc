@@ -5,7 +5,7 @@ if (typeof social_expense === "undefined") {
 social_expense.calc_deduction_amount = function(tr) {
   var number_of_people = $(tr).find('.number_of_people').text().toInt();
   var deduction_amount = 5000 * number_of_people;
-  
+
   var amount = $(tr).find('.amount_debit').text().toInt();
   if (amount == 0) {
     amount = $(tr).find('.amount_credit').text().toInt();
@@ -14,5 +14,9 @@ social_expense.calc_deduction_amount = function(tr) {
   }
   
   $(tr).find('.deduction').text(toAmount(deduction_amount));
-  $(tr).find('.social_expense').text(toAmount(amount - deduction_amount));
+  if (amount > deduction_amount) {
+    $(tr).find('.social_expense').text(toAmount(amount - deduction_amount));
+  } else {
+    $(tr).find('.social_expense').text(0);
+  }
 };

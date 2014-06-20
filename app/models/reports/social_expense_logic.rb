@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 module Reports
   class SocialExpenseLogic < BaseLogic
     include JournalUtil
@@ -17,12 +16,13 @@ module Reports
       model
     end
 
-  private
+    private
+
     def get_social_expense_detail_model
       ret = SocialExpenseDetailModel.new
       ret.account = Account.get_by_code( ACCOUNT_CODE_SOCIAL_EXPENSE )
-      
-      JournalHeader.find(:all, :conditions=>make_conditions(ACCOUNT_CODE_SOCIAL_EXPENSE), :include=>[:journal_details]).each {|jh|
+
+      JournalHeader.where(make_conditions).includes(:journal_details).each {|jh|
         jh.journal_details.each {|jd|
           if jd.account.code == ACCOUNT_CODE_SOCIAL_EXPENSE
             number_of_people = jd.social_expense_number_of_people.to_i
@@ -52,21 +52,11 @@ module Reports
       ret
     end
 
-    # 検索条件を作成する
-    def make_conditions(account_code)
-      conditions = []
-      
-      # 年月
-      conditions[0] = "ym >= ? "
-      conditions << @start_ym
-      conditions[0] << "and ym <= ? "
-      conditions << @end_ym
-  
-      # finder_key
-      conditions[0] << "and finder_key rlike ? "
-      conditions << build_rlike_condition( account_code, 0, @finder.branch_id )
-  
-      conditions
+    def make_conditions
+      sql = SqlBuilder.new
+      sql.append('ym >= ? and ym <= ?', @start_ym, @end_ym)
+      sql.append('and finder_key rlike ?', build_rlike_condition(ACCOUNT_CODE_SOCIAL_EXPENSE, 0, @finder.branch_id))
+      sql.to_a
     end
 
   end

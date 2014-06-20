@@ -1,9 +1,8 @@
-# coding: UTF-8
-
 class FinancialReturnStatementsController < Base::HyaccController
   include JournalUtil
 
   available_for :type => :company_type, :except => COMPANY_TYPE_PERSONAL
+  view_attribute :title => '確定申告'
   view_attribute :finder, :class => ReportFinder
   view_attribute :ym_list
   view_attribute :branches

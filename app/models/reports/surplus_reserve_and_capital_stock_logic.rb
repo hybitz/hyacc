@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: surplus_reserve_and_capital_stock_logic.rb 2477 2011-03-23 15:29:30Z ichy $
-# Product: hyacc
-# Copyright 2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Reports
   class SurplusReserveAndCapitalStockLogic < BaseLogic
     include JournalUtil
@@ -16,7 +9,7 @@ module Reports
     def get_surplus_reserve_and_capital_stock
       ret = SurplusReserveAndCapitalStockModel.new
       
-      accounts = Account.find(:all, :conditions=>['is_revenue_reserve_account=?', true])
+      accounts = Account.where(:is_revenue_reserve_account => true)
       accounts.each_with_index do |a, index|
         sr = SurplusReserveModel.new
         sr.no = index + 1
@@ -32,7 +25,7 @@ module Reports
 
         ret.surplus_reserves << sr
       end
-      (22 - accounts.size).times do |i|
+      (22 - accounts.count).times do |i|
         sr = SurplusReserveModel.new
         sr.no = accounts.size + i + 1
         ret.surplus_reserves << sr

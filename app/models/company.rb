@@ -61,18 +61,18 @@ class Company < ActiveRecord::Base
   
   # 本部を取得する
   def get_head_office
-    head_office = Branch.find(:all, :conditions=>["company_id=? and is_head_office=?", id, true])
-    raise HyaccException.new(HyaccErrors::ERR_ILLEGAL_STATE) unless head_office.length == 1
-    head_office[0]
+    head_office = Branch.where(:company_id => id, :is_head_office => true)
+    raise HyaccException.new(HyaccErrors::ERR_ILLEGAL_STATE) unless head_office.count == 1
+    head_office.first
   end
 
   # 本社を取得する
   def get_head_business_office
-    head_business_office = BusinessOffice.find(:all, :conditions=>["company_id=? and is_head=?", id, true])
-    raise HyaccException.new(HyaccErrors::ERR_ILLEGAL_STATE) unless head_business_office.length == 1
-    head_business_office[0]
+    head_business_office = BusinessOffice.where(:company_id => id, :is_head => true)
+    raise HyaccException.new(HyaccErrors::ERR_ILLEGAL_STATE) unless head_business_office.count == 1
+    head_business_office.first
   end
-  
+
   # 個人事業主かどうか
   def type_of_personal
     type_of == COMPANY_TYPE_PERSONAL

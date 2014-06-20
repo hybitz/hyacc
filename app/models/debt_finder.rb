@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: debt_finder.rb 3126 2013-08-15 05:22:08Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class DebtFinder < Base::Finder
   include JournalUtil
 
@@ -15,9 +8,7 @@ class DebtFinder < Base::Finder
   def list
     ret = []
     sum = 0
-    jhs = JournalHeader.find(:all, :conditions=>make_conditions,
-      :include=>[:journal_details],
-      :order=>"ym desc, day desc, journal_headers.created_on desc").reverse
+    jhs = JournalHeader.where(conditions).includes(:journal_details).order('ym desc, day desc, journal_headers.created_on desc').reverse
     
     # 仮負債の明細ごとにリスト化する
     a = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
@@ -57,7 +48,8 @@ class DebtFinder < Base::Finder
     return ret, sum
   end
 
-protected
+  protected
+
   # 仮負債精算済みかを判定し、精算した伝票IDを取得
   def closed_id(jh, branch_id)
     a = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
@@ -70,26 +62,17 @@ protected
         end
       end
     end
-    return nil
+
+    nil
   end
 
-  # 検索条件を作成する
-  def make_conditions
-    conditions = []
-
-    # 年月
-    conditions[0] = "ym >= ? "
-    conditions << get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
-    conditions[0] << "and ym <= ? "
-    conditions << get_end_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
-
-    # 検索キー
-    conditions[0] << "and finder_key rlike ? "
-    conditions << build_rlike_condition( ACCOUNT_CODE_TEMPORARY_DEBT, 0, branch_id )
-    conditions[0] << "and slip_type<>? "
-    conditions << SLIP_TYPE_TEMPORARY_DEBT
-    
-    conditions
+  def conditions
+    sql = SqlBuilder.new
+    sql.append('ym >= ?', get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year ))
+    sql.append('and ym <= ?', get_end_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year ))
+    sql.append('and finder_key rlike ?', build_rlike_condition( ACCOUNT_CODE_TEMPORARY_DEBT, 0, branch_id ))
+    sql.append('and slip_type <> ?', SLIP_TYPE_TEMPORARY_DEBT)
+    sql.to_a
   end
 
 end

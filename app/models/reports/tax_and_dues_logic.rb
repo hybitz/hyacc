@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: tax_and_dues_logic.rb 3159 2014-01-01 05:56:35Z ichy $
-# Product: hyacc
-# Copyright 2010-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Reports
   # 租税公課の納付状況等に関する明細書
   class TaxAndDuesLogic < BaseLogic
@@ -12,7 +5,7 @@ module Reports
     def initialize(finder)
       super(finder)
       @corporate_tax_payable = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE)
-      @corporate_taxes = Account.find(:all, :conditions=>['is_tax_account=? and dc_type=?', true, DC_TYPE_DEBIT])
+      @corporate_taxes = Account.where(:is_tax_account => true, :dc_type => DC_TYPE_DEBIT)
     end
     
     def get_tax_and_dues_model

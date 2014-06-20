@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: account_finder.rb 2471 2011-03-23 14:59:36Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class AccountFinder < Base::Finder
   
   attr_reader :account_type
@@ -21,7 +14,7 @@ class AccountFinder < Base::Finder
   def list
     return unless @account_type.to_i > 0
     
-    ret = Account.find(:all, :conditions=>["account_type=?", @account_type], :order=>'path')
+    ret = Account.where(:account_type => @account_type).order('path')
     if @leaf_only == 1
       ret.select{|a| a.is_leaf}
     else

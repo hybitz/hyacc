@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: trade_account_payable_logic.rb 2477 2011-03-23 15:29:30Z ichy $
-# Product: hyacc
-# Copyright 2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Reports
   class TradeAccountPayableLogic
     include HyaccDateUtil
@@ -16,7 +9,7 @@ module Reports
       end_ym = get_end_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year )
   
       # 対象となる科目ごとに明細を組み立てる
-      accounts = Account.find(:all, :conditions=>["is_trade_account_payable=?", true], :order=>"code")
+      accounts = Account.where(:is_trade_account_payable => true).order('code')
       accounts.each do |a|
         if a.sub_accounts_all.size > 0
           a.sub_accounts_all.each do |sa|

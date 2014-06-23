@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 前提 /^会計年度の一覧を表示している$/ do
   assert_visit '/fiscal_years'
 end
@@ -9,7 +7,7 @@ end
 end
 
 ならば /^会計年度が翌年の状態でダイアログが表示される$/ do
-  wait_until { page.has_selector?("div.ui-dialog", :visible => true) }
+  assert wait_until { page.has_selector?("div.ui-dialog", :visible => true) }
   assert page.has_selector?("span.ui-dialog-title", :text => /会計年度.*追加/)
   capture
   
@@ -17,7 +15,7 @@ end
 end
 
 ならば /^翌年度が登録され、一覧に表示される$/ do
-  assert page.has_no_selector?('div.ui-dialog')
+  assert wait_until { page.has_no_selector?('div.ui-dialog') }
   capture
   
   found = false

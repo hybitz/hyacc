@@ -144,7 +144,7 @@ class JournalController < Base::HyaccController
         validate_assets(@journal_header, old)
 
         # 削除フラグが立っている場合、ファイルを物理削除
-        unless @journal_header.receipt_path.nil?
+        if @journal_header.receipt_path.present?
           if @journal_header.delete_flag_of_receipt_file
             delete_upload_file(@journal_header.receipt_path)
             @journal_header.receipt_path = nil
@@ -152,7 +152,7 @@ class JournalController < Base::HyaccController
         end
 
         # 領収書が指定されていれば保存
-        unless @journal_header.receipt_file.nil? or @journal_header.receipt_file.blank?
+        if @journal_header.receipt_file.present?
           @journal_header.receipt_path = save_receipt_file(receipt_save_dir(@journal_header), @journal_header.receipt_file)
         end
 

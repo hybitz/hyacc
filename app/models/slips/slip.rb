@@ -107,8 +107,6 @@ module Slips
           @journal_header.receipt_path = save_receipt_file(receipt_save_dir(@journal_header), receipt_file)
         end
         
-        Rails.logger.debug "ああああああああああああああああ #{@journal_header.journal_details.map{|jd| jd.tax_rate}.join(' ')}"
-        
         # 登録        
         @journal_header.save!
 

@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: hyacc_util.rb 3120 2013-08-12 08:41:31Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module HyaccUtil
   include HyaccConstants
   include HyaccErrors
@@ -36,10 +29,7 @@ module HyaccUtil
   # ファイルの保存 TODO 更新時には使えない（日時で保存のため、ファイル名が重複する）
   def save_receipt_file(dir, file)
     create_dir(File.join(UPLOAD_DIRECTORY, dir))
-
-    # 日本語ファイル名は、保存不可
-    filename = FileColumn::sanitize_filename("#{file.original_filename}")
-    db_path = File.join(dir, filename)
+    db_path = File.join(dir, file.original_filename)
     
     if File.exist?(File.join(UPLOAD_DIRECTORY, db_path))
       raise HyaccException.new(ERR_FILE_ALREADY_EXISTS)

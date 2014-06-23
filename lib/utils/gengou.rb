@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 class Gengou
   @@_gengou = YAML.load_file(Rails.root + 'config/gengou.yml')
 

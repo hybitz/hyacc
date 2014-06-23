@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: hyacc_errors.rb 2764 2011-12-29 06:06:33Z ichy $
-# Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module HyaccErrors
 
   ERR_ACCOUNT_ALREADY_USED = "既に伝票の存在する勘定科目のため削除できません。"

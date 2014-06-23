@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: hyacc_logger.rb 3026 2013-06-01 00:55:48Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class HyaccLogger
   require "date"
   

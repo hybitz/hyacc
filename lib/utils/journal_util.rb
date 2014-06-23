@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: journal_util.rb 3102 2013-07-24 14:47:54Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module JournalUtil
   require 'models/balance_by_branch'
   include HyaccUtil

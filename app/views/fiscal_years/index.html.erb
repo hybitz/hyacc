@@ -33,7 +33,7 @@
         <td align="center"><%= fy.closing_status_name %></td>
         <% if current_user.company.type_of_personal %>
         <td align="center">
-            <%= link_to_journal(fy.carry_status_name, jh) if jh %>
+            <%= link_to fy.carry_status_name, {:controller => :journal, :action => :show, :id => jh}, :remote => true if jh %>
             <%= fy.carry_status_name unless jh %>
         </td>
         <td align="center"><%= format_datetime(fy.carried_at) %></td>

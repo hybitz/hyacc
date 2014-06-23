@@ -74,10 +74,10 @@
         <% if branch_mode %>
         <td><%= h_branch_select('simple_slip_template', :include_blank=>true) %></td>
         <% end %>
-        <td><%= h_dc_type_select('simple_slip_template', :include_blank=>true) %></td>
-        <td><%= h_tax_type_select('simple_slip_template', :include_blank=>true) %></td>
-        <td><%= h_amount_field('simple_slip_template', :property_name=>'amount') %></td>
-        <td><%= h_amount_field('simple_slip_template', :property_name=>'tax_amount') %></td>
+        <td><%= f.select :dc_type, dc_types, :include_blank => true, :class => 'dcTypeSelect' %></td>
+        <td><%= f.select :tax_type, tax_types, :include_blank => true, :class => 'taxTypeSelect' %></td>
+        <td><%= f.text_field :amount, :class => 'amountText' %></td>
+        <td><%= f.text_field :tax_amount, :class => 'amountText' %></td>
         <td><%= f.select :focus_on_complete, focus_on_completes, {:include_blank=>true}, {:class=>'focusOnCompleteSelect'} %></td>
       </tr>
     </table>

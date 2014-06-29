@@ -100,18 +100,14 @@ class PayrollControllerTest < ActionController::TestCase
     insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_DEPOSITS_RECEIVED)
     pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED)
     inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_DEPOSITS_RECEIVED)
-    jd = JournalDetail.find(:all, :conditions=>["journal_header_id=? and account_id=? and sub_account_id=?",
-                                            pr.payroll_journal_header_id, deposits_received.id, income_tax.id])
-    assert_equal 1, jd.length
-    jd = JournalDetail.find(:all, :conditions=>["journal_header_id=? and account_id=? and sub_account_id=?",
-                                            pr.payroll_journal_header_id, deposits_received.id, insurance.id])
-    assert_equal 1, jd.length
-    jd = JournalDetail.find(:all, :conditions=>["journal_header_id=? and account_id=? and sub_account_id=?",
-                                            pr.payroll_journal_header_id, deposits_received.id, pension.id])
-    assert_equal 1, jd.length
-    jd = JournalDetail.find(:all, :conditions=>["journal_header_id=? and account_id=? and sub_account_id=?",
-                                            pr.payroll_journal_header_id, deposits_received.id, inhabitant_tax.id])
-    assert_equal 1, jd.length
+    jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => income_tax.id)
+    assert_equal 1, jd.count
+    jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => insurance.id)
+    assert_equal 1, jd.count
+    jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => pension.id)
+    assert_equal 1, jd.count
+    jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => inhabitant_tax.id)
+    assert_equal 1, jd.count
   end
   
   def test_should_get_create_advance_money

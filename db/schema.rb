@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140620033604) do
+ActiveRecord::Schema.define(:version => 20140628060728) do
 
   create_table "account_controls", :force => true do |t|
     t.integer  "account_id",                              :null => false
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(:version => 20140620033604) do
     t.string   "description"
     t.string   "short_description"
     t.integer  "display_order"
-    t.integer  "parent_id",                                 :default => 0
+    t.integer  "parent_id_old",                             :default => 0
     t.string   "path",                                      :default => "",    :null => false
     t.integer  "trade_type",                                :default => 1,     :null => false
     t.boolean  "is_settlement_report_account",              :default => true,  :null => false
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(:version => 20140620033604) do
     t.boolean  "company_only",                              :default => false, :null => false
     t.boolean  "is_revenue_reserve_account",                :default => false, :null => false
     t.integer  "is_tax_account",               :limit => 1, :default => 0,     :null => false
+    t.integer  "parent_id"
   end
 
   add_index "accounts", ["code"], :name => "index_accounts_on_code", :unique => true

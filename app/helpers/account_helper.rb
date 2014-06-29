@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: account_helper.rb 2989 2013-02-15 06:39:42Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module AccountHelper
 
   def convert_to_json(account)

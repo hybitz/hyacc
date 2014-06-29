@@ -19,7 +19,7 @@ module DeemedTax
       dtm.business_type = @fiscal_year.company.business_type
       
       # 課税売上高
-      profit_account = Account.where(:account_type => ACCOUNT_TYPE_PROFIT, :parent_id => 0).first
+      profit_account = Account.where(:account_type => ACCOUNT_TYPE_PROFIT, :parent_id => nil).first
       dtm.imposition_sales_amount = make_up_sales_amount(ym_from, ym_to, profit_account)
       
       # 課税標準額
@@ -70,7 +70,8 @@ module DeemedTax
       @fiscal_year.get_deemed_tax_journals.inject(0){|total, jh| total + jh.amount }
     end
 
-  private
+    private
+
     def make_up_sales_amount(ym_from, ym_to, profit_account)
       amount = 0
   

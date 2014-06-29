@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 def user
   @_user ||= User.first
 end

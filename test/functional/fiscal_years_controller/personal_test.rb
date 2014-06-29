@@ -4,7 +4,7 @@ require 'test_helper'
 class FiscalYearsController::PersonalTest < ActionController::TestCase
 
   def setup
-    @request.session[:user_id] = User.find(4).id
+    sign_in User.find(4)
   end
 
   def test_index

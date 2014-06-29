@@ -17,8 +17,8 @@ module Auto::Journal
       HyaccLogger.debug "今期末の元入金：#{personal_capital}"
 
       # 今期の利益
-      profit_account = Account.where(:account_type => ACCOUNT_TYPE_PROFIT, :parent_id => 0).first
-      expense_account = Account.where(:account_type => ACCOUNT_TYPE_EXPENSE, :parent_id => 0).first
+      profit_account = Account.where(:account_type => ACCOUNT_TYPE_PROFIT, :parent_id => nil).first
+      expense_account = Account.where(:account_type => ACCOUNT_TYPE_EXPENSE, :parent_id => nil).first
       profit = VMonthlyLedger.get_net_sum_amount( @fiscal_year.start_year_month, @fiscal_year.end_year_month, profit_account.id )
       expense = VMonthlyLedger.get_net_sum_amount( @fiscal_year.start_year_month, @fiscal_year.end_year_month, expense_account.id )
       revenue = profit - expense

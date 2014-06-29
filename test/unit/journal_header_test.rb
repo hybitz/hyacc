@@ -1,20 +1,11 @@
-# coding: UTF-8
-#
-# $Id: journal_header_test.rb 2928 2012-09-21 07:52:49Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class JournalHeaderTest < ActiveRecord::TestCase
   include HyaccConstants
 
-  def setup
+  setup do
     # fixtureで検索キーを設定していないので、ARを一旦保存
-    JournalHeader.find(:all).each do |jh|
-      jh.save
-    end
+    JournalHeader.all.each {|jh| assert jh.save }
   end
 
   def test_ym
@@ -59,17 +50,12 @@ class JournalHeaderTest < ActiveRecord::TestCase
   end
   
   def test_find_by_finder_key
-    # fixtureで検索キーを設定していないので、ARを一旦保存
-    JournalHeader.find(:all).each{ |jh|
-      jh.save
-    }
-
-    journals = JournalHeader.find(:all, :conditions=>["id <= 10 and finder_key rlike ?", ".*-8322,[0-9]*,1-.*"])
-    assert_equal( 2, journals.length )
+    journals = JournalHeader.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,1-.*')
+    assert_equal 2, journals.count
     
     # 検索条件がすべて１つの明細のものでなければヒットしない
-    journals = JournalHeader.find(:all, :conditions=>["id <= 10 and finder_key rlike ?", ".*-8322,[0-9]*,2-.*"])
-    assert_equal( 0, journals.length )
+    journals = JournalHeader.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,2-.*')
+    assert_equal 0, journals.count
   end
   
   # 貸借の一致しない仕訳の登録がエラーになること

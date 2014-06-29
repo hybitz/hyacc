@@ -2,9 +2,7 @@
 # 勘定科目マスタメンテ画面
 # 勘定科目のマスタメンテ画面では、キャッシュされている勘定科目を
 # Account.get()
-# するのではなく、常にDBから読み込んだデータが対象になるように
-# Account.find()
-# を利用すること。
+# せず、常にDBからレコードを取り出すこと
 # 
 class AccountsController < Base::HyaccController
   view_attribute :title => '勘定科目管理'
@@ -17,7 +15,7 @@ class AccountsController < Base::HyaccController
   end
 
   def list_tree
-    @accounts = Account.where('parent_id = 0 and code != ?', ACCOUNT_CODE_VARIOUS).order(:display_order)
+    @accounts = Account.where('parent_id is null and code != ?', ACCOUNT_CODE_VARIOUS).order(:display_order)
     session[:current_list_action] = action_name
   end
   

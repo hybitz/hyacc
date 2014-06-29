@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 include HyaccConstants
 
 前提 /^振替伝票の一覧を表示している$/ do

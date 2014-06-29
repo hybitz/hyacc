@@ -2,21 +2,19 @@ require 'test_helper'
 
 class LedgerControllerTest < ActionController::TestCase
 
-  def setup
-    @request.session[:user_id] = users(:first).id
-    
+  setup do
     # fixtureで検索キーを設定していないので、ARを一旦保存
-    JournalHeader.find(:all).each{ |jh| jh.save }
+    JournalHeader.all.each{|jh| jh.save }
+
+    sign_in users(:first)
   end
 
   def test_一覧
     # 一度GETでアクセスしてセッション上にファインダーを登録する
     get :index
-    assert_equal 0, assigns(:ledgers).length, '最初のアクセスは検索条件を表示するだけ'
+    assert assigns(:ledgers).empty?, '最初のアクセスは検索条件を表示するだけ'
 
-    get :index, :finder => {
-      :account_id => 5
-    }
+    get :index, :finder => {:account_id => 5}
     assert_equal( 12, assigns(:ledgers).length ) # 12ヶ月分のデータを取得
     
     num_journal_headers = JournalHeader.count( :conditions=>["finder_key rlike ? and ym = 200705", ".*-1311,[0-9]*,[0-9]*-.*"] )

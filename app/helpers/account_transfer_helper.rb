@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: account_transfer_helper.rb 2469 2011-03-23 14:57:42Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module AccountTransferHelper
   def can_transfer_account(jd)
     # 固定資産の勘定科目は資産が関連しているので変更不可

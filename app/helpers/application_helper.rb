@@ -2,15 +2,6 @@ module ApplicationHelper
   include HyaccConstants
   include HyaccViewHelper
 
-  def disable(elementId)
-    ret = <<-"SCRIPT"
-      <script>
-        document.getElementById('#{elementId}').disable();
-      </script>
-    SCRIPT
-    ret.html_safe
-  end
-  
   # セレクトボックスに選択肢がない場合、セレクトボックスを非表示にします。
   # ブランクオプションのみの場合も非表示にします。
   def hide_if_no_options(selector)

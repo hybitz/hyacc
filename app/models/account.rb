@@ -6,7 +6,7 @@ class Account < ActiveRecord::Base
   acts_as_cached :includes => 'accounts/account_cache'
   acts_as_tree :order => 'display_order'
 
-  has_one :account_control, :dependent=>:destroy
+  has_one :account_control, :dependent => :destroy
   accepts_nested_attributes_for :account_control
 
   validates_presence_of :name, :code
@@ -53,7 +53,7 @@ class Account < ActiveRecord::Base
   end
   
   def is_leaf
-    children.size == 0
+    children.empty?
   end
   
   def is_leaf_on_settlement_report
@@ -102,12 +102,12 @@ class Account < ActiveRecord::Base
 
   # 費用の部
   def is_expense?
-    path.index(ACCOUNT_CODE_EXPENSE) != nil
+    path.index(ACCOUNT_CODE_EXPENSE)
   end
 
   # 流動資産の部
   def is_current_assets?
-    path.index(ACCOUNT_CODE_CURRENT_ASSETS) != nil
+    path.index(ACCOUNT_CODE_CURRENT_ASSETS)
   end
 
   # 接待交際費かどうか
@@ -123,17 +123,17 @@ class Account < ActiveRecord::Base
   private
 
   def validate_account_type
-    unless parent.nil?
+    if parent
       if parent.account_type != self.account_type
-        errors.add( :account_type, ERR_INVALID_ACCOUNT_TYPE )
+        errors.add(:account_type, ERR_INVALID_ACCOUNT_TYPE)
       end
     end
   end
 
   def validate_dc_type
-    unless parent.nil?
+    if parent
       if parent.dc_type != self.dc_type
-        errors.add( :dc_type, ERR_INVALID_DC_TYPE )
+        errors.add(:dc_type, ERR_INVALID_DC_TYPE)
       end
     end
   end
@@ -144,11 +144,11 @@ class Account < ActiveRecord::Base
   
   def get_absolute_path( account )
     ret = '/' + account.code
-    
-    unless account.parent.nil?
-      ret = get_absolute_path( account.parent ) + ret
+
+    if account.parent
+      ret = get_absolute_path(account.parent) + ret
     end
-    
+
     ret
   end
 end

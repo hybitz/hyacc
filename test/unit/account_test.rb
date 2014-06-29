@@ -1,18 +1,21 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: account_test.rb 2489 2011-03-26 12:54:33Z ichy $
-# Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class AccountTest < ActiveRecord::TestCase
   include HyaccUtil
   fixtures :accounts, :sub_accounts, :journal_headers, :journal_details
 
+  def test_ルートとなる勘定科目
+    expected = %w{ 資産の部 負債の部 純資産の部 収益の部 費用の部 諸口 }
+    actual = Account.where(:parent_id => nil)
+
+    assert_equal expected.size, actual.count
+    expected.each do |name|
+      assert actual.where(:name => name).present?
+    end
+  end
+
   def test_save_fail_by_account_type
-    parent = Account.find(:first, :conditions=>["parent_id=0 and account_type=?", ACCOUNT_TYPE_ASSET])
+    parent = Account.where(:parent_id => nil, :account_type => ACCOUNT_TYPE_ASSET).first
     a = Account.new
     a.attributes = parent.attributes
     a.code = 'testcode'
@@ -24,7 +27,7 @@ class AccountTest < ActiveRecord::TestCase
   end
 
   def test_save_fail_by_dc_type
-    parent = Account.find(:first, :conditions=>["parent_id=0 and account_type=?", ACCOUNT_TYPE_ASSET])
+    parent = Account.where(:parent_id => nil, :account_type => ACCOUNT_TYPE_ASSET).first
     a = Account.new
     a.attributes = parent.attributes
     a.code = 'testcode'

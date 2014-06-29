@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: asset.rb 3149 2013-11-01 07:46:25Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class Asset < ActiveRecord::Base
   include HyaccConstants
   
@@ -13,7 +6,7 @@ class Asset < ActiveRecord::Base
   belongs_to :branch
   belongs_to :journal_detail
 
-  has_many :depreciations, :dependent=>:destroy
+  has_many :depreciations, :dependent => :destroy
   accepts_nested_attributes_for :depreciations
 
   validate :validate_durable_years, :validate_depreciation_limit

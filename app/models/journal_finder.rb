@@ -25,7 +25,7 @@ class JournalFinder < Base::Finder
     
     # 初期検索でページングしていない時は一番最後（直近）のページを表示する
     if @page == 0
-      total_count = JournalHeader.count(:all, :conditions => conditions)
+      total_count = JournalHeader.where(conditions).count
       if total_count > 0
         @page = total_count / per_page + (total_count % per_page > 0 ? 1 : 0)
 

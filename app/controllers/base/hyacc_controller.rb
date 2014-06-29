@@ -67,8 +67,8 @@ module Base
   
     # インストールほやほやかどうかチェックする
     def check_first_boot
-      if User.count(:all) == 0 and Company.count(:all) == 0
-        redirect_to :controller=>'first_boot' and return
+      if User.count == 0 and Company.count == 0
+        redirect_to :controller => 'first_boot' and return
       end
     end
   

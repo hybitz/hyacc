@@ -45,11 +45,11 @@ class AssetsController < Base::HyaccController
         elsif @asset.status_waiting?
           @asset.depreciations = create_depreciations(@asset)
         elsif @asset.status_depreciating?
-          d = @asset.depreciations.find_by_fiscal_year(current_user.company.current_fiscal_year_int)
+          d = @asset.depreciations.where(:fiscal_year => current_user.company.current_fiscal_year_int).first
           d.journal_headers = create_journals(d, current_user)
           d.depreciated = true
           d.save!
-          if @asset.depreciations.count(:all, :conditions=>['depreciated=?', false]) == 0
+          if @asset.depreciations.where(:depreciated => false).empty?
             @asset.status = ASSET_STATUS_DEPRECIATED
           end
         end

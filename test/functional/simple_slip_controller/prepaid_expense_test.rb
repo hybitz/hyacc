@@ -73,8 +73,8 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
     finder.account_code = Account.get(5).code
     slip = finder.find(21)
     
-    post :update, :format => 'js',
-      :account_code=>finder.account_code,
+    xhr :post, :update,
+      :account_code => finder.account_code,
       :slip => {
         "id"=>slip.id,
         "ym"=>201012,
@@ -100,20 +100,16 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
     user = User.find(@request.session[:user_id])
     assert user.company.get_fiscal_year(2010).is_open
     assert user.company.get_fiscal_year(2011).is_closed
-    count = JournalHeader.count(:all)
 
     jh = JournalHeader.find(18)
-    lock_version = jh.lock_version
-    
-    post :destroy,
-      :account_code=>ACCOUNT_CODE_CASH,
-      :id => jh.id,
-      :lock_version => jh.lock_version
+
+    assert_no_difference 'JournalHeader.count' do
+      post :destroy, :account_code => ACCOUNT_CODE_CASH, :id => jh.id, :lock_version => jh.lock_version
+    end
 
     assert_response :redirect
-    assert_redirected_to :action=>:index
+    assert_redirected_to :action => 'index'
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
-    assert_equal count, JournalHeader.count(:all)
   end
 
   def test_通常の年度への費用振替の登録が正常終了すること
@@ -197,7 +193,7 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(21)
     lock_version = jh.lock_version
     
-    post :update, :format => 'js',
+    xhr :post, :update,
       :account_code=>ACCOUNT_CODE_CASH,
       :slip => {
         "id"=>jh.id,
@@ -269,22 +265,17 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度の費用振替の削除が正常終了すること
-    user = User.find(@request.session[:user_id])
-    assert user.company.get_fiscal_year(2010).is_open
-    count = JournalHeader.count(:all)
+    assert current_user.company.get_fiscal_year(2010).is_open
 
     jh = JournalHeader.find(21)
-    lock_version = jh.lock_version
     
-    post :destroy,
-      :account_code=>ACCOUNT_CODE_CASH,
-      :id => jh.id,
-      :lock_version => jh.lock_version
+    assert_difference 'JournalHeader.count', -3 do
+      post :destroy, :account_code => ACCOUNT_CODE_CASH, :id => jh.id, :lock_version => jh.lock_version
+    end
 
     assert_response :redirect
-    assert_redirected_to :action=>:index
+    assert_redirected_to :action => 'index'
     assert_equal '伝票を削除しました。', flash[:notice]
-    assert_equal count-3, JournalHeader.count(:all)
   end
   
 end

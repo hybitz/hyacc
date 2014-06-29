@@ -3,11 +3,12 @@ require 'test_helper'
 # 未払費用の計上日振替のテスト
 class JournalController::AccruedExpenseTest < ActionController::TestCase
 
-  def setup
+  setup do
     user = User.find(4)
     assert user.company.get_fiscal_year(2009).is_closed
     assert user.company.get_fiscal_year(2010).is_open
-    @request.session[:user_id] = user.id
+    
+    sign_in user
   end
 
   def test_本締の年度への費用振替の登録がエラーになること
@@ -139,15 +140,15 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度の費用振替の削除がエラーになること
-    count = JournalHeader.count(:all)
     jh = JournalHeader.find(12)
-    
-    post :destroy, :id => jh.id, :lock_version => jh.lock_version
+
+    assert_no_difference 'JournalHeader.count' do
+      post :destroy, :id => jh.id, :lock_version => jh.lock_version
+    end
 
     assert_response :redirect
     assert_redirected_to :action => 'list'
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
-    assert_equal count, JournalHeader.count(:all)
   end
 
   def test_通常の年度への費用振替の登録が正常終了すること
@@ -421,14 +422,14 @@ class JournalController::AccruedExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度の費用振替の削除が正常終了すること
-    count = JournalHeader.count(:all)
     jh = JournalHeader.find(15)
-    
-    post :destroy, :id => jh.id, :lock_version => jh.lock_version
+
+    assert_difference 'JournalHeader.count', -3 do
+      post :destroy, :id => jh.id, :lock_version => jh.lock_version
+    end
 
     assert_response :redirect
     assert_redirected_to :action => 'list'
     assert_equal '伝票を削除しました。', flash[:notice]
-    assert_equal count-3, JournalHeader.count(:all)
   end
 end

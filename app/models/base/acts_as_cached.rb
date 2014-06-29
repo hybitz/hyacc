@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: acts_as_cached.rb 3308 2014-01-26 14:22:48Z ichy $
-# Product: hyacc
-# Copyright 2012-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Base
 
   module ActsAsCached

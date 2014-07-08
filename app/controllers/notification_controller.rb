@@ -25,14 +25,15 @@ class NotificationController < Base::HyaccController
   def get_todo_events
     begin
       @events = get_events if current_user.has_google_account
-    rescue Exception=>e
+    rescue => e
       handle(e)
     end
     
     render :partial=>'todo_events'
   end
   
-private
+  private
+
   def get_events
     now = Time.now
     year_later = now + 60*60*24*31

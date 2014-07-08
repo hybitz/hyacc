@@ -62,6 +62,6 @@ module Hyacc
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
     
-    config.assets.precompile += %w( application-print.css jqtree.css yui.css )
+    config.assets.precompile += %w( application-print.css jqtree.css )
   end
 end

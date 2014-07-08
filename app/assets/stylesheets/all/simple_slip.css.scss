@@ -1,3 +1,9 @@
 .target_account_info {
   margin: 0px 10px 0px 10px;
 }
+
+.account_detail {
+  input[name*="\[social_expense_number_of_people\]"] {
+    text-align: center;
+  }
+}

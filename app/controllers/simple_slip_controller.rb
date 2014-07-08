@@ -37,7 +37,7 @@ class SimpleSlipController < Base::HyaccController
     query = 'account_id <> ? and (keywords like ? or remarks like ?) and deleted=?', my_account.id, like, like, false
     templates = SimpleSlipTemplate.where(query)
     
-    json = '{"results": ['
+    json = '['
     templates.each_with_index do |t, index|
       if t.account_id.to_i > 0
         account = Account.get(t.account_id)
@@ -70,6 +70,7 @@ class SimpleSlipController < Base::HyaccController
       json << ',' if index > 0
       json << <<-"JSON"
         {
+          "label":"#{t.remarks}",
           "remarks":"#{t.remarks}",
           "account_id":"#{account.id.to_s}",
           "account_code":"#{account.code}",
@@ -86,7 +87,7 @@ class SimpleSlipController < Base::HyaccController
         }
       JSON
     end
-    json << ']}'
+    json << ']'
     
     if HyaccLogger.debug?
       HyaccLogger.debug("json=" + json)

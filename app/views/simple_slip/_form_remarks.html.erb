@@ -1,96 +1,76 @@
 <% unless @slip.new_record? %>
   <%= text_field 'slip', 'remarks', :class=>'remarksText' %>
 <% else %>
-  <div id="remarksAutoComplete">
-    <%= text_field 'slip', 'remarks', :class=>'remarksText' %>
-    <div id="templates"></div>
+  <div>
+    <%= text_field 'slip', 'remarks', :class=>'remarksText autocomplete' %>
     <script>
-          // 非同期通信用データソース
-          var url = '<%= url_for(:action => 'get_templates', :id => @slip.id, :account_code => params[:account_code], :format => 'json') %>';
-          var oDS = new YAHOO.util.XHRDataSource(url);
-          oDS.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
-          oDS.responseSchema = {
-            resultsList : "results",
-            fields : ["remarks", "account_id", "account_code", "account_name", "sub_account_id",
-              "branch_id", "tax_type", "increase_or_decrease", "amount", "tax_amount",
-              "focus_on_complete", "sub_accounts", "account_detail"] 
-          };
+      function get_templates(req, res) {
+        var url = '<%= url_for :action => 'get_templates', :id => @slip.id, :account_code => params[:account_code] %>';
+        var params = {format: 'json', query: req.term};
+        $.getJSON(url, params, function(json) {
+          res(json);
+        });
+      }
       
-          // オートコンプリートウィジェット
-          var oAC = new YAHOO.widget.AutoComplete("slip_remarks", "templates", oDS);
-          oAC.useShadow = true;
-          oAC.autoHighlight = false;
-          oAC.animSpeed = 0.1;
-          oAC.generateRequest = function(sQuery) { 
-              if (url.endsWith('.json')) {
-                return '?query=' + sQuery;
-              } else {
-                return '&query=' + sQuery ; 
-              }
-          };
-          oAC.formatResult = function(oResultData, sQuery, sResultMatch) {
-            var ret = '';
-            ret += '<div>'+ oResultData[0] + '</div>';
-            ret += '<div style="float: right; display: inline;">' + oResultData[2] + ":" + oResultData[3] + '</div>';
-            ret += '<br style="clear: both;"/>';
-            return ret;
-          };
-          oAC.itemSelectEvent.subscribe(function(sType, aArgs) {
-            var oData = aArgs[2];
-            $('#slip_account_id').val(oData[1]);
-            
-            if ( document.getElementById('slip_sub_account_id') != null ) {
-              replace_options('#slip_sub_account_id', oData[11]);
-              $('#slip_sub_account_id').val(oData[4]);
-            }
-            
-            if ( document.getElementById('slip_branch_id') != null) {
-              if (oData[5] != null && oData[5] != "") {
-                document.getElementById('slip_branch_id').value = oData[5];
-              }
-            }
-  
-            if ( document.getElementById('slip_tax_type') != null ) {
-              document.getElementById('slip_tax_type').value = oData[6];
-            }
-  
-            var increaseOrDecrease = oData[7];
-            if ( increaseOrDecrease == 'increase' ) {
-              if ( document.getElementById('slip_amount_increase') != null ) {
-                document.getElementById('slip_amount_increase').value = oData[8];
-              }
-              if ( document.getElementById('slip_tax_amount_increase') != null ) {
-                document.getElementById('slip_tax_amount_increase').value = oData[9];
-              }
-            }
-            else if (increaseOrDecrease == 'decrease') {
-              if ( document.getElementById('slip_amount_decrease') != null ) {
-                document.getElementById('slip_amount_decrease').value = oData[8];
-              }
-              if ( document.getElementById('slip_tax_amount_decrease') != null ) {
-                document.getElementById('slip_tax_amount_decrease').value = oData[9];
-              }
-            }
-            
-            document.getElementById('account_detail').innerHTML = oData[12];
+      function item_selected(event, ui) {
+        var item = ui.item;
 
-            var form = $('#<%= @slip.new_record? ? 'slip_new_form' : 'slip_edit_form' %>');
-            updateTaxAmountSimple(form, document.getElementById('slip_tax_amount_increase').value, document.getElementById('slip_tax_amount_decrease').value);
-            
-            var focus = oData[10];
-            if (focus == 'amount' || focus == 'tax_amount') {
-              if ( increaseOrDecrease != null ) {
-                focus = focus + '_' + increaseOrDecrease;
-              }
-              else {
-                focus = null;  
-              }
-            }
-            
-            if (focus != null) {
-              $('#slip_' + focus).focus();
-            }
-          });
+        $('#slip_account_id').val(item.account_id);
+        
+        if ($('#slip_sub_account_id').length > 0) {
+          replace_options('#slip_sub_account_id', item.sub_accounts);
+          $('#slip_sub_account_id').val(item.sub_account_id);
+        }
+        
+        if ($('#slip_branch_id').length > 0) {
+          if (item.branch_id) {
+            $('#slip_branch_id').val(item.branch_id);
+          }
+        }
+
+        if ($('#slip_tax_type').length > 0) {
+          $('#slip_tax_type').val(item.tax_type);
+        }
+
+        if (item.increase_or_decrease == 'increase') {
+          $('#slip_amount_increase').val(item.amount);
+          $('#slip_tax_amount_increase').val(item.tax_amount);
+        } else if (item.increase_or_decrease == 'decrease') {
+          $('#slip_amount_decrease').val(item.amount);
+          $('#slip_tax_amount_decrease').val(item.tax_amount);
+        }
+        
+        $('#account_detail').html(item.account_detail);
+
+        var form = $('#slip_new_form');
+        updateTaxAmountSimple(form, $('#slip_tax_amount_increase').val(), $('#slip_tax_amount_decrease').val());
+
+        var focus = item.focus_on_complete;
+        if (focus == 'amount' || focus == 'tax_amount') {
+          if (item.increase_or_decrease) {
+            focus = focus + '_' + item.increase_or_decrease;
+          } else {
+            focus = null;  
+          }
+        }
+        
+        if (focus) {
+          $('#slip_' + focus).focus();
+        }
+      };
+
+      $(document).ready(function() {
+        $('.autocomplete').autocomplete({
+          minLength: 2,
+          source: get_templates,
+          select: item_selected,
+        }).data('ui-autocomplete')._renderItem = function(ul, item) {
+          var html = '<div>'+ item.remarks + '</div>';
+          html += '<div style="float: right; display: inline;">' + item.account_code + ":" + item.account_name + '</div>';
+          html += '<br style="clear: both;"/>';
+          return $('<li>').append(html).appendTo(ul);
+        };
+      });
     </script>
   </div>
 <% end %>

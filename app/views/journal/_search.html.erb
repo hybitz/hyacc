@@ -1,13 +1,7 @@
-<%#
-# $Id: _search.html.erb 2812 2012-01-17 13:05:41Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <%= form_tag( {:action=>"list"}, {:method=>"get"} ) do %>
   <div style="margin: 10px;">
     <div>
-      年月：<%= text_field 'finder', 'ym', :maxlength=>6 %>
+      年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %>
       勘定科目：<%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", {:selected=>@finder.account_id, :include_blank=>true}) %>
       
       <% if branch_mode %>

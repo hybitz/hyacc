@@ -10,5 +10,6 @@
  *
  *= require_self
  *= require jquery-ui
+ *= require daddy
  *= require_tree ./all
  */

@@ -16,5 +16,6 @@
 //= require jquery-ui/datepicker-ja
 //= require jquery.remotipart
 //= require daddy
+//= require jquery-ui/ympicker-ja
 //= require vendor
 //= require_tree .

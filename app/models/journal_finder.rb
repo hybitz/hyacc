@@ -77,10 +77,11 @@ class JournalFinder < Base::Finder
     end
     
     # 年月の指定がある場合
-    if @ym.to_i > 0
+    normalized_ym = @ym.to_s.split('-').join
+    if normalized_ym.to_i > 0
       conditions[0] << "and " unless conditions[0].empty?
       conditions[0] << "ym like '?%' "
-      conditions << @ym.to_i
+      conditions << normalized_ym.to_i
     end
     
     # 勘定科目または部門の指定がある場合

@@ -87,7 +87,7 @@ module Slips
       conditions = get_conditions
 
       # 条件に該当する総伝票数を取得
-      total_count = count(:id, :conditions=>conditions)
+      total_count = count(:id, :conditions => conditions)
       
       # 前伝票ページングのためのオフセットを計算
       prev_count = total_count - offset.to_i - per_page
@@ -111,7 +111,7 @@ module Slips
       # 条件に該当する伝票を取得
       find(
         :all,
-        :conditions=>conditions,
+        :conditions => conditions,
         :include=>[:journal_details],
         :order=>"journal_headers.ym desc, journal_headers.day desc, journal_headers.created_on desc",
         :limit=> ym.to_i == 0 ? per_page : nil,
@@ -146,14 +146,15 @@ module Slips
       conditions << build_rlike_condition( account_code, sub_account_id, branch_id )
 
       # 年月は任意
-      if ym.to_i > 0
+      normalized_ym = ym.to_s.length > 6 ? ym[0..3] + ym[-2..-1] : nil
+      if normalized_ym
         conditions[0] << "and journal_headers.ym >= ? and journal_headers.ym <= ? "
-        conditions << ym
-        conditions << ym
+        conditions << normalized_ym
+        conditions << normalized_ym
       end
       
       # 摘要は任意
-      unless remarks.nil?
+      if remarks.present?
         conditions[0] << "and journal_headers.remarks like ? "
         conditions << '%' + remarks + '%'
       end

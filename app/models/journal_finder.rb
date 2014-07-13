@@ -54,10 +54,8 @@ class JournalFinder < Base::Finder
       return [SLIP_TYPE_TRANSFER, SLIP_TYPE_SIMPLIFIED]
     when 3
       return [SLIP_TYPE_TRANSFER, SLIP_TYPE_SIMPLIFIED, SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION]
-    when 4
-      raise Exception.new('予期していない処理分岐です')    
     else
-      return [-1]
+      raise '予期していない処理分岐です'
     end
   end
 
@@ -67,13 +65,7 @@ class JournalFinder < Base::Finder
     
     # 伝票区分
     if @slip_type_selection != 4
-      conditions[0] << 'slip_type in ( '
-      get_slip_types.each_with_index do |slip_type, i|
-        conditions[0] << ', ' unless i == 0
-        conditions[0] << '?'
-        conditions << slip_type
-      end
-      conditions[0] << ') '
+      conditions[0] << 'slip_type in (' + get_slip_types.join(', ') + ') '
     end
     
     # 年月の指定がある場合
@@ -83,7 +75,7 @@ class JournalFinder < Base::Finder
       conditions[0] << "ym like '?%' "
       conditions << normalized_ym.to_i
     end
-    
+
     # 勘定科目または部門の指定がある場合
     if @account_id > 0 or @branch_id > 0
       conditions[0] << "and " unless conditions[0].empty?
@@ -115,12 +107,12 @@ class JournalFinder < Base::Finder
       conditions[0] << "remarks like ? "
       conditions << '%' + @remarks + '%'
     end
-    
+
     # 条件がない場合はnilにする
     if conditions.length < 2
       conditions = nil
     end
-    
+
     conditions
   end
 

@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 class DeemedTaxController < Base::HyaccController
   include JournalUtil
 

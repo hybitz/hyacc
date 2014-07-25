@@ -1,23 +1,16 @@
-class WithheldTaxFinder < Base::Finder
+class WithheldTaxFinder < Daddy::Model
 
-  attr_accessor :after_deduction
-  
-  # 初期化
-  def initialize( user )
-    super( user )
-    @ym = Time.new.strftime("%Y%m")
+  def ym
+    self['ym'] ||= Date.today.strftime("%Y-%m")
   end
-  
-  def setup_from_params( params )
-    return unless params
 
-    super( params )
-    @after_deduction = params[:after_deduction]
+  def ym_int
+    ym.gsub('-', '')
   end
   
   def list
     sql = SqlBuilder.new
-    sql.append('apply_start_ym <= ? and apply_end_ym >= ?', self.ym, self.ym) if self.ym.present?
+    sql.append('apply_start_ym <= ? and apply_end_ym >= ?', self.ym_int, self.ym_int)
 
     amount = @after_deduction.to_s.gsub(/,/, '')
     if amount.present?

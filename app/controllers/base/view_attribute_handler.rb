@@ -4,8 +4,9 @@ module Base::ViewAttributeHandler
   include HyaccUtil
   include HyaccViewHelper
   include SessionHelper
-  
-protected
+
+  protected
+
   def load_view_attributes
     get_attributes.each do |name, options|
       if action_match?(options[:only], options[:except])

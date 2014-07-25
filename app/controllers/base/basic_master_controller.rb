@@ -2,9 +2,14 @@ module Base
   class BasicMasterController < HyaccController
     
     def index
-      if finder.commit
-        @list = finder.list
-        @data = @data || model_class.new
+      if params[:finder].present?
+        @finder = finder_class.new(params[:finder])
+      else
+        @finder = session[finder_class.name] || finder_class.new
+      end
+
+      if params[:commit]
+        @list = @finder.list
       end
       
       respond_to do |format|
@@ -122,6 +127,10 @@ module Base
 
     def model_class
       @model_class ||= controller_name.singularize.classify.constantize
+    end
+
+    def finder_class
+      @finder_class ||= (controller_name.singularize.classify + 'Finder').constantize
     end
 
   end

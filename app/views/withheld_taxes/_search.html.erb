@@ -1,15 +1,9 @@
-<%#
-# $Id: _search.html.erb 2984 2013-02-11 05:42:27Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-<%= form_tag( {:action=> controller.action_name }, {:method=>"get"} ) do %>
-<table class="none_border" cellpadding="3">
-  <tr>
-    <td class="none_border">年月：<%= text_field 'finder', 'ym', :maxlength=>6 %></td>
-    <td class="none_border">社会保険料控除後の給与：<%= text_field 'finder', 'after_deduction', :maxlength=>10 %></td>
-    <td class="none_border"><%= submit_tag "表示" %></td>
-  </tr>
-</table>
+<%= form_tag({:action => 'index'}, :method => 'get') do %>
+  <table class="none_border" cellpadding="3">
+    <tr>
+      <td class="none_border">年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %></td>
+      <td class="none_border">社会保険料控除後の給与：<%= text_field 'finder', 'after_deduction', :maxlength => 10 %></td>
+      <td class="none_border"><%= submit_tag "表示" %></td>
+    </tr>
+  </table>
 <% end %>

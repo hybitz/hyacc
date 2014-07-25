@@ -1,9 +1,3 @@
-<%#
-# $Id: _list.html.erb 2984 2013-02-11 05:42:27Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <div style="width:1060px;">
 <div class="div_th_yyyymm" style="height:50px;">適用開始年月</div>
 <div class="div_th_yyyymm" style="height:50px;">適用終了年月</div>
@@ -19,7 +13,7 @@
 <div class="div_th_money" style="height:50px;">扶養親族<br/>７人</div>
 <div class="div_th_link" style="height:50px;"></div>
 <br clear="all" />
-<% for data in @list %>
+<% @list.each do |data| %>
   <div id="data_<%= data.id %>">
     <%= render 'line', :data => data %>
   </div>

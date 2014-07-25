@@ -107,7 +107,7 @@ class FiscalYearsController < Base::HyaccController
         jh = factory.make_journals
         jh.save! if jh
       end
-      
+
       flash[:notice] = '繰越処理が完了しました。'
       flash[:notice] << "翌期（#{next_fy.fiscal_year}年度）を作成しました。" if next_fy_created
       render 'common/reload'

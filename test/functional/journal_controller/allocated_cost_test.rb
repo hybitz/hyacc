@@ -128,7 +128,7 @@ class JournalController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].tax_type = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     
-    post :create, :format => 'js',
+    xhr :post, :create,
       :journal_header => {
         :ym => post_jh.ym,
         :day => post_jh.day,

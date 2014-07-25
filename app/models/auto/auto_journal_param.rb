@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: auto_journal_param.rb 2473 2011-03-23 15:27:41Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto
   
   class AutoJournalParam

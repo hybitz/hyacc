@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 def bank_account
   @_bank_account_cache ||= BankAccount.first
 end

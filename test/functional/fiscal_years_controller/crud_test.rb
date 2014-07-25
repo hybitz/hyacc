@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FiscalYearsController::CrudTest < ActionController::TestCase
 
-  def setup
+  setup do
     sign_in user
   end
 
@@ -13,11 +13,24 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     assert_not_nil assigns(:fiscal_years)
   end
 
+  def test_登録_エラー
+    xhr :post, :create
+    assert_response :success
+    assert_template :new
+  end
+
   def test_編集
-    xhr :get, :edit, :id => Company.first.current_fiscal_year.id
+    xhr :get, :edit, :id => current_user.company.current_fiscal_year.id
     assert_not_nil assigns(:fiscal_year)
     assert_response :success
     assert_template :edit
+  end
+
+  def test_更新
+    xhr :put, :update, :id => current_user.company.current_fiscal_year.id,
+        :fiscal_year => valid_fiscal_year_params(:user => current_user)
+    assert_response :success
+    assert_template 'common/reload'
   end
 
   def test_update_current_fiscal_year

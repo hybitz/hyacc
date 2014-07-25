@@ -48,7 +48,7 @@ class FiscalYearsController < Base::HyaccController
               raise HyaccException.new(ERR_DB)
             end
           end
-          
+
           @fiscal_year.carry_status = CARRY_STATUS_NOT_CARRIED
           @fiscal_year.carried_at = nil
           @fiscal_year.save!
@@ -72,14 +72,14 @@ class FiscalYearsController < Base::HyaccController
     @fy = FiscalYear.find(params[:id])
     next_fy = FiscalYear.where(:company_id => @fy.company_id, :fiscal_year => @fy.fiscal_year + 1).first
     next_fy_created = false
-    
+
     begin
       @fy.transaction do
         @fy.lock_version = params[:lock_version]
         @fy.carry_status = CARRY_STATUS_CARRIED
         @fy.carried_at = Time.now
         @fy.save!
-        
+
         # 家事按分を実行
         if params[:journalize_housework].to_i == 1
           hw = Housework.find_by_company_id_and_fiscal_year(@fy.company_id, @fy.fiscal_year)
@@ -88,7 +88,7 @@ class FiscalYearsController < Base::HyaccController
           hw.journal_headers = factory.make_journals()
           hw.save!
         end
-        
+
         # 翌期の会計年度がまだなければ作成
         unless next_fy
           next_fy_created = true

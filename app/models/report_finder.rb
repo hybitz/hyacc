@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: report_finder.rb 3162 2014-01-01 08:45:50Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class ReportFinder < Base::Finder
   attr_reader :company_id
   attr_reader :report_type
@@ -33,36 +26,26 @@ class ReportFinder < Base::Finder
   # - ym: 年月のyyyymm
   #   amount: 対象となる勘定科目の月別累計金額
   def list_monthly_sum( account )
-    # 勘定科目は必須
-    if account.nil?
-      raise ArgumentError.new("勘定科目の指定がありません。")
-    end
+    raise '勘定科目の指定がありません。' unless account
 
     ym_range = get_ym_range
     
     # データの受け皿の準備
     ret = []
     ym_range.each do | ym |
-      ret << { :ym=>ym, :amount=>0 }
+      ret << {:ym => ym, :amount => 0}
     end
     
     # 1期分の月別累計情報を検索
-    conditions = []
-    conditions[0] = "ym >= ? and ym <= ? "
-    conditions << ym_range.first
-    conditions << ym_range.last
-    conditions[0] << "and path like ? "
-    conditions << '%' + account.path + '%'
-    if branch_id > 0
-      conditions[0] << "and branch_id = ? "
-      conditions << branch_id
-    end
-    
-    VMonthlyLedger.where(conditions).each do | vml |
+    sql = SqlBuilder.new
+    sql.append('ym >= ? and ym <= ?', ym_range.first, ym_range.last)
+    sql.append('and path like ?', '%' + account.path + '%')
+    sql.append('and branch_id = ?', branch_id) if branch_id > 0
+    VMonthlyLedger.where(sql.to_a).each do |vml|
       # 年月からデータを格納する配列のインデックスを算出
       index = vml.ym % 100 - start_month_of_fiscal_year
       index += 12 if index < 0
-      
+
       if vml.dc_type == account.dc_type
         ret[index][:amount] += vml.amount
       else
@@ -98,24 +81,15 @@ class ReportFinder < Base::Finder
     # データの受け皿の準備
     ret = []
     ym_range.each do | ym |
-      ret << { :ym=>ym, :amount=>0 }
+      ret << {:ym => ym, :amount => 0}
     end
 
     # 1月目までの累計を取得
-    conditions = []
-    conditions[0] = "ym <= ? "
-    conditions << ym_range.first
-    conditions[0] << "and path like ? "
-    conditions << '%' + account.path + '%'
-    if branch_id > 0
-      conditions[0] << "and branch_id = ? "
-      conditions << branch_id
-    end
-    
-    # 初期化
-    ret[0][:amount] = 0
-    VMonthlyLedger.where(conditions).each do | vml |
-      
+    sql = SqlBuilder.new
+    sql.append('ym <= ?', ym_range.first)
+    sql.append('and path like ?', '%' + account.path + '%')
+    sql.append('and branch_id = ?', branch_id) if branch_id > 0
+    VMonthlyLedger.where(sql.to_a).each do |vml|
       if vml.dc_type == account.dc_type
         ret[0][:amount] += vml.amount
       else
@@ -124,18 +98,11 @@ class ReportFinder < Base::Finder
     end
     
     # 2月目からの月別累計情報を検索
-    conditions = []
-    conditions[0] = "ym > ? and ym <= ? "
-    conditions << ym_range.first
-    conditions << ym_range.last
-    conditions[0] << "and path like ? "
-    conditions << '%' + account.path + '%'
-    if branch_id > 0
-      conditions[0] << "and branch_id = ? "
-      conditions << branch_id
-    end
-    
-    VMonthlyLedger.where(conditions).each do | vml |
+    sql = SqlBuilder.new
+    sql.append('ym > ? and ym <= ?', ym_range.first, ym_range.last)
+    sql.append('and path like ?', '%' + account.path + '%')
+    sql.append('and branch_id = ?', branch_id) if branch_id > 0
+    VMonthlyLedger.where(sql.to_a).each do |vml|
       # 年月からデータを格納する配列のインデックスを算出
       index = vml.ym % 100 - start_month_of_fiscal_year
       index += 12 if index < 0

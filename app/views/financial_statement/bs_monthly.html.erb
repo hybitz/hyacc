@@ -8,14 +8,14 @@
   </tr>
 
   <%# 資産の部 %>
-  <%= render 'line_bs_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_ASSETS %>
+  <%= render 'line_bs_monthly', :account_code => HyaccConstants::ACCOUNT_CODE_ASSETS %>
 
   <%# 負債の部 %>
-  <%= render 'line_bs_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_DEBT %>
-  
+  <%= render 'line_bs_monthly', :account_code => HyaccConstants::ACCOUNT_CODE_DEBT %>
+
   <%# 純資産の部 %>
-  <%= render 'line_bs_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_CAPITAL %>
-  
+  <%= render 'line_bs_monthly', :account_code => HyaccConstants::ACCOUNT_CODE_CAPITAL %>
+
   <%# 負債および純資産合計 %>
   <tr id="credit_sum" style="font-weight: bold;">
     <td colspan="<%= colspan( 1 ) %>">
@@ -28,11 +28,13 @@
 </table>
 
 <script>
-  // 負債および純資産合計の計算
-  <% @finder.get_ym_range.each do |ym| %>
-    add(ACCOUNT_CODE_DEBT + '_<%= ym %>_amount', ACCOUNT_CODE_CAPITAL + '_<%= ym %>_amount', 'credit_sum_<%= ym %>_amount');
-  <% end %>
-  
-  // マイナス金額の色を更新
-  updateAmountColor('bsContainer', /.+_amount/i);
+  $(document).ready(function() {
+    // 負債および純資産合計の計算
+    <% @finder.get_ym_range.each do |ym| %>
+      add(ACCOUNT_CODE_DEBT + '_<%= ym %>_amount', ACCOUNT_CODE_CAPITAL + '_<%= ym %>_amount', 'credit_sum_<%= ym %>_amount');
+    <% end %>
+    
+    // マイナス金額の色を更新
+    updateAmountColor('bsContainer', /.+_amount/i);
+  });
 </script>

@@ -318,5 +318,5 @@ module HyaccConstants
   SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_LEGAL_WELFARE = '300' # 厚生年金（法定福利費）
   SUB_ACCOUNT_CODE_BUSINESS_TAX = '400' # 事業税
   SUB_ACCOUNT_CODE_OTHERS = '900' # その他
-  
+
 end

@@ -46,8 +46,8 @@
 
   <%# 合計行を表示する %>
   <tr id="<%= account.code %>" style="font-weight: bold;">
-    <% (account.node_level - 1).times do |n| %>
-      <td width="20">&nbsp;</td>
+    <% (account.node_level - 1).times do %>
+      <td width="20"></td>
     <% end %>
     
     <td colspan="<%= colspan( account.node_level ) %>"><%= account.name %>合計</td>

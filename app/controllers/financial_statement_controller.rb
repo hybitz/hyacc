@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 class FinancialStatementController < Base::HyaccController
   view_attribute :title => '決算書'
   view_attribute :finder, :class => ReportFinder
@@ -81,26 +79,24 @@ class FinancialStatementController < Base::HyaccController
     # 利益剰余金の計算
     profit_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_PROFIT).first
     expense_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_EXPENSE).first
-    # 今期までの利益剰余金累計
-    profit = finder.list_monthly_net_sum( profit_account )
-    expense = finder.list_monthly_net_sum( expense_account )
+    # 今期の利益
+    profit = finder.list_monthly_sum( profit_account )
+    expense = finder.list_monthly_sum( expense_account )
     ym_range = finder.get_ym_range
     ym_range.each_index do |index|
       ym = ym_range[index]
-      revenue = profit[index][:amount] - expense[index][:amount]
-      
+      # 繰越利益剰余に利益利益を設定
+      @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD] ||= {}
+      @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index] = {:ym => ym, :amount => 0}
+
+      (index + 1).times do |i|
+        revenue = profit[i][:amount] - expense[i][:amount]
+        @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index][:amount] += revenue
+      end
+
       if HyaccLogger.debug?
-        HyaccLogger.debug("年月：[#{ym}] 収益：[#{profit[index][:amount]}] 費用：[#{expense[index][:amount]}] 利益：[#{revenue}]")
+        HyaccLogger.debug("年月：[#{ym}] 収益：[#{profit[index][:amount]}] 費用：[#{expense[index][:amount]}] 繰越利益：[#{@sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index][:amount]}]")
       end
-      
-      # 前期までの利益剰余金累計は振替済みなので、そこに計算結果を付け足す
-      if @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][ym].nil?
-        @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][ym] = {}
-      end
-      if @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][ym][index].nil?
-        @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][ym][index] = {:ym => ym, :amount => 0}
-      end
-      @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][ym][index][:amount] += revenue
     end
 
     # 最大ノードレベルを算出
@@ -111,7 +107,7 @@ class FinancialStatementController < Base::HyaccController
 
   def list_monthly_net_sum( account )
     ret = {}
-    
+
     # 自身の累計を取得
     sum = {}
     sum[:account] = account

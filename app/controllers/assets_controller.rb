@@ -5,13 +5,9 @@ class AssetsController < Base::HyaccController
   view_attribute :finder, :class => AssetFinder, :only=>:index
   view_attribute :ym_list, :only => :index
   view_attribute :branches, :only => :index
-  view_attribute :accounts, :only => :index,
-    :conditions => ['account_type=? and trade_type=? and deleted=? and depreciable=?',
-      ACCOUNT_TYPE_ASSET, TRADE_TYPE_EXTERNAL, false, true]
+  before_filter :load_accounts, :only => 'index'
 
   def index
-    render :no_account and return unless @accounts.present?
-
     @assets = finder.list
   end
 
@@ -65,5 +61,22 @@ class AssetsController < Base::HyaccController
       @asset.status = @asset.status_was
       render 'edit'
     end
-  end  
+  end
+
+  private
+
+  def load_accounts
+    sql = SqlBuilder.new
+    sql.append('account_type = ?', ACCOUNT_TYPE_ASSET)
+    sql.append('and trade_type = ?', TRADE_TYPE_EXTERNAL)
+    sql.append('and journalizable = ?', true)
+    sql.append('and depreciable = ?', true)
+    sql.append('and deleted = ?', false)
+
+    @accounts = Account.where(sql.to_a)
+    unless @accounts.present?
+      render :no_account and return
+    end
+  end
+
 end

@@ -1,12 +1,5 @@
-<%#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <%= form_for @asset, :remote => true do |f| %>
   <div style="margin:0px 10px 0px 0px; text-align: right;">
-    <%= hidden_field_tag :update_type %>
-  
     <span style="margin-left: 5px;">
       <%= f.submit '更新' %>
     </span>

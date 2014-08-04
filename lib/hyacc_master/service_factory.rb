@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: service_factory.rb 2951 2012-11-09 03:46:50Z hiro $
-# Product: hyacc
-# Copyright 2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module HyaccMaster
   class ServiceFactory
     require 'hyacc_master/cache'

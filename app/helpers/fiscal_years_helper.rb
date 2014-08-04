@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: fiscal_years_helper.rb 2907 2012-08-31 06:54:29Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module FiscalYearsHelper
   include HyaccConstants
   

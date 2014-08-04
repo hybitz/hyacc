@@ -46,16 +46,16 @@ class FinancialStatementController < Base::HyaccController
       @sum.update( get_net_sum( tree ) )
     end
     
-    # 利益剰余金の計算
+    # 繰越利益剰余金の計算
     profit_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_PROFIT).first
     expense_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_EXPENSE).first
-    # 今期までの利益剰余金累計
+    # 今期の利益
     profit = finder.get_net_sum_amount( profit_account )
     expense = finder.get_net_sum_amount( expense_account )
     revenue = profit - expense
-    # 前期までの利益剰余金累計は振替済みなので、そこに計算結果を付け足す
+    # 前期までの利益は繰越利益剰余金に振替済みなので、そこに計算結果を付け足す
     @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:amount] += revenue
-    
+
     # 最大ノードレベルを算出
     calc_max_node_level(@sum)
     

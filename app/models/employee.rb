@@ -4,11 +4,11 @@ class Employee < ActiveRecord::Base
   
   belongs_to :company
   belongs_to :business_office
-  has_many :employee_histories, :dependent=>:destroy
-  has_many :users, :dependent=>:destroy
-  has_many :branches_employees, :dependent=>:destroy
-  has_many :branches, :through=>:branches_employees
-  has_many :careers, :dependent=>:destroy
+  has_many :employee_histories, :dependent => :destroy
+  has_many :users, :dependent => :destroy
+  has_many :branches_employees, :dependent => :destroy
+  has_many :branches, :through => :branches_employees
+  has_many :careers, :order => 'start_from, end_to', :dependent => :destroy
 
   validates_presence_of :last_name, :first_name
   

@@ -1,21 +1,15 @@
-<%#
-# $Id: show.html.erb 3187 2014-01-21 13:08:58Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <table class="showCareers">
   <tr>
-    <th class="employee"><%= company_label(@e.company.type_of) %>： <%= @e.company.name %></th>
-    <th class="yearsOfCareer" rowspan="2" colspan="3">業務経歴： <%= @e.years_of_career %>年</th>
+    <th class="employee"><%= company_label(@employee.company.type_of) %>： <%= @employee.company.name %></th>
+    <th class="yearsOfCareer" rowspan="2" colspan="3">業務経歴： <%= @employee.years_of_career %>年</th>
   </tr>
   <tr>
-    <th class="employee">氏名： <%= @e.full_name %></th>
+    <th class="employee">氏名： <%= @employee.full_name %></th>
   </tr>
-  <% @careers.each_with_index do |c, index| %>
+  <% @employee.careers.each_with_index do |c, index| %>
   <tr>
     <th colspan="4">
-      <div style="float: left;"><%= index+1 %>. <%= c.project_name %></div>
+      <div style="float: left;"><%= index + 1 %>. <%= c.project_name %></div>
       <div style="text-align:right;">
         <%= c.start_from.strftime('%Y年%m月') %>
         ～

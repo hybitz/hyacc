@@ -34,15 +34,15 @@ EOS
   # ネット累計金額を取得する
   # ym_from 累計対象となる最初の年月（inclusive）
   # ym_to 累計対象となる最後の年月（inclusive）
-  def self.get_net_sum_amount(ym_from=nil, ym_to=nil, account_id=0, sub_account_id=0, branch_id=0, include_children=true)
+  def self.get_net_sum_amount(ym_from=nil, ym_to=nil, account_id=0, sub_account_id=0, branch_id=0, options = {})
     # 勘定科目は必須
-    raise ArgumentError.new("勘定科目の指定がありません。") unless account_id > 0
+    raise '勘定科目の指定がありません。' unless account_id.to_i > 0
 
     account = Account.get(account_id)
   
     sql = ["select sum(amount) as amount from (#{VIEW}) as monthly_ledger "]
     
-    if include_children
+    if options[:include_children] or not options.has_key?(:include_children)
       sql[0] << "where path like ? "
       sql << '%' + account.path + '%'
     else
@@ -58,14 +58,22 @@ EOS
     
     # 開始年月
     if ym_from.to_i > 0
-      sql[0] << "and ym >= ? "
+      if options[:ym_from_exclusive]
+        sql[0] << "and ym > ? "
+      else
+        sql[0] << "and ym >= ? "
+      end
       sql << ym_from
     end
 
     # 終了年月
     if ym_to.to_i > 0
-    	sql[0] << "and ym <= ? "
-    	sql << ym_to
+      if options[:ym_to_exclusive]
+        sql[0] << "and ym < ? "
+      else
+        sql[0] << "and ym <= ? "
+      end
+    	 sql << ym_to
     end
 
     # 計上部門

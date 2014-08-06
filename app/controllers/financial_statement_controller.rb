@@ -79,16 +79,18 @@ class FinancialStatementController < Base::HyaccController
     # 利益剰余金の計算
     profit_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_PROFIT).first
     expense_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_EXPENSE).first
-    # 今期の利益
+
+    # 今期の収益と費用
     profit = finder.list_monthly_sum( profit_account )
     expense = finder.list_monthly_sum( expense_account )
+
     ym_range = finder.get_ym_range
     ym_range.each_index do |index|
       ym = ym_range[index]
-      # 繰越利益剰余に利益利益を設定
       @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD] ||= {}
       @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index] = {:ym => ym, :amount => 0}
 
+      # 繰越利益剰余に利益を設定
       (index + 1).times do |i|
         revenue = profit[i][:amount] - expense[i][:amount]
         @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index][:amount] += revenue
@@ -144,7 +146,7 @@ class FinancialStatementController < Base::HyaccController
     ret
   end
   
-  def render_pl_monthly()
+  def render_pl_monthly
     # 収益と費用の勘定科目ツリーを取得
     trees = [
       Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_PROFIT).first,
@@ -163,7 +165,7 @@ class FinancialStatementController < Base::HyaccController
     render :pl_monthly
   end
 
-  def render_pl_yearly()
+  def render_pl_yearly
     # 収益と費用の勘定科目ツリーを取得
     trees = [
       Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_PROFIT).first,

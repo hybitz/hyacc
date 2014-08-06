@@ -23,14 +23,14 @@ module Reports
             else
               detail.name = sa.name
             end
-            detail.amount_at_end = VMonthlyLedger.get_net_sum_amount(nil, end_ym, a.id, sa.id, finder.branch_id, false)
+            detail.amount_at_end = VMonthlyLedger.get_net_sum_amount(nil, end_ym, a.id, sa.id, finder.branch_id, :include_children => false)
             detail.remarks = a.short_description
             ret.add_detail(detail)
           end
         else
           detail = Reports::TradeAccountPayableDetailModel.new
           detail.account = a
-          detail.amount_at_end = VMonthlyLedger.get_net_sum_amount(nil, end_ym, a.id, 0, finder.branch_id, false)
+          detail.amount_at_end = VMonthlyLedger.get_net_sum_amount(nil, end_ym, a.id, 0, finder.branch_id, :include_children => false)
           detail.remarks = a.short_description
           ret.add_detail(detail)
         end

@@ -63,15 +63,14 @@ class ReportFinder < Base::Finder
 
   def get_yearly_net_sum( account )
     # 勘定科目は必須
-    raise ArgumentError.new("勘定科目の指定がありません。") unless account
+    raise '勘定科目の指定がありません。' unless account
 
     VMonthlyLedger.get_net_sum_amount(
       start_year_month_of_fiscal_year,
       end_year_month_of_fiscal_year,
       account.id,
       0,
-      branch_id,
-      true)
+      branch_id)
   end
 
   # 対象範囲年月のネット累計金額の配列を取得する

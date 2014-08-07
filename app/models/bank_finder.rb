@@ -1,32 +1,22 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: bank_finder.rb 2471 2011-03-23 14:59:36Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
-class BankFinder < Base::Finder
+class BankFinder < Daddy::Model
+
+  def deleted?
+    deleted.to_s.downcase == 'true'
+  end
   
-  def initialize( user )
-    super(user)
-    @deleted = false
-  end
-
-  def list
+  def list(options = {})
     Bank.paginate(
-      :page=>@page > 0 ? @page : 1,
-      :conditions=>make_conditions,
-      :order=>"code",
-      :per_page=>@slips_per_page)
+      :conditions => conditions,
+      :order => "code",
+      :page => page.to_i > 0 ? page : 1,
+      :per_page => options[:per_page] || DEFAULT_PER_PAGE)
   end
 
-private
-  def make_conditions
-    ret = []
-    unless @deleted.nil?
-      ret << 'deleted=?'
-      ret << @deleted
-    end
-    ret
+  private
+
+  def conditions
+    sql = SqlBuilder.new
+    sql.append('deleted = ?', deleted?) if deleted.present?
+    sql.to_a
   end
 end

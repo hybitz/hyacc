@@ -11,7 +11,7 @@ module Base
       if params[:commit]
         @list = @finder.list
       end
-      
+
       respond_to do |format|
         format.html
         format.xml  { render :xml => @list }
@@ -35,19 +35,7 @@ module Base
         format.xml  { render :xml => @data }
       end
     end
-    
-    def edit
-      @data = model_class.find(params[:id])
-      respond_to do |format|
-        format.html do
-          render :partial => 'form'
-        end
-        format.js do
-          render :edit
-        end
-      end
-    end
-    
+
     def create
       @data = model_class.new(params[model_class.name.underscore.intern])
       respond_to do |format|
@@ -64,6 +52,18 @@ module Base
       end
     end
     
+    def edit
+      @data = model_class.find(params[:id])
+      respond_to do |format|
+        format.html do
+          render :partial => 'form'
+        end
+        format.js do
+          render :edit
+        end
+      end
+    end
+
     def update
       @data = model_class.find(params[:id])
 

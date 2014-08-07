@@ -138,7 +138,7 @@ class FirstBootController < ApplicationController
   # インストール済みかどうかチェックする
   def check_first_boot
     if User.count > 0
-      redirect_to :controller=>'login' and return
+      redirect_to :controller => 'login'
     end
   end
 end

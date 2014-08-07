@@ -98,6 +98,8 @@ module HyaccConstants
     DC_TYPE_CREDIT = 2 => '貸方',
   }
 
+  DEFAULT_PER_PAGE = 20
+
   # 削除区分
   DELETED_TYPES = {
     DELETED_TYPE_USE = false => '有効',

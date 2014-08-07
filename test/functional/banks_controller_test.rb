@@ -1,15 +1,8 @@
-# coding: UTF-8
-#
-# $Id: banks_controller_test.rb 3296 2014-01-24 04:00:10Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class BanksControllerTest < ActionController::TestCase
 
-  def setup
+  setup do
     @request.session[:user_id] = users(:first).id
   end
   
@@ -20,13 +13,14 @@ class BanksControllerTest < ActionController::TestCase
   end
 
   def test_new
-    get :new, :format => 'js'
+    xhr :get, :new
     assert_response :success
+    assert_template :new
   end
 
   def test_create
     assert_difference('Bank.count') do
-      post :create, :format => 'js',
+      xhr :post, :create,
           :bank => {:name => '三井住友銀行',
                     :code => '0009',
                     :deleted => false}
@@ -36,25 +30,27 @@ class BanksControllerTest < ActionController::TestCase
   end
 
   def test_show
-    get :show, :format => 'js', :id => banks(:data1).to_param
+    xhr :get, :show, :id => banks(:data1).id
     assert_response :success
   end
 
   def test_edit
-    get :edit, :format => 'js', :id => banks(:data1).to_param
+    xhr :get, :edit, :id => banks(:data1).id
     assert_response :success
+    assert_template :edit
   end
 
   def test_update
-    put :update, :format => 'js', :id => banks(:data1).to_param, :bank => { }
+    xhr :put, :update, :id => banks(:data1).id, :bank => { }
     assert_response :success
   end
 
   def test_destroy
-    assert_difference('Bank.count', -1) do
-      delete :destroy, :id => banks(:data1).to_param
+    assert_no_difference 'Bank.count' do
+      delete :destroy, :id => banks(:data1).id
     end
 
-    assert_redirected_to  :action=>'index', :commit=>''
+    assert_response :redirect
+    assert_redirected_to :action => 'index'
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140809053800) do
+ActiveRecord::Schema.define(:version => 20140809072408) do
 
   create_table "account_controls", :force => true do |t|
     t.integer  "account_id",                              :null => false
@@ -323,7 +323,7 @@ ActiveRecord::Schema.define(:version => 20140809053800) do
     t.string   "account_name",                                                               :default => "",    :null => false
     t.integer  "amount",                                                                                        :null => false
     t.integer  "branch_id",                                                                                     :null => false
-    t.string   "branch_name"
+    t.string   "branch_name",                                                                                   :null => false
     t.integer  "sub_account_id"
     t.string   "sub_account_name"
     t.integer  "social_expense_number_of_people"

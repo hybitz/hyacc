@@ -23,41 +23,28 @@ module Reports
       rents['etc'] = Rent.new(:total_amount => 0, :address => '不明',
                               :remarks => '補助科目が指定されていない伝票',
                               :customer => Customer.new)
-      JournalHeader.where(make_conditions(finder.branch_id, ym_start, ym_end)).includes(:journal_details).each {|jh|
-        jh.journal_details.each {|jd|
+      JournalHeader.where(conditions(finder.branch_id, ym_start, ym_end)).includes(:journal_details).each do |jh|
+        jh.journal_details.each do |jd|
           if jd.account.code == ACCOUNT_CODE_RENT
-            sub_account_code = jd.sub_account_id
-            if sub_account_code.nil?
-              if jd.dc_type == jd.account.dc_type
-                rents['etc'].total_amount += jd.amount
-              else
-                rents['etc'].total_amount -= jd.amount
-              end
+            sub_account_id = jd.sub_account_id || 'etc'
+            if jd.dc_type == jd.account.dc_type
+              rents[sub_account_id].total_amount += jd.amount
             else
-              if jd.dc_type == jd.account.dc_type
-                rents[sub_account_code.to_i].total_amount += jd.amount
-              else
-                rents[sub_account_code.to_i].total_amount -= jd.amount
-              end
+              rents[sub_account_id].total_amount -= jd.amount
             end
           end
-        }
-      }
-
-      rents.each { |id,rent|
-        if rent.total_amount == 0
-          rents.delete(id)
         end
-      }
-      
-      rents
+      end
+
+      rents.select{|id, rent| rent.total_amount > 0 }
     end
 
     private
 
-    def make_conditions(branch_id, ym_start, ym_end)
+    def conditions(branch_id, ym_start, ym_end)
       sql = SqlBuilder.new
-      sql.append('ym >= ? and ym <= ?', ym_start, ym_end)
+      sql.append('deleted = ?', false)
+      sql.append('and ym >= ? and ym <= ?', ym_start, ym_end)
       sql.append('and finder_key rlike ?', build_rlike_condition(ACCOUNT_CODE_RENT, 0, branch_id))
       sql.to_a
     end

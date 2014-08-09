@@ -106,14 +106,8 @@ class JournalDetail < ActiveRecord::Base
   # マスタの名称を明細自身に設定する
   def update_names
     self.account_name = account.name
-    
-    if sub_account.nil?
-      self.sub_account_name = nil
-    else
-      self.sub_account_name = sub_account.name
-    end
-    
-    self.branch_name = branch.name unless branch.nil?
+    self.sub_account_name = sub_account ? sub_account.name : nil
+    self.branch_name = branch.name
   end
 
   def validate_account_and_sub_account

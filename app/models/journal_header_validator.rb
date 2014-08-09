@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: journal_header_validator.rb 2491 2011-03-31 11:18:25Z ichy $
-# Product: hyacc
-# Copyright 2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class JournalHeaderValidator < ActiveModel::Validator
   include HyaccUtil
   
@@ -15,7 +8,8 @@ class JournalHeaderValidator < ActiveModel::Validator
     validate_tax(record)
   end
 
-private
+  private
+
   # 会計年度が存在するかチェック
   def validate_fiscal_year(record)
     unless record.get_fiscal_year
@@ -32,8 +26,8 @@ private
   
   def validate_tax(record)
     # 消費税の自動仕訳明細数をカウント
-    count = record.journal_details.inject( 0 ){ | count, jd |
-      jd.detail_type == DETAIL_TYPE_TAX ? count + 1 : count
+    count = record.journal_details.inject( 0 ){| sum, jd |
+      jd.detail_type == DETAIL_TYPE_TAX ? sum + 1 : sum
     }
     
     # 税抜経理方式でない会計年度に消費税の自動仕訳明細が含まれているとエラー

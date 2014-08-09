@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: base_logic.rb 2477 2011-03-23 15:29:30Z ichy $
-# Product: hyacc
-# Copyright 2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Reports
   class BaseLogic
     include HyaccDateUtil

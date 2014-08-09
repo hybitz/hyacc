@@ -25,48 +25,46 @@
   }
 </script>
 
-<table id="bsContainer">
-  <tr>
-    <td valign="top">
-      <table id="debit_table" border="1">
-        <%# 見出し %>
-        <tr>
-          <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
-          <th align="center">金額</th>
-          <th align="center">構成比（％）</th>
-        </tr>
+<div id="bsContainer">
+  <div style="float: left;">
+    <table id="debit_table" border="1">
+      <%# 見出し %>
+      <tr>
+        <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
+        <th align="center">金額</th>
+        <th align="center">構成比（％）</th>
+      </tr>
+    
+      <%# 資産の部 %>
+      <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_ASSETS][:account] %>
+    </table>
+  </div>
+  <div style="float: left; margin-left: 10px;">
+    <table id="credit_table" border="1">
+      <%# 見出し %>
+      <tr>
+        <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
+        <th align="center">金額</th>
+        <th align="center">構成比（％）</th>
+      </tr>
+    
+      <%# 負債の部 %>
+      <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_DEBT][:account] %>
       
-        <%# 資産の部 %>
-        <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_ASSETS][:account] %>
-      </table>
-    </td>
-    <td valign="top">
-      <table id="credit_table" border="1">
-        <%# 見出し %>
-        <tr>
-          <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
-          <th align="center">金額</th>
-          <th align="center">構成比（％）</th>
-        </tr>
+      <%# 純資産の部 %>
+      <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_CAPITAL][:account] %>
       
-        <%# 負債の部 %>
-        <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_DEBT][:account] %>
-        
-        <%# 純資産の部 %>
-        <%= render 'line_bs_yearly', :account=>@sum[HyaccConstants::ACCOUNT_CODE_CAPITAL][:account] %>
-        
-        <%# 負債および純資産合計 %>
-        <tr id="credit_sum" style="font-weight: bold;">
-          <td colspan="<%= colspan( 1 ) %>">
-            負債および純資産合計
-          </td>
-          <td id="credit_sum_amount" align="right"></td>
-          <td id="credit_sum_ratio" align="right"></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
+      <%# 負債および純資産合計 %>
+      <tr id="credit_sum" style="font-weight: bold;">
+        <td colspan="<%= colspan( 1 ) %>">
+          負債および純資産合計
+        </td>
+        <td id="credit_sum_amount" align="right"></td>
+        <td id="credit_sum_ratio" align="right"></td>
+      </tr>
+    </table>
+  </div>
+</div>
 
 <%# 貸方の合計の調整（利益余剰金の反映）%>
 <script>

@@ -18,7 +18,15 @@ module JournalUtil
     ret
   end
 
-  def build_rlike_condition( account_code, sub_account_id, branch_id )
+  def build_rlike_condition(account_code, sub_account_id, branch_id)
+    JournalUtil.finder_key_rlike(account_code, sub_account_id, branch_id)
+  end
+
+  def self.escape_search(str)
+    Daddy::Utils::SqlUtils.escape_search(str)
+  end
+
+  def self.finder_key_rlike(account_code, sub_account_id, branch_id)
     ret = ".*-"
     
     # 勘定科目

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140629183730) do
+ActiveRecord::Schema.define(:version => 20140809053800) do
 
   create_table "account_controls", :force => true do |t|
     t.integer  "account_id",                              :null => false
@@ -343,24 +343,25 @@ ActiveRecord::Schema.define(:version => 20140629183730) do
   add_index "journal_details", ["main_detail_id"], :name => "index_journal_details_main_detail_id"
 
   create_table "journal_headers", :force => true do |t|
-    t.integer  "ym",                                     :null => false
-    t.integer  "day",                                    :null => false
+    t.integer  "ym",                                         :null => false
+    t.integer  "day",                                        :null => false
     t.integer  "slip_type"
     t.string   "remarks"
-    t.integer  "amount",                                 :null => false
+    t.integer  "amount",                                     :null => false
     t.string   "finder_key"
     t.integer  "transfer_from_id"
     t.string   "receipt_path"
     t.integer  "depreciation_id"
     t.integer  "transfer_from_detail_id"
     t.integer  "housework_id"
-    t.integer  "create_user_id",                         :null => false
-    t.integer  "update_user_id",                         :null => false
+    t.integer  "create_user_id",                             :null => false
+    t.integer  "update_user_id",                             :null => false
     t.datetime "created_on"
     t.datetime "updated_on"
-    t.integer  "lock_version",            :default => 0, :null => false
+    t.integer  "lock_version",            :default => 0,     :null => false
     t.integer  "fiscal_year_id"
-    t.integer  "company_id",                             :null => false
+    t.integer  "company_id",                                 :null => false
+    t.boolean  "deleted",                 :default => false, :null => false
   end
 
   add_index "journal_headers", ["transfer_from_detail_id"], :name => "index_journal_headers_transfer_from_detail_id"

@@ -31,19 +31,17 @@ class JournalFinder < Base::Finder
 
       end
 
-      if @page == 0
-        @page = 1
-      end
+      @page = 1 if @page == 0
     end
     
     # 伝票を取得
     JournalHeader.paginate(
-      :page => @page,
       :conditions => conditions,
       :order => "ym, day, created_on",
+      :page => @page,
       :per_page => per_page)
   end
-  
+
   private
 
   def get_slip_types
@@ -60,60 +58,32 @@ class JournalFinder < Base::Finder
   end
 
   def make_conditions
-    conditions = []
-    conditions[0] = ""
+    sql = SqlBuilder.new
+    sql.append('deleted = ?', false)
     
     # 伝票区分
     if @slip_type_selection != 4
-      conditions[0] << 'slip_type in (' + get_slip_types.join(', ') + ') '
+      sql.append('and slip_type in (' + get_slip_types.join(', ') + ')')
     end
     
-    # 年月の指定がある場合
+    # 年月
     normalized_ym = @ym.to_s.split('-').join
     if normalized_ym.to_i > 0
-      conditions[0] << "and " unless conditions[0].empty?
-      conditions[0] << "ym like '?%' "
-      conditions << normalized_ym.to_i
+      sql.append('and ym like ?', "#{normalized_ym}%")
     end
 
-    # 勘定科目または部門の指定がある場合
+    # 勘定科目または部門
     if @account_id > 0 or @branch_id > 0
-      conditions[0] << "and " unless conditions[0].empty?
-      conditions[0] << "finder_key rlike ? "
-
-      # 勘定科目
-      if @account_id > 0
-        rlike = '.*-' + Account.find( @account_id ).code + ','
-      else
-        rlike = '.*-[0-9]*,'
-      end
-      
-      # 補助科目
-      rlike << '[0-9]*' + ','
-      
-      # 計上部門
-      if @branch_id > 0
-        rlike << @branch_id.to_s + '-.*'
-      else
-        rlike << '[0-9]*-.*'
-      end
-      
-      conditions << rlike
+      account_code = @account_id > 0 ? Account.get(@account_id).code : 0
+      sql.append('and finder_key rlike ?', JournalUtil.finder_key_rlike(account_code, 0, @branch_id))
     end
 
-    # 摘要の指定がある場合
-    unless @remarks.nil? or @remarks.empty?
-      conditions[0] << "and " unless conditions[0].empty?
-      conditions[0] << "remarks like ? "
-      conditions << '%' + @remarks + '%'
+    # 摘要
+    if @remarks.present?
+      sql.append('and remarks like ?', '%' + JournalUtil.escape_search(@remarks) + '%')
     end
 
-    # 条件がない場合はnilにする
-    if conditions.length < 2
-      conditions = nil
-    end
-
-    conditions
+    sql.to_a
   end
 
 end

@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: account_transfer_controller.rb 3168 2014-01-01 12:39:53Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class AccountTransferController < Base::HyaccController
   include JournalHelper
   include AccountTransferHelper

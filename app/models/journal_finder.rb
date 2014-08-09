@@ -9,10 +9,10 @@ class JournalFinder < Base::Finder
     @slip_type_selection = 1
     @remarks = nil
   end
-  
+
   def setup_from_params( params )
     return unless params
-    
+
     super(params)
     @slip_type_selection = params[:slip_type_selection].to_i
     @remarks = params[:remarks]
@@ -27,19 +27,14 @@ class JournalFinder < Base::Finder
     if @page == 0
       total_count = JournalHeader.where(conditions).count
       if total_count > 0
-        @page = total_count / per_page + (total_count % per_page > 0 ? 1 : 0)
-
+        offset = total_count % per_page
+        @page = total_count / per_page + (offset > 0 ? 1 : 0)
       end
 
       @page = 1 if @page == 0
     end
-    
-    # 伝票を取得
-    JournalHeader.paginate(
-      :conditions => conditions,
-      :order => "ym, day, created_on",
-      :page => @page,
-      :per_page => per_page)
+
+    JournalHeader.where(conditions).paginate(:page => @page, :per_page => per_page).order('ym, day, created_on')
   end
 
   private

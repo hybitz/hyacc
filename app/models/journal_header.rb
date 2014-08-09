@@ -62,7 +62,7 @@ class JournalHeader < ActiveRecord::Base
       journal_details.each do |jd|
         return true if jd.has_auto_transfers
     end
-    
+
     false
   end
   

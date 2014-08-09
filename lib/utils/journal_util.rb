@@ -30,7 +30,7 @@ module JournalUtil
     ret = ".*-"
     
     # 勘定科目
-    unless account_code.nil?
+    if account_code.present?
       ret << account_code.to_s
     else
       ret << "[0-9]*"

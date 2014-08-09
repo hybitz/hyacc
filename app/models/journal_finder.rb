@@ -69,7 +69,7 @@ class JournalFinder < Base::Finder
 
     # 勘定科目または部門
     if @account_id > 0 or @branch_id > 0
-      account_code = @account_id > 0 ? Account.get(@account_id).code : 0
+      account_code = @account_id > 0 ? Account.get(@account_id).code : nil
       sql.append('and finder_key rlike ?', JournalUtil.finder_key_rlike(account_code, 0, @branch_id))
     end
 

@@ -72,7 +72,7 @@ class AccountTransferController < Base::HyaccController
       end
       
       flash[:notice] = '科目を一括振替しました。'
-    rescue Exception=>e
+    rescue Exception => e
       handle(e)
     end
     

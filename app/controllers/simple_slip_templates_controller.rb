@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: simple_slip_templates_controller.rb 3364 2014-02-07 09:00:18Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'net/http'
 require "rexml/document"
 

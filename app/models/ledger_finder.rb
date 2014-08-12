@@ -163,21 +163,14 @@ class LedgerFinder < Base::Finder
       return []
     end
     
-    details = JournalDetail.find(
-      :all,
-      :conditions => conditions_for_journals( ym ),
-      :order=>"journal_headers.ym, journal_headers.day, journal_headers.created_on",
-      :include => [:journal_header],
-      :group => [ 'journal_header_id' ] )
-      
     ret = []
-    details.each{ |jd|
+    details = JournalDetail.where(conditions_for_journals( ym )).includes(:journal_header).group('journal_header_id').order('journal_headers.ym, journal_headers.day, journal_headers.created_on')
+    details.each do |jd|
       jh = JournalHeader.find(jd.journal_header_id, :include=>[:journal_details])
-      ret << Ledger.new( jh, self )
-    }
+      ret << Ledger.new(jh, self)
+    end
     
-    return ret
-    
+    ret
   end
 
 end

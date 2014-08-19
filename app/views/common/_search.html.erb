@@ -22,19 +22,16 @@
       
     <% if @accounts %>
       勘定科目：
-      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", :include_blank=>true) %>
+      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", :include_blank => true) %>
       <script>
         $(document).ready(function() {
           $('#finder_account_id').change(function() {
-            var account_id = $(this).val();
-            $.get('<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
-                {
-                  format: 'json',
-                  order: 'code',
-                  account_id: account_id
-                },
-                function(data) {
-                  reloadSubAccounts(data);
+            var params = {
+              account_id: $(this).val(),
+              order: 'code'
+            };
+            $.get('<%= sub_accounts_path(:format => 'json') %>', params, function(json) {
+                  reloadSubAccounts(json);
                 }
             );
           });
@@ -68,7 +65,7 @@
       状態：<%= select('finder', 'deleted', @deleted_types, :include_blank => true) %>
     <% end %>
 
-    <% if @finder.enable_employee_id and @employees %>
+    <% if @finder.employee_id_enabled? and @employees %>
       従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'full_name', :include_blank => true) %>
     <% end %>
     

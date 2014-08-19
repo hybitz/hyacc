@@ -144,16 +144,12 @@ class Payroll < ActiveRecord::Base
     # 編集フラグをセット　※Viewで使用
     payroll.is_new = false
 
-    return payroll
+    payroll
   end
   
   # Payrollから賞与情報を取得
   def self.list_bonus(ym_range, employee_id)
-    bonus = Payroll.find(
-            :all,
-            :conditions=>["employee_id = ? and ym >= ? and ym <= ? and is_bonus = true", employee_id, ym_range.shift, ym_range.pop],
-            :order=>"ym desc")
-     bonus
+    Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.shift, ym_range.pop, true).order('ym desc')
   end
 
   # 賃金台帳表示用の賞与情報を取得する

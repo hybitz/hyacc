@@ -17,6 +17,22 @@ module Auto
     def make_journals
       raise HyaccException.new(ERR_OVERRIDE_NEEDED)
     end
+
+    protected
+
+    def reverse_detail(jd)
+      ret = JournalDetail.new
+      ret.detail_no = jd.detail_no
+      ret.dc_type = opposite_dc_type( jd.dc_type )
+      ret.account_id = jd.account_id
+      ret.branch_id = jd.branch_id
+      ret.sub_account_id = jd.sub_account_id
+      ret.social_expense_number_of_people = jd.social_expense_number_of_people 
+      ret.amount = jd.amount
+      ret.tax_type = jd.tax_type 
+      ret.tax_rate = jd.tax_rate
+      ret
+    end
   end
   
   class NilFactory < AutoJournalFactory

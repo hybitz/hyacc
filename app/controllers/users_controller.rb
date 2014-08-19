@@ -2,11 +2,11 @@ class UsersController < Base::HyaccController
   view_attribute :title => 'ユーザ'
          
   def index
-    @users = User.paginate :page=>params[:page], :per_page=>20
+    @users = User.paginate :page => params[:page], :per_page => current_user.slips_per_page
   end
 
   def show
-    @user = User.find(params[:id], :include=>:employee)
+    @user = User.find(params[:id])
   end
 
   def new
@@ -15,7 +15,7 @@ class UsersController < Base::HyaccController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(user_params)
 
     begin
       @user.transaction do
@@ -43,7 +43,7 @@ class UsersController < Base::HyaccController
     @user = User.find(params[:id])
     begin
       @user.transaction do
-        @user.update_attributes!(params[:user])
+        @user.update_attributes!(user_params)
       
         flash[:notice] = 'ユーザを更新しました。'
         render 'common/reload'
@@ -56,14 +56,30 @@ class UsersController < Base::HyaccController
 
   def destroy
     id = params[:id].to_i
-    User.find(id).update_attributes!(:deleted=>true)
+    User.find(id).destroy_logically!
 
     # 削除したユーザがログインユーザ自身の場合は、ログアウト
     if current_user.id == id
-      redirect_to :controller=>:login, :action=>:logout
+      redirect_to new_session_path
     else
       flash[:notice] = 'ユーザを削除しました。'
-      redirect_to :action=>:index
+      redirect_to :action => :index
     end
+  end
+
+  private
+
+  def user_params
+    user_attributes = [
+      :login_id, :company_id, :email, :slips_per_page, :password,
+      :google_account, :google_password, :employee_id, :account_count_of_frequencies,
+      :yahoo_api_app_id, :show_details
+    ]
+    employee_attributes = [
+      :id, :company_id, :first_name, :last_name, :employment_date,
+      :zip_code, :address, :sex, :business_office_id
+    ]
+
+    params.require(:user).permit(user_attributes, :employee_attributes => employee_attributes)
   end
 end

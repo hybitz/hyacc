@@ -3,23 +3,23 @@ require "rexml/document"
 
 class SimpleSlipTemplatesController < Base::HyaccController
   view_attribute :title => '簡易入力テンプレート'
-  view_attribute :finder, :class => SimpleSlipTemplateFinder, :only=>:index
   view_attribute :branches
   view_attribute :accounts
-  view_attribute :sub_accounts, :include=>:deleted, :only=>:index
-  
+
+  helper_method :finder
+
   def index
     @templates = finder.list
   end
-  
+
   def new
     @simple_slip_template = SimpleSlipTemplate.new
     @simple_slip_template.owner_type = OWNER_TYPE_COMPANY
     @simple_slip_template.owner_id = current_user.company.id
   end
-  
+
   def create
-    @simple_slip_template = SimpleSlipTemplate.new(params[:simple_slip_template])
+    @simple_slip_template = SimpleSlipTemplate.new(simple_slip_template_params)
 
     begin
       @simple_slip_template.transaction do
@@ -29,33 +29,33 @@ class SimpleSlipTemplatesController < Base::HyaccController
       flash[:notice] = 'テンプレートを登録しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :new
     end
   end
-  
+
   def edit
     @simple_slip_template = SimpleSlipTemplate.find(params[:id])
   end
-  
+
   def update
     @simple_slip_template = SimpleSlipTemplate.find(params[:id])
 
     begin
       @simple_slip_template.transaction do
-        @simple_slip_template.update_attributes!(params[:simple_slip_template])
+        @simple_slip_template.update_attributes!(simple_slip_template_params)
       end
 
       flash[:notice] = 'テンプレートを更新しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :edit
     end
   end
-  
+
   def destroy
     @simple_slip_template = SimpleSlipTemplate.find(params[:id])
 
@@ -110,6 +110,22 @@ class SimpleSlipTemplatesController < Base::HyaccController
   def get_sub_accounts
     account = Account.find(params[:account_id])
     @sub_accounts = account.sub_accounts.sort{|a, b| a.code <=> b.code }
-    render :partial => 'get_sub_accounts'
+    render :partial => 'get_sub_accounts', :locals => {:sub_accounts => @sub_accounts}
   end
+
+  private
+
+  def finder
+    @finder ||= SimpleSlipTemplateFinder.new(params[:finder])
+    @finder.page = params[:page] || 1
+    @finder.per_page = current_user.slips_per_page
+    @finder
+  end
+
+  def simple_slip_template_params
+    params.require(:simple_slip_template).permit(
+        :remarks, :owner_type, :owner_id, :description, :keywords,
+        :account_id, :branch_id, :sub_account_id, :dc_type, :amount, :tax_type, :tax_amount, :focus_on_complete)
+  end
+
 end

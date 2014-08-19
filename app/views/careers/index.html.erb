@@ -18,7 +18,7 @@
         <td><%= c.customer_name %></td>
         <td><%= c.project_name %></td>
         <td><%= link_to '編集', edit_career_path(c), :remote => true %></td>
-        <td><%= link_to '削除', career_path(c), :confirm => '削除します。よろしいですか？', :method => :delete %></td>
+        <td><%= link_to '削除', career_path(c), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
       </tr>
     <% end %>
   </table>

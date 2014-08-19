@@ -16,17 +16,17 @@ class TaxFinder < Base::Finder
   end
   
   def list
-    JournalHeader.where(make_conditions).includes(:journal_details).joins(:tax_admin_info).order('ym desc, day desc, journal_headers.created_on desc').reverse
+    JournalHeader.where(conditions).includes(:journal_details).joins(:tax_admin_info).order('ym desc, day desc, journal_headers.created_on desc').reverse
   end
 
   def count
-    JournalHeader.where(make_conditions).joins(:tax_admin_info).count
+    JournalHeader.where(conditions).joins(:tax_admin_info).count
   end
 
   protected
 
   # 検索条件を作成する
-  def make_conditions
+  def conditions
     sql = SqlBuilder.new
     
     # 年月

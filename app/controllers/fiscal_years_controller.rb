@@ -15,31 +15,31 @@ class FiscalYearsController < Base::HyaccController
 
   def create
     begin
-      @fiscal_year = FiscalYear.new(params[:fiscal_year])
+      @fiscal_year = FiscalYear.new(fiscal_year_params)
       @fiscal_year.transaction do
         @fiscal_year.save!
       end
 
       flash[:notice] = '会計年度を登録しました。'
       render 'common/reload'
- 
+
     rescue => e
       handle(e)
       render :new
     end
   end
-  
+
   def edit
     @fiscal_year = FiscalYear.find(params[:id])
   end
-  
+
   def update
     @fiscal_year = FiscalYear.find(params[:id])
 
     begin
       @fiscal_year.transaction do
-        @fiscal_year.update_attributes!(params[:fiscal_year])
-        
+        @fiscal_year.update_attributes!(fiscal_year_params)
+
         if @fiscal_year.is_not_closed
           # 繰越仕訳があれば削除
           jh = @fiscal_year.get_carry_forward_journal
@@ -54,7 +54,7 @@ class FiscalYearsController < Base::HyaccController
           @fiscal_year.save!
         end
       end
-      
+
       flash[:notice] = '会計年度を更新しました。'
       render 'common/reload'
 
@@ -67,7 +67,7 @@ class FiscalYearsController < Base::HyaccController
   def confirm_carry_forward
     @fy = FiscalYear.find(params[:id])
   end
- 
+
   def carry_forward
     @fy = FiscalYear.find(params[:id])
     next_fy = FiscalYear.where(:company_id => @fy.company_id, :fiscal_year => @fy.fiscal_year + 1).first
@@ -100,7 +100,7 @@ class FiscalYearsController < Base::HyaccController
           next_fy.closing_status = CLOSING_STATUS_OPEN
           next_fy.save!
         end
-        
+
         # 繰越仕訳を作成
         param = Auto::Journal::CarryForwardParam.new(@fy, current_user)
         factory = Auto::AutoJournalFactory.get_instance(param)
@@ -127,7 +127,7 @@ class FiscalYearsController < Base::HyaccController
 
     begin
       @c.transaction do
-        @c.update_attributes!(params[:c])
+        @c.update_attributes!(update_current_fiscal_year_params)
       end
       
       flash[:notice] = '会計年度を変更しました。'
@@ -137,4 +137,17 @@ class FiscalYearsController < Base::HyaccController
       render :edit_current_fiscal_year
     end
   end
+
+  private
+
+  def fiscal_year_params
+    params.require(:fiscal_year).permit(
+        :company_id, :fiscal_year, :closing_status,
+        :tax_management_type, :carry_status, :consumption_entry_type)
+  end
+
+  def update_current_fiscal_year_params
+    params.require(:c).permit(:fiscal_year, :lock_version)
+  end
+
 end

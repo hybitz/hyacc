@@ -1,11 +1,11 @@
 <div style="margin: 20px;">
   <%= flash_notice %>
-  <%= form_tag({:action => "upload"}, :multipart => true) do %>
-  <p>アップロードファイル<br>
-    <%= file_field_tag(:file) %>
-  </p>
-  <%= submit_tag("アップロード") %>
-  <% end -%>
-  
+  <%= form_tag({:action => 'create'}, :multipart => true) do %>
+    <p>アップロードファイル<br>
+      <%= file_field_tag(:file) %>
+    </p>
+    <%= submit_tag("アップロード") %>
+  <% end %>
+
   <%= link_to '戻る', inhabitant_taxes_path %>
 </div>

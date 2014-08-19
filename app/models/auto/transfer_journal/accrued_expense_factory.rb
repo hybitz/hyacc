@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: accrued_expense_factory.rb 3064 2013-06-21 03:14:30Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::TransferJournal
 
   # 未払費用の自動振替
@@ -15,7 +8,7 @@ module Auto::TransferJournal
       @src_jd = auto_journal_param.journal_detail
     end
 
-    def make_journals()
+    def make_journals
       auto = JournalHeader.new
       auto.company_id = @src_jd.journal_header.company_id
       auto.ym = last_month( @src_jd.journal_header.ym )
@@ -58,10 +51,7 @@ module Auto::TransferJournal
       reverse.create_user_id = auto.create_user_id
       reverse.update_user_id = auto.update_user_id
       auto.journal_details.each do |jd|
-        reverse_jd = JournalDetail.new
-        reverse_jd.attributes = jd.attributes
-        reverse_jd.dc_type = opposite_dc_type( jd.dc_type )
-        reverse.journal_details << reverse_jd
+        reverse.journal_details << reverse_detail(jd)
       end
 
       auto.transfer_journals << reverse

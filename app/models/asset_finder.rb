@@ -1,12 +1,8 @@
 class AssetFinder < Base::Finder
   
   def list
-    Asset.paginate(
-      :page => @page > 0 ? @page : 1,
-      :conditions => conditions,
-      :order => "code",
-      :per_page => @slips_per_page,
-      :include => [:account, :branch])
+    Asset.where(conditions).order('code').includes([:account, :branch])
+        .paginate(:page => @page > 0 ? @page : 1, :per_page => @slips_per_page)
   end
 
   private

@@ -34,14 +34,14 @@ class CompaniesController < Base::HyaccController
   def edit_logo
     @company = Company.find(current_user.company_id)
   end
-    
+
   def edit_admin
     @company = Company.find(current_user.company_id)
   end
 
   def update
     @company = Company.find(current_user.company_id)
-    @company.attributes = params[:company]
+    @company.attributes = company_params
 
     begin
       @company.transaction do
@@ -55,5 +55,11 @@ class CompaniesController < Base::HyaccController
       render :js => "alert('#{flash.discard :notice}');"
     end
   end
-  
+
+  private
+
+  def company_params
+    params.require(:company).permit(:logo, :admin_email, :business_type_id)
+  end
+
 end

@@ -154,7 +154,7 @@ module Base::ViewAttributeHandler
   end
   
   def get_report_types
-    if controller_name == 'financial_statement'
+    if controller_name == 'financial_statements'
       types = [
         REPORT_TYPE_BS,
         REPORT_TYPE_PL,

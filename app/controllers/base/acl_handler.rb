@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: acl_handler.rb 2468 2011-03-23 14:57:00Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Base::AclHandler
   
   # 会社の形態によりコントローラが利用可能かを確認する

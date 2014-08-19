@@ -8,7 +8,7 @@ class BusinessOfficesController < Base::HyaccController
 
   def create
     begin
-      @bo = BusinessOffice.new(params[:business_office])
+      @bo = BusinessOffice.new(business_office_params)
       @bo.transaction do
         @bo.prefecture_name = @prefectures.find{|p| p[1] == @bo.prefecture_id}[0]
         @bo.save!
@@ -22,7 +22,7 @@ class BusinessOfficesController < Base::HyaccController
       render :action => 'new'
     end
   end
-  
+
   def edit
     @bo = BusinessOffice.find(params[:id])
   end
@@ -31,11 +31,11 @@ class BusinessOfficesController < Base::HyaccController
     begin
       @bo = BusinessOffice.find(params[:id])
       @bo.transaction do
-        @bo.attributes = params[:business_office]
+        @bo.attributes = business_office_params
         @bo.prefecture_name = @prefectures.find{|p| p[1] == @bo.prefecture_id}[0]
         @bo.save!
       end
-      
+
       flash[:notice] = '事業所を更新しました。'
       render 'common/reload'
     rescue => e
@@ -61,6 +61,12 @@ class BusinessOfficesController < Base::HyaccController
   end
 
   private
+
+  def business_office_params
+    params.require(:business_office).permit(
+        :company_id, :name, :prefecture_id, :prefecture_name, 
+        :address1, :address2, :lock_version, :tel, :is_head)
+  end
 
   def setup_view_attributes
     @prefectures = get_prefectures.collect{|p| [p[:name], p[:id]]}

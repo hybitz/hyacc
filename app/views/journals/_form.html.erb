@@ -1,0 +1,115 @@
+<%= render 'common/journal_js' %>
+<script>
+  function submitJournal( form ) {
+    if ( ! checkAutoJournalTypes( form ) ) {
+      return false;
+    }
+    
+    if ( ! checkAutoJournalDates( form ) ) {
+      return false;
+    }
+
+    if ( ! validateAmount() ) {
+        return false;
+    }
+    
+    if ( ! validateAmountBalance() ) {
+        return false;
+    }
+    
+    return true
+  }
+  
+  $(document).ready(function(){
+    $('input[id$=_input_amount]').each(function(){
+      var id = $(this).attr('id');
+      shortcut.add("Down",
+        function() {
+            var detail_no = parseInt(id.split('_')[2]);
+            var next_detail_id = 'journal_details_' + (detail_no + 1) + '_input_amount';
+            var next_detail = document.getElementById(next_detail_id);
+            if (next_detail != null) {
+                next_detail.focus();
+                next_detail.select();
+            }
+        },
+        {
+          'target': document.getElementById(id)
+        }
+      );
+      shortcut.add("Up",
+        function() {
+            var detail_no = parseInt(id.split('_')[2]);
+            var prev_detail_id = 'journal_details_' + (detail_no - 1) + '_input_amount';
+            var prev_detail = document.getElementById(prev_detail_id);
+            if (prev_detail != null) {
+                prev_detail.focus();
+                prev_detail.select();
+            }
+        },
+        {
+          'target': document.getElementById(id)
+        }
+      );
+    });
+  });
+
+  $(document).ready(function() {
+    calcTotalAmount();
+  });
+</script>
+
+<%= flash_notice %>
+
+<%= form_for @journal, :id => "journal_form", :enctype => "multipart/form-data", :remote => true do |f| %>
+  <div style="margin: 0px 5px; 0px 5px;">
+    <%= f.submit :onclick => "return submitJournal(this.form);" %>
+    <%= f.hidden_field 'lock_version' %>
+  
+    <table style="margin-top: 10px;">
+      <tr>
+        <th>年月</th>
+        <th>日</th>
+        <th>摘　　要</th>
+        <th>借方金額</th>
+        <th>貸方金額</th>
+      </tr>
+      <tr>
+        <td><%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText', :onchange => "updateTaxAmountAll(this.form);" %></td>
+        <td><%= f.text_field :day, :maxlength => 2, :class => 'dayText' %></td>
+        <td><%= f.text_field :remarks, :size => 60, :maxlength => 250, :class => 'remarksText' %></td>
+        <td class="amount"><span id="journal_debit_amount_sum"></span></td>
+        <td class="amount"><span id="journal_credit_amount_sum"></span></td>
+      </tr>
+    </table>
+    
+    <table style="margin-top: 10px;">
+      <tr>
+        <th>領収書</th>
+        <td><%= render 'form_receipt' %></td>
+      </tr>
+    </table>
+  
+    <table id="journal_details" class="journal_details">
+      <tr>
+        <th>貸借</th>
+        <th>勘定科目</th>
+        <th>補助科目</th>
+        <% if branch_mode %><th>計上部門</th><% end %>
+        <th>金　額</th>
+        <th colspan="2">消費税</th>
+        <th>合計</th>
+        <th colspan="2">
+          すべて<a id="flip_details_link" href="#" onclick="flipDetails(true); return false;">表示</a>／<a id="flip_details_link" href="#" onclick="flipDetails(false); return false;">隠す</a>
+        </th>
+      </tr>
+      
+      <% @journal.normal_details.each do |jd| %>
+        <%= render 'detail_line', :jd => jd %>
+      <% end %>
+      
+      <%= render 'add_detail_line' %>
+    </table>
+  </div>
+
+<% end %>

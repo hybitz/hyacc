@@ -6,3 +6,11 @@ def valid_fiscal_year_params(options = {})
     :tax_management_type => TAX_MANAGEMENT_TYPE_DEEMED
   }
 end
+
+def invalid_fiscal_year_params(options = {})
+  {
+    :company_id => current_user.company_id,
+    :closing_status => CLOSING_STATUS_OPEN,
+    :tax_management_type => TAX_MANAGEMENT_TYPE_DEEMED
+  }
+end

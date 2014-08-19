@@ -25,7 +25,7 @@ end
       assert page.has_no_text?('ロード中')
     end
     assert page.has_text?("伝票を#{action}しました。")
-    assert_url "^/journal/list$"
+    assert_url "^/journals$"
   end
 end
 

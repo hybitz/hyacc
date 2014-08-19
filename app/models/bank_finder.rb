@@ -5,11 +5,8 @@ class BankFinder < Daddy::Model
   end
   
   def list(options = {})
-    Bank.paginate(
-      :conditions => conditions,
-      :order => "code",
-      :page => page.to_i > 0 ? page : 1,
-      :per_page => options[:per_page] || DEFAULT_PER_PAGE)
+    Bank.where(conditions).order('code')
+        .paginate(:page => page.to_i > 0 ? page : 1, :per_page => options[:per_page] || DEFAULT_PER_PAGE)
   end
 
   private

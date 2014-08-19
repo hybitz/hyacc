@@ -1,8 +1,8 @@
 <%= flash_notice %>
 
 <script>
-  function edit(trigger, url) {
-    $.get(url, {format: 'html'}, function(html) {
+  function edit(trigger) {
+    $.get($(trigger).attr('href'), {format: 'html'}, function(html) {
       var tr = $(trigger).closest('tr');
       tr.find('td').first().html(html);
       tr.find('td').last().find('a').hide();
@@ -48,7 +48,7 @@
     <th>ロゴ</th>
     <td><%= image_tag(url_for show_logo_company_path(@company)) if @company.logo.present? %></td>
     <td>
-      <%= link_to_function '変更', "edit(this, '#{edit_logo_company_path(@company)}');" %>
+      <%= link_to '変更', edit_logo_company_path(@company), :onclick => 'edit(this); return false;' %>
       <%= button_tag '更新', :onclick => 'update(this);' %>
       <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
     </td>
@@ -57,7 +57,7 @@
     <th>管理者メールアドレス</th>
     <td><%= @company.admin_email %></td>
     <td>
-      <%= link_to_function '変更', "edit(this, '#{edit_admin_company_path(@company)}');" %>
+      <%= link_to '変更', edit_admin_company_path(@company), :onclick => 'edit(this); return false;' %>
       <%= button_tag '更新', :onclick => 'update(this);' %>
       <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
     </td>
@@ -80,7 +80,7 @@
     <th>事業区分</th>
     <td><%= @company.business_type_name %></td>
     <td>
-      <%= link_to_function '変更', "edit(this, '#{edit_business_type_company_path(@company)}');" %>
+      <%= link_to '変更', edit_business_type_company_path(@company), :onclick => 'edit(this); return false;' %>
       <%= button_tag '更新', :onclick => 'update(this);' %>
       <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
     </td>

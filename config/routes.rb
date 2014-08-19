@@ -1,5 +1,4 @@
 Hyacc::Application.routes.draw do
-  resources :assets
 
   resources :accounts do
     collection do
@@ -9,9 +8,16 @@ Hyacc::Application.routes.draw do
     end
   end
 
+  resources :account_transfers, :only => 'index' do
+    collection do
+      post 'update_details'
+    end
+  end
+
+  resources :assets
   resources :bank_accounts
 
-  resources :bank_offices, :only => [] do
+  resources :bank_offices, :only => ['index'] do
     collection do
       get 'add_bank_office'
     end
@@ -19,6 +25,7 @@ Hyacc::Application.routes.draw do
   resources :banks
   resources :business_offices
   resources :careers
+  resources :career_statements, :only => ['index', 'show']
   resources :companies, :only => ['index', 'update'] do
     member do
       get 'show_logo'
@@ -32,8 +39,9 @@ Hyacc::Application.routes.draw do
       get 'add_customer_name'
     end
   end
+  resources :deemed_taxes
   resources :depreciation_rates
-  resources :debt, :only => ['index', 'update']
+  resources :debts
 
   resources :employees do
     collection do
@@ -43,6 +51,8 @@ Hyacc::Application.routes.draw do
   end
 
   resources :financial_return_statements, :only => 'index'
+  resources :financial_statements, :only => 'index'
+  resources :first_boot, :only => ['index', 'show', 'create']
 
   resources :fiscal_years do
     collection do
@@ -59,12 +69,33 @@ Hyacc::Application.routes.draw do
     member do
       post 'create_journal'
     end
-    
+
     resources :housework_details, :except => 'index'
   end
 
   resources :inhabitant_taxes
   resources :insurances, :only => 'index'
+
+  resources :journals do
+    collection do
+      get 'add_detail'
+      get 'delete_receipt'
+      get 'get_account_detail'
+      get 'get_allocation'
+      get 'new_from_copy'
+      get 'update_tax_type'
+    end
+  end
+
+  resources :ledgers, :only => ['index', 'show']
+  resources :notifications, :only => ['index']
+  resources :payrolls do
+    collection do
+      get 'auto_calc'
+      get 'get_branches_employees'
+    end
+  end
+
   resources :pensions, :only => 'index'
 
   resources :profiles, :only => ['edit', 'update'] do
@@ -74,6 +105,7 @@ Hyacc::Application.routes.draw do
   end
 
   resources :rents
+  resources :sessions, :only => ['new', 'create', 'destroy']
 
   resources :simple_slip_templates do
     collection do
@@ -82,11 +114,25 @@ Hyacc::Application.routes.draw do
     end
   end
 
+  resources :social_expenses
+  resources :sub_accounts, :only => ['index']
   resources :tax
   resources :users
-  resources :withheld_taxes
+  resources :withheld_taxes do
+    collection do
+      post 'upload'
+    end
+  end
+  resources :withholding_slip, :only => 'index'
 
-  root :to => "notification#index"
-  match 'simple/:account_code(/:action(/:id))', :controller=>'simple_slip'
-  match ':controller(/:action(/:id(.:format)))'
+  get 'closing', :to => 'closing#index'
+  get 'journal_admin', :to => 'journal_admin#index'
+  get 'mm', :to => 'mm#index'
+  get 'mv', :to => 'mv#index'
+  get 'report', :to => 'report#index'
+
+  get  'simple/:account_code(/:action(/:id))', :controller => 'simple_slip'
+  post 'simple/:account_code(/:action(/:id))', :controller => 'simple_slip'
+
+  root 'welcome#index'
 end

@@ -15,3 +15,7 @@ def freelancer
 
   @_freelancer
 end
+
+def valid_user_params
+  user.attributes
+end

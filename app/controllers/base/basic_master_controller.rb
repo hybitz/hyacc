@@ -37,7 +37,7 @@ module Base
     end
 
     def create
-      @data = model_class.new(params[model_class.name.underscore.intern])
+      @data = model_class.new(eval(param_name))
       respond_to do |format|
         begin
           @data.save!
@@ -68,7 +68,7 @@ module Base
       @data = model_class.find(params[:id])
 
       respond_to do |format|
-        if @data.update_attributes(params[model_class.name.underscore.intern])
+        if @data.update_attributes(eval(param_name))
           format.html { render :partial=>'line', :locals => {:data => @data} }
           format.xml  { head :ok }
           format.js   { render :show }
@@ -111,7 +111,7 @@ module Base
       data.destroy
 
       respond_to do |format|
-        format.html { redirect_to :action => 'index', :commit=>'' }
+        format.html { redirect_to :action => 'index' }
         format.xml  { head :ok }
       end
     end
@@ -131,6 +131,10 @@ module Base
 
     def finder_class
       @finder_class ||= (controller_name.singularize.classify + 'Finder').constantize
+    end
+
+    def param_name
+      model_class.name.underscore + '_params'
     end
 
   end

@@ -27,7 +27,7 @@ class CustomersController < Base::HyaccController
 
   def create
     begin
-      @customer = Customer.new(params[:customer])
+      @customer = Customer.new(customer_params)
       @customer.customer_names.first.start_date = current_user.company.founded_date
 
       @customer.transaction do
@@ -45,13 +45,10 @@ class CustomersController < Base::HyaccController
 
   def update
     begin
-      # 取引先コードの更新は不可
-      params[:customer].delete( :code ) if params[:customer]
-  
       @customer = Customer.find(params[:id])
-      
+
       @customer.transaction do
-        @customer.attributes = params[:customer]
+        @customer.attributes = customer_params
         @customer.save!
         flash[:notice] = '取引先を更新しました。'
         render 'common/reload'
@@ -72,4 +69,19 @@ class CustomersController < Base::HyaccController
     flash[:notice] = '取引先を削除しました。'
     redirect_to :action => :index
   end
+
+  private
+
+  def customer_params
+    customer_names_attributes = [:id, :_destroy, :name, :formal_name, :start_date]
+
+    if action_name == 'create'
+      params.require(:customer)
+          .permit(:code, :is_order_entry, :is_order_placement, :address, :customer_names_attributes => customer_names_attributes)
+    else
+      params.require(:customer)
+          .permit(:is_order_entry, :is_order_placement, :address, :customer_names_attributes => customer_names_attributes)
+    end
+  end
+
 end

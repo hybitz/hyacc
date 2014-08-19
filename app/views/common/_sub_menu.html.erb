@@ -1,9 +1,3 @@
-<%#
-# $Id: _sub_menu.html.erb 2941 2012-10-19 07:00:13Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <% if controllers.any?{|c| c[:name] == controller.controller_name } %>
   <div class="subMenu">
     <% show_separator = false %>
@@ -15,9 +9,8 @@
       |
       <% end %>
 
-      <%= link_to c[:title], { :controller=>c[:name] }, { :style=>style_for_menu(c[:name]) } %>
+      <%= link_to c[:title], {:controller => c[:name]}, :style => style_for_menu(c[:name]) %>
       <% show_separator = true %>
     <% } %>
   </div>
 <% end %>
-

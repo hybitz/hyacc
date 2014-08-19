@@ -13,12 +13,12 @@ class User < ActiveRecord::Base
   # バリデーション
   validates_presence_of :login_id, :password, :slips_per_page
   validates_uniqueness_of :login_id
-  validates_format_of :login_id, :with=>/^[a-zA-Z0-9]*$/
-  validates_format_of :password, :with=>/^[!-~]*$/
-  validates_format_of :google_password, :with=>/^[!-~]*$/
+  validates_format_of :login_id, :with=>/[a-zA-Z0-9]*/
+  validates_format_of :password, :with=>/[!-~]*/
+  validates_format_of :google_password, :with=>/[!-~]*/
   validates_numericality_of :slips_per_page, :allow_nil=>false, :only_integer=>true
-  validates_format_of :email, :allow_nil=>true, :allow_blank=>true, :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
-  validates_format_of :google_account, :allow_nil=>true, :allow_blank=>true, :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
+  validates_format_of :email, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
+  validates_format_of :google_account, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
 
   before_save :encrypt_password
 

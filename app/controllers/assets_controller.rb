@@ -21,7 +21,7 @@ class AssetsController < Base::HyaccController
   
   def update
     @asset = Asset.find(params[:id])
-    @asset.attributes = params[:asset]
+    @asset.attributes = asset_params
     
     if params[:commit] == '償却待に設定'
       raise HyaccException.new(ERR_INVALID_ACTION) unless @asset.status_created?
@@ -56,7 +56,7 @@ class AssetsController < Base::HyaccController
       flash[:notice] = '資産を更新しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       @asset.status = @asset.status_was
       render 'edit'
@@ -64,6 +64,12 @@ class AssetsController < Base::HyaccController
   end
 
   private
+
+  def asset_params
+    params.require(:asset).permit(
+        :code, :name, :account_id, :branch_id, :sub_account_id, :durable_years, :ym, :day,
+        :amount, :depreciation_method, :depreciation_limit, :remarks, :business_use_ratio, :lock_version)
+  end
 
   def load_accounts
     sql = SqlBuilder.new
@@ -77,6 +83,7 @@ class AssetsController < Base::HyaccController
     unless @accounts.present?
       render :no_account and return
     end
+    @sub_accounts = []
   end
 
 end

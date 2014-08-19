@@ -21,11 +21,6 @@
     <%= f.text_field :name %>
   </p>
 
-  <p>
-    <%= Bank.label :deleted %><br />
-    <%= f.select :deleted, @deleted_types %>
-  </p>
-
   <%= render 'bank_offices/list', :builder => f, :bank_offices => @bank.bank_offices %>
 <% end %>
 

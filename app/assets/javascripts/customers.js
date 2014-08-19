@@ -14,6 +14,6 @@ customers.add_customer_name = function(trigger) {
 
 customers.remove_customer_name = function(trigger) {
   var tr = $(trigger).closest('tr');
-  tr.find('input[type="hidden"][name*=\\[_destroy\\]]').val(true);
+  tr.find('input[name*=\\[_destroy\\]]').val(true);
   tr.hide();
 };

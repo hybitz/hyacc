@@ -27,7 +27,7 @@
           });
         }
       </script>
-      <%= link_to_function '勘定科目追加', 'add_simple_slip_setting(this);' %>
+      <%= link_to '勘定科目追加', '#', :onclick => 'add_simple_slip_setting(this); return false;' %>
     </td>
   </tr>
 </table>

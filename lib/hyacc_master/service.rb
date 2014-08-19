@@ -1,3 +1,5 @@
+require 'net/http'
+
 class HyaccMaster::Service
   include HyaccConstants
 

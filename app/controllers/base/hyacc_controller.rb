@@ -7,14 +7,10 @@ module Base
     include ViewAttributeHandler
     include ExceptionHandler
     include AclHandler
-  
+
     before_filter :check_first_boot
     before_filter :check_login_status
     before_filter :load_view_attributes
-  
-    def index
-      redirect_to :action => :list
-    end
 
     # 会社の形態によりコントローラが利用可能かを確認する
     # return true  利用可能
@@ -73,14 +69,14 @@ module Base
     end
   
     def check_login_status
-      unless current_user or controller_name == 'login'
+      unless current_user or controller_name == 'sessions'
         session[:jump_to] = params
-        redirect_to :controller => 'login' and return
+        redirect_to new_session_path and return
       end
       
       unless is_available_controller?(current_user)
         reset_session
-        redirect_to :controller => 'login' and return
+        redirect_to new_session_path and return
       end
 
       # メニューのロゴ表示用

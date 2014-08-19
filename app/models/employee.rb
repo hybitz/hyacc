@@ -3,17 +3,19 @@ class Employee < ActiveRecord::Base
   include HyaccConstants
   
   belongs_to :company
-  belongs_to :business_office
-  has_many :employee_histories, :dependent => :destroy
   has_many :users, :dependent => :destroy
-  has_many :branches_employees, :dependent => :destroy
-  has_many :branches, :through => :branches_employees
-  has_many :careers, :order => 'start_from, end_to', :dependent => :destroy
+  belongs_to :business_office
+
+  has_many :employee_histories, :dependent => :destroy
+  accepts_nested_attributes_for :employee_histories, :allow_destroy => true
+
+  has_many :branch_employees, :dependent => :destroy
+  accepts_nested_attributes_for :branch_employees, :allow_destroy => true
+
+  has_many :branches, :through => :branch_employees
+  has_many :careers, -> { order('start_from, end_to') }, :dependent => :destroy
 
   validates_presence_of :last_name, :first_name
-  
-  accepts_nested_attributes_for :branches_employees
-  accepts_nested_attributes_for :employee_histories
 
   after_save :reset_account_cache
 
@@ -26,8 +28,8 @@ class Employee < ActiveRecord::Base
   
   # デフォルト所属部門
   def default_branch(raise_error = true)
-    branches_employee = branches_employees.where(:default_branch => true).first
-    return branches_employee.branch if branches_employee
+    be = branch_employees.where(:default_branch => true).first
+    return be.branch if be
 
     if raise_error
       raise HyaccException.new(ERR_DEFAULT_BRANCH_NOT_FOUND)

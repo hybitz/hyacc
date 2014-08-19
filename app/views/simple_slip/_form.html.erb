@@ -15,8 +15,8 @@
         var form = $('#<%= @slip.new_record? ? 'slip_new_form' : 'slip_edit_form' %>');
 
         form.find('.accountSelect').change(function() {
-          $.get('<%= url_for :controller => 'master_data', :action => 'get_sub_accounts' %>',
-            {format: 'json', order: 'code', account_id: $(this).val()},
+          $.get('<%= url_for :controller => 'sub_accounts', :format => 'json' %>',
+            {order: 'code', account_id: $(this).val()},
             function(data) {
               replace_options(form.find('.subAccountSelect'), data);
             }

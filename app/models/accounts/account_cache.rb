@@ -45,7 +45,7 @@ module Accounts
       end
       
       def expire_caches_by_sub_account_type(sat)
-        Account.scoped_by_sub_account_type(sat).each do |a|
+        Account.where(:sub_account_type => sat).each do |a|
           a.expire_caches
         end
       end

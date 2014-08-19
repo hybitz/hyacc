@@ -32,7 +32,7 @@
       <td><%= rent.customer.formal_name %></td>
       <td><%= HyaccConstants::RENT_STATUS_TYPES[ rent.status ] %></td>
       <td><%= link_to '編集', edit_rent_path(rent), :remote => true %></td>
-      <td><%= link_to '削除', rent, :confirm => '削除しますか？', :method => :delete %></td>
+      <td><%= link_to '削除', rent, data: {confirm: '削除しますか？'}, :method => :delete %></td>
     </tr>
   <% end %>
 </table>

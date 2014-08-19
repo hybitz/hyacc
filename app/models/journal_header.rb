@@ -152,7 +152,8 @@ class JournalHeader < ActiveRecord::Base
     user.company.get_fiscal_year( ym )
   end
 
-private
+  private
+
   # 伝票の合計金額を取得する
   # 借方のみ集計する
   def update_amount

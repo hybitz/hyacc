@@ -4,7 +4,7 @@ class BankAccountsController < Base::HyaccController
   view_attribute :banks, :except => :index
   
   def index
-    @bank_accounts = BankAccount.all
+    @bank_accounts = BankAccount.not_deleted
   end
   
   def new
@@ -14,7 +14,7 @@ class BankAccountsController < Base::HyaccController
 
   def create
     begin
-      @bank_account = BankAccount.new(params[:bank_account])
+      @bank_account = BankAccount.new(bank_account_params)
       @bank_account.transaction do
         @bank_account.save!
       end
@@ -39,7 +39,7 @@ class BankAccountsController < Base::HyaccController
 
     begin
       @bank_account.transaction do
-        @bank_account.update_attributes!(params[:bank_account])
+        @bank_account.update_attributes!(bank_account_params)
       end
       
       flash[:notice] = '金融口座を更新しました。'
@@ -67,8 +67,13 @@ class BankAccountsController < Base::HyaccController
     
     redirect_to :action => :index
   end
-  
+
   private
+
+  def bank_account_params
+    params.require(:bank_account).permit(
+    :code, :name, :holder_name, :bank_id, :bank_office_id, :financial_account_type)
+  end
 
   # 銀行が未登録の場合は金融機関管理に誘導する
   def check_banks

@@ -1,62 +1,53 @@
 source 'https://rubygems.org'
 
-gem 'rake'
-gem 'rails', '3.2.19'
+# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'rails', '4.0.6'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
+gem 'activerecord-session_store'
 gem 'acts_as_tree'
 gem 'carrierwave'
-gem 'daddy'
+gem 'coffee-rails', '~> 4.0.0'
+gem 'daddy', '~> 0.3.0'
 gem 'dalli'
 gem 'gcalapi'
-gem 'mysql2'
-gem 'rails-csv-fixtures'
-gem 'remotipart'
-gem 'rmagick'
-gem 'will_paginate'
-
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
-  gem 'turbo-sprockets-rails3'
-  gem 'uglifier', '>= 1.0.3'
-end
-
+gem 'jbuilder', '~> 1.2'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-
-# To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-gem 'unicorn'
+gem 'mysql2'
+gem 'rails-csv-fixtures', :git => 'git@github.com:bfolkens/rails-csv-fixtures.git'
+gem 'rails-i18n'
+gem 'remotipart'
+gem 'rmagick'
+gem 'sass-rails', '~> 4.0.2'
+gem 'turbolinks'
+gem 'uglifier', '>= 1.3.0'
+gem 'will_paginate'
 
 group :development, :test do
   gem 'thin'
 end
 
 group :test do
-  gem 'minitest-rails'
-  gem 'turn'
+  gem 'minitest'
+  gem 'minitest-colorize'
 end
 
-# Deploy with Capistrano
+group :doc do
+  # bundle exec rake doc:rails generates the API under doc/api.
+  gem 'sdoc', require: false
+end
+
+# Use ActiveModel has_secure_password
+# gem 'bcrypt', '~> 3.1.7'
+
+# Use unicorn as the app server
+gem 'unicorn'
+
+# Use Capistrano for deployment
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails'
 end
 
-# To use debugger
-# gem 'debugger'
+# Use debugger
+# gem 'debugger', group: [:development, :test]

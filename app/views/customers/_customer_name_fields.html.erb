@@ -8,6 +8,6 @@
   </td>
   <td><%= f.text_field :name %></td>
   <td><%= f.date_select :start_date %></td>
-  <td><%= link_to_function '削除', 'customers.remove_customer_name(this)' %></td>
+  <td><%= link_to '削除', '#', :onclick => 'customers.remove_customer_name(this); return false;' %></td>
 </tr>
 <% end %>

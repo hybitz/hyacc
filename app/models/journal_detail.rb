@@ -30,8 +30,8 @@ class JournalDetail < ActiveRecord::Base
   validates :account_id, :presence => true
   validates :branch_id, :presence => true
   validate :validate_account_and_sub_account
-  validates_format_of :social_expense_number_of_people, :with => /^[0-9]{0,3}$/
-  validates_format_of :settlement_type, :with => /^[0-9]{0,1}$/
+  validates_format_of :social_expense_number_of_people, :with => /[0-9]{0,3}/
+  validates_format_of :settlement_type, :with => /[0-9]{0,1}/
   validates :amount, :presence => true
   validates_with Validators::TaxRateValidator
 

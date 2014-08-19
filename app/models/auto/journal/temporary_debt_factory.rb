@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: temporary_debt_factory.rb 3340 2014-02-01 02:50:49Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::Journal
 
   # 仮負債仕訳ファクトリ

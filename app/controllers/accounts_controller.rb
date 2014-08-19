@@ -27,10 +27,10 @@ class AccountsController < Base::HyaccController
 
     Account.transaction do
       if position == 'inside'
-        Account.update_all(['display_order = display_order + 1'], ['parent_id = ?', target.id])
+        Account.where('parent_id = ?', target.id).update_all('display_order = display_order + 1')
         moved.update_attributes(:display_order => 0, :parent_id => target.id)
       elsif position == 'after'
-        Account.update_all(['display_order = display_order + 1'], ['parent_id = ? and display_order > ?', target.parent_id, target.display_order])
+        Account.where('parent_id = ? and display_order > ?', target.parent_id, target.display_order).update_all('display_order = display_order + 1')
         moved.update_attributes(:display_order => target.display_order + 1, :parent_id => target.parent_id)
       end
     end
@@ -54,7 +54,7 @@ class AccountsController < Base::HyaccController
   end
 
   def create
-    @account = Account.new(params[:account])
+    @account = Account.new(account_params)
     
     begin
       @account.transaction do
@@ -66,7 +66,7 @@ class AccountsController < Base::HyaccController
       flash[:notice] = '勘定科目を追加しました。'
       redirect_to :action => 'show', :id=>@account
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :action => 'new'
     end
@@ -84,7 +84,7 @@ class AccountsController < Base::HyaccController
     begin
       @account.transaction do
         sub_account_type_old = @account.sub_account_type
-        @account.update_attributes!(params[:account])
+        @account.update_attributes!(account_params)
         check_sub_account_type_editable(@account, sub_account_type_old)
         update_sub_accounts
       end
@@ -92,7 +92,7 @@ class AccountsController < Base::HyaccController
       flash[:notice] = '勘定科目を更新しました。'
       redirect_to :action => 'show', :id => @account
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :action => 'edit'
     end
@@ -116,6 +116,14 @@ class AccountsController < Base::HyaccController
   end
   
   private
+
+  def account_params
+    params.require(:account).permit(
+        :code, :name, :dc_type, :account_type, :sub_account_type, :tax_type,
+        :description, :short_description, :trade_type, :is_settlement_report_account,
+        :depreciation_method, :is_trade_account_payable, :journalizable, 
+        :depreciable, :is_revenue_reserve_account, :is_tax_account, :parent_id)
+  end
 
   def check_sub_account_type_editable(account, sub_account_type_old)
     # 変更されていなければ何も問題ない

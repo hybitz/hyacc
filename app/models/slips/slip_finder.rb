@@ -13,7 +13,7 @@ module Slips
       super( user )
       @sub_account_id_map = {}
     end
-    
+
     def setup_from_params( params )
       if params
         @keep_paging = params[:keep_paging] == 'true'
@@ -53,23 +53,9 @@ module Slips
       end
     end
 
-    def find( *args )
-      journals = JournalHeader.find( *args )
-      if journals.respond_to? :each
-        ret = []
-
-        journals.each do |jh|
-          ret << Slip.new( jh, self )
-        end
-
-        return ret
-      else
-        return Slip.new( journals, self )
-      end
-    end
-    
-    def count( *args )
-      JournalHeader.count( *args )
+    def find(id)
+      jh = JournalHeader.find(id)
+      Slip.new(jh, self)
     end
 
     def get_net_sum
@@ -87,7 +73,7 @@ module Slips
       conditions = get_conditions
 
       # 条件に該当する総伝票数を取得
-      total_count = count(:id, :conditions => conditions)
+      total_count = JournalHeader.where(conditions).count
       
       # 前伝票ページングのためのオフセットを計算
       prev_count = total_count - offset.to_i - per_page
@@ -109,13 +95,10 @@ module Slips
       end
 
       # 条件に該当する伝票を取得
-      find(
-        :all,
-        :conditions => conditions,
-        :include=>[:journal_details],
-        :order=>"journal_headers.ym desc, journal_headers.day desc, journal_headers.created_on desc",
-        :limit=> ym.to_i == 0 ? per_page : nil,
-        :offset=> offset.to_i).reverse
+      journal_headers = JournalHeader.where(conditions).includes(:journal_details)
+            .order('journal_headers.ym desc, journal_headers.day desc, journal_headers.created_on desc')
+            .limit(ym.to_i == 0 ? per_page : nil).offset(offset.to_i).reverse
+      journal_headers.map{|jh| Slip.new(jh, self) }
     end
 
     private

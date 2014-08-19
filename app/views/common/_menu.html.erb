@@ -1,28 +1,28 @@
 <%
   # 仕訳管理機能一覧
   journal_admin_controllers = [
-    {:name=>'journal_admin', :title=>'伝票管理'},
-    {:name=>'debt', :title=>'仮負債精算'},
-    {:name=>'account_transfer', :title=>'科目振替'},
-    {:name=>'social_expense', :title=>'交際費管理'},
-    {:name=>'tax', :title=>'消費税管理'},
+    {:name => 'journal_admin', :title => '伝票管理'},
+    {:name => 'debts', :title => '仮負債精算'},
+    {:name => 'account_transfers', :title => '科目振替'},
+    {:name => 'social_expenses', :title => '交際費管理'},
+    {:name => 'tax', :title => '消費税管理'},
   ]
 
   # 締め処理機能一覧 
   closing_controllers = [
     {:name=>'closing', :title=>'締め処理'},
-    {:name=>'deemed_tax', :title=>'みなし消費税'},
+    {:name=>'deemed_taxes', :title=>'みなし消費税'},
     {:name=>'houseworks', :title=>'家事按分'},
     {:name=>'fiscal_years', :title=>'会計年度'},
   ]
 
   # 帳票出力機能一覧 
   report_controllers = [
-    {:name=>'report', :title=>'帳票出力'},
-    {:name=>'career_statement',:title=>'業務経歴書'},
-    {:name=>'financial_statement',:title=>'決算書'},
-    {:name=>'financial_return_statements',:title=>'確定申告'},
-    {:name=>'withholding_slip',:title=>'源泉徴収'},
+    {:name => 'report', :title => '帳票出力'},
+    {:name => 'career_statements',:title => '業務経歴書'},
+    {:name => 'financial_statements', :title => '決算書'},
+    {:name => 'financial_return_statements', :title => '確定申告'},
+    {:name => 'withholding_slip', :title => '源泉徴収'},
   ]
 
   # マスタメンテ機能一覧 
@@ -54,27 +54,27 @@
 <div class="menu">
   <%= render 'common/simple_slip_menu' %>
   
-  <%= link_to '振替伝票', { :controller => 'journal' }, { :style => style_for_menu('journal') } %>
+  <%= link_to '振替伝票', journals_path, :style => style_for_menu('journal') %>
   |
-  <%= link_to '伝票管理', { :controller => 'journal_admin' }, { :style => style_for_menu(journal_admin_controllers) } %>
+  <%= link_to '伝票管理', journal_admin_path, :style => style_for_menu(journal_admin_controllers) %>
   |
 
-  <% if is_available('payroll') %>
-    <%= link_to '賃金台帳', { :controller => 'payroll' }, { :style => style_for_menu('payroll') } %>
+  <% if is_available('payrolls') %>
+    <%= link_to '賃金台帳', payrolls_path, :style => style_for_menu('payroll') %>
     |
   <% end %>
 
-  <%= link_to '資産管理', { :controller => 'assets' }, :style => style_for_menu('assets') %>
+  <%= link_to '資産管理', assets_path, :style => style_for_menu('assets') %>
   |
-  <%= link_to '締め処理', { :controller=>'closing' }, { :style=>style_for_menu(closing_controllers) } %>
+  <%= link_to '締め処理', closing_path, :style => style_for_menu(closing_controllers) %>
   |
-  <%= link_to '元帳', { :controller => 'ledger' }, { :style => style_for_menu('ledger') } %>
+  <%= link_to '元帳', ledgers_path, :style => style_for_menu('ledger') %>
   |
-  <%= link_to '帳票出力', { :controller=>'report' }, { :style => style_for_menu(report_controllers) } %>
+  <%= link_to '帳票出力', report_path, :style => style_for_menu(report_controllers) %>
   |
-  <%= link_to 'マスタメンテ', { :controller => 'mm' }, { :style => style_for_menu(mm_controllers) } %>
+  <%= link_to 'マスタメンテ', mm_path, :style => style_for_menu(mm_controllers) %>
   |
-  <%= link_to 'マスタビューア', { :controller => 'mv' }, { :style => style_for_menu(mv_controllers) } %>
+  <%= link_to 'マスタビューア', mv_path, :style => style_for_menu(mv_controllers) %>
 </div>
 
 <%= render 'common/sub_menu', :controllers => journal_admin_controllers %>

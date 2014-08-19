@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: sub_accounts_support.rb 3310 2014-01-27 13:20:06Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require_dependency 'bank_account'
 require_dependency 'customer'
 require_dependency 'sub_account'

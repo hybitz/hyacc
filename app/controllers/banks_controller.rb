@@ -1,4 +1,4 @@
-class BanksController < Base::BasicMasterController
+class BanksController < Base::HyaccController
   view_attribute :title => '金融機関'
   view_attribute :deleted_types
 
@@ -20,7 +20,7 @@ class BanksController < Base::BasicMasterController
   end
 
   def create
-    @bank = Bank.new(params[:bank])
+    @bank = Bank.new(bank_params)
 
     begin
       @bank.transaction do
@@ -41,7 +41,7 @@ class BanksController < Base::BasicMasterController
 
     begin
       @bank.transaction do
-        @bank.update_attributes!(params[:bank])
+        @bank.update_attributes!(bank_params)
       end
 
       flash[:notice] = '金融機関を更新しました。'
@@ -62,12 +62,18 @@ class BanksController < Base::BasicMasterController
       end
 
       flash[:notice] = '金融機関を削除しました。'
-      
+
     rescue => e
       handle(e)
     end
 
     redirect_to :action => 'index'
+  end
+
+  private
+
+  def bank_params
+    params.require(:bank).permit(:name, :code)
   end
 
 end

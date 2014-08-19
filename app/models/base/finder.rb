@@ -61,7 +61,7 @@ module Base
     end
     
     # 従業員IDを検索条件に含めるか
-    def enable_employee_id
+    def employee_id_enabled?
       true
     end
     

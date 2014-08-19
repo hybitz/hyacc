@@ -8,7 +8,7 @@ class WithholdingSlipController < Base::HyaccController
   view_attribute :report_types
   view_attribute :employees
 
-  def list
+  def index
     return unless finder.commit
     begin
       case finder.report_type
@@ -18,17 +18,17 @@ class WithholdingSlipController < Base::HyaccController
          if validate_params_details
            render_withholding_details
          else
-           render :list
+           render :index
          end
       end
-    rescue Exception=>e
+    rescue => e
       handle(e)
-      render :list
+      render :index
     end
   end
-  
-  
-private
+
+  private
+
   def validate_params_details
     if @finder.employee_id == 0
       flash[:notice] = '従業員を選択してください。'

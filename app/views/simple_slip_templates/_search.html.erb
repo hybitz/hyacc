@@ -1,33 +1,26 @@
-<%#
-# $Id: _search.html.erb 3333 2014-01-30 14:18:42Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <div id="search" style="margin: 15px;">
   <%= form_tag( {:action=>controller.action_name}, {:method=>"get"} ) do %>
     摘要：<%= text_field 'finder', 'remarks', :size=>25, :maxlength=>250 %>
 
-    勘定科目：<%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", :include_blank=>true) %>
+    勘定科目：<%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", :include_blank => true) %>
     <script>
       $('#finder_account_id').change(function() {
-        $.get('<%= url_for :controller=>'master_data', :action=>'get_sub_accounts' %>',
-        {format: 'json', order: 'code', account_id: $(this).val()},
-        function(data) {
+        $.get('<%= sub_accounts_path(:format => 'json') %>',
+        {order: 'code', account_id: $(this).val()},
+        function(json) {
           var subAccount = document.getElementById('finder_sub_account_id');
           var subAccountTitle = document.getElementById('finder_sub_account_id_title'); 
           
           if (subAccount != null) {
-            replace_options('#finder_sub_account_id', data, true);
+            replace_options('#finder_sub_account_id', json, true);
             subAccountTitle.style.display = subAccount.style.display;
           }
         });
       });
     </script>
 
-    <span id="finder_sub_account_id_title" style="display: <%= @sub_accounts.empty? ? 'none' : '' %>;">補助科目：</span>
-    <%= select("finder", "sub_account_id", to_options(@sub_accounts),
-          {:include_blank=>true}) %>
+    <span id="finder_sub_account_id_title" style="display: <%= finder.sub_accounts.empty? ? 'none' : '' %>;">補助科目：</span>
+    <%= select("finder", "sub_account_id", to_options(finder.sub_accounts), :include_blank => true) %>
     <%= hide_if_no_options('#finder_sub_account_id') %>
 
     <%= submit_tag "表示" %>

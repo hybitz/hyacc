@@ -1,5 +1,5 @@
 前提 /^(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |account_name|
-  @account = Account.find_by_name(account_name)
+  assert @account = Account.where(:name => account_name).first
   assert_visit "/simple/#{@account.code}"
 end
 

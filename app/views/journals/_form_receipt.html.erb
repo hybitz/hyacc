@@ -1,0 +1,20 @@
+<div id="receipt_status">
+  <script>
+    function delete_receipt() {
+      $.get('<%= url_for :action => 'delete_receipt', :id => @journal.id %>',
+      function(html) {
+        $('#receipt_status').replaceWith(html);
+      });
+    }
+  </script>
+  <% if @journal.receipt_path.nil? %>
+    <%= fields_for @journal do |f| %>
+      <%= f.file_field :receipt_file, :size => 60 %>
+      <%= f.hidden_field :delete_flag_of_receipt_file %>
+    <% end %>
+  <% else %>
+    （<%= link_to"#{File::basename(@journal_header.receipt_path)}", {:action => 'download_receipt', :id => @journal} %>）
+    &nbsp;&nbsp;
+    <input type="button" value="領収書削除" onclick="delete_receipt();" />
+  <% end %>
+</div>

@@ -20,7 +20,7 @@
       <td><%= HyaccConstants::DELETED_TYPES[user.deleted] %></td>
       <td><%= link_to '参照', {:action => 'show', :id => user.id}, :remote => true %></td>
       <td><%= link_to '編集', {:action => 'edit', :id => user.id}, :remote => true %></td>
-      <td><%= link_to '削除', {:action => 'destroy', :id => user}, :confirm => '削除します。よろしいですか？', :method => :delete %></td>
+      <td><%= link_to '削除', {:action => 'destroy', :id => user}, data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
     </tr>
   <% end %>
 </table>

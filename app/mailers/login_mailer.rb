@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 class LoginMailer < ActionMailer::Base
   default :from => 'info@hybitz.co.jp'
   
@@ -7,7 +5,7 @@ class LoginMailer < ActionMailer::Base
     @time = params[:now]
     @user = params[:who]
     mail(
-      :subject => '【Hyacc】 ログイン通知',
+      :subject => "【Hyacc】#{Rails.env} ログイン通知",
       :to => to
     )
   end
@@ -16,7 +14,7 @@ class LoginMailer < ActionMailer::Base
     @time = params[:now]
     @user = params[:who]
     mail(
-      :subject => '【Hyacc】 ログイン失敗通知！！！',
+      :subject => "【Hyacc】#{Rails.env} ログイン失敗通知！！！",
       :to => to
     )
   end

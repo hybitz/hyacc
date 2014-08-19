@@ -12,6 +12,6 @@
       }
     </script>
     <input type="hidden" id="add_bank_office_index" value="<%= @bank.bank_offices.size %>" />
-    <%= link_to_function '追加', 'add_bank_office();' %>
+    <%= link_to '追加', '#', :onclick => 'add_bank_office(); return false;' %>
   </td>
 </tr>

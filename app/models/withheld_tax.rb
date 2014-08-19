@@ -1,12 +1,12 @@
 class WithheldTax < ActiveRecord::Base
   validates_presence_of :apply_start_ym, :apply_end_ym, :message=>"を入力して下さい。"
-  validates_format_of :apply_start_ym, :apply_end_ym, :with => /^[0-9]{6}$/, :message=>"は数値６桁で入力して下さい。"
+  validates_format_of :apply_start_ym, :apply_end_ym, :with => /[0-9]{6}/, :message=>"は数値６桁で入力して下さい。"
   validates_format_of :pay_range_above, :pay_range_under,
                       :no_dependent, :one_dependent,
                       :two_dependent, :three_dependent,
                       :four_dependent, :five_dependent,
                       :six_dependent, :seven_dependent,
-                      :with => /^[0-9]{1,}$/, :message=>"は数値で入力して下さい。"
+                      :with => /[0-9]{1,}/, :message=>"は数値で入力して下さい。"
   
   # Classメソッドを使用する
   class << self

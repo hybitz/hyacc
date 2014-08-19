@@ -1,27 +1,18 @@
-# coding: UTF-8
-#
-# $Id: career_finder.rb 2925 2012-09-21 03:51:20Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
-class CareerFinder < Base::Finder
-  
+class CareerFinder < Daddy::Model
+
   def list
-    Career.paginate(
-      :page=>@page > 0 ? @page : 1,
-      :conditions=>make_conditions,
-      :order=>"start_from",
-      :per_page=>@slips_per_page)
+    Career.where(conditions).order('start_from').paginate(:page => page, :per_page => per_page)
   end
 
-private
-  def make_conditions
-    ret = []
-    if @employee_id > 0
-      ret << 'employee_id=?'
-      ret << @employee_id
-    end
-    ret
+  def employee_id_enabled?
+    true
+  end
+
+  private
+
+  def conditions
+    sql = SqlBuilder.new
+    sql.append('employee_id = ?', employee_id) if employee_id.present?
+    sql.to_a
   end
 end

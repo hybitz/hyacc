@@ -90,8 +90,9 @@ module JournalUtil
   end
 
   def copy_journal( jh )
-    copy = JournalHeader.new
+    copy = Journal.new
     copy.attributes = jh.attributes
+    copy.id = nil
 
     jh.journal_details.each do |src_jd|
       jd = JournalDetail.new
@@ -157,7 +158,7 @@ module JournalUtil
       conditions << sub_account_id
     end
     
-    JournalDetail.sum("journal_details.amount", :conditions=>conditions, :include=>[:journal_header])
+    JournalDetail.joins(:journal_header).where(conditions).sum('journal_details.amount')
   end
   
   def get_net_sum_until( slip, account )
@@ -197,7 +198,7 @@ module JournalUtil
       sql.append(')')
     end
 
-    JournalDetail.sum(:amount, :conditions => sql.to_a)
+    JournalDetail.where(sql.to_a).sum(:amount)
   end
   
   def get_net_sum( account )

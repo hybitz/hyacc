@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 module Login
 
   def sign_in(options = {})
@@ -11,7 +9,7 @@ module Login
       fail "未知のユーザ情報です。options=#{options}"
     end
 
-    visit '/login'
+    visit '/sessions/new'
     fill_in 'ID', :with => @current_user.login_id
     fill_in 'パスワード', :with => 'testtest'
     click_on 'ログイン'

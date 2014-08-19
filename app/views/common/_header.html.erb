@@ -24,7 +24,7 @@
           所属部門：<%= current_user.employee.default_branch_name %>
           |
         <% end %>
-        <%= link_to 'ログアウト', :controller => 'login', :action => 'logout' %>
+        <%= link_to 'ログアウト', session_path(current_user), :method => 'delete' %>
     </nobr>
   </div>
 </div>

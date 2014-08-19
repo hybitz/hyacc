@@ -1,8 +1,9 @@
 class RentsController < Base::HyaccController
-  before_filter :check_customer_exists
+  before_action :check_customer_exists
   view_attribute :title => '地代家賃'
-  view_attribute :finder, :class => RentFinder, :only => :index
   view_attribute :deleted_types
+
+  helper_method :finder
 
   def index
     @rents = finder.list
@@ -23,7 +24,7 @@ class RentsController < Base::HyaccController
   end
 
   def create
-    @rent = Rent.new(params[:rent])
+    @rent = Rent.new(rent_params)
 
     begin
       Rent.transaction do
@@ -33,7 +34,7 @@ class RentsController < Base::HyaccController
       flash[:notice] = '地代家賃を登録しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       @customers = Customer.not_deleted
       render :action => "new"
@@ -43,12 +44,18 @@ class RentsController < Base::HyaccController
   def update
     @rent = Rent.find(params[:id])
 
-    if @rent.update_attributes(params[:rent])
+    begin
+      Rent.transaction do
+        @rent.update_attributes!(rent_params)
+      end
+
       flash[:notice] = '地代家賃を更新しました。'
       render 'common/reload'
-    else
+
+    rescue => e
+      handle(e)
       @customers = Customer.not_deleted
-      render :action => "edit"
+      render :edit
     end
   end
 
@@ -66,4 +73,16 @@ class RentsController < Base::HyaccController
       render :check_customer_exists and return
     end
   end
+
+  def rent_params
+    params.require(:rent).permit(:name, :status, :customer_id, :rent_type, :usage_type, :address, :ymd_start, :ymd_end, :zip_code)
+  end
+
+  def finder
+    @finder ||= RentFinder.new(params[:finder])
+    @finder.page = params[:page] || 1
+    @finder.per_page = current_user.slips_per_page
+    @finder
+  end
+
 end

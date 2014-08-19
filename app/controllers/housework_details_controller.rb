@@ -12,8 +12,9 @@ class HouseworkDetailsController < Base::HyaccController
   end
 
   def create
+    @housework = Housework.find(params[:housework_id])
     begin
-      @hwd = HouseworkDetail.new(params[:housework_detail])
+      @hwd = @housework.details.build(housework_detail_params)
       @hwd.transaction do
         @hwd.save!
       end
@@ -35,7 +36,7 @@ class HouseworkDetailsController < Base::HyaccController
 
     begin
       @hwd.transaction do
-        @hwd.update_attributes!(params[:housework_detail])
+        @hwd.update_attributes!(housework_detail_params)
       end
       
       flash[:notice] = '家事按分を更新しました。'
@@ -54,18 +55,24 @@ class HouseworkDetailsController < Base::HyaccController
         unless @hwd.destroy
           raise HyaccException.new
         end
-        
+
         @hwd.housework.journal_headers.each do |jh|
           jh.save!
         end
       end
-      
+
       flash[:notice] = '家事按分を削除しました。'
     rescue => e
       handle(e)
     end
-    
+
     redirect_to houseworks_path
   end
-  
+
+  private
+
+  def housework_detail_params
+    params.require(:housework_detail).permit(:account_id, :sub_account_id, :business_ratio)
+  end
+
 end

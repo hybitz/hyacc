@@ -11,7 +11,7 @@ class Asset < ActiveRecord::Base
 
   validate :validate_durable_years, :validate_depreciation_limit
   validates_presence_of :code, :name, :account_id, :branch_id, :ym, :day, :status
-  validates_format_of :amount, :with => /^[1-9][0-9]*$/
+  validates :amount, presence: true, numericality: { only_integer: true, greater_than: 0 }
   
   before_save :update_start_and_end_fiscal_year
   

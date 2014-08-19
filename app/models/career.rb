@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 class Career < ActiveRecord::Base
   belongs_to :employee
   belongs_to :customer
@@ -11,7 +9,6 @@ class Career < ActiveRecord::Base
   # マスタの名称を明細自身に設定する
   def update_names
     self.customer_name = CustomerName.get_at(customer_id, end_to).formal_name
-    HyaccLogger.debug CustomerName.get_at(customer_id, end_to).formal_name
   end
   
   def duration_ym

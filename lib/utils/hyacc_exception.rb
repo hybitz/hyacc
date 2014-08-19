@@ -1,2 +1,2 @@
-class HyaccException < Exception
+class HyaccException < RuntimeError
 end

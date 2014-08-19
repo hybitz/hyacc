@@ -1,0 +1,138 @@
+<%= render 'common/search' %>
+
+<script>
+  <% if @ledgers.present? %>
+    $(document).ready(function() {
+      calcSum(<%= @account.dc_type if @account %>);
+    });
+  <% end %>
+
+  function show_journals(trigger) {
+    var url = $(trigger).attr('href');
+    var params = {format: 'html'};
+    $.get(url, params, function(html) {
+      var tr = $(trigger).closest('tr');
+      tr.after(html);
+      tr.remove();
+      calcSum(<%= @account.dc_type if @account %>);
+    });
+  }
+
+  function calcSum(dcType) {
+    var yearMonth = 0;
+    var monthlySum = 0;
+    var sum = <%= @last_year_balance || 0 %>;
+
+    var container = $('#ledgerContainer');
+    container.find('.ledgerRow').each(function() {
+      // 年月が異なれば月別累計を初期化
+      var ym = toInt($(this).find('.yearMonth').text());
+      if ( yearMonth != ym ) {
+        yearMonth = ym;
+        monthlySum = 0;
+      }
+
+      // 借方
+      var debitAmount = toInt($(this).find('.amountDebit').text());
+      if ( dcType == DC_TYPE_DEBIT ) {
+        monthlySum += debitAmount;
+        sum += debitAmount;
+      } else {
+        monthlySum -= debitAmount;
+        sum -= debitAmount;
+      }
+
+      // 貸方
+      var creditAmount = toInt($(this).find('.amountCredit').text());
+      if ( dcType == DC_TYPE_CREDIT ) {
+        monthlySum += creditAmount;
+        sum += creditAmount;
+      } else {
+        monthlySum -= creditAmount;
+        sum -= creditAmount;
+      }
+
+      // 月別累計は月累計表示行のみ表示する
+      $(this).find('.amountMonthlySum').text(toAmount(monthlySum));
+      $(this).find('.amountSum').text(toAmount(sum));
+    });
+
+    // 今期末残高の表示
+    $(container).find('tr:last').find('.amountSum').text(toAmount(sum));
+  }  
+</script>
+
+<table id="ledgerContainer">
+  <tr>
+    <th class="yearMonth">年月</th>
+    <th class="day">日</th>
+    <th class="remarks">摘要</th>
+    <th class="accountName">相手勘定科目</th>
+    <% if branch_mode %>
+    <th class="branchName">相手計上部門</th>
+    <% end %>
+    <th class="amountDebit">借方</th>
+    <th class="amountCredit">貸方</th>
+    <th class="amountMonthlySum">月別累計</th>
+    <th class="amountSum">累計</th>
+    <th class="floatLeft"></th>
+  </tr>
+
+  <% if @last_year_balance %>
+    <tr id="ledger_row_last_year" style="background-color: papayawhip;">
+      <td class="yearMonth"></td>
+      <td class="day"></td>
+      <td class="remarks">前期末残高</td>
+      <td class="accountName"></td>
+      <% if branch_mode %>
+        <td class="branchName"></td>
+      <% end %>
+      <td class="amountDebit"></td>
+      <td class="amountCredit"></td>
+      <td class="amountMonthlySum"></td>
+      <td class="amountSum"><%= to_amount( @last_year_balance ) %></td>
+      <td class="floatLeft"></td>
+    </tr>
+  <% end %>
+
+  <% @ledgers.each do |ledger| %>
+    <% if ledger.is_a?(MonthlyLedger) %>
+      <tr id="ledger_row_<%= ledger.ym %>" class="ledgerRow" style="background-color: papayawhip;">
+        <td class="yearMonth"><%= ledger.ym %></td>
+        <td class="day"></td>
+        <td class="remarks"></td>
+        <td class="accountName"></td>
+        <% if branch_mode %>
+        <td class="branchName"></td>
+        <% end %>
+        <td class="amountDebit"><%= to_amount( ledger.amount_debit, :show_zero => true ) %></td>
+        <td class="amountCredit"><%= to_amount( ledger.amount_credit, :show_zero => true ) %></td>
+        <td class="amountMonthlySum"></td>
+        <td class="amountSum"></td>
+        <td>
+          <% if ledger.has_amount %>
+            <%= link_to '伝票表示', ledger_path(ledger.ym), :onclick => 'show_journals(this); return false;' %>
+          <% end %>
+        </td>
+      </tr>
+    <% else %>
+      <%= render 'line_journal', :ledger => ledger %>
+    <% end %>
+  <% end %>
+
+  <%# 今期末残高 %>
+  <tr style="background-color: papayawhip;">
+    <td class="yearMonth"></td>
+    <td class="day"></td>
+    <td class="remarks">今期末残高</td>
+    <td class="accountName"></td>
+    <% if branch_mode %>
+    <td class="branchName"></td>
+    <% end %>
+    <td class="amountDebit"></td>
+    <td class="amountCredit"></td>
+    <td class="amountMonthlySum"></td>
+    <td class="amountSum"></td>
+    <td></td>
+  </tr>
+</table>

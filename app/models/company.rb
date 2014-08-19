@@ -10,7 +10,7 @@ class Company < ActiveRecord::Base
   mount_uploader :logo, LogoUploader
 
   validates_presence_of :name, :founded_date
-  validates_format_of :admin_email, :allow_nil=>true, :allow_blank=>true, :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
+  validates_format_of :admin_email, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
 
   def current_fiscal_year
     fiscal_years.where(:fiscal_year => fiscal_year).first

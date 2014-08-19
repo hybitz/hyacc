@@ -1,0 +1,36 @@
+<% if @tax_check_count > 0 %>
+  <div style="margin:20px; font-size: larger;">
+    課税と思わしき伝票で非課税の伝票が <b style="color: red;"><%= @tax_check_count %></b> 件あります。
+  </div>
+<% end %>
+
+<% if branch_mode and @debt_sum > 0 %>
+  <div style="margin:20px; font-size: larger;">
+    未清算の仮負債が <b style="color: red;"><%= get_debt_count(@debts) %></b> 件、合計 <b style="color: red;"><%= to_amount(@debt_sum) %></b> 円あります。
+  </div>
+<% end %>
+
+<% if @dtm and @dtm.has_tax_amount %>
+    <% unless @dtm.is_journal_amount_valid %>
+	  <div style="margin:20px; font-size: larger;">
+	  みなし消費税の仕訳金額が納税額と異なっています。
+	  <br/>
+	  仕訳を再作成してください。
+	  <br/>
+	  納税額　<b style="color: red;"><%= to_amount(@dtm.total_tax_amount) %></b>
+	  仕訳金額　<b style="color: red;"><%= to_amount(@dtm.journal_amount, :show_zero=>true) %></b>　
+	  </div>
+	<% end %>
+<% end %>
+
+<div id="todo_events" style="margin: 10px;">
+  TODOリストを取得しています・・・
+  <script>
+    $(document).ready(function() {
+      var url = '<%= notifications_path %>';
+      $.get(url, function(data) {
+        $('#todo_events').html(data);
+      });
+    });
+  </script>
+</div>

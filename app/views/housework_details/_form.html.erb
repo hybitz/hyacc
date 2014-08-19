@@ -1,10 +1,9 @@
 <script>
   $(document).ready(function() {
     $('#housework_detail_account_id').change(function() {
-      var url = '<%= url_for :controller=>'master_data', :action=>'get_sub_accounts' %>';
+      var url = '<%= sub_accounts_path(:format => 'json') %>';
       var params = {
         account_id: $(this).val(),
-        format: 'json',
         order: 'code'
        };
 

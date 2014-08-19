@@ -1,0 +1,17 @@
+<%= flash_notice %>
+<hr/>
+<b>給与明細</b>
+（<%= link_to '明細削除', {:action => 'destroy', :id => @payroll.id},
+                         data: {confirm: '明細を削除します。よろしいですか？'},
+                         :method => 'delete', :remote => true %>）
+</br>
+<%= form_tag({:action => 'update', :id => @payroll.id}, :id => 'payroll_form', :remote => true) do %>
+  <%= render 'form' %>
+  <table width="400">
+    <tr>
+      <td colspan="2">
+        <%= submit_tag '更新', :id => 'payroll_submit', :onclick => "return checkForm(this.form)" %>
+      </td>
+    </tr>
+  </table>
+<% end %>

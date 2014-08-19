@@ -1,12 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: payroll_finder.rb 2845 2012-02-19 00:09:28Z hiro $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
-require "date"
-
 class PayrollFinder < Base::Finder
   include JournalUtil
 
@@ -16,12 +7,11 @@ class PayrollFinder < Base::Finder
     get_year_months( start_year_month, 12 )
   end
 
-  
   # 月別給与の配列を取得する
   # 戻り値は、データ構造が12ヶ月分
   #  ym: 年月のyyyymm
   #  pay: 給与
-  def list_monthly_pay()
+  def list_monthly_pay
     ym_range = get_ym_range
 
     # データの受け皿の準備

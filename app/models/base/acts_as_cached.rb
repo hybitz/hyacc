@@ -1,59 +1,21 @@
 module Base
-
   module ActsAsCached
-    LOCAL_LATENCY = 5
+    extend ActiveSupport::Concern
 
-    module Mixin
-      @@_local_cache = {}
-      
-      def with_latency(key)
-        now = Time.now.to_i
-        
-        cache = @@_local_cache[key]
-        if cache
-          elapsed = now - cache[:cached_time]
-          if elapsed < LOCAL_LATENCY
-            if HyaccLogger.debug?
-              #HyaccLogger.debug(key)
-            end
-
-            return cache[:cached_object]
-          end
-        end
-
-        ret = Rails.cache.fetch(key) do
-          yield
-        end
-        
-        @@_local_cache[key] = {:cached_time => now, :cached_object => ret}
-        ret
+    def expire_caches
+      Rails.cache.delete("#{self.class.name}.get(#{self.id})")
+      if self.respond_to?(:code)
+        Rails.cache.delete("#{self.class.name}.get_by_code(#{self.code})")
       end
+    end
+
+    module ClassMethods
+      LOCAL_LATENCY = 5
+      @@_local_cache = {}
 
       def acts_as_cached(options = {})
         after_save :expire_caches
         before_destroy :expire_caches
-
-        # インスタンスメソッドはオーバーライドできるように先に宣言
-        def expire_caches
-          Rails.cache.delete("#{self.class.name}.get(#{self.id})")
-          if self.respond_to?(:code)
-            Rails.cache.delete("#{self.class.name}.get_by_code(#{self.code})")
-          end
-        end
-
-        if options[:includes].present?
-          if options[:includes].is_a?(Array)
-            options[:includes].each do |include_module|
-              module_name = include_module.classify
-              extend "#{module_name}::ClassMethods".constantize
-              include "#{module_name}::InstanceMethods".constantize
-            end
-          else
-            module_name = options[:includes].classify
-            extend "#{module_name}::ClassMethods".constantize
-            include "#{module_name}::InstanceMethods".constantize
-          end
-        end
 
         unless respond_to?(:get)
           def self.get(id)
@@ -72,8 +34,47 @@ module Base
             end
           end
         end
+
+        if options[:includes].present?
+          modules = []
+          if options[:includes].is_a?(Array)
+            modules += options[:includes]
+          else
+            modules << options[:includes]
+          end
+
+          modules.each do |include_module|
+            module_name = include_module.classify
+            extend "#{module_name}::ClassMethods".constantize
+            include "#{module_name}::InstanceMethods".constantize
+          end
+        end
+
       end
     
+      def with_latency(key)
+        now = Time.now.to_i
+        
+        cache = @@_local_cache[key]
+        if cache
+          elapsed = now - cache[:cached_time]
+          if elapsed < LOCAL_LATENCY
+            if ::HyaccLogger.debug?
+              #HyaccLogger.debug(key)
+            end
+  
+            return cache[:cached_object]
+          end
+        end
+  
+        ret = Rails.cache.fetch(key) do
+          yield
+        end
+        
+        @@_local_cache[key] = {:cached_time => now, :cached_object => ret}
+        ret
+      end
+
     end
   end
 end

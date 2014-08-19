@@ -1,0 +1,283 @@
+<table id="payroll_header_table" align="center" cellpadding="3">
+  <tr style="background-color: lightgrey;">
+    <th>雇　　入　　年　　月　　日</th>
+    <th>所　　属</th>
+    <th>職　　　　　名</th>
+    <th>標準報酬</th>
+    <th>氏　　　　名</th>
+    <th>性別</th>
+  </tr>
+  <tr>
+    <td rowspan=2 align="center"><%= @employee.employment_date.strftime("%Y年　　%m月　　　%d日") %>　雇入</td>
+    <td rowspan=2></td>
+    <td rowspan=2></td>
+    <td rowspan=1>健 <%= to_amount(@employee.standard_remuneration) %>円</td>
+    <td rowspan=2><%= @employee.full_name %></td>
+    <td rowspan=2 align="center"><%= @employee.sex_name %></td>
+  </tr>
+  <tr>
+    <td>厚 <%= to_amount(@employee.standard_remuneration) %>円</td>
+  </tr>
+</table>
+<table id="payroll_table" border="1" align="center">
+  <tr style="background-color: lightgrey;">
+    <th colspan="2">賃金計算期間</th>
+    <% @finder.get_ym_range.each do |ym| %>
+    <th align="center">
+      <% if @pd[ym][:payroll].is_new %>
+        <%= link_to ym, {:action => :new, :ym => ym}, :remote => true %>
+      <% else %>
+        <%= link_to ym, edit_payroll_path(@pd[ym][:payroll]), :remote => true %>
+      <% end %>
+    </th>
+    <% end %>
+    <th>賞与１</th>
+    <th>賞与２</th>
+    <th>合計</th>
+  </tr>
+  <tr>
+    <td colspan="2">労働日数</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= @pd[ym][:payroll].days_of_work %>日</td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">労働時間数</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= @pd[ym][:payroll].hours_of_work %>H</td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">休日労働時間数</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= @pd[ym][:payroll].hours_of_day_off_work %>H</td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">早出残業時間数</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= @pd[ym][:payroll].hours_of_early_for_work %>H</td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">深夜労働時間数</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= @pd[ym][:payroll].hours_of_late_night_work %>H</td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">基本給</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].base_salary) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].base_salary) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].base_salary) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].base_salary) %></td>
+  </tr>
+  <tr>
+    <td colspan="2">所定時間外割増賃金</td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td rowspan="2">手当</td>
+    <td>手当</td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>手当</td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">小計</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].subtotal) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].subtotal) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].subtotal) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].subtotal) %></td>
+  </tr>
+  <tr>
+    <td colspan="2">臨時の給与</td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">合計</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].total) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].total) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].total) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].total) %></td>
+  </tr>
+  <tr>
+    <td rowspan="8">控除額</td>
+    <td>健康保険料</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].insurance) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].insurance) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].insurance) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].insurance) %></td>
+  </tr>
+  <tr>
+    <td>厚生年金保険料</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].pension) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].pension) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].pension) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].pension) %></td>
+  </tr>
+  <tr>
+    <td>雇用保険料</td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>保険料合計</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].social_insurance) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].social_insurance) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].social_insurance) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].social_insurance) %></td>
+  </tr>
+  <tr>
+    <td><br/></td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>市町村民税</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].inhabitant_tax) %></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td align="right"><%= to_amount(@pd[:sum].inhabitant_tax) %></td>
+  </tr>
+  <tr>
+    <td>所得税</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].income_tax) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].income_tax) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].income_tax) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].income_tax) %></td>
+  </tr>
+  <tr>
+    <td><br/></td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">保険料控除後の所得</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].after_insurance_deduction) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].after_insurance_deduction) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].after_insurance_deduction) %></td>
+    <td align="center"><%= to_amount(@pd[:sum].after_insurance_deduction) %></td>
+  </tr>
+  <tr>
+    <td colspan="2">差引合計額</td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td align="center"><%= to_amount(@pd[ym][:payroll].after_deduction) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].after_deduction) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].after_deduction) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].after_deduction) %></td>
+  </tr>
+  <tr>
+    <td colspan="2">実物給与</td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2">差引支給額</td>
+    <% @finder.get_ym_range.each do |ym| %>
+      <td align="center"><%= to_amount(@pd[ym][:payroll].after_deduction) %></td>
+    <% end %>
+    <td><%= to_amount(@pd["b1"][:payroll].after_deduction) %></td>
+    <td><%= to_amount(@pd["b2"][:payroll].after_deduction) %></td>
+    <td align="right"><%= to_amount(@pd[:sum].after_deduction) %></td>
+  </tr>
+  <tr>
+    <td colspan="2">支給日</td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center">
+      <% unless @pd[ym][:payroll].is_new %>
+        <%= link_to @pd[ym][:payroll].pay_day.split('-')[1..2].join('月') + '日',
+              edit_journal_path(@pd[ym][:payroll].pay_journal_header_id),
+              :remote => true %>
+      <% end %>
+    </td>
+    <% end %>
+    <td>
+      <% unless @pd["b1"][:payroll].is_new %>
+        <%= link_to @pd["b1"][:payroll].pay_day.split('-')[1..2].join('月') + '日',
+              {:controller=>:journal, :action=>:edit, :id=>@pd["b1"][:payroll].pay_journal_header_id},
+              :remote => true %>
+      <% end %>
+    </td>
+    <td>
+      <% unless @pd["b2"][:payroll].is_new %>
+        <%= link_to @pd["b2"][:payroll].pay_day.split('-')[1..2].join('月') + '日',
+              {:controller=>:journal, :action=>:edit, :id=>@pd["b2"][:payroll].pay_journal_header_id},
+              :remote => true %>
+      <% end %>
+    </td>
+    <td></td>
+  </tr>
+</table>

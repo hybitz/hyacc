@@ -15,7 +15,7 @@
       <td align="center"><%= HyaccConstants::DELETED_TYPES[bank.deleted] %></td>
       <td><%= link_to '参照', bank_path(bank), :remote => true %></td>
       <td><%= link_to '編集', edit_bank_path(bank), :remote => true %></td>
-      <td><%= link_to '削除', bank, :confirm => '削除します。よろしいですか？', :method => :delete %></td>
+      <td><%= link_to '削除', bank, data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
     </tr>
   <% end %>
 </table>

@@ -299,12 +299,9 @@ class SimpleSlipController < Base::HyaccController
     end
 
     # 勘定科目の利用頻度
-    @frequencies = InputFrequency.find(
-        :all,
-        :conditions=>['user_id=? and input_type=?', current_user.id, INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID],
-        :order=>'frequency desc',
-        :limit=>current_user.account_count_of_frequencies)
-    
+    @frequencies = InputFrequency.where(:user_id => current_user.id, :input_type => INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID)
+        .order('frequency desc').limit(current_user.account_count_of_frequencies)
+
     # 補助科目選択用リスト
     @sub_accounts = load_sub_accounts(@slip.account_id)
 

@@ -1,8 +1,3 @@
-<%#
-# Product: hyacc
-# Copyright 2011-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 <table id="business_offices_table">
 	<tr>
 		<th>事業所名</th>
@@ -22,7 +17,7 @@
     <td class="center"><%= '★' if bo.is_head? %></td>
     <td>
 		  <%= link_to '編集', edit_business_office_path(bo), :remote => true %>
-		  <%= link_to '削除', business_office_path(bo), {:confirm=>'削除します。よろしいですか？', :method=>:delete} %>
+		  <%= link_to '削除', business_office_path(bo), data: {confirm: '削除します。よろしいですか？'}, :method=>:delete %>
     </td>
 	</tr>
 	<% end %>

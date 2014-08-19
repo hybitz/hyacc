@@ -1,0 +1,34 @@
+<script>
+  function add_branch(trigger) {
+    var tr = $(trigger).closest('tr');
+    var params = {
+      index: tr.closest('table').find('tr').length,
+      format: 'html'
+    };
+
+    $.get('<%= url_for :action => 'add_branch' %>', params, function(html) {
+      tr.before(html);
+    });
+  }
+</script>
+<table id="branch_employees_table">
+  <tr>
+    <th colspan="4">所属部門</th>
+  </tr>
+  <tr>
+    <th>部門</th>
+    <th>コスト配分</th>
+    <th>デフォルト</th>
+    <th>削除</th>
+  </tr>
+
+  <% @e.branch_employees.each_with_index do |be, i| %>
+    <%= render 'branch_employee_fields', :be => be, :index => i %>
+  <% end %>
+
+  <tr>
+    <td colspan="4" align="right">
+      <a href="" onclick="add_branch(this); return false;">部門追加</a>
+    </td>
+  </tr>
+</table>

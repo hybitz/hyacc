@@ -65,8 +65,8 @@
       <td class="amount"><%= to_amount(t.tax_amount) %></td>
       <td align="center"><%= t.focus_on_complete_name %></td>
       <td><%= link_to '編集', {:action => :edit, :id => t.id}, :remote => true %></td>
-      <td><%= link_to '削除', {:action => 'destroy', :id => t.id}, :confirm => '削除します。よろしいですか？', :method => 'delete' %></td>
-      <td><%= link_to_function '詳細を表示', 'flipDetail(this);' %></td>
+      <td><%= link_to '削除', {:action => 'destroy', :id => t.id}, data: {confirm: '削除します。よろしいですか？'}, :method => 'delete' %></td>
+      <td><%= link_to '詳細を表示', '#', :onclick => 'flipDetail(this); return false;' %></td>
     </tr>
     <tr id="detail_1_<%= t.id %>" style="display:none;">
       <td rowspan="2"></td>

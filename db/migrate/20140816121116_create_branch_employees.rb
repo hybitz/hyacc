@@ -1,5 +1,10 @@
 class CreateBranchEmployees < ActiveRecord::Migration
   def change
+    begin
+      drop_table :branch_employees
+    rescue
+    end
+
     create_table :branch_employees do |t|
       t.integer  "branch_id",                      null: false
       t.integer  "employee_id",                    null: false

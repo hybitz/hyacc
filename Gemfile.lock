@@ -1,6 +1,5 @@
-GIT
-  remote: git@github.com:hybitz/rails-csv-fixtures.git
-  revision: 674f02ea28cad307b09bce220cf2bb772fa02b50
+PATH
+  remote: vendor/gems/rails-csv-fixtures
   specs:
     rails-csv-fixtures (0.0.2)
       rails (>= 3.2, < 5.0)

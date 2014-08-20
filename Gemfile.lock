@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:ichylinux/rails-csv-fixtures.git
+  remote: git@github.com:hybitz/rails-csv-fixtures.git
   revision: 674f02ea28cad307b09bce220cf2bb772fa02b50
   specs:
     rails-csv-fixtures (0.0.2)
@@ -252,7 +252,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (2.2.2)
+    turbolinks (2.2.3)
       coffee-rails
     tzinfo (0.3.41)
     uglifier (2.5.3)

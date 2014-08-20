@@ -1,5 +1,5 @@
 class SimpleSlipController < Base::HyaccController
-  before_filter :check_sub_accounts
+  before_action :check_sub_accounts
   view_attribute :finder, :class => Slips::SlipFinder, :include_params => :account_code
 
   # 添付されている領収書を削除状態にする
@@ -7,12 +7,12 @@ class SimpleSlipController < Base::HyaccController
     @slip = finder.find(params[:id])
     @slip.delete_flag_of_receipt_file = true
     @slip.receipt_path = nil
-    render :partial=>'form_receipt'
+    render :partial => 'form_receipt'
   end
   
   # 領収書をダウンロードする
   def download_receipt
-    slip = finder.find( params[:id] )
+    slip = finder.find(params[:id])
     send_file(UPLOAD_DIRECTORY + "/" + slip.journal_header.receipt_path)
   end
   
@@ -21,11 +21,11 @@ class SimpleSlipController < Base::HyaccController
     id = params[:id].to_i
     @slip = finder.find( id ) if id > 0
     
-    renderer = AccountDetails::AccountDetailRenderer.get_instance( params[:account_id] )
+    renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
     if renderer
-      render :partial=>renderer.get_template(controller_name)
+      render :partial => renderer.get_template(controller_name)
     else
-      render :text=>''
+      render :nothing => true
     end
   end
   

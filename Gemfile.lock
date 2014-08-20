@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:bfolkens/rails-csv-fixtures.git
+  remote: git@github.com:ichylinux/rails-csv-fixtures.git
   revision: 674f02ea28cad307b09bce220cf2bb772fa02b50
   specs:
     rails-csv-fixtures (0.0.2)

@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: housework_factory.rb 2928 2012-09-21 07:52:49Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::Journal
   
   # 家事按分仕訳ファクトリ

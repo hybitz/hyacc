@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: asset_util.rb 2484 2011-03-23 15:51:29Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module AssetUtil
   include HyaccErrors
   
@@ -39,7 +32,8 @@ module AssetUtil
     end
   end
   
-private
+  private
+
   def validate_assets_on_create(new_journal)
   end
   

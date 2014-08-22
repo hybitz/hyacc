@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: deemed_tax_factory.rb 2474 2011-03-23 15:28:08Z ichy $
-# Product: hyacc
-# Copyright 2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::Journal
   
   # みなし消費税仕訳ファクトリ
@@ -61,7 +54,8 @@ module Auto::Journal
       ret
     end
 
-  private
+    private
+
     def make_journal(ym)
       dtm = @logic.get_deemed_tax_model(ym, ym)
       

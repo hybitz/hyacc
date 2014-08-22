@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: depreciation_factory.rb 2474 2011-03-23 15:28:08Z ichy $
-# Product: hyacc
-# Copyright 2009-2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::Journal
   
   # 減価償却仕訳ファクトリ

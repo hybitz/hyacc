@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: internal_trade_factory.rb 2474 2011-03-23 15:28:08Z ichy $
-# Product: hyacc
-# Copyright 2009-2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::TransferJournal
   
   # 内部取引を本店集中会計制度に従って処理する自動振替ファクトリ

@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: transfer_journal_util.rb 2740 2011-12-12 15:00:19Z ichy $
-# Product: hyacc
-# Copyright 2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Auto::TransferJournal::TransferJournalUtil
     include JournalUtil
   

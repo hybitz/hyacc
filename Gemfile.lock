@@ -85,7 +85,7 @@ GEM
       mime-types (~> 1.16)
       nokogiri (~> 1.5)
       rails (>= 3, < 5)
-    daddy (0.3.4)
+    daddy (0.3.3)
       capybara (~> 2.4)
       ci_reporter (~> 2.0)
       cucumber (~> 1.3)

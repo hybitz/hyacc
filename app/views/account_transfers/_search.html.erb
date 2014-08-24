@@ -1,9 +1,9 @@
-<%= form_tag( {:action=>"index"}, {:method=>"get"} ) do %>
+<%= form_tag({:action => "index"}, :method => "get") do %>
   <div style="margin: 10px;">
     <div>
-      年月：<%= text_field 'finder', 'ym', :maxlength=>6 %>
+      年月：<%= text_field 'finder', 'ym', :maxlength => 6 %>
       勘定科目：<%= select("finder", "account_id", to_options_code_and_name( @accounts ), :class=>'accountSelect', :include_blank=>true ) %>
-      
+
       <% if branch_mode %>
       部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank => true ) %>
       <% end %>

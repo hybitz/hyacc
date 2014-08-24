@@ -6,11 +6,7 @@ class FiscalYearsController < Base::HyaccController
   end
 
   def new
-    @fiscal_year = FiscalYear.new
-    @fiscal_year.company_id = current_user.company_id
-    @fiscal_year.fiscal_year = current_user.company.last_fiscal_year.fiscal_year + 1
-    @fiscal_year.tax_management_type = current_user.company.current_fiscal_year.tax_management_type
-    @fiscal_year.consumption_entry_type = current_user.company.current_fiscal_year.consumption_entry_type
+    @fiscal_year = current_user.company.new_fiscal_year
   end
 
   def create

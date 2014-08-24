@@ -58,7 +58,16 @@ class Company < ActiveRecord::Base
       end
     end
   end
-  
+
+  def new_fiscal_year
+    ret = FiscalYear.new(:company_id => self.id)
+    ret.fiscal_year = last_fiscal_year.fiscal_year + 1
+    ret.tax_management_type = last_fiscal_year.tax_management_type
+    ret.consumption_entry_type = last_fiscal_year.consumption_entry_type
+    ret.closing_status = CLOSING_STATUS_OPEN
+    ret
+  end
+
   # 本部を取得する
   def get_head_office
     head_office = Branch.where(:company_id => id, :is_head_office => true)

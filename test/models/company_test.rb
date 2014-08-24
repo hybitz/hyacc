@@ -26,8 +26,17 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal( 2006, companies(:b).get_fiscal_year( 200703 ).fiscal_year )
     assert_equal( 2007, companies(:b).get_fiscal_year( 200704 ).fiscal_year )
   end
-  
-  test "本部が取得できること" do
+
+  def test_new_fiscal_year
+    assert c = Company.first
+    assert fy = c.new_fiscal_year
+    assert_equal c.last_fiscal_year.fiscal_year + 1, fy.fiscal_year
+    assert_equal c.last_fiscal_year.tax_management_type, fy.tax_management_type
+    assert_equal c.last_fiscal_year.consumption_entry_type, fy.consumption_entry_type
+    assert_equal CLOSING_STATUS_OPEN, fy.closing_status
+  end
+
+  def test_本部が取得できること
     c = Company.find(1)
     assert_not_nil(c)
     
@@ -37,7 +46,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal( true, c.get_head_office.is_head_office, "本部フラグがセットされていること")
   end
   
-  test "本社が取得できること" do
+  def test_本社が取得できること
     c = Company.find(1)
     assert_not_nil(c)
     
@@ -46,4 +55,5 @@ class CompanyTest < ActiveSupport::TestCase
     end
     assert_equal( true, c.get_head_business_office.is_head, "本部フラグがセットされていること")
   end
+
 end

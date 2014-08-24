@@ -2,6 +2,7 @@ class SocialExpensesController < Base::HyaccController
   include JournalUtil
   
   available_for :type => :company_type, :except => COMPANY_TYPE_PERSONAL
+  view_attribute :title => '交際費管理'
   view_attribute :finder, :class => SocialExpenseFinder, :except => :update
   view_attribute :ym_list, :except=>:update
   view_attribute :branches, :except=>:update

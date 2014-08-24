@@ -2,6 +2,7 @@ class TaxController < Base::HyaccController
   include JournalUtil
 
   available_for :type => :tax_management_type, :only => TAX_MANAGEMENT_TYPE_EXCLUSIVE
+  view_attribute :title => '消費税管理'
   view_attribute :finder, :class => TaxFinder, :only => :index
   view_attribute :ym_list, :only => :index
   view_attribute :branches, :only => :index

@@ -13,10 +13,10 @@
         <script>
           $(document).ready(function() {
             $('#bank_account_bank_id').change(function() {
-              $.get('<%= bank_offices_path(:format => 'json') %>',
-                { order: 'code', bank_id: $(this).val() },
-                function(json) {
-                  replace_options('#bank_account_bank_office_id', json, true);
+              var url = '<%= bank_offices_path(:format => 'json') %>';
+              var params = { order: 'code', bank_id: $(this).val() };
+              $.get(url, params, function(json) {
+                replace_options('#bank_account_bank_office_id', json, true);
               }
             );
             });
@@ -33,15 +33,15 @@
       <td><%= f.select :financial_account_type, financial_account_types %></td>
     </tr>
     <tr>
-      <th>口座番号</th>
+      <th><%= f.label :code %></th>
       <td><%= f.text_field :code, :maxlength => 10, :size => 6 %></td>
     </tr>
     <tr>
-      <th>口座名</th>
+      <th><%= f.label :name %></th>
       <td><%= f.text_field :name %></td>
     </tr>
     <tr>
-      <th>口座名義</th>
+      <th><%= f.label :holder_name %></th>
       <td><%= f.text_field :holder_name %></td>
     </tr>
   </table>

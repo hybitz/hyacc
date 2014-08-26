@@ -54,3 +54,9 @@ end
     end
   end
 end
+
+もし /^追加をクリックし、ダイアログを表示$/ do
+  click_on '追加'
+  assert page.has_selector?('.ui-dialog')
+  capture
+end

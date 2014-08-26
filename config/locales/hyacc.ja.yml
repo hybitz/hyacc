@@ -55,11 +55,9 @@ ja:
         name: 資産名
 
       bank_account: 
-        name: "名前"  
-        deleted: "を削除"  
-        created_on: "創作に"  
-        updated_on: "更新"  
-        code: "コード"  
+        code: 口座番号
+        holder_name: 口座名義
+        name: 口座名 
 
       bank: 
         name: "名称"  

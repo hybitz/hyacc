@@ -121,7 +121,7 @@ end
 end
 
 もし /^登録して終了です。$/ do
-  click_on '登録する'
+  click_on '登録'
   assert wait_until{ page.has_no_selector?("div.ui-dialog", :visible => true) }
   assert page.has_selector?('#journals_table')
   capture

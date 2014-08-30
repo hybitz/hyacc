@@ -26,8 +26,8 @@
   
     <% @journal_headers.each do |jh| %>
       <tr>
-        <td><%= jh.ym %></td>
-        <td><%= jh.day %></td>
+        <td class="yearMonth"><%= jh.ym %></td>
+        <td class="day"><%= jh.day %></td>
         <td class="remarks"><%= jh.remarks %></td>
         <td class="amount"><%= to_amount(jh.amount) %></td>
         <td></td>

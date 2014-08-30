@@ -114,7 +114,7 @@ Hyacc::Application.routes.draw do
     end
   end
 
-  resources :social_expenses
+  resources :social_expenses, :only => ['index']
   resources :sub_accounts, :only => ['index']
   resources :tax
   resources :users

@@ -32,7 +32,8 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 
   Dir[File.join(File.dirname(__FILE__), 'support', '*.rb')].each do |f|
-    self.class_eval File.read(f)
+    require f
+    include File.basename(f).split('.').first.camelize.constantize
   end
 end
 

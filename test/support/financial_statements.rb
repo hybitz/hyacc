@@ -1,29 +1,31 @@
-# coding: UTF-8
+module FinancialStatements
+  include HyaccConstants
 
-def bs_monthly_finder
-  {
-    :report_type => REPORT_TYPE_BS,
-    :report_style => REPORT_STYLE_MONTHLY
-  }
-end
-
-def bs_yearly_finder
-  {
-    :report_type => REPORT_TYPE_BS,
-    :report_style => REPORT_STYLE_YEARLY
-  }
-end
-
-def pl_monthly_finder
-  {
-    :report_type => REPORT_TYPE_PL,
-    :report_style => REPORT_STYLE_MONTHLY
-  }
-end
-
-def pl_yearly_finder
-  {
-    :report_type => REPORT_TYPE_PL,
-    :report_style => REPORT_STYLE_YEARLY
-  }
+  def bs_monthly_finder
+    {
+      :report_type => REPORT_TYPE_BS,
+      :report_style => REPORT_STYLE_MONTHLY
+    }
+  end
+  
+  def bs_yearly_finder
+    {
+      :report_type => REPORT_TYPE_BS,
+      :report_style => REPORT_STYLE_YEARLY
+    }
+  end
+  
+  def pl_monthly_finder
+    {
+      :report_type => REPORT_TYPE_PL,
+      :report_style => REPORT_STYLE_MONTHLY
+    }
+  end
+  
+  def pl_yearly_finder
+    {
+      :report_type => REPORT_TYPE_PL,
+      :report_style => REPORT_STYLE_YEARLY
+    }
+  end
 end

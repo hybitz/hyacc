@@ -1,4 +1,4 @@
-class TaxController < Base::HyaccController
+class TaxesController < Base::HyaccController
   include JournalUtil
 
   available_for :type => :tax_management_type, :only => TAX_MANAGEMENT_TYPE_EXCLUSIVE
@@ -11,14 +11,14 @@ class TaxController < Base::HyaccController
     @journal_headers = finder.list if finder.commit
   end
   
-  def update_checked
-    jh = JournalHeader.find(params[:id])
+  def update
+    j = Journal.find(params[:id])
 
-    if get_closing_status( jh ) == CLOSING_STATUS_CLOSED
+    if get_closing_status(j) == CLOSING_STATUS_CLOSED
       # 本締めの場合は更新不可
       @message = ERR_CLOSING_STATUS_CLOSED
     else
-      tai = jh.tax_admin_info
+      tai = j.tax_admin_info
       tai.checked = true
       unless tai.save
         @message = '伝票の更新に失敗しました。id=' + params[:id]

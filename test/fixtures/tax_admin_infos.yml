@@ -1,7 +1,5 @@
-# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
-
-# one:
-#   column: value
-#
-# two:
-#   column: value
+1:
+  id: 1
+  journal_header_id: 10
+  should_include_tax: true
+  checked: false

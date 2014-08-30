@@ -3,5 +3,5 @@
 end
 
 ならば /^消費税管理に遷移する$/ do
-  assert_url '^/tax$'
+  assert_url '^/taxes$'
 end

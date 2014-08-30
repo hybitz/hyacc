@@ -18,5 +18,6 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular "deemed_tax", "deemed_taxes"
   inflect.irregular "inhabitant_tax", "inhabitant_taxes"
   inflect.irregular "input_frequency", "input_frequencies"
+  inflect.irregular "tax", "taxes"
   inflect.irregular "withheld_tax", "withheld_taxes"
 end

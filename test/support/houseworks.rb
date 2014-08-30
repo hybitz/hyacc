@@ -1,7 +1,9 @@
-def housework
-  unless @_housework
-    company = freelancer.company
-    @_housework = Housework.where(:company_id => company.id, :fiscal_year => company.current_fiscal_year.fiscal_year).first
+module Houseworks
+  def housework
+    unless @_housework
+      company = freelancer.company
+      @_housework = Housework.where(:company_id => company.id, :fiscal_year => company.current_fiscal_year.fiscal_year).first
+    end
+    @_housework
   end
-  @_housework
 end

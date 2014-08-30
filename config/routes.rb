@@ -116,7 +116,7 @@ Hyacc::Application.routes.draw do
 
   resources :social_expenses, :only => ['index']
   resources :sub_accounts, :only => ['index']
-  resources :tax
+  resources :taxes, :only => ['index', 'update']
   resources :users
   resources :withheld_taxes do
     collection do

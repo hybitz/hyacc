@@ -10,7 +10,7 @@ class TaxesController < Base::HyaccController
   def index
     @journal_headers = finder.list if finder.commit
   end
-  
+
   def update
     j = Journal.find(params[:id])
 

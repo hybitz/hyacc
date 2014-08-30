@@ -19,15 +19,14 @@ class NotificationsController < Base::HyaccController
 
   def get_events
     now = Time.now
-    year_later = now + 60*60*24*31
     
     ret = []
     get_calendars.each_value do |c|
-      c.events(:singleevents=>true,
-          "start-min"=>now.strftime('%Y-%m-%dT00:00:00'),
-          "start-max"=>year_later.strftime('%Y-%m-%dT00:00:00'),
-          "recurrence-expansion-start"=>now.strftime('%Y-%m-%dT00:00:00'),
-          "recurrence-expansion-end"=>year_later.strftime('%Y-%m-%dT00:00:00')).each do |e|
+      c.events(:singleevents => true,
+          "start-min" => now.strftime('%Y-%m-%dT00:00:00'),
+          "start-max" => (now + 1.month).strftime('%Y-%m-%dT00:00:00'),
+          "recurrence-expansion-start" => now.strftime('%Y-%m-%dT00:00:00'),
+          "recurrence-expansion-end" => (now + 1.month).strftime('%Y-%m-%dT00:00:00')).each do |e|
         ret << e
       end
     end
@@ -39,9 +38,6 @@ class NotificationsController < Base::HyaccController
   end
 
   def google_service
-    unless session[:google_service]
-      session[:google_service] = GoogleCalendar::Service.new(current_user.google_account, current_user.google_password)
-    end
-    session[:google_service]
+    session[:google_service] ||= GoogleCalendar::Service.new(current_user.google_account, current_user.google_password)
   end
 end

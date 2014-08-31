@@ -5,6 +5,12 @@ class PayrollsControllerTest < ActionController::TestCase
   setup do
     sign_in user
   end
+
+  def test_個人事業主は利用不可
+    sign_in freelancer
+    get :index
+    assert_response :forbidden
+  end
   
   def test_一覧
     get :index

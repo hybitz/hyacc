@@ -1,8 +1,11 @@
 require 'test_helper'
 
 class PensionsControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+
+  def test_個人事業主は利用不可
+    sign_in freelancer
+    get :index
+    assert_response :forbidden
   end
+
 end

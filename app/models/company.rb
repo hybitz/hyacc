@@ -68,6 +68,11 @@ class Company < ActiveRecord::Base
     ret
   end
 
+  # 部門ありモードかどうか
+  def branch_mode
+    branches.size > 1
+  end
+  
   # 本部を取得する
   def get_head_office
     head_office = Branch.where(:company_id => id, :is_head_office => true)
@@ -83,7 +88,7 @@ class Company < ActiveRecord::Base
   end
 
   # 個人事業主かどうか
-  def type_of_personal
+  def personal?
     type_of == COMPANY_TYPE_PERSONAL
   end
   
@@ -94,5 +99,21 @@ class Company < ActiveRecord::Base
   def business_type_name
     return nil unless business_type_id
     business_type.name
+  end
+
+  def tax_inclusive?
+    current_fiscal_year.tax_management_type == TAX_MANAGEMENT_TYPE_INCLUSIVE
+  end
+
+  def tax_exclusive?
+    current_fiscal_year.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
+  end
+
+  def tax_general?
+    current_fiscal_year.consumption_entry_type == CONSUMPTION_ENTRY_TYPE_GENERAL
+  end
+
+  def tax_simplified?
+    current_fiscal_year.consumption_entry_type == CONSUMPTION_ENTRY_TYPE_SIMPLIFIED
   end
 end

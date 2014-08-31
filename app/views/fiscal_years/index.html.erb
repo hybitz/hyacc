@@ -13,10 +13,10 @@
       <th>消費税</th>
       <th>消費税申告</th>
       <th>締め状態</th>
-      <% if current_user.company.type_of_personal %>
-      <th>繰越状態</th>
-      <th>繰越日時</th>
-      <th>繰越利益</th>
+      <% if current_company.personal? %>
+        <th>繰越状態</th>
+        <th>繰越日時</th>
+        <th>繰越利益</th>
       <% end %>
       <th></th>
     </tr>
@@ -31,7 +31,7 @@
         <td align="center"><%= fy.tax_management_type_name %></td>
         <td align="center"><%= fy.consumption_entry_type_name %></td>
         <td align="center"><%= fy.closing_status_name %></td>
-        <% if current_user.company.type_of_personal %>
+        <% if current_company.personal? %>
         <td align="center">
             <%= link_to fy.carry_status_name, {:controller => :journal, :action => :show, :id => jh}, :remote => true if jh %>
             <%= fy.carry_status_name unless jh %>
@@ -49,7 +49,7 @@
         <% end %>
         <td>
           <%= link_to '編集', edit_fiscal_year_path(fy), :remote => true %>
-          <% if current_user.company.type_of_personal and fy.is_closed and fy.is_not_carried %>
+          <% if current_company.personal? and fy.is_closed and fy.is_not_carried %>
             <%= link_to '繰越', {:action => :confirm_carry_forward, :id => fy}, :remote => true %>
           <% end %>
         </td>

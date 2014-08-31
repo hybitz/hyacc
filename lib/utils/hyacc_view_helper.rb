@@ -3,7 +3,7 @@ module HyaccViewHelper
   
   # 部門ありモードかどうか
   def branch_mode
-    current_user.branch_mode
+    current_company.branch_mode
   end
   
   def format_datetime( date, format=nil )

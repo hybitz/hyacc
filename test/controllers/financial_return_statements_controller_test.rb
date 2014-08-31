@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 require 'test_helper'
 
 class FinancialReturnStatementsControllerTest < ActionController::TestCase
@@ -46,4 +44,9 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
     assert_template :social_expense
   end
 
+  def test_個人事業主は利用不可
+    sign_in freelancer
+    get :index
+    assert_response :forbidden
+  end
 end

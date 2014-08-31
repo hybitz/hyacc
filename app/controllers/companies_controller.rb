@@ -6,7 +6,7 @@ class CompaniesController < Base::HyaccController
     @company = Company.find(current_user.company_id)
     
     # 資本金を算出する
-    unless @company.type_of_personal
+    unless @company.personal?
       @capital = get_capital_stock( @company.fiscal_year )
     end
 

@@ -17,4 +17,18 @@ class DeemedTaxesControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
   end
 
+  def test_簡易課税なら利用可
+    assert @user = company_of_tax_simplified.users.first
+    sign_in @user
+    get :index
+    assert_response :success
+  end
+
+  def test_簡易課税でなければ利用不可
+    assert @user = company_of_tax_general.users.first
+    sign_in @user
+    get :index
+    assert_response :forbidden
+  end
+
 end

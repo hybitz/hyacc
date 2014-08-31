@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: simple_slip_helper.rb 3108 2013-07-30 11:55:41Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module SimpleSlipHelper
   include HyaccConstants
 

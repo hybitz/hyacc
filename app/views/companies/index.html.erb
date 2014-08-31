@@ -31,7 +31,7 @@
     <td></td>
   </tr>
 
-  <% unless @company.type_of_personal %>
+  <% unless @company.personal? %>
     <tr>
       <th>会社の形態</th>
       <td><%= @company.company_type_name %></td>
@@ -63,7 +63,7 @@
     </td>
   </tr>
 
-  <% unless current_user.company.type_of_personal %>
+  <% unless current_user.company.personal? %>
     <tr>
       <th>資本金</th>
       <td><%= to_amount( @capital ) %>円</td>
@@ -87,7 +87,7 @@
   </tr>
 </table>
 
-<% unless @company.type_of_personal %>
+<% unless @company.personal? %>
   <div style="margin-top: 10px">
     <span style="font-weight: bold;">事業所</span>
     <%= render 'show_business_offices' %>

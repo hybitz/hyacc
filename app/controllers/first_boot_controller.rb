@@ -5,6 +5,8 @@ class FirstBootController < ApplicationController
   
   before_action :check_first_boot
 
+  helper_method :current_company
+
   def index
     @c = Company.new(:founded_date => Date.today, :type_of => COMPANY_TYPE_PERSONAL)
     @fy = FiscalYear.new
@@ -22,7 +24,7 @@ class FirstBootController < ApplicationController
 
     # 事業開始年月
     # 個人事業主の事業開始月は1月固定（所得税法）
-    if @c.type_of_personal
+    if @c.personal?
       @c.start_month_of_fiscal_year = 1
       @c.fiscal_year = @c.founded_date.year
     else
@@ -98,7 +100,7 @@ class FirstBootController < ApplicationController
     # 勘定科目、勘定科目制御の初期データロード
     ActiveRecord::FixtureSet.create_fixtures(dir, "accounts")
     ActiveRecord::FixtureSet.create_fixtures(dir, "account_controls")
-    if @c.type_of_personal
+    if @c.personal?
       Account.delete_all(['company_only =?', true])
       Account.where('depreciable = ?', true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_AMOUNT])
     else
@@ -109,7 +111,7 @@ class FirstBootController < ApplicationController
 
     # 補助科目の初期データロード
     ActiveRecord::FixtureSet.create_fixtures(dir, "sub_accounts")
-    if @c.type_of_personal
+    if @c.personal?
       SubAccount.update_all(['social_expense_number_of_people_required = ?', false])
     end
     SubAccount.update_all(['created_on = ?, updated_on = ?', now, now])
@@ -147,6 +149,10 @@ class FirstBootController < ApplicationController
     if User.count > 0
       redirect_to new_session_path
     end
+  end
+
+  def current_company
+    @company
   end
 
 end

@@ -2,6 +2,12 @@ require 'test_helper'
 
 class HouseworkDetailsControllerTest < ActionController::TestCase
 
+  def test_個人事業主でなければ利用不可
+    sign_in user
+    xhr :get, :new, :housework_id => housework.id
+    assert_response :forbidden
+  end
+
   def test_追加
     sign_in freelancer
     xhr :get, :new, :housework_id => housework.id

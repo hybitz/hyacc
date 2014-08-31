@@ -22,11 +22,6 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
-  # 部門ありモードかどうか
-  def branch_mode
-    company.branches.size > 1
-  end
-  
   def has_google_account
     google_account.to_s.size > 0
   end

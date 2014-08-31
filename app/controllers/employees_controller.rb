@@ -1,5 +1,4 @@
 class EmployeesController < Base::HyaccController
-  available_for :type => :company_type, :except => COMPANY_TYPE_PERSONAL
   view_attribute :title => '従業員'
   view_attribute :branches, :except=>[:index, :show, :destroy]
 

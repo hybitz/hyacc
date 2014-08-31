@@ -1,7 +1,6 @@
 class HouseworksController < Base::HyaccController
   include JournalUtil
   
-  available_for :type => :company_type, :only => COMPANY_TYPE_PERSONAL
   view_attribute :title => '家事按分'
   view_attribute :finder, :class => HouseworkFinder
   view_attribute :ym_list

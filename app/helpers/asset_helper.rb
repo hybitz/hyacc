@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: asset_helper.rb 2914 2012-08-31 07:13:34Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module AssetHelper
   include HyaccViewHelper
   

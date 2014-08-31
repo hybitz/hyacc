@@ -1,0 +1,15 @@
+current_company:
+  debts: branch_mode
+  deemed_taxes: tax_simplified?
+  employees: '!personal?'
+  financial_return_statements: '!personal?'
+  houseworks: personal?
+  housework_details: personal?
+  inhabitant_taxes: '!personal?'
+  insurances: '!personal?'
+  payrolls: '!personal?'
+  pensions: '!personal?'
+  social_expenses: '!personal?'
+  taxes: tax_exclusive?
+  withheld_taxes: '!personal?'
+  withholding_slip: '!personal?'

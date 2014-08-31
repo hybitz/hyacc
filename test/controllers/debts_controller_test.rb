@@ -3,12 +3,11 @@ require 'test_helper'
 # 仮負債精算の機能テスト
 class DebtsControllerTest < ActionController::TestCase
 
-  def setup
+  setup do
     sign_in users(:user2)
   end
   
-  # 仮負債一覧表示
-  def test_index
+  def test_一覧
     get :index, :finder => {:fiscal_year => '2009', :branch_id => '3'}, :commit => '表示'
 
     assert_response :success
@@ -17,8 +16,7 @@ class DebtsControllerTest < ActionController::TestCase
     assert_equal 2, assigns(:debts).size
   end
   
-  # 仮負債個別精算
-  def test_update
+  def test_仮負債個別精算
     num_journal_headers = JournalHeader.count
     
     post :create, :journal_header_id => '6466',:branch_id => '3',
@@ -45,5 +43,12 @@ class DebtsControllerTest < ActionController::TestCase
     assert_response :internal_server_error
     assert_equal num_journal_headers, JournalHeader.count
   end
-  
+
+  def test_部門モードでない場合は利用不可
+    assert !freelancer.company.branch_mode
+    sign_in freelancer
+    get :index
+    assert_response :forbidden
+  end
+
 end

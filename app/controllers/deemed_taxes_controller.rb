@@ -1,9 +1,7 @@
 class DeemedTaxesController < Base::HyaccController
   include JournalUtil
 
-  available_for :type => :consumption_entry_type, :only => CONSUMPTION_ENTRY_TYPE_SIMPLIFIED
   view_attribute :title => 'みなし消費税'
-
   before_filter :check_business_type
   
   def index

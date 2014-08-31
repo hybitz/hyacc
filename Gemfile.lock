@@ -247,6 +247,7 @@ GEM
       colorize
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    strong_actions (0.0.2)
     thin (1.6.2)
       daemons (>= 1.0.9)
       eventmachine (>= 1.0.0)
@@ -302,6 +303,7 @@ DEPENDENCIES
   rmagick
   sass-rails (~> 4.0.2)
   sdoc
+  strong_actions
   thin
   turbolinks
   uglifier (>= 1.3.0)

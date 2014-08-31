@@ -212,7 +212,7 @@ module Slips
       jd1.tax_type = TAX_TYPE_NONTAXABLE
       jd1.tax_rate_percent = 0
       jd1.account_id = account.id
-      jd1.branch_id = @user.branch_mode ? @branch_id : @user.employee.default_branch.id
+      jd1.branch_id = @user.company.branch_mode ? @branch_id : @user.employee.default_branch.id
       jd1.sub_account_id = @my_sub_account_id if @my_sub_account_id > 0
       jd1.amount = calc_amount(@tax_type, amount, tax_amount) + tax_amount
       ret << jd1

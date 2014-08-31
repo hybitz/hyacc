@@ -3,7 +3,7 @@
     <% show_separator = false %>
     <% controllers.each_with_index {|c, index| %>
       <% next if index == 0 %>
-      <% next unless is_available(c[:name]) %>
+      <% next unless available?(c[:name]) %>
 
       <% if show_separator %>
       |

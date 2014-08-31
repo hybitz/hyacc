@@ -59,7 +59,7 @@
   <%= link_to '伝票管理', journal_admin_path, :style => style_for_menu(journal_admin_controllers) %>
   |
 
-  <% if is_available('payrolls') %>
+  <% if available?('payrolls') %>
     <%= link_to '賃金台帳', payrolls_path, :style => style_for_menu('payroll') %>
     |
   <% end %>

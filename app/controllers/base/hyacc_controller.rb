@@ -6,18 +6,10 @@ module Base
     include SessionHelper
     include ViewAttributeHandler
     include ExceptionHandler
-    include AclHandler
 
     before_filter :check_first_boot
     before_filter :check_login_status
     before_filter :load_view_attributes
-
-    # 会社の形態によりコントローラが利用可能かを確認する
-    # return true  利用可能
-    #        false 利用不可能
-    def is_available_controller?(user)
-      is_available?(controller_name, user, @@acl_table)
-    end
 
     protected
 
@@ -45,11 +37,6 @@ module Base
       get_attributes()[attribute_name]
     end
     
-    def self.available_for(options)
-      @@acl_table[controller_name] = [] unless @@acl_table[controller_name]
-      @@acl_table[controller_name] << options
-    end
-
     def finder
       # ファインダー指定のないアクションの場合はセッション上のファインダーを利用する
       unless @finder
@@ -74,11 +61,6 @@ module Base
         redirect_to new_session_path and return
       end
       
-      unless is_available_controller?(current_user)
-        reset_session
-        redirect_to new_session_path and return
-      end
-
       # メニューのロゴ表示用
       @company = current_user.company if current_user
     end

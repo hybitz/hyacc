@@ -1,7 +1,6 @@
 class DebtsController < Base::HyaccController
   include JournalUtil
 
-  available_for :type => :branch_mode, :only => true
   view_attribute :title => '仮負債精算'
   view_attribute :finder, :class => DebtFinder, :only => :index
   view_attribute :ym_list, :only => :index

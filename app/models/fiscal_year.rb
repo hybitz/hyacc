@@ -99,7 +99,7 @@ class FiscalYear < ActiveRecord::Base
 
   # 個人事業主の場合は家事按分を作成
   def create_housework
-    if company.type_of_personal
+    if company.personal?
       hw = Housework.find_by_fiscal_year(fiscal_year)
       unless hw
         hw = Housework.new

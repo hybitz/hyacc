@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: journal_helper.rb 3164 2014-01-01 11:07:49Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module JournalHelper
   include HyaccConstants
 

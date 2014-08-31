@@ -2,8 +2,6 @@ class PayrollsController < Base::HyaccController
   include PayrollHelper
   include JournalUtil
   
-  available_for :type => :company_type, :except => COMPANY_TYPE_PERSONAL
-  
   view_attribute :title => '賃金台帳'
   view_attribute :finder, :class => PayrollFinder, :only => :index
   view_attribute :ym_list, :only => :index

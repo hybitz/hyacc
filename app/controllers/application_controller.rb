@@ -5,11 +5,7 @@ class ApplicationController < ActionController::Base
 
   include CurrentCompany
 
-  rescue_from StrongActions::ForbiddenAction, :with => :render_403
-
-  protected
-
-  def render_403
+  rescue_from StrongActions::ForbiddenAction do
     render :file => 'public/403.html', :layout => false, :status => :forbidden
   end
 

@@ -1,7 +1,8 @@
 class SimpleSlipTemplateFinder < Daddy::Model
   
   def list
-    SimpleSlipTemplate.where(conditions).includes([:account, :branch]).order('remarks').paginate(page: page, per_page: slips_per_page)
+    ret = SimpleSlipTemplate.where(conditions).includes([:account, :branch]).order('remarks')
+    ret = ret.paginate(page: page, per_page: per_page)
   end
 
   def sub_accounts

@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: social_expense_model.rb 2477 2011-03-23 15:29:30Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Reports
   class SocialExpenseModel
   
@@ -66,7 +59,7 @@ module Reports
     # 通常は12ヶ月だが、初年度と最終年度は計算が必要
     def get_business_months
       if fiscal_year == company.founded_fiscal_year.fiscal_year
-        founded_month = company.founded_date / 100 % 100
+        founded_month = company.founded_date.month
   
         if founded_month <= company.start_month_of_fiscal_year
           company.start_month_of_fiscal_year - founded_month

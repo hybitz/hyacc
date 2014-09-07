@@ -1,5 +1,12 @@
 module Companies
 
+  def company
+    unless @_company
+      assert @_company = Company.not_deleted.first
+    end
+    @_company
+  end
+
   def company_of_tax_general
     unless @_company_of_tax_general
       Company.find_each do |c|

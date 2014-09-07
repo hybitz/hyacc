@@ -10,7 +10,7 @@
     <%= jd.tax_type_name %>
     <%= "#{jd.tax_rate_percent}%" unless jd.tax_type_nontaxable? %>
   </td>
-  <td class="amount"><%= to_amount(jd.tax_amount, :show_zero=>true) %></td>
+  <td class="amount"><%= to_amount(jd.tax_amount, :show_zero => true) %></td>
   <td class="amount"><%= to_amount(jd.tax_type == HyaccConstants::TAX_TYPE_EXCLUSIVE ? jd.input_amount + jd.tax_amount : jd.input_amount ) %></td>
   <td nowrap>
     <a id="journal_details_<%= jd.detail_no %>_link" href="javascript:flipDetail('journal_details_<%= jd.detail_no %>');"><%= message_for_details %></a>

@@ -122,12 +122,12 @@ module ApplicationHelper
   end
 
   # 勘定科目別の詳細を表示する
-  def render_account_details(account_id, options={})
-    renderer = AccountDetails::AccountDetailRenderer.get_instance( account_id )
+  def render_account_details(account_id, options = {})
+    renderer = AccountDetails::AccountDetailRenderer.get_instance(account_id)
     if renderer
       render renderer.get_template(controller.controller_name), options[:locals]
     else
-      render :text=>''
+      render :text => ''
     end
   end
 

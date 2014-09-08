@@ -1,4 +1,4 @@
-class JournalHeaderValidator < ActiveModel::Validator
+class JournalValidator < ActiveModel::Validator
   include HyaccUtil
   
   def validate(record)

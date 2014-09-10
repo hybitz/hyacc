@@ -7,18 +7,18 @@ class FiscalYear < ActiveRecord::Base
   validates_uniqueness_of :fiscal_year, :scope => :company_id
   after_save :create_housework
   after_create :create_sequence_for_asset_code
-  
+
   def get_carry_forward_journal
     journals = JournalHeader.find_closing_journals(self, SLIP_TYPE_CARRY_FORWARD)
     return nil if journals.empty?
     return journals.first if journals.size == 1
     raise HyaccException.new(ERR_DUPLICATEE_CARRY_FORWARD_JOURNAL)
   end
-  
+
   def get_deemed_tax_journals
     JournalHeader.find_closing_journals(self, SLIP_TYPE_DEEMED_TAX)
   end
-  
+
   def tax_exclusive?
     self.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
   end
@@ -30,7 +30,7 @@ class FiscalYear < ActiveRecord::Base
   def closing_status_name
     CLOSING_STATUS[ closing_status ]
   end
-  
+
   def consumption_entry_type_name
     CONSUMPTION_ENTRY_TYPES[ consumption_entry_type ]
   end

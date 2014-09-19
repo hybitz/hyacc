@@ -47,9 +47,8 @@ class SessionsController < Base::HyaccController
       redirect_to root_path and return
     end
 
-    jump_to = session[:jump_to]
-    session[:jump_to] = nil
-    redirect_to jump_to and return
+    jump_to = session.delete(:jump_to)
+    redirect_to url_for(jump_to) and return
   end
 
 end

@@ -34,6 +34,9 @@ Hyacc::Application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
+
 	config.cache_store = :null_store
 
   # アップロードした領収書の保存先

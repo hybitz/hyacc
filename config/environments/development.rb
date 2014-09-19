@@ -27,6 +27,9 @@ Hyacc::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
+
   config.cache_store = :dalli_store, 'localhost:11211', {:namespace => 'hyacc_dev'}
 
   # アップロードした領収書の保存先

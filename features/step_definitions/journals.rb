@@ -4,11 +4,12 @@ end
 
 もし /^任意の振替伝票の(参照|編集|削除)をクリックする$/ do |action|
   all('#journals_table tr').each do |tr|
-    if tr.has_link?(action)
+    next unless tr.has_link?(action)
+    within tr do
       click_on action
-      confirm if action == '削除'
-      break
     end
+    confirm if action == '削除'
+    break
   end
 end
 

@@ -1,3 +1,3 @@
-role :app, %w{localhost}
-role :web, %w{localhost}
-role :db,  %w{localhost}
+role :app, %w{hyacc-server}
+role :web, %w{hyacc-server}
+role :db,  %w{hyacc-server}

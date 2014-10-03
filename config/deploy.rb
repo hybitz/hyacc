@@ -3,7 +3,6 @@ lock '3.2.1'
 
 set :application, 'hyacc'
 set :repo_url, 'git://github.com/hybitz/hyacc.git'
-set :user, ENV['USER']
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -11,7 +10,7 @@ set :branch, ENV['BRANCH'] || 'release'
 
 # Default deploy_to directory is /var/www/my_app
 # set :deploy_to, '/var/www/my_app'
-set :deploy_to, "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
+set :deploy_to, "/var/apps/#{fetch(:application)}"
 
 # Default value for :scm is :git
 set :scm, :git

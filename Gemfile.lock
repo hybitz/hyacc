@@ -281,6 +281,7 @@ DEPENDENCIES
   activerecord-session_store
   acts_as_tree
   capistrano
+  capistrano-bundler
   capistrano-rails
   carrierwave
   coffee-rails (~> 4.0.0)

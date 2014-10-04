@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140907060401) do
+ActiveRecord::Schema.define(version: 20141004053428) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -131,15 +131,6 @@ ActiveRecord::Schema.define(version: 20140907060401) do
     t.boolean  "deleted",        default: false, null: false
     t.datetime "created_on"
     t.datetime "updated_on"
-  end
-
-  create_table "branches_employees", id: false, force: true do |t|
-    t.integer  "branch_id",                      null: false
-    t.integer  "employee_id",                    null: false
-    t.integer  "cost_ratio",     default: 0,     null: false
-    t.boolean  "default_branch", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "business_offices", force: true do |t|

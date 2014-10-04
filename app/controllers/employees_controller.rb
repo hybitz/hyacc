@@ -14,7 +14,7 @@ class EmployeesController < Base::HyaccController
   end
 
   def add_branch
-    @be = BranchesEmployee.new
+    @be = BranchEmployee.new
     render :partial => 'branch_employee_fields', :locals => {:be => @be, :index => params[:index]}
   end
 

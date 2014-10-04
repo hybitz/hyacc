@@ -42,7 +42,7 @@ class FirstBootController < ApplicationController
     @b.name = '本社'
     @b.is_head_office = true
 
-    @be = BranchesEmployee.new
+    @be = BranchEmployee.new
     @be.cost_ratio = 100
     @be.default_branch = true
 

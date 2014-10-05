@@ -33,7 +33,7 @@ module Base::ExceptionHandler
   end
 
   def handle_socket_error(e, options={})
-    if controller_name == 'notification' and action_name == 'get_todo_events'
+    if controller_name == 'notification'
       message = 'Googleカレンダーに接続できませんでした。'
       HyaccLogger.warn message,e if RAILS_ENV == 'production'
     else

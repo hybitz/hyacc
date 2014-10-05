@@ -16,6 +16,7 @@
 //= require jquery-ui
 //= require jquery-ui/datepicker-ja
 //= require jquery.remotipart
+//= require fullcalendar
 //= require daddy
 //= require jquery-ui/ympicker-ja
 //= require vendor

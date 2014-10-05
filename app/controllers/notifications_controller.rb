@@ -1,9 +1,12 @@
+require 'uri'
+require 'gcalapi'
+require 'googlecalendar/auth_sub_util'
+require 'googlecalendar/service_auth_sub'
+require 'googlecalendar/calendar'
+require "colorable"
+
 class NotificationsController < Base::HyaccController
-  require 'uri'
-  require 'gcalapi'
-  require 'googlecalendar/auth_sub_util'
-  require 'googlecalendar/service_auth_sub'
-  require 'googlecalendar/calendar'
+  include Colorable
 
   def index
     begin
@@ -12,21 +15,54 @@ class NotificationsController < Base::HyaccController
       handle(e)
     end
     
-    render :layout => ! request.xhr?
+    respond_to do |format|
+      format.html { render :layout => ! request.xhr? }
+      format.json { render :json => events_as_json(@events) }
+    end
   end
 
   private
 
+  def events_as_json(events)
+    ret = []
+
+    @events.each do |e|
+      hash = {}
+      hash[:title] = e.title
+      hash[:allDay] = e.allday
+      hash[:start] = e.st.localtime
+      hash[:end] = e.en.localtime unless e.allday
+      hash[:backgroundColor] = next_color(e.who)
+      ret << hash
+    end if @events.present?
+
+    ret.to_json
+  end
+
+  def next_color(who)
+    @colors ||= {}
+    ret = @colors[who]
+
+    unless ret
+      @color ||= Color.new :blanched_almond
+      @color = @color.next
+      until @color.dark?
+        @color = @color.next
+      end
+      ret = @colors[who] = @color
+    end
+
+    ret.hex
+  end
+
   def get_events
-    now = Time.now
-    
     ret = []
     get_calendars.each_value do |c|
       c.events(:singleevents => true,
-          "start-min" => now.strftime('%Y-%m-%dT00:00:00'),
-          "start-max" => (now + 1.month).strftime('%Y-%m-%dT00:00:00'),
-          "recurrence-expansion-start" => now.strftime('%Y-%m-%dT00:00:00'),
-          "recurrence-expansion-end" => (now + 1.month).strftime('%Y-%m-%dT00:00:00')).each do |e|
+          "start-min" => Time.at(params[:start].to_i).strftime('%Y-%m-%dT00:00:00'),
+          "start-max" => Time.at(params[:end].to_i).strftime('%Y-%m-%dT00:00:00'),
+          "recurrence-expansion-start" => Time.at(params[:start].to_i).strftime('%Y-%m-%dT00:00:00'),
+          "recurrence-expansion-end" => Time.at(params[:end].to_i).strftime('%Y-%m-%dT00:00:00')).each do |e|
         ret << e
       end
     end

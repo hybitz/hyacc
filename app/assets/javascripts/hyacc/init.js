@@ -16,12 +16,5 @@ hyacc.init_datepicker = function() {
 };
 
 $(document).ready(function() {
-  $.ajaxSetup({
-    beforeSend: function() {
-      $('html').addClass('busy'); 
-    },
-    complete: function() {
-     $('html').removeClass('busy');  
-    }
-  });
+  hyacc.init_datepicker();
 });

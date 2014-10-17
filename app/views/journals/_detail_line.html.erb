@@ -199,7 +199,7 @@
   var taxAmountField = document.getElementById( detailTr.id + '_tax_amount' );
   var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
 
-  if ( taxType == tax.TAX_TYPE_NONTAXABLE ) {
+  if ( taxType == tax.NONTAXABLE ) {
     taxAmountField.value = "";
     taxAmountField.disabled = 'disabled';
   }

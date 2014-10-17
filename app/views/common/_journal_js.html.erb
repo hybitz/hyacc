@@ -57,19 +57,19 @@
     var taxRate = tax.getRateOn(date);
 
     // 非課税の場合は消費税入力欄を非活性にする
-    if ( taxType == tax.TAX_TYPE_NONTAXABLE ) {
+    if ( taxType == tax.NONTAXABLE ) {
       taxRatePercentField.value = '';
       taxAmountField.value = '';
       taxAmountField.disabled = 'disabled';
     }
     // 内税の場合は消費税を自動計算する
-    else if ( taxType == tax.TAX_TYPE_INCLUSIVE ) {
+    else if ( taxType == tax.INCLUSIVE ) {
       taxRatePercentField.value = taxRate * 100;
       taxAmountField.value = tax.calcTaxAmount(taxType, taxRate, amount);
       taxAmountField.disabled = null;
     }
     // 外税の場合は消費税を自動計算する
-    else if ( taxType == tax.TAX_TYPE_EXCLUSIVE ) {
+    else if ( taxType == tax.EXCLUSIVE ) {
       taxRatePercentField.value = taxRate * 100;
       taxAmountField.value = tax.calcTaxAmount(taxType, taxRate, amount);
       taxAmountField.disabled = null;
@@ -97,7 +97,7 @@
         }
         
         var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
-        if ( taxType == tax.TAX_TYPE_EXCLUSIVE ) {
+        if ( taxType == tax.EXCLUSIVE ) {
           amount += taxAmount;
         }
         

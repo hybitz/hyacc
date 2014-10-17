@@ -5,7 +5,7 @@ first:
   login_id: user1
   slips_per_page: 180
   email: user1@example.com
-  crypted_password: 4546b880dbb8ca7b7c1c68802b1ceb90
+  encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
 
 user2:
@@ -15,7 +15,7 @@ user2:
   login_id: user2
   slips_per_page: 20
   email: user2@example.com
-  crypted_password: 4546b880dbb8ca7b7c1c68802b1ceb90
+  encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
 
 user3:
@@ -24,7 +24,8 @@ user3:
   employee_id: 3
   login_id: user3
   slips_per_page: 10
-  crypted_password: 4546b880dbb8ca7b7c1c68802b1ceb90
+  email: user3@example.com
+  encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
 
 user4:
@@ -33,7 +34,8 @@ user4:
   employee_id: 4
   login_id: user4
   slips_per_page: 30
-  crypted_password: 4546b880dbb8ca7b7c1c68802b1ceb90
+  email: user4@example.com
+  encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
 
 user5:
@@ -42,7 +44,8 @@ user5:
   employee_id: 4
   login_id: user5
   slips_per_page: 30
-  crypted_password: 4546b880dbb8ca7b7c1c68802b1ceb90
+  email: user5@example.com
+  encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
 
 user6:
@@ -52,6 +55,6 @@ user6:
   login_id: user6
   slips_per_page: 30
   email: user6@example.com
-  crypted_password: 4546b880dbb8ca7b7c1c68802b1ceb90
+  encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
   

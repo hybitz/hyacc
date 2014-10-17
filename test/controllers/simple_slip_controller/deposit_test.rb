@@ -3,30 +3,28 @@ require 'test_helper'
 class SimpleSlipController::DepositTest < ActionController::TestCase
   include HyaccUtil
   
-  def setup
-    @request.session[:user_id] = users(:first).id
+  setup do
+    sign_in user
   end
 
   def test_create
-    num_journal_headers = JournalHeader.count
-
-    post :create,
-      :account_code=>ACCOUNT_CODE_ORDINARY_DIPOSIT,
-      :slip => {
-        "my_sub_account_id"=>"1",
-        "ym"=>"200712",
-        "remarks"=>"a",
-        "branch_id"=>"2",
-        "account_id"=>"2",
-        "id"=>"",
-        "day"=>"07",
-        "amount_increase"=>"10000",
-        :tax_type => TAX_TYPE_NONTAXABLE}
+    assert_difference 'JournalHeader.count' do
+      post :create,
+        :account_code=>ACCOUNT_CODE_ORDINARY_DIPOSIT,
+        :slip => {
+          "my_sub_account_id"=>"1",
+          "ym"=>"200712",
+          "remarks"=>"a",
+          "branch_id"=>"2",
+          "account_id"=>"2",
+          "id"=>"",
+          "day"=>"07",
+          "amount_increase"=>"10000",
+          :tax_type => TAX_TYPE_NONTAXABLE}
+    end
 
     assert_response :redirect
     assert_redirected_to :action=>:index
-
-    assert_equal num_journal_headers + 1, JournalHeader.count
   end
   
   def test_index

@@ -6,7 +6,7 @@ module CurrentCompany
   end
 
   def current_company
-    current_user ? current_user.company : nil
+    current_user.company if user_signed_in?
   end
 
 end

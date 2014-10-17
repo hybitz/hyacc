@@ -450,7 +450,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   # 自動仕訳がある簡易入力伝票が編集画面に遷移できること
   def test_edit_fail
-    finder = Slips::SlipFinder.new(User.find(@request.session[:user_id]))
+    finder = Slips::SlipFinder.new(current_user)
     finder.account_code = Account.get(3).code
     slip = finder.find(6)
     assert_not_nil slip

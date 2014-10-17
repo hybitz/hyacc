@@ -3,7 +3,6 @@ module Base::ViewAttributeHandler
   require 'models/name_and_value'
   include HyaccUtil
   include HyaccViewHelper
-  include SessionHelper
 
   protected
 

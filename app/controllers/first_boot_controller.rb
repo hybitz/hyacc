@@ -2,7 +2,8 @@ class FirstBootController < ApplicationController
   require 'active_record/fixtures'
   include HyaccDateUtil
   include Base::ExceptionHandler
-  
+
+  skip_before_action :authenticate_user!  
   before_action :check_first_boot
 
   helper_method :current_company
@@ -146,9 +147,7 @@ class FirstBootController < ApplicationController
 
   # インストール済みかどうかチェックする
   def check_first_boot
-    if User.count > 0
-      redirect_to new_session_path
-    end
+    redirect_to new_user_session_path if User.count > 0
   end
 
   def current_company

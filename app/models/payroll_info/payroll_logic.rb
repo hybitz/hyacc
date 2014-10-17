@@ -28,40 +28,54 @@ module PayrollInfo
       return total_base_salary
     end
     
-    
+    # みなし給与
+    def get_total_deemed_salary
+      deemed_salary = get_total_base_salary
+      deemed_salary = (deemed_salary/4000).to_i * 4000 if deemed_salary >= 1628000 && deemed_salary <= 6599999
+    end
     # 給与所得控除額
     def get_deduction
-      total_base_salary = get_total_base_salary
+      # みなし給与で計算
+      deemed_salary = get_total_deemed_salary
       deduction = 650000
-      case total_base_salary
+      case deemed_salary
       when 0 .. 1625000
         deduction = 650000
       when 1625001 .. 1800000
-        deduction = total_base_salary * 0.4
+        deduction = deemed_salary * 0.4
       when 1800001 .. 3600000
-        deduction = total_base_salary * 0.3 + 180000
+        deduction = deemed_salary * 0.3 + 180000
       when 3600001 .. 6600000
-        deduction = total_base_salary * 0.2 + 540000
+        deduction = deemed_salary * 0.2 + 540000
       when 6600001 .. 10000000
-        deduction = total_base_salary * 0.1 + 1200000
+        deduction = deemed_salary * 0.1 + 1200000
       when 10000001 .. 
-        deduction = total_base_salary * 0.05 + 1700000
+        deduction = deemed_salary * 0.05 + 1700000
       end
       
-      deduction = 2450000 if total_base_salary > 15000000 && @calendar_year >= 2013
+      deduction = 2450000 if deemed_salary > 15000000 && @calendar_year >= 2013
       
       return deduction
     end
     
     # 給与所得控除後
     def get_after_deduction
-      get_total_base_salary - get_deduction
+      # みなし給与で計算
+      get_total_deemed_salary - get_deduction
     end
     
     # 控除額（基礎控除、扶養控除等）
     def get_exemption
+      # 控除額の取得
+      HyaccLogger.error "20141017:" + @employee_id.to_s + "," + @calendar_year.to_s
+      
+      e = Exemptions.where(:employee_id => @employee_id, :yyyy => @calendar_year).first
+      a = e.small_scale_mutual_aid + e.life_insurance_premium + e.earthquake_insurance_premium +
+           e.special_tax_for_spouse + e.basic_etc
+           
       # 社会保険料等の控除額＋基礎控除等
-      total = get_health_insurance + get_employee_pention + 790000
+      total = get_health_insurance + get_employee_pention + a
+      
       return total
     end
     
@@ -81,8 +95,8 @@ module PayrollInfo
       end
       
       # 復興特別税（H25以降）
-      b = b * 1.021 if @calendar_year >= 2013
-      b = (b/100).to_i * 100
+      total_tax = total_tax * 1.021 if @calendar_year >= 2013
+      total_tax = (total_tax/100).to_i * 100
       
       return total_tax
     end

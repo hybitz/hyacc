@@ -1,17 +1,10 @@
-# coding: UTF-8
-#
-# $Id: crud_test.rb 3367 2014-02-07 15:05:22Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class SimpleSlipController::CrudTest < ActionController::TestCase
   include HyaccUtil
 
   setup do
-    @request.session[:user_id] = users(:first).id
+    sign_in user
   end
 
   def test_Trac_144_売上高の補助科目が受注先である場合に正しく伝票登録できること
@@ -73,7 +66,8 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
   
   def test_更新時に登録ユーザが更新されていないこと
     user = User.find(2)
-    @request.session[:user_id] = user.id
+    sign_in user
+
     finder = Slips::SlipFinder.new(user)
     finder.account_code = Account.get(2).code # 現金
     slip = finder.find(11)
@@ -82,8 +76,7 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
     assert_equal '100', slip.asset_code
     assert_equal 0, slip.asset_lock_version
     
-    post :update, :format => 'js',
-      :account_code=>finder.account_code,
+    xhr :patch, :update, :account_code => finder.account_code,
       :slip => {
         "id"=>slip.id,
         "ym"=>slip.ym,

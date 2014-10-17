@@ -5,8 +5,7 @@ class AccountTransfersControllerTest < ActionController::TestCase
   include HyaccErrors
 
   def test_初期画面の表示
-    @request.session[:user_id] = 4
-    
+    sign_in freelancer
     get :index
     assert_response :success
   end
@@ -19,9 +18,8 @@ class AccountTransfersControllerTest < ActionController::TestCase
     assert_equal 29, JournalDetail.find(56).account_id
     assert_equal 2, JournalDetail.find(57).account_id
 
-    user = User.find(4)
-    @request.session[:user_id] = user.id
-    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(user)
+    sign_in freelancer
+    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(freelancer)
 
     post :update_details,
       {
@@ -49,9 +47,8 @@ class AccountTransfersControllerTest < ActionController::TestCase
   end
 
   def test_楽観ロックが無効な場合に更新できないこと
-    user = User.find(4)
-    @request.session[:user_id] = user.id
-    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(user)
+    sign_in freelancer
+    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(freelancer)
 
     post :update_details,
       {
@@ -66,9 +63,8 @@ class AccountTransfersControllerTest < ActionController::TestCase
   end
 
   def test_自動仕訳が更新できないこと
-    user = User.find(4)
-    @request.session[:user_id] = user.id
-    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(user)
+    sign_in freelancer
+    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(freelancer)
 
     post :update_details,
       {
@@ -83,8 +79,7 @@ class AccountTransfersControllerTest < ActionController::TestCase
   end
   
   def test_資産が関連している明細が更新できないこと
-    user = User.find(1)
-    @request.session[:user_id] = user.id
+    sign_in user
     @request.session[:AccountTransferFinder] = AccountTransferFinder.new(user)
 
     post :update_details,

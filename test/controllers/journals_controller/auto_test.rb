@@ -4,7 +4,7 @@ require 'test_helper'
 class JournalsController::AutoTest < ActionController::TestCase
 
   def setup
-    @request.session[:user_id] = users(:user3).id
+    sign_in User.find(3)
   end
 
   def test_create_head_and_branch

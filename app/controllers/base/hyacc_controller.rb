@@ -3,7 +3,6 @@ module Base
     include HyaccConstants
     include HyaccErrors
     include HyaccUtil
-    include SessionHelper
     include ViewAttributeHandler
     include ExceptionHandler
 

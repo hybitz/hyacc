@@ -38,8 +38,19 @@ class ActiveSupport::TestCase
 end
 
 class ActionController::TestCase
+  include Devise::TestHelpers
 
   protected
+
+  def sign_in(user)
+    super(user)
+    
+    @_current_user = user
+  end
+
+  def current_user
+    @_current_user
+  end
 
   def upload_file(filename, content_type='text')
     path = File.new("#{Rails.root}/test/upload_files/#{filename}")

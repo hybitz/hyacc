@@ -4,10 +4,7 @@ class UsersControllerTest < ActionController::TestCase
   include HyaccViewHelper
 
   def setup
-    @first_id = users(:first).id
-
-    @request.session[:user_id] = users(:first).id
-    @request.session[:company] = companies(:a)
+    sign_in user
   end
 
   def test_index
@@ -19,7 +16,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_show
-    get :show, :id => @first_id, :format => 'js'
+    xhr :get, :show, :id => user.id
 
     assert_response :success
     assert_template 'show'
@@ -29,31 +26,29 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_new
-    get :new, :format => 'js'
-
+    xhr :get, :new
     assert_response :success
     assert_template 'new'
-
     assert_not_nil assigns(:user)
   end
 
   def test_create
-    num_users = User.count
-
-    post :create, :format => 'js', :user => {
-      :login_id => 'zero',
-      :password => 'zero',  
-      :employee_attributes => {
-        :company_id => User.find(@request.session[:user_id]).company_id,
-        :last_name => 'test_create', 
-        :first_name => 'a', 
-        :employment_date => '2009-01-01',
-        :sex => 'M',
+    assert_difference 'User.count' do
+      xhr :post, :create, :user => {
+        :login_id => 'zero',
+        :password => 'zerozero',
+        :email => 'test@example.com',
+        :employee_attributes => {
+          :company_id => current_user.company_id,
+          :last_name => 'test_create', 
+          :first_name => 'a', 
+          :employment_date => '2009-01-01',
+          :sex => 'M',
+        }
       }
-    }
-
+    end
+ 
     assert_response :success
-    assert_equal num_users + 1, User.count
     
     u = User.find_by_login_id('zero')
     assert_not_nil u
@@ -65,7 +60,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_edit
-    get :edit, :id => @first_id, :format => 'js'
+    xhr :get, :edit, :id => user.id
 
     assert_response :success
     assert_template 'edit'
@@ -75,7 +70,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_更新
-    xhr :patch, :update, :id => @first_id, :user => valid_user_params
+    xhr :patch, :update, :id => user.id, :user => valid_user_params
     assert_response :success
     assert_template 'common/reload'
   end
@@ -94,13 +89,13 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_本人を削除した場合_ログアウトすること
     assert_nothing_raised {
-      User.find(@first_id)
+      User.find(user.id)
     }
 
-    delete :destroy, :id => @first_id
+    delete :destroy, :id => user.id
 
     assert_response :redirect
-    assert_redirected_to new_session_path
-    assert User.find(@first_id).deleted?
+    assert_redirected_to new_user_session_path
+    assert User.find(user.id).deleted?
   end
 end

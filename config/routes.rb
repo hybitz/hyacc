@@ -1,5 +1,7 @@
 Hyacc::Application.routes.draw do
 
+  devise_for :users
+
   resources :accounts do
     collection do
       get  'add_sub_account'
@@ -105,7 +107,6 @@ Hyacc::Application.routes.draw do
   end
 
   resources :rents
-  resources :sessions, :only => ['new', 'create', 'destroy']
 
   resources :simple_slip_templates do
     collection do

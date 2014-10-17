@@ -15,7 +15,7 @@ class FirstBootControllerTest < ActionController::TestCase
 
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_path
+    assert_redirected_to new_user_session_path
   end
 
   def test_個人事業主として登録
@@ -25,7 +25,7 @@ class FirstBootControllerTest < ActionController::TestCase
         :c => {:name => 'テスト会社', :founded_date => Date.today, :type_of => COMPANY_TYPE_PERSONAL},
         :fy => {:tax_management_type => TAX_MANAGEMENT_TYPE_EXEMPT},
         :e => {:last_name => '山田', :first_name => '花子', :sex => SEX_TYPE_F},
-        :u => {:login_id => 'test', :password => 'testtest'}
+        :u => {:login_id => 'test', :password => 'testtest', :email => 'test@example.com'}
 
     assert @c = assigns(:c)
     assert_response :redirect
@@ -39,7 +39,7 @@ class FirstBootControllerTest < ActionController::TestCase
         :c => {:name => 'テスト会社', :founded_date => Date.today, :type_of => COMPANY_TYPE_COLTD},
         :fy => {:tax_management_type => TAX_MANAGEMENT_TYPE_EXCLUSIVE},
         :e => {:last_name => '山田', :first_name => '花子', :sex => SEX_TYPE_F},
-        :u => {:login_id => 'test', :password => 'testtest'}
+        :u => {:login_id => 'test', :password => 'testtest', :email => 'test@example.com'}
 
     assert @c = assigns(:c)
     assert_response :redirect
@@ -53,7 +53,7 @@ class FirstBootControllerTest < ActionController::TestCase
         :c => {:name => '', :founded_date => Date.today, :type_of => COMPANY_TYPE_PERSONAL},
         :fy => {:tax_management_type => TAX_MANAGEMENT_TYPE_EXEMPT},
         :e => {:last_name => '', :first_name => '', :sex => SEX_TYPE_F},
-        :u => {:login_id => '', :password => ''}
+        :u => {:login_id => '', :password => '', :email => ''}
 
     assert_response :success
     assert_template :index

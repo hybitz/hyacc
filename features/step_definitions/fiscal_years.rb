@@ -11,7 +11,7 @@ end
   assert page.has_selector?("span.ui-dialog-title", :text => /会計年度.*追加/)
   capture
   
-  @expected = @current_user.company.last_fiscal_year.fiscal_year + 1
+  @expected = current_user.company.last_fiscal_year.fiscal_year + 1
 end
 
 ならば /^翌年度が登録され、一覧に表示される$/ do

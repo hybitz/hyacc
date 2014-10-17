@@ -1,16 +1,9 @@
-# coding: UTF-8
-#
-# $Id: cash_test.rb 3367 2014-02-07 15:05:22Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class SimpleSlipController::CashTest < ActionController::TestCase
 
-  def setup
-    @request.session[:user_id] = users(:first).id
+  setup do
+    sign_in user
   end
 
   # 子を持つ勘定科目が指定できないことを確認

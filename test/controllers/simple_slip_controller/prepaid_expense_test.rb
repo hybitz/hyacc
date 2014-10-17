@@ -3,15 +3,13 @@ require 'test_helper'
 # 未払費用の計上日振替のテスト
 class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
 
-
   setup do
-    sign_in User.find(4)
+    sign_in freelancer
   end
 
   def test_本締の年度への費用振替の登録がエラーになること
-    user = User.find(@request.session[:user_id])
-    assert user.company.get_fiscal_year(2010).is_open
-    assert user.company.get_fiscal_year(2011).is_closed
+    assert current_user.company.get_fiscal_year(2010).is_open
+    assert current_user.company.get_fiscal_year(2011).is_closed
     
     post :create,
       :account_code=>ACCOUNT_CODE_CASH,
@@ -33,10 +31,10 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度に費用振替が存在する伝票の更新がエラーになること
-    assert current_user.company.get_fiscal_year(2010).is_open
-    assert current_user.company.get_fiscal_year(2011).is_closed
+    assert freelancer.company.get_fiscal_year(2010).is_open
+    assert freelancer.company.get_fiscal_year(2011).is_closed
 
-    finder = Slips::SlipFinder.new(current_user)
+    finder = Slips::SlipFinder.new(freelancer)
     finder.account_code = Account.find(5).code # 普通預金
     slip = finder.find(18)
     assert_equal 201101, slip.journal_header.journal_details[0].transfer_journals[0].transfer_journals[0].ym
@@ -65,11 +63,10 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
   end
   
   def test_本締の年度への費用振替の更新がエラーになること
-    user = User.find(@request.session[:user_id])
-    assert user.company.get_fiscal_year(2010).is_open
-    assert user.company.get_fiscal_year(2011).is_closed
+    assert current_user.company.get_fiscal_year(2010).is_open
+    assert current_user.company.get_fiscal_year(2011).is_closed
 
-    finder = Slips::SlipFinder.new(user)
+    finder = Slips::SlipFinder.new(current_user)
     finder.account_code = Account.get(5).code
     slip = finder.find(21)
     
@@ -97,9 +94,8 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度の費用振替の削除がエラーになること
-    user = User.find(@request.session[:user_id])
-    assert user.company.get_fiscal_year(2010).is_open
-    assert user.company.get_fiscal_year(2011).is_closed
+    assert current_user.company.get_fiscal_year(2010).is_open
+    assert current_user.company.get_fiscal_year(2011).is_closed
 
     jh = JournalHeader.find(18)
 
@@ -113,8 +109,7 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度への費用振替の登録が正常終了すること
-    user = User.find(@request.session[:user_id])
-    assert user.company.get_fiscal_year(2010).is_open
+    assert current_user.company.get_fiscal_year(2010).is_open
 
     remarks = "通常の年度への費用振替の登録が正常終了すること#{Time.new}"
     assert_nil JournalHeader.find_by_remarks(remarks)
@@ -186,8 +181,7 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   test "通常の年度への費用振替の更新が正常終了すること" do
-    user = User.find(@request.session[:user_id])
-    assert user.company.get_fiscal_year(2010).is_open
+    assert current_user.company.get_fiscal_year(2010).is_open
 
     remarks = "通常の年度への費用振替の更新が正常終了すること#{Time.new}"
     jh = JournalHeader.find(21)
@@ -265,7 +259,7 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度の費用振替の削除が正常終了すること
-    assert current_user.company.get_fiscal_year(2010).is_open
+    assert freelancer.company.get_fiscal_year(2010).is_open
 
     jh = JournalHeader.find(21)
     

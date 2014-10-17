@@ -20,15 +20,15 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
   end
 
   def test_編集
-    xhr :get, :edit, :id => current_user.company.current_fiscal_year.id
+    xhr :get, :edit, :id => user.company.current_fiscal_year.id
     assert_not_nil assigns(:fiscal_year)
     assert_response :success
     assert_template :edit
   end
 
   def test_更新
-    xhr :put, :update, :id => current_user.company.current_fiscal_year.id,
-        :fiscal_year => valid_fiscal_year_params(:user => current_user)
+    xhr :put, :update, :id => user.company.current_fiscal_year.id,
+        :fiscal_year => valid_fiscal_year_params(:user => user)
     assert_response :success
     assert_template 'common/reload'
   end

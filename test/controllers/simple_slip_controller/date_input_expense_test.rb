@@ -1,17 +1,10 @@
-# coding: UTF-8
-#
-# $Id: date_input_expense_test.rb 3367 2014-02-07 15:05:22Z ichy $
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 # 日付指定の計上日振替のテスト
 class SimpleSlipController::DateInputExpenseTest < ActionController::TestCase
 
-  def setup
-    @request.session[:user_id] = users(:first).id
+  setup do
+    sign_in user
   end
 
   def test_本締の年度への費用振替_日付指定_の登録がエラーになること

@@ -22,12 +22,12 @@ class PayrollsControllerTest < ActionController::TestCase
   end
   
   def test_should_get_new
-    finder = PayrollFinder.new(User.find(session[:user_id]))
+    finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    get :new, :ym => 200904, :format => 'js'
+    xhr :get, :new, :ym => 200904
     assert_response :success
     assert_template 'new'
   end
@@ -57,12 +57,12 @@ class PayrollsControllerTest < ActionController::TestCase
 
   # 前月の情報取得
   def test_should_get_new_pre_month
-    finder = PayrollFinder.new(User.find(session[:user_id]))
+    finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2010
     finder.employee_id = 1
     @request.session[PayrollFinder] = finder
 
-    get :new, :ym => 200811, :format => 'js'
+    xhr :get, :new, :ym => 200811
     assert_response :success
     assert_template 'new'
     assert_equal JournalDetail.find(17735).amount, assigns(:payroll).base_salary
@@ -174,54 +174,54 @@ class PayrollsControllerTest < ActionController::TestCase
   end
   
   def test_should_get_create_with_errors
-    finder = PayrollFinder.new(User.find(session[:user_id]))
+    finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
     
-    post :create, :format => 'js',
-                  :payroll => {:ym => 200902, :employee_id => 2,
-                               :days_of_work => 28, :hours_of_work => 224,
-                               :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
-                               :hours_of_late_night_work => 102, :base_salary => '',
-                               :insurance => '', :pension => '',
-                               :income_tax => '', :inhabitant_tax => '',
-                               :accrued_liability => '', :pay_day => '20090332',
-                               :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
+    xhr :post, :create,
+        :payroll => {:ym => 200902, :employee_id => 2,
+                     :days_of_work => 28, :hours_of_work => 224,
+                     :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
+                     :hours_of_late_night_work => 102, :base_salary => '',
+                     :insurance => '', :pension => '',
+                     :income_tax => '', :inhabitant_tax => '',
+                     :accrued_liability => '', :pay_day => '20090332',
+                     :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
     assert_response :success
     assert assigns(:payroll).errors.size == 7
     assert_template 'new'
   end
   
   def test_should_get_create_with_errors2
-    finder = PayrollFinder.new(User.find(session[:user_id]))
+    finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
     
-    post :create, :format => 'js',
-                  :payroll => {:ym => 200912, :employee_id => 2,
-                               :days_of_work => 28, :hours_of_work => 224,
-                               :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
-                               :hours_of_late_night_work => 102, :base_salary => '100000a',
-                               :insurance => '5@000', :pension => 'x',
-                               :income_tax => 'x', :inhabitant_tax => 'x',
-                               :accrued_liability => 'x', :year_end_adjustment_liability=>'x',
-                               :pay_day => 'x',
-                               :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                               :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
+    xhr :post, :create,
+        :payroll => {:ym => 200912, :employee_id => 2,
+                     :days_of_work => 28, :hours_of_work => 224,
+                     :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
+                     :hours_of_late_night_work => 102, :base_salary => '100000a',
+                     :insurance => '5@000', :pension => 'x',
+                     :income_tax => 'x', :inhabitant_tax => 'x',
+                     :accrued_liability => 'x', :year_end_adjustment_liability=>'x',
+                     :pay_day => 'x',
+                     :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
+                     :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
     assert_response :success
     assert assigns(:payroll).errors.size == 8
     assert_template 'new'
   end
   
   def test_should_get_auto_calc
-    finder = PayrollFinder.new(User.find(session[:user_id]))
+    finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder

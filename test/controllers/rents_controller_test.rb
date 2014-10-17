@@ -1,17 +1,9 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2009-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class RentsControllerTest < ActionController::TestCase
 
-  def setup
-    # ログインした状態を再現
-    @request.session[:user_id] = users(:first).id
-    @request.session[:company] = companies(:a)
+  setup do
+    sign_in user
   end
   
   def test_should_get_index

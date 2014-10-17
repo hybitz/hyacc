@@ -1,6 +1,10 @@
 require 'openssl'
 
 class User < ActiveRecord::Base
+  # Include default devise modules. Others available are:
+  # :registerable, :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable,
+         :recoverable, :rememberable, :trackable, :validatable
   acts_as_cached
 
   belongs_to :company
@@ -8,10 +12,10 @@ class User < ActiveRecord::Base
   has_many :simple_slip_settings
   
   accepts_nested_attributes_for :employee
-  accepts_nested_attributes_for :simple_slip_settings, :allow_destroy=>true
-  
+  accepts_nested_attributes_for :simple_slip_settings, :allow_destroy => true
+
   # バリデーション
-  validates_presence_of :login_id, :password, :slips_per_page
+  validates_presence_of :login_id, :slips_per_page
   validates_uniqueness_of :login_id
   validates_format_of :login_id, :with=>/[a-zA-Z0-9]*/
   validates_format_of :password, :with=>/[!-~]*/
@@ -31,19 +35,6 @@ class User < ActiveRecord::Base
     login_id
   end
   
-  def password=(value)
-    @password = value
-    # パスワードが更新されたら暗号化パスも初期化
-    self.crypted_password = ""
-  end
-  
-  def password
-    unless self.crypted_password.blank? or self.salt.blank? 
-      @password = User.decrypt_password(self.crypted_password,self.salt)
-    end
-    @password
-  end
-  
   def google_password=(value)
     @google_password = value
     # パスワードが更新されたら暗号化パスも初期化
@@ -57,21 +48,10 @@ class User < ActiveRecord::Base
     @google_password
   end
 
-  def authoricate(name, password)
-    return false if name != self.name
-
-    hash = User.encrypt_password(password, self.salt)
-    if hash != self.crypted_password
-      return false
-    end
-    true
-  end
-  
   def encrypt_password
     # 既に暗号化済みの場合は何もしない
-    if self.crypted_password.to_s.size == 0 or self.crypted_google_password.to_s.size == 0
+    if self.crypted_google_password.to_s.size == 0
       self.salt = User.new_salt
-      self.crypted_password = User.encrypt_password(@password, self.salt)
       self.crypted_google_password = User.encrypt_password(@google_password, self.salt)
     end
   end

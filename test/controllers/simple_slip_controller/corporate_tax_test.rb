@@ -3,11 +3,11 @@ require 'test_helper'
 class SimpleSlipController::CorporateTaxTest < ActionController::TestCase
   include HyaccUtil
 
-  def setup
-    @request.session[:user_id] = users(:first).id
+  setup do
+    sign_in user
   end
   
-  def test_create
+  def test_登録
     remarks = "法人税の決算区分が正しく登録されていること#{Time.new}"
     assert a = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first

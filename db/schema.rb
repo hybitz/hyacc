@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20141017062852) do
-=======
-ActiveRecord::Schema.define(version: 20141017062157) do
->>>>>>> branch 'master' of git@github.com:hybitz/hyacc.git
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false

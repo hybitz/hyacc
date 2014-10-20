@@ -13,6 +13,9 @@ module Login
     fill_in 'ログインID', :with => @_current_user.login_id
     fill_in 'パスワード', :with => 'testtest'
     click_on 'ログイン'
+
+    fill_in 'code', :with => User.find(current_user.id).otp_code
+    click_on 'Submit'
   end
 
   def current_user

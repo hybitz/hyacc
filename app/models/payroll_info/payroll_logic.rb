@@ -67,7 +67,6 @@ module PayrollInfo
     # 控除額（基礎控除、扶養控除等）
     def get_exemption
       # 控除額の取得
-      HyaccLogger.error "20141017:" + @employee_id.to_s + "," + @calendar_year.to_s
       
       e = Exemptions.where(:employee_id => @employee_id, :yyyy => @calendar_year).first
       a = e.small_scale_mutual_aid + e.life_insurance_premium + e.earthquake_insurance_premium +

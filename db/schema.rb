@@ -259,6 +259,18 @@ ActiveRecord::Schema.define(version: 20141020031038) do
     t.integer  "business_office_id"
   end
 
+  create_table "exemptions", force: true do |t|
+    t.string   "employee_id",                              null: false
+    t.integer  "yyyy",                                     null: false
+    t.integer  "small_scale_mutual_aid",       default: 0, null: false
+    t.integer  "life_insurance_premium",       default: 0, null: false
+    t.integer  "earthquake_insurance_premium", default: 0, null: false
+    t.integer  "special_tax_for_spouse",       default: 0, null: false
+    t.integer  "basic_etc",                    default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "fiscal_years", force: true do |t|
     t.integer  "company_id",                                       null: false
     t.integer  "fiscal_year",                                      null: false

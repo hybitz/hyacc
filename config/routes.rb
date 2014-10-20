@@ -52,6 +52,8 @@ Hyacc::Application.routes.draw do
     end
   end
 
+  resources :exemptions
+
   resources :financial_return_statements, :only => 'index'
   resources :financial_statements, :only => 'index'
   resources :first_boot, :only => ['index', 'show', 'create']

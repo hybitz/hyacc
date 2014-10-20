@@ -3,16 +3,18 @@ require 'openssl'
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :registerable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable,
+  devise :database_authenticatable, :two_factor_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
   acts_as_cached
 
   belongs_to :company
   belongs_to :employee
   has_many :simple_slip_settings
-  
+
   accepts_nested_attributes_for :employee
   accepts_nested_attributes_for :simple_slip_settings, :allow_destroy => true
+
+  has_one_time_password
 
   # バリデーション
   validates_presence_of :login_id, :slips_per_page
@@ -54,6 +56,10 @@ class User < ActiveRecord::Base
       self.salt = User.new_salt
       self.crypted_google_password = User.encrypt_password(@google_password, self.salt)
     end
+  end
+
+  def send_two_factor_authentication_code
+    LoginMailer.invoice_login(self).deliver
   end
 
   private

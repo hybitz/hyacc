@@ -7,6 +7,7 @@ first:
   email: user1@example.com
   encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
+  otp_secret_key: <%= ROTP::Base32.random_base32 %>
 
 user2:
   id: 2
@@ -17,7 +18,8 @@ user2:
   email: user2@example.com
   encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
-
+  otp_secret_key: <%= ROTP::Base32.random_base32 %>
+  
 user3:
   id: 3
   company_id: 2

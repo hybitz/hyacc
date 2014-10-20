@@ -1,1 +1,3 @@
-<%= @time %>に<%= @user.login_id %>がログインしました。
+<%= Time.now %> に <%= @user.login_id %> がログインしました。
+
+ワンタイムパスワード: <%= @user.otp_code %>

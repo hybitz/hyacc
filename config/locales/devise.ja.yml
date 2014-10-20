@@ -74,6 +74,10 @@ ja:
 #      signed_in: 'Signed in successfully.'
       signed_out: 'ログアウトしました。'
 #      signed_out: 'Signed out successfully.'
+
+    two_factor_authentication:
+      max_login_attempts_reached: 'ログインに既定回数失敗したためアカウントをロックしました。'
+
     unlocks:
       send_instructions: 'アカウントの凍結解除方法を数分以内にメールでご連絡します。'
 #      send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'

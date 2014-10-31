@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.10'
+gem 'rails', '4.0.11'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
@@ -11,7 +11,7 @@ gem 'colorable'
 gem 'daddy', '~> 0.3.0'
 gem 'dalli'
 gem 'devise'
-gem 'fullcalendar-rails'
+gem 'fullcalendar-rails', '1.6.4.0'
 gem 'gcalapi'
 gem 'jbuilder', '~> 1.2'
 gem 'jquery-rails'

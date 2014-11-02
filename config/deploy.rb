@@ -2,7 +2,7 @@
 lock '3.2.1'
 
 set :application, 'hyacc'
-set :repo_url, 'git://github.com/hybitz/hyacc.git'
+set :repo_url, `git config --get remote.origin.url`
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call

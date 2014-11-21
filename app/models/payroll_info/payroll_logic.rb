@@ -67,7 +67,7 @@ module PayrollInfo
     # 控除額（基礎控除、扶養控除等）
     def get_exemption
       # 控除額の取得
-      e = Exemptions.where(:employee_id => @employee_id, :yyyy => @calendar_year).first
+      e = Exemption.where(:employee_id => @employee_id, :yyyy => @calendar_year).first
       unless e
         HyaccLogger.error "源泉徴収情報が登録されていません。"
         raise HyaccException.new("源泉徴収情報が登録されていません。")

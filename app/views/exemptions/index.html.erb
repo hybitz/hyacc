@@ -1,0 +1,35 @@
+<%= render 'common/search' if branch_mode %>
+<%= flash_notice %>
+
+<% if @exemptions.present? %>
+  <table class="exemptions">
+    <tr>
+      <th>暦年</th>
+      <th>氏名</th>
+      <th>小規模共済掛金</th>
+      <th>生命保険料</th>
+      <th>地震保険料</th>
+      <th>配偶者特別控除</th>
+      <th>配偶者、扶養、基礎、障害者控除の合計</th>
+      <th colspan="2"></th>
+    </tr>
+    
+    <% @exemptions.each do |c| %>
+      <tr class="hover">
+        <td><%= c.yyyy %></td>
+        <td><%= c.employee.full_name %></td>
+        <td><%= c.small_scale_mutual_aid %></td>
+        <td><%= c.life_insurance_premium %></td>
+        <td><%= c.earthquake_insurance_premium %></td>
+        <td><%= c.special_tax_for_spouse %></td>
+        <td><%= c.basic_etc %></td>
+        <td><%= link_to '編集', edit_exemption_path(c), :remote => true %></td>
+        <td><%= link_to '削除', exemption_path(c), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
+      </tr>
+    <% end %>
+  </table>
+  <%= will_paginate @exemptions %>
+  <%= link_to '追加', new_exemption_path, :class => 'add', :remote => true %>
+<% elsif @exemptions %>
+  <div>該当するデータが見つかりませんでした。</div>
+<% end %>

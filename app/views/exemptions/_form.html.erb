@@ -1,0 +1,30 @@
+<%= flash_notice %>
+
+<%= form_for @c, :remote => true do |f| %>
+  <div style="margin:0px 10px 5px 0px; text-align: right;">
+    <%= f.submit %>
+  </div>
+  <table>
+    <tr>
+      <th>従業員</th><td><%= f.collection_select :employee_id, @employees, 'id', 'full_name' %></td>
+    </tr>
+    <tr>
+      <th>暦年</th><td><%= f.select :yyyy, @cy_list %></td>
+    </tr>
+    <tr>
+      <th>小規模共済掛金</th><td><%= f.text_field :small_scale_mutual_aid %></td>
+    </tr>
+    <tr>
+      <th>生命保険料</th><td><%= f.text_field :life_insurance_premium %></td>
+    </tr>
+    <tr>
+      <th>地震保険料</th><td><%= f.text_field :earthquake_insurance_premium %></td>
+    </tr>
+    <tr>
+      <th>配偶者特別控除</th><td><%= f.text_field :special_tax_for_spouse %></td>
+    </tr>
+    <tr>
+      <th>配偶者、扶養、基礎、障害者控除の合計</th><td><%= f.text_field :basic_etc %></td>
+    </tr>
+  </table>
+<% end %>

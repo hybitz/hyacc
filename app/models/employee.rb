@@ -15,6 +15,8 @@ class Employee < ActiveRecord::Base
   has_many :branches, :through => :branch_employees
   has_many :careers, -> { order('start_from, end_to') }, :dependent => :destroy
 
+  has_many :exemptions, :dependent => :destroy
+
   validates_presence_of :last_name, :first_name
 
   after_save :reset_account_cache

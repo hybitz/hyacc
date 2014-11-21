@@ -20,12 +20,13 @@ class ProfilesController < Base::HyaccController
         password = params[:profile].delete(:password)
         google_password = params[:profile].delete(:google_password)
         
-        @profile.attributes = params[:profile]
+        @profile.attributes = profile_params
         @profile.password = password if password.present?
         @profile.google_password = google_password if google_password.present?
         @profile.save!
       end
 
+      session[:google_service] = nil
       flash[:notice] = '個人設定を更新しました。'
       redirect_to :action => 'edit', :id => @profile.id
 
@@ -47,6 +48,10 @@ class ProfilesController < Base::HyaccController
       redirect_to :action => 'edit', :id => current_user.id
       return false
     end
+  end
+
+  def profile_params
+    params[:profile].permit!
   end
 
 end

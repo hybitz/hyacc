@@ -22,6 +22,10 @@ module Reports
       model
     end
     
+    def has_exemption
+      Exemption.get(@finder.employee_id, @finder.calendar_year).present?
+    end
+    
     # 支払金額
     def get_total_salary
       logic = PayrollInfo::PayrollLogic.new(@finder)

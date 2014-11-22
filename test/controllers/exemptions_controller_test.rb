@@ -10,7 +10,7 @@ class ExemptionsControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in user
-    get :new, :format => 'js'
+    get :new, :format => 'js', :exemption => valid_exemption_params
     assert_response :success
     assert_template :new
   end
@@ -31,7 +31,7 @@ class ExemptionsControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in user
-    put :update, :id => exemption.id, :format => 'js', :exemption => valid_exemption_params
+    patch :update, :id => exemption.id, :format => 'js', :exemption => valid_exemption_params
     assert_response :success
     assert_template 'common/reload'
   end

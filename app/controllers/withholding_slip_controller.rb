@@ -42,8 +42,12 @@ class WithholdingSlipController < Base::HyaccController
   
   def render_withholding_details
     logic = Reports::WithholdingDetailLogic.new(finder)
-    @data = logic.get_withholding_info
-    render :withholding_details
+    if logic.has_exemption
+      @data = logic.get_withholding_info
+      render :withholding_details
+    else
+      @finder = finder
+      render :no_exemption
+    end
   end
-  
 end

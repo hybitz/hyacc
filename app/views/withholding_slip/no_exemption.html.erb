@@ -1,0 +1,8 @@
+
+源泉徴収情報が登録されていません。
+
+
+<%= link_to '追加', {:controller => 'exemptions',
+                    :action => 'new',
+                    :exemption => {:employee_id => @finder.employee_id, :yyyy => @finder.calendar_year}
+                   },:class => 'add', :remote => true %>

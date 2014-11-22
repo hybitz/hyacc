@@ -29,7 +29,7 @@
     <% end %>
   </table>
   <%= will_paginate @exemptions %>
-  <%= link_to '追加', new_exemption_path, :class => 'add', :remote => true %>
+  <%= link_to '追加', {:action => 'new', :exemption => {:employee_id => @finder.employee_id, :yyyy => @finder.calendar_year}}, :class => 'add', :remote => true %>
 <% elsif @exemptions %>
   <div>該当するデータが見つかりませんでした。</div>
 <% end %>

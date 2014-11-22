@@ -8,8 +8,8 @@ class ExemptionsController < Base::HyaccController
 
   def new
     @cy_list = get_cy_select
-    @c = Exemption.new
-    @c.yyyy = Date.today.year
+    @c = Exemption.new(exempiton_params)
+    @c.yyyy = Date.today.year if @c.yyyy.blank?
   end
 
   def create

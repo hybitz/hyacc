@@ -5,9 +5,11 @@
 <% end %>
 
 <script>
-  <% current_user.simple_slip_settings.each do |sss| %>
-    shortcut.add("<%= sss.shortcut_key %>", function() { 
-      document.location.href = "<%= url_for :controller => 'simple_slip', :account_code => sss.account.code %>";
-    });
-  <% end %>
+  $(document).ready(function() {
+    <% current_user.simple_slip_settings.each do |sss| %>
+      shortcut.add("<%= sss.shortcut_key %>", function() { 
+        document.location.href = "<%= url_for :controller => 'simple_slip', :account_code => sss.account.code %>";
+      });
+    <% end %>
+  });
 </script>

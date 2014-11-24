@@ -228,7 +228,7 @@ ja:
         usage_type: "使い方タイプ"  
         zip_code: "郵便番号"
         address: "住所"
-        name: "名前"  
+        name: "名前"
         status: "地位"  
         ymd_start: "契約開始日"
         ymd_end: "契約終了日"
@@ -254,6 +254,7 @@ ja:
         journal_header: "雑誌ヘッダ"
         
       user:
+        account_count_of_frequencies: 勘定科目の優先表示数
         code: "コード"  
         password: パスワード  
         first_name: "名前"  
@@ -263,7 +264,7 @@ ja:
         created_on: "創作に"  
         updated_on: "更新"  
         email: "メールアドレス"  
-        slips_per_page: "伝票は1ページあたり"  
+        slips_per_page: 1ページの伝票表示数
         employment_date: "就業日"  
         sex: "性別"  
         company: "会社"  

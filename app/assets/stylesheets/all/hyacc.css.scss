@@ -275,6 +275,11 @@ th.accountName {
   margin: 0;
 }
 
+input[name*="\[account_count_of_frequencies\]"],
+input[name*="\[slips_per_page\]"] {
+  text-align: center;
+  width: 4em;
+}
 
 .dcTypeSelect {
   width: 100%;

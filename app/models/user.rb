@@ -8,25 +8,25 @@ class User < ActiveRecord::Base
   acts_as_cached
 
   belongs_to :company
-  belongs_to :employee
-  has_many :simple_slip_settings
 
+  belongs_to :employee
   accepts_nested_attributes_for :employee
-  accepts_nested_attributes_for :simple_slip_settings, :allow_destroy => true
 
   has_one_time_password
 
   # バリデーション
-  validates_presence_of :login_id, :slips_per_page
+  validates_presence_of :login_id
   validates_uniqueness_of :login_id
   validates_format_of :login_id, :with=>/[a-zA-Z0-9]*/
   validates_format_of :password, :with=>/[!-~]*/
   validates_format_of :google_password, :with=>/[!-~]*/
-  validates_numericality_of :slips_per_page, :allow_nil=>false, :only_integer=>true
   validates_format_of :email, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
   validates_format_of :google_account, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
 
   before_save :encrypt_password
+
+  has_many :simple_slip_settings
+  accepts_nested_attributes_for :simple_slip_settings, :allow_destroy => true
 
   def has_google_account
     google_account.to_s.size > 0

@@ -1,5 +1,5 @@
-# config valid only for Capistrano 3.1
-lock '3.2.1'
+# config valid only for current version of Capistrano
+lock '3.3.3'
 
 set :application, 'hyacc'
 set :repo_url, `git config --get remote.origin.url`
@@ -8,8 +8,8 @@ set :repo_url, `git config --get remote.origin.url`
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :branch, ENV['BRANCH'] || 'release'
 
-# Default deploy_to directory is /var/www/my_app
-# set :deploy_to, '/var/www/my_app'
+# Default deploy_to directory is /var/www/my_app_name
+# set :deploy_to, '/var/www/my_app_name'
 set :deploy_to, "/var/apps/#{fetch(:application)}"
 
 # Default value for :scm is :git
@@ -26,10 +26,10 @@ set :log_level, ENV['LOG_LEVEL'] || :info
 # set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, %w{config/database.yml}
+# set :linked_files, fetch(:linked_files, []).push('config/database.yml')
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets public/system}
+set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -57,8 +57,6 @@ namespace :deploy do
       execute "sudo service memcached start"
     end
   end
-
-  after :publishing, :restart
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do

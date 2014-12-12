@@ -64,20 +64,25 @@ module PayrollInfo
       get_total_deemed_salary - get_deduction
     end
     
-    # 控除額（基礎控除、扶養控除等）
-    def get_exemption
-      # 控除額の取得
+    def get_exemptions
+     # 控除額の取得
       e = Exemption.where(:employee_id => @employee_id, :yyyy => @calendar_year).first
       unless e
         HyaccLogger.error "源泉徴収情報が登録されていません。"
         raise HyaccException.new("源泉徴収情報が登録されていません。")
       end
-      a = e.small_scale_mutual_aid + e.life_insurance_premium + e.earthquake_insurance_premium +
-           e.special_tax_for_spouse + e.spouse + e.dependents + e.disabled_persons + e.basic
-           
+      e
+    end
+    
+    
+    # 控除額（基礎控除、扶養控除等）
+    def get_exemption
+      # 控除額の取得
+      e = get_exemptions
       # 社会保険料等の控除額＋基礎控除等
-      total = get_health_insurance + get_employee_pention + a
-      
+      total = get_health_insurance + get_employee_pention + 
+                e.small_scale_mutual_aid + e.life_insurance_premium + e.earthquake_insurance_premium +
+                e.special_tax_for_spouse + e.spouse + e.dependents + e.disabled_persons + e.basic
       return total
     end
     

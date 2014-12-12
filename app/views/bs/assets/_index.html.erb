@@ -37,14 +37,14 @@
       <% if branch_mode %><td><%= asset.branch.name %></td><% end %>
       <td align="center"><%= render_ymd(asset) %></td>
       <td align="center"><%= asset.depreciation_method_name %></td>
-      <td align="center"><%= asset.durable_years.to_i > 0 ? "#{asset.durable_years}年" : "" %></td>
+      <td align="center"><%= "#{asset.durable_years}年" if asset.durable_years.to_i > 0 %></td>
       <td class="amount"><%= to_amount(asset.amount) %></td>
       <td class="amount"><%= to_amount(asset.amount_at_start(@finder.fiscal_year)) %></td>
-      <td class="amount"><%= to_amount(asset.amount_at_end(@finder.fiscal_year), :show_zero=>true) %></td>
+      <td class="amount"><%= to_amount(asset.amount_at_end(@finder.fiscal_year), :show_zero => true) %></td>
       <td align="center"><%= asset.status_name %></td>
       <td>
-        <%= link_to '参照', asset_path(asset), :remote => true %>
-        <%= link_to '編集', edit_asset_path(asset), :remote => true %>
+        <%= link_to '参照', bs_asset_path(asset), :remote => true %>
+        <%= link_to '編集', edit_bs_asset_path(asset), :remote => true %>
       </td>
     </tr>
   <% end %>

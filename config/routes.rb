@@ -16,7 +16,6 @@ Hyacc::Application.routes.draw do
     end
   end
 
-  resources :assets
   resources :bank_accounts
 
   resources :bank_offices, :only => ['index'] do
@@ -127,6 +126,10 @@ Hyacc::Application.routes.draw do
     end
   end
   resources :withholding_slip, :only => 'index'
+
+  namespace :bs do
+    resources :assets
+  end
 
   get 'closing', :to => 'closing#index'
   get 'journal_admin', :to => 'journal_admin#index'

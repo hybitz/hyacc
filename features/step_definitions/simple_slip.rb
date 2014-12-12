@@ -48,7 +48,7 @@ end
 
     account = Account.find(@slip.account_id)
     select account.name, :from => 'slip_account_id'
-    assert page.has_select?('slip_tax_type', :selected => account.tax_type_name)
+    assert wait_until{ page.has_select?('slip_tax_type', :selected => account.tax_type_name) }
     
     select Branch.find(@slip.branch_id).name, :from => 'slip_branch_id'
     fill_in 'slip_amount_increase', :with => @slip.amount_increase

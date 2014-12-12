@@ -1,4 +1,4 @@
-class AssetsController < Base::HyaccController
+class Bs::AssetsController < Base::HyaccController
   include Depreciation::DepreciationUtil
 
   view_attribute :title => '資産管理'

@@ -1,4 +1,4 @@
-module AssetHelper
+module Bs::AssetsHelper
   include HyaccViewHelper
   
   def colspan_of_asset_remarks

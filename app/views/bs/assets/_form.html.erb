@@ -1,4 +1,4 @@
-<%= form_for @asset, :remote => true do |f| %>
+<%= form_for [:bs, @asset], :remote => true do |f| %>
   <div style="margin:0px 10px 0px 0px; text-align: right;">
     <span style="margin-left: 5px;">
       <%= f.submit '更新' %>
@@ -12,7 +12,7 @@
         <%= f.submit '償却待を解除' %>
       </span>
     <% end %>
-    
+
     <% if @asset.status_waiting? or @asset.status_depreciating? %>
       <span style="margin-left: 5px;">
         <%= f.submit '償却実行', :onclick => "if ( confirm('#{current_user.company.current_fiscal_year_int}年度分を償却します。よろしいですか？')) {return true;} return false;" %>

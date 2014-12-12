@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141129125922) do
+ActiveRecord::Schema.define(version: 20141212013802) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false

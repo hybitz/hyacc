@@ -1,0 +1,7 @@
+1:
+  id: 1
+  company_id: 1
+  name: 本社
+  prefecture_code: '01'
+  prefecture_name: 北海道
+  is_head: true

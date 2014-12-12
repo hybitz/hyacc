@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141212032521) do
+ActiveRecord::Schema.define(version: 20141212064854) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -136,7 +136,6 @@ ActiveRecord::Schema.define(version: 20141212032521) do
   create_table "business_offices", force: true do |t|
     t.integer  "company_id",                                 null: false
     t.string   "name",                                       null: false
-    t.integer  "prefecture_id",                              null: false
     t.string   "prefecture_name", limit: 16,                 null: false
     t.string   "address1"
     t.string   "address2"
@@ -145,6 +144,7 @@ ActiveRecord::Schema.define(version: 20141212032521) do
     t.integer  "lock_version",               default: 0,     null: false
     t.string   "tel",             limit: 13
     t.boolean  "is_head",                    default: false, null: false
+    t.string   "prefecture_code", limit: 2,                  null: false
   end
 
   create_table "business_types", force: true do |t|

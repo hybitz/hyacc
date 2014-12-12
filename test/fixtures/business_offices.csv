@@ -1,2 +1,0 @@
-id,company_id,name,prefecture_id,prefecture_name,address1,address2,tel,is_head,created_at,updated_at,lock_version
-1,1,本社,1,北海道,札幌市豊平区平岸３条,８丁目３−１−２１０,011-842-1082,1,2011-01-14 17:15:06,2011-01-14 17:15:06,0

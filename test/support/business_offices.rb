@@ -3,7 +3,7 @@ module BusinessOffices
     {
       :company_id => Company.first.id,
       :name => '事業所' + time_string,
-      :prefecture_id => 1
+      :prefecture_code => '01'
     }
   end
   
@@ -11,7 +11,7 @@ module BusinessOffices
     {
       :company_id => Company.first.id,
       :name => '',
-      :prefecture_id => 1
+      :prefecture_code => '02'
     }
   end
   

@@ -289,7 +289,7 @@ ja:
         seven_dependent: "セブン依存"
         
       exemption:
-        employee_id: "従業員ID"
+        employee_id: "従業員"
         yyyy: "年"
         small_scale_mutual_aid: "小規模共済掛金"
         life_insurance_premium: "生命保険料"

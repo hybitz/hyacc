@@ -57,12 +57,12 @@
     		<td>その他</td>
   		</tr>
     	<tr>
+    		<td><%= "★" if @data.exemption_for_spouse > 0 %></td>
+    		<td><%= "★" if @data.exemption_for_spouse == 0 %></td>
     		<td><br></td>
-    		<td>★</td>
     		<td><br></td>
     		<td><br></td>
-    		<td><br></td>
-    		<td colspan="2"><br></td>
+    		<td colspan="2"><%= number_to_currency(@data.special_exemption_for_spouse, :format=>"%n") %></td>
     		<td><br></td>
     		<td><br></td>
     		<td><br></td>

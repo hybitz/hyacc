@@ -1,5 +1,21 @@
-class InsurancesController < Base::HyaccMasterController
+class InsurancesController < Base::HyaccController
   view_attribute :title => '健康保険料'
-  view_attribute :finder, :class => InsuranceFinder, :only => :index
-  view_attribute :prefectures, :only => :index
+  helper_method :finder
+
+  def index
+    @prefectures = TaxJp::Prefecture.all
+    @list = finder.list if params[:commit]
+  end
+
+  protected
+
+  def finder
+    unless @finder
+      @finder = InsuranceFinder.new(params[:insurance_finder])
+      @finder.ym = Date.today.strftime("%Y-%m") unless @finder.ym.present?
+    end
+
+    @finder
+  end
+
 end

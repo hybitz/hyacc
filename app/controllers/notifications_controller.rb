@@ -56,6 +56,7 @@ class NotificationsController < Base::HyaccController
   end
 
   def get_events
+    return [] if true # GoogleClientAPI待ち
     ret = []
     get_calendars.each_value do |c|
       c.events(:singleevents => true,

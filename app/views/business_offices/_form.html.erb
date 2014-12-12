@@ -11,8 +11,8 @@
       <td><%= f.text_field :name %></td>
     </tr>
     <tr>
-      <th><%= f.label :prefecture_id %></th>
-      <td><%= f.select :prefecture_id, @prefectures %></td>
+      <th><%= f.label :prefecture_code %></th>
+      <td><%= f.collection_select :prefecture_code, @prefectures, 'code', 'name' %></td>
     </tr>
     <tr>
       <th><%= f.label :address1 %></th>

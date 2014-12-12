@@ -10,7 +10,7 @@ class BusinessOfficesController < Base::HyaccController
     begin
       @bo = BusinessOffice.new(business_office_params)
       @bo.transaction do
-        @bo.prefecture_name = @prefectures.find{|p| p[1] == @bo.prefecture_id}[0]
+        @bo.prefecture_name = TaxJp::Prefecture.find_by_code(@bo.prefecture_code).name
         @bo.save!
       end
 
@@ -32,7 +32,7 @@ class BusinessOfficesController < Base::HyaccController
       @bo = BusinessOffice.find(params[:id])
       @bo.transaction do
         @bo.attributes = business_office_params
-        @bo.prefecture_name = @prefectures.find{|p| p[1] == @bo.prefecture_id}[0]
+        @bo.prefecture_name = TaxJp::Prefecture.find_by_code(@bo.prefecture_code).name
         @bo.save!
       end
 
@@ -64,12 +64,12 @@ class BusinessOfficesController < Base::HyaccController
 
   def business_office_params
     params.require(:business_office).permit(
-        :company_id, :name, :prefecture_id, :prefecture_name, 
+        :company_id, :name, :prefecture_code, :prefecture_name, 
         :address1, :address2, :lock_version, :tel, :is_head)
   end
 
   def setup_view_attributes
-    @prefectures = get_prefectures.collect{|p| [p[:name], p[:id]]}
+    @prefectures = TaxJp::Prefecture.all
   end
 
 end

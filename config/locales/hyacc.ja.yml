@@ -94,7 +94,7 @@ ja:
       
       business_office:
         name: 事業所名
-        prefecture_id: 都道府県
+        prefecture_code: 都道府県
         address1: 住所１
         address2: 住所２
         tel: 電話番号

@@ -286,7 +286,17 @@ ja:
         four_dependent: "四つ依存"  
         five_dependent: "5依存"  
         six_dependent: "6人に依存する"  
-        seven_dependent: "セブン依存"  
+        seven_dependent: "セブン依存"
+        
+      exemption:
+        small_scale_mutual_aid: "小規模共済掛金"
+        life_insurance_premium: "生命保険料"
+        earthquake_insurance_premium: "地震保険料"
+        special_tax_for_spouse: "配偶者特別控除"
+        dependents: "扶養家族"
+        spouse: "配偶者控除"
+        disabled_persons: "障害者控除"
+        basic: "基礎控除"
 
   errors:
     messages:

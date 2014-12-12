@@ -33,6 +33,7 @@ class ExemptionsController < Base::HyaccController
   end
 
   def update
+    @cy_list = get_cy_select
     @c = Exemption.find(params[:id])
 
     begin
@@ -67,7 +68,7 @@ class ExemptionsController < Base::HyaccController
   def exempiton_params
     params.require(:exemption).permit(
         :employee_id, :yyyy, :small_scale_mutual_aid, :life_insurance_premium, :earthquake_insurance_premium,
-        :special_tax_for_spouse, :basic_etc)
+        :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic)
   end
 
 end

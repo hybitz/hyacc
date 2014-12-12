@@ -10,7 +10,10 @@
       <th>生命保険料</th>
       <th>地震保険料</th>
       <th>配偶者特別控除</th>
-      <th>配偶者、扶養、基礎、障害者控除の合計</th>
+      <th>配偶者控除</th>
+      <th>扶養控除</th>
+      <th>障害者控除</th>
+      <th>基礎控除</th>
       <th colspan="2"></th>
     </tr>
     
@@ -22,7 +25,10 @@
         <td><%= c.life_insurance_premium %></td>
         <td><%= c.earthquake_insurance_premium %></td>
         <td><%= c.special_tax_for_spouse %></td>
-        <td><%= c.basic_etc %></td>
+        <td><%= c.spouse %></td>
+        <td><%= c.dependents %></td>
+        <td><%= c.disabled_persons %></td>
+        <td><%= c.basic %></td>
         <td><%= link_to '編集', edit_exemption_path(c), :remote => true %></td>
         <td><%= link_to '削除', exemption_path(c), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
       </tr>

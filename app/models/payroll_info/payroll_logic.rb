@@ -73,7 +73,7 @@ module PayrollInfo
         raise HyaccException.new("源泉徴収情報が登録されていません。")
       end
       a = e.small_scale_mutual_aid + e.life_insurance_premium + e.earthquake_insurance_premium +
-           e.special_tax_for_spouse + e.basic_etc
+           e.special_tax_for_spouse + e.spouse + e.dependents + e.disabled_persons + e.basic
            
       # 社会保険料等の控除額＋基礎控除等
       total = get_health_insurance + get_employee_pention + a

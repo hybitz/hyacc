@@ -52,7 +52,8 @@ module Reports
     
     # 社会保険料等の金額
     def get_social_insurance
-      return 200000
+      logic = PayrollInfo::PayrollLogic.new(@finder)
+      return logic.get_health_insurance + logic.get_employee_pention
     end
     
     # 生命保険料の控除額

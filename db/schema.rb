@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141212013802) do
+ActiveRecord::Schema.define(version: 20141212032521) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -267,9 +267,12 @@ ActiveRecord::Schema.define(version: 20141212013802) do
     t.integer  "life_insurance_premium",       default: 0, null: false
     t.integer  "earthquake_insurance_premium", default: 0, null: false
     t.integer  "special_tax_for_spouse",       default: 0, null: false
-    t.integer  "basic_etc",                    default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "spouse",                       default: 0, null: false
+    t.integer  "dependents",                   default: 0, null: false
+    t.integer  "disabled_persons",             default: 0, null: false
+    t.integer  "basic",                        default: 0, null: false
   end
 
   create_table "fiscal_years", force: true do |t|

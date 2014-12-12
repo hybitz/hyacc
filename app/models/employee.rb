@@ -17,7 +17,7 @@ class Employee < ActiveRecord::Base
 
   has_many :exemptions, :dependent => :destroy
 
-  validates_presence_of :last_name, :first_name
+  validates_presence_of :last_name, :first_name, :birth
 
   after_save :reset_account_cache
 

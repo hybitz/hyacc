@@ -24,7 +24,7 @@ class FirstBootControllerTest < ActionController::TestCase
     post :create,
         :c => {:name => 'テスト会社', :founded_date => Date.today, :type_of => COMPANY_TYPE_PERSONAL},
         :fy => {:tax_management_type => TAX_MANAGEMENT_TYPE_EXEMPT},
-        :e => {:last_name => '山田', :first_name => '花子', :sex => SEX_TYPE_F},
+        :e => {:last_name => '山田', :first_name => '花子', :sex => SEX_TYPE_F, :birth => 20.years.ago},
         :u => {:login_id => 'test', :password => 'testtest', :email => 'test@example.com'}
 
     assert @c = assigns(:c)
@@ -38,7 +38,7 @@ class FirstBootControllerTest < ActionController::TestCase
     post :create,
         :c => {:name => 'テスト会社', :founded_date => Date.today, :type_of => COMPANY_TYPE_COLTD},
         :fy => {:tax_management_type => TAX_MANAGEMENT_TYPE_EXCLUSIVE},
-        :e => {:last_name => '山田', :first_name => '花子', :sex => SEX_TYPE_F},
+        :e => {:last_name => '山田', :first_name => '花子', :sex => SEX_TYPE_F, :birth => 30.years.ago},
         :u => {:login_id => 'test', :password => 'testtest', :email => 'test@example.com'}
 
     assert @c = assigns(:c)

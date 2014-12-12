@@ -87,7 +87,7 @@ class FirstBootController < ApplicationController
   end
 
   def employee_params
-    params.require(:e).permit(:last_name, :first_name, :sex)
+    params.require(:e).permit(:last_name, :first_name, :sex, :birth)
   end
 
   def user_params

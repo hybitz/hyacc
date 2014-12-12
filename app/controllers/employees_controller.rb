@@ -61,7 +61,7 @@ class EmployeesController < Base::HyaccController
   def employee_params
     employee_attributes = [
       :company_id, :first_name, :last_name, :employment_date,
-      :zip_code, :address, :sex, :business_office_id
+      :zip_code, :address, :sex, :business_office_id, :birth
     ]
     employee_histories_attributes = [:id, :_destroy, :num_of_dependent, :start_date]
     branch_employees_attributes = [:id, :_destroy, :branch_id, :cost_ratio, :default_branch]

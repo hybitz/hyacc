@@ -77,7 +77,7 @@ class UsersController < Base::HyaccController
     ]
     employee_attributes = [
       :id, :company_id, :first_name, :last_name, :employment_date,
-      :zip_code, :address, :sex, :business_office_id
+      :zip_code, :address, :sex, :business_office_id, :birth
     ]
 
     params.require(:user).permit(user_attributes, :employee_attributes => employee_attributes)

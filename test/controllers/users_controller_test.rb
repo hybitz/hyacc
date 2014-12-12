@@ -44,6 +44,7 @@ class UsersControllerTest < ActionController::TestCase
           :first_name => 'a', 
           :employment_date => '2009-01-01',
           :sex => 'M',
+          :birth => '2000-01-01',
         }
       }
     end
@@ -57,6 +58,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 'a', u.employee.first_name
     assert_equal 'M', u.employee.sex
     assert_equal '2009/01/01', format_date(u.employee.employment_date)
+    assert_equal '2000/01/01', format_date(u.employee.birth)
   end
 
   def test_edit

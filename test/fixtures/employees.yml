@@ -6,6 +6,7 @@ user1:
   employment_date: 2009-01-01
   sex: M
   business_office_id: 1
+  birth: 1990-01-01
 
 user2:
   id: 2
@@ -15,6 +16,7 @@ user2:
   employment_date: 2009-01-01
   sex: M
   business_office_id: 1
+  birth: 1990-01-02
 
 user3:
   id: 3
@@ -24,6 +26,7 @@ user3:
   employment_date: 2009-01-01
   sex: F
   business_office_id: 1
+  birth: 1990-01-03
 
 user4:
   id: 4
@@ -33,6 +36,7 @@ user4:
   employment_date: 2009-01-01
   sex: M
   business_office_id: 1
+  birth: 1990-01-04
 
 user6:
   id: 6
@@ -42,3 +46,4 @@ user6:
   employment_date: 2009-01-01
   sex: F
   business_office_id: 1
+  birth: 1990-01-06

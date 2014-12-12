@@ -133,6 +133,7 @@ ja:
         last_name: 姓
         sex: 性別
         zip_code: 郵便番号
+        birth: 生年月日
 
       fiscal_year: 
         fiscal_year: "会計年度"

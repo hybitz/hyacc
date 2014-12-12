@@ -20,6 +20,10 @@
           <td><%= f.select :sex, sex_types %></td>
         </tr>
         <tr>
+          <th><%= f.label :birth %></th>
+          <td><%= f.date_select :birth, :start_year => Time.now.year - 100, :end_year => Time.now.year - 10, :default => 30.years.ago, :include_blank => true %></td>
+        </tr>
+        <tr>
           <th><%= f.label :zip_code %></th>
           <td><%= f.text_field :zip_code %></td>
         </tr>

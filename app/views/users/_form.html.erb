@@ -42,6 +42,10 @@
             <td><%= f.select :sex, sex_types %></td>
           </tr>
           <tr>
+            <th><%= f.label :birth %></th>
+            <td><%= f.date_select :birth, :start_year => Time.now.year - 100, :end_year => Time.now.year - 10, :default => 30.years.ago, :include_blank => true %></td>
+          </tr>
+          <tr>
             <th><%= f.label :employment_date %></th>
             <td><%= f.date_select :employment_date %></td>
           </tr>

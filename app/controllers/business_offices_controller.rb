@@ -57,7 +57,7 @@ class BusinessOfficesController < Base::HyaccController
       handle(e)
     end
     
-    redirect_to :controller=>:company
+    redirect_to companies_path
   end
 
   private

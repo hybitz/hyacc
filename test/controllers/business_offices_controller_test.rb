@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 require 'test_helper'
 
 class BusinessOfficesControllerTest < ActionController::TestCase
@@ -44,6 +42,13 @@ class BusinessOfficesControllerTest < ActionController::TestCase
     put :update, :id => business_office.id, :format => 'js', :business_office => invalid_business_office_params
     assert_response :success
     assert_template :edit
+  end
+
+  def test_削除
+    sign_in user
+    delete :destroy, :id => business_office.id
+    assert_response :redirect
+    assert_redirected_to companies_path
   end
 
 end

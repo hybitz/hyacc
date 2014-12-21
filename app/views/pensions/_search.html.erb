@@ -1,19 +1,9 @@
-<%#
-# $Id: _search.html.erb 3113 2013-08-06 04:01:04Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-<%= form_tag( {:action=> 'index' }, {:method=>"get"} ) do %>
+<%= form_for finder, :url => {:action =>'index'}, :method => 'get' do |f| %>
   <table class="none_border" cellpadding="3">
     <tr>
-      <td class="none_border">年月：<%= text_field 'finder', 'ym', :maxlength=>6, :size=>6 %></td>
-      <td class="none_border">等級：
-        <%= text_field 'finder', 'grade_start', :maxlength=>2 %>～
-        <%= text_field 'finder', 'grade_end', :maxlength=>2 %>
-      </td>
-      <td class="none_border">月額報酬：<%= text_field 'finder', 'base_salary', :maxlength=>10 %></td>
-      <td class="none_border"><%= submit_tag "表示" %></td>
+      <td class="none_border">年月：<%= f.text_field :ym, :maxlength => 6, :size => 6, :class => 'ympicker' %></td>
+      <td class="none_border">月額報酬：<%= f.text_field :base_salary, :maxlength => 10 %></td>
+      <td class="none_border"><%= f.submit '表示' %></td>
     </tr>
   </table>
 <% end %>

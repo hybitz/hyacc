@@ -1,11 +1,5 @@
 class HyaccMaster::ServiceMock
     
-  def get_prefectures
-    prefectures = []
-    prefectures << {:id=>1, :name=>'北海道'}
-    prefectures
-  end
-
   def get_pension(ym = nil, base_salary = 0)
     pension = Insurance.new
     pension.apply_start_ym = 201201

@@ -3,7 +3,6 @@ class InsurancesController < Base::HyaccController
   helper_method :finder
 
   def index
-    @prefectures = TaxJp::Prefecture.all
     @list = finder.list if params[:commit]
   end
 

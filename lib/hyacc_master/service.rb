@@ -6,22 +6,6 @@ class HyaccMaster::Service
   # HyaccマスタのURL
   HYACC_MASTER_URL = "hyacc-master.hybitz.co.jp"
 
-  # 都道府県一覧を取得する
-  def get_prefectures
-    prefectures = []
-
-    Net::HTTP.version_1_2
-    Net::HTTP.start(HYACC_MASTER_URL, 80) {|http|
-      response = http.get('/user/prefecture/show')
-      json = ActiveSupport::JSON.decode(response.body)
-      json.each do |j|
-        prefectures << {:id => j['prefectureId'], :name => j['prefectureName']}
-      end
-    }
-
-    prefectures
-  end
-
   def get_insurances(prefecture_id, ym, base_salary)
     insurances = []
 

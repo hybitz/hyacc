@@ -31,8 +31,6 @@ module Base::ViewAttributeHandler
           @customers = get_customers(options)
         elsif name == :employees
           @employees = get_employees(finder, options)
-        elsif name == :prefectures
-          @prefectures = get_prefectures.collect{|p| [p[:name], p[:id]]}
         elsif name == :report_types
           @report_types = get_report_types
         elsif name == :report_styles
@@ -218,12 +216,6 @@ module Base::ViewAttributeHandler
     end
     
     employees
-  end
-
-  # 都道府県一覧を取得する
-  def get_prefectures
-    service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_prefectures()
   end
 
   private

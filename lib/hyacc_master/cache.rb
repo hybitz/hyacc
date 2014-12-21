@@ -16,20 +16,6 @@ class HyaccMaster::Cache
   
   SEPARATOR = "-"
   
-  # 都道府県一覧を取得する
-  def get_prefectures
-    prefectures = Rails.cache.read(MEM_KEY_PREFECTURE_LIST)
-    if prefectures.nil?
-      if HyaccLogger.debug?
-        HyaccLogger.debug "Cache not found " + MEM_KEY_PREFECTURE_LIST
-      end
-      service = HyaccMaster::Service.new
-      prefectures = service.get_prefectures
-      Rails.cache.write(MEM_KEY_PREFECTURE_LIST, prefectures)
-    end
-    prefectures
-  end
-
   def get_insurances(prefecture_id, ym, base_salary)
     key = MEM_KEY_INSURANCE_LIST + create_sub_key([prefecture_id, ym, base_salary])
     insurances = Rails.cache.read(key)

@@ -23,7 +23,7 @@ class PayrollsController < Base::HyaccController
       @pd = finder.list_monthly_pay
     end
   end
-  
+
   def new
     @payroll = Payroll.new.init
     ym = params[:ym]

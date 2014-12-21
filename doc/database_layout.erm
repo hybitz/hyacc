@@ -12,7 +12,7 @@
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
 	<x>2216</x>
-	<y>1</y>
+	<y>-187</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -40,35 +40,60 @@
 		<use_bezier_curve>false</use_bezier_curve>
 		<suspend_validator>false</suspend_validator>
 		<export_setting>
-			<category_name_to_export>全体</category_name_to_export>
-			<ddl_output></ddl_output>
-			<excel_output>C:\abc\project\hyacc\spec\database_layout.xls</excel_output>
-			<excel_template>デフォルト（日本語）</excel_template>
-			<image_output>C:\abc\project\hyacc\spec\database_layout.png</image_output>
-			<put_diagram_on_excel>false</put_diagram_on_excel>
-			<use_logical_name_as_sheet>false</use_logical_name_as_sheet>
-			<open_after_saved>false</open_after_saved>
-			<create_comment>true</create_comment>
-			<create_foreignKey>true</create_foreignKey>
-			<create_index>true</create_index>
-			<create_sequence>true</create_sequence>
-			<create_table>true</create_table>
-			<create_tablespace>true</create_tablespace>
-			<create_trigger>true</create_trigger>
-			<create_view>true</create_view>
-			<drop_index>true</drop_index>
-			<drop_sequence>true</drop_sequence>
-			<drop_table>true</drop_table>
-			<drop_tablespace>true</drop_tablespace>
-			<drop_trigger>true</drop_trigger>
-			<drop_view>true</drop_view>
-			<inline_column_comment>true</inline_column_comment>
-			<inline_table_comment>true</inline_table_comment>
-			<comment_value_description>true</comment_value_description>
-			<comment_value_logical_name>false</comment_value_logical_name>
-			<comment_value_logical_name_description>false</comment_value_logical_name_description>
-			<comment_replace_line_feed>false</comment_replace_line_feed>
-			<comment_replace_string></comment_replace_string>
+			<export_ddl_setting>
+				<output_path></output_path>
+				<encoding></encoding>
+				<line_feed></line_feed>
+				<is_open_after_saved>true</is_open_after_saved>
+				<environment_id>null</environment_id>
+				<category_id>null</category_id>
+				<ddl_target>
+					<create_comment>true</create_comment>
+					<create_foreignKey>true</create_foreignKey>
+					<create_index>true</create_index>
+					<create_sequence>true</create_sequence>
+					<create_table>true</create_table>
+					<create_tablespace>true</create_tablespace>
+					<create_trigger>true</create_trigger>
+					<create_view>true</create_view>
+					<drop_index>true</drop_index>
+					<drop_sequence>true</drop_sequence>
+					<drop_table>true</drop_table>
+					<drop_tablespace>true</drop_tablespace>
+					<drop_trigger>true</drop_trigger>
+					<drop_view>true</drop_view>
+					<inline_column_comment>true</inline_column_comment>
+					<inline_table_comment>true</inline_table_comment>
+					<comment_value_description>true</comment_value_description>
+					<comment_value_logical_name>false</comment_value_logical_name>
+					<comment_value_logical_name_description>false</comment_value_logical_name_description>
+					<comment_replace_line_feed>false</comment_replace_line_feed>
+					<comment_replace_string></comment_replace_string>
+				</ddl_target>
+			</export_ddl_setting>
+			<export_excel_setting>
+				<category_id>null</category_id>
+				<output_path></output_path>
+				<template></template>
+				<template_path></template_path>
+				<used_default_template_lang></used_default_template_lang>
+				<image_output></image_output>
+				<is_open_after_saved>true</is_open_after_saved>
+				<is_put_diagram>true</is_put_diagram>
+				<is_use_logical_name>true</is_use_logical_name>
+			</export_excel_setting>
+			<export_html_setting>
+				<output_dir></output_dir>
+				<with_category_image>true</with_category_image>
+				<with_image>true</with_image>
+				<is_open_after_saved>true</is_open_after_saved>
+			</export_html_setting>
+			<export_image_setting>
+				<output_file_path></output_file_path>
+				<category_dir_path></category_dir_path>
+				<with_category_image>true</with_category_image>
+				<is_open_after_saved>true</is_open_after_saved>
+			</export_image_setting>
 			<export_java_setting>
 				<java_output></java_output>
 				<package_name></package_name>
@@ -113,7 +138,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2010-03-31 20:58:55</creation_date>
-			<updated_date>2013-02-15 17:02:31</updated_date>
+			<updated_date>2014-12-21 11:57:32</updated_date>
 			<model_property>
 				<name>プロジェクト名</name>
 				<value></value>
@@ -157,6 +182,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>使用頻度の高い勘定科目を選択肢先頭に表示する際の表示上減数。</description>
 			<logical_name>勘定科目の優先表示数</logical_name>
@@ -170,6 +197,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>勘定科目ID</logical_name>
@@ -183,6 +212,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>勘定科目名</logical_name>
@@ -196,6 +227,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>勘定科目区分</logical_name>
@@ -209,6 +242,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>住所２</logical_name>
@@ -222,6 +257,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>管理者メールアドレス</logical_name>
@@ -235,6 +272,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>取得価額</logical_name>
@@ -248,6 +287,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>金額</logical_name>
@@ -261,6 +302,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>期末簿価</logical_name>
@@ -274,6 +317,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>期首簿価</logical_name>
@@ -287,6 +332,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>apply_end_ym</logical_name>
@@ -300,6 +347,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>apply_start_ym</logical_name>
@@ -313,6 +362,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>承認ステータス</logical_name>
@@ -326,6 +377,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>資産ID</logical_name>
@@ -339,6 +392,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>金融機関ID</logical_name>
@@ -352,6 +407,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>部門ID</logical_name>
@@ -365,6 +422,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>部門名</logical_name>
@@ -378,6 +437,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>事業比率</logical_name>
@@ -391,6 +452,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>事業での使用割合</logical_name>
@@ -404,6 +467,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>繰越日次</logical_name>
@@ -417,6 +482,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>繰越状態</logical_name>
@@ -430,6 +497,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>0：消費税の整合性未確認&#x0D;&#x0A;1：消費税の整合性確認済み</description>
 			<logical_name>確認フラグ</logical_name>
@@ -443,6 +512,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>締め状態</logical_name>
@@ -456,6 +527,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>コード</logical_name>
@@ -469,6 +542,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>コード</logical_name>
@@ -482,6 +557,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>金融機関コード</logical_name>
@@ -495,6 +572,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>金融機関営業店コード</logical_name>
@@ -508,6 +587,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>会社ID</logical_name>
@@ -521,6 +602,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>法人専用フラグ</logical_name>
@@ -534,6 +617,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>消費税申告区分</logical_name>
@@ -547,6 +632,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>cost_ratio</logical_name>
@@ -560,6 +647,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>作成日時</logical_name>
@@ -573,6 +662,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>作成日時</logical_name>
@@ -586,6 +677,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>作成日時</logical_name>
@@ -599,6 +692,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>登録ユーザID</logical_name>
@@ -612,6 +707,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>creditアカウント種別of_income_tax</logical_name>
@@ -625,6 +722,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>creditアカウント種別of_inhabitant_tax</logical_name>
@@ -638,6 +737,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>creditアカウント種別of_insurance</logical_name>
@@ -651,6 +752,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>creditアカウント種別of_pension</logical_name>
@@ -664,6 +767,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>暗号化Googleパスワード</logical_name>
@@ -677,6 +782,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>暗号化パスワード</logical_name>
@@ -690,6 +797,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>取引先ID</logical_name>
@@ -703,6 +812,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>取引先名</logical_name>
@@ -716,6 +827,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>daily_earnings</logical_name>
@@ -729,6 +842,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>取得日</logical_name>
@@ -742,6 +857,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>日</logical_name>
@@ -755,6 +872,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>days_of作業</logical_name>
@@ -768,6 +887,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>DBスキル</logical_name>
@@ -781,6 +902,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>貸借区分</logical_name>
@@ -794,6 +917,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>みなし消費税率</logical_name>
@@ -807,6 +932,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>default_branch</logical_name>
@@ -820,6 +947,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>削除フラグ</logical_name>
@@ -833,6 +962,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>削除フラグ</logical_name>
@@ -846,6 +977,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>減価償却可能フラグ</logical_name>
@@ -859,6 +992,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>償却済みフラグ</logical_name>
@@ -872,6 +1007,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>減価償却ID</logical_name>
@@ -885,6 +1022,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>償却限度額</logical_name>
@@ -898,6 +1037,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>償却方法</logical_name>
@@ -911,6 +1052,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>説明</logical_name>
@@ -924,6 +1067,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>説明</logical_name>
@@ -937,6 +1082,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>明細番号</logical_name>
@@ -950,6 +1097,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>明細区分</logical_name>
@@ -963,6 +1112,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>表示順序</logical_name>
@@ -976,6 +1127,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>耐用年数</logical_name>
@@ -989,6 +1142,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>Eメール</logical_name>
@@ -1002,6 +1157,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>従業員ID</logical_name>
@@ -1015,6 +1172,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>入社年月日</logical_name>
@@ -1028,6 +1187,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>償却終了年度</logical_name>
@@ -1041,6 +1202,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>end_to</logical_name>
@@ -1054,6 +1217,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>金融口座区分</logical_name>
@@ -1067,6 +1232,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>検索キー</logical_name>
@@ -1080,6 +1247,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>名</logical_name>
@@ -1093,6 +1262,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>会計年度</logical_name>
@@ -1106,6 +1277,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>決算仕訳の場合に、対象の会計年度を保持している。&#x0D;&#x0A;繰越仕訳の場合、当該年度の繰越仕訳を翌年度の期首付けで作成する。</description>
 			<logical_name>会計年度ID</logical_name>
@@ -1119,6 +1292,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>five_dependent</logical_name>
@@ -1132,6 +1307,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>定額法償却率</logical_name>
@@ -1145,6 +1322,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>focus_on_complete</logical_name>
@@ -1158,6 +1337,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>取引先名（正式名）</logical_name>
@@ -1171,6 +1352,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>創立年月日</logical_name>
@@ -1184,6 +1367,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>four_dependent</logical_name>
@@ -1197,6 +1382,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>頻度</logical_name>
@@ -1210,6 +1397,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>Googleアカウント</logical_name>
@@ -1223,6 +1412,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>grade</logical_name>
@@ -1236,6 +1427,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>保証率</logical_name>
@@ -1249,6 +1442,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>業務で使用したことがあるハードウェア</description>
 			<logical_name>HWスキル</logical_name>
@@ -1262,6 +1457,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>health_insurance_all</logical_name>
@@ -1275,6 +1472,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>health_insurance_all_care</logical_name>
@@ -1288,6 +1487,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>health_insurance_half</logical_name>
@@ -1301,6 +1502,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>health_insurance_half_care</logical_name>
@@ -1314,6 +1517,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>口座名義</logical_name>
@@ -1327,6 +1532,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>hours_of_day_off作業</logical_name>
@@ -1340,6 +1547,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>hours_of_early_for作業</logical_name>
@@ -1353,6 +1562,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>hours_of_late_night作業</logical_name>
@@ -1366,6 +1577,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>hours_of作業</logical_name>
@@ -1379,10 +1592,12 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
-			<logical_name>id</logical_name>
-			<physical_name>id</physical_name>
+			<logical_name>ID</logical_name>
+			<physical_name>ID</physical_name>
 			<type>integer</type>
 		</word>
 		<word>
@@ -1392,9 +1607,11 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
-			<logical_name>ID</logical_name>
+			<logical_name>id</logical_name>
 			<physical_name>id</physical_name>
 			<type>integer</type>
 		</word>
@@ -1405,10 +1622,12 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>ID</logical_name>
-			<physical_name>ID</physical_name>
+			<physical_name>id</physical_name>
 			<type>integer</type>
 		</word>
 		<word>
@@ -1418,6 +1637,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>金融機関営業店ID</logical_name>
@@ -1431,6 +1652,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>入力区分</logical_name>
@@ -1444,6 +1667,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>入力値</logical_name>
@@ -1457,6 +1682,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>is_allocated_assets</logical_name>
@@ -1470,6 +1697,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>is_allocated_cost</logical_name>
@@ -1483,6 +1712,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>賞与フラグ</logical_name>
@@ -1496,6 +1727,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>本社フラグ</logical_name>
@@ -1509,6 +1742,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>本部</logical_name>
@@ -1522,6 +1757,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>is順序エントリー</logical_name>
@@ -1535,6 +1772,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>is順序placement</logical_name>
@@ -1548,6 +1787,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>利益積立金科目フラグ</logical_name>
@@ -1561,6 +1802,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>決算書科目フラグ</logical_name>
@@ -1574,6 +1817,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>税科目フラグ</logical_name>
@@ -1587,6 +1832,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>買掛金科目フラグ</logical_name>
@@ -1600,6 +1847,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>仕訳可能フラグ</logical_name>
@@ -1613,6 +1862,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>この資産を登録する根拠となる仕訳明細</description>
 			<logical_name>仕訳明細ID</logical_name>
@@ -1626,6 +1877,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>キーワード</logical_name>
@@ -1639,6 +1892,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>業務で使用したことがあるプログラミング言語</description>
 			<logical_name>言語スキル</logical_name>
@@ -1652,6 +1907,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>姓</logical_name>
@@ -1665,6 +1922,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>ロックバージョン</logical_name>
@@ -1678,6 +1937,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>ログインID</logical_name>
@@ -1691,6 +1952,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>会社ロゴの保存先パス</logical_name>
@@ -1704,6 +1967,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>main_detail_id</logical_name>
@@ -1717,6 +1982,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>monthly_earnings</logical_name>
@@ -1730,6 +1997,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>事業区分名</logical_name>
@@ -1743,6 +2012,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>取引先名（省略）</logical_name>
@@ -1756,6 +2027,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>名称</logical_name>
@@ -1769,6 +2042,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>金融機関名称</logical_name>
@@ -1782,6 +2057,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>金融機関営業店名称</logical_name>
@@ -1795,6 +2072,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>ノート</logical_name>
@@ -1808,6 +2087,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>番号dependent</logical_name>
@@ -1821,6 +2102,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>扶養親族数</logical_name>
@@ -1834,6 +2117,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>one_dependent</logical_name>
@@ -1847,6 +2132,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>OSスキル</logical_name>
@@ -1860,6 +2147,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>特筆すべきスキル&#x0D;&#x0A;・業務知識&#x0D;&#x0A;・フレームワーク&#x0D;&#x0A;・開発環境&#x0D;&#x0A;など</description>
 			<logical_name>その他スキル</logical_name>
@@ -1873,6 +2162,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>owner_id</logical_name>
@@ -1886,6 +2177,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>owner種別</logical_name>
@@ -1899,6 +2192,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>パス</logical_name>
@@ -1912,6 +2207,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>payroll_journal_header_id</logical_name>
@@ -1925,6 +2222,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>pay_journal_header_id</logical_name>
@@ -1938,6 +2237,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>pay_range_above</logical_name>
@@ -1951,6 +2252,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>pay_range_under</logical_name>
@@ -1964,6 +2267,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>個人事業主専用フラグ</logical_name>
@@ -1972,24 +2277,28 @@
 		</word>
 		<word>
 			<id>140</id>
-			<length>null</length>
+			<length>2</length>
 			<decimal>null</decimal>
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
-			<logical_name>都道府県ID</logical_name>
-			<physical_name>prefecture_id</physical_name>
-			<type>integer</type>
+			<logical_name>都道府県コード</logical_name>
+			<physical_name>prefecture_code</physical_name>
+			<type>varchar(n)</type>
 		</word>
 		<word>
 			<id>141</id>
-			<length>32</length>
+			<length>16</length>
 			<decimal>null</decimal>
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>都道府県名</logical_name>
@@ -2003,6 +2312,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>プロジェクトで関わった工程</description>
 			<logical_name>工程</logical_name>
@@ -2016,6 +2327,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>プロジェクト名</logical_name>
@@ -2029,6 +2342,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>プロジェクトの規模</description>
 			<logical_name>規模</logical_name>
@@ -2042,6 +2357,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>償却率</logical_name>
@@ -2055,6 +2372,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>領収書保存パス</logical_name>
@@ -2068,6 +2387,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>摘要</logical_name>
@@ -2081,6 +2402,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>rent種別</logical_name>
@@ -2094,6 +2417,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>改定償却率</logical_name>
@@ -2107,6 +2432,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>プロジェクトでの役割</description>
 			<logical_name>役割</logical_name>
@@ -2120,6 +2447,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>salt</logical_name>
@@ -2133,6 +2462,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>section</logical_name>
@@ -2146,6 +2477,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>1：中間決算&#x0D;&#x0A;2：本決算</description>
 			<logical_name>決算区分</logical_name>
@@ -2159,6 +2492,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>seven_dependent</logical_name>
@@ -2172,6 +2507,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>性別</logical_name>
@@ -2185,6 +2522,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>ショートカットキー</logical_name>
@@ -2198,6 +2537,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>概要</logical_name>
@@ -2211,6 +2552,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>0：消費税を含まない仕訳&#x0D;&#x0A;1：消費税を含むべき仕訳</description>
 			<logical_name>消費税有無</logical_name>
@@ -2224,6 +2567,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>振替伝票を表示した時に詳細を展開表示するかどうか</description>
 			<logical_name>詳細表示フラグ</logical_name>
@@ -2237,6 +2582,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>six_dependent</logical_name>
@@ -2250,6 +2597,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>１ページあたりの伝票表示数</logical_name>
@@ -2263,6 +2612,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>伝票区分</logical_name>
@@ -2276,6 +2627,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>接待交際参加人数</logical_name>
@@ -2289,6 +2642,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>接待交際の人数必須フラグ</logical_name>
@@ -2302,6 +2657,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>適用開始日</logical_name>
@@ -2315,6 +2672,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>償却開始年度</logical_name>
@@ -2328,6 +2687,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>start_from</logical_name>
@@ -2341,6 +2702,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>期首月</logical_name>
@@ -2354,6 +2717,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>status</logical_name>
@@ -2367,6 +2732,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>資産ステータス</logical_name>
@@ -2380,6 +2747,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>補助科目変更可フラグ</logical_name>
@@ -2393,6 +2762,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>補助科目ID</logical_name>
@@ -2406,6 +2777,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>補助科目ID</logical_name>
@@ -2419,6 +2792,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>補助科目名</logical_name>
@@ -2432,6 +2807,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description>SUB_ACCOUNT_TYPE_NORMAL = 1 =&gt; &apos;通常&apos;,&#x0D;&#x0A;SUB_ACCOUNT_TYPE_EMPLOYEE = 2 =&gt; &apos;従業員&apos;,&#x0D;&#x0A;SUB_ACCOUNT_TYPE_CUSTOMER = 3 =&gt; &apos;取引先&apos;,&#x0D;&#x0A;SUB_ACCOUNT_TYPE_BANK_ACCOUNT = 4 =&gt; &apos;銀行口座&apos;,&#x0D;&#x0A;SUB_ACCOUNT_TYPE_RENT = 5 =&gt; &apos;地代家賃契約先&apos;,&#x0D;&#x0A;SUB_ACCOUNT_TYPE_ORDER_ENTRY = 6 =&gt; &apos;受注先&apos;,&#x0D;&#x0A;SUB_ACCOUNT_TYPE_ORDER_PLACEMENT = 7 =&gt; &apos;発注先&apos;,&#x0D;&#x0A;SUB_ACCOUNT_TYPE_BRANCH = 8 =&gt; &apos;部門&apos;,&#x0D;&#x0A;    SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE = 9 =&gt; &apos;接待交際費&apos;,</description>
 			<logical_name>補助科目区分</logical_name>
@@ -2445,6 +2822,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>補助科目区分</logical_name>
@@ -2458,6 +2837,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>システム必須フラグ</logical_name>
@@ -2471,6 +2852,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>tax合計金額</logical_name>
@@ -2484,6 +2867,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>消費税取り扱い区分</logical_name>
@@ -2497,6 +2882,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>tax種別</logical_name>
@@ -2510,6 +2897,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>消費税区分</logical_name>
@@ -2523,6 +2912,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>電話番号</logical_name>
@@ -2536,6 +2927,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>three_dependent</logical_name>
@@ -2549,6 +2942,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>取引区分</logical_name>
@@ -2562,6 +2957,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>振替元明細ID</logical_name>
@@ -2575,6 +2972,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>transfer_from_id</logical_name>
@@ -2588,6 +2987,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>two_dependent</logical_name>
@@ -2601,6 +3002,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>会社の形態</logical_name>
@@ -2614,6 +3017,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>更新日時</logical_name>
@@ -2627,6 +3032,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>更新日時</logical_name>
@@ -2640,6 +3047,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>更新日時</logical_name>
@@ -2653,6 +3062,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>更新ユーザID</logical_name>
@@ -2666,6 +3077,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>usage種別</logical_name>
@@ -2679,6 +3092,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>値</logical_name>
@@ -2692,6 +3107,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>welfare_pension_insurance_all</logical_name>
@@ -2705,6 +3122,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>welfare_pension_insurance_half</logical_name>
@@ -2718,6 +3137,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>YahooAPIアプID</logical_name>
@@ -2731,6 +3152,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>取得年月</logical_name>
@@ -2744,6 +3167,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>年月</logical_name>
@@ -2757,6 +3182,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>契約終了日</logical_name>
@@ -2770,6 +3197,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>契約開始日</logical_name>
@@ -2783,6 +3212,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>true</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>郵便番号</logical_name>
@@ -2796,6 +3227,8 @@
 			<array>false</array>
 			<array_dimension>null</array_dimension>
 			<unsigned>false</unsigned>
+			<zerofill>false</zerofill>
+			<binary>false</binary>
 			<args></args>
 			<description></description>
 			<logical_name>郵便番号</logical_name>
@@ -2829,7 +3262,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>0</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -2853,6 +3286,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -2885,6 +3319,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -2917,6 +3352,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -2949,6 +3385,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -2981,6 +3418,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3013,6 +3451,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3045,6 +3484,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3077,6 +3517,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3109,6 +3550,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3141,6 +3583,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3173,6 +3616,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3205,6 +3649,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3237,6 +3682,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3269,6 +3715,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3301,6 +3748,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3368,6 +3816,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3400,6 +3849,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3432,6 +3882,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3464,6 +3915,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3496,6 +3948,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3551,16 +4004,21 @@
 					<id>0</id>
 					<source>32</source>
 					<target>2</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -3573,7 +4031,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>20</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -3597,6 +4055,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3630,6 +4089,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3662,6 +4122,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3694,6 +4155,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3726,6 +4188,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3758,6 +4221,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3796,16 +4260,21 @@
 					<id>1</id>
 					<source>32</source>
 					<target>3</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -3818,7 +4287,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>26</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -3842,6 +4311,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3875,6 +4345,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3907,6 +4378,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3939,6 +4411,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -3971,6 +4444,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4003,6 +4477,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4035,6 +4510,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4095,7 +4571,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>33</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -4119,6 +4595,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4151,6 +4628,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4183,6 +4661,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4215,6 +4694,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4247,6 +4727,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4279,6 +4760,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4311,6 +4793,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4343,6 +4826,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4375,6 +4859,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4407,6 +4892,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4439,6 +4925,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4471,6 +4958,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4503,6 +4991,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4535,6 +5024,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4567,6 +5057,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4599,6 +5090,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4631,6 +5123,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4687,7 +5180,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>50</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -4711,6 +5204,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4743,6 +5237,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4775,6 +5270,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4807,6 +5303,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4839,6 +5336,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4871,6 +5369,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4903,6 +5402,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4935,6 +5435,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4967,6 +5468,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -4999,6 +5501,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5031,6 +5534,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5063,6 +5567,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5101,16 +5606,21 @@
 					<id>2</id>
 					<source>9</source>
 					<target>6</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -5147,6 +5657,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5179,6 +5690,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5211,6 +5723,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5244,6 +5757,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5276,6 +5790,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5308,6 +5823,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5340,6 +5856,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5383,7 +5900,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>69</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -5407,6 +5924,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5439,6 +5957,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5471,6 +5990,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5503,6 +6023,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5535,6 +6056,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5571,35 +6093,45 @@
 			<connections>
 				<relation>
 					<id>3</id>
-					<source>9</source>
+					<source>6</source>
 					<target>8</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
 				<relation>
 					<id>4</id>
-					<source>6</source>
+					<source>9</source>
 					<target>8</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -5612,7 +6144,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>74</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -5636,6 +6168,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5668,6 +6201,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5700,6 +6234,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5710,7 +6245,7 @@
 				<normal_column>
 					<id>77</id>
 					<referenced_column>84</referenced_column>
-					<relation>3</relation>
+					<relation>4</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -5733,6 +6268,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5743,7 +6279,7 @@
 				<normal_column>
 					<id>78</id>
 					<referenced_column>62</referenced_column>
-					<relation>4</relation>
+					<relation>3</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -5766,6 +6302,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5798,6 +6335,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5830,6 +6368,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5862,6 +6401,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5894,6 +6434,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -5926,6 +6467,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6006,6 +6548,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6038,6 +6581,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6070,6 +6614,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6102,6 +6647,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6134,6 +6680,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6166,6 +6713,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6233,6 +6781,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6265,6 +6814,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6297,6 +6847,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6329,6 +6880,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6361,6 +6913,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6393,6 +6946,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6436,7 +6990,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>96</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -6460,6 +7014,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6492,6 +7047,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6524,6 +7080,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6556,6 +7113,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6588,6 +7146,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6620,6 +7179,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6652,6 +7212,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6684,6 +7245,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6727,7 +7289,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>104</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -6751,6 +7313,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6783,6 +7346,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6815,6 +7379,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6847,6 +7412,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6879,6 +7445,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6911,6 +7478,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6943,6 +7511,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -6975,6 +7544,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7007,6 +7577,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7039,6 +7610,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7071,6 +7643,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7103,6 +7676,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7135,6 +7709,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7167,6 +7742,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7199,6 +7775,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7231,6 +7808,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7269,16 +7847,21 @@
 					<id>5</id>
 					<source>7</source>
 					<target>13</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -7291,7 +7874,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>120</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -7315,6 +7898,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7348,6 +7932,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7380,6 +7965,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7412,6 +7998,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7444,6 +8031,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7476,6 +8064,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7508,6 +8097,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7578,21 +8168,26 @@
 					<id>6</id>
 					<source>14</source>
 					<target>14</target>
+						<source_xp>100</source_xp>
+						<source_yp>90</source_yp>
+						<target_xp>90</target_xp>
+						<target_yp>100</target_yp>
 						<bendpoint>
 							<relative>true</relative>
 							<x>20</x>
 							<y>20</y>
 						</bendpoint>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>100</source_xp>
-					<source_yp>90</source_yp>
-					<target_xp>90</target_xp>
-					<target_yp>100</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -7605,7 +8200,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>127</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -7629,6 +8224,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7661,6 +8257,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7693,6 +8290,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7725,6 +8323,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7757,6 +8356,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7789,6 +8389,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7821,6 +8422,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7853,6 +8455,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7885,6 +8488,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7917,6 +8521,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7950,6 +8555,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -7982,6 +8588,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8014,6 +8621,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8046,6 +8654,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8078,6 +8687,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8110,6 +8720,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8142,6 +8753,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8174,6 +8786,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8206,6 +8819,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8238,6 +8852,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8270,6 +8885,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8302,6 +8918,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8334,6 +8951,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8366,6 +8984,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8398,6 +9017,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8430,6 +9050,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8494,16 +9115,21 @@
 					<id>7</id>
 					<source>14</source>
 					<target>15</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -8516,7 +9142,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>95</word_id>
+					<word_id>96</word_id>
 					<id>153</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -8540,6 +9166,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8573,6 +9200,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8605,6 +9233,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8637,6 +9266,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8669,6 +9299,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8701,6 +9332,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8744,7 +9376,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>159</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -8768,6 +9400,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8800,6 +9433,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8832,6 +9466,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8864,6 +9499,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8896,6 +9532,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8928,6 +9565,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8960,6 +9598,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -8992,6 +9631,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9024,6 +9664,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9056,6 +9697,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9088,6 +9730,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9120,6 +9763,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9152,6 +9796,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9184,6 +9829,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9216,6 +9862,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9248,6 +9895,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9280,6 +9928,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9312,6 +9961,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9344,6 +9994,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9376,6 +10027,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9408,6 +10060,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9440,6 +10093,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9496,7 +10150,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>95</word_id>
+					<word_id>96</word_id>
 					<id>181</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -9520,6 +10174,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9552,6 +10207,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9584,6 +10240,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9616,6 +10273,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9648,6 +10306,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9680,6 +10339,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9712,6 +10372,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9750,16 +10411,21 @@
 					<id>8</id>
 					<source>21</source>
 					<target>18</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -9772,7 +10438,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>96</word_id>
+					<word_id>94</word_id>
 					<id>188</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -9796,6 +10462,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9829,6 +10496,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9861,6 +10529,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9893,6 +10562,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9925,6 +10595,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9957,6 +10628,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -9995,16 +10667,21 @@
 					<id>9</id>
 					<source>17</source>
 					<target>19</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -10017,7 +10694,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>194</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -10041,6 +10718,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10073,6 +10751,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10105,6 +10784,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10137,6 +10817,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10169,6 +10850,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10201,6 +10883,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10233,6 +10916,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10266,6 +10950,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10298,6 +10983,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10330,6 +11016,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10362,6 +11049,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10394,6 +11082,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10426,6 +11115,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10464,16 +11154,21 @@
 					<id>10</id>
 					<source>21</source>
 					<target>20</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -10486,7 +11181,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>207</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -10510,6 +11205,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10543,6 +11239,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10575,6 +11272,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10607,6 +11305,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10639,6 +11338,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10671,6 +11371,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10703,6 +11404,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10735,6 +11437,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10767,6 +11470,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10799,6 +11503,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10831,6 +11536,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10863,6 +11569,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10895,6 +11602,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10927,6 +11635,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10959,6 +11668,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -10991,6 +11701,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11023,6 +11734,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11055,6 +11767,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11093,16 +11806,21 @@
 					<id>11</id>
 					<source>36</source>
 					<target>21</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -11110,16 +11828,21 @@
 					<id>12</id>
 					<source>19</source>
 					<target>21</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -11132,7 +11855,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>225</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -11156,6 +11879,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11189,6 +11913,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11222,6 +11947,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11254,6 +11980,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11286,6 +12013,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11318,6 +12046,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11350,6 +12079,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11382,6 +12112,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11414,6 +12145,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11446,6 +12178,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11478,6 +12211,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11510,6 +12244,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11542,6 +12277,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11585,7 +12321,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>238</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -11609,6 +12345,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11641,6 +12378,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11673,6 +12411,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11705,6 +12444,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11737,6 +12477,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11769,6 +12510,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11807,16 +12549,21 @@
 					<id>13</id>
 					<source>11</source>
 					<target>23</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -11829,7 +12576,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>244</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -11853,6 +12600,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11886,6 +12634,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11918,6 +12667,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11950,6 +12700,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -11982,6 +12733,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12014,6 +12766,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12046,6 +12799,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12093,16 +12847,21 @@
 					<id>14</id>
 					<source>14</source>
 					<target>24</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -12115,7 +12874,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>251</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -12139,6 +12898,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12171,6 +12931,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12203,6 +12964,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12236,6 +12998,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12268,6 +13031,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12300,6 +13064,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12332,6 +13097,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12364,6 +13130,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12396,6 +13163,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12439,7 +13207,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>260</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -12463,6 +13231,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12495,6 +13264,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12527,6 +13297,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12559,6 +13330,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12591,6 +13363,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12623,6 +13396,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12655,6 +13429,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12687,6 +13462,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12719,6 +13495,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12770,16 +13547,21 @@
 					<id>15</id>
 					<source>16</source>
 					<target>26</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -12792,7 +13574,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>269</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -12816,6 +13598,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12848,6 +13631,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12880,6 +13664,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12912,6 +13697,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12944,6 +13730,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -12976,6 +13763,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13008,6 +13796,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13040,6 +13829,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13073,6 +13863,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13111,16 +13902,21 @@
 					<id>16</id>
 					<source>31</source>
 					<target>27</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -13133,7 +13929,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>278</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -13157,6 +13953,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13190,6 +13987,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13222,6 +14020,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13254,6 +14053,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13286,6 +14086,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13318,6 +14119,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13354,35 +14156,45 @@
 			<connections>
 				<relation>
 					<id>17</id>
-					<source>13</source>
+					<source>31</source>
 					<target>28</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
 				<relation>
 					<id>18</id>
-					<source>31</source>
+					<source>13</source>
 					<target>28</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -13395,7 +14207,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>284</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -13419,6 +14231,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13429,7 +14242,7 @@
 				<normal_column>
 					<id>285</id>
 					<referenced_column>306</referenced_column>
-					<relation>18</relation>
+					<relation>17</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name>仕訳ヘッダID</logical_name>
@@ -13452,6 +14265,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13484,6 +14298,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13516,6 +14331,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13548,6 +14364,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13580,6 +14397,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13612,6 +14430,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13644,6 +14463,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13676,6 +14496,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13708,6 +14529,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13740,6 +14562,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13772,6 +14595,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13804,6 +14628,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13836,6 +14661,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13868,6 +14694,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13900,6 +14727,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13932,6 +14760,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13964,6 +14793,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -13974,7 +14804,7 @@
 				<normal_column>
 					<id>302</id>
 					<referenced_column>120</referenced_column>
-					<relation>17</relation>
+					<relation>18</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name>家事按分明細ID</logical_name>
@@ -13997,6 +14827,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14029,6 +14860,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14061,6 +14893,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14093,6 +14926,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14175,6 +15009,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14207,6 +15042,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14239,6 +15075,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14271,6 +15108,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14303,6 +15141,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14335,6 +15174,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14367,6 +15207,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14399,6 +15240,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14456,6 +15298,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14488,6 +15331,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14520,6 +15364,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14552,6 +15397,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14584,6 +15430,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14616,6 +15463,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14648,6 +15496,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14680,6 +15529,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14710,16 +15560,21 @@
 					<id>19</id>
 					<source>7</source>
 					<target>31</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -14732,7 +15587,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>306</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -14756,6 +15611,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14788,6 +15644,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14820,6 +15677,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14852,6 +15710,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14884,6 +15743,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14916,6 +15776,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14948,6 +15809,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -14980,6 +15842,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15012,6 +15875,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15044,6 +15908,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15076,6 +15941,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15108,6 +15974,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15140,6 +16007,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15173,6 +16041,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15205,6 +16074,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15237,6 +16107,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15269,6 +16140,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15301,6 +16173,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15333,6 +16206,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15365,6 +16239,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15429,16 +16304,21 @@
 					<id>20</id>
 					<source>21</source>
 					<target>32</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -15451,7 +16331,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>326</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -15475,6 +16355,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15507,6 +16388,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15540,6 +16422,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15572,6 +16455,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15604,6 +16488,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15636,6 +16521,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15668,6 +16554,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15700,6 +16587,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15732,6 +16620,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15764,6 +16653,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15796,6 +16686,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15828,6 +16719,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15860,6 +16752,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15892,6 +16785,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15924,6 +16818,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -15956,6 +16851,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16012,7 +16908,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>342</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -16036,6 +16932,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16068,6 +16965,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16100,6 +16998,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16132,6 +17031,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16164,6 +17064,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16196,6 +17097,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16228,6 +17130,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16260,6 +17163,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16292,6 +17196,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16324,6 +17229,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16356,6 +17262,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16388,6 +17295,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16420,6 +17328,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16452,6 +17361,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16484,6 +17394,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16516,6 +17427,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16548,6 +17460,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16625,21 +17538,26 @@
 					<id>21</id>
 					<source>34</source>
 					<target>34</target>
+						<source_xp>100</source_xp>
+						<source_yp>86</source_yp>
+						<target_xp>90</target_xp>
+						<target_yp>100</target_yp>
 						<bendpoint>
 							<relative>true</relative>
 							<x>20</x>
 							<y>28</y>
 						</bendpoint>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>100</source_xp>
-					<source_yp>86</source_yp>
-					<target_xp>90</target_xp>
-					<target_yp>100</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -16647,16 +17565,21 @@
 					<id>22</id>
 					<source>19</source>
 					<target>34</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -16669,7 +17592,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>359</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -16693,6 +17616,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16726,6 +17650,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16759,6 +17684,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16791,6 +17717,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16823,6 +17750,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16855,6 +17783,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16887,6 +17816,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16919,6 +17849,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16951,6 +17882,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -16983,6 +17915,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17015,6 +17948,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17047,6 +17981,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17085,16 +18020,21 @@
 					<id>23</id>
 					<source>19</source>
 					<target>35</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -17107,7 +18047,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>94</word_id>
+					<word_id>95</word_id>
 					<id>371</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -17131,6 +18071,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17164,6 +18105,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17196,6 +18138,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17228,6 +18171,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17260,6 +18204,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17292,6 +18237,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17324,6 +18270,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17356,6 +18303,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17388,6 +18336,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17420,6 +18369,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17452,6 +18402,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17507,16 +18458,21 @@
 					<id>24</id>
 					<source>19</source>
 					<target>36</target>
+						<source_xp>-1</source_xp>
+						<source_yp>-1</source_yp>
+						<target_xp>-1</target_xp>
+						<target_yp>-1</target_yp>
+						<color>
+							<r>0</r>
+							<g>0</g>
+							<b>0</b>
+						</color>
 					<child_cardinality>1..n</child_cardinality>
 					<parent_cardinality>1</parent_cardinality>
 					<reference_for_pk>true</reference_for_pk>
 					<name></name>
 					<on_delete_action>RESTRICT</on_delete_action>
 					<on_update_action>RESTRICT</on_update_action>
-					<source_xp>-1</source_xp>
-					<source_yp>-1</source_yp>
-					<target_xp>-1</target_xp>
-					<target_yp>-1</target_yp>
 					<referenced_column>null</referenced_column>
 					<referenced_complex_unique_key>null</referenced_complex_unique_key>
 				</relation>
@@ -17529,7 +18485,7 @@
 			<option></option>
 			<columns>
 				<normal_column>
-					<word_id>95</word_id>
+					<word_id>96</word_id>
 					<id>382</id>
 					<description></description>
 					<unique_key_name></unique_key_name>
@@ -17553,6 +18509,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17586,6 +18543,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17618,6 +18576,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17632,7 +18591,7 @@
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
 					<physical_name></physical_name>
-					<type>integer</type>
+					<type>varchar(n)</type>
 					<constraint></constraint>
 					<default_value></default_value>
 					<auto_increment>false</auto_increment>
@@ -17650,6 +18609,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17669,7 +18629,7 @@
 					<default_value></default_value>
 					<auto_increment>false</auto_increment>
 					<foreign_key>false</foreign_key>
-					<not_null>false</not_null>
+					<not_null>true</not_null>
 					<primary_key>false</primary_key>
 					<unique_key>false</unique_key>
 					<character_set></character_set>
@@ -17682,6 +18642,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17714,6 +18675,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17746,6 +18708,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17778,6 +18741,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17810,6 +18774,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17842,6 +18807,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17874,6 +18840,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>
@@ -17906,6 +18873,7 @@
 						<max_value></max_value>
 						<start></start>
 						<cache></cache>
+						<nocache>false</nocache>
 						<cycle>false</cycle>
 						<order>false</order>
 						<description></description>

@@ -5,6 +5,8 @@ class FiscalYear < ActiveRecord::Base
   belongs_to :company
   validates_presence_of :company_id, :fiscal_year
   validates_uniqueness_of :fiscal_year, :scope => :company_id
+
+  before_save :reset_carry_forward_journal
   after_save :create_housework
   after_create :create_sequence_for_asset_code
 
@@ -48,7 +50,7 @@ class FiscalYear < ActiveRecord::Base
   end
   
   def is_not_closed
-    not is_closed
+    ! is_closed
   end
 
   def is_carried
@@ -56,7 +58,7 @@ class FiscalYear < ActiveRecord::Base
   end
   
   def is_not_carried
-    not is_carried
+    ! is_carried
   end
 
   # 期首の年月を取得
@@ -113,5 +115,18 @@ class FiscalYear < ActiveRecord::Base
   # 資産コード用のシーケンスを作成
   def create_sequence_for_asset_code
     Sequence.create_sequence(Asset, fiscal_year)
+  end
+
+  def reset_carry_forward_journal
+    if self.is_not_closed
+      # 繰越仕訳があれば削除
+      jh = self.get_carry_forward_journal
+      if jh
+        raise HyaccException.new(ERR_DB) unless jh.destroy
+      end
+
+      self.carry_status = CARRY_STATUS_NOT_CARRIED
+      self.carried_at = nil
+    end
   end
 end

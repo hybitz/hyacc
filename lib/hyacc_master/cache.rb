@@ -1,5 +1,5 @@
 class HyaccMaster::Cache
-  require 'hyacc_master/service'
+  require_relative 'service'
 
   # キー：都道府県一覧
   MEM_KEY_PREFECTURE_LIST = "MEM_KEY_PREFECTURE_LIST"
@@ -23,7 +23,6 @@ class HyaccMaster::Cache
       if HyaccLogger.debug?
         HyaccLogger.debug "Cache not found " + key
       end
-      service = HyaccMaster::Service.new
       insurances = service.get_insurances(prefecture_id, ym, base_salary)
       Rails.cache.write(key, insurances)
     end
@@ -37,7 +36,6 @@ class HyaccMaster::Cache
       if HyaccLogger.debug?
         HyaccLogger.debug "Cache not found " + key
       end
-      service = HyaccMaster::Service.new
       insurance = service.get_insurance(ym, prefecture_id, base_salary)
       Rails.cache.write(key, insurance)
     end
@@ -46,16 +44,15 @@ class HyaccMaster::Cache
   
   def get_pensions(ym = nil, base_salary = 0)
     key = MEM_KEY_PENSION_LIST + create_sub_key([ym, base_salary])
-    pension = Rails.cache.read(key)
-    if pension.nil?
+    pensions = Rails.cache.read(key)
+    if pensions.nil?
       if HyaccLogger.debug?
         HyaccLogger.debug "Cache not found " + key
       end
-      service = HyaccMaster::Service.new
       pensions = service.get_pensions(ym, base_salary)
       Rails.cache.write(key, pensions)
     end
-    pension
+    pensions
   end
 
   def get_pension(ym = nil, base_salary = 0)
@@ -65,7 +62,6 @@ class HyaccMaster::Cache
       if HyaccLogger.debug?
         HyaccLogger.debug "Cache not found " + key
       end
-      service = HyaccMaster::Service.new
       pension = service.get_pension(ym, base_salary)
       Rails.cache.write(key, pension)
     end
@@ -81,7 +77,6 @@ class HyaccMaster::Cache
       if HyaccLogger.debug?
         HyaccLogger.debug "Cache not found " + key
       end
-      service = HyaccMaster::Service.new
       insurance = service.get_basic_info(ym, base_salary)
       Rails.cache.write(key, insurance)
     end
@@ -89,6 +84,10 @@ class HyaccMaster::Cache
   end
   
   private
+
+  def service
+    @service ||= HyaccMaster::Service.new
+  end
 
   # サブキーの生成
   def create_sub_key(options = [])

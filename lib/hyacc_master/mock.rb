@@ -1,4 +1,4 @@
-class HyaccMaster::ServiceMock
+class HyaccMaster::Mock
     
   def get_pension(ym = nil, base_salary = 0)
     pension = Insurance.new

@@ -1,33 +1,26 @@
-require 'net/http'
-
 class HyaccMaster::Service
-  include HyaccConstants
 
   # HyaccマスタのURL
-  HYACC_MASTER_URL = "hyacc-master.hybitz.co.jp"
+  HYACC_MASTER_URL = "http://hyacc-master.hybitz.co.jp"
 
   def get_insurances(prefecture_id, ym, base_salary)
     insurances = []
 
-    Net::HTTP.version_1_2
-    Net::HTTP.start(HYACC_MASTER_URL, 80) {|http|
-      response = http.get("/user/insurance/list?prefectureId=#{prefecture_id}&ym=#{ym}&baseSalary=#{base_salary}")
-      json = ActiveSupport::JSON.decode(response.body)
-      json.each do |j|
-        ins = Insurance.new
-        ins.apply_start_ym = j['startYm'].to_i
-        ins.apply_end_ym = j['endYm'].to_i
-        ins.grade = j['grade'].to_i
-        ins.pay_range_above = j['startSalary'].to_i
-        ins.pay_range_under = j['endSalary'].to_i
-        ins.monthly_earnings = j['baseSalary'].to_i
-        ins.health_insurance_all = j['insurance'].to_f
-        ins.health_insurance_half = j['insuranceHalf'].to_f
-        ins.health_insurance_all_care = j['insurance2'].to_f
-        ins.health_insurance_half_care = j['insurance2Half'].to_f
-        insurances << ins
-      end
-    }
+    response = http.get('/user/insurance/list', :prefectureId => prefecture_id, :ym => ym, :baseSalary => base_salary)
+    ActiveSupport::JSON.decode(response).each do |j|
+      ins = Insurance.new
+      ins.apply_start_ym = j['startYm'].to_i
+      ins.apply_end_ym = j['endYm'].to_i
+      ins.grade = j['grade'].to_i
+      ins.pay_range_above = j['startSalary'].to_i
+      ins.pay_range_under = j['endSalary'].to_i
+      ins.monthly_earnings = j['baseSalary'].to_i
+      ins.health_insurance_all = j['insurance'].to_f
+      ins.health_insurance_half = j['insuranceHalf'].to_f
+      ins.health_insurance_all_care = j['insurance2'].to_f
+      ins.health_insurance_half_care = j['insurance2Half'].to_f
+      insurances << ins
+    end
     
     insurances
   end
@@ -35,25 +28,21 @@ class HyaccMaster::Service
   def get_pensions(ym = nil, base_salary = 0)
     pensions = []
 
-    Net::HTTP.version_1_2
-    Net::HTTP.start(HYACC_MASTER_URL, 80) {|http|
-      response = http.get("/user/pension/list?ym=#{ym}&baseSalary=#{base_salary}")
-      json = ActiveSupport::JSON.decode(response.body)
-      json.each do |j|
-        p = Pension.new
-        p.apply_start_ym = j['startYm'].to_i
-        p.apply_end_ym = j['endYm'].to_i
-        p.grade = j['grade'].to_i
-        p.pay_range_above = j['startSalary'].to_i
-        p.pay_range_under = j['endSalary'].to_i
-        p.monthly_earnings = j['baseSalary'].to_i
-        p.pension = j['pension'].to_i
-        p.pension_half = j['pensionHalf'].to_i
-        p.pension2 = j['pension2'].to_i
-        p.pension2_half = j['pension2Half'].to_i
-        pensions << p
-      end
-    }
+    response = http.get('/user/pension/list', :ym => ym, :baseSalary => base_salary)
+    ActiveSupport::JSON.decode(response).each do |j|
+      p = Pension.new
+      p.apply_start_ym = j['startYm'].to_i
+      p.apply_end_ym = j['endYm'].to_i
+      p.grade = j['grade'].to_i
+      p.pay_range_above = j['startSalary'].to_i
+      p.pay_range_under = j['endSalary'].to_i
+      p.monthly_earnings = j['baseSalary'].to_i
+      p.pension = j['pension'].to_i
+      p.pension_half = j['pensionHalf'].to_i
+      p.pension2 = j['pension2'].to_i
+      p.pension2_half = j['pension2Half'].to_i
+      pensions << p
+    end
     
     pensions
   end
@@ -113,5 +102,11 @@ class HyaccMaster::Service
     }
     insurance
   end
-  
+
+  private
+
+  def http
+    @http ||= Daddy::HttpClient.new(HYACC_MASTER_URL)
+  end
+
 end

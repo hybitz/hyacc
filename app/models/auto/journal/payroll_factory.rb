@@ -227,7 +227,7 @@ module Auto::Journal
       journal_header.company_id = @user.company.id
       
       # 消費税率
-      tax_rate = TaxJp.get_rate_on(journal_header.date)
+      tax_rate = TaxJp.rate_on(journal_header.date)
       Rails.logger.debug "tax_rate=#{tax_rate}, date=#{journal_header.date}"
 
       # 明細の作成

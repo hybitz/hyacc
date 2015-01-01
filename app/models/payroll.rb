@@ -170,7 +170,7 @@ class Payroll < ActiveRecord::Base
     # 支払の伝票取得
     if payroll.pay_journal_headers != nil
       jh = payroll.pay_journal_headers
-      payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y%m%d")
+      payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
       payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
     

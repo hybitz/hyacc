@@ -9,18 +9,18 @@ class FinancialReturnStatementsController < Base::HyaccController
 
   def index
     case finder.report_type
-      when REPORT_TYPE_INCOME
-        render_income
-      when REPORT_TYPE_RENT
-        render_rent
-      when REPORT_TYPE_SOCIAL_EXPENSE
-        render_social_expense
-      when REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK
-        render_surplus_reserve_and_capital_stock
-      when REPORT_TYPE_TAX_AND_DUES
-        render_tax_and_dues
-      when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
-        render_trade_account_payable
+    when REPORT_TYPE_INCOME
+      render_income
+    when REPORT_TYPE_RENT
+      render_rent
+    when REPORT_TYPE_SOCIAL_EXPENSE
+      render_social_expense
+    when REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK
+      render_surplus_reserve_and_capital_stock
+    when REPORT_TYPE_TAX_AND_DUES
+      render_tax_and_dues
+    when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
+      render_trade_account_payable
     end if finder.commit
   end
 

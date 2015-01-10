@@ -1,33 +1,13 @@
 class LedgerFinder < Base::Finder
   include JournalUtil
 
-  # 検索条件の作成
-  def conditions_for_journals( ym=0 )
-    ret = []
-    
-    # 勘定科目は必須
-    ret[0] = "account_id = ? "
-    ret << account_id
-
-    # 計上部門は任意
-    if branch_id > 0
-      ret[0] << "and branch_id = ? "
-      ret << branch_id
-    end
-    
-    # 補助科目は任意
-    if sub_account_id > 0
-      ret[0] << "and journal_details.sub_account_id = ? "
-      ret << sub_account_id
-    end
-
-    # 年月
-    if ym > 0
-      ret[0] << "and journal_headers.ym = ? "
-      ret << ym
-    end
-        
-    ret
+  def conditions_for_journals(ym = 0)
+    sql = SqlBuilder.new
+    sql.append('account_id = ?', account_id)
+    sql.append('and branch_id = ?', branch_id) if branch_id > 0
+    sql.append('and journal_details.sub_account_id = ?', sub_account_id) if sub_account_id > 0
+    sql.append('and journal_headers.ym = ?', ym) if ym > 0
+    sql.to_a
   end
   
   # 月別累計検索条件
@@ -159,13 +139,12 @@ class LedgerFinder < Base::Finder
   end
 
   def list_journals( ym )
-    unless account_id > 0
-      return []
-    end
+    return [] unless account_id > 0
     
     ret = []
-    details = JournalDetail.where(conditions_for_journals( ym )).includes(:journal_header).group('journal_header_id').order('journal_headers.ym, journal_headers.day, journal_headers.created_on')
-    JournalHeader.where(:id => details.map(&:journal_header_id)).includes(:journal_details).each do |jh|
+    details = JournalDetail.select(:journal_header_id).where(conditions_for_journals(ym)).includes(:journal_header)
+    ids = details.map(&:journal_header_id).uniq
+    JournalHeader.where(:id => ids).order('ym, day, created_on').includes(:journal_details).each do |jh|
       ret << Ledger.new(jh, self)
     end
     

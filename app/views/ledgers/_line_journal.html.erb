@@ -10,7 +10,7 @@
   <td class="amountCredit"><%= to_amount( ledger.amount_credit ) %></td>
   <td class="amountMonthlySum"></td>
   <td class="amountSum"></td>
-  <td>
+  <td class="center">
     <%= link_to '参照', journal_path(ledger.id, :copy_link => 'false'), :remote => true %>
   </td>
 </tr>

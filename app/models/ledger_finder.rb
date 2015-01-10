@@ -142,7 +142,7 @@ class LedgerFinder < Base::Finder
     return [] unless account_id > 0
     
     ret = []
-    details = JournalDetail.select(:journal_header_id).where(conditions_for_journals(ym)).includes(:journal_header)
+    details = JournalDetail.includes(:journal_header).references(:journal_header).select(:journal_header_id).where(conditions_for_journals(ym))
     ids = details.map(&:journal_header_id).uniq
     JournalHeader.where(:id => ids).order('ym, day, created_on').includes(:journal_details).each do |jh|
       ret << Ledger.new(jh, self)

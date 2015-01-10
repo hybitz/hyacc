@@ -18,11 +18,15 @@ hyacc.init_datepicker = function() {
 hyacc.trace_ajax = function() {
   var count = 0;
   $.ajaxSetup({
-    beforeSend:function() {
+    beforeSend: function() {
       $('html').addClass('busy');
+      count ++;
     },
-    complete:function() {
-      $('html').removeClass('busy');
+    complete: function() {
+      count --;
+      if (count == 0) {
+        $('html').removeClass('busy');
+      }
     }
   });
 };

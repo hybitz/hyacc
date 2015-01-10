@@ -20,13 +20,9 @@ hyacc.trace_ajax = function() {
   $.ajaxSetup({
     beforeSend:function() {
       $('html').addClass('busy');
-      count ++;
     },
     complete:function() {
-      count --;
-      if (count == 0) {
-       $('html').removeClass('busy');
-      }
+      $('html').removeClass('busy');
     }
   });
 };

@@ -49,9 +49,17 @@ class JournalDetail < ActiveRecord::Base
   def dc_type_name
     DC_TYPES[ dc_type ]
   end
-  
+
   def tax_type_name
     TAX_TYPES[ tax_type ]
+  end
+
+  def debit_amount
+    self.dc_type == DC_TYPE_DEBIT ? self.amount : 0
+  end
+
+  def credit_amount
+    self.dc_type == DC_TYPE_CREDIT ? self.amount : 0
   end
 
   def tax_rate_percent

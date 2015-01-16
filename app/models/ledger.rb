@@ -61,11 +61,8 @@ class Ledger
       journal_header.journal_details.each do |jd|
         # 条件に一致する明細の場合は金額を加算
         if detail_matches?( ledger_finder, jd )
-          if jd.dc_type == DC_TYPE_DEBIT
-            self.amount_debit += jd.amount
-          else
-            self.amount_credit += jd.amount
-          end
+          self.amount_debit += jd.debit_amount
+          self.amount_credit += jd.credit_amount
         end
       end
       

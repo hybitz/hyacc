@@ -46,40 +46,20 @@ class LedgerFinder < Base::Finder
   
   # 月別累計検索条件
   def conditions_for_last_year_balance( dc_type )
-    ret = []
-    
-    # 前年度
+    raise ArgumentError.new("勘定科目の指定がありません。") unless account_id > 0
+    raise ArgumentError.new("貸借区分の指定がありません。") unless [DC_TYPE_DEBIT, DC_TYPE_CREDIT].include?(dc_type)
+
+    # 前年度末
     start_year_month = get_start_year_month_of_fiscal_year( last_year, start_month_of_fiscal_year )
-    ret[0] = "ym <= ? "
-    ret << get_year_months( start_year_month, 12 ).last
 
-    # 勘定科目は必須
-    if account_id <= 0
-      raise ArgumentError.new("勘定科目の指定がありません。")
-    end
-    ret[0] << "and account_id = ? "
-    ret << account_id
-    
-    # 貸借区分は必須
-    if dc_type.to_i != DC_TYPE_DEBIT && dc_type != DC_TYPE_CREDIT
-      raise ArgumentError.new("貸借区分の指定がありません。")
-    end
-    ret[0] << "and dc_type = ? "
-    ret << dc_type
+    sql = SqlBuilder.new
+    sql.append('ym <= ?', get_year_months( start_year_month, 12 ).last)
+    sql.append('and account_id = ?', account_id)
+    sql.append('and dc_type = ?', dc_type)
+    sql.append('and branch_id = ?', branch_id) if branch_id > 0
+    sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id > 0
 
-    # 計上部門は任意
-    if branch_id > 0
-      ret[0] << "and branch_id = ? "
-      ret << branch_id
-    end
-
-    # 補助科目は任意
-    if sub_account_id > 0
-      ret[0] << "and sub_account_id = ? "
-      ret << sub_account_id
-    end
-
-    ret
+    sql.to_a
   end
   
   def last_year

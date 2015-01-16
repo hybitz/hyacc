@@ -30,8 +30,3 @@ hyacc.trace_ajax = function() {
     }
   });
 };
-
-$(document).ready(function() {
-  hyacc.init_datepicker();
-//  hyacc.trace_ajax();
-});

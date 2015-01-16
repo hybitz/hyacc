@@ -6,10 +6,10 @@
   <%= stylesheet_link_tag 'application' %>
   <%= stylesheet_link_tag 'application-print', :media => 'print' %>
   <%= javascript_include_tag "application" %>
-  <%= render 'common/common_js' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <%= render 'common/common_js' %>
   <%= render_header :only => 'index' %>
   <%= render_menu :only => 'index' %>
   <%= yield %>

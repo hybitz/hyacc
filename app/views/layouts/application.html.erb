@@ -5,10 +5,10 @@
   <%= render_title %>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= render 'common/common_js' %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <%= render 'common/common_js' %>
   <%= render_header :only => ['index'] %>
   <%= render_menu :only => ['index'] %>
 

@@ -5,17 +5,13 @@
   <%= render_title %>
   <%= stylesheet_link_tag 'application' %>
   <%= javascript_include_tag 'application' %>
-  <%= render 'common/common_js' %>
   <%= csrf_meta_tag %>
 </head>
 <body>
-
-<%= render 'common/header' %>
-<%= render 'common/menu' %>
-
-<p style="color: green"><%= flash[:notice] %></p>
-
-<%= yield %>
-
+  <%= render 'common/common_js' %>
+  <%= render 'common/header' %>
+  <%= render 'common/menu' %>
+  <p style="color: green"><%= flash[:notice] %></p>
+  <%= yield %>
 </body>
 </html>

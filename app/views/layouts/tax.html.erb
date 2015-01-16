@@ -6,17 +6,15 @@
   <%= render_title %>
 
   <%= javascript_include_tag 'application' %>
-  <%= render 'common/common_js' %>
   <%= render 'common/journal_js' %>
   <%= stylesheet_link_tag 'application' %>
   <%= csrf_meta_tag %>
 </head>
 <body>
-
-<%= render_header %>
-<%= render_menu %>
-<%= yield %>
-
+  <%= render 'common/common_js' %>
+  <%= render_header %>
+  <%= render_menu %>
+  <%= yield %>
 </body>
 </html>
 <%= '</textarea>' if @xhr %>

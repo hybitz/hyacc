@@ -6,9 +6,9 @@
   <%= csrf_meta_tag %>
   <%= stylesheet_link_tag 'application' %>
   <%= javascript_include_tag 'application' %>
-  <%= render 'common/common_js' %>
 </head>
 <body>
+  <%= render 'common/common_js' %>
   <%= render_header :only=>['list'] %>
   <%= render_menu :only=>['list'] %>
   <%= yield %>

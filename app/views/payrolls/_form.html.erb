@@ -1,5 +1,21 @@
 <script>
   $(document).ready(function() {
+    <% if @payroll.new_record? %>
+      var form = $('.payroll_form form');
+
+      form.find('input[name*="\[base_salary\]"]').blur(function() {
+        var url = '<%= url_for :action => 'auto_calc' %>';
+        var params = form.serialize();
+
+        $.getJSON(url, params, function(taxes) {
+          form.find('input[name*="\[insurance\]"]').val(taxes.insurance);
+          form.find('input[name*="\[pension\]"]').val(taxes.pension);
+          form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
+          form.find('submit').attr('disabled', false);
+        });
+      });
+    <% end %>
+
     hyacc.init_datepicker();
     $('#payroll_base_salary').focus();
   });
@@ -22,80 +38,104 @@ function checkForm(form){
 }
 </script>
 
-<table width="400">
-  <tr>
-    <td width="120">年月</td>
-    <td>
-      <%= hidden_field 'payroll', 'employee_id' %>
-      <%= text_field 'payroll', 'ym', :maxlength=>6, :readonly=>true, :style=>'background-color: lightgrey;' %>
-    </td>
-  </tr>
-  <tr>
-    <td>労働日数</td>
-    <td><%= text_field 'payroll', 'days_of_work', :maxlength=>2 %></td>
-  </tr>
-  <tr>
-    <td>労働時間</td>
-    <td><%= text_field 'payroll', 'hours_of_work', :maxlength=>5 %></td>
-  </tr>
-  <tr>
-    <td>休日労働時間数</td>
-    <td><%= text_field 'payroll', 'hours_of_day_off_work', :maxlength=>5 %></td>
-  </tr>
-  <tr>
-    <td>早出残業時間数</td>
-    <td><%= text_field 'payroll', 'hours_of_early_for_work', :maxlength=>5 %></td>
-  </tr>
-  <tr>
-    <td>深夜労働時間数</td>
-    <td><%= text_field 'payroll', 'hours_of_late_night_work', :maxlength=>5 %></td>
-  </tr>
-  <tr>
-    <td>基本給</td>
-    <td>
-      <%= text_field 'payroll', 'base_salary', :maxlength=>10 %>
-      <% if ['new', 'create'].include? controller.action_name %>
-        <script>
-          $(document).ready(function() {
-            $('#payroll_base_salary').blur(function() {
-              $.get('<%= url_for :action => 'auto_calc', :format => 'html' %>',
-                  $('#payroll_form').serialize(),
-                  function(html) {
-                    $('#auto_calc').html(html);
-                    $('#payroll_submit').attr('disabled', false);
-                  }
-              );
-            });
-          });
-        </script>
+<%= flash_notice %>
+<hr/>
+<b>給与明細</b>
+
+<% if @payroll.persisted? %>
+  （<%= link_to '明細削除', payroll_path(@payroll.id),
+                           data: {confirm: '明細を削除します。よろしいですか？'},
+                           :method => 'delete', :remote => true %>）
+<% end %>
+
+</br>
+
+<div class="payroll_form">
+  <%= form_for @payroll, :id => 'payroll_form', :remote => true do |f| %>
+    <%= f.hidden_field :employee_id %>
+  
+    <table width="400">
+      <tr>
+        <td width="150">年月</td>
+        <td><%= f.text_field :ym, :maxlength => 6, :readonly => true %></td>
+      </tr>
+      <tr>
+        <td>労働日数</td>
+        <td><%= f.text_field :days_of_work, :maxlength => 2 %></td>
+      </tr>
+      <tr>
+        <td>労働時間</td>
+        <td><%= f.text_field :hours_of_work, :maxlength => 5 %></td>
+      </tr>
+      <tr>
+        <td>休日労働時間数</td>
+        <td><%= f.text_field :hours_of_day_off_work, :maxlength => 5 %></td>
+      </tr>
+      <tr>
+        <td>早出残業時間数</td>
+        <td><%= f.text_field :hours_of_early_for_work, :maxlength => 5 %></td>
+      </tr>
+      <tr>
+        <td>深夜労働時間数</td>
+        <td><%= f.text_field :hours_of_late_night_work, :maxlength => 5 %></td>
+      </tr>
+      <tr>
+        <td>基本給</td>
+        <td><%= f.text_field :base_salary, :maxlength => 10 %></td>
+      </tr>
+      <tr>
+        <td>健康保険料</td>
+        <td>
+          <%= f.text_field :insurance, :maxlength => 10 %>
+          <label><%= f.radio_button :credit_account_type_of_insurance, '0' %>預り金</label>
+          <label><%= f.radio_button :credit_account_type_of_insurance, '1' %>立替金</label>
+        </td>
+      </tr>
+      <tr>
+        <td>厚生年金保険料</td>
+        <td>
+          <%= f.text_field :pension, :maxlength => 10 %>
+          <label><%= f.radio_button :credit_account_type_of_pension, '0' %>預り金</label>
+          <label><%= f.radio_button :credit_account_type_of_pension, '1' %>立替金</label>
+        </td>
+      </tr>
+      <tr>
+        <td>所得税</td>
+        <td>
+          <%= f.text_field :income_tax, :maxlength => 10 %>
+          <label><%= f.radio_button :credit_account_type_of_income_tax, '0' %>預り金</label>
+          <label><%= f.radio_button :credit_account_type_of_income_tax, '1' %>立替金</label>
+        </td>
+      </tr>
+      <tr>
+        <td>住民税</td>
+        <td>
+          <%= f.text_field :inhabitant_tax, :maxlength => 10 %>
+          <label><%= f.radio_button :credit_account_type_of_inhabitant_tax, '0' %>預り金</label>
+          <label><%= f.radio_button :credit_account_type_of_inhabitant_tax, '1' %>立替金</label>
+        </td>
+      </tr>
+      <tr>
+        <td>従業員への未払費用</td>
+        <td><%= f.text_field :accrued_liability, :maxlength => 10 %></td>
+      </tr>
+  
+      <% if @payroll.ym.to_s.slice(4,2) == "12" %>
+        <tr>
+          <td>年末調整額（過払分）</td>
+          <td><%= f.text_field :year_end_adjustment_liability, :maxlength => 10 %></td>
+        </tr>
       <% end %>
-    </td>
-  </tr>
-</table>
-<table id="auto_calc" width="400">
-  <%= render 'auto_calc' %>
-</tabel>
-<table width="400">
-  <tr>
-    <td width="120">住民税</td>
-    <td>
-      <%= text_field 'payroll', 'inhabitant_tax', :maxlength=>10 %>
-      <%= radio_button 'payroll', 'credit_account_type_of_inhabitant_tax', '0' %>預り金
-      <%= radio_button 'payroll', 'credit_account_type_of_inhabitant_tax', '1' %>立替金
-    </td>
-  </tr>
-  <tr>
-    <td>従業員への未払費用</td>
-    <td><%= text_field 'payroll', 'accrued_liability', :maxlength=>10 %></td>
-  </tr>
-  <% if @payroll.ym.to_s.slice(4,2) == "12" %>
-  <tr>
-    <td>年末調整額（過払分）</td>
-    <td><%= text_field 'payroll', 'year_end_adjustment_liability', :maxlength=>10 %></td>
-  </tr>
+  
+      <tr>
+        <td>給与支払日</td>
+        <td><%= f.text_field :pay_day, :class => 'datepicker' %></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <%= f.submit :onclick => "return checkForm(this.form);" %>
+        </td>
+      </tr>
+    </table>
   <% end %>
-  <tr>
-    <td>給与支払日</td>
-    <td><%= text_field 'payroll', 'pay_day', :class => 'datepicker' %></td>
-  </tr>
-</table>
+</div>

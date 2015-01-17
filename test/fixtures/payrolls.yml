@@ -15,7 +15,7 @@ payroll_00045:
   credit_account_type_of_pension: "0"
   credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
-payroll_00046: 
+payroll_00046:
   updated_at: 2009-04-21 08:19:36
   hours_of_work: 0
   payroll_journal_header_id: 4705

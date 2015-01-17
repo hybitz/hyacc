@@ -11,37 +11,17 @@ class LedgerFinder < Base::Finder
   end
   
   # 月別累計検索条件
-  def conditions_for_monthly_summary( ym_from, ym_to )
-    ret = []
-    
-    # 年月は必須
-    if ym_from.nil? or ym_to.nil?
-      raise ArgumentError.new("年月の指定がありません。")
-    end
-    ret[0] = "ym >= ? and ym < ? "
-    ret << ym_from
-    ret << ym_to
+  def conditions_for_monthly_summary(ym_from, ym_to)
+    raise ArgumentError.new("年月の指定がありません。") unless ym_from and ym_to
+    raise ArgumentError.new("勘定科目の指定がありません。") unless account_id > 0
 
-    # 勘定科目は必須
-    if account_id <= 0
-      raise ArgumentError.new("勘定科目の指定がありません。")
-    end
-    ret[0] << "and account_id = ? "
-    ret << account_id
-    
-    # 計上部門は任意
-    if branch_id > 0
-      ret[0] << "and branch_id = ? "
-      ret << branch_id
-    end
-    
-    # 補助科目は任意
-    if sub_account_id > 0
-      ret[0] << "and sub_account_id = ? "
-      ret << sub_account_id
-    end
+    sql = SqlBuilder.new
+    sql.append('ym >= ? and ym < ?', ym_from, ym_to)
+    sql.append('and account_id = ?', account_id)
+    sql.append('and branch_id = ?', branch_id) if branch_id > 0
+    sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id > 0
 
-    ret
+    sql.to_a
   end
   
   # 月別累計検索条件
@@ -90,32 +70,34 @@ class LedgerFinder < Base::Finder
     ym_from = get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
     ym_to = (ym_from / 100 + 1) * 100 + (ym_from % 100)
 
-    ret = []
+    ret = {}
     12.times do |i|
-      monthly_ledger = MonthlyLedger.new
-      monthly_ledger.ym = add_months(ym_from, i)
-      monthly_ledger.amount_debit = 0
-      monthly_ledger.amount_credit = 0
-      ret << monthly_ledger
+      ym = add_months(ym_from, i)
+
+      ml = MonthlyLedger.new
+      ml.ym = ym
+      ml.amount_debit = 0
+      ml.amount_credit = 0
+      ret[ym] = ml
     end
     
     # 年度内の月別累計を取得する
-    conditions = conditions_for_monthly_summary( ym_from, ym_to )
-    VMonthlyLedger.find_by_sql(["select ym, dc_type, sum(amount) as amount from (#{VMonthlyLedger::VIEW}) as monthly_ledger " +
-      "where " + conditions.shift + "group by ym, dc_type "] + conditions).each do |ml|
+    conditions = conditions_for_monthly_summary(ym_from, ym_to)
+    VMonthlyLedger.find_by_sql(["select ym, dc_type, sum(amount) as amount from (#{VMonthlyLedger::VIEW}) as ml " +
+      "where " + conditions.shift + " group by ym, dc_type"] + conditions).each do |hash|
         
-      index = HyaccDateUtil.get_ym_index( start_month_of_fiscal_year, ml[:ym] )
-      monthly_ledger = ret[index]
-      monthly_ledger.ym = ml[:ym]
-    
-      if ml[:dc_type] == DC_TYPE_DEBIT
-        monthly_ledger.amount_debit += ml[:amount]
-      elsif ml[:dc_type] == DC_TYPE_CREDIT
-        monthly_ledger.amount_credit += ml[:amount]
+      ml = ret[hash[:ym]]
+
+      if hash[:dc_type] == DC_TYPE_DEBIT
+        ml.amount_debit += hash[:amount]
+      elsif hash[:dc_type] == DC_TYPE_CREDIT
+        ml.amount_credit += hash[:amount]
+      else
+        raise "不正な貸借区分です。dc_type=#{hash[:dc_type]}"
       end
     end
     
-    return ret
+    ret.values
   end
 
   def list_journals( ym )

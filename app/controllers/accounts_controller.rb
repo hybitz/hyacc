@@ -1,9 +1,3 @@
-#
-# 勘定科目マスタメンテ画面
-# 勘定科目のマスタメンテ画面では、キャッシュされている勘定科目を
-# Account.get()
-# せず、常にDBからレコードを取り出すこと
-# 
 class AccountsController < Base::HyaccController
   view_attribute :title => '勘定科目管理'
   view_attribute :finder, :class => AccountFinder, :only => :index
@@ -55,7 +49,7 @@ class AccountsController < Base::HyaccController
 
   def create
     @account = Account.new(account_params)
-    
+
     begin
       @account.transaction do
         @account.account_control = AccountControl.new

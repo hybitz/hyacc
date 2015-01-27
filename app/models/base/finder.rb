@@ -64,7 +64,7 @@ module Base
     def employee_id_enabled?
       true
     end
-    
+
     def start_year_month_of_fiscal_year
       get_start_year_month_of_fiscal_year(@fiscal_year, @start_month_of_fiscal_year)
     end

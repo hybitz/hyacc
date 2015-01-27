@@ -21,38 +21,33 @@ class Ledger
     self.ym = journal_header.ym
     self.day = journal_header.day
     self.remarks = journal_header.remarks
-  
+
     # 簡易入力の場合は、相手科目の表示が可能
     if journal_header.slip_type == SLIP_TYPE_SIMPLIFIED
-      if journal_header.journal_details.count(:conditions=>ledger_finder.conditions_for_journals()) == 1
+      if journal_header.journal_details.where(ledger_finder.conditions_for_journals).count == 1
         # 本伝票が前提としている科目側の明細を取得
-        default_detail = journal_header.journal_details.find(
-          :first,
-          :conditions=>ledger_finder.conditions_for_journals()
-        )
-        
+        default_detail = journal_header.journal_details.where(ledger_finder.conditions_for_journals).first
+
         # 金額
         if default_detail.dc_type == DC_TYPE_DEBIT
           self.amount_debit = default_detail.amount.to_i
         else
           self.amount_credit = default_detail.amount.to_i
         end
-        
+
         # 相手勘定科目側の明細を取得
-        target_detail = journal_header.journal_details.find(
-          :first,
-          :conditions => ['journal_details.id<>?', default_detail.id])
+        target_detail = journal_header.journal_details.where('journal_details.id <> ?', default_detail.id).first
         
         # 相手勘定科目
         self.account_name = target_detail.account_name
-        
+
         # 相手計上部門
         self.branch_name = target_detail.branch_name
-        
+
         is_set = true
       end
     end
-    
+
     # 諸口としての設定を行う場合
     unless is_set
       # 金額
@@ -74,15 +69,10 @@ class Ledger
   private
 
   def detail_matches?( ledger_finder, jd )
-    if jd.account_id == ledger_finder.account_id
-      if ledger_finder.sub_account_id == 0 || jd.sub_account_id == ledger_finder.sub_account_id
-        ledger_finder.branch_id == 0 || jd.branch_id == ledger_finder.branch_id
-      else
-        false
-      end
-    else
-      false
-    end
+    return false unless ledger_finder.account_id.to_i == jd.account_id 
+    return false unless ledger_finder.sub_account_id.blank? or ledger_finder.sub_account_id.to_i == jd.sub_account_id
+    return false unless ledger_finder.branch_id.blank? or ledger_finder.branch_id.to_i == jd.branch_id
+    true
   end
 
 end

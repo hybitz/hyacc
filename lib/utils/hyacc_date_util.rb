@@ -12,11 +12,11 @@ module HyaccDateUtil
   # 年度初年月を取得
   # 年初月が7月以降の場合は、前年からが会計年度とする
   # 例：年初月が12月の場合、2007年度の始まりは2006年12月から
-  def get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+  def get_start_year_month_of_fiscal_year(fiscal_year, start_month_of_fiscal_year)
     if start_month_of_fiscal_year > 6
-      start_year = fiscal_year - 1
+      start_year = fiscal_year.to_i - 1
     else
-      start_year = fiscal_year
+      start_year = fiscal_year.to_i
     end
     
     start_year * 100 + start_month_of_fiscal_year

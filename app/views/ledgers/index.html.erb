@@ -9,11 +9,11 @@
 
   function show_journals(trigger) {
     var url = $(trigger).attr('href');
-    var params = {format: 'html'};
+    var params = $('#search').find('form').serializeArray();
+    params.push({name: 'format', value: 'html'});
     $.get(url, params, function(html) {
       var tr = $(trigger).closest('tr');
-      tr.after(html);
-      tr.remove();
+      tr.replaceWith(html);
       calcSum(<%= @account.dc_type if @account %>);
     });
   }

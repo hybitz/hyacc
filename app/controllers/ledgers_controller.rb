@@ -1,9 +1,10 @@
 class LedgersController < Base::HyaccController
   view_attribute :title => '元帳'
-  view_attribute :finder, :class => LedgerFinder, :only => :index
   view_attribute :ym_list, :only => :index
   view_attribute :accounts, :only => :index
   view_attribute :branches, :only => :index
+
+  helper_method :finder
 
   def index
     # 月別累計を取得
@@ -29,6 +30,15 @@ class LedgersController < Base::HyaccController
   end
 
   private
+
+  def finder
+    unless @finder
+      @finder = LedgerFinder.new(params[:finder])
+      @finder.start_month_of_fiscal_year = current_user.company.start_month_of_fiscal_year
+      @finder.fiscal_year ||= current_user.company.current_fiscal_year.fiscal_year
+    end
+    @finder
+  end
 
   def setup_view_attributes
     if finder.account_id.to_i > 0

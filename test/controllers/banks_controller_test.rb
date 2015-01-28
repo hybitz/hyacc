@@ -51,4 +51,11 @@ class BanksControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => 'index'
   end
+
+  def test_営業店舗追加
+    xhr :get, :add_bank_office
+    assert_response :success
+    assert_template 'banks/_bank_office_fields'
+  end
+
 end

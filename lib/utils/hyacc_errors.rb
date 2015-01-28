@@ -11,7 +11,6 @@ module HyaccErrors
   ERR_DEFAULT_BRANCH_NOT_FOUND = "デフォルトの所属部署が存在しません。"
   ERR_DUPLICATED_ASSET_CODE = "資産コードが重複しています。"
   ERR_DUPLICATEE_CARRY_FORWARD_JOURNAL = "繰越仕訳が重複して登録されています。"
-  ERR_EMPTY_SUB_ACCOUNT = "補助科目の指定がありません。"
   ERR_FILE_ALREADY_EXISTS = "既に存在するファイル名です。ファイル名を変更して下さい。"
   ERR_FISCAL_YEAR_NOT_EXISTS = "会計年度が定義されていません。"
   ERR_INVALID_ACCOUNT_TYPE = "不正な勘定科目区分です。"

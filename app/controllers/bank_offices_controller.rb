@@ -8,9 +8,5 @@ class BankOfficesController < Base::BasicMasterController
       format.json  { render :json => bank_offices }
     end
   end
-
-  def add_bank_office
-    @bank_office = BankOffice.new
-  end  
   
 end

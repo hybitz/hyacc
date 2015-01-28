@@ -183,9 +183,8 @@ ja:
         tax_rate: 消費税率
         journal_header: "仕訳ヘッダ"  
         tax_journal_detail: "税金仕分明細"  
-        branch: "計上部門"  
-        main_journal_detail: "メインジャーナルの詳細"  
-        account: "勘定科目"  
+        branch: 計上部門
+        account: 勘定科目
         sub_account: 補助科目
       
       journal_details:

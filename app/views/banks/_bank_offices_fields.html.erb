@@ -1,0 +1,33 @@
+<table>
+  <tr>
+    <th colspan='4'>金融機関営業店</th>
+  </tr>
+  <tr>
+    <th><%= BankOffice.label :code %></th>
+    <th><%= BankOffice.label :name %></th>
+    <th><%= BankOffice.label :deleted %></th>
+  </tr>
+
+  <% bank_offices.each_with_index do |bo, i| %>
+    <%= render 'bank_office_fields', :bank_office => bo, :index => i %>
+  <% end %>
+  
+  <tr>
+    <td colspan="4" align="right">
+      <script>
+        function add_bank_office(trigger) {
+          var url = '<%= url_for :action => 'add_bank_office' %>';
+          var params = {
+            index: $(trigger).closest('table').find('tr').length,
+            format: 'html'
+          }
+
+          $.get(url, params, function(html) {
+            $(trigger).closest('tr').before(html);
+          });
+        }
+      </script>
+      <%= link_to '追加', '', :onclick => 'add_bank_office(this); return false;' %>
+    </td>
+  </tr>
+</table>

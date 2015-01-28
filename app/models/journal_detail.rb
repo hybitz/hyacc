@@ -41,7 +41,7 @@ class JournalDetail < ActiveRecord::Base
   def account
     Account.get(self.account_id)
   end
-  
+
   def branch
     Branch.get(self.branch_id)
   end
@@ -122,10 +122,9 @@ class JournalDetail < ActiveRecord::Base
     return unless account
 
     # 補助科目を持つ勘定科目の場合は補助科目の指定が必須
-    unless account.sub_accounts.empty?
-      unless sub_account_id.to_i > 0
-        HyaccLogger.warn ERR_EMPTY_SUB_ACCOUNT + ' 勘定科目=' + account.name
-        errors.add(:sub_account, ERR_EMPTY_SUB_ACCOUNT)
+    if account.sub_accounts.present?
+      if sub_account_id.to_i == 0
+        errors[:sub_account] = I18n.t('errors.messages.empty')
       end
     end
     

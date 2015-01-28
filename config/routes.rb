@@ -17,13 +17,13 @@ Hyacc::Application.routes.draw do
   end
 
   resources :bank_accounts
-
-  resources :bank_offices, :only => ['index'] do
+  resources :bank_offices, :only => ['index']
+  resources :banks do
     collection do
       get 'add_bank_office'
     end
   end
-  resources :banks
+
   resources :business_offices
   resources :careers
   resources :career_statements, :only => ['index', 'show']

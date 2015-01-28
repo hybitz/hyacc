@@ -70,10 +70,15 @@ class BanksController < Base::HyaccController
     redirect_to :action => 'index'
   end
 
+  def add_bank_office
+    @bank_office = BankOffice.new
+    render :partial => 'bank_office_fields', :locals => {:bank_office => @bank_office, :index => params[:index]}
+  end  
+
   private
 
   def bank_params
-    params.require(:bank).permit(:name, :code)
+    params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :deleted])
   end
 
 end

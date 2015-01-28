@@ -4,9 +4,9 @@ class BankFinder < Daddy::Model
     deleted.to_s.downcase == 'true'
   end
   
-  def list(options = {})
+  def list
     Bank.where(conditions).order('code')
-        .paginate(:page => page.to_i > 0 ? page : 1, :per_page => options[:per_page] || DEFAULT_PER_PAGE)
+        .paginate(:page => page || 1, :per_page => per_page || DEFAULT_PER_PAGE)
   end
 
   private

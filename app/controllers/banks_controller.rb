@@ -2,9 +2,10 @@ class BanksController < Base::HyaccController
   view_attribute :title => '金融機関'
   view_attribute :deleted_types
 
+  helper_method :finder
+
   def index
-    @finder = BankFinder.new(params[:finder])
-    @banks = @finder.list(:per_page => current_user.slips_per_page)
+    @banks = finder.list
   end
 
   def show
@@ -76,6 +77,16 @@ class BanksController < Base::HyaccController
   end  
 
   private
+
+  def finder
+    unless @finder
+      @finder = BankFinder.new(params[:finder])
+      @finder.page = params[:page]
+      @finder.per_page = current_user.slips_per_page
+    end
+    
+    @finder
+  end
 
   def bank_params
     params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :deleted])

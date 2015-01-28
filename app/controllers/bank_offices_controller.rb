@@ -1,5 +1,4 @@
 class BankOfficesController < Base::BasicMasterController
-  view_attribute :deleted_types
   
   def index
     bank_offices = BankOffice.where(:bank_id => params[:bank_id]).not_deleted

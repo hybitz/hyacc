@@ -105,7 +105,13 @@ module HyaccConstants
     DELETED_TYPE_USE = false => '有効',
     DELETED_TYPE_STOP = true => '無効',
   }
-  
+
+  # 無効化区分
+  DISABLE_TYPES = {
+    ENABLED = false => '有効',
+    DISABLED = true => '無効',
+  }
+
   # 金融口座区分
   FINANCIAL_ACCOUNT_TYPES = {
     FINANCIAL_ACCOUNT_TYPE_SAVING = 1 => '普通預金', # 銀行口座

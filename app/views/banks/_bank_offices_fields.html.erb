@@ -1,11 +1,11 @@
 <table>
   <tr>
-    <th colspan='4'>金融機関営業店</th>
+    <th colspan="4">金融機関営業店</th>
   </tr>
   <tr>
-    <th><%= BankOffice.label :code %></th>
-    <th><%= BankOffice.label :name %></th>
-    <th><%= BankOffice.label :deleted %></th>
+    <th><%= BankOffice.human_attribute_name :code %></th>
+    <th><%= BankOffice.human_attribute_name :name %></th>
+    <th><%= BankOffice.human_attribute_name :disabled %></th>
   </tr>
 
   <% bank_offices.each_with_index do |bo, i| %>

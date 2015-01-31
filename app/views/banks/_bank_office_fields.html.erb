@@ -5,12 +5,11 @@
         <%= f.text_field :code %>
       <% else %>
         <%= f.hidden_field :id %>
-        <%= f.hidden_field :code %>
         <%= f.object.code %>
       <% end %>
     </td>
     <td><%= f.text_field :name %></td>
-    <td><%= f.select :deleted, @deleted_types %></td>
+    <td><%= f.select :disabled, finder.disable_types %></td>
   </tr>
 <% end %>
 

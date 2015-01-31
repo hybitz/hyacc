@@ -1,6 +1,5 @@
 class BanksController < Base::HyaccController
   view_attribute :title => '金融機関'
-  view_attribute :deleted_types
 
   helper_method :finder
 
@@ -89,7 +88,7 @@ class BanksController < Base::HyaccController
   end
 
   def bank_params
-    params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :deleted])
+    params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :disabled])
   end
 
 end

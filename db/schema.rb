@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141212064854) do
+ActiveRecord::Schema.define(version: 20150131031411) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -94,12 +94,13 @@ ActiveRecord::Schema.define(version: 20141212064854) do
   add_index "bank_accounts", ["name"], name: "index_bank_accounts_on_name", unique: true, using: :btree
 
   create_table "bank_offices", force: true do |t|
-    t.integer  "bank_id",              null: false
-    t.string   "name",                 null: false
-    t.string   "code",       limit: 3, null: false
+    t.integer  "bank_id",                              null: false
+    t.string   "name",                                 null: false
+    t.string   "code",       limit: 3,                 null: false
     t.boolean  "deleted"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "disabled",             default: false, null: false
   end
 
   create_table "banks", force: true do |t|
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(version: 20141212064854) do
     t.boolean  "deleted",              default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "disabled",             default: false, null: false
   end
 
   create_table "branch_employees", force: true do |t|

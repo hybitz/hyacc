@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150131031411) do
+ActiveRecord::Schema.define(version: 20150201042740) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20150131031411) do
     t.boolean  "is_trade_account_payable",               default: false, null: false
     t.boolean  "journalizable",                          default: true,  null: false
     t.boolean  "deleted",                                default: false, null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "depreciable",                            default: false, null: false
     t.boolean  "personal_only",                          default: false, null: false
     t.boolean  "company_only",                           default: false, null: false

@@ -108,7 +108,7 @@ class FirstBootController < ApplicationController
       Account.delete_all(['personal_only = ?', true])
       Account.where('depreciable = ?', true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_RATE])
     end
-    Account.update_all(['created_on = ?, updated_on = ?', now, now])
+    Account.update_all(['created_at = ?, updated_at = ?', now, now])
 
     # 補助科目の初期データロード
     ActiveRecord::FixtureSet.create_fixtures(dir, "sub_accounts")

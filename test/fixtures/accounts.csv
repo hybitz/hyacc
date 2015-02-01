@@ -1,4 +1,4 @@
-id,code,name,dc_type,account_type,deleted,created_on,updated_on,display_order,parent_id,path,trade_type,is_settlement_report_account,sub_account_type,tax_type,depreciable,depreciation_method,is_trade_account_payable,is_revenue_reserve_account,journalizable
+id,code,name,dc_type,account_type,deleted,created_at,updated_at,display_order,parent_id,path,trade_type,is_settlement_report_account,sub_account_type,tax_type,depreciable,depreciation_method,is_trade_account_payable,is_revenue_reserve_account,journalizable
 2,1111,現金,1,1,,2007-03-29 22:48:12,2009-11-05 20:02:53,0,55,/1000/1100/1111,1,1,1,1,,,0,0,1
 3,1121,小口現金,1,1,,2007-03-29 22:48:12,2009-07-18 21:59:45,1,55,/1000/1100/1121,1,1,1,1,,,0,0,1
 4,1211,当座預金,1,1,1,2007-03-29 22:48:12,2009-07-18 21:59:45,3,55,/1000/1100/1211,1,1,1,1,,,0,0,1

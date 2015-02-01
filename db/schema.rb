@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150201042740) do
+ActiveRecord::Schema.define(version: 20150201044124) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -84,8 +84,8 @@ ActiveRecord::Schema.define(version: 20150201042740) do
     t.string   "name",                              default: "",    null: false
     t.string   "holder_name",                                       null: false
     t.boolean  "deleted",                           default: false, null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "bank_id",                                           null: false
     t.integer  "bank_office_id"
     t.integer  "financial_account_type",            default: 0,     null: false

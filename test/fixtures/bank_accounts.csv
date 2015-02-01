@@ -1,3 +1,3 @@
-id,code,name,holder_name,financial_account_type,bank_id,bank_office_id,deleted,created_on,updated_on
-1,100,北海道銀行,株式会社テストA,1,1,1,0,2007-03-29 22:48:12,2009-01-13 22:20:23
-2,200,みずほ銀行,株式会社テストA,1,4,,0,2009/1/1 0:00,2009/1/1 0:00
+id,code,name,holder_name,financial_account_type,bank_id,bank_office_id,deleted
+1,100,北海道銀行,株式会社テストA,1,1,1,0
+2,200,みずほ銀行,株式会社テストA,1,4,,0

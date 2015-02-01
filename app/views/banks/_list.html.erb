@@ -1,8 +1,8 @@
 <table class="mm banks">
   <tr>
-    <th><%= Bank.label :code %></th>
-    <th><%= Bank.label :name %></th>
-    <th><%= Bank.label :deleted %></th>
+    <th><%= Bank.human_attribute_name :code %></th>
+    <th><%= Bank.human_attribute_name :name %></th>
+    <th><%= Bank.human_attribute_name :disabled %></th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,7 +12,7 @@
     <tr class="hover">
       <td><%= bank.code %></td>
       <td><%= bank.name %></td>
-      <td align="center"><%= HyaccConstants::DELETED_TYPES[bank.deleted] %></td>
+      <td align="center"><%= HyaccConstants::DISABLE_TYPES[bank.disabled] %></td>
       <td><%= link_to '参照', bank_path(bank), :remote => true %></td>
       <td><%= link_to '編集', edit_bank_path(bank), :remote => true %></td>
       <td><%= link_to '削除', bank, data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>

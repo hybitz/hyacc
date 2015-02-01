@@ -32,8 +32,6 @@ ja:
         depreciable: 減価償却可否
         depreciation_method: 減価償却方法
         deleted: "を削除"  
-        created_on: "創作に"  
-        updated_on: "更新"  
         display_order: "の表示順"  
         path: "道"  
         system_required: "システム必須"  
@@ -54,33 +52,27 @@ ja:
         durable_years: 耐用年数
         name: 資産名
 
-      bank_account: 
+      bank_account:
         code: 口座番号
         holder_name: 口座名義
         name: 口座名 
 
       bank: 
-        name: "名称"  
-        deleted: "削除フラグ"  
-        created_on: "登録日時"  
-        updated_on: "更新日時"  
-        code: "コード"  
+        code: 金融機関コード
+        name: 金融機関名称
+        disabled: 状態
 
       bank_office: 
-        bank_id: 金融機関コード
+        bank_id: 金融機関
         code: 営業店コード
         name: 営業店名称
         deleted: 削除フラグ
         disabled: 状態
-        created_on: 登録日時
-        updated_on: 更新日時
 
       branch: 
         code: "コード"  
         name: "名前"  
-        deleted: "を削除"  
-        created_on: "創作に"  
-        updated_on: "更新"  
+        deleted: "を削除"
         is_head_office: "ヘッドオフィスです"  
         users: "ユーザ"  
         branches_users: "支店のユーザー"  
@@ -88,8 +80,6 @@ ja:
       branches_user: 
         cost_ratio: "費比率"  
         default_branch: 主所属部門  
-        created_on: "創作に"  
-        updated_on: "更新"  
         branch: "枝"  
         user: "ユーザ"
       
@@ -107,8 +97,6 @@ ja:
         fiscal_year: "年度"  
         start_month_of_fiscal_year: "2002年度のスタート月"  
         deleted: "を削除"  
-        created_on: "創作に"  
-        updated_on: "更新"  
         logo_path: "ロゴ経路"  
         founded_date: "設立日"  
         users: "ユーザ"  
@@ -140,8 +128,6 @@ ja:
         fiscal_year: "会計年度"
         closing_status: "閉会ステータス"  
         deleted: "を削除"  
-        created_on: "創作に"  
-        updated_on: "更新"  
         tax_management_type: "税務管理のタイプ"  
         company: "会社"  
       
@@ -244,8 +230,6 @@ ja:
       sub_account: 
         code: "コード"  
         name: "名前"  
-        created_on: "創作に"  
-        updated_on: "更新"  
         deleted: "を削除"  
         account: "口座"  
         
@@ -262,8 +246,6 @@ ja:
         last_name: "姓"
         login_id: ログインID
         deleted: "を削除"  
-        created_on: "創作に"  
-        updated_on: "更新"  
         email: "メールアドレス"  
         slips_per_page: 1ページの伝票表示数
         employment_date: "就業日"  

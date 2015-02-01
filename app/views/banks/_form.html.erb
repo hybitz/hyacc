@@ -12,12 +12,12 @@
     </p>
   <% else %>
     <p>
-      <%= Bank.label :code %>：<%= @bank.code %>
+      <%= f.label :code %>：<%= @bank.code %>
     </p>
   <% end %>
 
   <p>
-    <%= Bank.label :name %><br />
+    <%= f.label :name %><br />
     <%= f.text_field :name %>
   </p>
 

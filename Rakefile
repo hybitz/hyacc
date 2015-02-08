@@ -3,7 +3,7 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Hyacc::Application.load_tasks
+Rails.application.load_tasks
 
 Rake::Task['environment'].enhance do
   Rake::Task['dad:app_base_dir'].invoke

@@ -10,28 +10,28 @@ class ExemptionsControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in user
-    get :new, :format => 'js', :exemption => valid_exemption_params
+    xhr :get, :new, :exemption => valid_exemption_params
     assert_response :success
     assert_template :new
   end
 
   def test_登録
     sign_in user
-    post :create, :format => 'js', :exemption => valid_exemption_params
+    xhr :post, :create, :exemption => valid_exemption_params
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_編集
     sign_in user
-    get :edit, :id => exemption.id, :format => 'js'
+    xhr :get, :edit, :id => exemption.id
     assert_response :success
     assert_template :edit
   end
 
   def test_更新
     sign_in user
-    patch :update, :id => exemption.id, :format => 'js', :exemption => valid_exemption_params
+    xhr :patch, :update, :id => exemption.id, :exemption => valid_exemption_params
     assert_response :success
     assert_template 'common/reload'
   end
@@ -42,6 +42,5 @@ class ExemptionsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => 'index'
   end
-
 
 end

@@ -11,14 +11,14 @@ class EmployeesControllerTest < ActionController::TestCase
 
   def test_編集
     sign_in user
-    get :edit, :id => employee.id, :format => 'js'
+    xhr :get, :edit, :id => employee.id
     assert_response :success
     assert_template :edit
   end
 
   def test_履歴の追加
     sign_in user
-    get :add_employee_history, :format => 'js'
+    xhr :get, :add_employee_history
     assert_response :success
     assert_template :add_employee_history
   end

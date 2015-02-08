@@ -5,6 +5,7 @@ module Base
     include HyaccUtil
     include ViewAttributeHandler
     include ExceptionHandler
+    include CurrentCompany
 
     before_filter :check_first_boot
     before_filter :load_view_attributes

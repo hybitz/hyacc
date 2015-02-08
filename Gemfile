@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.13'
+gem 'rails', '4.1.9'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
@@ -14,7 +15,7 @@ gem 'dalli'
 gem 'devise'
 gem 'fullcalendar-rails', '1.6.4.0'
 gem 'gcalapi'
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mysql2'
@@ -22,13 +23,19 @@ gem 'rails-csv-fixtures', :path => 'vendor/gems/rails-csv-fixtures'
 gem 'rails-i18n'
 gem 'remotipart'
 gem 'rmagick'
-gem 'sass-rails', '~> 4.0.2'
+gem 'sass-rails', '~> 4.0.3'
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'two_factor_authentication'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate'
+
+# bundle exec rake doc:rails generates the API under doc/api.
+gem 'sdoc', '~> 0.4.0',          group: :doc
+
+# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+gem 'spring',        group: :development
 
 group :development, :test do
   gem 'rubocop', :require => false
@@ -37,13 +44,7 @@ end
 
 group :test do
   gem 'minitest'
-  gem 'minitest-colorize'
   gem 'minitest-reporters'
-end
-
-group :doc do
-  # bundle exec rake doc:rails generates the API under doc/api.
-  gem 'sdoc', :require => false
 end
 
 # Use ActiveModel has_secure_password
@@ -61,3 +62,4 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+

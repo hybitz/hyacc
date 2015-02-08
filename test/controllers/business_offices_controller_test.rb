@@ -4,7 +4,7 @@ class BusinessOfficesControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in user
-    get :new, :format => 'js'
+    xhr :get, :new
     assert_response :success
     assert_template :new
   end

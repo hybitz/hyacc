@@ -1,4 +1,4 @@
-Hyacc::Application.routes.draw do
+Rails.application.routes.draw do
 
   devise_for :users
 
@@ -141,4 +141,5 @@ Hyacc::Application.routes.draw do
   post 'simple/:account_code(/:action(/:id))', :controller => 'simple_slip'
 
   root 'welcome#index'
+
 end

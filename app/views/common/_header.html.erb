@@ -1,18 +1,18 @@
 <div class="header">
-  <% if @company.logo.present? %>
+  <% if current_company.logo.present? %>
     <div class="logo">
       <%= link_to root_path do %>
-        <%= image_tag show_logo_company_path(@company, :version => 'icon') %>
+        <%= image_tag show_logo_company_path(current_company, :version => 'icon') %>
       <% end %>
     </div>
     <div style="float: left; vertical-align: top;">
-      <%= current_user.company.current_fiscal_year_int %>年度
+      <%= current_company.current_fiscal_year_int %>年度
     </div>
   <% else %>
     <div style="float: left; margin-left: 10px;">
-      <%= link_to @company.name, root_path %>
+      <%= link_to current_company.name, root_path %>
       |
-      <%= current_user.company.current_fiscal_year_int %>年度
+      <%= current_company.current_fiscal_year_int %>年度
     </div>
   <% end %>
 

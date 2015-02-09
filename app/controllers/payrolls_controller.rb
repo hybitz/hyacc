@@ -23,7 +23,7 @@ class PayrollsController < Base::HyaccController
       @pd = finder.list_monthly_pay
     end
   end
-  
+
   def new
     @payroll = Payroll.new.init
     ym = params[:ym]
@@ -150,16 +150,13 @@ class PayrollsController < Base::HyaccController
   
   # 保険料と厚生年金を自動計算して画面に返却する
   def auto_calc
+    # 保険料の検索
     ym = params[:payroll][:ym]
     employee_id = params[:payroll][:employee_id]
     base_salary = params[:payroll][:base_salary]
-    
-    # 保険料の検索
-    @payroll = get_tax(ym, employee_id, base_salary)
-    @payroll.credit_account_type_of_insurance = params[:payroll][:credit_account_type_of_insurance]
-    @payroll.credit_account_type_of_pension = params[:payroll][:credit_account_type_of_pension]
-    @payroll.credit_account_type_of_income_tax = params[:payroll][:credit_account_type_of_income_tax]
-    render :partial => 'auto_calc'
+    payroll = get_tax(ym, employee_id, base_salary)
+
+    render :json => {:insurance => payroll.insurance, :pension => payroll.pension, :income_tax => payroll.income_tax}
   end
   
   # 部門を選択した時に、動的にユーザ選択リストを更新する
@@ -199,5 +196,4 @@ class PayrollsController < Base::HyaccController
     inhabitant_tax = InhabitantTax.find_by_employee_id_and_ym(employee_id, ym)
     inhabitant_tax.amount if inhabitant_tax
   end
-  
 end

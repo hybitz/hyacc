@@ -10,7 +10,7 @@ module Auto::Journal
       @user = auto_journal_param.user
     end
 
-    def make_journals()
+    def make_journals
       # 今期の元入金
       personal_capital_account = Account.get_by_code(ACCOUNT_CODE_PERSONAL_CAPITAL)
       personal_capital = VMonthlyLedger.get_net_sum_amount(nil, @fiscal_year.end_year_month, personal_capital_account.id)

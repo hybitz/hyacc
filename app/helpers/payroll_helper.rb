@@ -116,7 +116,7 @@ module PayrollHelper
       when 7
         income_tax = withheld_tax.seven_dependent
       else
-        # TODO 7人以上は1人を超えるごとに¥1,580＋
+        raise 'TODO 7人以上は1人を超えるごとに¥1,580＋'
       end
       payroll.income_tax = income_tax
     end

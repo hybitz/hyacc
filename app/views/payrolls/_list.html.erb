@@ -267,14 +267,14 @@
     <td>
       <% unless @pd["b1"][:payroll].is_new %>
         <%= link_to @pd["b1"][:payroll].pay_day.split('-')[1..2].join('月') + '日',
-              {:controller=>:journal, :action=>:edit, :id=>@pd["b1"][:payroll].pay_journal_header_id},
+              edit_journal_path(@pd["b1"][:payroll].pay_journal_header_id),
               :remote => true %>
       <% end %>
     </td>
     <td>
       <% unless @pd["b2"][:payroll].is_new %>
         <%= link_to @pd["b2"][:payroll].pay_day.split('-')[1..2].join('月') + '日',
-              {:controller=>:journal, :action=>:edit, :id=>@pd["b2"][:payroll].pay_journal_header_id},
+              edit_journal_path(@pd["b2"][:payroll].pay_journal_header_id),
               :remote => true %>
       <% end %>
     </td>

@@ -11,7 +11,7 @@ module Reports
       # 対象となる科目ごとに明細を組み立てる
       accounts = Account.where(:is_trade_account_payable => true).order('code')
       accounts.each do |a|
-        if a.sub_accounts_all.size > 0
+        if a.sub_accounts_all.present?
           a.sub_accounts_all.each do |sa|
             detail = Reports::TradeAccountPayableDetailModel.new
             detail.account = a

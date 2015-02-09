@@ -21,7 +21,8 @@
       <td><%= c.name %></td>
       <td align="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_entry %>
       <td align="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_placement %>
-      <td align="center"><%= HyaccConstants::DELETED_TYPES[c.deleted] %></td>      <td><%= link_to '参照', customer_path(c), :remote => true %></td>
+      <td align="center"><%= HyaccConstants::DELETED_TYPES[c.deleted] %></td>
+      <td><%= link_to '参照', customer_path(c), :remote => true %></td>
       <td><%= link_to '編集', edit_customer_path(c), :remote => true %></td>
       <td><%= link_to '削除', customer_path(c), :method => 'delete', data: {confirm: "#{c.name} を削除します。よろしいですか？"} %></td>
     </tr>

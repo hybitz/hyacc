@@ -1,13 +1,7 @@
-#
-# 勘定科目マスタメンテ画面
-# 勘定科目のマスタメンテ画面では、キャッシュされている勘定科目を
-# Account.get()
-# せず、常にDBからレコードを取り出すこと
-# 
 class AccountsController < Base::HyaccController
   view_attribute :title => '勘定科目管理'
-  view_attribute :finder, :class => AccountFinder, :only => :index
-  view_attribute :account_types, :only => :index
+
+  helper_method :finder
 
   def index
     @accounts = finder.list
@@ -55,7 +49,7 @@ class AccountsController < Base::HyaccController
 
   def create
     @account = Account.new(account_params)
-    
+
     begin
       @account.transaction do
         @account.account_control = AccountControl.new
@@ -116,6 +110,14 @@ class AccountsController < Base::HyaccController
   end
   
   private
+
+  def finder
+    unless @finder
+      @finder = AccountFinder.new(params[:finder])
+    end
+    
+    @finder
+  end
 
   def account_params
     params.require(:account).permit(

@@ -1,19 +1,19 @@
 class BankFinder < Daddy::Model
+  include HyaccConstants
 
-  def deleted?
-    deleted.to_s.downcase == 'true'
+  def disable_types
+    DISABLE_TYPES.invert
   end
-  
-  def list(options = {})
-    Bank.where(conditions).order('code')
-        .paginate(:page => page.to_i > 0 ? page : 1, :per_page => options[:per_page] || DEFAULT_PER_PAGE)
+
+  def list
+    Bank.where(conditions).order('code').paginate(:page => page || 1, :per_page => per_page || DEFAULT_PER_PAGE)
   end
 
   private
 
   def conditions
     sql = SqlBuilder.new
-    sql.append('deleted = ?', deleted?) if deleted.present?
+    sql.append('disabled = ?', BooleanUtils.to_b(disabled)) if disabled.present?
     sql.to_a
   end
 end

@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 require 'yaml'
 
 rails_root = "#{File.dirname(File.expand_path(__FILE__))}/.."
@@ -10,6 +8,7 @@ working_directory rails_root
 
 database = YAML.load_file("#{File.dirname(__FILE__)}/database.yml")[rails_env]['database']
 listen "/tmp/#{database}.sock"
+timeout 300
 
 stdout_path rails_root + '/log/unicorn.log'
 stderr_path rails_root + '/log/unicorn.log'

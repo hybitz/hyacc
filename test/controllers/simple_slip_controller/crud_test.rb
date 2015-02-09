@@ -114,7 +114,7 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
   end
   
   def test_edit
-    get :edit, :account_code => 1121, :id => 10, :format => 'js'
+    xhr :get, :edit, :account_code => 1121, :id => 10
     assert_response :success
     assert_template :edit
     assert_not_nil assigns(:slip)

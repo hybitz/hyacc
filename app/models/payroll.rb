@@ -57,13 +57,11 @@ class Payroll < ActiveRecord::Base
   
   # 社会保険料（健康保険＋厚生年金）
   def social_insurance
-    HyaccLogger.debug "20150101:@insurance/@pension=" + @insurance.to_s + "/" + @pension.to_s
     @insurance + @pension
   end
   
   # 社会保険料控除後の所得
   def after_insurance_deduction
-    HyaccLogger.debug "20150101:@base_salary/social_insurance=" + @base_salary.to_s + "/" + social_insurance.to_s
     @base_salary - social_insurance
   end
 
@@ -172,7 +170,7 @@ class Payroll < ActiveRecord::Base
     # 支払の伝票取得
     if payroll.pay_journal_headers != nil
       jh = payroll.pay_journal_headers
-      payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y%m%d")
+      payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
       payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
     

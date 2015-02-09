@@ -5,16 +5,15 @@
   <title>銀行: <%= controller.action_name %></title>
   <%= stylesheet_link_tag 'application' %>
   <%= javascript_include_tag 'application' %>
-  <%= render 'common/common_js' %>
   <%= csrf_meta_tag %>
 </head>
 <body>
+  <%= render 'common/common_js' %>
+  <%= render 'common/header' %>
+  <%= render 'common/menu' %>
 
-<%= render 'common/header' %>
-<%= render 'common/menu' %>
-
-<div style="margin: 10px;">
-  <%= yield %>
-</div>
+  <div style="margin: 10px;">
+    <%= yield %>
+  </div>
 </body>
 </html>

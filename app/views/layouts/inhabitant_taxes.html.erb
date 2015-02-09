@@ -8,13 +8,9 @@
   <%= csrf_meta_tag %>
 </head>
 <body>
-
-<%= render 'common/header' %>
-<%= render 'common/menu' %>
-
-<p style="color: green"><%= flash[:notice] %></p>
-
-<%= yield %>
-
+  <%= render 'common/header' %>
+  <%= render 'common/menu' %>
+  <p style="color: green"><%= flash[:notice] %></p>
+  <%= yield %>
 </body>
 </html>

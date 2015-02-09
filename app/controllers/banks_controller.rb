@@ -1,10 +1,10 @@
 class BanksController < Base::HyaccController
   view_attribute :title => '金融機関'
-  view_attribute :deleted_types
+
+  helper_method :finder
 
   def index
-    @finder = BankFinder.new(params[:finder])
-    @banks = @finder.list(:per_page => current_user.slips_per_page)
+    @banks = finder.list
   end
 
   def show
@@ -70,10 +70,25 @@ class BanksController < Base::HyaccController
     redirect_to :action => 'index'
   end
 
+  def add_bank_office
+    @bank_office = BankOffice.new
+    render :partial => 'bank_office_fields', :locals => {:bank_office => @bank_office, :index => params[:index]}
+  end  
+
   private
 
+  def finder
+    unless @finder
+      @finder = BankFinder.new(params[:finder])
+      @finder.page = params[:page]
+      @finder.per_page = current_user.slips_per_page
+    end
+    
+    @finder
+  end
+
   def bank_params
-    params.require(:bank).permit(:name, :code)
+    params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :disabled])
   end
 
 end

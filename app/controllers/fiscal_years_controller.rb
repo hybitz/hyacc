@@ -35,20 +35,6 @@ class FiscalYearsController < Base::HyaccController
     begin
       @fiscal_year.transaction do
         @fiscal_year.update_attributes!(fiscal_year_params)
-
-        if @fiscal_year.is_not_closed
-          # 繰越仕訳があれば削除
-          jh = @fiscal_year.get_carry_forward_journal
-          if jh
-            unless jh.destroy
-              raise HyaccException.new(ERR_DB)
-            end
-          end
-
-          @fiscal_year.carry_status = CARRY_STATUS_NOT_CARRIED
-          @fiscal_year.carried_at = nil
-          @fiscal_year.save!
-        end
       end
 
       flash[:notice] = '会計年度を更新しました。'

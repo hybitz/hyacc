@@ -9,9 +9,7 @@ module Base::ViewAttributeHandler
   def load_view_attributes
     get_attributes.each do |name, options|
       if action_match?(options[:only], options[:except])
-        if name == :account_types
-          @account_types = get_account_types
-        elsif name == :banks
+        if name == :banks
           @banks = get_banks(options)
         elsif name == :finder
           @finder = get_finder(options)
@@ -31,8 +29,6 @@ module Base::ViewAttributeHandler
           @customers = get_customers(options)
         elsif name == :employees
           @employees = get_employees(finder, options)
-        elsif name == :prefectures
-          @prefectures = get_prefectures.collect{|p| [p[:name], p[:id]]}
         elsif name == :report_types
           @report_types = get_report_types
         elsif name == :report_styles
@@ -46,10 +42,6 @@ module Base::ViewAttributeHandler
     end
   end
     
-  def get_account_types
-    account_types
-  end
-  
   def get_deleted_types
     deleted_types
   end
@@ -218,12 +210,6 @@ module Base::ViewAttributeHandler
     end
     
     employees
-  end
-
-  # 都道府県一覧を取得する
-  def get_prefectures
-    service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_prefectures()
   end
 
   private

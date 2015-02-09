@@ -12,16 +12,16 @@
     </p>
   <% else %>
     <p>
-      <%= Bank.label :code %>：<%= @bank.code %>
+      <%= f.label :code %>：<%= @bank.code %>
     </p>
   <% end %>
 
   <p>
-    <%= Bank.label :name %><br />
+    <%= f.label :name %><br />
     <%= f.text_field :name %>
   </p>
 
-  <%= render 'bank_offices/list', :builder => f, :bank_offices => @bank.bank_offices %>
+  <%= render 'bank_offices_fields', :bank_offices => @bank.bank_offices %>
 <% end %>
 
   

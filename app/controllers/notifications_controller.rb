@@ -26,7 +26,7 @@ class NotificationsController < Base::HyaccController
   def events_as_json(events)
     ret = []
 
-    @events.each do |e|
+    events.each do |e|
       hash = {}
       hash[:title] = e.title
       hash[:allDay] = e.allday
@@ -34,7 +34,7 @@ class NotificationsController < Base::HyaccController
       hash[:end] = e.en.localtime unless e.allday
       hash[:backgroundColor] = next_color(e.who)
       ret << hash
-    end if @events.present?
+    end if events.present?
 
     ret.to_json
   end

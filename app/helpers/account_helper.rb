@@ -1,8 +1,7 @@
 module AccountHelper
 
   def convert_to_json(account)
-    link = link_to "#{account.code}： #{account.name}", account_path(account)
-    label = '<div style="margin: 10px 0;">' + link + '</div>'
+    label = link_to("#{account.code}： #{account.name}", account_path(account))
     
     ret = "{id: #{account.id}, label: '#{label}', children: ["
     account.children.each_with_index do |a, i|

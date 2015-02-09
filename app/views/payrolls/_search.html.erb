@@ -2,21 +2,22 @@
   $(document).ready(function() {
     $('#finder_branch_id').change(function() {
       var url = '<%= url_for :action=>'get_branches_employees' %>';
-      $.get(url, {branch_id: $(this).val(), format: 'html'}, function(html) {
-        $('#branches_employees').html(html);
+      var params = {branch_id: $(this).val(), format: 'html'};
+      $.get(url, params, function(html) {
+        $('#branch_employees').html(html);
       });
     }).change();
   });
 </script>
 <div id="search" style="margin: 15px;">
-  <%= form_tag( {:action=>action_name }, {:method=>"get"} ) do %>
+  <%= form_tag({:action => 'index'}, :method => 'get') do %>
     年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
 
     <% if branch_mode %>
       部門：<%= collection_select('finder', 'branch_id', @branches, 'id', 'name') %>
     <% end %>
 
-    <span id="branches_employees"></span>
+    <span id="branch_employees"></span>
     <%= submit_tag "表示" %>
   <% end %>
 </div>

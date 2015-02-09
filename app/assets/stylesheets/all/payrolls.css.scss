@@ -6,3 +6,9 @@
 #payroll_table {
   margin-bottom: 10px;  
 }
+
+.payroll_form {
+  input[type="text"][readonly] {
+    background-color: lightgrey;
+  }
+}

@@ -1,5 +1,3 @@
-<span id="branches_employees">
-  <% if @employees.present? %>
-    従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'name') %>
-  <% end %>
-</span>
+<% if @employees.present? %>
+  従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'name') %>
+<% end %>

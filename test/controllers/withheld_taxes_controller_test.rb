@@ -7,7 +7,7 @@ class WithheldTaxesControllerTest < ActionController::TestCase
   end
 
   def test_upload_success
-    post :upload,:file => upload_file('withheld_tax.csv')
+    post :upload, :file => upload_file('withheld_tax.csv')
     assert_redirected_to :action => "index"
     assert_equal 3,assigns(:list).size
   end
@@ -48,7 +48,7 @@ class WithheldTaxesControllerTest < ActionController::TestCase
   end
 
   def test_should_get_edit
-    get :edit, :id => withheld_taxes(:one).id, :format => 'js'
+    xhr :get, :edit, :id => withheld_taxes(:one).id
     assert_response :success
     assert_template :edit
   end

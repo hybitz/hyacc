@@ -9,12 +9,12 @@
     <th>補助科目区分</th>
     <th>仕訳登録可能</th>
 
-    <% if @finder.account_type == HyaccConstants::ACCOUNT_TYPE_DEBT %>
-    <th>買掛金科目</th>
+    <% if finder.account_type_debt? %>
+      <th>買掛金科目</th>
     <% end %>
 
-    <% if @finder.account_type == HyaccConstants::ACCOUNT_TYPE_CAPITAL %>
-    <th>利益積立金科目</th>
+    <% if finder.account_type_capital? %>
+      <th>利益積立金科目</th>
     <% end %>
 
     <th></th>
@@ -27,18 +27,18 @@
     <td align="center"><%= a.sub_account_type_name %></td>
     <td align="center"><%= a.journalizable ? 'はい' : 'いいえ' %></td>
 
-    <% if @finder.account_type == HyaccConstants::ACCOUNT_TYPE_DEBT %>
-    <td align="center"><%= a.is_trade_account_payable ? 'はい' : 'いいえ' %></td>
+    <% if finder.account_type_debt? %>
+      <td align="center"><%= a.is_trade_account_payable ? 'はい' : 'いいえ' %></td>
     <% end %>
 
-    <% if @finder.account_type == HyaccConstants::ACCOUNT_TYPE_CAPITAL %>
-    <td align="center"><%= a.is_revenue_reserve_account ? 'はい' : 'いいえ' %></td>
+    <% if @finder.account_type_capital? %>
+      <td align="center"><%= a.is_revenue_reserve_account ? 'はい' : 'いいえ' %></td>
     <% end %>
 
     <td>
-      <%= link_to("参照", {:action=>'show', :id=>a}) %>
-      <%= link_to("編集", {:action=>'edit', :id=>a}) %>
-      <%= link_to("子科目追加", {:action=>'new', :parent_id=>a}) %>
+      <%= link_to '参照', {:action => 'show', :id => a} %>
+      <%= link_to '編集', {:action => 'edit', :id => a} %>
+      <%= link_to '子科目追加', {:action => 'new', :parent_id => a} %>
     </td>
   </tr>
   <% end %>

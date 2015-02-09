@@ -1,4 +1,4 @@
-Hyacc::Application.routes.draw do
+Rails.application.routes.draw do
 
   devise_for :users
 
@@ -17,13 +17,13 @@ Hyacc::Application.routes.draw do
   end
 
   resources :bank_accounts
-
-  resources :bank_offices, :only => ['index'] do
+  resources :bank_offices, :only => ['index']
+  resources :banks do
     collection do
       get 'add_bank_office'
     end
   end
-  resources :banks
+
   resources :business_offices
   resources :careers
   resources :career_statements, :only => ['index', 'show']
@@ -141,4 +141,5 @@ Hyacc::Application.routes.draw do
   post 'simple/:account_code(/:action(/:id))', :controller => 'simple_slip'
 
   root 'welcome#index'
+
 end

@@ -1,4 +1,5 @@
 前提 /^(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |account_name|
+  sign_in user unless current_user
   assert @account = Account.where(:name => account_name).first
   assert_visit "/simple/#{@account.code}"
 end
@@ -39,23 +40,27 @@ end
       fail "不明なフィールドです。field_name=#{field_name}"
     end
   end
-  
+
   form_selector = action == '登録' ? '#slip_new_form' : "#slip_edit_form"
+  account = Account.find(@slip.account_id)
+  branch = Branch.find(@slip.branch_id)
+
   within form_selector do
     fill_in 'slip_ym', :with => @slip.ym
     fill_in 'slip_day', :with => @slip.day
     fill_in 'slip_remarks', :with => @slip.remarks
 
-    account = Account.find(@slip.account_id)
     select account.name, :from => 'slip_account_id'
-    assert wait_until{ page.has_select?('slip_tax_type', :selected => account.tax_type_name) }
-    
-    select Branch.find(@slip.branch_id).name, :from => 'slip_branch_id'
+    assert has_select?('slip_tax_type', :selected => account.tax_type_name)
+
+    select branch.name, :from => 'slip_branch_id'
+
     fill_in 'slip_amount_increase', :with => @slip.amount_increase
     fill_in 'slip_amount_decrease', :with => @slip.amount_decrease
     attach_file 'slip_receipt_file', @slip.receipt_file if @slip.receipt_file.present?
   end
 
+  assert has_no_selector?('.busy')
   capture
   click_on action
 end

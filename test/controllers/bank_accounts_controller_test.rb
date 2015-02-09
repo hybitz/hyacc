@@ -1,9 +1,3 @@
-# coding: UTF-8
-#
-# Product: hyacc
-# Copyright 2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'test_helper'
 
 class BankAccountsControllerTest < ActionController::TestCase
@@ -17,42 +11,42 @@ class BankAccountsControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in user
-    get :new, :format => 'js'
+    xhr :get, :new
     assert_response :success
     assert_template :new
   end
   
   def test_登録
     sign_in user
-    post :create, :format => 'js', :bank_account => valid_bank_account_params
+    xhr :post, :create, :bank_account => valid_bank_account_params
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_登録_入力エラー
     sign_in user
-    post :create, :format => 'js', :bank_account => invalid_bank_account_params
+    xhr :post, :create, :bank_account => invalid_bank_account_params
     assert_response :success
     assert_template :new
   end
   
   def test_編集
     sign_in user
-    get :edit, :format => 'js', :id => bank_account.id
+    xhr :get, :edit, :id => bank_account.id
     assert_response :success
     assert_template :edit
   end
   
   def test_更新
     sign_in user
-    put :update, :format => 'js', :id => bank_account.id, :bank_account => valid_bank_account_params
+    xhr :patch, :update, :id => bank_account.id, :bank_account => valid_bank_account_params
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_更新_入力エラー
     sign_in user
-    put :update, :format => 'js', :id => bank_account.id, :bank_account => invalid_bank_account_params
+    xhr :patch, :update, :id => bank_account.id, :bank_account => invalid_bank_account_params
     assert_response :success
     assert_template :edit
   end

@@ -1,7 +1,7 @@
 class Customer < ActiveRecord::Base
   include HyaccConstants
-  has_many :customer_names, :dependent=>:destroy
-  accepts_nested_attributes_for :customer_names, :allow_destroy=>true
+  has_many :customer_names
+  accepts_nested_attributes_for :customer_names, :allow_destroy => true
   after_save :reset_account_cache
 
   def name

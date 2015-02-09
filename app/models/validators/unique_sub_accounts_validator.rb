@@ -1,5 +1,3 @@
-# coding: UTF-8
-
 module Validators
   
   class UniqueSubAccountsValidator < ActiveModel::Validator

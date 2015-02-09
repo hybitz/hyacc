@@ -5,15 +5,13 @@
   <%= render_title %>
   <%= stylesheet_link_tag 'application' %>
   <%= javascript_include_tag 'application' %>
-  <%= render 'common/common_js' %>
   <%= render 'financial_statement_js' %>
 </head>
 <body>
-
-<%= render_header %>
-<%= render_menu %>
-<%= render 'common/search' %>
-<%= yield %>
-
+  <%= render 'common/common_js' %>
+  <%= render_header %>
+  <%= render_menu %>
+  <%= render 'common/search' %>
+  <%= yield %>
 </body>
 </html>

@@ -5,9 +5,9 @@ module Base
     include HyaccUtil
     include ViewAttributeHandler
     include ExceptionHandler
+    include CurrentCompany
 
     before_filter :check_first_boot
-    before_filter :check_login_status
     before_filter :load_view_attributes
 
     protected
@@ -53,35 +53,12 @@ module Base
         redirect_to :controller => 'first_boot' and return
       end
     end
-  
-    def check_login_status
-      unless current_user or controller_name == 'sessions'
-        session[:jump_to] = params
-        redirect_to new_session_path and return
-      end
-      
-      # メニューのロゴ表示用
-      @company = current_user.company if current_user
-    end
-  
-    def find_sub_accounts_by_account_id
-      account_id = params[:account_id].to_i
-      if account_id > 0
-        # 補助科目選択用リスト
-        account = Account.find( account_id )
-        unless account.nil?
-          return account.sub_accounts
-        end
-      end
-  
-      return []
-    end
-  
+
     # 資本金を取得する
     def get_capital_stock( fiscal_year )
       rf = ReportFinder.new(current_user)
-      rf.setup_from_params(:fiscal_year=>fiscal_year)
-      rf.get_net_sum_amount( Account.get_by_code( ACCOUNT_CODE_CAPITAL_STOCK ) )
+      rf.setup_from_params(:fiscal_year => fiscal_year)
+      rf.get_net_sum_amount(Account.get_by_code(ACCOUNT_CODE_CAPITAL_STOCK))
     end
   end
 end

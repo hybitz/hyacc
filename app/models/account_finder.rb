@@ -1,24 +1,28 @@
-class AccountFinder < Base::Finder
-  
-  attr_reader :account_type
-  attr_reader :leaf_only
-  
-  def setup_from_params( params )
-    super(params)
-    if params
-      @account_type = params[:account_type].to_i
-      @leaf_only = params[:leaf_only].to_i
-    end
+class AccountFinder < Daddy::Model
+  include HyaccConstants
+
+  def leaf_only?
+    self.leaf_only.to_i == 1
   end
-  
+
+  def account_types
+    ACCOUNT_TYPES.invert
+  end
+
+  def account_type_debt?
+    self.account_type.to_i == ACCOUNT_TYPE_DEBT
+  end
+
+  def account_type_capital?
+    self.account_type.to_i == ACCOUNT_TYPE_CAPITAL
+  end
+
   def list
-    return unless @account_type.to_i > 0
+    return unless self.account_type.to_i > 0
     
-    ret = Account.where(:account_type => @account_type).order('path')
-    if @leaf_only == 1
-      ret.select{|a| a.is_leaf}
-    else
-      ret
-    end
+    ret = Account.where(:account_type => self.account_type).order('path')
+    ret = ret.select{|a| a.is_leaf} if leaf_only?
+    ret
   end
+
 end

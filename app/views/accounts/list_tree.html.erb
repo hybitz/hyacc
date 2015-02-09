@@ -6,22 +6,21 @@
   ];
   
   $(document).ready(function() {
-    $('#account_tree').tree(
-      {
-        data: data,
-        saveState: 'account_tree',
-        autoEscape: false,
-        dragAndDrop: true,
-      }
-    );
+    $('#account_tree').tree({
+      data: data,
+      selectable: false,
+      saveState: 'account_tree',
+      autoEscape: false,
+      dragAndDrop: true,
+    });
     
-    $('#account_tree').bind('tree.move', function(event) {
+    $('#account_tree').bind('tree.move', function(e) {
       $.post('<%= url_for :action => 'update_tree' %>', {
-        moved: event.move_info.moved_node.id,
-        target: event.move_info.target_node.id,
-        position: event.move_info.position
+        moved: e.move_info.moved_node.id,
+        target: e.move_info.target_node.id,
+        position: e.move_info.position
       });
     });
   });
 </script>
-<div id="account_tree" style="margin-left: 20px; display: inline-block;"></div>
+<div id="account_tree"></div>

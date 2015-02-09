@@ -1,8 +1,7 @@
 <div style="margin: 15px;">
-  <%= form_tag( {:action=>'index'}, {:method=>"get"} ) do %>
-    勘定科目区分：<%= select('finder', 'account_type', @account_types ) %>
+  <%= form_tag({:action => 'index'}, :method => 'get') do %>
+    勘定科目区分：<%= select('finder', 'account_type', finder.account_types) %>
     リーフのみ表示：<%= check_box 'finder', 'leaf_only' %>
-       
     <%= submit_tag "表示" %>
   <% end %>
   

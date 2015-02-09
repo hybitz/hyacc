@@ -9,9 +9,7 @@ module Base::ViewAttributeHandler
   def load_view_attributes
     get_attributes.each do |name, options|
       if action_match?(options[:only], options[:except])
-        if name == :account_types
-          @account_types = get_account_types
-        elsif name == :banks
+        if name == :banks
           @banks = get_banks(options)
         elsif name == :finder
           @finder = get_finder(options)
@@ -44,10 +42,6 @@ module Base::ViewAttributeHandler
     end
   end
     
-  def get_account_types
-    account_types
-  end
-  
   def get_deleted_types
     deleted_types
   end

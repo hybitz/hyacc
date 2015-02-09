@@ -13,6 +13,7 @@
  *= require jquery-ui
  *= require fullcalendar
  *= require daddy
+ *= require vendor
  *= require_tree ./all
  *= require_self
  */

@@ -35,10 +35,6 @@ module HyaccViewHelper
     format_year_month( year_month_day / 100 ) + "/" + (year_month_day % 100).to_s
   end
   
-  def account_types
-    ACCOUNT_TYPES.invert
-  end
-  
   def dc_types
     revert_and_sort( DC_TYPES )
   end

@@ -199,4 +199,5 @@ class PayrollsController < Base::HyaccController
     inhabitant_tax = InhabitantTax.find_by_employee_id_and_ym(employee_id, ym)
     inhabitant_tax.amount if inhabitant_tax
   end
+  
 end

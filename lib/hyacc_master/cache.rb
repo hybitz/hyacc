@@ -47,14 +47,20 @@ class HyaccMaster::Cache
   def get_insurance(ym = nil, prefecture_id = nil, base_salary = 0)
     key = MEM_KEY_INSURANCE + create_sub_key([ym, prefecture_id, base_salary])
     insurance = Rails.cache.read(key)
+      HyaccLogger.debug "20150101:cache insurance=" + insurance.to_s
+      HyaccLogger.debug "20150101:insuranceがnilか？"
     if insurance.nil?
+      HyaccLogger.debug "20150101:insuranceがnilだよ"
       if HyaccLogger.debug?
         HyaccLogger.debug "Cache not found " + key
       end
       service = HyaccMaster::Service.new
+      HyaccLogger.debug "20150101: ym/prefecture_id/base_salary=" + ym.to_s + "/" + prefecture_id.to_s + "/" + base_salary.to_s
       insurance = service.get_insurance(ym, prefecture_id, base_salary)
+      HyaccLogger.debug "20150101:realllllllllllll insurance=" + insurance.to_s
       Rails.cache.write(key, insurance)
     end
+      HyaccLogger.debug "20150101:return insurance=" + insurance.to_s
     insurance
   end
   

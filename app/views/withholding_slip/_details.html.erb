@@ -62,7 +62,7 @@
     		<td><br></td>
     		<td><br></td>
     		<td><br></td>
-    		<td colspan="2"><%= number_to_currency(@data.special_exemption_for_spouse, :format=>"%n") %></td>
+    		<td colspan="2"><%= number_to_currency(@data.special_exemption_for_spouse, :format=>"%n") if @data.special_exemption_for_spouse > 0 %></td>
     		<td><br></td>
     		<td><br></td>
     		<td><br></td>
@@ -81,15 +81,15 @@
     	<tr>
     		<td colspan="19" rowspan="3">摘要</td>
     		<td colspan="3" style="background-color: lightgrey;">配偶者の合計</td>
-    		<td colspan="3">XXXXXXXXX円</td>
+    		<td colspan="3"></td>
   		</tr>
     	<tr>
     		<td colspan="3" style="background-color: lightgrey;">個人年金保険料の金額</td>
-    		<td colspan="3">XXXXXXXXX円</td>
+    		<td colspan="3"></td>
   		</tr>
     	<tr>
     		<td colspan="3" style="background-color: lightgrey;">旧長期損害保険料の金額</td>
-    		<td colspan="3">XXXXXXXXX円</td>
+    		<td colspan="3"></td>
   		</tr>
     	<tr style="background-color: lightgrey;">
     		<td colspan="2" rowspan="2">16歳未満</td>

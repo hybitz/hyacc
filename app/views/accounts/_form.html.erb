@@ -14,10 +14,8 @@
   }  
 </script>
 
-<%= form_for @account do |f| %>
-  <p>
-  <%= f.submit %>
-  </p>
+<%= form_for @account, :remote => true do |f| %>
+  <p><%= f.submit %></p>
 
   <table>
     <tr>
@@ -59,7 +57,7 @@
       <th><%= f.label :trade_type %></th>
       <td><%= f.select :trade_type, trade_types %></td>
     </tr>
-    
+
     <% if @account.path.include? HyaccConstants::ACCOUNT_CODE_FIXED_ASSET %>
     <tr>
       <th><%= f.label :depreciable %></th>
@@ -70,7 +68,7 @@
       <td><%= f.select :depreciation_method, depreciation_methods, :include_blank=>true %></td>
     </tr>
     <% end %>
-    
+
     <tr>
       <th><%= f.label :is_settlement_report_account %></th>
       <td><%= f.select :is_settlement_report_account, {'出力対象'=>true, '出力対象外'=>false} %></td>

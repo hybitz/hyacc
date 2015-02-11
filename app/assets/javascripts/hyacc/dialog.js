@@ -3,8 +3,6 @@ if (typeof hyacc === "undefined") {
 }
 
 hyacc.Dialog = function(options) {
-  this.id = 'hyacc-dialog';
-  this.selector = '#' + this.id;
   this.options = options || {};
 };
 
@@ -16,14 +14,13 @@ hyacc.Dialog.prototype.open = function(url) {
 };
 
 hyacc.Dialog.prototype.show = function(html) {
-  $(this.selector).remove();
-  $('<div></div>').attr('id', this.id).appendTo('body');
-  $(this.selector).html(html);
-  
   var that = this;
-  $(this.selector).dialog({
+  $('<div>' + html + '</div>').dialog({
     modal: true,
     title: that.options.title,
-    width: that.options.width || 'auto'
+    width: that.options.width || 'auto',
+    close: function() {
+      $(this).dialog('destroy');
+    }
   });
 };

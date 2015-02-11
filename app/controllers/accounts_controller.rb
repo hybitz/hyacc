@@ -58,7 +58,7 @@ class AccountsController < Base::HyaccController
       end
 
       flash[:notice] = '勘定科目を追加しました。'
-      redirect_to :action => 'show', :id=>@account
+      render 'common/reload'
 
     rescue => e
       handle(e)
@@ -84,7 +84,7 @@ class AccountsController < Base::HyaccController
       end
         
       flash[:notice] = '勘定科目を更新しました。'
-      redirect_to :action => 'show', :id => @account
+      render 'common/reload'
 
     rescue => e
       handle(e)

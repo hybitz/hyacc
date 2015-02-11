@@ -18,4 +18,15 @@ module Accounts
       :tax_type => TAX_TYPE_NONTAXABLE
     }
   end
+
+  def invalid_account_params
+    {
+      :code => '9999',
+      :name => '',
+      :dc_type => DC_TYPE_DEBIT,
+      :account_type => ACCOUNT_TYPE_ASSET,
+      :tax_type => TAX_TYPE_NONTAXABLE
+    }
+  end
+
 end

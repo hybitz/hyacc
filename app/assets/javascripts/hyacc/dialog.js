@@ -1,9 +1,15 @@
 if (typeof hyacc === "undefined") {
-  var hyacc = {};
+  var hyacc = {
+    _dialogs: new Stack(),
+    current_dialog: function() {
+      return this._dialogs.top();
+    }
+  };
 }
 
 hyacc.Dialog = function(options) {
   this.options = options || {};
+  hyacc._dialogs.push(this);
 };
 
 hyacc.Dialog.prototype.open = function(url) {
@@ -15,12 +21,17 @@ hyacc.Dialog.prototype.open = function(url) {
 
 hyacc.Dialog.prototype.show = function(html) {
   var that = this;
-  $('<div>' + html + '</div>').dialog({
+  this.jq_dialog = $('<div>' + html + '</div>').dialog({
     modal: true,
     title: that.options.title,
     width: that.options.width || 'auto',
     close: function() {
-      $(this).dialog('destroy');
+      that.close();
     }
   });
+};
+
+hyacc.Dialog.prototype.close = function() {
+  hyacc._dialogs.pop();
+  this.jq_dialog.dialog('destroy');
 };

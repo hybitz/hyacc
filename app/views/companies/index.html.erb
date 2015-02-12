@@ -74,6 +74,11 @@
       <td><%= @company.start_month_of_fiscal_year %>月</td>
       <td></td>
     </tr>
+    <tr>
+      <th>給与支払日</th>
+      <td><%= payday_to_jp(@company.payday) %></td>
+      <td></td>
+    </tr>
   <% end %>
 
   <tr>
@@ -85,6 +90,7 @@
       <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
     </td>
   </tr>
+
 </table>
 
 <% unless @company.personal? %>

@@ -36,9 +36,9 @@
     <% end %>
 
     <td>
-      <%= link_to '参照', {:action => 'show', :id => a} %>
-      <%= link_to '編集', {:action => 'edit', :id => a} %>
-      <%= link_to '子科目追加', {:action => 'new', :parent_id => a} %>
+      <%= link_to '参照', {:action => 'show', :id => a}, :remote => true %>
+      <%= link_to '編集', {:action => 'edit', :id => a}, :remote => true %>
+      <%= link_to '子科目追加', {:action => 'new', :parent_id => a}, :remote => true %>
     </td>
   </tr>
   <% end %>

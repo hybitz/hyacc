@@ -17,98 +17,92 @@ class AccountsControllerTest < ActionController::TestCase
 
   def test_一覧_検索
     get :index,
-      :finder=>{
-        :account_type=>ACCOUNT_TYPE_ASSET,
+      :finder => {
+        :account_type => ACCOUNT_TYPE_ASSET,
       }
 
     assert_response :success
     assert_template 'index'
-    assert_not_nil assigns(:accounts)
+    assert assigns(:accounts).present?
   end
   
   def test_list_tree
     get :list_tree
     assert_response :success
     assert_template :list_tree
-    assert_not_nil assigns(:accounts)
+    assert assigns(:accounts).present?
   end
 
-  def test_show
-    get :show, :id => @first_id
+  def test_参照
+    xhr :get, :show, :id => @first_id
 
     assert_response :success
     assert_template 'show'
 
-    assert_not_nil assigns(:account)
-    assert assigns(:account).valid?
+    assert @account = assigns(:account)
+    assert @account.valid?
   end
 
-  def test_new
-    get :new, :parent_id=>@first_id
+  def test_追加
+    xhr :get, :new, :parent_id => @first_id
 
     assert_response :success
     assert_template 'new'
-
-    assert_not_nil assigns(:account)
+    assert assigns(:account)
   end
 
   def test_new_fail_by_missing_parent_id
-    assert_raise( ActiveRecord::RecordNotFound ){ get :new }
+    assert_raise( ActiveRecord::RecordNotFound ){ xhr :get, :new }
   end
 
   def test_登録
-    num_accounts = Account.count
-
-    post :create, :account => valid_account_params
-
-    assert_response :redirect
-    assert_redirected_to :action=>:show, :id=>Account.maximum(:id)
-
-    assert_equal num_accounts + 1, Account.count
+    assert_difference 'Account.count', 1 do
+      xhr :post, :create, :account => valid_account_params
+      assert_response :success
+      assert_template 'common/reload'
+    end
   end
 
   def test_登録_入力エラー
-    num_accounts = Account.count
+    assert_no_difference 'Account.count' do
+      xhr :post, :create, :account => invalid_account_params
 
-    post :create, :account => { :code=>'9999', :name=>'', :dc_type=>1, :account_type=>1, :tax_type=>1 }
-
-    assert_response :success
-    assert_template 'new'
-
-    assert_equal num_accounts, Account.count
+      assert_response :success
+      assert_template 'new'
+    end
   end
 
-  def test_edit
-    get :edit, :id => @first_id
+  def test_編集
+    xhr :get, :edit, :id => @first_id
 
     assert_response :success
     assert_template 'edit'
-    assert_not_nil assigns(:account)
-    assert assigns(:account).valid?
+    assert @account = assigns(:account)
+    assert @account.valid?
   end
 
   def test_削除状態_停止状態_でも編集画面に遷移できること
     Account.find( @first_id ).update_attribute(:deleted, true)
 
-    get :edit, :id => @first_id
+    xhr :get, :edit, :id => @first_id
     
     assert_response :success
     assert_template 'edit'
     assert_not_nil assigns(:account)
   end
 
-  def test_update
-    patch :update, :id => expense_account.id, :account => expense_account.attributes
+  def test_更新
+    xhr :patch, :update, :id => expense_account.id, :account => expense_account.attributes
 
     assert @account = assigns(:account)
     assert_equal expense_account.id, @account.id 
-    assert_response :redirect
-    assert_redirected_to :action => 'show', :id => @account
+    assert_response :success
+    assert_template 'common/reload'
   end
 
   def test_update_fail_duplicate_code
     a = Account.find(@first_id)
-    post :update, :id => @first_id, :commit => '更新',
+    xhr :patch, :update, :id => @first_id, :commit => '更新',
                   :account => {:name=>a.name,:sub_account_type=>a.sub_account_type,
                                :account_type=>a.account_type, :tax_type=>a.tax_type,
                                :dc_type=>a.dc_type,:parent_id=>a.parent_id,
@@ -128,7 +122,7 @@ class AccountsControllerTest < ActionController::TestCase
     assert_equal SUB_ACCOUNT_TYPE_CORPORATE_TAX, a.sub_account_type
     assert ! a.account_control.sub_account_editable
     
-    post :update, :id => id, :commit => '更新',
+    xhr :post, :update, :id => id, :commit => '更新',
                   :account => {:sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL},
                   :sub_accounts => {"1"=>{:id=>28,:name=>'補助科目１',:code=>'100',:deleted=>'false'},
                                     "2"=>{:id=>29,:name=>'補助科目２',:code=>'200',:deleted=>'false'},
@@ -144,7 +138,7 @@ class AccountsControllerTest < ActionController::TestCase
       Account.find(@first_id)
     }
 
-    post :destroy, :id => @first_id
+    delete :destroy, :id => @first_id
     assert_response :redirect
     assert_redirected_to :action => 'index'
 
@@ -170,8 +164,7 @@ class AccountsControllerTest < ActionController::TestCase
   # 伝票が存在しない場合、補助科目がすべて削除可能であること
   def test_delete_all_sub_accounts
     # まずは新規作成
-    post :create, 
-      :commit=>"登録", 
+    xhr :post, :create, 
       :account=>{
         :sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL,
         :code=>"6666",
@@ -191,14 +184,12 @@ class AccountsControllerTest < ActionController::TestCase
           :deleted=>"false"
         }
       }
-    assert_response :redirect
-    assert_redirected_to :action=>:show, :id=>Account.maximum(:id)
-    assert_equal 1, Account.find_by_code(6666).sub_accounts_all.size()
+    assert_response :success
+    assert_template 'common/reload'
+    assert_equal 1, Account.find_by_code(6666).sub_accounts_all.size
     
     # 補助科目なしで更新
-    post :update, 
-      :commit=>"更新", 
-      :id => Account.find_by_code(6666),
+    xhr :patch, :update, :id => Account.find_by_code(6666),
       :account=>{
         :sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL,
         :code=>"6666",
@@ -212,9 +203,9 @@ class AccountsControllerTest < ActionController::TestCase
       },
       :sub_accounts=>{
       }
-    assert_response :redirect
-    assert_redirected_to :action=>:show, :id=>Account.find_by_code(6666).id
-    assert_equal 0, Account.find_by_code(6666).sub_accounts_all.size()
+    assert_response :success
+    assert_template 'common/reload'
+    assert_equal 0, Account.find_by_code(6666).sub_accounts_all.size
   end
 
   def test_科目を別の科目の後ろに移動

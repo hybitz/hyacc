@@ -1,9 +1,8 @@
 module CompanyHelper
   DEFAULT_PAYDAY = "0,25"
-  DEFAULT_PAYDAY_JP = "当月25日"
   
   def payday_to_jp(payday)
-    return DEFAULT_PAYDAY_JP if payday.blank?
+    payday = DEFAULT_PAYDAY if payday.blank?
     month, day = payday.split(",")
     month_jp = month + "ヶ月後"
     month_jp = month.to_i.abs.to_s + "ヶ月前" if month.to_i < 0

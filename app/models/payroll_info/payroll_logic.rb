@@ -31,29 +31,29 @@ module PayrollInfo
     # みなし給与
     def get_total_deemed_salary
       deemed_salary = get_total_base_salary
-      deemed_salary = (deemed_salary/4000).to_i * 4000 if deemed_salary >= 1628000 && deemed_salary <= 6599999
+      deemed_salary = (deemed_salary/4000).to_i * 4000 if deemed_salary >= 1_628_000 && deemed_salary <= 6_599_999
     end
     # 給与所得控除額
     def get_deduction
       # みなし給与で計算
       deemed_salary = get_total_deemed_salary
-      deduction = 650000
+      deduction = 650_000
       case deemed_salary
-      when 0 .. 1625000
-        deduction = 650000
-      when 1625001 .. 1800000
+      when 0 .. 1_625_000
+        deduction = 650_000
+      when 1_625_001 .. 1_800_000
         deduction = deemed_salary * 0.4
-      when 1800001 .. 3600000
-        deduction = deemed_salary * 0.3 + 180000
-      when 3600001 .. 6600000
-        deduction = deemed_salary * 0.2 + 540000
-      when 6600001 .. 10000000
-        deduction = deemed_salary * 0.1 + 1200000
-      when 10000001 .. 
-        deduction = deemed_salary * 0.05 + 1700000
+      when 1_800_001 .. 3_600_000
+        deduction = deemed_salary * 0.3 + 180_000
+      when 3_600_001 .. 6_600_000
+        deduction = deemed_salary * 0.2 + 540_000
+      when 6_600_001 .. 10_000_000
+        deduction = deemed_salary * 0.1 + 1_200_000
+      when 10_000_001 .. 
+        deduction = deemed_salary * 0.05 + 1_700_000
       end
       
-      deduction = 2450000 if deemed_salary > 15000000 && @calendar_year >= 2013
+      deduction = 2_450_000 if deemed_salary > 15_000_000 && @calendar_year >= 2013
       
       return deduction
     end
@@ -95,9 +95,9 @@ module PayrollInfo
       # 1,000円未満切り捨て
       b = (b/1000).to_i * 1000
       
-      if b <= 1950000
+      if b <= 1_950_000
         total_tax = b * 0.05
-      elsif b <= 3300000
+      elsif b <= 3_300_000
         total_tax = b * 0.1 - 97500
       end
       

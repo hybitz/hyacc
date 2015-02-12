@@ -1,6 +1,7 @@
 module PayrollHelper
   require 'hyacc_master/service_factory'
   include HyaccConstants
+  include CompanyHelper
   
   # 標準報酬月額の計算
   def get_standard_remuneration(ym = nil, employee_id = nil, base_salary = nil)
@@ -149,6 +150,31 @@ module PayrollHelper
   def get_basic_info(ym = nil, base_salary = 0)
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
     service.get_basic_info(ym, base_salary)
+  end
+  
+  def get_previous_base_salary(ym = nil, employee_id = nil)
+    base_salary = 0
+    # 前月分を検索
+    past_ym = ym.to_i - 1
+    # 1月の場合、-1年(-100)+11月
+    past_ym = ym.to_i - 89 if ym.to_i%100 == 1
+    previous_payroll = Payroll.where(:ym => past_ym, :employee_id => employee_id, :is_bonus => false).order('ym').first
+    if previous_payroll
+      base_salary = previous_payroll.get_base_salary_from_jd
+    end
+    base_salary
+  end
+  
+  def get_pay_day(ym, employee_id = nil)
+    payday = Employee.find(employee_id).company.payday
+    pay_day = Date.new(ym.to_i/100, ym.to_i%100, day_of_payday(payday).to_i)
+    pay_day = pay_day >> month_of_payday(payday).to_i
+    
+    # 土日だったら休日前支払
+    while pay_day.wday == 0 or pay_day.wday == 6
+      pay_day = pay_day - 1
+    end
+    pay_day
   end
   
 end

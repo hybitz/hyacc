@@ -32,29 +32,10 @@ class PayrollsController < Base::HyaccController
       @payroll.ym = ym
       @payroll.days_of_work = Date.new(ym.to_i/100, ym.to_i%100, -1).day
       @payroll.hours_of_work = @payroll.days_of_work * 8
-
-      # 前月分を検索
-      past_ym = ym.to_i - 1
-      # 1月の場合、-1年(-100)+11月
-      past_ym = ym.to_i - 89 if ym.to_i%100 == 1
-      previous_payroll = Payroll.where(:ym => past_ym, :employee_id => finder.employee_id, :is_bonus => false).order('ym').first
-      if previous_payroll
-        @payroll.base_salary = previous_payroll.get_base_salary_from_jd
-      end
-
+      @payroll.base_salary = get_previous_base_salary(ym, finder.employee_id)
       # 住民税マスタより住民税額を取得
       @payroll.inhabitant_tax = get_inhabitant_tax(finder.employee_id, ym)
-
-      # 給与支払日の初期値 TODO：会社マスタから取得
-      next_ym = ym.to_i + 1
-      # 12月の場合、+1年(+100)-11月
-      next_ym = ym.to_i + 89 if ym.to_i%100 == 12
-      pay_day = Date.new(next_ym/100, next_ym%100, 7)
-      # 土日だったら休日前支払
-      while pay_day.wday == 0 or pay_day.wday == 6
-        pay_day = pay_day - 1
-      end
-      @payroll.pay_day = pay_day.strftime("%Y-%m-%d")
+      @payroll.pay_day = get_pay_day(ym, finder.employee_id).strftime("%Y-%m-%d")
       # 表示対象ユーザID
       @payroll.employee_id = finder.employee_id
     end

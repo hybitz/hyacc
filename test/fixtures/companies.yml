@@ -7,6 +7,7 @@ a:
   type_of: 1
   admin_email: admin@test.com
   lock_version: 1
+  payday: "0,25"
 b:
   id: 2
   name: 有限会社テストB
@@ -15,6 +16,7 @@ b:
   start_month_of_fiscal_year: 4
   type_of: 5
   lock_version: 0
+  payday: "1,7"
 c:
   id: 3
   name: フリーランス
@@ -33,3 +35,4 @@ d:
   type_of: 1
   business_type_id: 5
   lock_version: 0
+  payday: "-1,7"

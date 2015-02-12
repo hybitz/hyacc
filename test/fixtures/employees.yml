@@ -47,3 +47,13 @@ user6:
   sex: F
   business_office_id: 1
   birth: 1990-01-06
+
+user7:
+  id: 7
+  company_id: 4
+  last_name: 開発
+  first_name: 太郎
+  employment_date: 2009-01-01
+  sex: M
+  business_office_id: 1
+  birth: 1990-01-06

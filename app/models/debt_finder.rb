@@ -1,10 +1,6 @@
 class DebtFinder < Base::Finder
   include JournalUtil
 
-  def setup_from_params( params )
-    super(params)
-  end
-
   def list
     ret = []
     sum = 0

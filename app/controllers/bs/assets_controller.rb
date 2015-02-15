@@ -2,10 +2,10 @@ class Bs::AssetsController < Base::HyaccController
   include Depreciation::DepreciationUtil
 
   view_attribute :title => '資産管理'
-  view_attribute :finder, :class => AssetFinder, :only=>:index
-  view_attribute :ym_list, :only => :index
   view_attribute :branches, :only => :index
   before_filter :load_accounts, :only => 'index'
+
+  helper_method :finder
 
   def index
     @assets = finder.list
@@ -64,6 +64,18 @@ class Bs::AssetsController < Base::HyaccController
   end
 
   private
+
+  def finder
+    unless @finder
+      @finder = AssetFinder.new(params[:finder])
+      @finder.company_id = current_company.id
+      @finder.fiscal_year ||= current_company.fiscal_year
+      @finder.page = params[:page] || 1
+      @finder.per_page = current_user.slips_per_page
+    end
+    
+    @finder
+  end
 
   def asset_params
     params.require(:asset).permit(

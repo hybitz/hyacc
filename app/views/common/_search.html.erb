@@ -4,6 +4,10 @@
       年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
     <% end %>
     
+    <% if @finder.respond_to?(:fiscal_years) %>
+      年度：<%= select('finder', 'fiscal_year', @finder.fiscal_years) %>
+    <% end %>
+
     <% if @cy_list %>
       暦年：<%= select('finder', 'calendar_year', @cy_list ) %>
     <% end %>
@@ -17,7 +21,7 @@
     <% end %>
 
     <% if branch_mode and @branches %>
-      部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank=>true ) %>
+      部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank => true) %>
     <% end %>
       
     <% if @accounts %>

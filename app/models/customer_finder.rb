@@ -1,22 +1,19 @@
-class CustomerFinder < Base::Finder
+class CustomerFinder < Daddy::Model
+  include HyaccConstants
   
-  def initialize( user )
-    super(user)
-    @deleted = false
+  def disable_types
+    DISABLE_TYPES.invert
   end
 
   def list
-    Customer.where(conditions).order('code').paginate(:page => @page > 0 ? @page : 1, :per_page => @slips_per_page)
+    Customer.where(conditions).not_deleted.order('code').paginate(:page => page, :per_page => per_page)
   end
 
   private
 
   def conditions
-    ret = []
-    unless @deleted.nil?
-      ret << 'deleted=?'
-      ret << @deleted
-    end
-    ret
+    sql = SqlBuilder.new
+    sql.append('disabled = ?', BooleanUtils.to_b(disabled)) if disabled.present?
+    sql.to_a
   end
 end

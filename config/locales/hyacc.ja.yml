@@ -104,15 +104,19 @@ ja:
 
       customer: 
         code: 取引先コード
-        customer_names:
-          formal_name: "正式名称"
-          name: "略称"
         deleted: "を削除"
         formal_name: 取引先名（正式名）
         name: 取引先名（省略名）
         address: "住所"  
         is_order_entry: "受注フラグ"  
         is_order_placement: "発注フラグ"  
+
+      customer_name: &customer_name
+        formal_name: 取引先名（正式名）
+        name: 取引先名（省略名）
+
+      customer_names:
+        <<: *customer_name
 
       employee:
         address: 住所

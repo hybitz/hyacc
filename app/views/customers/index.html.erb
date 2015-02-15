@@ -19,7 +19,7 @@
       <td><%= c.name %></td>
       <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_entry %>
       <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_placement %>
-      <td class="center"><%= HyaccConstants::DELETED_TYPES[c.deleted] %></td>
+      <td class="center"><%= HyaccConstants::DISABLE_TYPES[c.disabled] %></td>
       <td>
         <%= link_to '参照', customer_path(c), :remote => true %>
         <%= link_to '編集', edit_customer_path(c), :remote => true %>

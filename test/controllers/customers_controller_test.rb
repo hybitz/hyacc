@@ -32,16 +32,22 @@ class CustomersControllerTest < ActionController::TestCase
 
   def test_登録
     sign_in user
-    xhr :post, :create, :customer => valid_customer_params
-    assert_response :success
-    assert_template 'common/reload'
+
+    assert_difference 'Customer.count', 1 do
+      xhr :post, :create, :customer => valid_customer_params
+      assert_response :success
+      assert_template 'common/reload'
+    end
   end
 
   def test_登録_入力エラー
     sign_in user
-    xhr :post, :create, :customer => invalid_customer_params
-    assert_response :success
-    assert_template :new
+
+    assert_no_difference 'Customer.count' do
+      xhr :post, :create, :customer => invalid_customer_params
+      assert_response :success
+      assert_template :new
+    end
   end
 
   def test_編集
@@ -53,23 +59,26 @@ class CustomersControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in user
-    xhr :put, :update, :id => customer.id, :customer => valid_customer_params
+    xhr :patch, :update, :id => customer.id, :customer => valid_customer_params
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_更新_入力エラー
     sign_in user
-    xhr :put, :update, :id => customer.id, :customer => invalid_customer_params
+    xhr :patch, :update, :id => customer.id, :customer => invalid_customer_params
     assert_response :success
     assert_template :edit
   end
 
   def test_削除
     sign_in user
-    delete :destroy, :id => customer.id
-    assert_response :redirect
-    assert_redirected_to :action => 'index'
+
+    assert_no_difference 'Customer.count' do
+      delete :destroy, :id => customer.id
+      assert_response :redirect
+      assert_redirected_to :action => 'index'
+    end
   end
 
 end

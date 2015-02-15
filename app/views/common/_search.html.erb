@@ -61,10 +61,6 @@
       <% end %>
     <% end %>
     
-    <% if @deleted_types %>
-      状態：<%= select('finder', 'deleted', @deleted_types, :include_blank => true) %>
-    <% end %>
-
     <% if @finder.respond_to?(:disable_types) %>
       状態：<%= select('finder', 'disabled', @finder.disable_types, :include_blank => true) %>
     <% end %>

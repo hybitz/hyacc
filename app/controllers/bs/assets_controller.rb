@@ -70,6 +70,7 @@ class Bs::AssetsController < Base::HyaccController
       @finder = AssetFinder.new(params[:finder])
       @finder.company_id = current_company.id
       @finder.fiscal_year ||= current_company.fiscal_year
+      @finder.branch_id ||= current_user.employee.default_branch.id
       @finder.page = params[:page] || 1
       @finder.per_page = current_user.slips_per_page
     end

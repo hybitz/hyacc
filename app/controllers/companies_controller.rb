@@ -73,6 +73,6 @@ class CompaniesController < Base::HyaccController
   end
   
   def setup_attributes
-    params[:company][:payday] = params[:company][:month_of_payday] + "," + params[:company][:day_of_payday]
+    params[:company][:payday] = params[:company][:month_of_payday] + "," + params[:company][:day_of_payday] unless params[:company][:month_of_payday].nil?
   end
 end

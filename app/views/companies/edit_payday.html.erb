@@ -1,0 +1,3 @@
+<%= form_for @company, :remote => true do |f| %>
+  <%= f.select :month_of_payday, list_of_month_of_payday %><%= f.text_field :day_of_payday, :size => 2 %>日
+<% end %>

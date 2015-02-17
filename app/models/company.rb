@@ -12,6 +12,9 @@ class Company < ActiveRecord::Base
   validates_presence_of :name, :founded_date
   validates_format_of :admin_email, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
 
+  attr_accessor :day_of_payday
+  attr_accessor :month_of_payday
+  
   def current_fiscal_year
     fiscal_years.where(:fiscal_year => fiscal_year).first
   end

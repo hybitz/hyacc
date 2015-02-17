@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       get 'show_logo'
       get 'edit_logo'
       get 'edit_admin'
+      get 'edit_payday'
       get 'edit_business_type'
     end
   end

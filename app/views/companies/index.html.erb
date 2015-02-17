@@ -77,7 +77,11 @@
     <tr>
       <th>給与支払日</th>
       <td><%= payday_to_jp(@company.payday) %></td>
-      <td></td>
+      <td>
+      <%= link_to '変更', edit_payday_company_path(@company), :onclick => 'edit(this); return false;' %>
+      <%= button_tag '更新', :onclick => 'update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
+      </td>
     </tr>
   <% end %>
 

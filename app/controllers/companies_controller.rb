@@ -1,7 +1,11 @@
 class CompaniesController < Base::HyaccController
+  include CompanyHelper
+
   layout false
   view_attribute :title => '会社'
-
+  
+  before_action :setup_attributes, only: [:update]
+  
   def index
     @company = Company.find(current_user.company_id)
     
@@ -39,6 +43,12 @@ class CompaniesController < Base::HyaccController
     @company = Company.find(current_user.company_id)
   end
 
+  def edit_payday
+    @company = Company.find(current_user.company_id)
+    @company.day_of_payday = day_of_payday(@company.payday)
+    @company.month_of_payday = month_of_payday(@company.payday)
+  end
+  
   def update
     @company = Company.find(current_user.company_id)
     @company.attributes = company_params
@@ -59,7 +69,10 @@ class CompaniesController < Base::HyaccController
   private
 
   def company_params
-    params.require(:company).permit(:logo, :admin_email, :business_type_id)
+    params.require(:company).permit(:logo, :admin_email, :business_type_id, :day_of_payday, :month_of_payday, :payday)
   end
-
+  
+  def setup_attributes
+    params[:company][:payday] = params[:company][:month_of_payday] + "," + params[:company][:day_of_payday]
+  end
 end

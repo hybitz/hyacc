@@ -9,25 +9,20 @@
     <table>
       <% if @customer.new_record? %>
         <tr>
-          <th>取引先コード</th>
+          <th><%= f.label :code %></th>
           <td><%= f.text_field :code %></td>
         </tr>
-        <tr>
-          <th>取引先名（正式名）</th>
-          <td>
-            <%= f.fields_for "customer_names_attributes[0]", @customer.customer_names.first do |f| %>
-              <%= f.text_field :formal_name %>
-            <% end %>
-          </td>
-        </tr>
-        <tr>
-          <th>取引先名（省略）</th>
-          <td>
-            <%= f.fields_for "customer_names_attributes[0]", @customer.customer_names.first do |f| %>
-              <%= f.text_field :name %>
-            <% end %>
-          </td>
-        </tr>
+
+        <%= f.fields_for "customer_names_attributes[0]", @customer.customer_names.first do |f| %>
+          <tr>
+            <th><%= f.label :formal_name %></th>
+            <td><%= f.text_field :formal_name %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :name %></th>
+            <td><%= f.text_field :name %></td>
+          </tr>
+        <% end %>
       <% else %>
         <tr>
           <th>取引先コード</th>
@@ -57,7 +52,7 @@
       </tr>
       <tr>
         <th>状態</th>
-        <td><%= f.select :deleted, @deleted_types %></td>
+        <td><%= f.select :disabled, HyaccConstants::DISABLE_TYPES.invert %></td>
       </tr>
     </table>
     

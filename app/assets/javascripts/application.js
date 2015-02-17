@@ -21,4 +21,5 @@
 //= require daddy
 //= require jquery-ui/ympicker-ja
 //= require vendor
+//= require lib
 //= require_tree .

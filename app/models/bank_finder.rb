@@ -6,7 +6,7 @@ class BankFinder < Daddy::Model
   end
 
   def list
-    Bank.where(conditions).order('code').paginate(:page => page || 1, :per_page => per_page || DEFAULT_PER_PAGE)
+    Bank.where(conditions).order('code').paginate(:page => page, :per_page => per_page || DEFAULT_PER_PAGE)
   end
 
   private

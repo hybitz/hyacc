@@ -1,13 +1,8 @@
 class CustomersController < Base::HyaccController
   view_attribute :title => '取引先'
-  view_attribute :finder, :class => CustomerFinder, :only => :index
-  view_attribute :deleted_types
-  
-  def add_customer_name
-    cn = CustomerName.new
-    render :partial => 'customer_name_fields', :locals => {:cn => cn, :index => params[:index]}
-  end
 
+  helper_method :finder
+  
   def index
     @customers = finder.list
   end
@@ -19,6 +14,11 @@ class CustomersController < Base::HyaccController
   def new
     @customer = Customer.new
     @customer.customer_names << CustomerName.new
+  end
+
+  def add_customer_name
+    cn = CustomerName.new
+    render :partial => 'customer_name_fields', :locals => {:cn => cn, :index => params[:index]}
   end
 
   def edit
@@ -72,15 +72,27 @@ class CustomersController < Base::HyaccController
 
   private
 
+  def finder
+    unless @finder
+      @finder = CustomerFinder.new(params[:finder])
+      @finder.page = params[:page] || 1
+      @finder.per_page = current_user.slips_per_page
+    end
+    
+    @finder
+  end
+
   def customer_params
     customer_names_attributes = [:id, :_destroy, :name, :formal_name, :start_date]
 
     if action_name == 'create'
       params.require(:customer)
-          .permit(:code, :is_order_entry, :is_order_placement, :address, :customer_names_attributes => customer_names_attributes)
+          .permit(:code, :is_order_entry, :is_order_placement, :address, :disabled,
+              :customer_names_attributes => customer_names_attributes)
     else
       params.require(:customer)
-          .permit(:is_order_entry, :is_order_placement, :address, :customer_names_attributes => customer_names_attributes)
+          .permit(:is_order_entry, :is_order_placement, :address, :disabled,
+              :customer_names_attributes => customer_names_attributes)
     end
   end
 

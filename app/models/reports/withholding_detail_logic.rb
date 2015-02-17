@@ -1,12 +1,6 @@
-# -*- encoding : utf-8 -*-
 module Reports
   class WithholdingDetailLogic < BaseLogic
-    require 'gengou'
-    
-    def initialize(finder)
-      super(finder)
-    end
-    
+
     def get_withholding_info
       e = get_exemptions
       model = WithholdingDetail.new
@@ -15,7 +9,7 @@ module Reports
       model.head_business_office = model.company.get_head_business_office
       model.employee = Employee.find(@finder.employee_id)
       model.total_salary = get_total_salary                               # 支払金額
-      model.exemption = get_total_exemption                                     # 所得控除の額の合計
+      model.exemption = get_total_exemption                               # 所得控除の額の合計
       model.after_deduction = get_after_deduction                         # 給与所得控除後の金額
       model.withholding_tax = get_withholding_tax                         # 源泉徴収税額
       model.social_insurance = get_social_insurance                       # 社会保険料等の金額

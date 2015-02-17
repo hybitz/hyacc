@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'gengou'
 
 class GengouTest < ActiveSupport::TestCase
 

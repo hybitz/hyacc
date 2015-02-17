@@ -35,17 +35,11 @@ module Base::ViewAttributeHandler
           @report_styles = get_report_styles
         elsif name == :title
           @title = options[name]
-        elsif name == :deleted_types
-          @deleted_types = get_deleted_types
         end
       end
     end
   end
     
-  def get_deleted_types
-    deleted_types
-  end
-
   def get_accounts(options = {})
     if options[:conditions]
       Account.where(options[:conditions]).where(:journalizable => true)
@@ -53,11 +47,11 @@ module Base::ViewAttributeHandler
       Account.get_journalizable_accounts
     end
   end
-  
+
   def get_banks(options = {})
     Bank.all
   end
-  
+
   def load_bank_offices(bank_id, options={})
     BankOffice.where(:bank_id => bank_id)
   end

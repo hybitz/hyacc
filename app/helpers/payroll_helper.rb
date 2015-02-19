@@ -93,33 +93,11 @@ module PayrollHelper
       # 端数対応（折半額の端数は個人負担）
       payroll.pension = (pension.welfare_pension_insurance_half - 0.01).round
       
-      withheld_tax = WithheldTax.find_by_ym_and_pay(ym, payroll.after_insurance_deduction)
-      # 従業員マスタより取得する TODO
-      # 対象月の末日を取得
+      # 対象月の末日の扶養家族の人数から源泉徴収税額を取得
       day = Date.new(ym.to_i/100, ym.to_i%100,-1)
       e = Employee.find(employee_id)
-      income_tax = 0
-      case e.num_of_dependent(day)
-      when 0
-        income_tax = withheld_tax.no_dependent
-      when 1
-        income_tax = withheld_tax.one_dependent
-      when 2
-        income_tax = withheld_tax.two_dependent
-      when 3
-        income_tax = withheld_tax.three_dependent
-      when 4
-        income_tax = withheld_tax.four_dependent
-      when 5
-        income_tax = withheld_tax.five_dependent
-      when 6
-        income_tax = withheld_tax.six_dependent
-      when 7
-        income_tax = withheld_tax.seven_dependent
-      else
-        raise 'TODO 7人以上は1人を超えるごとに¥1,580＋'
-      end
-      payroll.income_tax = income_tax
+      
+      payroll.income_tax = WithheldTax.find_by_ym_and_pay_and_dependent(ym, payroll.after_insurance_deduction, e.num_of_dependent(day))
     end
     
     return payroll

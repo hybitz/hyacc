@@ -1,0 +1,17 @@
+<script>
+  $(document).ready(function() {
+    $('#finder_report_type').change(function() {
+        if($(this).val() == <%= HyaccConstants::REPORT_TYPE_WITHHOLDING_SUMMARY %>){
+            $('#finder_employee_id').val("");
+        }
+    }).change();
+    
+    $('#finder_employee_id').change(function() {
+        if($(this).val() == ""){
+            $('#finder_report_type').val(<%= HyaccConstants::REPORT_TYPE_WITHHOLDING_SUMMARY %>);
+        }else{
+            $('#finder_report_type').val(<%= HyaccConstants::REPORT_TYPE_WITHHOLDING_DETAILS %>);
+        }
+    }).change();
+  });
+</script>

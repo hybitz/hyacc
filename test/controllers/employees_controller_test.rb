@@ -45,7 +45,7 @@ class EmployeesControllerTest < ActionController::TestCase
   end
 
   def test_他の従業員を削除
-    assert @employee = Employee.where('id <> ?', user.employee_id).first
+    assert @employee = Employee.where('id <> ?', user.employee.id).first
 
     sign_in user
     delete :destroy, :id => @employee.id
@@ -54,10 +54,8 @@ class EmployeesControllerTest < ActionController::TestCase
   end
 
   def test_自分を削除
-    assert @employee = Employee.where('id = ?', user.employee_id).first
-
     sign_in user
-    delete :destroy, :id => @employee.id
+    delete :destroy, :id => user.employee.id
     assert_response :redirect
     assert_redirected_to root_path
   end

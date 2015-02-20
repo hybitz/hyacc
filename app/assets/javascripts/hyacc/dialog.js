@@ -1,8 +1,8 @@
 if (typeof hyacc === "undefined") {
   var hyacc = {
     _dialogs: new Stack(),
-    current_dialog: function() {
-      return this._dialogs.top();
+    current_dialog: function(options) {
+      return this._dialogs.top() || new hyacc.Dialog(options);
     }
   };
 }
@@ -10,6 +10,10 @@ if (typeof hyacc === "undefined") {
 hyacc.Dialog = function(options) {
   this.options = options || {};
   hyacc._dialogs.push(this);
+};
+
+hyacc.Dialog.prototype.title = function() {
+  return this.options.title;
 };
 
 hyacc.Dialog.prototype.open = function(url) {
@@ -20,15 +24,19 @@ hyacc.Dialog.prototype.open = function(url) {
 };
 
 hyacc.Dialog.prototype.show = function(html) {
-  var that = this;
-  this.jq_dialog = $('<div>' + html + '</div>').dialog({
-    modal: true,
-    title: that.options.title,
-    width: that.options.width || 'auto',
-    close: function() {
-      that.close();
-    }
-  });
+  if (this.jq_dialog) {
+    this.jq_dialog.html(html);
+  } else {
+    var that = this;
+    this.jq_dialog = $('<div>' + html + '</div>').dialog({
+      modal: true,
+      title: that.title(),
+      width: that.options.width || 'auto',
+      close: function() {
+        that.close();
+      }
+    });
+  }
 };
 
 hyacc.Dialog.prototype.close = function() {

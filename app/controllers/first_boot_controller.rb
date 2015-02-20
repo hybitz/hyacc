@@ -49,15 +49,18 @@ class FirstBootController < ApplicationController
 
     @c.transaction do
       @c.save!
+
       @fy.company_id = @c.id
       @fy.save!
+
       @b.company_id = @c.id
       @b.save!
-      @u.company_id = @c.id
-      @u.save!
+
       @e.company_id = @c.id
-      @e.users << @u
-      @e.save!
+      @u.company_id = @c.id
+      @u.employee = @e
+      @u.save!
+
       @be.branch_id = @b.id
       @be.employee_id = @e.id
       @be.save!

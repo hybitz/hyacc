@@ -1,9 +1,3 @@
-<%#
-# $Id: confirm_carry_forward.js.erb 3297 2014-01-24 13:28:32Z ichy $
-# Product: hyacc
-# Copyright 2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
-
 var html = '<%=j render 'confirm_carry_forward' %>';
-new hyacc.Dialog({title: '繰越'}).show(html);
+
+hyacc.current_dialog({title: '繰越'}).show(html);

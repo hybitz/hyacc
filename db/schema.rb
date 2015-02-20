@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150215123241) do
+ActiveRecord::Schema.define(version: 20150220043942) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -262,6 +262,7 @@ ActiveRecord::Schema.define(version: 20150215123241) do
     t.datetime "updated_at"
     t.integer  "business_office_id"
     t.date     "birth"
+    t.integer  "user_id"
   end
 
   create_table "exemptions", force: true do |t|
@@ -501,7 +502,6 @@ ActiveRecord::Schema.define(version: 20150215123241) do
     t.boolean  "deleted",                      default: false, null: false
     t.string   "google_account"
     t.string   "crypted_google_password"
-    t.integer  "employee_id"
     t.integer  "account_count_of_frequencies", default: 10,    null: false
     t.string   "yahoo_api_app_id"
     t.boolean  "show_details",                 default: true,  null: false

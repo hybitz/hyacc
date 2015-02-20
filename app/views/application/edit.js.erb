@@ -1,3 +1,4 @@
 var title = '<%= @title.present? ? @title + '　編集' : '編集' %>';
 var html = '<%=j render 'form' %>';
-new hyacc.Dialog({title: title}).show(html);
+
+hyacc.current_dialog({title: title}).show(html);

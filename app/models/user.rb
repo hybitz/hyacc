@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   belongs_to :company
 
-  belongs_to :employee
+  has_one :employee
   accepts_nested_attributes_for :employee
 
   has_one_time_password

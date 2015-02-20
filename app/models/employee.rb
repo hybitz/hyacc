@@ -2,8 +2,8 @@ class Employee < ActiveRecord::Base
   include HyaccErrors
   include HyaccConstants
   
+  belongs_to :user
   belongs_to :company
-  has_many :users, :dependent => :destroy
   belongs_to :business_office
 
   has_many :employee_histories, :dependent => :destroy

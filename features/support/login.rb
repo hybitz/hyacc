@@ -2,9 +2,9 @@ module Login
 
   def sign_in(options = {})
     if options[:login_id]
-      @_current_user = User.where(:login_id => options[:login_id]).not_deleted.first!
+      assert @_current_user = User.where(:login_id => options[:login_id]).not_deleted.first
     elsif options[:name]
-      @_current_user = Employee.name_is(options[:name]).where(:deleted => false).first!.users.where(:deleted => false).first!
+      assert @_current_user = Employee.name_is(options[:name]).not_deleted.first.user
     else
       fail "未知のユーザ情報です。options=#{options}"
     end

@@ -181,7 +181,7 @@ module Auto::Journal
       journal_details[num_of_details][:detail_no] = num_of_details
       journal_details[num_of_details][:dc_type] = DC_TYPE_CREDIT
       journal_details[num_of_details][:account_id] = Account.get_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE).id
-      journal_details[num_of_details][:sub_account_id] = employee.users.first.id 
+      journal_details[num_of_details][:sub_account_id] = employee.user_id 
       journal_details[num_of_details][:branch_id] = branch_id
       journal_details[num_of_details][:amount] = 0
       journal_details[num_of_details][:note] = "振り込み予定額"
@@ -249,7 +249,7 @@ module Auto::Journal
         journal_details[num_of_details][:detail_no] = num_of_details
         journal_details[num_of_details][:dc_type] = DC_TYPE_DEBIT
         journal_details[num_of_details][:account_id] = Account.get_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE).id
-        journal_details[num_of_details][:sub_account_id] = employee.users.first.id
+        journal_details[num_of_details][:sub_account_id] = employee.user_id
         journal_details[num_of_details][:branch_id] = branch_id
         journal_details[num_of_details][:amount] = @payroll.transfer_payment
         journal_details[num_of_details][:note] = "役員報酬"
@@ -263,7 +263,7 @@ module Auto::Journal
         journal_details[num_of_details][:dc_type] = DC_TYPE_DEBIT
         account = Account.get_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE)
         journal_details[num_of_details][:account_id] = account.id
-        journal_details[num_of_details][:sub_account_id] = employee.users.first.id
+        journal_details[num_of_details][:sub_account_id] = employee.user_id
         journal_details[num_of_details][:branch_id] = branch_id
         journal_details[num_of_details][:amount] = @payroll.accrued_liability
         journal_details[num_of_details][:note] = "立替費用の精算"

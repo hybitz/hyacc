@@ -1,7 +1,6 @@
 first:
   id: 1
   company_id: 1
-  employee_id: 1
   login_id: user1
   slips_per_page: 180
   email: user1@example.com
@@ -12,7 +11,6 @@ first:
 user2:
   id: 2
   company_id: 1
-  employee_id: 2
   login_id: user2
   slips_per_page: 20
   email: user2@example.com
@@ -23,7 +21,6 @@ user2:
 user3:
   id: 3
   company_id: 2
-  employee_id: 3
   login_id: user3
   slips_per_page: 10
   email: user3@example.com
@@ -34,7 +31,6 @@ user3:
 user4:
   id: 4
   company_id: 3
-  employee_id: 4
   login_id: user4
   slips_per_page: 30
   email: user4@example.com
@@ -45,7 +41,6 @@ user4:
 user5:
   id: 5
   company_id: 4
-  employee_id: 4
   login_id: user5
   slips_per_page: 30
   email: user5@example.com
@@ -56,7 +51,6 @@ user5:
 user6:
   id: 6
   company_id: 1
-  employee_id: 6
   login_id: user6
   slips_per_page: 30
   email: user6@example.com

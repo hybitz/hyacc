@@ -45,6 +45,32 @@ class WithheldTax < ActiveRecord::Base
     ret
   end
   
+  def WithheldTax.find_by_ym_and_pay_and_dependent(ym, pay, dependent)
+    withheld_tax = WithheldTax.find_by_ym_and_pay(ym, pay)
+    income_tax = 0
+    case dependent
+    when 0
+      income_tax = withheld_tax.no_dependent
+    when 1
+      income_tax = withheld_tax.one_dependent
+    when 2
+      income_tax = withheld_tax.two_dependent
+    when 3
+      income_tax = withheld_tax.three_dependent
+    when 4
+      income_tax = withheld_tax.four_dependent
+    when 5
+      income_tax = withheld_tax.five_dependent
+    when 6
+      income_tax = withheld_tax.six_dependent
+    when 7
+      income_tax = withheld_tax.seven_dependent
+    else
+      raise 'TODO 7人以上は1人を超えるごとに¥1,580＋'
+    end
+    return income_tax
+  end
+  
   def init
     self.no_dependent = 0
     self.one_dependent = 0

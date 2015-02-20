@@ -31,7 +31,9 @@ module PayrollInfo
     # みなし給与
     def get_total_deemed_salary
       deemed_salary = get_total_base_salary
+      deemed_salary = 0 if deemed_salary.blank?
       deemed_salary = (deemed_salary/4000).to_i * 4000 if deemed_salary >= 1_628_000 && deemed_salary <= 6_599_999
+      deemed_salary
     end
     # 給与所得控除額
     def get_deduction

@@ -63,4 +63,8 @@ class PayrollFinder < Base::Finder
     ret
   end
   
+  def get_net_sum(account_code)
+    super( account_code )
+  end
+  
 end

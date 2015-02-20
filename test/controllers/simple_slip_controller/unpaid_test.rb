@@ -172,4 +172,15 @@ class SimpleSlipController::UnpaidTest < ActionController::TestCase
     assert_equal( nil, jh.journal_details[1].sub_account_id )
   end
 
+  def test_一覧表示
+    get :list,
+      :account_code => ACCOUNT_CODE_UNPAID_EMPLOYEE,
+      :finder=> {
+        "ym"=>"",
+        "remarks"=>"",
+        "sub_account_id"=>1,
+        "branch_id"=>2
+      }
+    assert_response :success
+  end
 end

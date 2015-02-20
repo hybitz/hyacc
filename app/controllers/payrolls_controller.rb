@@ -38,6 +38,11 @@ class PayrollsController < Base::HyaccController
       @payroll.pay_day = get_pay_day(ym, finder.employee_id).strftime("%Y-%m-%d")
       # 表示対象ユーザID
       @payroll.employee_id = finder.employee_id
+      # 従業員への未払費用
+      finder = Slips::SlipFinder.new(current_user)
+      finder.sub_account_id = finder.employee_id
+      finder.account_code = ACCOUNT_CODE_UNPAID_EMPLOYEE
+      @payroll.accrued_liability = finder.get_net_sum()
     end
   end
   

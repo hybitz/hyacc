@@ -1,3 +1,21 @@
 <br />
-
-給与所得の源泉徴収等の法定調書合計表
+<div  style="margin: 10px;">
+    <table class="none_border" width="500">
+      <tr>
+        <td class="none_border" align="center"><b><%= Gengou.to_wareki(@data.calendar_year) %>年分　給与所得の源泉徴収等の法定調書合計表</b></td>
+      </tr>
+    </table>
+    <br/>
+    <table width="500">
+        <tr>
+            <td style="background-color: lightgrey;">#</td>
+            <td style="background-color: lightgrey;">支払金額</td>
+            <td style="background-color: lightgrey;">源泉徴収税額</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td><%= number_to_currency(@data.total_salary, :format=>"%n") %></td>
+            <td><%= number_to_currency(@data.withholding_tax, :format=>"%n") %></td>
+          </tr>
+      </table>
+</div>

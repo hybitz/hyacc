@@ -12,7 +12,8 @@ module WithholdingSlips
   def summary_finder
     {
       :report_type => REPORT_TYPE_WITHHOLDING_SUMMARY,
-      :employee_id => 1
+      :employee_id => 1,
+      :calendar_year => 2008
     }
   end
   

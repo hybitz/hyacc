@@ -5,6 +5,7 @@ class Company < ActiveRecord::Base
   has_many :branches
   has_many :business_offices
   has_many :users
+  has_many :employees
   has_many :fiscal_years
   
   mount_uploader :logo, LogoUploader

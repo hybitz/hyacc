@@ -157,6 +157,7 @@ module Base::ViewAttributeHandler
       types = [
         REPORT_TYPE_WITHHOLDING_SUMMARY,
         REPORT_TYPE_WITHHOLDING_DETAILS,
+        REPORT_TYPE_WITHHOLDING_CALC,
       ]
     else
       raise HyaccException.new(ERR_INVALID_ACTION)

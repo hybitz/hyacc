@@ -19,6 +19,8 @@ class WithholdingSlipController < Base::HyaccController
          else
            render :index
          end
+      when REPORT_TYPE_WITHHOLDING_CALC
+        render_withholding_calc
       end
     rescue => e
       handle(e)
@@ -51,5 +53,11 @@ class WithholdingSlipController < Base::HyaccController
       @finder = finder
       render :no_exemption
     end
+  end
+  
+  def render_withholding_calc
+    logic = Reports::WithholdingCalcLogic.new(finder)
+    @data = logic.get_withholding_info
+    render :withholding_calc
   end
 end

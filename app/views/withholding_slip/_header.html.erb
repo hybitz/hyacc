@@ -1,7 +1,7 @@
 <script>
   $(document).ready(function() {
     $('#finder_report_type').change(function() {
-        if($(this).val() == <%= HyaccConstants::REPORT_TYPE_WITHHOLDING_SUMMARY %>){
+        if($(this).val() == <%= HyaccConstants::REPORT_TYPE_WITHHOLDING_SUMMARY %> || $(this).val() == <%= HyaccConstants::REPORT_TYPE_WITHHOLDING_CALC %>){
             $('#finder_employee_id').val("");
         }
     }).change();

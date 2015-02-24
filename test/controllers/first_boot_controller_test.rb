@@ -15,7 +15,7 @@ class FirstBootControllerTest < ActionController::TestCase
 
     get :index
     assert_response :redirect
-    assert_redirected_to new_user_session_path
+    assert_redirected_to root_path
   end
 
   def test_個人事業主として登録

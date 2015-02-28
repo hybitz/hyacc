@@ -12,6 +12,10 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
   def test_get_total_base_salary
     assert_equal 2653000, @logic.get_total_base_salary
   end
+  
+  def test_get_base_salarys
+    assert_equal 349000, @logic.get_base_salarys[200805]
+  end
 
   def test_get_deduction
     assert_equal 975600, @logic.get_deduction
@@ -30,5 +34,8 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     # (2652000 - 975600 - 1074955)/1000 * 1000 * 0.05 /100 *100
     assert_equal 30000, @logic.get_withholding_tax
   end
-
+  
+  def test_get_withholding_taxes
+    assert_equal 8970, @logic.get_withholding_taxes[200805]
+  end
 end

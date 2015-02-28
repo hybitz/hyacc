@@ -1,3 +1,6 @@
+self:
+  first_boot: true
+
 current_company:
   debts: branch_mode
   deemed_taxes: tax_simplified?

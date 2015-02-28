@@ -1,4 +1,7 @@
 class WelcomeController < Base::HyaccController
+  include FirstBoot
+  before_action :authenticate_user!
+
   view_attribute :title => 'トップ'
   
   def index

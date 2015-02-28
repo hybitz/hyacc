@@ -1,8 +1,38 @@
 <br />
 <div  style="margin: 10px;">
-    <table class="none_border" width="900">
+    <table class="none_border" width="400">
       <tr>
         <td class="none_border" align="center"><b><%= Gengou.to_wareki(@data.calendar_year) %>年分　給与所得・退職所得等の所得税徴収高計算書</b></td>
       </tr>
+    </table>
+    <br/>
+    <table width="400">
+      <tr style="background-color: lightgrey;">
+          <td>年月</td>
+          <td>支払金額</td>
+          <td>源泉徴収税額</td>
+      </tr>
+  <% 12.times do |idx| %>
+    <tr class="hover">
+      <td><%= @data.calendar_year %>(<%= Gengou.to_wareki(@data.calendar_year) %>)年<%= format("%02d", idx + 1) %>月</td>
+      <td><%= number_to_currency(@data.total_salarys[(@data.calendar_year.to_s + format("%02d", idx + 1)).to_i], :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_taxes[(@data.calendar_year.to_s + format("%02d", idx + 1)).to_i], :format=>"%n") %></td>
+    </tr>
+  <% end %>
+    <tr class="hover">
+      <td>上期合計</td>
+      <td><%= number_to_currency(@data.total_salary_1H, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_1H, :format=>"%n") %></td>
+    </tr>
+    <tr class="hover">
+      <td>下期合計</td>
+      <td><%= number_to_currency(@data.total_salary_2H, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_2H, :format=>"%n") %></td>
+    </tr>
+    <tr class="hover">
+      <td>通期合計</td>
+      <td><%= number_to_currency(@data.total_salary_FY, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_FY, :format=>"%n") %></td>
+    </tr>
     </table>
 </div>

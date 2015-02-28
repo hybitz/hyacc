@@ -28,6 +28,26 @@ module PayrollInfo
       return total_base_salary
     end
     
+    # 支払金額
+    def get_base_salarys
+      salarys = {}
+      
+      # calendar_year期間に支払われた給与明細を取得
+      list = Payroll.joins(:pay_journal_headers).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
+      
+      list.each do |p|
+        # 給与
+        p.payroll_journal_headers.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+          salarys[p.pay_journal_headers.ym] = salarys.has_key?(p.pay_journal_headers.ym) ? salarys[p.pay_journal_headers.ym] + d.amount : d.amount
+        end
+        # 賞与
+        p.payroll_journal_headers.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
+          salarys[p.pay_journal_headers.ym] = salarys.has_key?(p.pay_journal_headers.ym) ? salarys[p.pay_journal_headers.ym] + d.amount : d.amount
+        end
+      end
+      return salarys
+    end
+    
     # みなし給与
     def get_total_deemed_salary
       deemed_salary = get_total_base_salary
@@ -153,6 +173,24 @@ module PayrollInfo
         
       end
       return total_expense
+    end
+    
+    # 源泉所得税
+    def get_withholding_taxes
+      withholding_taxes = {}
+      
+      # calendar_year期間に支払われた給与明細を取得
+      list = Payroll.joins(:pay_journal_headers).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
+      list.each do |p|
+        # 給与
+        p.payroll_journal_headers.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
+                                                        :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED),
+                                                        :dc_type => DC_TYPE_CREDIT).each do |d|
+          withholding_taxes[p.pay_journal_headers.ym] = withholding_taxes.has_key?(p.pay_journal_headers.ym) ? withholding_taxes[p.pay_journal_headers.ym] + d.amount : d.amount
+        end
+      end
+      return withholding_taxes
+      
     end
   end
 end

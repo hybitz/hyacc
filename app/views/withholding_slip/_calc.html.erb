@@ -8,15 +8,18 @@
     <br/>
     <table width="400">
       <tr style="background-color: lightgrey;">
+          <td colspan="3">給与</td>
+      </tr>
+      <tr style="background-color: lightgrey;">
           <td>年月</td>
           <td>支払金額</td>
           <td>源泉徴収税額</td>
       </tr>
-  <% 12.times do |idx| %>
+  <% @data.total_salarys.each do |yyyymmdd, amoount| %>
     <tr class="hover">
-      <td><%= @data.calendar_year %>(<%= Gengou.to_wareki(@data.calendar_year) %>)年<%= format("%02d", idx + 1) %>月</td>
-      <td><%= number_to_currency(@data.total_salarys[(@data.calendar_year.to_s + format("%02d", idx + 1)).to_i], :format=>"%n") %></td>
-      <td><%= number_to_currency(@data.withholding_taxes[(@data.calendar_year.to_s + format("%02d", idx + 1)).to_i], :format=>"%n") %></td>
+      <td><%= @data.calendar_year %>(<%= Gengou.to_wareki(@data.calendar_year) %>)年<%= yyyymmdd.slice(4, 2) %>月<%= yyyymmdd.slice(6, 2) %>日</td>
+      <td><%= number_to_currency(@data.total_salarys[yyyymmdd], :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_taxes[yyyymmdd], :format=>"%n") %></td>
     </tr>
   <% end %>
     <tr class="hover">
@@ -29,10 +32,35 @@
       <td><%= number_to_currency(@data.total_salary_2H, :format=>"%n") %></td>
       <td><%= number_to_currency(@data.withholding_tax_2H, :format=>"%n") %></td>
     </tr>
+  <% if @data.total_bonuses.length > 0 %>
+    <tr style="background-color: lightgrey;">
+        <td colspan="3">賞与</td>
+    </tr>
+    <% @data.total_bonuses.each do |yyyymmdd, bonus| %>
     <tr class="hover">
-      <td>通期合計</td>
-      <td><%= number_to_currency(@data.total_salary_FY, :format=>"%n") %></td>
-      <td><%= number_to_currency(@data.withholding_tax_FY, :format=>"%n") %></td>
+      <td><%= @data.calendar_year %>(<%= Gengou.to_wareki(@data.calendar_year) %>)年<%= yyyymmdd.slice(4, 2) %>月<%= yyyymmdd.slice(6, 2) %>日</td>
+      <td><%= number_to_currency(@data.total_bonuses[yyyymmdd], :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_taxes_of_bonus[yyyymmdd], :format=>"%n") %></td>
+    </tr>
+    <% end %>
+    <tr class="hover">
+      <td>上期合計</td>
+      <td><%= number_to_currency(@data.total_bonus_1H, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_of_bonus_1H, :format=>"%n") %></td>
+    </tr>
+    <tr class="hover">
+      <td>下期合計</td>
+      <td><%= number_to_currency(@data.total_bonus_2H, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_of_bonus_2H, :format=>"%n") %></td>
+    </tr>
+    <tr style="background-color: lightgrey;">
+        <td colspan="3">合計</td>
+    </tr>
+  <% end %>
+    <tr class="hover">
+      <td>通期合計（給与＋賞与）</td>
+      <td><%= number_to_currency(@data.total_salary_FY + @data.total_bonus_FY, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_FY + @data.withholding_tax_of_bonus_FY, :format=>"%n") %></td>
     </tr>
     </table>
 </div>

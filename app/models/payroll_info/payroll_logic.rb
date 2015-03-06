@@ -28,25 +28,40 @@ module PayrollInfo
       return total_base_salary
     end
     
-    # 支払金額
+    # 支払金額(給与)
     def get_base_salarys
       salarys = {}
+      
+      # calendar_year期間に支払われた給与明細を取得
+      list = Payroll.joins(:pay_journal_headers).where("journal_headers.ym like ?",  @calendar_year.to_s + '%').order("journal_headers.ym, journal_headers.day")
+      
+      list.each do |p|
+        # 給与
+        p.payroll_journal_headers.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+          yyyymmdd = p.pay_journal_headers.ym.to_s + format("%02d", p.pay_journal_headers.day)
+          salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
+        end
+      end
+      return salarys
+    end
+    
+    # 支払金額(賞与)
+    def get_base_bonuses
+      bonuses = {}
       
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.joins(:pay_journal_headers).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
       
       list.each do |p|
-        # 給与
-        p.payroll_journal_headers.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
-          salarys[p.pay_journal_headers.ym] = salarys.has_key?(p.pay_journal_headers.ym) ? salarys[p.pay_journal_headers.ym] + d.amount : d.amount
-        end
         # 賞与
         p.payroll_journal_headers.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
-          salarys[p.pay_journal_headers.ym] = salarys.has_key?(p.pay_journal_headers.ym) ? salarys[p.pay_journal_headers.ym] + d.amount : d.amount
+          yyyymmdd = p.pay_journal_headers.ym.to_s + format("%02d", p.pay_journal_headers.day)
+          bonuses[yyyymmdd] = bonuses.has_key?(yyyymmdd) ? bonuses[yyyymmdd] + d.amount : d.amount
         end
       end
-      return salarys
+      return bonuses
     end
+    
     
     # みなし給与
     def get_total_deemed_salary
@@ -175,22 +190,42 @@ module PayrollInfo
       return total_expense
     end
     
+    # 源泉所得税(給与)
+    def get_withholding_taxes_salary
+      return get_withholding_taxes(false)
+    end
+    
+    # 源泉所得税(賞与)
+    def get_withholding_taxes_of_bonus
+      return get_withholding_taxes(true)
+    end
+
     # 源泉所得税
-    def get_withholding_taxes
-      withholding_taxes = {}
+    def get_withholding_taxes(is_bonus = nil)
+      conditions = ""
+      unless is_bonus.nil?
+        if is_bonus
+          conditions = " and is_bonus = true"
+        else
+          conditions = " and is_bonus = false"
+        end
+      end
       
+      withholding_taxes = {}
       # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.joins(:pay_journal_headers).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
+      list = Payroll.joins(:pay_journal_headers).where("journal_headers.ym like ?" + conditions,  @calendar_year.to_s + '%').order("journal_headers.ym, journal_headers.day")
       list.each do |p|
-        # 給与
+        # 賞与
         p.payroll_journal_headers.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED),
                                                         :dc_type => DC_TYPE_CREDIT).each do |d|
-          withholding_taxes[p.pay_journal_headers.ym] = withholding_taxes.has_key?(p.pay_journal_headers.ym) ? withholding_taxes[p.pay_journal_headers.ym] + d.amount : d.amount
+          yyyymmdd = p.pay_journal_headers.ym.to_s + format("%02d", p.pay_journal_headers.day)
+          withholding_taxes[yyyymmdd] = withholding_taxes.has_key?(yyyymmdd) ? withholding_taxes[yyyymmdd] + d.amount : d.amount
         end
       end
       return withholding_taxes
-      
     end
+
+    
   end
 end

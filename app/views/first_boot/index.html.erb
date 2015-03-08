@@ -32,6 +32,9 @@
         <th>性別</th><td><%= select(:e, :sex, sex_types ) %></td>
       </tr>
       <tr>
+        <th>生年月日</th><td><%= text_field :e, :birth, :class => 'datepicker' %></td>
+      </tr>
+      <tr>
         <th>ログインID</th><td><%= text_field :u, :login_id %></td>
       </tr>
       <tr>

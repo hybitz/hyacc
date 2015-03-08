@@ -70,11 +70,7 @@ class FirstBootController < ApplicationController
       load_simple_slip_settings
     end
 
-    redirect_to :action => 'show', :id => @c.id
-  end
-
-  def show
-    @company = Company.find(params[:id])
+    redirect_to root_path
   end
 
   private

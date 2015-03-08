@@ -56,7 +56,7 @@ Rails.application.routes.draw do
 
   resources :financial_return_statements, :only => 'index'
   resources :financial_statements, :only => 'index'
-  resources :first_boot, :only => ['index', 'show', 'create']
+  resources :first_boot, :only => ['index', 'create']
 
   resources :fiscal_years do
     collection do

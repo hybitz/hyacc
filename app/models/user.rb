@@ -58,6 +58,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def need_two_factor_authentication?(request)
+    self.use_two_factor_authentication?
+  end
+
   def send_two_factor_authentication_code
     LoginMailer.invoice_login(self).deliver
   end

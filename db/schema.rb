@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220043942) do
+ActiveRecord::Schema.define(version: 20150309113636) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -494,22 +494,22 @@ ActiveRecord::Schema.define(version: 20150220043942) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "login_id",                     default: "",    null: false
-    t.integer  "company_id",                   default: 0,     null: false
-    t.string   "email",                        default: ""
-    t.integer  "slips_per_page",               default: 20
-    t.string   "salt",                         default: "",    null: false
-    t.boolean  "deleted",                      default: false, null: false
+    t.string   "login_id",                      default: "",    null: false
+    t.integer  "company_id",                    default: 0,     null: false
+    t.string   "email",                         default: ""
+    t.integer  "slips_per_page",                default: 20
+    t.string   "salt",                          default: "",    null: false
+    t.boolean  "deleted",                       default: false, null: false
     t.string   "google_account"
     t.string   "crypted_google_password"
-    t.integer  "account_count_of_frequencies", default: 10,    null: false
+    t.integer  "account_count_of_frequencies",  default: 10,    null: false
     t.string   "yahoo_api_app_id"
-    t.boolean  "show_details",                 default: true,  null: false
-    t.string   "encrypted_password",           default: "",    null: false
+    t.boolean  "show_details",                  default: true,  null: false
+    t.string   "encrypted_password",            default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                default: 0,     null: false
+    t.integer  "sign_in_count",                 default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -517,7 +517,8 @@ ActiveRecord::Schema.define(version: 20150220043942) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "otp_secret_key"
-    t.integer  "second_factor_attempts_count", default: 0
+    t.integer  "second_factor_attempts_count",  default: 0
+    t.boolean  "use_two_factor_authentication", default: false, null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

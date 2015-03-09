@@ -50,5 +50,5 @@ end
   capture
 
   click_on 'ログイン'
-  # TODO
+  assert_url '/$'
 end

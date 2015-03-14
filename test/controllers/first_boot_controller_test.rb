@@ -29,7 +29,7 @@ class FirstBootControllerTest < ActionController::TestCase
 
     assert @c = assigns(:c)
     assert_response :redirect
-    assert_redirected_to :action => 'show', :id => @c.id
+    assert_redirected_to root_path
   end
 
   def test_株式会社として登録
@@ -43,7 +43,7 @@ class FirstBootControllerTest < ActionController::TestCase
 
     assert @c = assigns(:c)
     assert_response :redirect
-    assert_redirected_to :action => 'show', :id => @c.id
+    assert_redirected_to root_path
   end
 
   def test_登録_入力エラー

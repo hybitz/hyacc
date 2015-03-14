@@ -7,6 +7,7 @@ first:
   encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
   otp_secret_key: <%= ROTP::Base32.random_base32 %>
+  use_two_factor_authentication: true
 
 user2:
   id: 2
@@ -16,7 +17,6 @@ user2:
   email: user2@example.com
   encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
-  otp_secret_key: <%= ROTP::Base32.random_base32 %>
   
 user3:
   id: 3
@@ -27,6 +27,7 @@ user3:
   encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
   otp_secret_key: <%= ROTP::Base32.random_base32 %>
+  use_two_factor_authentication: true
 
 user4:
   id: 4
@@ -36,7 +37,6 @@ user4:
   email: user4@example.com
   encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
-  otp_secret_key: <%= ROTP::Base32.random_base32 %>
 
 user5:
   id: 5
@@ -46,7 +46,6 @@ user5:
   email: user5@example.com
   encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
-  otp_secret_key: <%= ROTP::Base32.random_base32 %>
 
 user6:
   id: 6
@@ -56,4 +55,3 @@ user6:
   email: user6@example.com
   encrypted_password: '$2a$10$L2V/vSv7krkbDOAd8Ay6XuwOlis9VURVNjtNedf/6/AiLPh3SA5K2'
   salt: 0.158920068742378
-  otp_secret_key: <%= ROTP::Base32.random_base32 %>

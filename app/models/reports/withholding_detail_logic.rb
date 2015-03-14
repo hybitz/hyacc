@@ -54,10 +54,11 @@ module Reports
       return logic.get_withholding_tax
     end
     
-    # 社会保険料等の金額
+    # 社会保険料等の金額(健康保険料＋社会保険料＋小規模共済)
     def get_social_insurance
       logic = PayrollInfo::PayrollLogic.new(@finder)
-      return logic.get_health_insurance + logic.get_employee_pention
+      e = logic.get_exemptions
+      return logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid
     end
     
     # 生命保険料の控除額

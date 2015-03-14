@@ -14,8 +14,12 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
   end
   
   def test_get_base_salarys
-    assert_equal 349000, @logic.get_base_salarys[200805]
+    assert_equal 349000, @logic.get_base_salarys["20080507"]
   end
+  
+  #def test_get_base_bonuses
+  #  assert_equal 349000, @logic.get_base_salarys[200805]
+  #end
 
   def test_get_deduction
     assert_equal 975600, @logic.get_deduction
@@ -36,6 +40,6 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
   end
   
   def test_get_withholding_taxes
-    assert_equal 8970, @logic.get_withholding_taxes[200805]
+    assert_equal 8970, @logic.get_withholding_taxes["20080507"]
   end
 end

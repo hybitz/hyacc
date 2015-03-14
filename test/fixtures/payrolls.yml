@@ -151,3 +151,471 @@ payroll_00065:
   credit_account_type_of_pension: "0"
   credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
+payroll_00125: 
+  id: 125
+  ym: 201201
+  payroll_journal_header_id: 15162
+  pay_journal_header_id: 15163
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-02-02 04:09:49.000000000 Z
+  updated_at: 2012-05-17 22:32:41.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00126: 
+  id: 126
+  ym: 201201
+  payroll_journal_header_id: 14404
+  pay_journal_header_id: 14405
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-02-02 04:36:39.000000000 Z
+  updated_at: 2012-02-02 04:36:39.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00127: 
+  id: 127
+  ym: 201202
+  payroll_journal_header_id: 15160
+  pay_journal_header_id: 15161
+  days_of_work: 29
+  hours_of_work: 232
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-02-29 14:26:30.000000000 Z
+  updated_at: 2012-05-17 22:32:05.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00128: 
+  id: 128
+  ym: 201202
+  payroll_journal_header_id: 14577
+  pay_journal_header_id: 14578
+  days_of_work: 29
+  hours_of_work: 232
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-03-01 03:42:32.000000000 Z
+  updated_at: 2012-03-01 03:42:32.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00129: 
+  id: 129
+  ym: 201201
+  payroll_journal_header_id: 14247
+  pay_journal_header_id: 14250
+  days_of_work: 0
+  hours_of_work: 0
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-03-10 11:26:54.000000000 Z
+  updated_at: 2012-03-10 11:26:54.000000000 Z
+  employee_id: 2
+  is_bonus: true
+payroll_00130: 
+  id: 130
+  ym: 201201
+  payroll_journal_header_id: 14248
+  pay_journal_header_id: 14249
+  days_of_work: 0
+  hours_of_work: 0
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-03-10 11:26:54.000000000 Z
+  updated_at: 2012-03-10 11:26:54.000000000 Z
+  employee_id: 1
+  is_bonus: true
+payroll_00131: 
+  id: 131
+  ym: 201203
+  payroll_journal_header_id: 15158
+  pay_journal_header_id: 15159
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-03-30 21:54:52.000000000 Z
+  updated_at: 2012-05-17 22:31:33.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00132: 
+  id: 132
+  ym: 201203
+  payroll_journal_header_id: 14774
+  pay_journal_header_id: 14775
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-04-01 18:52:15.000000000 Z
+  updated_at: 2012-04-01 18:52:15.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00133: 
+  id: 133
+  ym: 201204
+  payroll_journal_header_id: 15055
+  pay_journal_header_id: 15056
+  days_of_work: 30
+  hours_of_work: 240
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-04-28 22:04:33.000000000 Z
+  updated_at: 2012-04-28 22:04:33.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00134: 
+  id: 134
+  ym: 201204
+  payroll_journal_header_id: 15156
+  pay_journal_header_id: 15157
+  days_of_work: 30
+  hours_of_work: 240
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-04-30 11:55:04.000000000 Z
+  updated_at: 2012-05-17 22:29:39.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00135: 
+  id: 135
+  ym: 201205
+  payroll_journal_header_id: 15257
+  pay_journal_header_id: 15258
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-05-29 18:33:35.000000000 Z
+  updated_at: 2012-05-29 18:33:35.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00136: 
+  id: 136
+  ym: 201205
+  payroll_journal_header_id: 15307
+  pay_journal_header_id: 15308
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-06-02 05:50:52.000000000 Z
+  updated_at: 2012-06-02 05:50:52.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00137: 
+  id: 137
+  ym: 201206
+  payroll_journal_header_id: 15446
+  pay_journal_header_id: 15447
+  days_of_work: 30
+  hours_of_work: 240
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-07-01 18:26:29.000000000 Z
+  updated_at: 2012-07-01 18:26:29.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00138: 
+  id: 138
+  ym: 201206
+  payroll_journal_header_id: 15478
+  pay_journal_header_id: 15479
+  days_of_work: 30
+  hours_of_work: 240
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-07-04 14:00:52.000000000 Z
+  updated_at: 2012-07-04 14:00:52.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00139: 
+  id: 139
+  ym: 201207
+  payroll_journal_header_id: 15661
+  pay_journal_header_id: 15662
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-08-04 22:31:26.000000000 Z
+  updated_at: 2012-08-04 22:31:26.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00140: 
+  id: 140
+  ym: 201207
+  payroll_journal_header_id: 15690
+  pay_journal_header_id: 15691
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-08-05 02:15:05.000000000 Z
+  updated_at: 2012-08-05 02:15:05.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00141: 
+  id: 141
+  ym: 201208
+  payroll_journal_header_id: 15836
+  pay_journal_header_id: 15837
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-08-30 15:14:46.000000000 Z
+  updated_at: 2012-08-30 15:14:46.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00142: 
+  id: 142
+  ym: 201208
+  payroll_journal_header_id: 15921
+  pay_journal_header_id: 15922
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-09-02 15:54:03.000000000 Z
+  updated_at: 2012-09-02 15:54:03.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00143: 
+  id: 143
+  ym: 201209
+  payroll_journal_header_id: 16121
+  pay_journal_header_id: 16122
+  days_of_work: 30
+  hours_of_work: 240
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-09-28 19:00:59.000000000 Z
+  updated_at: 2012-09-28 19:00:59.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00144: 
+  id: 144
+  ym: 201209
+  payroll_journal_header_id: 16404
+  pay_journal_header_id: 16405
+  days_of_work: 30
+  hours_of_work: 240
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-10-01 13:04:21.000000000 Z
+  updated_at: 2012-10-01 13:11:12.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00145: 
+  id: 145
+  ym: 201210
+  payroll_journal_header_id: 16579
+  pay_journal_header_id: 16580
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-11-01 15:52:51.000000000 Z
+  updated_at: 2012-11-01 16:43:29.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00146: 
+  id: 146
+  ym: 201210
+  payroll_journal_header_id: 16655
+  pay_journal_header_id: 16656
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-11-02 23:41:24.000000000 Z
+  updated_at: 2012-11-02 23:41:24.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00147: 
+  id: 147
+  ym: 201211
+  payroll_journal_header_id: 16847
+  pay_journal_header_id: 16848
+  days_of_work: 30
+  hours_of_work: 240
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-11-28 18:13:03.000000000 Z
+  updated_at: 2012-12-02 05:45:34.000000000 Z
+  employee_id: 2
+  is_bonus: false
+payroll_00148: 
+  id: 148
+  ym: 201211
+  payroll_journal_header_id: 16825
+  pay_journal_header_id: 16826
+  days_of_work: 30
+  hours_of_work: 240
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-11-30 20:23:08.000000000 Z
+  updated_at: 2012-11-30 20:23:08.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00150: 
+  id: 150
+  ym: 201212
+  payroll_journal_header_id: 17109
+  pay_journal_header_id: 17110
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2012-12-31 17:04:46.000000000 Z
+  updated_at: 2012-12-31 17:04:46.000000000 Z
+  employee_id: 1
+  is_bonus: false
+payroll_00151: 
+  id: 151
+  ym: 201212
+  payroll_journal_header_id: 17133
+  pay_journal_header_id: 17134
+  days_of_work: 31
+  hours_of_work: 248
+  hours_of_day_off_work: 0
+  hours_of_early_for_work: 0
+  hours_of_late_night_work: 0
+  credit_account_type_of_income_tax: '0'
+  credit_account_type_of_insurance: '0'
+  credit_account_type_of_pension: '0'
+  credit_account_type_of_inhabitant_tax: '0'
+  created_at: 2013-01-03 09:00:46.000000000 Z
+  updated_at: 2013-01-03 09:07:09.000000000 Z
+  employee_id: 2
+  is_bonus: false

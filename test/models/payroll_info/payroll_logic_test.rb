@@ -17,9 +17,12 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     assert_equal 349000, @logic.get_base_salarys["20080507"]
   end
   
-  #def test_get_base_bonuses
-  #  assert_equal 349000, @logic.get_base_salarys[200805]
-  #end
+  def test_get_base_bonuses
+    finder = PayrollFinder.new(user)
+    finder.calendar_year = 2012
+    pLogic = PayrollInfo::PayrollLogic.new(finder)
+    assert_equal 800000, pLogic.get_base_bonuses["20120120"]
+  end
 
   def test_get_deduction
     assert_equal 975600, @logic.get_deduction

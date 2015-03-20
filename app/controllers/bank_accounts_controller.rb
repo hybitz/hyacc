@@ -8,8 +8,7 @@ class BankAccountsController < Base::HyaccController
   end
   
   def new
-    @bank_account = BankAccount.new(:bank_id => @banks.first.id)
-    setup_view_attributes
+    @bank_account = BankAccount.new
   end
 
   def create
@@ -72,7 +71,7 @@ class BankAccountsController < Base::HyaccController
 
   def bank_account_params
     params.require(:bank_account).permit(
-    :code, :name, :holder_name, :bank_id, :bank_office_id, :financial_account_type)
+      :code, :name, :holder_name, :bank_id, :bank_office_id, :financial_account_type)
   end
 
   # 銀行が未登録の場合は金融機関管理に誘導する
@@ -82,7 +81,4 @@ class BankAccountsController < Base::HyaccController
     end
   end
 
-  def setup_view_attributes
-    @bank_offices = load_bank_offices(@bank_account.bank_id)
-  end
 end

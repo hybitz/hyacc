@@ -1,35 +1,29 @@
-<%= flash_notice %>
-
 <%= form_for @bank_account, :remote => true do |f| %>
+  <%= flash_notice %>
+
+  <script>
+    $(document).ready(function() {
+      $('#bank_account_bank_id').change(function() {
+        bank_accounts.update_bank_offices(this, '#bank_account_bank_office_id');
+      }).change();
+    });
+  </script>
+
   <div style="margin:0px 10px 0px 0px; text-align: right;">
     <%= f.submit %>
   </div>
 
   <table style="margin:5px;">
     <tr>
-      <th>金融機関</th>
-      <td>
-        <%= f.collection_select :bank_id, @banks, :id, :name %>
-        <script>
-          $(document).ready(function() {
-            $('#bank_account_bank_id').change(function() {
-              var url = '<%= bank_offices_path(:format => 'json') %>';
-              var params = { order: 'code', bank_id: $(this).val() };
-              $.get(url, params, function(json) {
-                replace_options('#bank_account_bank_office_id', json, true);
-              }
-            );
-            });
-          });
-        </script>
-      </td>
+      <th><%= f.label :bank_id %></th>
+      <td><%= f.collection_select :bank_id, @banks, :id, :name, {}, :href => bank_offices_path %></td>
     </tr>
     <tr>
-      <th>支店</th>
-      <td><%= f.collection_select :bank_office_id, @bank_offices, :id, :name, :include_blank => true %></td>
+      <th><%= f.label :bank_office_id %></th>
+      <td><%= f.select :bank_office_id, [], {}, :style => 'display: none;' %></td>
     </tr>
     <tr>
-      <th>区分</th>
+      <th><%= f.label :financial_account_type %></th>
       <td><%= f.select :financial_account_type, financial_account_types %></td>
     </tr>
     <tr>

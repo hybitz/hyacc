@@ -80,6 +80,7 @@ class PayrollsController < Base::HyaccController
     payroll_on_db = Payroll.find(@payroll.id)
     payroll_journal_headers_on_db = payroll_on_db.payroll_journal_headers
     pay_journal_headers_on_db = payroll_on_db.pay_journal_headers
+    commission_journal_headers_on_db = payroll_on_db.commission_journal_headers
 
     begin
       # 入力チェック
@@ -103,10 +104,12 @@ class PayrollsController < Base::HyaccController
         
         payroll_on_db.payroll_journal_headers = @payroll.payroll_journal_headers
         payroll_on_db.pay_journal_headers = @payroll.pay_journal_headers
+        payroll_on_db.commission_journal_headers = @payroll.commission_journal_headers
         payroll_on_db.save!
         
-        JournalHeader.find(payroll_journal_headers_on_db.id).destroy
-        JournalHeader.find(pay_journal_headers_on_db.id).destroy
+        JournalHeader.find(payroll_journal_headers_on_db.id).destroy if payroll_journal_headers_on_db
+        JournalHeader.find(pay_journal_headers_on_db.id).destroy if pay_journal_headers_on_db
+        JournalHeader.find(commission_journal_headers_on_db.id).destroy if commission_journal_headers_on_db
       end
 
       flash[:notice] = '賃金台帳情報を更新しました。'
@@ -174,6 +177,7 @@ class PayrollsController < Base::HyaccController
     journals = factory.make_journals()
     payroll.payroll_journal_headers = journals[0]
     payroll.pay_journal_headers = journals[1]
+    payroll.commission_journal_headers = journals[2]
   end
   
   def get_inhabitant_tax( employee_id, ym )

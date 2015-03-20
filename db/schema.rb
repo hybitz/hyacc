@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150309113636) do
+ActiveRecord::Schema.define(version: 20150320021658) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -405,6 +405,7 @@ ActiveRecord::Schema.define(version: 20150309113636) do
     t.datetime "updated_at"
     t.integer  "employee_id",                                                     null: false
     t.boolean  "is_bonus",                                        default: false, null: false
+    t.integer  "commission_journal_header_id"
   end
 
   add_index "payrolls", ["pay_journal_header_id"], name: "fk_payrolls_pay_journal_header_id", using: :btree

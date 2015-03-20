@@ -96,7 +96,7 @@ module Slips
 
       # 条件に該当する伝票を取得
       journal_headers = JournalHeader.where(conditions).includes(:journal_details)
-            .order('journal_headers.ym desc, journal_headers.day desc, journal_headers.created_on desc')
+            .order('journal_headers.ym desc, journal_headers.day desc, journal_headers.id desc')
             .limit(ym.to_i == 0 ? per_page : nil).offset(offset.to_i).reverse
       journal_headers.map{|jh| Slip.new(jh, self) }
     end

@@ -15,6 +15,7 @@ module Auto::Journal
       ret = []
       ret << make_payroll
       ret << make_pay
+      ret << make_commission
       ret
     end
   
@@ -269,6 +270,67 @@ module Auto::Journal
         journal_details[num_of_details][:note] = "立替費用の精算"
         new_journal_details << JournalDetail.new( journal_details[num_of_details] )
       end
+      ### 普通預金
+      num_of_details += 1
+      journal_details[num_of_details] = {}
+      journal_details[num_of_details][:detail_no] = num_of_details
+      journal_details[num_of_details][:dc_type] = DC_TYPE_CREDIT
+      account = Account.get_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT)
+      journal_details[num_of_details][:account_id] = account.id
+      journal_details[num_of_details][:sub_account_id] = BANK_ACCOUNT_ID_FOR_PAY
+      journal_details[num_of_details][:branch_id] = branch_id
+      journal_details[num_of_details][:amount] = 0
+      journal_details[num_of_details][:note] = "口座引落し額"
+      new_journal_details << JournalDetail.new( journal_details[num_of_details] )
+      
+      # 貸借の金額調整、振り込み予定額で調整する
+      debit = 0
+      credit = 0
+      num_of_details.times{|i|
+        if new_journal_details[i].dc_type == DC_TYPE_DEBIT
+          debit = debit + new_journal_details[i].amount.to_i
+        else
+          credit = credit + new_journal_details[i].amount.to_i
+        end
+      }
+      # 口座引き落としで調整
+      new_journal_details[num_of_details - 1].amount = debit - credit
+      
+      journal_header.journal_details = new_journal_details
+      journal_header
+    end
+    
+    def make_commission
+      journal_header = JournalHeader.new
+      # 氏名
+      employee = Employee.find(@payroll.employee_id)
+      # 給与日の設定
+      journal_header.day = @payroll.pay_day.split('-').last
+      # 摘要の設定
+      journal_header.remarks = "給与支給、振込手数料　" + employee.full_name + "　" + (@payroll.ym%100).to_s + "月分"
+      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
+      journal_header.create_user_id = @user.id
+      journal_header.update_user_id = @user.id
+      # 年月の設定
+      journal_header.ym = @payroll.pay_day.split('-')[0..1].join.to_i
+      journal_header.company_id = @user.company.id
+      
+      # 消費税率
+      tax_rate = TaxJp.rate_on(journal_header.date)
+      Rails.logger.debug "tax_rate=#{tax_rate}, date=#{journal_header.date}"
+
+      # 明細の作成
+      ## デフォルト部門の取得
+      branch_id = employee.default_branch.id
+      journal_details = []
+      ## 消費税取り扱い区分を取得
+      fy = @user.company.get_fiscal_year(journal_header.ym)
+      raise HyaccException.new(ERR_FISCAL_YEAR_NOT_EXISTS) unless fy
+      ## ￥０の明細を作成しない
+      num_of_details = 0
+      new_journal_details = []
+
+      ## 支払明細
       ### TODO 銀行口座マスタとの連携
       commission = 500
       ### 支払手数料

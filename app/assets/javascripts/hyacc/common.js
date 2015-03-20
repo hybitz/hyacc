@@ -112,7 +112,7 @@ function replace_options(selector, json, include_blank) {
   } else {
     select.hide();
   }
-}
+};
 
 // 
 /**

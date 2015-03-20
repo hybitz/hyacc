@@ -8,6 +8,7 @@
 
   @bank = Bank.new(:code => '0005', :name => '三菱東京UFJ銀行')
   @bank_office = @bank.bank_offices.build(:code => '433', :name => '新橋支店')
+  assert has_no_selector?('.banks', :text => @bank.name)
   
   click_on '追加'
   fill_in '金融機関コード', :with => @bank.code
@@ -28,6 +29,6 @@
   capture '銀行情報を入力して登録'
 
   click_on '登録'
-  assert has_selector?('table.banks', :text => @bank.name)
+  assert has_selector?('.banks', :text => @bank.name)
   capture '登録完了'
 end

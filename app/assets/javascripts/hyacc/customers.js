@@ -1,6 +1,4 @@
-if (typeof customers === "undefined") {
-  var customers = {};
-}
+var customers = {};
 
 customers.add_customer_name = function(trigger) {
   var url = $(trigger).attr('href');

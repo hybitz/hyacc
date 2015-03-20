@@ -1,6 +1,6 @@
 <%= fields_for "bank[bank_offices_attributes]", bank_office, :index => index do |f| %>
-  <tr>
-    <td class="bank_office_code">
+  <tr class="bank_office">
+    <td class="code">
       <% if f.object.new_record? %>
         <%= f.text_field :code %>
       <% else %>
@@ -8,7 +8,7 @@
         <%= f.object.code %>
       <% end %>
     </td>
-    <td><%= f.text_field :name %></td>
+    <td class="name"><%= f.text_field :name %></td>
     <td><%= f.select :disabled, finder.disable_types %></td>
   </tr>
 <% end %>

@@ -5,6 +5,8 @@ class Payroll < ActiveRecord::Base
           :class_name=>"JournalHeader", :dependent => :destroy
   belongs_to :pay_journal_headers, :foreign_key=>:pay_journal_header_id,
           :class_name=>"JournalHeader", :dependent => :destroy
+  belongs_to :commission_journal_headers, :foreign_key=>:commission_journal_header_id,
+          :class_name=>"JournalHeader", :dependent => :destroy
   
   validates_presence_of :employee_id, :ym, :message => "は必須です。"
   validates_numericality_of :days_of_work, :hours_of_work,

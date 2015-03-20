@@ -157,7 +157,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal 1, jd.count
 
     # 仮払消費税として登録されていること
-    jd = JournalDetail.where("journal_header_id=? and account_id=?", pr.pay_journal_header_id, temp_pay_tax.id)
+    jd = JournalDetail.where("journal_header_id=? and account_id=?", pr.commission_journal_header_id, temp_pay_tax.id)
     assert_equal 1, jd.count
     assert_equal 25, jd[0].amount
   end

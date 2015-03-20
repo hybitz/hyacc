@@ -23,14 +23,12 @@ class BankAccountsController < Base::HyaccController
 
     rescue Exception => e
       handle(e)
-      setup_view_attributes
       render :new
     end
   end
 
   def edit
     @bank_account = BankAccount.find(params[:id])
-    setup_view_attributes
   end
   
   def update
@@ -46,7 +44,6 @@ class BankAccountsController < Base::HyaccController
 
     rescue Exception => e
       handle(e)
-      setup_view_attributes
       render :edit
     end
   end

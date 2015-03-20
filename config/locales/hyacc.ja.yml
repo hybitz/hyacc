@@ -59,13 +59,13 @@ ja:
 
       bank: 
         code: 金融機関コード
-        name: 金融機関名称
+        name: 金融機関名
         disabled: 状態
 
       bank_office: 
         bank_id: 金融機関
         code: 営業店コード
-        name: 営業店名称
+        name: 営業店名
         deleted: 削除フラグ
         disabled: 状態
 

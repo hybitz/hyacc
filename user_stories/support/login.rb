@@ -1,21 +1,17 @@
 module Login
 
-  def sign_in(options = {})
-    if options[:login_id]
-      assert @_current_user = User.where(:login_id => options[:login_id]).not_deleted.first
-    elsif options[:name]
-      assert @_current_user = Employee.name_is(options[:name]).not_deleted.first.user
-    else
-      fail "未知のユーザ情報です。options=#{options}"
-    end
-
+  def sign_in(user)
     visit '/users/sign_in'
-    fill_in 'ログインID', :with => @_current_user.login_id
+    fill_in 'ログインID', :with => user.login_id
     fill_in 'パスワード', :with => 'testtest'
     click_on 'ログイン'
 
-    fill_in 'code', :with => User.find(current_user.id).otp_code
-    click_on 'Submit'
+    if user.use_two_factor_authentication?
+      fill_in 'code', :with => User.find(user.id).otp_code
+      click_on 'Submit'
+    end
+    
+    @_current_user = user
   end
 
   def current_user

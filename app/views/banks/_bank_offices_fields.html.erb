@@ -1,7 +1,5 @@
 <table>
-  <tr>
-    <th colspan="4">金融機関営業店</th>
-  </tr>
+  <caption>金融機関営業店</caption>
   <tr>
     <th><%= BankOffice.human_attribute_name :code %></th>
     <th><%= BankOffice.human_attribute_name :name %></th>
@@ -11,23 +9,10 @@
   <% bank_offices.each_with_index do |bo, i| %>
     <%= render 'bank_office_fields', :bank_office => bo, :index => i %>
   <% end %>
-  
+
   <tr>
     <td colspan="4" align="right">
-      <script>
-        function add_bank_office(trigger) {
-          var url = '<%= url_for :action => 'add_bank_office' %>';
-          var params = {
-            index: $(trigger).closest('table').find('tr').length,
-            format: 'html'
-          }
-
-          $.get(url, params, function(html) {
-            $(trigger).closest('tr').before(html);
-          });
-        }
-      </script>
-      <%= link_to '追加', '', :onclick => 'add_bank_office(this); return false;' %>
+      <%= link_to '追加', {:action => 'add_bank_office'}, :onclick => 'banks.add_bank_office(this); return false;' %>
     </td>
   </tr>
 </table>

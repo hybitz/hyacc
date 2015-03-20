@@ -41,28 +41,34 @@ pre {
   font-size: 11px;
 }
 
-table, th, td {
+table {
   border: 1px solid grey;
   border-collapse: collapse;
-  empty-cells: show;
-}
 
-tr {
-  height: 20px;
-}
+  caption {
+    text-align: left;
+  }
 
-tr.hover:hover {
-  background: #EEEEEE;
-}
+  tr {
+    height: 20px;
 
-th {
-  background: #D3D3D3;
-}
-
-th, td {
-  margin: 0;
-  padding: 0.1em 0.2em;
-  vertical-align: middle;
+    &.hover:hover {
+      background: #EEEEEE;
+    }
+    
+    th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
+      empty-cells: show;
+      margin: 0;
+      padding: 0.1em 0.2em;
+      vertical-align: middle;
+    }
+    
+    th {
+      background: #D3D3D3;
+    }
+  }
 }
 
 .action {

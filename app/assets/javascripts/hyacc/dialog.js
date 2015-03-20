@@ -1,11 +1,7 @@
-if (typeof hyacc === "undefined") {
-  var hyacc = {
-    _dialogs: new Stack(),
-    current_dialog: function(options) {
-      return this._dialogs.top() || new hyacc.Dialog(options);
-    }
-  };
-}
+hyacc._dialogs = new Stack();
+hyacc.current_dialog = function(options) {
+  return this._dialogs.top() || new hyacc.Dialog(options);
+};
 
 hyacc.Dialog = function(options) {
   this.options = options || {};

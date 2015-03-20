@@ -1,8 +1,6 @@
-if (typeof social_expense === "undefined") {
-  var social_expense = {};
-}
+var social_expenses = {};
 
-social_expense.calc_deduction_amount = function(tr) {
+social_expenses.calc_deduction_amount = function(tr) {
   var number_of_people = $(tr).find('.number_of_people').text().toInt();
   var deduction_amount = 5000 * number_of_people;
 

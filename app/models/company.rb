@@ -25,7 +25,11 @@ class Company < ActiveRecord::Base
   end
   
   def founded_fiscal_year
-    get_fiscal_year( founded_date.year * 100 + founded_date.month )
+    get_fiscal_year(founded_year_month)
+  end
+
+  def founded_year_month
+    founded_date.year * 100 + founded_date.month
   end
   
   def last_fiscal_year

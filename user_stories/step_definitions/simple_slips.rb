@@ -13,5 +13,5 @@
   capture '仕訳を登録'
   click_on '登録'
 
-  assert 
+  capture
 end

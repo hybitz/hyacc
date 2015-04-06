@@ -20,7 +20,8 @@ module Reports
     attr_accessor :withholding_tax_of_bonus_2H #賞与下期源泉徴収税額
     attr_accessor :total_bonus_FY #賞与通期支払金額
     attr_accessor :withholding_tax_of_bonus_FY #賞与通期源泉徴収税額
-
+    
+    attr_accessor :tax_adjustment #年末調整額
     
     def initialize
       self.total_salary_1H = 0

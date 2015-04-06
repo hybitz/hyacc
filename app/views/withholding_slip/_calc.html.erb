@@ -28,7 +28,7 @@
       <td><%= number_to_currency(@data.withholding_tax_1H, :format=>"%n") %></td>
     </tr>
     <tr class="hover">
-      <td>下期合計</td>
+      <td>下期合計(年末調整前)</td>
       <td><%= number_to_currency(@data.total_salary_2H, :format=>"%n") %></td>
       <td><%= number_to_currency(@data.withholding_tax_2H, :format=>"%n") %></td>
     </tr>
@@ -57,6 +57,15 @@
         <td colspan="3">合計</td>
     </tr>
   <% end %>
+    <tr style="background-color: lightgrey;">
+        <td colspan="3">年末調整額</td>
+    </tr>
+    <tr class="hover">
+      <td>年末調整額</td>
+      <td>-</td>
+      <% tax_adjustment = number_to_currency(@data.tax_adjustment, :format=>"%n") if @data.tax_adjustment %>
+      <td><%= tax_adjustment || "未定" %></td>
+    </tr>
     <tr class="hover">
       <td>通期合計（給与＋賞与）</td>
       <td><%= number_to_currency(@data.total_salary_FY + @data.total_bonus_FY, :format=>"%n") %></td>

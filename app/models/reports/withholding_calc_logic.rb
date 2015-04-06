@@ -39,6 +39,7 @@ module Reports
       end
       model.withholding_tax_of_bonus_FY = model.withholding_tax_of_bonus_1H + model.withholding_tax_of_bonus_2H
       
+      model.tax_adjustment = get_tax_adjustment
       model
     end
 
@@ -63,6 +64,21 @@ module Reports
     def get_withholding_taxes_of_bonus
       logic = PayrollInfo::PayrollLogic.new(@finder)
       return logic.get_withholding_taxes_of_bonus
+    end
+    
+    def get_tax_adjustment
+      t = 0
+      c = Company.find(@finder.company_id)
+      c.employees.each do |emp|
+        @finder.employee_id = emp.id
+        logic = PayrollInfo::PayrollLogic.new(@finder)
+        w = logic.get_withholding_tax
+        t = w + t
+      end
+      return t
+    rescue => e
+      # 源泉徴収情報が未登録の場合はnil
+      return nil
     end
   end
 end

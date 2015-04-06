@@ -67,7 +67,10 @@ module PayrollInfo
     def get_total_deemed_salary
       deemed_salary = get_total_base_salary
       deemed_salary = 0 if deemed_salary.blank?
-      deemed_salary = (deemed_salary/4000).to_i * 4000 if deemed_salary >= 1_628_000 && deemed_salary <= 6_599_999
+      # 年末調整のしかたの「Ⅵ　電子計算機等による年末調整」を参照
+      deemed_salary = (deemed_salary/1000).to_i * 1000 if deemed_salary >= 1_619_000 && deemed_salary <= 1_619_999
+      deemed_salary = (deemed_salary/2000).to_i * 2000 if deemed_salary >= 1_620_000 && deemed_salary <= 1_623_999
+      deemed_salary = (deemed_salary/4000).to_i * 4000 if deemed_salary >= 1_624_000 && deemed_salary <= 6_599_999
       deemed_salary
     end
     # 給与所得控除額

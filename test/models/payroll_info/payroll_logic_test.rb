@@ -45,7 +45,7 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     # (2652000 - 975600 - 1074955)/1000 * 1000 * 0.05 /100 *100
     assert_equal 30_000, logic.get_withholding_tax
   end
-  
+    
   def test_get_health_insurance
     logic = logic_builder(2012)
     assert_equal 230_184, logic.get_health_insurance

@@ -94,7 +94,6 @@ module PayrollInfo
       end
       
       deduction = 2_450_000 if deemed_salary > 15_000_000 && @calendar_year >= 2013
-      
       return deduction
     end
     

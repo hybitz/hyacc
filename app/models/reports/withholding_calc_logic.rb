@@ -39,7 +39,7 @@ module Reports
       end
       model.withholding_tax_of_bonus_FY = model.withholding_tax_of_bonus_1H + model.withholding_tax_of_bonus_2H
       
-      model.tax_adjustment = get_tax_adjustment
+      model.tax_adjustment = model.withholding_tax_FY + model.withholding_tax_of_bonus_FY - get_annual_tax # 年末調整額 = 源泉徴収全額 - 年調税額
       model
     end
 
@@ -66,7 +66,7 @@ module Reports
       return logic.get_withholding_taxes_of_bonus
     end
     
-    def get_tax_adjustment
+    def get_annual_tax
       t = 0
       c = Company.find(@finder.company_id)
       c.employees.each do |emp|

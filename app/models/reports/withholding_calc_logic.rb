@@ -39,7 +39,8 @@ module Reports
       end
       model.withholding_tax_of_bonus_FY = model.withholding_tax_of_bonus_1H + model.withholding_tax_of_bonus_2H
       
-      model.tax_adjustment = model.withholding_tax_FY + model.withholding_tax_of_bonus_FY - get_annual_tax # 年末調整額 = 源泉徴収全額 - 年調税額
+      annual_tax = get_annual_tax
+      model.tax_adjustment = model.withholding_tax_FY + model.withholding_tax_of_bonus_FY - annual_tax if annual_tax # 年末調整額 = 源泉徴収全額 - 年調税額
       model
     end
 

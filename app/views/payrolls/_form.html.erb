@@ -1,24 +1,35 @@
 <script>
+
+
+  var form = $('.payroll_form form');
+  
   $(document).ready(function() {
-    <% if @payroll.new_record? %>
-      var form = $('.payroll_form form');
-
-      form.find('input[name*="\[base_salary\]"]').blur(function() {
-        var url = '<%= url_for :action => 'auto_calc' %>';
-        var params = form.serialize();
-
-        $.getJSON(url, params, function(taxes) {
-          form.find('input[name*="\[insurance\]"]').val(taxes.insurance);
-          form.find('input[name*="\[pension\]"]').val(taxes.pension);
-          form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
-          form.find('submit').attr('disabled', false);
-        });
+      
+      // 新規登録の場合
+     <% if @payroll.new_record? %>
+       loadInsurance(form);
+     <% end %>
+     
+     // 基本給変更時
+     form.find('input[name*="\[base_salary\]"]').change(function() {
+        loadInsurance(form);
       });
-    <% end %>
-
+      
     hyacc.init_datepicker();
     $('#payroll_base_salary').focus();
   });
+
+
+function loadInsurance(form){
+    var url = '<%= url_for :action => 'auto_calc' %>';
+    var params = form.serialize();
+    $.getJSON(url, params, function(taxes) {
+      form.find('input[name*="\[insurance\]"]').val(taxes.insurance);
+      form.find('input[name*="\[pension\]"]').val(taxes.pension);
+      form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
+      form.find('submit').attr('disabled', false);
+     });
+}
 
 function checkForm(form){
     var insurance = form.elements['payroll_insurance'].value;

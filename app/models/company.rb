@@ -83,9 +83,9 @@ class Company < ActiveRecord::Base
   
   # 本部を取得する
   def get_head_office
-    head_office = Branch.where(:company_id => id, :is_head_office => true)
-    raise HyaccException.new(HyaccErrors::ERR_ILLEGAL_STATE) unless head_office.count == 1
-    head_office.first
+    ret = branches.where(:is_head_office => true).first
+    raise HyaccException.new(HyaccErrors::ERR_ILLEGAL_STATE) unless ret
+    ret
   end
 
   # 本社を取得する

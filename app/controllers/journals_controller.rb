@@ -19,7 +19,7 @@ class JournalsController < Base::HyaccController
   # 領収書をダウンロードする
   def download_receipt
     jh = JournalHeader.find( params[:id] )
-    send_file(UPLOAD_DIRECTORY + "/" + jh.receipt_path)
+    send_file(File.join(UPLOAD_DIRECTORY, jh.receipt_path))
   end
 
   # 勘定科目ごとの詳細入力部分を取得する

@@ -5,7 +5,7 @@ class BankAccount < ActiveRecord::Base
   belongs_to :bank_office
 
   validates :code, :presence => true
-  validates :name, :presence => true
+  validates :name, :presence => true, :uniqueness => true
   validates :holder_name, :presence => true
 
   after_save :reset_account_cache

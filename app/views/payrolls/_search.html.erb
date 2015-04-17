@@ -15,9 +15,11 @@
 
     <% if branch_mode %>
       部門：<%= collection_select('finder', 'branch_id', @branches, 'id', 'name') %>
+      <span id="branch_employees"></span>
+    <% else %>
+      従業員：<%= collection_select('finder', 'employee_id', current_company.employees, 'id', 'name') %>
     <% end %>
 
-    <span id="branch_employees"></span>
     <%= submit_tag "表示" %>
   <% end %>
 </div>

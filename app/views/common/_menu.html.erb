@@ -1,75 +1,76 @@
 <%
   # 仕訳管理機能一覧
   journal_admin_controllers = [
-    {:name => 'journal_admin', :title => '伝票管理'},
-    {:name => 'debts', :title => '仮負債精算'},
-    {:name => 'account_transfers', :title => '科目振替'},
-    {:name => 'social_expenses', :title => '交際費管理'},
-    {:name => 'taxes', :title => '消費税管理'},
+    {:name => '/journal_admin', :title => '伝票管理'},
+    {:name => '/debts', :title => '仮負債精算'},
+    {:name => '/account_transfers', :title => '科目振替'},
+    {:name => '/social_expenses', :title => '交際費管理'},
+    {:name => '/taxes', :title => '消費税管理'}
   ]
 
   # 締め処理機能一覧 
   closing_controllers = [
-    {:name=>'closing', :title=>'締め処理'},
-    {:name=>'deemed_taxes', :title=>'みなし消費税'},
-    {:name=>'houseworks', :title=>'家事按分'},
-    {:name=>'fiscal_years', :title=>'会計年度'},
+    {:name=>'/closing', :title=>'締め処理'},
+    {:name=>'/deemed_taxes', :title=>'みなし消費税'},
+    {:name=>'/houseworks', :title=>'家事按分'},
+    {:name=>'/fiscal_years', :title=>'会計年度'},
   ]
 
   # 帳票出力機能一覧 
   report_controllers = [
-    {:name => 'report', :title => '帳票出力'},
-    {:name => 'career_statements',:title => '業務経歴書'},
-    {:name => 'financial_statements', :title => '決算書'},
-    {:name => 'financial_return_statements', :title => '確定申告'},
-    {:name => 'withholding_slip', :title => '源泉徴収'},
+    {:name => '/report', :title => '帳票出力'},
+    {:name => '/career_statements',:title => '業務経歴書'},
+    {:name => '/financial_statements', :title => '決算書'},
+    {:name => '/financial_return_statements', :title => '確定申告'},
+    {:name => '/withholding_slip', :title => '源泉徴収'},
   ]
 
   # マスタメンテ機能一覧 
   mm_controllers = [
-    {:name=>'mm', :title=>'マスタメンテ'},
-    {:name=>'companies', :title=>'会社'},
-    {:name=>'employees', :title=>'従業員'},
-    {:name=>'users', :title=>'ユーザ'},
-    {:name=>'careers', :title=>'業務経歴'},
-    {:name=>'bank_accounts', :title=>'金融口座'},
-    {:name=>'banks', :title=>'金融機関'},
-    {:name=>'customers', :title=>'取引先'},
-    {:name=>'accounts', :title=>'勘定科目'},
-    {:name=>'rents', :title=>'地代家賃'},
-    {:name=>'depreciation_rates', :title=>'減価償却率'},
-    {:name=>'withheld_taxes', :title=>'源泉徴収税'},
-    {:name=>'inhabitant_taxes', :title=>'住民税（特別徴収税）'},
-    {:name=>'exemptions', :title=>'所得税控除'},
-    {:name=>'simple_slip_templates', :title=>'簡易入力テンプレート'},
+    {:name => '/mm', :title => 'マスタメンテ'},
+    {:name => '/companies', :title => '会社'},
+    {:name => '/mm/branches', :title => '部門'},
+    {:name => '/employees', :title=>'従業員'},
+    {:name => '/users', :title=>'ユーザ'},
+    {:name => '/careers', :title=>'業務経歴'},
+    {:name => '/bank_accounts', :title=>'金融口座'},
+    {:name => '/banks', :title=>'金融機関'},
+    {:name => '/customers', :title=>'取引先'},
+    {:name => '/accounts', :title=>'勘定科目'},
+    {:name => '/rents', :title=>'地代家賃'},
+    {:name => '/depreciation_rates', :title=>'減価償却率'},
+    {:name => '/withheld_taxes', :title=>'源泉徴収税'},
+    {:name => '/inhabitant_taxes', :title=>'住民税（特別徴収税）'},
+    {:name => '/exemptions', :title=>'所得税控除'},
+    {:name => '/simple_slip_templates', :title=>'簡易入力テンプレート'},
   ]
 
   # マスタビューア機能一覧 
   mv_controllers = [
-    {:name=>'mv', :title=>'マスタビューア'},
-    {:name=>'insurances', :title=>'健康保険料'},
-    {:name=>'pensions', :title=>'厚生年金保険料'},
+    {:name=>'/mv', :title=>'マスタビューア'},
+    {:name=>'/insurances', :title=>'健康保険料'},
+    {:name=>'/pensions', :title=>'厚生年金保険料'},
   ]
 %>
 
 <div class="menu">
   <%= render 'common/simple_slip_menu' %>
   
-  <%= link_to '振替伝票', journals_path, :style => style_for_menu('journals') %>
+  <%= link_to '振替伝票', journals_path, :style => style_for_menu('/journals') %>
   |
   <%= link_to '伝票管理', journal_admin_path, :style => style_for_menu(journal_admin_controllers) %>
   |
 
   <% if available?('payrolls') %>
-    <%= link_to '賃金台帳', payrolls_path, :style => style_for_menu('payrolls') %>
+    <%= link_to '賃金台帳', payrolls_path, :style => style_for_menu('/payrolls') %>
     |
   <% end %>
 
-  <%= link_to '資産管理', bs_assets_path, :style => style_for_menu('assets') %>
+  <%= link_to '資産管理', bs_assets_path, :style => style_for_menu('/bs/assets') %>
   |
   <%= link_to '締め処理', closing_path, :style => style_for_menu(closing_controllers) %>
   |
-  <%= link_to '元帳', ledgers_path, :style => style_for_menu('ledgers') %>
+  <%= link_to '元帳', ledgers_path, :style => style_for_menu('/ledgers') %>
   |
   <%= link_to '帳票出力', report_path, :style => style_for_menu(report_controllers) %>
   |

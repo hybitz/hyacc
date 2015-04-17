@@ -2,6 +2,10 @@ Rails.application.routes.draw do
 
   devise_for :users
 
+  namespace :mm do
+    resources :branches
+  end
+
   resources :accounts do
     collection do
       get  'add_sub_account'

@@ -1,4 +1,4 @@
-<% if controllers.any?{|c| c[:name] == controller.controller_name } %>
+<% if controllers.any?{|c| c[:name] == '/' + controller.controller_path } %>
   <div class="subMenu">
     <% show_separator = false %>
     <% controllers.each_with_index {|c, index| %>

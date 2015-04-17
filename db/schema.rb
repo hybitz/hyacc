@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150417021742) do
+ActiveRecord::Schema.define(version: 20150417064833) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -127,7 +127,7 @@ ActiveRecord::Schema.define(version: 20150417021742) do
     t.integer  "company_id",                     null: false
     t.integer  "sub_account_id"
     t.boolean  "is_head_office", default: false, null: false
-    t.integer  "parent_id",      default: 0,     null: false
+    t.integer  "parent_id"
     t.string   "path",           default: "/",   null: false
     t.integer  "cost_ratio",     default: 100,   null: false
     t.boolean  "deleted",        default: false, null: false

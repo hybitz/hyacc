@@ -1,6 +1,7 @@
 class Branch < ActiveRecord::Base
   include HyaccConstants
   acts_as_cached :includes => 'branches/branch_cache'
+  acts_as_tree :order => 'name'
 
   belongs_to :company
   has_many :branch_employees
@@ -13,10 +14,6 @@ class Branch < ActiveRecord::Base
       ret = ret.where(:deleted => false)
     end
     ret
-  end
-  
-  def parent
-    Branch.get(parent_id)
   end
   
 end

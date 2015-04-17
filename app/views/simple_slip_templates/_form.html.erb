@@ -24,15 +24,12 @@
     });
   </script>
 
-  <%= flash_notice %>
 
   <%= form_for @simple_slip_template, :remote => true do |f| %>
+    <%= flash_notice %>
+
     <%= f.hidden_field :owner_type %>
     <%= f.hidden_field :owner_id %>
-
-    <div style="margin:0px 10px 5px 0px; text-align: right;">
-      <%= f.submit %>
-    </div>
 
     <table>
       <tr>

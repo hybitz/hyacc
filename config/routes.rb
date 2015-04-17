@@ -89,6 +89,9 @@ Rails.application.routes.draw do
       get 'new_from_copy'
       get 'update_tax_type'
     end
+    member do
+      get 'download_receipt'
+    end
   end
 
   resources :ledgers, :only => ['index', 'show']

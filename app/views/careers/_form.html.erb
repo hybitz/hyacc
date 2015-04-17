@@ -1,9 +1,6 @@
-<%= flash_notice %>
-
 <%= form_for @c, :remote => true do |f| %>
-  <div style="margin:0px 10px 5px 0px; text-align: right;">
-    <%= f.submit %>
-  </div>
+  <%= flash_notice %>
+
   <table>
     <tr>
       <th>従業員</th><td><%= f.collection_select :employee_id, @employees, 'id', 'full_name' %></td>

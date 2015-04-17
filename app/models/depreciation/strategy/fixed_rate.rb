@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: fixed_rate.rb 3150 2013-11-01 08:06:20Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Depreciation::Strategy
     
   # 定率法

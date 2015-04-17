@@ -1,9 +1,6 @@
-<%= flash_notice %>
-
 <%= form_for @rent, :remote => true do |f| %>
-  <p>
-    <%= f.submit %>
-  </p>
+  <%= flash_notice %>
+
   <p>
     <b>地代家賃</b><br />
     <%= f.select :rent_type, rent_types %>

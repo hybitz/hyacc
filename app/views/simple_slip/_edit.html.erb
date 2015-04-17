@@ -1,6 +1,6 @@
 <div class="target_account_info">
   <%# 補助科目が存在する科目の場合は補助科目名を表示する %>
-  <% if @account.sub_accounts_all.length > 0 %>
+  <% if @account.sub_accounts_all.present? %>
     <%= get_sub_account_title( @account ) %>：
     <b><%= @account.get_sub_account_by_id(@slip.my_sub_account_id).name if @slip.my_sub_account_id.to_i > 0 %></b>
   <% else %>
@@ -20,10 +20,6 @@
       <% if branch_mode %><th class="branchName">計上部門</th><% end %>
       <th>増　加</th>
       <th>減　少</th>
-  
-      <% unless action_name == 'show' %>
-        <th></th>
-      <% end %>
     </tr>
     <%= render 'form' %>
   </table>

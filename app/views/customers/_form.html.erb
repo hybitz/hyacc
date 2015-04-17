@@ -1,64 +1,57 @@
-<div style="margin: 10px;">
+<%= form_for @customer, :remote => true do |f| %>
   <%= flash_notice %>
-  
-  <%= form_for @customer, :remote => true do |f| %>
-    <div style="margin: 10px; text-align: right;">
-      <%= f.submit %>
-    </div>
-  
-    <table>
-      <% if @customer.new_record? %>
-        <tr>
-          <th><%= f.label :code %></th>
-          <td><%= f.text_field :code %></td>
-        </tr>
+  <table>
+    <% if @customer.new_record? %>
+      <tr>
+        <th><%= f.label :code %></th>
+        <td><%= f.text_field :code %></td>
+      </tr>
 
-        <%= f.fields_for "customer_names_attributes[0]", @customer.customer_names.first do |f| %>
-          <tr>
-            <th><%= f.label :formal_name %></th>
-            <td><%= f.text_field :formal_name %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :name %></th>
-            <td><%= f.text_field :name %></td>
-          </tr>
-        <% end %>
-      <% else %>
+      <%= f.fields_for "customer_names_attributes[0]", @customer.customer_names.first do |f| %>
         <tr>
-          <th>取引先コード</th>
-          <td><%= @customer.code %></td>
+          <th><%= f.label :formal_name %></th>
+          <td><%= f.text_field :formal_name %></td>
         </tr>
         <tr>
-          <th>取引先名（正式名）</th>
-          <td><%= @customer.formal_name %></td>
-        </tr>
-        <tr>
-          <th>取引先名（略称）</th>
-          <td><%= @customer.name %></td>
+          <th><%= f.label :name %></th>
+          <td><%= f.text_field :name %></td>
         </tr>
       <% end %>
-  
+    <% else %>
       <tr>
-        <th>住所</th>
-        <td><%= f.text_field :address, :size=>80 %></td>
+        <th><%= f.label :code %></th>
+        <td><%= @customer.code %></td>
       </tr>
       <tr>
-        <th>受注フラグ</th>
-        <td><%= f.select :is_order_entry, status_types %></td>
+        <th>取引先名（正式名）</th>
+        <td><%= @customer.formal_name %></td>
       </tr>
       <tr>
-        <th>発注フラグ</th>
-        <td><%= f.select :is_order_placement, status_types %></td>
+        <th>取引先名（略称）</th>
+        <td><%= @customer.name %></td>
       </tr>
-      <tr>
-        <th>状態</th>
-        <td><%= f.select :disabled, HyaccConstants::DISABLE_TYPES.invert %></td>
-      </tr>
-    </table>
-    
-    <% unless @customer.new_record? %>
-      <div>時系列名称</div>
-      <%= render 'customer_names', :customer => @customer %>
     <% end %>
+
+    <tr>
+      <th><%= f.label :address %></th>
+      <td><%= f.text_field :address, :size=>80 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :is_order_entry %></th>
+      <td><%= f.select :is_order_entry, status_types %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :is_order_placement %></th>
+      <td><%= f.select :is_order_placement, status_types %></td>
+    </tr>
+    <tr>
+      <th>状態</th>
+      <td><%= f.select :disabled, HyaccConstants::DISABLE_TYPES.invert %></td>
+    </tr>
+  </table>
+  
+  <% unless @customer.new_record? %>
+    <div>時系列名称</div>
+    <%= render 'customer_names', :customer => @customer %>
   <% end %>
-</div>
+<% end %>

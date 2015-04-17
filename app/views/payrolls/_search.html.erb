@@ -17,6 +17,7 @@
       部門：<%= collection_select('finder', 'branch_id', @branches, 'id', 'name') %>
       <span id="branch_employees"></span>
     <% else %>
+      <%= hidden_field('finder', 'branch_id', :value => current_company.get_head_office.id) %>
       従業員：<%= collection_select('finder', 'employee_id', current_company.employees, 'id', 'name') %>
     <% end %>
 

@@ -1,10 +1,7 @@
 <script>
-
-
   var form = $('.payroll_form form');
   
   $(document).ready(function() {
-      
       // 新規登録の場合
      <% if @payroll.new_record? %>
        loadInsurance(form);
@@ -13,6 +10,10 @@
      // 基本給変更時
      form.find('input[name*="\[base_salary\]"]').change(function() {
         loadInsurance(form);
+      });
+      
+      form.submit(function() {
+        return checkForm(this);
       });
       
     hyacc.init_datepicker();
@@ -141,11 +142,6 @@ function checkForm(form){
       <tr>
         <td>給与支払日</td>
         <td><%= f.text_field :pay_day, :class => 'datepicker' %></td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <%= f.submit :onclick => "return checkForm(this.form);" %>
-        </td>
       </tr>
     </table>
   <% end %>

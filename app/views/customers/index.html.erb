@@ -2,31 +2,34 @@
 <%= flash_notice %>
 
 <table class="customers">
-  <tr>
-    <th><%= Customer.human_attribute_name :code %></th>
-    <th><%= Customer.human_attribute_name :formal_name %></th>
-    <th><%= Customer.human_attribute_name :name %></th>
-    <th>受注先</th>
-    <th>発注先</th>
-    <th>状態</th>
-    <th colspan="3"></th>
-  </tr>
-
-  <% @customers.each do |c| %>
-    <tr class="hover">
-      <td class="center"><%= c.code %></td>
-      <td><%= c.formal_name %></td>
-      <td><%= c.name %></td>
-      <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_entry %>
-      <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_placement %>
-      <td class="center"><%= HyaccConstants::DISABLE_TYPES[c.disabled] %></td>
-      <td>
-        <%= link_to '参照', customer_path(c), :remote => true %>
-        <%= link_to '編集', edit_customer_path(c), :remote => true %>
-        <%= link_to '削除', customer_path(c), :method => 'delete', data: {confirm: "#{c.name} を削除します。よろしいですか？"} %>
-      </td>
+  <thead>
+    <tr>
+      <th><%= Customer.human_attribute_name :code %></th>
+      <th><%= Customer.human_attribute_name :formal_name %></th>
+      <th><%= Customer.human_attribute_name :name %></th>
+      <th>受注先</th>
+      <th>発注先</th>
+      <th>状態</th>
+      <th colspan="3"></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @customers.each do |c| %>
+      <tr class="hover">
+        <td class="center"><%= c.code %></td>
+        <td><%= c.formal_name %></td>
+        <td><%= c.name %></td>
+        <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_entry %>
+        <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_placement %>
+        <td class="center"><%= HyaccConstants::DISABLE_TYPES[c.disabled] %></td>
+        <td>
+          <%= link_to '参照', customer_path(c), :remote => true %>
+          <%= link_to '編集', edit_customer_path(c), :remote => true %>
+          <%= link_to '削除', customer_path(c), :method => 'delete', data: {confirm: "#{c.name} を削除します。よろしいですか？"} %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <%= will_paginate @customers %>

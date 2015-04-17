@@ -1,11 +1,6 @@
-<%= flash_notice %>
-
 <%= form_for @fiscal_year, :remote => true do |f| %>
+  <%= flash_notice %>
   <%= f.hidden_field :company_id %>
-
-  <div style="margin:0px 10px 0px 0px; text-align: right;">
-    <%= f.submit %>
-  </div>
 
   <table style="margin:5px;">
     <tr>

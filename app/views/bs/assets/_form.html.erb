@@ -1,8 +1,5 @@
 <%= form_for [:bs, @asset], :remote => true do |f| %>
   <div style="margin:0px 10px 0px 0px; text-align: right;">
-    <span style="margin-left: 5px;">
-      <%= f.submit '更新' %>
-    </span>
     <% if @asset.status_created? %>
       <span style="margin-left: 5px;">
         <%= f.submit '償却待に設定' %>

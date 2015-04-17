@@ -106,13 +106,12 @@ ja:
         fiscal_years: "事業年度"  
 
       customer: 
+        address: 住所
         code: 取引先コード
-        deleted: "を削除"
         formal_name: 取引先名（正式名）
+        is_order_entry: 受注フラグ
+        is_order_placement: 発注フラグ
         name: 取引先名（省略名）
-        address: "住所"  
-        is_order_entry: "受注フラグ"  
-        is_order_placement: "発注フラグ"  
 
       customer_name: &customer_name
         formal_name: 取引先名（正式名）

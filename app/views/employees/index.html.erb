@@ -13,9 +13,15 @@
     <tr class="hover">
       <td><%= e.full_name %></td>
       <td><%= e.default_branch_name %></td>
-      <td align="right"><%= link_to "#{e.years_of_career}年", career_statement_path(e) %></td>
+      <td align="right">
+        <% if e.years_of_career > 0 %>
+          <%= link_to "#{e.years_of_career}年", career_statement_path(e) %>
+        <% else %>
+          <span>なし</span>
+        <% end %>
+      </td>
       <td><%= e.deleted_name %></td>
-      <td><%= link_to '修正', edit_employee_path(e), :remote => true %></td>
+      <td><%= link_to '編集', edit_employee_path(e), :remote => true %></td>
       <td><%= link_to '削除', {:action => 'destroy', :id => e.id}, data: {confirm: '削除します。よろしいですか？'}, :method=>:post %></td>
     </tr>
   <% end %>

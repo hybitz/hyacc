@@ -11,24 +11,27 @@
   assert has_no_selector?('.banks', :text => @bank.name)
   
   click_on '追加'
-  fill_in '金融機関コード', :with => @bank.code
-  fill_in '金融機関名', :with => @bank.name
-  within_table '金融機関営業店' do
-    click_link '追加'
-    assert has_selector?('tr', :count => 3)
-
-    all('input').each do |input|
-      case input['id']
-      when /code/
-        fill_in input['id'], :with => @bank_office.code
-      when /name/
-        fill_in input['id'], :with => @bank_office.name
+  within '.ui-dialog' do
+    fill_in '金融機関コード', :with => @bank.code
+    fill_in '金融機関名', :with => @bank.name
+    within_table '金融機関営業店' do
+      click_link '追加'
+      assert has_selector?('tr', :count => 3)
+  
+      all('input').each do |input|
+        case input['id']
+        when /code/
+          fill_in input['id'], :with => @bank_office.code
+        when /name/
+          fill_in input['id'], :with => @bank_office.name
+        end
       end
     end
-  end
-  capture '銀行情報を入力して登録'
 
-  click_on '登録'
+    capture '銀行情報を入力して登録'
+    click_on '登録'
+  end
+
   assert has_selector?('.banks', :text => @bank.name)
   capture '登録完了'
 end

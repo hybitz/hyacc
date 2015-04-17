@@ -5,11 +5,32 @@ hyacc.current_dialog = function(options) {
 
 hyacc.Dialog = function(options) {
   this.options = options || {};
+  this.title = options.title;
   hyacc._dialogs.push(this);
 };
 
-hyacc.Dialog.prototype.title = function() {
-  return this.options.title;
+hyacc.Dialog.prototype._init_buttons = function() {
+  var that = this;
+  var ret = [];
+
+  if (that.options.submit) {
+    ret.push({
+      text: that.options.submit,
+      click: function() {
+        var form = that.jq_dialog.dialog('widget').find('form').first();
+        form.submit();
+      }
+    });
+  }
+
+  ret.push({
+    text: '閉じる',
+    click: function() {
+      that.close();
+    }
+  });
+
+  return ret;
 };
 
 hyacc.Dialog.prototype.open = function(url) {
@@ -24,13 +45,14 @@ hyacc.Dialog.prototype.show = function(html) {
     this.jq_dialog.html(html);
   } else {
     var that = this;
-    this.jq_dialog = $('<div>' + html + '</div>').dialog({
+    this.jq_dialog = $('<div class="dialog_wrapper">' + html + '</div>').dialog({
       modal: true,
-      title: that.title(),
+      title: that.title,
       width: that.options.width || 'auto',
       close: function() {
         that.close();
-      }
+      },
+      buttons: that._init_buttons()
     });
   }
 };

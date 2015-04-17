@@ -91,7 +91,7 @@ class PayrollsControllerTest < ActionController::TestCase
                       :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED}
     assert_response :success
     assert assigns(:payroll).errors.empty?
-    assert_template 'common/_reload_dialog'
+    assert_template 'common/reload'
 
     # 登録された仕訳をチェック
     pr = Payroll.find_by_ym_and_employee_id(ym, employee_id)
@@ -125,7 +125,7 @@ class PayrollsControllerTest < ActionController::TestCase
     xhr :post, :create, :payroll => valid_payroll_params(:ym => ym, :employee_id => employee_id)
     assert_response :success
     assert assigns(:payroll).errors.empty?
-    assert_template 'common/_reload_dialog'
+    assert_template 'common/reload'
 
     # 登録された仕訳をチェック
     pr = Payroll.find_by_ym_and_employee_id(ym, employee_id)

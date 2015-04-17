@@ -1,4 +1,6 @@
-var title = '<%= @title.present? ? @title + '　編集' : '編集' %>';
-var html = '<%=j render 'form' %>';
+var options = {
+  title: '<%= @title.present? ? @title + '　編集' : '編集' %>',
+  submit: '更新'
+};
 
-hyacc.current_dialog({title: title}).show(html);
+hyacc.current_dialog(options).show('<%=j render 'form' %>');

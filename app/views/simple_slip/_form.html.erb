@@ -36,6 +36,10 @@
             }
           );
         });
+        
+        form.submit(function() {
+          return validateSlip(this);
+        });
       });
     </script>
   </td>
@@ -43,7 +47,7 @@
     <%= h_sub_account_select 'slip', :style => 'width: 100%;' %>
     <%= hide_if_no_options("##{@slip.new_record? ? 'slip_new_form' : 'slip_edit_form'} .subAccountSelect") %>
   </td>
-  
+
   <% if branch_mode %>
     <td class="branchName"><%= h_branch_select 'slip', :style => 'width: 100%;' %></td>
   <% end %>
@@ -59,11 +63,7 @@
 
   <% if ['index', 'create'].include? action_name %>
     <td rowspan="4" colspan="4" valign="middle" align="center">
-        <input type="submit" name="commit" value="登録" onclick="return validateSlip( this.form );" />
-    </td>
-  <% elsif ['edit', 'update'].include? action_name %>
-    <td rowspan="4" style="text-align: center; vertical-align: middle; width: 3em;">
-      <input type="submit" name="commit" value="更新" onclick="return submitSlip( this.form );" />
+        <input type="submit" name="commit" value="登録"/>
     </td>
   <% end %>
 </tr>

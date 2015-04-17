@@ -226,25 +226,8 @@
     }
   }
   
-  function validateSlip( form ) {
-    if ( validateAmountOnOneSide(form, true) == null) {
-      return false;
-    }
-    
-    if ( ! checkExclusive(form, 'slip[auto_journal_type]', '自動振替は複数指定できません。') ) {
-      return false;
-    }
-    
-    if ( ! checkAutoTransferDate( form, 'slip', 'slip', '振替日の指定が不正です。') ) {
-      return false;
-    }
-
-    setMySubAccount(form);
-    return true;
-  }
-
-  function submitSlip( form ) {
-    if ( validateAmountOnOneSide(form, true) == null) {
+  function validateSlip(form) {
+    if (validateAmountOnOneSide(form, true) == null) {
       return false;
     }
     

@@ -1,4 +1,6 @@
-var title = '<%= @account.name %>　編集';
-var html = '<%=j render 'edit' %>';
+var options = {
+  title: '<%= @account.name %>　編集',
+  submit: '更新'
+};
 
-hyacc.current_dialog({title: title}).show(html);
+hyacc.current_dialog(options).show('<%=j render 'edit' %>');

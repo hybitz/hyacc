@@ -1,9 +1,6 @@
-<%= flash_notice %>
 
 <%= form_for @bank, :remote => true do |f| %>
-  <div style="margin:0px 10px 0px 0px; text-align: right;">
-    <%= f.submit %>
-  </div>
+  <%= flash_notice %>
   
   <% if @bank.new_record? %>
     <p>

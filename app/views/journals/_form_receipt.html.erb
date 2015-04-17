@@ -13,7 +13,7 @@
       <%= f.hidden_field :delete_flag_of_receipt_file %>
     <% end %>
   <% else %>
-    （<%= link_to"#{File::basename(@journal_header.receipt_path)}", {:action => 'download_receipt', :id => @journal} %>）
+    （<%= link_to File.basename(@journal.receipt_path), download_receipt_journal_path(@journal) %>）
     &nbsp;&nbsp;
     <input type="button" value="領収書削除" onclick="delete_receipt();" />
   <% end %>

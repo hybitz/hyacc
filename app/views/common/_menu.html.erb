@@ -55,13 +55,13 @@
 <div class="menu">
   <%= render 'common/simple_slip_menu' %>
   
-  <%= link_to '振替伝票', journals_path, :style => style_for_menu('journal') %>
+  <%= link_to '振替伝票', journals_path, :style => style_for_menu('journals') %>
   |
   <%= link_to '伝票管理', journal_admin_path, :style => style_for_menu(journal_admin_controllers) %>
   |
 
   <% if available?('payrolls') %>
-    <%= link_to '賃金台帳', payrolls_path, :style => style_for_menu('payroll') %>
+    <%= link_to '賃金台帳', payrolls_path, :style => style_for_menu('payrolls') %>
     |
   <% end %>
 
@@ -69,7 +69,7 @@
   |
   <%= link_to '締め処理', closing_path, :style => style_for_menu(closing_controllers) %>
   |
-  <%= link_to '元帳', ledgers_path, :style => style_for_menu('ledger') %>
+  <%= link_to '元帳', ledgers_path, :style => style_for_menu('ledgers') %>
   |
   <%= link_to '帳票出力', report_path, :style => style_for_menu(report_controllers) %>
   |

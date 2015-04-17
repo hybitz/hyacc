@@ -5,13 +5,9 @@
     $(document).ready(function() {
       $('#bank_account_bank_id').change(function() {
         bank_accounts.update_bank_offices(this, '#bank_account_bank_office_id');
-      }).change();
+      });
     });
   </script>
-
-  <div style="margin:0px 10px 0px 0px; text-align: right;">
-    <%= f.submit %>
-  </div>
 
   <table style="margin:5px;">
     <tr>
@@ -20,7 +16,13 @@
     </tr>
     <tr>
       <th><%= f.label :bank_office_id %></th>
-      <td><%= f.select :bank_office_id, [], {}, :style => 'display: none;' %></td>
+      <td>
+        <% if f.object.new_record? %>
+          <%= f.collection_select :bank_office_id, @banks.first.bank_offices, :id, :name %>
+        <% else %>
+          <%= f.collection_select :bank_office_id, f.object.bank.bank_offices, :id, :name %>
+        <% end %>
+      </td>
     </tr>
     <tr>
       <th><%= f.label :financial_account_type %></th>

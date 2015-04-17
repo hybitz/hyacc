@@ -60,10 +60,4 @@
       <% end %>
     </table>
   </div>
-
-  <% if @copy_link %>
-    <div style="margin-top: 10px;">
-      <%= link_to 'コピーを追加', {:action => :new_from_copy, :copy_id => @journal}, :remote => true %>
-    </div>
-  <% end %>
 </form>

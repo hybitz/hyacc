@@ -16,6 +16,7 @@
 //= require jquery-ui
 //= require jquery-ui/datepicker-ja
 //= require jquery.remotipart
+//= require moment
 //= require fullcalendar
 //= require tax_jp
 //= require daddy

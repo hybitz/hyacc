@@ -7,7 +7,8 @@ var options = {
     {
       text: 'コピーを追加',
       click: function() {
-        $.get('<%= url_for new_from_copy_journals_path(:copy_id => @journal) %>');
+        hyacc.current_dialog().close();
+        $.get('<%= url_for new_journal_path(:copy_id => @journal) %>');
       }
     }
   ];

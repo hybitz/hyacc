@@ -20,7 +20,7 @@ class SimpleSlipController::CashTest < ActionController::TestCase
         "day"=>"25"}
 
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_not_nil flash[:notice]
     assert flash[:is_error_message]
     assert_not_nil assigns(:slip)
@@ -41,7 +41,7 @@ class SimpleSlipController::CashTest < ActionController::TestCase
         "day"=>"01"}
 
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_not_nil assigns(:slip).errors[:remarks]
   end
 
@@ -60,7 +60,7 @@ class SimpleSlipController::CashTest < ActionController::TestCase
         "day"=>"01"}
 
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_equal ERR_INVALID_SLIP, flash[:notice]
   end
 

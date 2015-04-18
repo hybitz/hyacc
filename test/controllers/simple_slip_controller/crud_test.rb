@@ -107,7 +107,7 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
   def test_new
     get :index, :account_code=>1121
     assert_response :success
-    assert_template :list
+    assert_template :index
     assert_not_nil assigns(:slip)
     assert_not_nil assigns(:frequencies)
     assert_equal 32, assigns(:frequencies)[0].input_value.to_i

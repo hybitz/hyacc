@@ -97,16 +97,7 @@ class SimpleSlipController < Base::HyaccController
   end
   
   def index
-    list
-  end
-  
-  # 伝票を一覧表示する。
-  # 
-  # slip : 内部的な画面遷移用に呼び出す場合で、@slipの初期生成を必要と
-  #        しない場合は、@slipを引数に指定して呼び出す。
-  def list( slip = nil )
-    # 新規登録用のVO
-    @slip = setup_new_slip unless slip
+    @slip ||= setup_new_slip
         
     # 登録済み伝票を検索
     @slips = finder.list(:per_page => current_user.slips_per_page)
@@ -118,8 +109,9 @@ class SimpleSlipController < Base::HyaccController
       @pre_sum_amount = finder.get_net_sum_until( @slips.first )
       @sum_amount = finder.get_net_sum()
     end
-    
-    render_list
+
+    setup_view_attributes
+    render :index
   end
   
   def show
@@ -144,7 +136,7 @@ class SimpleSlipController < Base::HyaccController
       redirect_to :action => :index, :account_code => params[:account_code]
     rescue Exception => e
       handle(e)
-      list( @slip )
+      index
     end
   end
 
@@ -251,11 +243,6 @@ class SimpleSlipController < Base::HyaccController
     slip
   end
   
-  def render_list
-    setup_view_attributes
-    render :template=>'simple_slip/list'
-  end
-
   def save_input_frequencies(slip)
     InputFrequency.save_input_frequency(current_user.id, INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID, slip.account_id)
   end

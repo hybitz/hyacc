@@ -77,14 +77,10 @@ ja:
         name: "名前"  
         deleted: "を削除"
         is_head_office: "ヘッドオフィスです"  
-        users: "ユーザ"  
-        branches_users: "支店のユーザー"  
 
-      branches_user: 
-        cost_ratio: "費比率"  
+      branches_employee: 
+        cost_ratio: コスト割合 
         default_branch: 主所属部門  
-        branch: "枝"  
-        user: "ユーザ"
       
       business_office:
         name: 事業所名

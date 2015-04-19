@@ -4,4 +4,8 @@ class Mm::BranchesController < Base::HyaccController
   def index
   end
 
+  def show
+    @branch = Branch.find(params[:id])
+  end
+
 end

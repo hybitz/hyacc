@@ -48,7 +48,7 @@ class BusinessOfficesControllerTest < ActionController::TestCase
     sign_in user
     delete :destroy, :id => business_office.id
     assert_response :redirect
-    assert_redirected_to companies_path
+    assert_redirected_to mm_companies_path
   end
 
 end

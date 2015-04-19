@@ -4,6 +4,16 @@ Rails.application.routes.draw do
 
   namespace :mm do
     resources :branches
+
+    resources :companies, :only => ['index', 'update'] do
+      member do
+        get 'show_logo'
+        get 'edit_logo'
+        get 'edit_admin'
+        get 'edit_payday'
+        get 'edit_business_type'
+      end
+    end
   end
 
   resources :accounts do
@@ -31,15 +41,6 @@ Rails.application.routes.draw do
   resources :business_offices
   resources :careers
   resources :career_statements, :only => ['index', 'show']
-  resources :companies, :only => ['index', 'update'] do
-    member do
-      get 'show_logo'
-      get 'edit_logo'
-      get 'edit_admin'
-      get 'edit_payday'
-      get 'edit_business_type'
-    end
-  end
   resources :customers do
     collection do
       get 'add_customer_name'

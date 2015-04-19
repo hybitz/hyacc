@@ -1,7 +1,6 @@
 module PayrollHelper
   require 'hyacc_master/service_factory'
   include HyaccConstants
-  include CompanyHelper
   
   # 標準報酬月額の計算
   def get_standard_remuneration(ym = nil, employee_id = nil, base_salary = nil)
@@ -144,9 +143,9 @@ module PayrollHelper
   end
   
   def get_pay_day(ym, employee_id = nil)
-    payday = Employee.find(employee_id).company.payday
-    pay_day = Date.new(ym.to_i/100, ym.to_i%100, day_of_payday(payday).to_i)
-    pay_day = pay_day >> month_of_payday(payday).to_i
+    company = Employee.find(employee_id).company
+    pay_day = Date.new(ym.to_i/100, ym.to_i%100, company.day_of_payday)
+    pay_day = pay_day >> company.month_of_payday
     
     # 土日だったら休日前支払
     while pay_day.wday == 0 or pay_day.wday == 6

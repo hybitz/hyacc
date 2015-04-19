@@ -15,7 +15,9 @@ class Company < ActiveRecord::Base
 
   attr_accessor :day_of_payday
   attr_accessor :month_of_payday
-  
+
+  after_initialize :load_payday
+
   def current_fiscal_year
     fiscal_years.where(:fiscal_year => fiscal_year).first
   end
@@ -124,4 +126,35 @@ class Company < ActiveRecord::Base
   def tax_simplified?
     current_fiscal_year.consumption_entry_type == CONSUMPTION_ENTRY_TYPE_SIMPLIFIED
   end
+
+  def payday_jp
+    pd = self.payday
+    pd = DEFAULT_PAYDAY if pd.blank?
+
+    month, day = pd.split(",")
+    month_jp = month + "ヶ月後"
+    month_jp = month.to_i.abs.to_s + "ヶ月前" if month.to_i < 0
+    case month
+    when "0"
+      month_jp = "当月"
+    when "1"
+      month_jp = "翌月"
+    when "-1"
+      month_jp = "前月"
+    end
+    
+    return month_jp + day + "日"
+  end
+
+  private
+
+  def load_payday
+    pd = self.payday
+    pd = DEFAULT_PAYDAY if pd.blank?
+
+    month, day = pd.split(",")
+    self.month_of_payday = month.to_i
+    self.day_of_payday = day.to_i
+  end
+
 end

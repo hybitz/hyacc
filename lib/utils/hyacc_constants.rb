@@ -79,6 +79,8 @@ module HyaccConstants
     CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX = 3 => '市町村民税',
     CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX = 4 => '復興税',
   }
+
+  DEFAULT_PAYDAY = "0,25"
   
   # 減価償却方法
   DEPRECIATION_METHODS = {

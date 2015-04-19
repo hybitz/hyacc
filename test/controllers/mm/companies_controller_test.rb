@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CompaniesControllerTest < ActionController::TestCase
+class Mm::CompaniesControllerTest < ActionController::TestCase
 
   setup do
     sign_in users(:first)

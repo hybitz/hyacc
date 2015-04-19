@@ -71,5 +71,5 @@ class Mm::CompaniesController < Base::HyaccController
 
     ret
   end
-  
+
 end

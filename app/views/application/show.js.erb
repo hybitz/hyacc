@@ -1,4 +1,5 @@
-var title = '<%= @title.present? ? @title + '　参照' : '参照' %>';
-var html = '<%=j render 'show' %>';
+var options = {
+  title: '<%= @title.present? ? @title + '　参照' : '参照' %>'
+};
 
-hyacc.current_dialog({title: title}).show(html);
+hyacc.current_dialog(options).show('<%=j render 'show' %>');

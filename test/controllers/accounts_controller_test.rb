@@ -135,14 +135,12 @@ class AccountsControllerTest < ActionController::TestCase
 
   def test_削除
     assert_nothing_raised {
-      Account.find(@first_id)
+      xhr :delete, :destroy, :id => @first_id
+      assert_response :success
+      assert_template 'common/reload'
     }
 
-    delete :destroy, :id => @first_id
-    assert_response :redirect
-    assert_redirected_to :action => 'index'
-
-    assert  Account.find(@first_id).deleted
+    assert Account.find(@first_id).deleted?
   end
   
   # システム必須の勘定科目は削除できないこと

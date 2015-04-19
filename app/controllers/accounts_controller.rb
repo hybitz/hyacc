@@ -97,18 +97,18 @@ class AccountsController < Base::HyaccController
 
     # システム必須の勘定科目は削除不可
     if @account.account_control.system_required
-      raise HyaccException.new(ERR_SYSTEM_REQUIRED_ACCOUNT)
+      raise HyaccException.new(ERR_SYSTEM_REQUIRED_ACCOUNT) and return
     end
-    
+
     # 既に伝票が起票されていた場合は削除不可
     if is_already_used(@account)
-      raise HyaccException.new(ERR_ACCOUNT_ALREADY_USED)
+      raise HyaccException.new(ERR_ACCOUNT_ALREADY_USED) and return
     end
-    
+
     @account.update_attributes(:deleted => true)
-    redirect_to :action => 'index'
+    render 'common/reload'
   end
-  
+
   private
 
   def finder

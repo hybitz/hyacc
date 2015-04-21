@@ -27,7 +27,7 @@ class SimpleSlipController::DateInputExpenseTest < ActionController::TestCase
       }
 
     assert_response :success
-    assert_template 'list'
+    assert_template :index
     assert_not_nil assigns(:slip)
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end

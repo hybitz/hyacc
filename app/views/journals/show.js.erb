@@ -1,0 +1,18 @@
+var options = {
+  title: '<%= @title.present? ? @title + '　参照' : '参照' %>'
+};
+
+<% if @copy_link %>
+  options.buttons = [
+    {
+      text: 'コピーを追加',
+      click: function() {
+        hyacc.current_dialog().close();
+        $.get('<%= url_for new_journal_path(:copy_id => @journal) %>');
+      }
+    }
+  ];
+<% end %>
+
+hyacc.current_dialog(options).show('<%=j render 'show' %>');
+

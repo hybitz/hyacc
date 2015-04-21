@@ -104,7 +104,7 @@ class SimpleSlipController::DepositTest < ActionController::TestCase
         :tax_type => TAX_TYPE_NONTAXABLE}
 
     assert_response :success
-    assert_template 'list'
+    assert_template :index
     assert_not_nil assigns(:slip)
     assert_not_nil assigns(:slip).errors
     assert_not_nil assigns(:slip).journal_header.journal_details[0].errors[:sub_account]

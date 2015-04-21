@@ -6,7 +6,7 @@ class JournalsController < Base::HyaccController
   view_attribute :title => '振替伝票'
   view_attribute :finder, :class => JournalFinder, :only => :index
 
-  before_action :setup_view_attributes, :only => ['index', 'new', 'new_from_copy', 'show', 'show_except_copy_link', 'edit', 'add_detail']
+  before_action :setup_view_attributes, :only => ['index', 'new', 'show', 'edit', 'add_detail']
 
   # 添付されている領収書を削除状態にする
   def delete_receipt
@@ -45,17 +45,14 @@ class JournalsController < Base::HyaccController
   end
 
   def new
-    @journal = create_new_journal
-  end
-
-  # 新規伝票を既存伝票のコピーから登録
-  def new_from_copy
-    @journal = copy_journal(Journal.find(params[:copy_id]))
-    @journal.ym = @ym
-    @journal.day = @day
-    clear_asset_from_details(@journal)
-
-    render 'new'
+    if params[:copy_id].present?
+      @journal = copy_journal(Journal.find(params[:copy_id]))
+      @journal.ym = @ym
+      @journal.day = @day
+      clear_asset_from_details(@journal)
+    else
+      @journal = create_new_journal
+    end
   end
 
   def add_detail

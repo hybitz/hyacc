@@ -13,6 +13,12 @@ hyacc.Dialog.prototype._init_buttons = function() {
   var that = this;
   var ret = [];
 
+  if (that.options.buttons) {
+    for (var i = 0; i < that.options.buttons.length; i ++) {
+      ret.push(that.options.buttons[i]);
+    }
+  }
+
   if (that.options.submit) {
     ret.push({
       text: that.options.submit,

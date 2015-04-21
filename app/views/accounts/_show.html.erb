@@ -62,9 +62,3 @@
 <% end %>
 
 <%= render 'show_sub_accounts' %>
-
-<div style="margin:10px;">
-  <% unless @account.deleted or @account.account_control.system_required %>
-    <%= link_to '削除', account_path(@account), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %>
-  <% end %>
-</div>

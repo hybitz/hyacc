@@ -1,0 +1,18 @@
+<script>
+  var data = [
+    <% current_company.branches(:parent => nil, :deleted => false).each do |b| %>
+      <%= convert_branch_to_json(b) %>,
+    <% end %>
+  ];
+
+  $(document).ready(function() {
+    $('#branch_tree').tree({
+      data: data,
+      selectable: false,
+      saveState: 'branch_tree',
+      autoEscape: false,
+      dragAndDrop: false,
+    });
+  });
+</script>
+<div id="branch_tree"></div>

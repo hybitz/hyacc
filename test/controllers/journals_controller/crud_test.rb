@@ -35,16 +35,16 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_コピーを追加
-    xhr :get, :new_from_copy, :copy_id => 1
+    xhr :get, :new, :copy_id => 1
     assert_response :success
     assert_template 'new'
 
     assert @journal = assigns(:journal)
-    assert_not_nil assigns(:frequencies)
-    assert_equal 22, assigns(:frequencies)[0].input_value.to_i
+    assert @frequencies = assigns(:frequencies)
+    assert_equal 22, @frequencies.first.input_value.to_i
 
     # システム日を設定していれば、既存伝票の年月と同一なわけがない
-    assert_not_equal JournalHeader.find(1).ym, @journal.ym, "新規伝票の年月がコピー元伝票の年月と同じなのは不正です。"
+    assert_not_equal JournalHeader.find(1).ym, @journal.ym
   end
 
   def test_登録

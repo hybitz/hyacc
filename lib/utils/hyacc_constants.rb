@@ -172,7 +172,8 @@ module HyaccConstants
     REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK = 6 => '別表5(1)　利益積立金額及び資本金等の計算に関する明細書',
     REPORT_TYPE_TAX_AND_DUES = 7 => '別表5(2)　租税公課の納付状況等に関する明細書',
     REPORT_TYPE_SOCIAL_EXPENSE = 8 => '別表15　交際費等の損金算入に関する明細書',
-    REPORT_TYPE_INCOME = 9 => '別表四　所得の金額の計算に関する明細書',
+    REPORT_TYPE_INCOME = 9 => '別表4　所得の金額の計算に関する明細書',
+    REPORT_TYPE_DIVIDEND_RECEIVED = 10 => '別表8　受取配当等の益金不算入に関する明細書',
     REPORT_TYPE_WITHHOLDING_SUMMARY = 20 => '給与所得の源泉徴収等の法定調書合計表',
     REPORT_TYPE_WITHHOLDING_DETAILS = 21 => '給与所得の源泉徴収票',
     REPORT_TYPE_WITHHOLDING_CALC = 22 => '給与所得・退職所得等の所得税徴収高計算書'
@@ -314,6 +315,7 @@ module HyaccConstants
   ACCOUNT_CODE_ADVANCE_MONEY = '1821' # 立替金
   ACCOUNT_CODE_COMMISSION_PAID = '8681' # 支払手数料
   ACCOUNT_CODE_RENT = '8551' # 地代家賃
+  ACCOUNT_CODE_DIVIDEND_RECEIVED = '4222' # 受取配当金
   
   # 補助科目コード
   SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY = '100' # 源泉所得税（立替金）
@@ -328,5 +330,8 @@ module HyaccConstants
   SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_LEGAL_WELFARE = '300' # 厚生年金（法定福利費）
   SUB_ACCOUNT_CODE_BUSINESS_TAX = '400' # 事業税
   SUB_ACCOUNT_CODE_OTHERS = '900' # その他
+  SUB_ACCOUNT_CODE_FULLY_OWNED_STOCKS = '100' # 完全子法人株式
+  SUB_ACCOUNT_CODE_PARTIALLY_OWNED_STOCKS = '200'# 関係法人株式
+  SUB_ACCOUNT_CODE_ETC_STOCKS = '300' # その他株式
 
 end

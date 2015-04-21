@@ -21,6 +21,8 @@ class FinancialReturnStatementsController < Base::HyaccController
       render_tax_and_dues
     when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
       render_trade_account_payable
+    when REPORT_TYPE_DIVIDEND_RECEIVED
+      render_dividend_received
     end if finder.commit
   end
 
@@ -59,8 +61,14 @@ class FinancialReturnStatementsController < Base::HyaccController
   # 買掛金の内訳書
   def render_trade_account_payable
     logic = Reports::TradeAccountPayableLogic.new
-    @report = logic.get_trade_account_payable_model(finder)    
+    @report = logic.get_trade_account_payable_model(finder)
     render :trade_account_payable
   end
-
+  
+  # 受取配当
+  def render_dividend_received
+    logic = Reports::DividendReceivedLogic.new
+    @models = logic.get_dividend_received_model(finder)
+    render :dividend_received
+  end
 end

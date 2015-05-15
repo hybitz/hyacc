@@ -4,7 +4,6 @@ cache: bundler
 rvm:
   - 2.2.2
   - 2.1.6
-  - 2.0.0
 before_script:
   - cp -f travis/database.yml config/
   - bundle exec rake dad:db:create NO_ROOT_PASSWORD=true

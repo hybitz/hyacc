@@ -2,8 +2,8 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
-  - 2.2.0
-  - 2.1.0
+  - 2.2.2
+  - 2.1.6
   - 2.0.0
 before_script:
   - cp -f travis/database.yml config/

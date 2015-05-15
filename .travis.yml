@@ -12,4 +12,5 @@ before_script:
 script:
   - bundle exec rake test
   - bundle exec rake dad:test
+  - bundle exec rake dad:test user_stories
 

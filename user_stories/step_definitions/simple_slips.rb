@@ -44,3 +44,28 @@ end
     capture
   end
 end
+
+もし /^売上を計上$/ do |ast_table|
+  normalize_table(ast_table)[1..-1].each do |row|
+    assert_equal row[3], row[5]
+
+    ymd = row[0]
+    remarks = row[1]
+    simple_slip = row[2]
+    amount = row[3].gsub(',', '')
+    account = Account.where(:name => row[4], :deleted => false).first!
+
+    click_on simple_slip
+    assert has_title? simple_slip
+    count = all('#slipTable tbody tr').count
+
+    fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
+    fill_in 'slip_day', :with => ymd.split('-').last
+    fill_in 'slip_remarks', :with => remarks
+    select account.code_and_name, :from =>  'slip_account_id'
+    fill_in 'slip_amount_increase', :with => amount
+    click_on '登録'
+    assert has_selector?('#slipTable tbody tr', :count => count + 1)
+    capture
+  end
+end

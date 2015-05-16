@@ -73,9 +73,9 @@ end
 もし /^振替伝票の追加ダイアログを開きます。$/ do
   sign_in :login_id => user.login_id
   click_on '振替伝票'
-  assert_equal '/journals', current_path
+  assert has_title?('振替伝票')
   click_on '追加'
-  assert page.has_selector?("div.ui-dialog", :visible => true)
+  assert has_selector?("div.ui-dialog", :visible => true)
   capture
 end
 

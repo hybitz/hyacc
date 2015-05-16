@@ -94,6 +94,7 @@ end
 
 ならば /^(小口現金|普通預金|未払金（従業員）)の一覧に遷移する$/ do |account_name|
   assert has_title?(account_name)
+  assert has_no_selector?('.tax_type_not_ready');
   capture
 end
 

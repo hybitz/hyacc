@@ -1,7 +1,10 @@
 前提 /^(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |account_name|
   sign_in user unless current_user
-  assert @account = Account.where(:name => account_name).first
-  assert_visit "/simple/#{@account.code}"
+
+  within '.menu' do
+    click_on account_name
+    assert has_title?(account_name)
+  end
 end
 
 もし /^以下の簡易入力伝票(を|に)(登録|更新)する$/ do |prefix, action, ast_table|

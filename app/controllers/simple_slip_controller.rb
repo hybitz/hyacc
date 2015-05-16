@@ -113,7 +113,7 @@ class SimpleSlipController < Base::HyaccController
     setup_view_attributes
     render :index
   end
-  
+
   def show
     @slip = finder.find( params[:id] )
     setup_view_attributes

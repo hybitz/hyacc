@@ -78,7 +78,7 @@ module Base::ViewAttributeHandler
     else
       ret = account.sub_accounts
     end
-    
+
     sort(ret, options[:order])
   end
   

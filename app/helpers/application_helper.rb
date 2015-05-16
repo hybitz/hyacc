@@ -80,14 +80,11 @@ module ApplicationHelper
 
   # <title>タグを表示する
   def render_title(options = {})
-    only = options[:only]
-    if only.nil? or only.include? action_name
-      render 'common/title', :action_name => (options[:action_name] || action_name)
-    end
+    render 'common/title'
   end
 
   # <meta>タグを表示する
-  def render_meta(options={})
+  def render_meta(options = {})
     only = options[:only]
     if only.nil? or only.include? controller.action_name
       render 'common/meta'

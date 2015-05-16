@@ -32,14 +32,18 @@ end
 
     click_on simple_slip
     assert has_title? simple_slip
-    count = all('#slipTable tbody tr').count
+    assert has_no_selector? '.tax_type_not_ready'
+    sleep 3
 
-    fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
-    fill_in 'slip_day', :with => ymd.split('-').last
-    fill_in 'slip_remarks', :with => remarks
-    select account.code_and_name, :from =>  'slip_account_id'
-    fill_in 'slip_amount_decrease', :with => amount
-    click_on '登録'
+    count = all('#slipTable tbody tr').count
+    within '#slip_new_form' do
+      fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
+      fill_in 'slip_day', :with => ymd.split('-').last
+      fill_in 'slip_remarks', :with => remarks
+      select account.code_and_name, :from =>  'slip_account_id'
+      fill_in 'slip_amount_decrease', :with => amount
+      click_on '登録'
+    end
     assert has_selector?('#slipTable tbody tr', :count => count + 1)
     capture
   end
@@ -57,14 +61,19 @@ end
 
     click_on simple_slip
     assert has_title? simple_slip
-    count = all('#slipTable tbody tr').count
+    assert has_no_selector? '.tax_type_not_ready'
+    sleep 3
 
-    fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
-    fill_in 'slip_day', :with => ymd.split('-').last
-    fill_in 'slip_remarks', :with => remarks
-    select account.code_and_name, :from =>  'slip_account_id'
-    fill_in 'slip_amount_increase', :with => amount
-    click_on '登録'
+    count = all('#slipTable tbody tr').count
+    within '#slip_new_form' do
+      fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
+      fill_in 'slip_day', :with => ymd.split('-').last
+      fill_in 'slip_remarks', :with => remarks
+      select account.code_and_name, :from =>  'slip_account_id'
+      fill_in 'slip_amount_increase', :with => amount
+      click_on '登録'
+    end
+    capture
     assert has_selector?('#slipTable tbody tr', :count => count + 1)
     capture
   end

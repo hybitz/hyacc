@@ -19,3 +19,7 @@ system('rake db:seed')
 Before do
   resize_window(1280, 720)
 end
+
+After do |scenario|
+  Cucumber.wants_to_quit = true if scenario.failed?
+end

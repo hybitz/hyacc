@@ -3,6 +3,7 @@
   assert @bank_office
 
   click_on '金融口座'
+  assert has_title?('金融口座')
   capture 'マスタメンテ - 金融口座'
 
   @bank_account = BankAccount.new(:bank => @bank, :bank_office => @bank_office)

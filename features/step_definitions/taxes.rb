@@ -3,5 +3,6 @@
 end
 
 ならば /^消費税管理に遷移する$/ do
+  assert has_title?('消費税管理')
   assert_url '^/taxes$'
 end

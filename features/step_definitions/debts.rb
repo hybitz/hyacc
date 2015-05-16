@@ -23,6 +23,7 @@ end
 end
 
 ならば /^仮負債精算に遷移する$/ do
+  assert has_title?('仮負債精算')
   assert_url '/debts'
 end
 

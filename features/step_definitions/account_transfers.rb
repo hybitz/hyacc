@@ -19,6 +19,7 @@ end
 end
 
 ならば /^科目振替に遷移する$/ do
+  assert has_title?('科目振替')
   assert_url '/account_transfers'
 end
 

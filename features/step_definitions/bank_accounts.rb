@@ -1,5 +1,6 @@
-もし /^金融口座をクリックし、一覧を表示$/ do
+もし /^金融口座をクリックし、一覧を表示する$/ do
   click_on '金融口座'
+  assert has_title?('金融口座')
   assert_url '/bank_accounts(\?.*)?'
 end
 

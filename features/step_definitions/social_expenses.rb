@@ -1,4 +1,5 @@
 ならば /^交際費管理に遷移する$/ do
+  assert has_title?('交際費管理')
   assert_url '/social_expenses'
 end
 

@@ -30,6 +30,7 @@ end
 end
 
 ならば /^伝票管理に遷移する$/ do
+  assert has_title?('伝票管理')
   assert_url '/journal_admin'
 end
 

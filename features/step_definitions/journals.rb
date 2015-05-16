@@ -61,6 +61,7 @@ end
 end
 
 ならば /^振替伝票の一覧に遷移する$/ do
+  assert has_title?('振替伝票')
   assert_url '/journals'
 end
 

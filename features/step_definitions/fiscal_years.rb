@@ -3,6 +3,7 @@
 end
 
 ならば /^会計年度の一覧に遷移する$/ do
+  assert has_title?('会計年度')
   assert_url '/fiscal_years$'
 end
 

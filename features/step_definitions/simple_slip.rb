@@ -8,6 +8,7 @@
 end
 
 もし /^以下の簡易入力伝票(を|に)(登録|更新)する$/ do |prefix, action, ast_table|
+  @account = Account.find_by_name(page.title)
   @slip ||= Slips::Slip.new(:account_code => @account.code)
 
   normalize_table(ast_table).each do |row|
@@ -76,6 +77,8 @@ end
 end
 
 もし /^任意の簡易伝票の(参照|編集|削除|コピー)をクリックする$/ do |action|
+  assert @account = Account.find_by_name(page.title)
+
   within '#slipTable' do
     tr = all('tr.cashRow')[1]
     @slip = Slips::Slip.new(:account_code => @account.code)
@@ -90,12 +93,12 @@ end
 end
 
 ならば /^(小口現金|普通預金|未払金（従業員）)の一覧に遷移する$/ do |account_name|
-  @account = Account.find_by_name(account_name)
-  assert_url "/simple/#{@account.code}"
+  assert has_title?(account_name)
+  capture
 end
 
 ならば /^簡易伝票の(参照|編集)ダイアログが表示される$/ do |action|
-  wait_until { page.has_selector?("#slip_edit_form", :visible => true) }
+  wait_until { has_selector?("#slip_edit_form", :visible => true) }
   capture
 end
 

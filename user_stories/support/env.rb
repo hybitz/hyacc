@@ -14,9 +14,23 @@ Capybara.default_selector = :css
 
 include HyaccConstants
 
-system('rake db:seed')
+Before do |scenario|
+  dump_dir = File.join('tmp', File.dirname(scenario.file), File.basename(scenario.file, '.feature'))
 
-Before do
+  if ARGV.include?(scenario.file)
+    db = Dir.glob(File.join(dump_dir, '*.dump.gz')).first
+    if db
+      system("rake dad:db:load DUMP_FILE=#{db} --quiet")
+    end
+  else
+    # 直前のDBをダンプしておく
+    if @current_feature != scenario.file
+      system("rm -Rf #{dump_dir}")
+      system("rake dad:db:dump DUMP_DIR=#{dump_dir} --quiet")
+      @current_feature = scenario.file
+    end
+  end
+
   resize_window(1280, 720)
 end
 

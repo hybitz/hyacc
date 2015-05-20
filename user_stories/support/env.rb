@@ -14,7 +14,7 @@ Capybara.default_selector = :css
 
 include HyaccConstants
 
-unless ENV['CI'] != 'travis'
+if ENV['CI'] != 'travis'
   Before do |scenario|
     dump_dir = File.join('tmp', File.dirname(scenario.file), File.basename(scenario.file, '.feature'))
   

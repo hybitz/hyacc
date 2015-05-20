@@ -10,6 +10,6 @@ before_script:
   - bundle exec rake db:schema:load
 script:
   - bundle exec rake test
-  - bundle exec rake dad:test
-  - bundle exec rake dad:test user_stories
+  - bundle exec rake dad:test CI=travis
+  - bundle exec rake dad:test user_stories CI=travis
 

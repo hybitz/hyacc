@@ -6,7 +6,7 @@ namespace :deploy do
       local_file = File.join(fetch(:deploy_to), fetch(:application), file)
 
       unless File.exist?(local_file)
-        error "File does not exist: #{local_file}"
+        error "File does not exist on local server: #{local_file}"
         exit 1
       end
 

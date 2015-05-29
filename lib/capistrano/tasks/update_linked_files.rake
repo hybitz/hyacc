@@ -2,8 +2,8 @@ namespace :deploy do
 
   desc 'Upload linked_files from local server'
   task :update_linked_files do
-    linked_files.each do |file|
-      local_file = File.join(fetch(:deploy_to), fetch(:application), file)
+    fetch(:linked_files, []).each do |file|
+      local_file = File.join(fetch(:deploy_to), file)
 
       unless File.exist?(local_file)
         error "File does not exist on local server: #{local_file}"

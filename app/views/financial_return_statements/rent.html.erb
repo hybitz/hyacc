@@ -29,7 +29,7 @@
         <td rowspan="2"><%= HyaccConstants::RENT_TYPES[ rent.rent_type ] %></td>
         <td height="40"><%= HyaccConstants::RENT_USAGE_TYPES[ rent.usage_type ] %></td>
         <td><%= rent.customer.formal_name %></td>
-        <td><%= rent.ymd_start.to_s.slice(0,4) %>.<%= rent.ymd_start.to_s.slice(4,2) %>.<%= rent.ymd_start.to_s.slice(6,2) %>～<%= rent.ymd_end.to_s.slice(0,4) %>.<%= rent.ymd_end.to_s.slice(4,2) %>.<%= rent.ymd_end.to_s.slice(6,2) %></td>
+        <td><%= format_wareki_year_month_day(rent.ymd_start) %>～<%= format_wareki_year_month_day(rent.ymd_end) %></td>
         <td rowspan="2"><%= rent.remarks %></td>
       </tr>
       <tr>

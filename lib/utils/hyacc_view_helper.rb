@@ -34,6 +34,16 @@ module HyaccViewHelper
   def format_year_month_day( year_month_day )
     format_year_month( year_month_day / 100 ) + "/" + (year_month_day % 100).to_s
   end
+
+  def format_wareki_year_month( year_month )
+    zero_pad = ( year_month % 100 ) < 10 ? '0' : ''
+    Gengou.to_wareki( year_month / 100 ) + "年" + zero_pad + ( year_month % 100 ).to_s + "月"
+  end
+  
+  def format_wareki_year_month_day( year_month_day )
+    zero_pad = ( year_month_day % 100 ) < 10 ? '0' : ''
+    format_wareki_year_month( year_month_day / 100 ) + zero_pad + ( year_month_day % 100 ).to_s + "日"
+  end
   
   def dc_types
     revert_and_sort( DC_TYPES )

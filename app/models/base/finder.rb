@@ -25,7 +25,7 @@ module Base
       @start_month_of_fiscal_year = user.company.start_month_of_fiscal_year
       @slips_per_page = user.slips_per_page
       @login_user_id = user.id
-      
+      @founded_date = user.company.founded_date
       @commit = nil
       @page = 0
       @ym = nil
@@ -71,6 +71,19 @@ module Base
     
     def end_year_month_of_fiscal_year
       get_end_year_month_of_fiscal_year(@fiscal_year, @start_month_of_fiscal_year)
+    end
+    
+    def start_year_month_day_of_fiscal_year
+      yyyymm = start_year_month_of_fiscal_year
+      yyyymmdd = (yyyymm.to_s + "01").to_i
+      # TODO 設立日を考慮する必要有り
+      yyyymmdd
+    end
+    
+    def end_year_month_day_of_fiscal_year
+      yyyymm = end_year_month_of_fiscal_year
+      d = Date.new(yyyymm / 100, yyyymm % 100, 1).end_of_month
+      d.strftime("%Y%m%d").to_i
     end
   end
 end

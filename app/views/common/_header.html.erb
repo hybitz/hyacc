@@ -15,7 +15,9 @@
       <%= current_company.current_fiscal_year_int %>年度
     </div>
   <% end %>
-
+  <div style="float: left; margin-left: 0px;">
+    （<%= format_wareki_year_month(current_company.current_fiscal_year.start_year_month) %>～<%= format_wareki_year_month(current_company.current_fiscal_year.end_year_month) %>）
+  </div>
   <div style="text-align: right;">
     <nobr>
         <%= link_to "#{current_user.employee.last_name} #{current_user.employee.first_name} さん", edit_profile_path(current_user) %>

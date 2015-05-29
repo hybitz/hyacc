@@ -18,7 +18,7 @@
   <tr>
       <td colspan="3">完全子法人株式等に係る受取配当等の額<br/>(38の計)</td>
       <td>1</td>
-      <td></td>
+      <td><%= number_to_currency(@models.fully_owned_stocks_amount, :format=>"%n") %></td>
       <td colspan="3">完全子法人株式等に係る受取配当等の額<br/>(38の計)</td>
       <td>16</td>
       <td></td>
@@ -27,7 +27,7 @@
       <td rowspan="10">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
       <td colspan="2">受取配当等の額<br/>(41の計)</td>
       <td>2</td>
-      <td></td>
+      <td><%= number_to_currency(@models.partially_stocks_amount, :format=>"%n") %></td>
       <td rowspan="10">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
       <td colspan="2">受取配当等の額<br/>(41の計)</td>
       <td>17</td>

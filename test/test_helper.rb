@@ -9,7 +9,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
-if ENV['JENKINS']
+if ENV['FORMAT'].to_s.downcase == 'junit'
   require 'minitest/reporters'
   MiniTest::Reporters.use! [
     MiniTest::Reporters::DefaultReporter.new,

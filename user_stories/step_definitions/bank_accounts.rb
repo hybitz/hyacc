@@ -1,4 +1,4 @@
-もし /^口座を登録します$/ do
+もし /^口座を登録$/ do
   assert @bank
   assert @bank_office
 

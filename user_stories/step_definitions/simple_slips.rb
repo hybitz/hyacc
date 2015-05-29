@@ -1,4 +1,4 @@
-もし /^資本金の仕訳を登録します$/ do |ast_table|
+もし /^資本金の仕訳を登録$/ do |ast_table|
   assert row = normalize_table(ast_table).last
   assert_equal row[1], row[3]
 
@@ -69,6 +69,38 @@ end
       within '#slip_new_form' do
         fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
         fill_in 'slip_day', :with => ymd.split('-').last
+        fill_in 'slip_remarks', :with => remarks
+        select account.code_and_name, :from =>  'slip_account_id'
+        fill_in 'slip_amount_increase', :with => amount
+        click_on '登録'
+      end
+      assert has_selector?('#slipTable tbody tr', :count => count + 1)
+    ensure
+      capture
+    end
+  end
+end
+
+もし /^取引先からの入金$/ do |ast_table|
+  normalize_table(ast_table)[1..-1].each do |row|
+    assert_equal row[3], row[5]
+
+    ym = row[0].split('-').slice(0, 2).join
+    day = row[0].split('-').last
+    remarks = row[1]
+    simple_slip = row[2]
+    amount = row[3].gsub(',', '')
+    assert account = Account.where(:name => row[4], :deleted => false).first
+
+    begin
+      click_on simple_slip
+      assert has_title? simple_slip
+      assert has_no_selector? '.tax_type_not_ready'
+
+      count = all('#slipTable tbody tr').count
+      within '#slip_new_form' do
+        fill_in 'slip_ym', :with => ym
+        fill_in 'slip_day', :with => day
         fill_in 'slip_remarks', :with => remarks
         select account.code_and_name, :from =>  'slip_account_id'
         fill_in 'slip_amount_increase', :with => amount

@@ -1,9 +1,9 @@
-もし /^Hyaccをインストール後の最初のアクセス時に、初期設定が表示されます$/ do
+もし /^Hyaccインストール後の最初のアクセス時に、初期設定が表示される$/ do
   system('rake db:seed')
   assert_visit '/'
 end
 
-もし /^会社情報を入力し登録します$/ do |ast_table|
+もし /^会社情報を登録$/ do |ast_table|
   @user = User.new
 
   normalize_table(ast_table).each do |row|
@@ -43,7 +43,7 @@ end
   assert_equal '/users/sign_in', current_path
 end
 
-もし /^ログイン画面が表示されるので、登録したログインIDとパスワードでログインします$/ do
+もし /^ログイン画面が表示されるので、登録したログインIDとパスワードでログイン$/ do
   assert @user
 
   fill_in 'ログインID', :with => @user.login_id

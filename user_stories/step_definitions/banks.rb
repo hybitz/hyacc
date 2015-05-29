@@ -1,4 +1,4 @@
-もし /^金融機関を登録します$/ do
+もし /^金融機関を登録$/ do
   assert User.count > 0
 
   sign_in User.first

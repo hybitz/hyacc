@@ -1,4 +1,4 @@
-もし /^受注元となる取引先を登録します$/ do |ast_table|
+もし /^受注元となる取引先を登録$/ do |ast_table|
   rows = normalize_table(ast_table)
 
   sign_in User.first unless current_user

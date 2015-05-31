@@ -32,7 +32,7 @@ end
 
     click_on simple_slip
     assert has_title? simple_slip
-    assert has_no_selector? '.tax_type_not_ready'
+    assert has_selector? '.tax_type_ready'
     sleep 3
 
     count = all('#slipTable tbody tr').count
@@ -62,7 +62,7 @@ end
 
       click_on simple_slip
       assert has_title? simple_slip
-      assert has_no_selector? '.tax_type_not_ready'
+      assert has_no_selector? '.tax_type_ready'
       sleep 3
 
       count = all('#slipTable tbody tr').count
@@ -95,7 +95,7 @@ end
     begin
       click_on simple_slip
       assert has_title? simple_slip
-      assert has_no_selector? '.tax_type_not_ready'
+      assert has_no_selector? '.tax_type_ready'
 
       count = all('#slipTable tbody tr').count
       within '#slip_new_form' do

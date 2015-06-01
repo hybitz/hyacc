@@ -1,0 +1,25 @@
+<div style="margin: 10px;">
+<p style="font-weight: bold;">売掛金（未収入金）の内訳書</p>
+
+<table width="800">
+  <tr>
+    <th rowspan="2">科目</th>
+    <th colspan="2">相手先</th>
+    <th rowspan="2">期末現在高</th>
+    <th rowspan="2" width="30%">摘要</th>
+  </tr>
+  <tr>
+    <th>名称（氏名）</th>
+    <th>所在地（住所）</th>
+  </tr>
+  <% @report.each_with_index do |t, index| %>
+  <tr>
+      <td>売掛</td>
+      <td><%= t.customer_name %></td>
+      <td><%= t.address %></td>
+      <td><%= to_amount(t.account_receivable) %></td>
+      <td>-</td>
+  </tr>
+  <% end %>
+</table>
+</div>

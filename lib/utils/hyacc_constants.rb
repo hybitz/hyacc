@@ -178,7 +178,8 @@ module HyaccConstants
     REPORT_TYPE_DIVIDEND_RECEIVED = 10 => '別表8　受取配当等の益金不算入に関する明細書',
     REPORT_TYPE_WITHHOLDING_SUMMARY = 20 => '給与所得の源泉徴収等の法定調書合計表',
     REPORT_TYPE_WITHHOLDING_DETAILS = 21 => '給与所得の源泉徴収票',
-    REPORT_TYPE_WITHHOLDING_CALC = 22 => '給与所得・退職所得等の所得税徴収高計算書'
+    REPORT_TYPE_WITHHOLDING_CALC = 22 => '給与所得・退職所得等の所得税徴収高計算書',
+    REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE = 23 => '③　売掛金（未収入金）の内訳書',
   }
 
   # 帳票様式

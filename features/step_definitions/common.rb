@@ -50,6 +50,9 @@ end
     when '勘定科目'
       assert_equal 'ブランク', row[1]
       assert page.find('#finder_account_id').value.blank? 
+    when '暦年'
+      assert_equal '今年', row[1]
+      #assert_equal ?, page.find('#finder_calendar_year').value.to_i
     else
       fail "想定外の項目 #{row[0]} です。"
     end

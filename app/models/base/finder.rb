@@ -25,7 +25,6 @@ module Base
       @start_month_of_fiscal_year = user.company.start_month_of_fiscal_year
       @slips_per_page = user.slips_per_page
       @login_user_id = user.id
-      @founded_date = user.company.founded_date
       @commit = nil
       @page = 0
       @ym = nil

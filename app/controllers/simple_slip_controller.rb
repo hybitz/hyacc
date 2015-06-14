@@ -177,7 +177,7 @@ class SimpleSlipController < Base::HyaccController
       account = get_account(params[:account_id])
       @tax_type = account.tax_type if account
     end
-    
+
     render :text => @tax_type
   end
 

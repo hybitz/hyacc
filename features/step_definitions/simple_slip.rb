@@ -3,8 +3,9 @@
 
   within '.menu' do
     click_on account_name
-    assert has_title?(account_name)
   end
+  assert has_title?(account_name)
+  assert has_selector? '.tax_type_ready'
 end
 
 もし /^以下の簡易入力伝票(を|に)(登録|更新)する$/ do |prefix, action, ast_table|

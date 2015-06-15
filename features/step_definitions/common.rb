@@ -19,6 +19,7 @@ end
     end
     assert page.has_selector?('#slip_new_form')
     assert_url "^/simple/#{@account.code}$"
+    assert has_selector? '.tax_type_ready'
   else
     if action == '登録' or action == '更新'
       assert page.has_no_selector?("div.dojoxDialogTitleBar[title=振替伝票　#{action}]")

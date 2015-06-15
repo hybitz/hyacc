@@ -97,7 +97,7 @@ end
   assert account = Account.where(:name => account_name).first
 
   assert has_title?(account.name)
-  assert has_no_selector?('.tax_type_not_ready');
+  assert has_selector?('.tax_type_ready');
   capture
 end
 

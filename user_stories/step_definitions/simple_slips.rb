@@ -31,9 +31,9 @@ end
     simple_slip = row[4]
 
     click_on simple_slip
+    sleep 3
     assert has_title? simple_slip
     assert has_selector? '.tax_type_ready'
-    sleep 3
 
     count = all('#slipTable tbody tr').count
     within '#slip_new_form' do
@@ -61,9 +61,9 @@ end
       account = Account.where(:name => row[4], :deleted => false).first!
 
       click_on simple_slip
-      assert has_title? simple_slip
-      assert has_no_selector? '.tax_type_ready'
       sleep 3
+      assert has_title? simple_slip
+      assert has_selector? '.tax_type_ready'
 
       count = all('#slipTable tbody tr').count
       within '#slip_new_form' do
@@ -94,8 +94,9 @@ end
 
     begin
       click_on simple_slip
+      sleep 3
       assert has_title? simple_slip
-      assert has_no_selector? '.tax_type_ready'
+      assert has_selector? '.tax_type_ready'
 
       count = all('#slipTable tbody tr').count
       within '#slip_new_form' do

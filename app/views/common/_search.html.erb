@@ -1,5 +1,5 @@
 <div id="search" style="margin: 15px;">
-  <%= form_tag({:action => action_name}, :method => 'get') do %>
+  <%= form_tag({:action => action_name}, :method => 'get', :id => 'finders') do %>
     <% if @ym_list %>
       年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
     <% end %>

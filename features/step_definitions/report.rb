@@ -12,6 +12,33 @@ end
   assert_url '/withholding_slip$'
 end
 
-かつ /^「(.*?)」が表示される$/ do |message|
-  assert page.has_text?(message)
+かつ /^メッセージ「(.*?)」が表示(される|されない)$/ do |message, result|
+  case result
+    when 'される'
+      assert page.has_text?(message)
+    when 'されない'
+      assert page.has_no_text?(message)
+  end
+end
+
+もし /^以下の検索条件に入力し$/ do |ast_table|
+  rows = normalize_table(ast_table)
+  @finder = WithholdingSlipFinder.new(current_user)
+  employee_name = ""
+  report_type = ""
+  rows.each do |row|
+    case row[0]
+    when '従業員'
+      employee_name = row[1]
+    when '帳票様式'
+      report_type = row[1]
+    else
+      fail "想定外の項目 #{row[0]} です。"
+    end
+  end
+  
+  form_selector = "#finders"
+  within form_selector do
+    select employee_name, :from => 'finder_employee_id'
+    select report_type, :from => 'finder_report_type'  end
 end

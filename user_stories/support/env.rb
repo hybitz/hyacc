@@ -16,19 +16,20 @@ include HyaccConstants
 
 if ENV['CI'] != 'travis'
   Before do |scenario|
-    dump_dir = File.join('tmp', File.dirname(scenario.file), File.basename(scenario.file, '.feature'))
+    feature_file = scenario.feature.location.file
+    dump_dir = File.join('tmp', File.dirname(feature_file), File.basename(feature_file, '.feature'))
   
-    if ARGV.include?(scenario.file)
+    if ARGV.include?(feature_file)
       db = Dir.glob(File.join(dump_dir, '*.dump.gz')).first
       if db
         system("rake dad:db:load DUMP_FILE=#{db} --quiet")
       end
     else
       # 直前のDBをダンプしておく
-      if @current_feature != scenario.file
+      if @current_feature != feature_file
         system("rm -Rf #{dump_dir}")
         system("rake dad:db:dump DUMP_DIR=#{dump_dir} --quiet")
-        @current_feature = scenario.file
+        @current_feature = feature_file
       end
     end
   

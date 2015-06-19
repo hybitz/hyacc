@@ -61,11 +61,6 @@ end
       account = Account.where(:name => row[4], :deleted => false).first!
 
       click_on simple_slip
-<<<<<<< HEAD
-=======
-      assert has_title? simple_slip
-      assert has_selector? '.tax_type_ready'
->>>>>>> branch 'master' of git@github.com:hybitz/hyacc.git
       sleep 3
       assert has_title? simple_slip
       assert has_selector? '.tax_type_ready'

@@ -29,6 +29,9 @@ end
 end
 
 ならば /^当該明細の勘定科目が(.*?)に更新される$/ do |account_name|
-  capture
-  assert_not_nil find_tr('#journal_container', account_name, false), "#{account_name}の明細が存在すること"
+  begin
+    assert find_tr('#journal_container', account_name, false), "#{account_name}の明細が存在すること"
+  ensure
+    capture
+  end
 end

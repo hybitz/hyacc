@@ -1,10 +1,5 @@
-require 'cucumber/rails'
-require 'daddy'
+require 'rails'
 require 'daddy/cucumber/helpers'
-
-require 'capybara/rails'
-ActionController::Base.allow_rescue = false
-
 require 'capybara/cucumber'
 require 'capybara/webkit' if ENV['DRIVER'] == 'webkit'
 require 'capybara/poltergeist' if ENV['DRIVER'] == 'poltergeist'

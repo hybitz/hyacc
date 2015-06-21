@@ -72,6 +72,7 @@ end
         fill_in 'slip_remarks', :with => remarks
         select account.code_and_name, :from =>  'slip_account_id'
         fill_in 'slip_amount_increase', :with => amount
+        sleep 3
         click_on '登録'
       end
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
@@ -105,6 +106,7 @@ end
         fill_in 'slip_remarks', :with => remarks
         select account.code_and_name, :from =>  'slip_account_id'
         fill_in 'slip_amount_increase', :with => amount
+        sleep 3
         click_on '登録'
       end
       assert has_selector?('#slipTable tbody tr', :count => count + 1)

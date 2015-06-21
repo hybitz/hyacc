@@ -19,7 +19,7 @@ end
     end
   end
   
-  assert_not_nil @debt_id
+  assert @debt_id
 end
 
 ならば /^仮負債精算に遷移する$/ do

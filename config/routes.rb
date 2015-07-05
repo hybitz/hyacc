@@ -3,6 +3,12 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :mm do
+    resources :banks do
+      collection do
+        get 'add_bank_office'
+      end
+    end
+
     resources :branches
 
     resources :companies, :only => ['index', 'update'] do
@@ -32,11 +38,6 @@ Rails.application.routes.draw do
 
   resources :bank_accounts
   resources :bank_offices, :only => ['index']
-  resources :banks do
-    collection do
-      get 'add_bank_office'
-    end
-  end
 
   resources :business_offices
   resources :careers

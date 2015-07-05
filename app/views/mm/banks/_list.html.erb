@@ -13,12 +13,12 @@
       <td><%= bank.code %></td>
       <td><%= bank.name %></td>
       <td align="center"><%= HyaccConstants::DISABLE_TYPES[bank.disabled] %></td>
-      <td><%= link_to '参照', bank_path(bank), :remote => true %></td>
-      <td><%= link_to '編集', edit_bank_path(bank), :remote => true %></td>
-      <td><%= link_to '削除', bank, data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
+      <td><%= link_to '参照', mm_bank_path(bank), :remote => true %></td>
+      <td><%= link_to '編集', edit_mm_bank_path(bank), :remote => true %></td>
+      <td><%= link_to '削除', mm_bank_path(bank), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
     </tr>
   <% end %>
 </table>
 
 <%= will_paginate @banks if @banks.present? %>
-<%= link_to '追加', new_bank_path, :class => 'add', :remote => true %>
+<%= link_to '追加', new_mm_bank_path, :class => 'add', :remote => true %>

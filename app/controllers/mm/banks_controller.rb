@@ -1,4 +1,4 @@
-class BanksController < Base::HyaccController
+class Mm::BanksController < Base::HyaccController
   view_attribute :title => '金融機関'
 
   helper_method :finder

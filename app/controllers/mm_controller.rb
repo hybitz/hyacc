@@ -1,5 +1,5 @@
 class MmController < Base::HyaccController
-  view_attribute :title => 'マスタメンテナンス'
+  view_attribute :title => 'マスタメンテ'
 
   def index
   end

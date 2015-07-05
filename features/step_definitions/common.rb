@@ -9,6 +9,13 @@ end
   capture  
 end
 
+もし /^マスタメンテを表示する$/ do
+  sign_in user unless current_user
+  click_on 'マスタメンテ'
+  assert has_title?('マスタメンテ')
+  capture
+end
+
 ならば /^当該伝票が(登録|更新|削除)される$/ do |action|
   if @slip
     if action == '登録'

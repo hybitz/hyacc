@@ -14,20 +14,8 @@
 
   <tr>
     <td colspan="3" style="text-align: right;">
-      <script>
-        function add_simple_slip_setting(trigger) {
-          var url = '<%= url_for :action => 'add_simple_slip_setting' %>';
-          var params = {
-            index: $(trigger).closest('table').find('tr').length,
-            format: 'html'
-          };
-
-          $.get(url, params, function(html) {
-            $(trigger).before(html);
-          });
-        }
-      </script>
-      <%= link_to '勘定科目追加', '#', :onclick => 'add_simple_slip_setting(this); return false;' %>
+      <%= link_to '勘定科目追加', {:action => 'add_simple_slip_setting'},
+              :onclick => 'simple_slip_settings.add_simple_slip_setting(this); return false;' %>
     </td>
   </tr>
 </table>

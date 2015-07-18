@@ -1,22 +1,22 @@
 require 'test_helper'
 
 class WithheldTaxTest < ActiveSupport::TestCase
-  fixtures :withheld_taxes
 
-  def test_one
-    withheld_tax = WithheldTax.find(1)
-    assert_equal 1, withheld_tax.id
-    assert_equal 200901, withheld_tax.apply_start_ym
-    assert_equal 200912, withheld_tax.apply_end_ym
-    assert_equal 1007000, withheld_tax.pay_range_above
-    assert_equal 1010000, withheld_tax.pay_range_under
-    assert_equal 130960, withheld_tax.no_dependent
-    assert_equal 120510, withheld_tax.one_dependent
-    assert_equal 112920, withheld_tax.two_dependent
-    assert_equal 105640, withheld_tax.three_dependent
-    assert_equal 98360, withheld_tax.four_dependent
-    assert_equal 91070, withheld_tax.five_dependent
-    assert_equal 83790, withheld_tax.six_dependent
-    assert_equal 76990, withheld_tax.seven_dependent
+  def test_find_by_date_and_salary
+    assert wt = WithheldTax.find_by_date_and_salary('2015-08-07', 328000)
+    assert_equal 326000, wt.salary_range_from
+    assert_equal 329000, wt.salary_range_to
+    assert_equal 10630, wt.dependent_0
+    assert_equal 7840, wt.dependent_1
+    assert_equal 6230, wt.dependent_2
+    assert_equal 4610, wt.dependent_3
+    assert_equal 2990, wt.dependent_4
+    assert_equal 1380, wt.dependent_5
+    assert_equal 0, wt.dependent_6
+    assert_equal 0, wt.dependent_7
+  end
+
+  def test_find_by_date_and_pay_and_dependent
+    assert_equal 4610, WithheldTax.find_by_date_and_pay_and_dependent('2015-08-07', 328000, 3)
   end
 end

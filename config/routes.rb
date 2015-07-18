@@ -22,6 +22,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :mv do
+    resources :withheld_taxes, :only => 'index'
+  end
+
   resources :accounts do
     collection do
       get  'add_sub_account'
@@ -129,11 +133,6 @@ Rails.application.routes.draw do
   resources :sub_accounts, :only => ['index']
   resources :taxes, :only => ['index', 'update']
   resources :users
-  resources :withheld_taxes do
-    collection do
-      post 'upload'
-    end
-  end
   resources :withholding_slip, :only => 'index'
 
   namespace :bs do

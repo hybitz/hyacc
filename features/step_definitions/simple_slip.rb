@@ -39,8 +39,9 @@ end
       system "rm -f #{Rails.root}/#{UPLOAD_DIRECTORY}/receipt/#{@slip.ym.to_i * 100 + @slip.day.to_i}/#{value}"
       path = "#{Rails.root}/tmp/#{value}"
       FileUtils.mkdir_p File.dirname(path)
-      system "echo '領収書テスト' > #{path}"
+      FileUtils.touch(path)
       @slip.receipt_file = path
+      assert File.exist?(@slip.receipt_file)
     else
       fail "不明なフィールドです。field_name=#{field_name}"
     end

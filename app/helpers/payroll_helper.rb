@@ -70,7 +70,7 @@ module PayrollHelper
     end
     return standard_remuneration
   end
-  
+
   # 健康保険料と所得税の取得
   def get_tax(ym = nil, employee_id = nil, base_salary = 0)
     payroll = Payroll.new.init
@@ -96,10 +96,10 @@ module PayrollHelper
       day = Date.new(ym.to_i/100, ym.to_i%100,-1)
       e = Employee.find(employee_id)
       
-      payroll.income_tax = WithheldTax.find_by_ym_and_pay_and_dependent(ym, payroll.after_insurance_deduction, e.num_of_dependent(day))
+      payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(day, payroll.after_insurance_deduction, e.num_of_dependent(day))
     end
-    
-    return payroll
+
+    payroll
   end
 
   def get_pension(ym = nil, base_salary = 0)

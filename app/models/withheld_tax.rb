@@ -1,85 +1,19 @@
-class WithheldTax < ActiveRecord::Base
-  validates_presence_of :apply_start_ym, :apply_end_ym, :message=>"を入力して下さい。"
-  validates_format_of :apply_start_ym, :apply_end_ym, :with => /[0-9]{6}/, :message=>"は数値６桁で入力して下さい。"
-  validates_format_of :pay_range_above, :pay_range_under,
-                      :no_dependent, :one_dependent,
-                      :two_dependent, :three_dependent,
-                      :four_dependent, :five_dependent,
-                      :six_dependent, :seven_dependent,
-                      :with => /[0-9]{1,}/, :message=>"は数値で入力して下さい。"
+class WithheldTax < TaxJp::WithheldTax
   
-  # Classメソッドを使用する
-  class << self
-    #set_field_names :apply_start_ym=>'適用開始日'
-    def new_by_array(arr)
-      arr.map! do |elem|
-        NKF::nkf('-S -w',elem) if elem
-      end
-      
-      #return nil unless valid_data?(arr)
-      
-      self.new(
-                :apply_start_ym => arr[0],
-                :apply_end_ym => arr[1],
-                :pay_range_above => arr[2],
-                :pay_range_under => arr[3],
-                :no_dependent => arr[4],
-                :one_dependent => arr[5],
-                :two_dependent => arr[6],
-                :three_dependent => arr[7],
-                :four_dependent => arr[8],
-                :five_dependent => arr[9],
-                :six_dependent => arr[10],
-                :seven_dependent => arr[11]
-              )
-    end
-  end
-  
-  def WithheldTax.find_by_ym_and_pay(ym, pay)
-    sql = SqlBuilder.new
-    sql.append('apply_start_ym <= ? and apply_end_ym >= ?', ym, ym)
-    sql.append('and pay_range_under > ? and pay_range_above <= ?', pay, pay)
+  def self.find_by_date_and_pay_and_dependent(date, pay, dependent)
+    ret = 0
 
-    ret = WithheldTax.where(sql.to_a).first
-    ret ||= WithheldTax.new.init
+    case dependent
+    when 0, 1, 2, 3, 4, 5, 6, 7
+      withheld_tax = find_by_date_and_salary(date, pay)
+      if withheld_tax
+        ret = withheld_tax.__send__("dependent_#{dependent}")
+      end
+    else
+      raise 'TODO 7人以上は1人を超えるごとに¥1,580/¥1,610＋'
+    end
+
     ret
   end
-  
-  def WithheldTax.find_by_ym_and_pay_and_dependent(ym, pay, dependent)
-    withheld_tax = WithheldTax.find_by_ym_and_pay(ym, pay)
-    income_tax = 0
-    case dependent
-    when 0
-      income_tax = withheld_tax.no_dependent
-    when 1
-      income_tax = withheld_tax.one_dependent
-    when 2
-      income_tax = withheld_tax.two_dependent
-    when 3
-      income_tax = withheld_tax.three_dependent
-    when 4
-      income_tax = withheld_tax.four_dependent
-    when 5
-      income_tax = withheld_tax.five_dependent
-    when 6
-      income_tax = withheld_tax.six_dependent
-    when 7
-      income_tax = withheld_tax.seven_dependent
-    else
-      raise 'TODO 7人以上は1人を超えるごとに¥1,580＋'
-    end
-    return income_tax
-  end
-  
-  def init
-    self.no_dependent = 0
-    self.one_dependent = 0
-    self.two_dependent = 0
-    self.three_dependent = 0
-    self.four_dependent = 0
-    self.five_dependent = 0
-    self.six_dependent = 0
-    self.seven_dependent = 0
-    self
-  end
+
 end

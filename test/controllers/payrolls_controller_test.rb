@@ -222,7 +222,7 @@ class PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    post :auto_calc, :payroll => {:ym => 200904, :employee_id => 2, :base_salary => 394000}
+    xhr :post, :auto_calc, :payroll => {:ym => 200904, :employee_id => 2, :base_salary => 394000}
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
     assert json.has_key?('insurance')

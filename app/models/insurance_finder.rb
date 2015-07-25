@@ -4,7 +4,7 @@ class InsuranceFinder < Daddy::Model
 
   def list
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_insurances(prefecture_code.to_i, ym.gsub('-', ''), base_salary)
+    service.get_insurances(prefecture_code, ym.gsub('-', ''), base_salary)
   end
 
   def prefectures

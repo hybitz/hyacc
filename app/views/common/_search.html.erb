@@ -13,7 +13,7 @@
     <% end %>
     
     <% if @prefectures %>
-      都道府県：<%= select('finder', 'prefecture_id', to_options(@prefectures) ) %>
+      都道府県：<%= select('finder', 'prefecture_code', to_options(@prefectures) ) %>
     <% end %>
 
     <% if @business_offices %>

@@ -16,7 +16,7 @@ module Base
     attr_accessor :sub_account_id
     attr_accessor :business_office_id
     attr_accessor :employee_id
-    attr_accessor :prefecture_id
+    attr_accessor :prefecture_code
     attr_accessor :remarks
     attr_accessor :company_id
     attr_accessor :user_id
@@ -36,7 +36,6 @@ module Base
       @sub_account_id = 0
       @business_office_id = 0
       @employee_id = 0
-      @prefecture_id = 0
       @remarks = nil
       @user_id = 0
       @deleted = nil
@@ -53,7 +52,7 @@ module Base
       @business_office_id = params[:business_office_id].to_i
       @deleted = params[:deleted].to_s.size == 0 ? nil : params[:deleted] == 'true'
       @employee_id = params[:employee_id].to_i
-      @prefecture_id = params[:prefecture_id].to_i
+      @prefecture_code = params[:prefecture_code]
       @remarks = params[:remarks]
       @sub_account_id = params[:sub_account_id].to_i
       @user_id = params[:user_id].to_i

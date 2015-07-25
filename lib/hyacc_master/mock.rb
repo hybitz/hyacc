@@ -1,6 +1,6 @@
 class HyaccMaster::Mock
     
-  def get_pension(ym = nil, base_salary = 0)
+  def get_pension(ym, prefecture_code, base_salary)
     pension = Insurance.new
     pension.apply_start_ym = 201201
     pension.apply_end_ym = 201212
@@ -13,7 +13,7 @@ class HyaccMaster::Mock
     pension
   end
   
-  def get_insurance(ym = nil, prefecture_id = nil, base_salary = 0)
+  def get_insurance(ym, prefecture_code, base_salary)
     ret = Insurance.new
 
     case ym.to_i
@@ -44,7 +44,7 @@ class HyaccMaster::Mock
     ret
   end
   
-  def get_basic_info(ym = nil, base_salary = 0)
+  def get_basic_info(ym, prefecture_code, base_salary)
     insurance = Insurance.new
     insurance.grade = 27
     insurance.pay_range_above = 395000

@@ -3,26 +3,28 @@ module PayrollHelper
   include HyaccConstants
   
   # 標準報酬月額の計算
-  def get_standard_remuneration(ym = nil, employee_id = nil, base_salary = nil)
+  def get_standard_remuneration(ym = nil, employee = nil, base_salary = nil)
     standard_remuneration = 0
-    if ym != nil and base_salary != nil and employee_id != nil
+    if ym != nil and base_salary != nil and employee != nil
+      prefecture_code = employee.business_office.prefecture_code
+
       begin
         ym = ym.to_i
         # 1,2,3か月前の給与
         ym_1 = (Date.new(ym/100, ym%100, 1) << 1).strftime("%Y%m")
         ym_2 = (Date.new(ym/100, ym%100, 1) << 2).strftime("%Y%m")
         ym_3 = (Date.new(ym/100, ym%100, 1) << 3).strftime("%Y%m")
-        pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee_id)
-        pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee_id)
-        pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee_id)
+        pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee.id)
+        pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee.id)
+        pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee.id)
         if pr_3.payroll_journal_headers.nil?
           unless pr_2.payroll_journal_headers.nil?
-            return get_remuneration(ym_2, pr_2.base_salary)
+            return get_remuneration(ym_2, prefecture_code, pr_2.base_salary)
           end
           unless pr_1.payroll_journal_headers.nil?
-            return get_remuneration(ym_1, pr_1.base_salary)
+            return get_remuneration(ym_1, prefecture_code, pr_1.base_salary)
           end
-          return get_basic_info(ym, base_salary).monthly_earnings
+          return get_basic_info(ym, prefecture_code, base_salary).monthly_earnings
         end
         # 7月より前は前年の4月を基準とする
         x = (ym.to_s).slice(0, 4) + "04"
@@ -30,32 +32,32 @@ module PayrollHelper
           y = ((ym.to_s).slice(0, 4)).to_i - 1
           x = y.to_s + "04"
         end
-        pr = Payroll.find_by_ym_and_employee_id(x, employee_id)
+        pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
         while pr.payroll_journal_headers.nil?
           x = (Date.new(x/100, x%100, 1) >> 1).strftime("%Y%m")
-          pr = Payroll.find_by_ym_and_employee_id(x, employee_id)
+          pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
         end
         # 基準となる標準報酬月額
         x1 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
         x2 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")
-        pr1 = Payroll.find_by_ym_and_employee_id(x1, employee_id)
-        pr2 = Payroll.find_by_ym_and_employee_id(x2, employee_id)
+        pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
+        pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
         ave_bs = (pr.base_salary + pr1.base_salary + pr2.base_salary)/3
-        insurance_ave_bs = get_basic_info(ym, ave_bs)
+        insurance_ave_bs = get_basic_info(ym, prefecture_code, ave_bs)
         grade_ave_bs = insurance_ave_bs.grade
         pre_bs = pr.base_salary
         standard_remuneration = insurance_ave_bs.monthly_earnings
         while ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
           x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
-          pr = Payroll.find_by_ym_and_employee_id(x, employee_id)
+          pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
           if pre_bs != pr.base_salary
             if ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
               x1 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
               x2 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")
-              pr1 = Payroll.find_by_ym_and_employee_id(x1, employee_id)
-              pr2 = Payroll.find_by_ym_and_employee_id(x2, employee_id)
+              pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
+              pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
               ave_x = (pr.base_salary + pr1.base_salary + pr2.base_salary)/3
-              insurance_x = get_basic_info(ym, ave_x)
+              insurance_x = get_basic_info(ym, prefecture_code, ave_x)
               if (grade_ave_bs - insurance_x.grade).abs >= 2
                 standard_remuneration = insurance_x.monthly_earnings
                 grade_ave_bs = insurance_x.grade
@@ -64,25 +66,26 @@ module PayrollHelper
             end
           end
         end
-      rescue Exception => e
+      rescue => e
         flash[:notice] = e.message
       end
     end
-    return standard_remuneration
+
+    standard_remuneration
   end
 
   # 健康保険料と所得税の取得
   def get_tax(ym = nil, employee_id = nil, base_salary = 0)
     payroll = Payroll.new.init
     if ym != nil && employee_id != nil
-      # 従業員IDから事業所の都道府県IDを取得
+      # 従業員IDから事業所の都道府県コードを取得
       e = Employee.find(employee_id)
-      prefecture_id = e.business_office.prefecture_id
+      prefecture_code = e.business_office.prefecture_code
       payroll.base_salary = base_salary.to_i
       # 標準報酬月額の取得
-      standard_remuneration = get_standard_remuneration(ym, employee_id, base_salary)
-      insurance = get_insurance(ym, prefecture_id, standard_remuneration)
-      pension = get_pension(ym, standard_remuneration)
+      standard_remuneration = get_standard_remuneration(ym, e, base_salary)
+      insurance = get_insurance(ym, prefecture_code, standard_remuneration)
+      pension = get_pension(ym, prefecture_code, standard_remuneration)
       
       # 保険料の設定
       # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
@@ -102,21 +105,21 @@ module PayrollHelper
     payroll
   end
 
-  def get_pension(ym = nil, base_salary = 0)
+  def get_pension(ym, prefecture_code, base_salary)
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_pension(ym, base_salary)
+    service.get_pension(ym, prefecture_code, base_salary)
   end
   
-  def get_insurance(ym = nil, prefecture_id = nil, base_salary = 0)
+  def get_insurance(ym, prefecture_code, base_salary)
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_insurance(ym, prefecture_id, base_salary)
+    service.get_insurance(ym, prefecture_code, base_salary)
   end
   
   #標準報酬額を取得
-  def get_remuneration(ym = nil, base_salary = 0)
+  def get_remuneration(ym, prefecture_code, base_salary)
     remuneration = 0
     #基本給から標準報酬額を取得
-    insurance = get_basic_info(ym, base_salary)
+    insurance = get_basic_info(ym, prefecture_code, base_salary)
     unless insurance.nil?
       remuneration = insurance.monthly_earnings
     end
@@ -124,9 +127,9 @@ module PayrollHelper
   end
   
   #標準報酬の基本情報を取得
-  def get_basic_info(ym = nil, base_salary = 0)
+  def get_basic_info(ym, prefecture_code, base_salary)
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_basic_info(ym, base_salary)
+    service.get_basic_info(ym, prefecture_code, base_salary)
   end
   
   def get_previous_base_salary(ym = nil, employee_id = nil)

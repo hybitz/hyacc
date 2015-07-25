@@ -1,5 +1,5 @@
 class PensionsController < Base::HyaccController
-  view_attribute :title => '健康保険料'
+  view_attribute :title => '厚生年金保険料'
   helper_method :finder
 
   def index

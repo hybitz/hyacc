@@ -1,5 +1,4 @@
 module PayrollHelper
-  require 'hyacc_master/service_factory'
   include HyaccConstants
   
   # 標準報酬月額の計算

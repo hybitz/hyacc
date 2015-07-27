@@ -1,5 +1,3 @@
-require 'hyacc_master/service_factory'
-
 class SocialInsuranceFinder < Daddy::Model
 
   def list

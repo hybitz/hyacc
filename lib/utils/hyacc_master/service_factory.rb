@@ -1,13 +1,11 @@
 module HyaccMaster
-  TAX_JP = false
+  TAX_JP = true
 
   class ServiceFactory
-    require 'hyacc_master/cache'
-    require 'hyacc_master/mock'
     
     def self.create_service(env)
       if HyaccMaster::TAX_JP
-        return HyaccMaster::Service.new
+        return HyaccMaster::TaxJp.new
       end
 
       case env
@@ -19,5 +17,6 @@ module HyaccMaster
         raise "不明な環境です。env=#{env}"
       end
     end
+
   end
 end

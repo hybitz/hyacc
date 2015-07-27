@@ -1,5 +1,4 @@
 module Base::ViewAttributeHandler
-  require 'hyacc_master/service_factory'
   require 'models/name_and_value'
   include HyaccUtil
   include HyaccViewHelper

@@ -1,5 +1,3 @@
-require 'hyacc_master/service_factory'
-
 class InsuranceFinder < Daddy::Model
 
   def list

@@ -1,6 +1,4 @@
 class HyaccMaster::Cache
-  require_relative 'service'
-
   # キー：厚生年金保険料一覧
   MEM_KEY_PENSION_LIST = "MEM_KEY_PENSION_LIST"
   # キー：健康保険料一覧

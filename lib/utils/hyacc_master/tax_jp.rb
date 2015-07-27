@@ -15,8 +15,7 @@ class HyaccMaster::TaxJp
 
     pensions = []
     TaxJp::SocialInsurance.find_all_by_date_and_prefecture(date, prefecture_code).each do |si|
-      next unless si.grade.pension_grade > 0
-      break if pensions.last and si.grade.pension_grade == pensions.last.grade
+      next unless si.grade.pension_grade >= 1 and si.grade.pension_grade <= 30
       pensions << convert_tax_jp(si, :as => 'pension')
     end
     pensions
@@ -35,7 +34,7 @@ class HyaccMaster::TaxJp
 
     insurance = convert_tax_jp(si, :as => 'insurance')
   end
-  
+
   #標準報酬の基本情報を取得
   def get_basic_info(ym, prefecture_code, base_salary)
     raise '年月が未指定です。' unless ym

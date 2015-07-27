@@ -1,0 +1,47 @@
+<div class="social_insurances">
+  <div>
+    <span><%= @list.first.apply_start_ym %></span>
+    <span>～</span>
+    <span><%= @list.first.apply_end_ym %></span>
+  </td>
+  <table>
+    <tr>
+      <th colspan="3">標準報酬</th>
+      <th colspan="2">報酬月額</th>
+      <th colspan="4">全国健康保険協会管掌健康保険料</th>
+      <th colspan="4">厚生年金保険料（厚生年金基金加入員を除く）</th>
+    </tr>
+    <tr>
+      <th class="grade">等級</th>
+      <th>月額</th>
+      <th>日額</th>
+      <th>円以上</th>
+      <th>円未満</th>
+      <th>全額</th>
+      <th>折半額</th>
+      <th>全額（介護保険２号）</th>
+      <th>折半額（介護保険２号）</th>
+      <th>全額</th>
+      <th>折半額</th>
+      <th>全額（坑内員／船員）</th>
+      <th>折半額（坑内員／船員）</th>
+    </tr>
+    <% @list.each do |data| %>
+      <tr class="hover">
+        <td class="grade"><%= data.grade %><%= "(#{data.pension_grade})" if data.pension_grade >= 0 and data.pension_grade <= 30 %></td>
+        <td><%= to_amount(data.monthly_earnings) %></td>
+        <td><%= to_amount(data.daily_earnings) %></td>
+        <td><%= to_amount(data.pay_range_above) %></td>
+        <td><%= to_amount(data.pay_range_under) %></td>
+        <td><%= to_amount(data.health_insurance_all, :precision => 1) %></td>
+        <td><%= to_amount(data.health_insurance_half, :precision => 1) %></td>
+        <td><%= to_amount(data.health_insurance_all_care, :precision => 1) %></td>
+        <td><%= to_amount(data.health_insurance_half_care, :precision => 1) %></td>
+        <td><%= to_amount(data.welfare_pension_insurance_all, :precision => 2) %></td>
+        <td><%= to_amount(data.welfare_pension_insurance_half, :precision => 2) %></td>
+        <td><%= to_amount(data.welfare_pension2_insurance_all, :precision => 2) %></td>
+        <td><%= to_amount(data.welfare_pension2_insurance_half, :precision => 2) %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>

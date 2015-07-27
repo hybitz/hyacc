@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   end
 
   namespace :mv do
+    resources :social_insurances, :only => 'index'
     resources :withheld_taxes, :only => 'index'
   end
 

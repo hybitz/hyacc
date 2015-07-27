@@ -157,24 +157,15 @@ module HyaccViewHelper
     revert_and_sort( ret )
   end
 
-  def to_amount( *args )
-    amount = nil
-    unless args.nil?
-      amount = args.first
-    end
-    amount = 0 if amount.nil?
-
-    if amount == 0
-      options = args.last if args.last.is_a?(Hash)
-      if options.nil?
-        ''
-      elsif options[:show_zero]
+  def to_amount(amount, options = {})
+    if amount.to_f == 0
+      if options[:show_zero]
           0
       else
         ''
       end
     else
-      number_to_currency( amount, :unit=>'', :precision=>0 )
+      number_to_currency(amount, :unit => options.fetch(:unit, ''), :precision => options.fetch(:precision, 0) )
     end
   end
   

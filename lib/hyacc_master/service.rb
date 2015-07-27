@@ -151,10 +151,12 @@ class HyaccMaster::Service
     case options[:as]
     when 'grade'
       ret.grade = si.grade.grade
+      ret.pension_grade = si.grade.pension_grade
       ret.apply_start_ym = si.grade.valid_from
       ret.apply_end_ym = si.grade.valid_until
     when 'insurance'
       ret.grade = si.grade.grade
+      ret.pension_grade = si.grade.pension_grade
       ret.apply_start_ym = si.health_insurance.valid_from
       ret.apply_end_ym = si.health_insurance.valid_until
     when 'pension'

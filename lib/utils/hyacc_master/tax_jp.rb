@@ -49,22 +49,18 @@ class HyaccMaster::TaxJp
 
   def convert_tax_jp(si, options = {})
     ret = Insurance.new
+    ret.apply_start_ym = si.valid_from
+    ret.apply_end_ym = si.valid_until
 
     case options[:as]
     when 'grade'
       ret.grade = si.grade.grade
       ret.pension_grade = si.grade.pension_grade
-      ret.apply_start_ym = si.grade.valid_from
-      ret.apply_end_ym = si.grade.valid_until
     when 'insurance'
       ret.grade = si.grade.grade
       ret.pension_grade = si.grade.pension_grade
-      ret.apply_start_ym = si.health_insurance.valid_from
-      ret.apply_end_ym = si.health_insurance.valid_until
     when 'pension'
       ret.grade = si.grade.pension_grade
-      ret.apply_start_ym = si.welfare_pension.valid_from
-      ret.apply_end_ym = si.welfare_pension.valid_until
     end
 
     ret.pay_range_above = si.grade.salary_from

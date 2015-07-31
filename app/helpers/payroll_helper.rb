@@ -84,15 +84,14 @@ module PayrollHelper
       # 標準報酬月額の取得
       standard_remuneration = get_standard_remuneration(ym, e, base_salary)
       insurance = get_insurance(ym, prefecture_code, standard_remuneration)
-      pension = get_pension(ym, prefecture_code, standard_remuneration)
       
       # 保険料の設定
       # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
       payroll.insurance =  (insurance.health_insurance_half - 0.01).round
       payroll.insurance_all = insurance.health_insurance_all.truncate
-      payroll.pension_all = pension.welfare_pension_insurance_all.truncate
+      payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
       # 端数対応（折半額の端数は個人負担）
-      payroll.pension = (pension.welfare_pension_insurance_half - 0.01).round
+      payroll.pension = (insurance.welfare_pension_insurance_half - 0.01).round
       
       # 対象月の末日の扶養家族の人数から源泉徴収税額を取得
       day = Date.new(ym.to_i/100, ym.to_i%100,-1)
@@ -104,11 +103,6 @@ module PayrollHelper
     payroll
   end
 
-  def get_pension(ym, prefecture_code, base_salary)
-    service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_pension(ym, prefecture_code, base_salary)
-  end
-  
   def get_insurance(ym, prefecture_code, base_salary)
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
     service.get_insurance(ym, prefecture_code, base_salary)

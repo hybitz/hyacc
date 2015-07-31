@@ -10,13 +10,6 @@ class HyaccMaster::TaxJp
     insurances
   end
 
-  def get_pension(ym, prefecture_code, base_salary)
-    date = Date.strptime("#{ym}01", '%Y%m%d')
-    si = TaxJp::SocialInsurance.find_by_date_and_prefecture_and_salary(date, prefecture_code, base_salary)
-
-    pension = convert_tax_jp(si)
-  end
-
   def get_insurance(ym, prefecture_code, base_salary)
     date = Date.strptime("#{ym}01", '%Y%m%d')
     si = TaxJp::SocialInsurance.find_by_date_and_prefecture_and_salary(date, prefecture_code, base_salary)
@@ -24,7 +17,7 @@ class HyaccMaster::TaxJp
     insurance = convert_tax_jp(si)
   end
 
-  #標準報酬の基本情報を取得
+  # 標準報酬の基本情報を取得
   def get_basic_info(ym, prefecture_code, base_salary)
     raise '年月が未指定です。' unless ym
 
@@ -57,6 +50,7 @@ class HyaccMaster::TaxJp
     ret.welfare_pension_insurance_half = si.welfare_pension.general_amount_half
     ret.welfare_pension2_insurance_all = si.welfare_pension.particular_amount
     ret.welfare_pension2_insurance_half = si.welfare_pension.particular_amount_half
+
     ret
   end
 

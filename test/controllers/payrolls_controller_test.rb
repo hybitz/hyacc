@@ -238,7 +238,7 @@ class PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 1
     @request.session[PayrollFinder] = finder
 
-    post :auto_calc, :payroll => {:ym => 200811, :employee_id => 1, :base_salary => 424000 }
+    xhr :get, :auto_calc, :payroll => {:ym => 200811, :employee_id => 1, :base_salary => 424000 }
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
     assert_equal insurances['insurance_00120']['health_insurance_half'], json['insurance']

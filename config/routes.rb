@@ -113,8 +113,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :pensions, :only => 'index'
-
   resources :profiles, :only => ['edit', 'update'] do
     member do
       get 'add_simple_slip_setting'

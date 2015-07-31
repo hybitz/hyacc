@@ -216,6 +216,14 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_template 'common/reload'
   end
 
+  def test_get_branch_employees
+    get :index
+    xhr :get, :get_branch_employees,
+          :finder => {:branch_id => user.company.branches.first.id}
+    assert_response :success
+    assert_template 'payrolls/_get_branch_employees'
+  end
+
   def test_should_get_auto_calc
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009

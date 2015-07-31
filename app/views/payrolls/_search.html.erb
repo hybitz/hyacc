@@ -1,7 +1,7 @@
 <script>
   $(document).ready(function() {
     $('#finder_branch_id').change(function() {
-      var url = '<%= url_for :action=>'get_branches_employees' %>';
+      var url = '<%= url_for :action=>'get_branch_employees' %>';
       var params = {branch_id: $(this).val(), format: 'html'};
       $.get(url, params, function(html) {
         $('#branch_employees').html(html);

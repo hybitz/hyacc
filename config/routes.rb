@@ -108,7 +108,7 @@ Rails.application.routes.draw do
   resources :payrolls do
     collection do
       get 'auto_calc'
-      get 'get_branches_employees'
+      get 'get_branch_employees'
     end
   end
 

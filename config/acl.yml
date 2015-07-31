@@ -9,9 +9,9 @@ current_company:
   houseworks: personal?
   housework_details: personal?
   inhabitant_taxes: '!personal?'
-  insurances: '!personal?'
   payrolls: '!personal?'
   social_expenses: '!personal?'
   taxes: tax_exclusive?
+  mv/social_insurances: '!personal?'
   mv/withheld_taxes: '!personal?'
   withholding_slip: '!personal?'

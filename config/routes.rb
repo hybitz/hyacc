@@ -89,7 +89,6 @@ Rails.application.routes.draw do
   end
 
   resources :inhabitant_taxes
-  resources :insurances, :only => 'index'
 
   resources :journals do
     collection do

@@ -1,6 +1,10 @@
+<div>
+  <span><%= @list.first.valid_from %></span>
+  <span>～</span>
+  <span><%= @list.first.valid_until %></span>
+</div>
+
 <div style="width:1060px;">
-<div class="div_th_yyyymm" style="height:50px;">適用開始年月</div>
-<div class="div_th_yyyymm" style="height:50px;">適用終了年月</div>
 <div class="div_th_money10" style="height:50px;font-size:9px;">社会保険料控除後の<br/>給与範囲（以上）</div>
 <div class="div_th_money10" style="height:50px;font-size:9px;">社会保険料控除後の<br/>給与範囲（未満）</div>
 <div class="div_th_money" style="height:50px;">扶養親族<br/>０人</div>
@@ -13,7 +17,13 @@
 <div class="div_th_money" style="height:50px;">扶養親族<br/>７人</div>
 <br clear="all" />
 <% @list.each do |data| %>
-  <%= render 'line', :data => data %>
+  <div>
+    <div class="div_td_money10"><%= to_amount(data.salary_range_from, :show_zero=>true) %></div>
+    <div class="div_td_money10"><%= to_amount(data.salary_range_to, :show_zero=>true) %></div>
+    <% 8.times do |i| %>
+      <div class="div_td_money"><%= to_amount(data.__send__("dependent_#{i}"), :show_zero=>true) %></div>
+    <% end %>
+  </div>
   <br clear="all" />
 <% end %>
 </div>

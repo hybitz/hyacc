@@ -1,9 +1,0 @@
-<div>
-  <div class="div_td_yyyymm"><%= data.valid_from %></div>
-  <div class="div_td_yyyymm"><%= data.valid_until %></div>
-  <div class="div_td_money10"><%= to_amount(data.salary_range_from, :show_zero=>true) %></div>
-  <div class="div_td_money10"><%= to_amount(data.salary_range_to, :show_zero=>true) %></div>
-  <% 8.times do |i| %>
-    <div class="div_td_money"><%= to_amount(data.__send__("dependent_#{i}"), :show_zero=>true) %></div>
-  <% end %>
-</div>

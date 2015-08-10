@@ -1,4 +1,4 @@
-id,code,name,sub_account_id,is_head_office,parent_id,path,cost_ratio,company_id,deleted,created_on,updated_on
+id,code,name,sub_account_id,is_head_office,parent_id,path,cost_ratio,company_id,deleted,created_at,updated_at
 1,101,本店管理部,,1,0,/1,100,1,0,2007-03-29 22:48:12,2009-07-28 22:10:00
 2,102,経理部,12,0,1,/1/2,50,1,0,2007-03-29 22:48:12,2009-07-28 22:10:00
 3,103,営業部,13,0,1,/1/3,50,1,0,2007-03-29 22:48:12,2009-07-28 22:10:00

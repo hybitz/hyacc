@@ -1,6 +1,6 @@
 <script>
   var data = [
-    <% current_company.branches(:parent => nil, :deleted => false).each do |b| %>
+    <% current_company.branches.where(:parent => nil, :deleted => false).each do |b| %>
       <%= convert_branch_to_json(b) %>,
     <% end %>
   ];

@@ -55,6 +55,9 @@ hyacc.Dialog.prototype.show = function(html) {
       modal: true,
       title: that.title,
       width: that.options.width || 'auto',
+      open: that.options.open || function() {
+        $(this).dialog('widget').find('.ui-dialog-titlebar button').last().focus();
+      },
       close: function() {
         that.close();
       },

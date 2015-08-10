@@ -73,10 +73,10 @@ ja:
         disabled: 状態
 
       branch: 
-        code: "コード"  
-        name: "名前"  
-        deleted: "を削除"
-        is_head_office: "ヘッドオフィスです"  
+        code: 部門コード  
+        name: 部門名
+        is_head_office: 本社
+        parent_id: 親部門
 
       branches_employee: 
         cost_ratio: コスト割合 

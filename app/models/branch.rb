@@ -15,5 +15,10 @@ class Branch < ActiveRecord::Base
     end
     ret
   end
-  
+
+  def parent_name
+    return nil unless parent
+    parent.name
+  end
+
 end

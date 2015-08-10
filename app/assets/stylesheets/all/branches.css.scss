@@ -1,12 +1,16 @@
-table.branch {
-  tr.code {
-    td {
-      min-width: 4em;
+.branch {
+  min-width: 340px;
+
+  table {
+    tr.code {
+      td {
+        min-width: 4em;
+      }
     }
-  }
-  tr.name {
-    td {
-      min-width: 8em;
+    tr.name {
+      td {
+        min-width: 8em;
+      }
     }
   }
 }

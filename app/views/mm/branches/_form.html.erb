@@ -1,0 +1,22 @@
+<div class="branch">
+  <%= form_for [:mm, @branch], :remote => true do |f| %>
+    <%= f.hidden_field :parent_id %>
+
+    <table>
+      <tbody>
+        <tr>
+          <th><%= f.label :parent_id %></th>
+          <td><%= @branch.parent_name %></td>
+        </tr>
+        <tr class="code">
+          <th><%= f.label :code %></th>
+          <td><%= f.text_field :code %></td>
+        </tr>
+        <tr class="name">
+          <th><%= f.label :name %></th>
+          <td><%= f.text_field :name %></td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+</div>

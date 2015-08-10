@@ -10,7 +10,7 @@ class Mv::WithheldTaxesController < Base::HyaccController
 
   def finder
     unless @finder
-      @finder = WithheldTaxFinder.new(params[:finder])
+      @finder = WithheldTaxFinder.new(params[:withheld_tax_finder])
       @finder.ym = Date.today.strftime("%Y-%m") unless @finder.ym.present?
     end
 

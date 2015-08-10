@@ -1,29 +1,30 @@
-<div>
-  <span><%= @list.first.valid_from %></span>
-  <span>～</span>
-  <span><%= @list.first.valid_until %></span>
-</div>
-
-<div style="width:1060px;">
-<div class="div_th_money10" style="height:50px;font-size:9px;">社会保険料控除後の<br/>給与範囲（以上）</div>
-<div class="div_th_money10" style="height:50px;font-size:9px;">社会保険料控除後の<br/>給与範囲（未満）</div>
-<div class="div_th_money" style="height:50px;">扶養親族<br/>０人</div>
-<div class="div_th_money" style="height:50px;">扶養親族<br/>１人</div>
-<div class="div_th_money" style="height:50px;">扶養親族<br/>２人</div>
-<div class="div_th_money" style="height:50px;">扶養親族<br/>３人</div>
-<div class="div_th_money" style="height:50px;">扶養親族<br/>４人</div>
-<div class="div_th_money" style="height:50px;">扶養親族<br/>５人</div>
-<div class="div_th_money" style="height:50px;">扶養親族<br/>６人</div>
-<div class="div_th_money" style="height:50px;">扶養親族<br/>７人</div>
-<br clear="all" />
-<% @list.each do |data| %>
+<div class="withheld_taxes">
   <div>
-    <div class="div_td_money10"><%= to_amount(data.salary_range_from, :show_zero=>true) %></div>
-    <div class="div_td_money10"><%= to_amount(data.salary_range_to, :show_zero=>true) %></div>
-    <% 8.times do |i| %>
-      <div class="div_td_money"><%= to_amount(data.__send__("dependent_#{i}"), :show_zero=>true) %></div>
-    <% end %>
+    <span><%= @list.first.valid_from %></span>
+    <span>～</span>
+    <span><%= @list.first.valid_until %></span>
   </div>
-  <br clear="all" />
-<% end %>
+  <table>
+    <tr>
+      <th>社会保険料控除後の<br/>給与範囲（以上）</th>
+      <th>社会保険料控除後の<br/>給与範囲（未満）</th>
+      <th>扶養親族<br/>０人</th>
+      <th>扶養親族<br/>１人</th>
+      <th>扶養親族<br/>２人</th>
+      <th>扶養親族<br/>３人</th>
+      <th>扶養親族<br/>４人</th>
+      <th>扶養親族<br/>５人</th>
+      <th>扶養親族<br/>６人</th>
+      <th>扶養親族<br/>７人</th>
+    </tr>
+    <% @list.each do |data| %>
+      <tr class="hover">
+        <td><%= to_amount(data.salary_range_from, :show_zero=>true) %></td>
+        <td><%= to_amount(data.salary_range_to, :show_zero=>true) %></td>
+        <% 8.times do |i| %>
+          <td><%= to_amount(data.__send__("dependent_#{i}"), :show_zero=>true) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
 </div>

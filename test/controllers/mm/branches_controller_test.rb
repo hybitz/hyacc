@@ -45,4 +45,11 @@ class Mm::BranchesControllerTest < ActionController::TestCase
     assert_template 'common/reload'
   end
 
+  def test_削除
+    sign_in user
+    xhr :delete, :destroy, :id => branch.id
+    assert_response :success
+    assert_template 'common/reload'
+  end
+
 end

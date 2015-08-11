@@ -5,14 +5,23 @@ var options = {
       text: '編集',
       click: function() {
         hyacc.current_dialog().close();
-        $.get('<%= url_for edit_mm_branch_path(@branch) %>');
+        $.get('<%= edit_mm_branch_path(@branch) %>');
+      }
+    },
+    {
+      text: '削除',
+      click: function() {
+        if (confirm('削除します。よろしいですか？')) {
+          var url = '<%= mm_branch_path(@branch) %>';
+          $.post(url, {_method: 'delete'});
+        }
       }
     },
     {
       text: '子部門追加',
       click: function() {
         hyacc.current_dialog().close();
-        $.get('<%= url_for new_mm_branch_path(:parent_id => @branch.id) %>');
+        $.get('<%= new_mm_branch_path(:parent_id => @branch.id) %>');
       }
     }
   ]

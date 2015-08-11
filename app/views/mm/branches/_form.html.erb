@@ -10,7 +10,13 @@
         </tr>
         <tr class="code">
           <th><%= f.label :code %></th>
-          <td><%= f.text_field :code %></td>
+          <td>
+            <% if @branch.new_record? %>
+              <%= f.text_field :code %>
+            <% else %>
+              <%= @branch.code %>
+            <% end %>
+          </td>
         </tr>
         <tr class="name">
           <th><%= f.label :name %></th>

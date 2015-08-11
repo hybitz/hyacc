@@ -37,6 +37,16 @@ class Mm::BranchesController < Base::HyaccController
     render 'common/reload'
   end
 
+  def destroy
+    @branch = load_branch
+    
+    @branch.transaction do
+      @branch.destroy_logically!
+    end
+
+    render 'common/reload'
+  end
+
   private
 
   def branch_params

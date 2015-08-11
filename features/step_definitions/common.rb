@@ -29,8 +29,7 @@ end
     assert has_selector? '.tax_type_ready'
   else
     if action == '登録' or action == '更新'
-      assert page.has_no_selector?("div.dojoxDialogTitleBar[title=振替伝票　#{action}]")
-      assert page.has_no_text?('ロード中')
+      assert has_no_selector?('.ui-dialog-title', :text => "振替伝票　#{action}]")
     end
     assert page.has_text?("伝票を#{action}しました。")
     assert_url "^/journals$"

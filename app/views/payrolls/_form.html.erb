@@ -1,38 +1,34 @@
 <script>
-  var form = $('.payroll_form form');
-  
   $(document).ready(function() {
-      // 新規登録の場合
-     <% if @payroll.new_record? %>
-       loadInsurance(form);
-     <% end %>
-     
-     // 基本給変更時
-     form.find('input[name*="\[base_salary\]"]').change(function() {
-        loadInsurance(form);
-      });
-      
-      form.submit(function() {
-        return checkForm(this);
-      });
-      
     hyacc.init_datepicker();
-    $('#payroll_base_salary').focus();
+
+    var form = $('.payroll_form form');
+    form.submit(function() {
+      return checkForm(this);
+    });
+
+    var base_salary = form.find('input[name*="\[base_salary\]"]');
+    base_salary.change(function() {
+      loadInsurance(form);
+    });
+
+    <% if @payroll.new_record? %>
+      loadInsurance(form);
+    <% end %>
   });
 
-
-function loadInsurance(form){
+  function loadInsurance(form) {
     var url = '<%= url_for :action => 'auto_calc' %>';
     var params = form.serialize();
     $.getJSON(url, params, function(taxes) {
       form.find('input[name*="\[insurance\]"]').val(taxes.insurance);
       form.find('input[name*="\[pension\]"]').val(taxes.pension);
       form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
-      form.find('submit').attr('disabled', false);
-     });
-}
+      form.attr('insurance_loaded', true);
+    });
+  }
 
-function checkForm(form){
+  function checkForm(form) {
     var insurance = form.elements['payroll_insurance'].value;
     var pension = form.elements['payroll_pension'].value;
     var inhabitant_tax = form.elements['payroll_inhabitant_tax'].value;
@@ -47,7 +43,7 @@ function checkForm(form){
       result = window.confirm('住民税が0円です。登録しますか？')
     }
     return result;
-}
+  }
 </script>
 
 <%= flash_notice %>
@@ -120,7 +116,7 @@ function checkForm(form){
         </td>
       </tr>
       <tr>
-        <td>住民税</td>
+        <td><%= f.label :inhabitant_tax %></td>
         <td>
           <%= f.text_field :inhabitant_tax, :maxlength => 10 %>
           <label><%= f.radio_button :credit_account_type_of_inhabitant_tax, '0' %>預り金</label>

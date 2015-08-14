@@ -72,7 +72,8 @@ ja:
         deleted: 削除フラグ
         disabled: 状態
 
-      branch: 
+      branch:
+        business_office_id: 事業所
         code: 部門コード  
         name: 部門名
         is_head_office: 本社

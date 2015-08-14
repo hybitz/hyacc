@@ -39,7 +39,7 @@ class FirstBootController < ApplicationController
 
     @b = Branch.new
     @b.code = '100'
-    @b.name = '本社'
+    @b.name = '本店'
     @b.is_head_office = true
 
     @be = BranchEmployee.new

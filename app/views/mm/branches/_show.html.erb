@@ -2,6 +2,10 @@
   <table>
     <tbody>
       <tr>
+        <th><%= Branch.human_attribute_name :business_office_id %></th>
+        <td><%= @branch.business_office.name %></td>
+      </tr>
+      <tr>
         <th><%= Branch.human_attribute_name :parent_id %></th>
         <td><%= @branch.parent_name %></td>
       </tr>

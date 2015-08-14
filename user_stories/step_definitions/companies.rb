@@ -23,6 +23,7 @@
     click_on '登録'
   end
 
+  assert has_no_selector?('.ui-dialog')
   assert has_selector?('#business_offices_table', :text => '本社')
   capture
 end

@@ -54,9 +54,9 @@ class Mm::BranchesController < Base::HyaccController
 
     case action_name
     when 'create'
-      ret = ret.permit(:code, :name, :parent_id)
+      ret = ret.permit(:code, :name, :parent_id, :business_office_id)
     when 'update'
-      ret = ret.permit(:name, :parent_id)
+      ret = ret.permit(:name, :business_office_id)
     end
 
     ret = ret.merge(:company_id => current_company.id)

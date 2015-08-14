@@ -92,7 +92,7 @@ GEM
       multi_test (>= 0.1.2)
     cucumber-core (1.2.0)
       gherkin (~> 2.12.0)
-    daddy (0.4.0)
+    daddy (0.4.1)
       capybara (~> 2.4)
       ci_reporter (>= 1.9.0, < 2.0.0)
       closer (~> 0.2)

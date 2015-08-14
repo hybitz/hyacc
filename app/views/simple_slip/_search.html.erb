@@ -4,12 +4,12 @@
 
     <div style="margin:5px;">
       年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %>
-      <% unless @finder.ym.empty? %>
+      <% unless @finder.ym.present? %>
         <a href='#' onclick='$("#finder_ym").val("");'>×</a>
       <% end %>
       
       摘要：<%= text_field 'finder', 'remarks' %>
-      <% unless @finder.remarks.empty? %>
+      <% unless @finder.remarks.present? %>
         <a href='#' onclick='$("#finder_remarks").val("");'>×</a>
       <% end %>
       

@@ -7,9 +7,10 @@ module Reports
       ymd = finder.end_year_month_day_of_fiscal_year.to_s
       a = Account.get_by_code(ACCOUNT_CODE_RECEIVABLE)
       # 借方
-      debits = JournalDetail.where(:account_id => a.id, :dc_type=>DC_TYPE_DEBIT).group(:sub_account_id).sum(:amount)
+      debits = JournalDetail.where(:account_id => a.id, :dc_type=>DC_TYPE_DEBIT).joins(:journal_header).where(JournalHeader.arel_table[:ym].lt ymd[0, 6]).group(:sub_account_id).sum(:amount)
       # 貸方
-      credits = JournalDetail.where(:account_id => a.id, :dc_type=>DC_TYPE_CREDIT).group(:sub_account_id).sum(:amount)
+      credits = JournalDetail.where(:account_id => a.id, :dc_type=>DC_TYPE_CREDIT).joins(:journal_header).where(JournalHeader.arel_table[:ym].lt ymd[0, 6]).group(:sub_account_id).sum(:amount)
+
       debits.each do |key, value|
         sum = value - credits[key] unless credits[key].nil?
         if sum > 0

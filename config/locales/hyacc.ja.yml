@@ -195,22 +195,22 @@ ja:
           social_expense_number_of_people: "接待交際の参加人数"  
         tax_admin_info: "消費税管理情報"
 
-      payroll: 
-        ym: "年月"  
-        days_of_work: "労働日数"  
-        hours_of_work: "労働時間数"  
-        hours_of_day_off_work: "休日労働時間数"  
-        hours_of_early_for_work: "早出残業時間数"  
-        hours_of_late_night_work: "深夜労働時間数"  
-        payroll_journal_headers: "給与伝票"
-        pay_journal_headers: "支払伝票"
-        commission_journal_headers: "支払手数料伝票"
-        insurance: "健康保険料"  
-        base_salary: "基本給"  
-        pension: "厚生年金保険料"  
-        income_tax: "所得税"  
-        inhabitant_tax: "住民税"  
-        accrued_liability: "従業員への未払費用"  
+      payroll:
+        ym: 年月
+        days_of_work: 労働日数
+        hours_of_work: 労働時間数
+        hours_of_day_off_work: 休日労働時間数
+        hours_of_early_for_work: 早出残業時間数
+        hours_of_late_night_work: 深夜労働時間数
+        payroll_journal_headers: 給与伝票
+        pay_journal_headers: 支払伝票
+        commission_journal_headers: 支払手数料伝票
+        insurance: 健康保険料
+        base_salary: 基本給
+        pension: 厚生年金保険料
+        income_tax: 所得税
+        inhabitant_tax: 住民税
+        accrued_liability: 従業員への未払費用
         year_end_adjustment_liability: "年末調整額（過払分）"  
         pay_day: "給与支払日"  
 

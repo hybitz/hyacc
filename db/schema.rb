@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150810140049) do
+ActiveRecord::Schema.define(version: 20150814014438) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -526,22 +526,5 @@ ActiveRecord::Schema.define(version: 20150810140049) do
   add_index "users", ["login_id"], name: "index_users_on_login_id", unique: true, using: :btree
   add_index "users", ["otp_secret_key"], name: "index_users_on_otp_secret_key", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "withheld_taxes", force: true do |t|
-    t.integer  "apply_start_ym",  default: 999912, null: false
-    t.integer  "apply_end_ym",    default: 999912, null: false
-    t.integer  "pay_range_above"
-    t.integer  "pay_range_under"
-    t.integer  "no_dependent"
-    t.integer  "one_dependent"
-    t.integer  "two_dependent"
-    t.integer  "three_dependent"
-    t.integer  "four_dependent"
-    t.integer  "five_dependent"
-    t.integer  "six_dependent"
-    t.integer  "seven_dependent"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end

@@ -80,7 +80,7 @@ class Company < ActiveRecord::Base
 
   # 部門ありモードかどうか
   def branch_mode
-    branches.size > 1
+    branches.where(:deleted => false).size > 1
   end
   
   # 本部を取得する

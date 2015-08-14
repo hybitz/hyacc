@@ -4,7 +4,6 @@ class Employee < ActiveRecord::Base
   
   belongs_to :user
   belongs_to :company
-  belongs_to :business_office
 
   has_many :employee_histories, :dependent => :destroy
   accepts_nested_attributes_for :employee_histories, :allow_destroy => true
@@ -40,6 +39,10 @@ class Employee < ActiveRecord::Base
     nil
   end
 
+  def business_office
+    default_branch.business_office
+  end
+
   def default_branch_name
     b = default_branch(false)
     b ? b.name : nil
@@ -70,7 +73,7 @@ class Employee < ActiveRecord::Base
     eh ? eh.num_of_dependent : 0
   end
 
-  def has_careers
+  def has_careers?
     careers.size > 0
   end
   
@@ -83,7 +86,7 @@ class Employee < ActiveRecord::Base
   end
   
   def years_of_career
-    if has_careers
+    if has_careers?
       min = Career.where(:employee_id => id).order('start_from').first
       max = Career.where(:employee_id => id).order('end_to desc').first
 

@@ -6,7 +6,6 @@ user1:
   first_name: 一郎
   employment_date: 2009-01-01
   sex: M
-  business_office_id: 1
   birth: 1990-01-01
 
 user2:
@@ -17,7 +16,6 @@ user2:
   first_name: 次郎
   employment_date: 2009-01-01
   sex: M
-  business_office_id: 1
   birth: 1990-01-02
 
 user3:
@@ -28,7 +26,6 @@ user3:
   first_name: テスト名3
   employment_date: 2009-01-01
   sex: F
-  business_office_id: 1
   birth: 1990-01-03
 
 user4:
@@ -39,7 +36,6 @@ user4:
   first_name: ランス
   employment_date: 2009-01-01
   sex: M
-  business_office_id: 1
   birth: 1990-01-04
 
 5:
@@ -59,7 +55,6 @@ user6:
   first_name: 花子
   employment_date: 2009-01-01
   sex: F
-  business_office_id: 1
   birth: 1990-01-06
 
 user7:
@@ -69,5 +64,4 @@ user7:
   first_name: 太郎
   employment_date: 2009-01-01
   sex: M
-  business_office_id: 1
   birth: 1990-01-06

@@ -6,7 +6,6 @@ class Branch < ActiveRecord::Base
   belongs_to :company
   has_many :branch_employees
   has_many :employees, :through => :branch_employees
-  has_many :sub_branches, :foreign_key=>:parent_id, :class_name=>"Branch", :dependent=>:destroy
 
   before_save :set_path
 
@@ -19,6 +18,16 @@ class Branch < ActiveRecord::Base
   def parent_name
     return nil unless parent
     parent.name
+  end
+
+  def business_office
+    if business_office_id.present?
+      BusinessOffice.where(:company_id => company_id).find(business_office_id)
+    elsif is_head_office
+      BusinessOffice.where(:company_id => company_id, :is_head => true).first
+    else
+      parent.business_office
+    end
   end
 
   private

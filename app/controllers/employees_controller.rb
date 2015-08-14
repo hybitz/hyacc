@@ -6,7 +6,6 @@ class EmployeesController < Base::HyaccController
 
   def index
     @employees = finder.list
-    setup_view_attributes
   end
 
   def add_employee_history
@@ -20,7 +19,6 @@ class EmployeesController < Base::HyaccController
 
   def edit
     @e = Employee.find(params[:id])
-    setup_view_attributes
   end
 
   def update
@@ -37,7 +35,6 @@ class EmployeesController < Base::HyaccController
 
     rescue => e
       handle(e)
-      setup_view_attributes
       render :action => 'edit'
     end
   end
@@ -70,10 +67,6 @@ class EmployeesController < Base::HyaccController
       employee_attributes,
       :employee_histories_attributes => employee_histories_attributes,
       :branch_employees_attributes => branch_employees_attributes)
-  end
-
-  def setup_view_attributes
-    @business_offices = current_user.company.business_offices
   end
 
   def finder

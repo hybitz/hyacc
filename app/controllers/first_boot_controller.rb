@@ -18,8 +18,9 @@ class FirstBootController < ApplicationController
     @e = Employee.new(employee_params)
     @u = User.new(user_params)
 
-    valid = @c.valid? && @u.valid?
-    render :index and return unless valid
+    unless @c.valid? && @u.valid?
+      render :index and return
+    end
 
     # 事業開始年月
     # 個人事業主の事業開始月は1月固定（所得税法）

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814014438) do
+ActiveRecord::Schema.define(version: 20150814021743) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -122,17 +122,18 @@ ActiveRecord::Schema.define(version: 20150814014438) do
   end
 
   create_table "branches", force: true do |t|
-    t.string   "code",           default: "",    null: false
-    t.string   "name",           default: "",    null: false
-    t.integer  "company_id",                     null: false
+    t.string   "code",               default: "",    null: false
+    t.string   "name",               default: "",    null: false
+    t.integer  "company_id",                         null: false
     t.integer  "sub_account_id"
-    t.boolean  "is_head_office", default: false, null: false
+    t.boolean  "is_head_office",     default: false, null: false
     t.integer  "parent_id"
-    t.string   "path",           default: "/",   null: false
-    t.integer  "cost_ratio",     default: 100,   null: false
-    t.boolean  "deleted",        default: false, null: false
+    t.string   "path",               default: "/",   null: false
+    t.integer  "cost_ratio",         default: 100,   null: false
+    t.boolean  "deleted",            default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "business_office_id"
   end
 
   create_table "business_offices", force: true do |t|
@@ -250,17 +251,16 @@ ActiveRecord::Schema.define(version: 20150814014438) do
   end
 
   create_table "employees", force: true do |t|
-    t.integer  "company_id",                                   null: false
-    t.string   "first_name",                                   null: false
-    t.string   "last_name",                                    null: false
-    t.date     "employment_date",                              null: false
+    t.integer  "company_id",                                null: false
+    t.string   "first_name",                                null: false
+    t.string   "last_name",                                 null: false
+    t.date     "employment_date",                           null: false
     t.string   "zip_code"
     t.string   "address"
-    t.string   "sex",                limit: 1,                 null: false
-    t.boolean  "deleted",                      default: false, null: false
+    t.string   "sex",             limit: 1,                 null: false
+    t.boolean  "deleted",                   default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "business_office_id"
     t.date     "birth"
     t.integer  "user_id"
   end

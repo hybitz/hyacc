@@ -316,19 +316,21 @@ module JournalUtil
   # 費用配賦を計算する
   # 配賦不可能な場合は空のハッシュを返す
   def make_allocated_cost(branch_id, cost)
-    allocated_costs = Hash::new
-    branches = Branch.get(branch_id).sub_branches
-    return allocated_costs if branches.size == 0
+    branches = Branch.get(branch_id).children.where(:deleted => false)
+    return {} if branches.empty?
+
+    allocated_costs = {}
+
     costs = divide(cost, branches.size)
-    i = 0
-    branches.each do |b|
+    branches.each_with_index do |b, i|
       allocated_costs[b.id] = costs[i]
-      i += 1
     end
-    return allocated_costs
+
+    allocated_costs
   end
 
-private
+  private
+
   # 伝票登録時の経理締めチェック
   def validate_closing_status_on_create( jh )
     closing_status = get_closing_status( jh )

@@ -32,10 +32,6 @@
           <th><%= f.label :employment_date %></th>
           <td><%= f.date_select :employment_date %></td>
         </tr>
-        <tr>
-          <th><%= f.label :business_office_id %></th>
-          <td><%= f.collection_select :business_office_id, @business_offices, 'id', 'name', :include_blank => true %></td>
-        </tr>
       </table>
     </div>
     

@@ -1,21 +1,8 @@
-if ENV["COVERAGE"]
-  require 'simplecov'
-  require 'simplecov-rcov'
-  SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
-  SimpleCov.start 'rails' 
-end
+require 'daddy/test_help'
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-
-if ENV['FORMAT'].to_s.downcase == 'junit'
-  require 'minitest/reporters'
-  MiniTest::Reporters.use! [
-    MiniTest::Reporters::DefaultReporter.new,
-    MiniTest::Reporters::JUnitReporter.new
-  ]
-end
 
 class ActiveSupport::TestCase
   include HyaccConstants

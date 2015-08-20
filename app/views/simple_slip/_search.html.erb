@@ -4,14 +4,10 @@
 
     <div style="margin:5px;">
       年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %>
-      <% unless @finder.ym.present? %>
-        <a href='#' onclick='$("#finder_ym").val("");'>×</a>
-      <% end %>
+      <a href='#' onclick='$("#finder_ym").val("");'>×</a>
       
       摘要：<%= text_field 'finder', 'remarks' %>
-      <% unless @finder.remarks.present? %>
-        <a href='#' onclick='$("#finder_remarks").val("");'>×</a>
-      <% end %>
+      <a href='#' onclick='$("#finder_remarks").val("");'>×</a>
       
       <% if branch_mode %>
       部門：<%= collection_select('finder', 'branch_id', @branches, "id", "name", {:include_blank=>true}) %>

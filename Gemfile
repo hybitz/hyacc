@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.12'
+gem 'rails', '4.1.13'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'

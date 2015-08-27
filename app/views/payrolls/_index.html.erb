@@ -182,22 +182,13 @@
     <td align="right"><%= to_amount(@pd[:sum].social_insurance) %></td>
   </tr>
   <tr>
-    <td><br/></td>
+    <td></td>
     <% @finder.get_ym_range.each do |ym| %>
       <td></td>
     <% end %>
     <td></td>
     <td></td>
     <td></td>
-  </tr>
-  <tr>
-    <td>市町村民税</td>
-    <% @finder.get_ym_range.each do |ym| %>
-    <td align="center"><%= to_amount(@pd[ym][:payroll].inhabitant_tax) %></td>
-    <% end %>
-    <td></td>
-    <td></td>
-    <td align="right"><%= to_amount(@pd[:sum].inhabitant_tax) %></td>
   </tr>
   <tr>
     <td>所得税</td>
@@ -209,7 +200,16 @@
     <td align="right"><%= to_amount(@pd[:sum].income_tax) %></td>
   </tr>
   <tr>
-    <td><br/></td>
+    <td><%= Payroll.human_attribute_name :inhabitant_tax %></td>
+    <% @finder.get_ym_range.each do |ym| %>
+    <td align="center"><%= to_amount(@pd[ym][:payroll].inhabitant_tax) %></td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td align="right"><%= to_amount(@pd[:sum].inhabitant_tax) %></td>
+  </tr>
+  <tr>
+    <td></td>
     <% @finder.get_ym_range.each do |ym| %>
       <td></td>
     <% end %>

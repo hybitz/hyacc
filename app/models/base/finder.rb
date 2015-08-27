@@ -21,7 +21,7 @@ module Base
     attr_accessor :company_id
     attr_accessor :user_id
   
-    def initialize( user )
+    def initialize(user)
       @start_month_of_fiscal_year = user.company.start_month_of_fiscal_year
       @slips_per_page = user.slips_per_page
       @login_user_id = user.id

@@ -80,11 +80,7 @@ module HyaccDateUtil
   # @param before 前何年分かを指定
   # @param after 後何年分かを指定
   def get_ym_list( ym, before, after )
-    ret = []
-    for i in ym - before .. ym + after
-      ret << i
-    end
-    ret
+    ym - before .. ym + after
   end
  
   # 月末の日を取得します。

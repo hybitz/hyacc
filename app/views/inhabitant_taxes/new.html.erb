@@ -1,6 +1,6 @@
 <div style="margin: 20px;">
   <%= flash_notice %>
-  <%= form_tag({:action => 'create'}, :multipart => true) do %>
+  <%= form_tag({:action => 'confirm'}, :multipart => true) do %>
     <p>アップロードファイル<br>
       <%= file_field_tag(:file) %>
     </p>

@@ -1,6 +1,6 @@
 class EmployeesController < Base::HyaccController
   view_attribute :title => '従業員'
-  view_attribute :branches, :except=>[:index, :show, :destroy]
+  view_attribute :branches, :except=>[:index, :destroy]
 
   helper_method :finder
 
@@ -18,6 +18,10 @@ class EmployeesController < Base::HyaccController
   end
 
   def edit
+    @e = Employee.find(params[:id])
+  end
+  
+  def show
     @e = Employee.find(params[:id])
   end
 

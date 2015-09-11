@@ -22,12 +22,15 @@ class InhabitantTaxesControllerTest < ActionController::TestCase
     assert_template :new
   end
 
-  def test_登録
+  def test_アップロード
     sign_in user
-    post :create, :file => upload_file('inhabitant_tax.csv')
-    assert_response :redirect
-    assert_redirected_to :action => "index"
-    assert_equal 48, assigns(:list).size
+    post :confirm, :file => upload_file('inhabitant_tax.csv')
+    assert_template :confirm
+    assert_equal 2, assigns(:list).size
+  end
+  
+  def test_登録
+    
   end
   
   def test_参照

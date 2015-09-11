@@ -1,0 +1,34 @@
+<div style="margin: 20px;">
+<%= form_tag({:action => 'create'}, :method => 'post') do %>
+<%= @finder_year %>年６月〜翌年５月のデータを登録します。
+<%= hidden_field 'finder', 'year', :value => @finder_year %>
+<%= hidden_field 'commit', 'something' %>
+<table>
+    <tr>
+        <th>#</th>
+        <th>名前</th>
+        <th>住所</th>
+        <th>紐付け従業員</th>
+        <th>確認</th>
+    </tr>
+    <% @list.each_with_index do |ic, index| %>
+      <%= fields_for "inhabitant_csv", ic, :index => index do |f| %>
+    <tr>
+        <td><%= index + 1 %></td>
+        <td><%= ic.kanji_last_name + ic.kanji_first_name %></td>
+        <td><%= ic.address %></td>
+        <td><% if ic.employee_id  %>
+              <%= link_to ic.kanji_last_name + ic.kanji_first_name , employee_path(ic.employee_id), :remote => true %>
+              <%= f.hidden_field :employee_id %>
+            <% else %>
+              
+            <% end %>
+        </td>
+        <td><%= ic.amounts %><%= f.hidden_field :amounts %></td>
+    </tr>
+      <% end %>
+    <% end %>
+</table>
+  <%= submit_tag '登録' %>
+<% end %>
+</div>

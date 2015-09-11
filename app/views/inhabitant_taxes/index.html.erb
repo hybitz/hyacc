@@ -1,9 +1,19 @@
+<script>
+  $(document).ready(function() {
+    $('#inhabitant_upload').submit(function() {
+      var input = document.createElement('input');
+      input.setAttribute('type', 'hidden');
+      input.setAttribute('name', 'finder_year');
+      input.setAttribute('value', $('#finder_year').val());
+      this.appendChild(input);
+    });
+  });
+</script>
+
+
 <%= flash_notice %>
 <div style="margin: 20px;"> 
   <%= render 'search' %>
-</div>
-<div style="margin: 20px;"> 
-  <%= link_to '一括登録', new_inhabitant_tax_path %>
 </div>
 
 <% if @list.present? %>
@@ -21,3 +31,12 @@
     <% end %>
   </div>
 <% end %>
+
+<div style="margin: 20px;">
+  <%= flash_notice %>
+  <%= form_tag({:action => 'confirm'}, :id=>'inhabitant_upload', :multipart => true) do %>
+  アップロードファイル<br>
+  <%= file_field_tag(:file) %><br>
+  <%= submit_tag("アップロード") %>
+  <% end %>
+</div>

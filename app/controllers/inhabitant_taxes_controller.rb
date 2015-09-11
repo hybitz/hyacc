@@ -3,15 +3,19 @@ class InhabitantTaxesController < Base::BasicMasterController
   view_attribute :ym_list, :only => :index
 
   def create
-    upload
+    InhabitantCsv.create_csv(params)
+    redirect_to :action => 'index', :finder => params[:finder], :commit => ''
   end
-
-  # CSVフォーマットからモデル登録用にコンバート
-  def make_array(csv_array)
-    model_array = []
-    model_array << csv_array[0]  # 年月
-    model_array << csv_array[1]  # employee_id
-    model_array << csv_array[2]  # amount
+  
+  def confirm
+    file = params[:file]
+    @finder_year = params[:finder_year]
+    finder = {:year => @finder_year}
+    if file.nil?
+      redirect_to :action => 'index', :finder => finder, :commit => ''
+    else
+      @list = InhabitantCsv.load(file.tempfile)
+    end
   end
 
   def inhabitant_tax_params

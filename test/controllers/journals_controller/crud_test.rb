@@ -2,7 +2,7 @@ require 'test_helper'
 
 class JournalsController::CrudTest < ActionController::TestCase
 
-  setup do
+  def setup
     sign_in user
   end
 
@@ -172,7 +172,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert @journal = assigns(:journal)
     assert @journal.errors.size == 1
     assert jd = @journal.journal_details.first
-    assert_equal 'を入力してください。', jd.errors[:social_expense_number_of_people][0], '接待交際の人数が未入力を検出していること'
+    assert jd.errors[:social_expense_number_of_people].any?
   end
 
   def test_接待交際費で交際費人数ありでの登録が正常終了すること

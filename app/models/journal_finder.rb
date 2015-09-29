@@ -1,5 +1,6 @@
 class JournalFinder < Base::Finder
   include HyaccConstants
+  include SlipTypes
 
   attr_accessor :slip_type_selection
   attr_accessor :remarks
@@ -39,26 +40,13 @@ class JournalFinder < Base::Finder
 
   private
 
-  def get_slip_types
-    case @slip_type_selection
-    when 1
-      return [SLIP_TYPE_TRANSFER]
-    when 2
-      return [SLIP_TYPE_TRANSFER, SLIP_TYPE_SIMPLIFIED]
-    when 3
-      return [SLIP_TYPE_TRANSFER, SLIP_TYPE_SIMPLIFIED, SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION]
-    else
-      raise '予期していない処理分岐です'
-    end
-  end
-
   def make_conditions
     sql = SqlBuilder.new
     sql.append('deleted = ?', false)
     
     # 伝票区分
     if @slip_type_selection != 4
-      sql.append('and slip_type in (' + get_slip_types.join(', ') + ')')
+      sql.append('and slip_type in (?)', slip_types)
     end
     
     # 年月

@@ -125,10 +125,9 @@ module Slips
     
     def update( params )
       setup_from_params( params )
-      old = copy_journal(@journal_header)
-      
-      @journal_header.transaction do
+      old = @journal_header.copy
 
+      @journal_header.transaction do
         @journal_header.ym = @ym
         @journal_header.day = @day
         @journal_header.remarks = @remarks

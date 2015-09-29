@@ -1,13 +1,14 @@
 前提 /^科目振替の一覧を表示している$/ do
-  visit '/account_transfers'
+  click_on '伝票管理'
+  click_on '科目振替'
   click_on '検索'
-  assert page.has_selector?('#journal_container')
+  assert has_selector?('#journal_container')
   capture
 end
 
 もし /^(.*?)の明細にチェックを入れる$/ do |account_name|
   find_tr '#journal_container', account_name do |tr|
-    checkbox = tr.first('input[type=checkbox]')
+    checkbox = tr.first('input[type="checkbox"]')
     @journal_header_id = checkbox['id'].split('_')[3].to_i
     assert_check checkbox['id'] 
   end
@@ -30,6 +31,7 @@ end
 
 ならば /^当該明細の勘定科目が(.*?)に更新される$/ do |account_name|
   begin
+    assert has_notice?
     assert find_tr('#journal_container', account_name, false), "#{account_name}の明細が存在すること"
   ensure
     capture

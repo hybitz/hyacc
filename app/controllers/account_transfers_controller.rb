@@ -5,19 +5,10 @@ class AccountTransfersController < Base::HyaccController
   include AssetUtil
 
   view_attribute :title => '科目振替'
-  view_attribute :finder, :class=>AccountTransferFinder, :only=>:index
-  view_attribute :ym_list, :only=>:index
-  view_attribute :branches, :only=>:index
-  view_attribute :accounts, :only=>:index
-  view_attribute :sub_accounts, :only=>:index
+  helper_method :finder
   
   def index
     @journals = finder.list if finder.commit
-
-    if finder.to_sub_account_id > 0
-      a = Account.get(finder.to_account_id)
-      @to_sub_accounts = a.sub_accounts
-    end
   end
 
   def update_details
@@ -26,7 +17,7 @@ class AccountTransfersController < Base::HyaccController
     finder.to_sub_account_id = params[:finder][:to_sub_account_id].to_i
 
     unless form and form[:details].present?
-      redirect_to :action=>:index, :commit=>"検索" and return
+      redirect_to :action => :index, :commit => true and return
     end
 
     begin
@@ -45,7 +36,7 @@ class AccountTransfersController < Base::HyaccController
           end
           
           jh = JournalHeader.find(jh_id)
-          old_jh = copy_journal(jh)
+          old_jh = jh.copy
           raise HyaccException.new(ERR_INVALID_ACTION) unless can_edit(jh)
 
           jd = jh.journal_details.find(jd_id)
@@ -76,6 +67,22 @@ class AccountTransfersController < Base::HyaccController
       handle(e)
     end
     
-    redirect_to :action=>:index, :commit=>"検索"
+    redirect_to :action => :index, :commit => true
+  end
+
+  private
+
+  def finder
+    unless @finder
+      @finder = AccountTransferFinder.new(params[:finder])
+      @finder.company_id = current_company.id
+      @finder.slip_type_selection ||= SLIP_TYPE_TRANSFER
+      @finder.branch_id ||= current_user.employee.default_branch.id
+      @finder.commit = params[:commit].present?
+      @finder.page = params[:page]
+      @finder.per_page = current_user.slips_per_page
+    end
+    
+    @finder
   end
 end

@@ -1,8 +1,6 @@
 require 'test_helper'
 
 class AccountTransfersControllerTest < ActionController::TestCase
-  include HyaccConstants
-  include HyaccErrors
 
   def test_初期画面の表示
     sign_in freelancer
@@ -19,7 +17,6 @@ class AccountTransfersControllerTest < ActionController::TestCase
     assert_equal 2, JournalDetail.find(57).account_id
 
     sign_in freelancer
-    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(freelancer)
 
     post :update_details,
       {
@@ -35,9 +32,9 @@ class AccountTransfersControllerTest < ActionController::TestCase
       }
       
     assert_response :redirect
-    assert_redirected_to :action=>'index', :commit=>'検索'
+    assert_redirected_to :action => 'index', :commit => true
     assert_equal "科目を一括振替しました。", flash[:notice]
-    
+
     assert_equal 3, JournalDetail.find(32).account_id
     assert_equal 2, JournalDetail.find(33).account_id
     assert_equal 3, JournalDetail.find(44).account_id
@@ -48,7 +45,6 @@ class AccountTransfersControllerTest < ActionController::TestCase
 
   def test_楽観ロックが無効な場合に更新できないこと
     sign_in freelancer
-    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(freelancer)
 
     post :update_details,
       {
@@ -58,13 +54,12 @@ class AccountTransfersControllerTest < ActionController::TestCase
       }
       
     assert_response :redirect
-    assert_redirected_to :action=>'index', :commit=>'検索'
+    assert_redirected_to :action => 'index', :commit => true
     assert_equal ERR_STALE_OBJECT, flash[:notice]
   end
 
   def test_自動仕訳が更新できないこと
     sign_in freelancer
-    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(freelancer)
 
     post :update_details,
       {
@@ -74,13 +69,12 @@ class AccountTransfersControllerTest < ActionController::TestCase
       }
       
     assert_response :redirect
-    assert_redirected_to :action=>'index', :commit=>'検索'
+    assert_redirected_to :action => 'index', :commit => true
     assert_equal ERR_INVALID_ACTION, flash[:notice]
   end
   
   def test_資産が関連している明細が更新できないこと
     sign_in user
-    @request.session[:AccountTransferFinder] = AccountTransferFinder.new(user)
 
     post :update_details,
       {
@@ -90,7 +84,7 @@ class AccountTransfersControllerTest < ActionController::TestCase
       }
       
     assert_response :redirect
-    assert_redirected_to :action=>'index', :commit=>'検索'
+    assert_redirected_to :action => 'index', :commit => true
     assert_equal ERR_INVALID_ACTION, flash[:notice]
   end
 end

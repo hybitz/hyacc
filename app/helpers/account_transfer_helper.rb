@@ -6,8 +6,7 @@ module AccountTransferHelper
   end
   
   # 行を強調表示するかどうか
-  def should_emphasize(jd)
-    return false unless @finder.account_id > 0
-    @finder.account_id == jd.account_id
+  def should_emphasize?(jd)
+    finder.account_id == jd.account_id
   end
 end

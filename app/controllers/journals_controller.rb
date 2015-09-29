@@ -46,7 +46,7 @@ class JournalsController < Base::HyaccController
 
   def new
     if params[:copy_id].present?
-      @journal = copy_journal(Journal.find(params[:copy_id]))
+      @journal = Journal.find(params[:copy_id]).copy
       @journal.ym = @ym
       @journal.day = @day
       clear_asset_from_details(@journal)
@@ -118,7 +118,7 @@ class JournalsController < Base::HyaccController
 
   def update
     @journal = Journal.find(params[:id])
-    old = copy_journal(@journal)
+    old = @journal.copy
 
     begin
       @journal.transaction do

@@ -152,6 +152,47 @@ class JournalHeader < ActiveRecord::Base
     user.company.get_fiscal_year( ym )
   end
 
+  def copy
+    self.class.copy_journal(self)
+  end
+
+  def self.copy_journal(jh)
+    copy = Journal.new
+    copy.attributes = jh.attributes
+    copy.id = nil
+
+    jh.journal_details.each do |src_jd|
+      jd = JournalDetail.new
+      jd.attributes = src_jd.attributes
+
+      if src_jd.asset
+        jd.asset = Asset.new
+        jd.asset.attributes = src_jd.asset.attributes
+      end
+
+      src_jd.transfer_journals.each do |tj|
+        jd.transfer_journals << tj.copy
+      end
+      
+      copy.journal_details << jd
+    end
+    
+    # Trac#171 2010/01/27
+    # 本体明細に消費税明細への参照を設定する
+    jh.journal_details.each do |src_jd|
+      if src_jd.tax_journal_detail.present?
+        copy_jd = copy.journal_detail(src_jd.detail_no) 
+        copy_jd.tax_journal_detail = copy.journal_detail(src_jd.tax_journal_detail.detail_no)
+      end
+    end
+
+    jh.transfer_journals.each do |tj|
+      copy.transfer_journals << tj.copy
+    end
+
+    copy
+  end
+  
   private
 
   # 伝票の合計金額を取得する

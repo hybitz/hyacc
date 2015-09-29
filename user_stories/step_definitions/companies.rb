@@ -1,4 +1,4 @@
-もし /^事業所に本社を登録$/ do
+もし /^法務局に提出する「商業・法人登記申請」に記した本社を登録$/ do
   sign_in User.first unless current_user
 
   visit '/mm/companies'

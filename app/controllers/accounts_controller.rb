@@ -71,10 +71,8 @@ class AccountsController < Base::HyaccController
   end
 
   def update
-    # codeの更新は不可
-    params[:account].delete(:code) if params[:account]
-    
     @account = Account.find(params[:id])
+
     begin
       @account.transaction do
         sub_account_type_old = @account.sub_account_type
@@ -120,11 +118,23 @@ class AccountsController < Base::HyaccController
   end
 
   def account_params
-    params.require(:account).permit(
-        :code, :name, :dc_type, :account_type, :sub_account_type, :tax_type,
-        :description, :short_description, :trade_type, :is_settlement_report_account,
-        :depreciation_method, :is_trade_account_payable, :journalizable, 
-        :depreciable, :is_revenue_reserve_account, :is_tax_account, :parent_id)
+    permitted = [
+      :name, :dc_type, :account_type, :sub_account_type, :tax_type,
+      :description, :short_description, :trade_type, :is_settlement_report_account,
+      :depreciation_method, :is_trade_account_payable, :journalizable, 
+      :depreciable, :is_revenue_reserve_account, :is_tax_account
+    ]
+
+    ret = params.require(:account)
+
+    case action_name
+    when 'create'
+      ret = ret.permit(permitted, :code, :parent_id)
+    when 'update'
+      ret = ret.permit(permitted)
+    end
+
+    ret
   end
 
   def check_sub_account_type_editable(account, sub_account_type_old)

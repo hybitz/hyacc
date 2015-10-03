@@ -19,7 +19,7 @@
     <tr>
       <th><%= f.label :parent_id %></th>
       <td>
-        <%= f.hidden_field :parent_id %>
+        <%= f.hidden_field :parent_id if @account.new_record? %>
         <%= "#{@account.parent.code}：#{@account.parent.name}" if @account.parent %>
       </td>
     </tr>

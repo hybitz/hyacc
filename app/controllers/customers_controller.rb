@@ -83,17 +83,21 @@ class CustomersController < Base::HyaccController
   end
 
   def customer_params
-    customer_names_attributes = [:id, :_destroy, :name, :formal_name, :start_date]
+    permitted = [
+      :is_order_entry, :is_order_placement, :address, :disabled,
+      :customer_names_attributes => [:id, :_destroy, :name, :formal_name, :start_date]
+    ]
 
-    if action_name == 'create'
-      params.require(:customer)
-          .permit(:code, :is_order_entry, :is_order_placement, :address, :disabled,
-              :customer_names_attributes => customer_names_attributes)
-    else
-      params.require(:customer)
-          .permit(:is_order_entry, :is_order_placement, :address, :disabled,
-              :customer_names_attributes => customer_names_attributes)
+    ret = params.require(:customer)
+
+    case action_name
+    when 'create'
+      ret = ret.permit(permitted, :code)
+    when 'update'
+      ret = ret.permit(permitted)
     end
+
+    ret
   end
 
 end

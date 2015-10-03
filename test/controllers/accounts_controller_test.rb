@@ -92,21 +92,22 @@ class AccountsControllerTest < ActionController::TestCase
   end
 
   def test_更新
-    xhr :patch, :update, :id => expense_account.id, :account => expense_account.attributes
+    xhr :patch, :update, :id => expense_account.id,
+        :account => valid_account_params.except(:code, :account_type)
 
     assert @account = assigns(:account)
-    assert_equal expense_account.id, @account.id 
+    assert_equal expense_account.id, @account.id
+    assert @account.valid?, @account.errors.full_messages 
     assert_response :success
     assert_template 'common/reload'
   end
 
-  def test_update_fail_duplicate_code
+  def test_補助科目が重複
     a = Account.find(@first_id)
     xhr :patch, :update, :id => @first_id, :commit => '更新',
-                  :account => {:name=>a.name,:sub_account_type=>a.sub_account_type,
-                               :account_type=>a.account_type, :tax_type=>a.tax_type,
-                               :dc_type=>a.dc_type,:parent_id=>a.parent_id,
-                               :trade_type=>a.trade_type},
+                  :account => {:name => a.name, :sub_account_type => a.sub_account_type,
+                               :account_type => a.account_type, :tax_type => a.tax_type,
+                               :dc_type => a.dc_type, :trade_type => a.trade_type},
                   :sub_accounts => {"1"=>{:id=>'28',:name=>'補助科目１',:code=>'100',:deleted=>'false'},
                                     "2"=>{:id=>'29',:name=>'補助科目２',:code=>'200',:deleted=>'false'},
                                     "3"=>{:id=>'30',:name=>'補助科目３',:code=>'200',:deleted=>'false'}}
@@ -159,11 +160,10 @@ class AccountsControllerTest < ActionController::TestCase
     }
   end
   
-  # 伝票が存在しない場合、補助科目がすべて削除可能であること
-  def test_delete_all_sub_accounts
+  def test_伝票が存在しない場合_補助科目がすべて削除可能であること
     # まずは新規作成
     xhr :post, :create, 
-      :account=>{
+      :account => {
         :sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL,
         :code=>"6666",
         :name=>"テスト科目",
@@ -174,8 +174,8 @@ class AccountsControllerTest < ActionController::TestCase
         :parent_id=>"45",
         :trade_type=>"1"
       },
-      :sub_accounts=>{
-        "1"=>{
+      :sub_accounts => {
+        "1" => {
           :code=>"100",
           :name=>"テスト補助科目",
           :id=>"",
@@ -190,13 +190,11 @@ class AccountsControllerTest < ActionController::TestCase
     xhr :patch, :update, :id => Account.find_by_code(6666),
       :account=>{
         :sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL,
-        :code=>"6666",
         :name=>"テスト科目",
         :is_settlement_report_account=>"true",
         :account_type=>"2",
         :tax_type=>"1",
         :dc_type=>"2",
-        :parent_id=>"45",
         :trade_type=>"1"
       },
       :sub_accounts=>{

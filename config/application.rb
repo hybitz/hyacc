@@ -23,5 +23,7 @@ module Hyacc
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.i18n.default_locale = :ja
+
+    config.action_controller.action_on_unpermitted_parameters = :raise
   end
 end

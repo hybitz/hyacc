@@ -21,6 +21,9 @@ module Users
   end
   
   def valid_user_params
-    user.attributes
+    {
+      :login_id => time_string,
+      :password => time_string
+    }
   end
 end

@@ -40,7 +40,7 @@ class Mm::BranchesControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in user
-    xhr :patch, :update, :id => branch.id, :branch => valid_branch_params
+    xhr :patch, :update, :id => branch.id, :branch => valid_branch_params.slice(:name)
     assert_response :success
     assert_template 'common/reload'
   end

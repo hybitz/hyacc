@@ -16,6 +16,10 @@ class Account < ActiveRecord::Base
 
   before_save :update_path
 
+  def self.expenses
+    where(:account_type => ACCOUNT_TYPE_EXPENSE)
+  end
+
   def code_and_name
     self.code + ':' + self.name
   end

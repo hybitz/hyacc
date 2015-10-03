@@ -222,8 +222,8 @@ class JournalsController < Base::HyaccController
   private
 
   def journal_params
-    params.require(:journal).permit(
-        :ym, :day, :slip_type, :remarks, :amount, :receipt_path, :lock_version, :fiscal_year_id, :company_id)
+    params.require(:journal).permit(:ym, :day, :slip_type, :remarks, :amount,
+        :delete_flag_of_receipt_file, :receipt_path, :lock_version, :fiscal_year_id, :company_id)
   end
 
   def create_new_journal

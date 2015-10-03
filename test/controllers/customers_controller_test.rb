@@ -59,14 +59,14 @@ class CustomersControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in user
-    xhr :patch, :update, :id => customer.id, :customer => valid_customer_params
+    xhr :patch, :update, :id => customer.id, :customer => valid_customer_params.except(:code)
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_更新_入力エラー
     sign_in user
-    xhr :patch, :update, :id => customer.id, :customer => invalid_customer_params
+    xhr :patch, :update, :id => customer.id, :customer => invalid_customer_params.except(:code)
     assert_response :success
     assert_template :edit
   end

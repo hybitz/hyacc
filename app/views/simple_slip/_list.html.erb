@@ -26,7 +26,7 @@
         <% if branch_mode %><td></td><% end %>
         <td></td>
         <td></td>
-        <td class="amountSum" <%= 'style="color: red;"' if @pre_sum_amount < 0 %>><%= to_amount( @pre_sum_amount, :show_zero=>true ) %></td>
+        <td class="amountSum" <%= 'style="color: red;"' if @pre_sum_amount < 0 %>><%= to_amount(@pre_sum_amount, :show_zero => true) %></td>
         <td></td>
         <td></td>
         <td colspan="4" align="center">

@@ -94,34 +94,26 @@ module JournalUtil
   end
 
   # 伝票直前までの累計金額の取得
-  def get_sum_until( slip, account_id, dc_type )
+  def get_sum_until(slip, account_id, dc_type)
     # 伝票が1件もなければ累計は０円
     return 0 if slip.nil?
     
-    conditions = []
-    conditions[0] = "account_id=? "
-    conditions << account_id
-    conditions[0] << "and journal_details.dc_type=? "
-    conditions << dc_type
-    conditions[0] << "and (journal_headers.ym*100+journal_headers.day<? "
-    conditions << slip.ym * 100 + slip.day
-    conditions[0] << "or (journal_headers.ym*100+journal_headers.day=? "
-    conditions[0] << "    and journal_headers.created_on<=? and journal_headers.id <>?) "
-    conditions[0] << ") "
-    conditions << slip.ym * 100 + slip.day
-    conditions << slip.journal_header.created_on
-    conditions << slip.journal_header.id
-    if branch_id > 0
-      conditions[0] << " and branch_id = ? "
-      conditions << branch_id
-    end
-
-    if sub_account_id > 0
-      conditions[0] << " and sub_account_id = ? "
-      conditions << sub_account_id
-    end
+    sql = SqlBuilder.new
+    sql.append('account_id = ?', account_id)
+    sql.append('and journal_details.dc_type = ?', dc_type)
+    sql.append('and (')
+    sql.append('  journal_headers.ym*100 + journal_headers.day < ?', slip.ym * 100 + slip.day)
+    sql.append('  or')
+    sql.append('  (')
+    sql.append('    journal_headers.ym*100 + journal_headers.day = ?', slip.ym * 100 + slip.day)
+    sql.append('    and')
+    sql.append('    journal_headers.id < ?', slip.journal_header.id)
+    sql.append('  )') 
+    sql.append(')')
+    sql.append('and branch_id = ? ', branch_id) if branch_id > 0
+    sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id > 0
     
-    JournalDetail.joins(:journal_header).where(conditions).sum('journal_details.amount')
+    JournalDetail.joins(:journal_header).where(sql.to_a).sum('journal_details.amount')
   end
   
   def get_net_sum_until( slip, account )
@@ -130,19 +122,19 @@ module JournalUtil
   
     # accountが勘定科目コードの場合はマスタを検索
     if account.kind_of? String
-      account = Account.get_by_code( account )
+      account = Account.get_by_code(account)
     # accountが勘定科目IDの場合はマスタ検索
     elsif account.kind_of? Fixnum
-      account = Account.get( account )
+      account = Account.get(account)
     end
     
     unless account.kind_of? Account
       return 0
     end
     
-    pre_sum_amount_increase = get_sum_until( slip, account.id, account.dc_type )
-    pre_sum_amount_decrease = get_sum_until( slip, account.id, opposite_dc_type( account.dc_type ) )
-    subtract( pre_sum_amount_increase, pre_sum_amount_decrease )
+    pre_sum_amount_increase = get_sum_until(slip, account.id, account.dc_type)
+    pre_sum_amount_decrease = get_sum_until(slip, account.id, opposite_dc_type( account.dc_type ))
+    subtract(pre_sum_amount_increase, pre_sum_amount_decrease)
   end
 
   # 現在の累計金額の取得

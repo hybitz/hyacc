@@ -1,5 +1,4 @@
 id,code,name,account_id,sub_account_type,social_expense_number_of_people_required,deleted
-1,100,ATM手数料,31,1,0,0
 2,100,源泉所得税,39,1,0,0
 3,200,健康保険料,39,1,0,0
 4,300,厚生年金,39,1,0,0

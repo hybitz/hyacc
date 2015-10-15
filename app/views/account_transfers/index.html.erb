@@ -8,6 +8,10 @@
   <% end %>
 <% else %>
   <%= form_tag :action => 'update_details' do %>
+    <%= hidden_field :finder, :ym %>
+    <%= hidden_field :finder, :account_id %>
+    <%= hidden_field :finder, :slip_type_selection %>
+
     <table style="margin: 10px;">
       <tr>
         <td>チェックした明細の</td>
@@ -15,14 +19,19 @@
           勘定科目を
           <%= select :finder, :to_account_id, to_options_code_and_name(finder.accounts) %>
           <script>
-            $('#finder_to_account_id').change(function() {
-              var url = '<%=  sub_accounts_path(:format => 'json') %>';
-              var params = {account_id: $(this).value};
-              $.get(url, params, function(json) {
-                  replace_options('#finder_to_sub_account_id', json);
-                  }
-                );
-              });
+            $(document).ready(function() {
+              $('#finder_to_account_id').change(function() {
+                $('#finder_to_sub_account_id').removeClass('ready');
+
+                var url = '<%=  sub_accounts_path(:format => 'json') %>';
+                var params = {account_id: $(this).val()};
+                $.get(url, params, function(json) {
+                    replace_options('#finder_to_sub_account_id', json);
+                    $('#finder_to_sub_account_id').addClass('ready');
+                    }
+                  );
+                });
+            });
           </script>
           <br/>
           補助科目を

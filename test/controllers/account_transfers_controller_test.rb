@@ -18,10 +18,8 @@ class AccountTransfersControllerTest < ActionController::TestCase
 
     sign_in freelancer
 
-    post :update_details,
-      {
-        :commit=>"一括振替",
-        :finder=>{:to_account_id=>3},
+    post :update_details, :commit=>"一括振替",
+        :finder => finder_params,
         :form=>{
           "details"=>{
             "jh_15_lv_3_jd_32"=>"1",
@@ -29,10 +27,9 @@ class AccountTransfersControllerTest < ActionController::TestCase
             "jh_27_lv_3_jd_56"=>"1",
           }
         }
-      }
       
     assert_response :redirect
-    assert_redirected_to :action => 'index', :commit => true
+    assert_redirected_to :action => 'index', :finder => finder_params
     assert_equal "科目を一括振替しました。", flash[:notice]
 
     assert_equal 3, JournalDetail.find(32).account_id
@@ -46,45 +43,43 @@ class AccountTransfersControllerTest < ActionController::TestCase
   def test_楽観ロックが無効な場合に更新できないこと
     sign_in freelancer
 
-    post :update_details,
-      {
-        :commit=>"一括変更",
-        :finder=>{:to_account_id=>3},
-        :form=>{"details"=>{"jh_21_lv_4_jd_44"=>"1"}}
-      }
+    post :update_details, :commit=>"一括変更",
+        :finder => finder_params,
+        :form => {"details"=>{"jh_21_lv_4_jd_44"=>"1"}}
       
     assert_response :redirect
-    assert_redirected_to :action => 'index', :commit => true
+    assert_redirected_to :action => 'index', :finder => finder_params
     assert_equal ERR_STALE_OBJECT, flash[:notice]
   end
 
   def test_自動仕訳が更新できないこと
     sign_in freelancer
 
-    post :update_details,
-      {
-        :commit=>"一括変更",
-        :finder=>{:to_account_id=>3},
+    post :update_details, :commit=>"一括変更",
+        :finder => finder_params,
         :form=>{"details"=>{"jh_16_lv_3_jd_35"=>"1"}}
-      }
       
     assert_response :redirect
-    assert_redirected_to :action => 'index', :commit => true
+    assert_redirected_to :action => 'index', :finder => finder_params
     assert_equal ERR_INVALID_ACTION, flash[:notice]
   end
   
   def test_資産が関連している明細が更新できないこと
     sign_in user
 
-    post :update_details,
-      {
-        :commit=>"一括変更",
-        :finder=>{:to_account_id=>3},
-        :form=>{"details"=>{"jh_6300_lv_0_jd_19025"=>"1"}}
-      }
+    post :update_details, :commit => '一括変更',
+        :finder => {:to_account_id => 3},
+        :form => {"details"=>{"jh_6300_lv_0_jd_19025"=>"1"}}
       
     assert_response :redirect
-    assert_redirected_to :action => 'index', :commit => true
+    assert_redirected_to :action => 'index', :finder => finder_params
     assert_equal ERR_INVALID_ACTION, flash[:notice]
   end
+
+  private
+
+  def finder_params
+    {:to_account_id => 3}
+  end
+
 end

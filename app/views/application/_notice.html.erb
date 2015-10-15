@@ -1,5 +1,7 @@
 <div class="notice">
   <ul>
-    <li><%= flash[:notice] %></li>
+    <% if flash[:notice].present? %>
+      <li><%= flash[:notice] %></li>
+    <% end %>
   </ul>
 </div>

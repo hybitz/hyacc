@@ -94,10 +94,7 @@ end
     assert account = Account.where(:name => row[4], :deleted => false).first
 
     begin
-      click_on simple_slip
-      sleep 3
-      assert has_title? simple_slip
-      assert has_selector? '.tax_type_ready'
+      visit_simple_slip(:account => Account.find_by_name(simple_slip))
 
       count = all('#slipTable tbody tr').count
       within '#slip_new_form' do
@@ -109,6 +106,32 @@ end
         sleep 3
         click_on '登録'
       end
+      assert has_selector?('#slipTable tbody tr', :count => count + 1)
+    ensure
+      capture
+    end
+  end
+end
+
+もし /^数回にわたり、ATM手数料を間違って支払利息として登録してしまった$/ do |ast_table|
+  table = normalize_table(ast_table)
+  assert @account = Account.find_by_name(table[1][0])
+  assert tax_type_name = table[1][2]
+  assert amount = table[1][3].gsub(',', '').to_i
+
+  4.times do |i|
+    begin
+      visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
+  
+      count = all('#slipTable tbody tr').count
+      fill_in 'slip_ym', :with => '201309'
+      fill_in 'slip_day', :with => i + 1
+      fill_in 'slip_remarks', :with => "ATM手数料（科目間違い #{i+1} 回目）"
+      find(:select, 'slip_account_id').first(:option, @account.code_and_name).select_option
+      assert has_selector?('.tax_type_ready')
+      select tax_type_name, :from => 'slip_tax_type'
+      fill_in 'slip_amount_increase', :with => amount
+      click_on '登録'
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     ensure
       capture

@@ -13,3 +13,6 @@ id,code,name,account_id,sub_account_type,social_expense_number_of_people_require
 12,100,法人税,65,10,0
 13,200,道府県民税,65,10,0
 14,300,市町村民税,65,10,0
+15,100,ATM手数料,31,1,0
+16,200,振込手数料,31,1,0
+17,300,その他,31,1,0

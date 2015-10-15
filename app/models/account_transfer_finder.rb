@@ -15,7 +15,11 @@ class AccountTransferFinder < Daddy::Model
       self.page ||= 1
     end
 
-    JournalHeader.where(conditions).paginate(:page => page, :per_page => per_page).order('ym, day, created_on')
+    JournalHeader.where(conditions).paginate(:page => page, :per_page => per_page).order('ym, day, id')
+  end
+
+  def account_id
+    super.to_i
   end
 
   def branches
@@ -53,8 +57,8 @@ class AccountTransferFinder < Daddy::Model
     end
 
     # 勘定科目または部門
-    if account_id.present? or branch_id.present?
-      account_code = account_id.present? ? Account.get(account_id).code : nil
+    if account_id > 0 or branch_id.present?
+      account_code = account_id > 0 ? Account.get(account_id).code : nil
       sql.append('and finder_key rlike ?', JournalUtil.finder_key_rlike(account_code, 0, branch_id))
     end
 

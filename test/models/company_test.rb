@@ -81,16 +81,6 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal '2ヶ月後25日', c.payday_jp
     assert_equal 2, c.month_of_payday
     assert_equal 25, c.day_of_payday
-
-    c = Company.new(:payday => "-1,7")
-    assert_equal '前月7日', c.payday_jp
-    assert_equal -1, c.month_of_payday
-    assert_equal 7, c.day_of_payday
-
-    c = Company.new(:payday => "-2,25")
-    assert_equal '2ヶ月前25日', c.payday_jp
-    assert_equal -2, c.month_of_payday
-    assert_equal 25, c.day_of_payday
   end
 
 end

@@ -67,7 +67,7 @@ class AccountTransfersController < Base::HyaccController
       handle(e)
     end
     
-    redirect_to :action => :index, :finder => params[:finder]
+    redirect_to :action => :index, :finder => params[:finder], :commit => true
   end
 
   private

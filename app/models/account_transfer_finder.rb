@@ -22,6 +22,10 @@ class AccountTransferFinder < Daddy::Model
     super.to_i
   end
 
+  def branch_id
+    super.to_i
+  end
+
   def branches
     @branches ||= Branch.get_branches(company_id)
   end
@@ -36,7 +40,7 @@ class AccountTransferFinder < Daddy::Model
 
   def to_sub_accounts
     return [] unless to_account.present?
-    @to_sub_accounts ||= to_account.sub_accounts
+    @to_sub_accounts ||= to_account.sub_accounts.map{|sa| [sa.name, sa.id] }
   end
 
   private
@@ -57,7 +61,7 @@ class AccountTransferFinder < Daddy::Model
     end
 
     # 勘定科目または部門
-    if account_id > 0 or branch_id.present?
+    if account_id > 0 or branch_id > 0
       account_code = account_id > 0 ? Account.get(account_id).code : nil
       sql.append('and finder_key rlike ?', JournalUtil.finder_key_rlike(account_code, 0, branch_id))
     end

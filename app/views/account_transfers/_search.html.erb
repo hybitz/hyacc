@@ -1,7 +1,7 @@
 <%= form_for :finder, :url => {:action => "index"}, :html => {:method => 'get'} do |f| %>
   <div style="margin: 10px;">
     <div>
-      年月：<%= f.text_field :ym, :maxlength => 6 %>
+      年月：<%= f.text_field :ym, :maxlength => 7 %>
       勘定科目：<%= f.select :account_id, to_options_code_and_name(finder.accounts), :class => 'accountSelect', :include_blank => true %>
 
       <% if branch_mode %>

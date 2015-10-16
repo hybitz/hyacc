@@ -1,5 +1,4 @@
 class Mm::CompaniesController < Base::HyaccController
-  layout false
   view_attribute :title => '会社'
   
   def index
@@ -9,8 +8,6 @@ class Mm::CompaniesController < Base::HyaccController
     unless @company.personal?
       @capital = get_capital_stock( @company.fiscal_year )
     end
-
-    render :layout => 'application'
   end
 
   def show_logo
@@ -29,7 +26,7 @@ class Mm::CompaniesController < Base::HyaccController
   
   def edit
     @company = Company.find(current_user.company_id)
-    render "edit_#{params[:field]}"
+    render "edit_#{params[:field]}", :layout => false
   end
 
   def update

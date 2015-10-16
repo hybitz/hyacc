@@ -11,13 +11,9 @@ Rails.application.routes.draw do
 
     resources :branches
 
-    resources :companies, :only => ['index', 'update'] do
+    resources :companies, :only => ['index', 'edit', 'update'] do
       member do
         get 'show_logo'
-        get 'edit_logo'
-        get 'edit_admin'
-        get 'edit_payday'
-        get 'edit_business_type'
       end
     end
   end

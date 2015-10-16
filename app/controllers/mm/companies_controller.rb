@@ -27,22 +27,11 @@ class Mm::CompaniesController < Base::HyaccController
     end
   end
   
-  def edit_business_type
+  def edit
     @company = Company.find(current_user.company_id)
-  end
-  
-  def edit_logo
-    @company = Company.find(current_user.company_id)
+    render "edit_#{params[:field]}"
   end
 
-  def edit_admin
-    @company = Company.find(current_user.company_id)
-  end
-
-  def edit_payday
-    @company = Company.find(current_user.company_id)
-  end
-  
   def update
     @company = Company.find(current_user.company_id)
     @company.attributes = company_params
@@ -65,8 +54,8 @@ class Mm::CompaniesController < Base::HyaccController
   def company_params
     ret = params.require(:company).permit(:logo, :admin_email, :business_type_id, :day_of_payday, :month_of_payday)
 
-    unless params[:company][:month_of_payday].nil?
-      ret = ret.merge(:payday => params[:company][:month_of_payday] + "," + params[:company][:day_of_payday])
+    if ret[:month_of_payday].present?
+      ret = ret.merge(:payday => ret[:month_of_payday] + "," + ret[:day_of_payday])
     end
 
     ret

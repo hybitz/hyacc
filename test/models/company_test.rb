@@ -61,26 +61,31 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal '当月25日', c.payday_jp
     assert_equal 0, c.month_of_payday
     assert_equal 25, c.day_of_payday
+    assert_equal 25, c.payroll_day(201501)
 
     c = Company.new(:payday => "")
     assert_equal '当月25日', c.payday_jp
     assert_equal 0, c.month_of_payday
     assert_equal 25, c.day_of_payday
+    assert_equal 25, c.payroll_day(201501)
 
     c = Company.new(:payday => "0,1")
     assert_equal '当月1日', c.payday_jp
     assert_equal 0, c.month_of_payday
     assert_equal 1, c.day_of_payday
+    assert_equal 1, c.payroll_day(201501)
 
     c = Company.new(:payday => "1,7")
-    assert_equal '翌月7日', c.payday_jp
+    assert_equal '翌月7日', c.payday_jpf
     assert_equal 1, c.month_of_payday
     assert_equal 7, c.day_of_payday
+    assert_equal 31, c.payroll_day(201501)
 
     c = Company.new(:payday => "2,25")
     assert_equal '2ヶ月後25日', c.payday_jp
     assert_equal 2, c.month_of_payday
     assert_equal 25, c.day_of_payday
+    assert_equal 31, c.payroll_day(201501)
   end
 
 end

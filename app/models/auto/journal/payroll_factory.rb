@@ -25,7 +25,7 @@ module Auto::Journal
       # 氏名
       employee = Employee.find(@payroll.employee_id)
       # 給与日の設定
-      journal_header.day = Date.new(@payroll.ym/100, @payroll.ym%100, -1).day
+      journal_header.day = @user.company.payroll_day(@payroll.ym)
       # 摘要の設定
       journal_header.remarks = "役員給与　" + employee.full_name + "　" + (@payroll.ym%100).to_s + "月分"
       journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION

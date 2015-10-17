@@ -145,6 +145,14 @@ class Company < ActiveRecord::Base
     return "#{month_jp}#{day || 25}日"
   end
 
+  def payroll_day(ym)
+    if month_of_payday == 0
+      day_of_payday
+    else
+      Date.new(ym/100, ym%100, -1).day
+    end
+  end
+
   private
 
   def load_payday

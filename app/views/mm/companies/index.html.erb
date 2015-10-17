@@ -1,27 +1,7 @@
 <%= flash_notice %>
 
 <script>
-  function edit(trigger) {
-    $.get($(trigger).attr('href'), {format: 'html'}, function(html) {
-      var tr = $(trigger).closest('tr');
-      tr.find('td').first().html(html);
-      tr.find('td').last().find('a').hide();
-      tr.find('td').last().find('button').show();
-    });
-  }
-
-  function update(trigger) {
-    var tr = $(trigger).closest('tr');
-    tr.find('form').submit();
-  }
-  
-  function cancel(trigger) {
-    document.location.reload();
-  }
-  
-  $(document).ready(function() {
-    $('table.company').find('button').hide();
-  });
+  var company = new hyacc.Company({selector: 'table.company'});
 </script>
 
 <table class="company">
@@ -46,27 +26,31 @@
   </tr>
   <tr>
     <th>ロゴ</th>
-    <td><%= image_tag(url_for show_logo_mm_company_path(@company)) if @company.logo.present? %></td>
+    <td><%= image_tag(show_logo_mm_company_path(@company)) if @company.logo.present? %></td>
     <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'logo'), :onclick => 'edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
+      <%= link_to '変更', edit_mm_company_path(@company, :field => 'logo'), :onclick => 'company.edit(this); return false;' %>
+      <%= button_tag '更新', :onclick => 'company.update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
     </td>
   </tr>
   <tr>
     <th>管理者メールアドレス</th>
     <td><%= @company.admin_email %></td>
     <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'admin'), :onclick => 'edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
+      <%= link_to '変更', edit_mm_company_path(@company, :field => 'admin'), :onclick => 'company.edit(this); return false;' %>
+      <%= button_tag '更新', :onclick => 'company.update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
     </td>
   </tr>
 
   <% unless current_user.company.personal? %>
     <tr>
       <th>資本金</th>
-      <td><%= to_amount( @capital ) %>円</td>
+      <td>
+        <% if @capital.to_i > 0 %>
+          <%= to_amount( @capital ) %>円
+        <% end %>
+      </td>
       <td></td>
     </tr>
     <tr>
@@ -78,9 +62,9 @@
       <th>給与支払日</th>
       <td><%= @company.payday_jp %></td>
       <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'payday'), :onclick => 'edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
+      <%= link_to '変更', edit_mm_company_path(@company, :field => 'payday'), :onclick => 'company.edit(this); return false;' %>
+      <%= button_tag '更新', :onclick => 'company.update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
       </td>
     </tr>
   <% end %>
@@ -89,9 +73,9 @@
     <th>事業区分</th>
     <td><%= @company.business_type_name %></td>
     <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'business_type'), :onclick => 'edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'cancel(this)' %>
+      <%= link_to '変更', edit_mm_company_path(@company, :field => 'business_type'), :onclick => 'company.edit(this); return false;' %>
+      <%= button_tag '更新', :onclick => 'company.update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
     </td>
   </tr>
 

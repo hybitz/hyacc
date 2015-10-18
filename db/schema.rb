@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814021743) do
+ActiveRecord::Schema.define(version: 20151018083948) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -218,19 +218,6 @@ ActiveRecord::Schema.define(version: 20150814021743) do
     t.datetime "updated_at"
     t.boolean  "disabled",           default: false, null: false
   end
-
-  create_table "depreciation_rates", force: true do |t|
-    t.integer  "durable_years",     limit: 2,                                         null: false
-    t.decimal  "fixed_amount_rate",           precision: 4, scale: 3,                 null: false
-    t.decimal  "rate",                        precision: 4, scale: 3,                 null: false
-    t.decimal  "revised_rate",                precision: 4, scale: 3,                 null: false
-    t.decimal  "guaranteed_rate",             precision: 6, scale: 5,                 null: false
-    t.boolean  "deleted",                                             default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "depreciation_rates", ["durable_years"], name: "index_depreciation_rates_on_durable_years", unique: true, using: :btree
 
   create_table "depreciations", force: true do |t|
     t.integer  "asset_id",                        null: false

@@ -1,3 +1,2 @@
-class DepreciationRate < ActiveRecord::Base
-
+class DepreciationRate < TaxJp::DepreciationRate
 end

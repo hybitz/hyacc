@@ -1,7 +1,7 @@
-class DepreciationRateFinder < Base::Finder
+class DepreciationRateFinder < Daddy::Model
 
   def list
-    DepreciationRate.order('durable_years')
+    DepreciationRate.find_all_by_date(Date.today)
   end
 
 end

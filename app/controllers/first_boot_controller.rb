@@ -119,13 +119,9 @@ class FirstBootController < ApplicationController
     ActiveRecord::FixtureSet.create_fixtures(dir, "simple_slip_templates")
     SimpleSlipTemplate.update_all(['created_at = ?, updated_at = ?', now, now])
 
-    # 耐用年数の初期データロード
-    ActiveRecord::FixtureSet.create_fixtures(dir, "depreciation_rates")
-    DepreciationRate.update_all(['created_at = ?, updated_at = ?', now, now])
-
     # 事業区分の初期データロード
     ActiveRecord::FixtureSet.create_fixtures(dir, "business_types")
-    DepreciationRate.update_all(['created_at = ?, updated_at = ?', now, now])
+    BusinessType.update_all(['created_at = ?, updated_at = ?', now, now])
   end
 
   def load_simple_slip_settings

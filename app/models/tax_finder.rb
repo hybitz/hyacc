@@ -16,7 +16,7 @@ class TaxFinder < Base::Finder
   end
   
   def list
-    JournalHeader.where(conditions).includes(:journal_details).joins(:tax_admin_info).order('ym desc, day desc, journal_headers.created_on desc').reverse
+    JournalHeader.where(conditions).includes(:journal_details).joins(:tax_admin_info).order('ym desc, day desc, journal_headers.created_at desc').reverse
   end
 
   def count

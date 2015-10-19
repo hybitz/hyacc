@@ -35,7 +35,7 @@ class JournalFinder < Base::Finder
       @page = 1 if @page == 0
     end
 
-    JournalHeader.where(conditions).paginate(:page => @page, :per_page => per_page).order('ym, day, created_on')
+    JournalHeader.where(conditions).paginate(:page => @page, :per_page => per_page).order('ym, day, created_at')
   end
 
   private

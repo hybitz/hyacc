@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151018083948) do
+ActiveRecord::Schema.define(version: 20151019132457) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -190,8 +190,8 @@ ActiveRecord::Schema.define(version: 20151018083948) do
     t.integer  "type_of",                    limit: 1, default: 0,      null: false
     t.string   "admin_email"
     t.boolean  "deleted",                              default: false,  null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "business_type_id"
     t.integer  "lock_version",                         default: 0,      null: false
     t.string   "payday",                               default: "0,25", null: false
@@ -273,8 +273,8 @@ ActiveRecord::Schema.define(version: 20151018083948) do
     t.integer  "closing_status",                   default: 0,     null: false
     t.integer  "tax_management_type",              default: 1,     null: false
     t.boolean  "deleted",                          default: false, null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "carry_status",                     default: false, null: false
     t.datetime "carried_at"
     t.integer  "lock_version",                     default: 0,     null: false
@@ -341,8 +341,8 @@ ActiveRecord::Schema.define(version: 20151018083948) do
     t.boolean  "is_allocated_cost",                                                 default: false, null: false
     t.boolean  "is_allocated_assets",                                               default: false, null: false
     t.integer  "housework_detail_id"
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "settlement_type",                 limit: 1
     t.decimal  "tax_rate",                                  precision: 4, scale: 3, default: 0.0,   null: false
   end
@@ -364,8 +364,8 @@ ActiveRecord::Schema.define(version: 20151018083948) do
     t.integer  "housework_id"
     t.integer  "create_user_id",                          null: false
     t.integer  "update_user_id",                          null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "lock_version",            default: 0,     null: false
     t.integer  "fiscal_year_id"
     t.integer  "company_id",                              null: false
@@ -467,8 +467,8 @@ ActiveRecord::Schema.define(version: 20151018083948) do
     t.string   "name",                                               default: "",    null: false
     t.integer  "account_id",                                                         null: false
     t.boolean  "deleted",                                            default: false, null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "sub_account_type",                         limit: 2, default: 1,     null: false
     t.boolean  "social_expense_number_of_people_required",           default: false, null: false
   end

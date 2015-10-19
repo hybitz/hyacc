@@ -3,7 +3,7 @@ class SocialExpenseFinder < Base::Finder
 
   def list
     return nil unless commit
-    JournalHeader.where(conditions).order('ym, day, created_on')
+    JournalHeader.where(conditions).order('ym, day, created_at')
   end
 
   private

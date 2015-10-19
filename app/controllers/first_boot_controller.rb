@@ -113,7 +113,7 @@ class FirstBootController < ApplicationController
     if @c.personal?
       SubAccount.update_all(['social_expense_number_of_people_required = ?', false])
     end
-    SubAccount.update_all(['created_on = ?, updated_on = ?', now, now])
+    SubAccount.update_all(['created_at = ?, updated_at = ?', now, now])
 
     # 簡易入力テンプレートの初期データロード
     ActiveRecord::FixtureSet.create_fixtures(dir, "simple_slip_templates")

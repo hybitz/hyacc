@@ -116,9 +116,9 @@ class JournalHeaderTest < ActiveSupport::TestCase
       assert_equal jh.transfer_from_id, copy.transfer_from_id
       assert_equal jh.receipt_path, copy.receipt_path
       assert_equal jh.create_user_id, copy.create_user_id
-      assert_equal jh.created_on, copy.created_on
+      assert_equal jh.created_at, copy.created_at
       assert_equal jh.update_user_id, copy.update_user_id
-      assert_equal jh.updated_on, copy.updated_on
+      assert_equal jh.updated_at, copy.updated_at
       assert_equal jh.lock_version, copy.lock_version
 
       jh.journal_details.each_index do |i|
@@ -142,8 +142,8 @@ class JournalHeaderTest < ActiveSupport::TestCase
         assert_equal jd.branch_name, copy_jd.branch_name
         assert_equal jd.social_expense_number_of_people, copy_jd.social_expense_number_of_people
         assert_equal jd.note, copy_jd.note
-        assert_equal jd.created_on, copy_jd.created_on
-        assert_equal jd.updated_on, copy_jd.updated_on
+        assert_equal jd.created_at, copy_jd.created_at
+        assert_equal jd.updated_at, copy_jd.updated_at
         
         # コピーを編集しても元データに変更はない
         copy_jd.amount += 1

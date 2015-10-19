@@ -1,4 +1,4 @@
-class BusinessOfficesController < Base::HyaccController
+class Mm::BusinessOfficesController < Base::HyaccController
   view_attribute :title => '事業所'
   before_filter :setup_view_attributes
 

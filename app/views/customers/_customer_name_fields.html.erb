@@ -1,9 +1,8 @@
-<%= fields_for "customer[customer_names_attributes]", cn, :index => index do |f| %>
+<%= fields_for "customer[customer_names_attributes][#{index}]", cn do |f| %>
 <tr>
   <td>
     <%= f.hidden_field :id %>
     <%= f.hidden_field :_destroy %>
-    <%= f.hidden_field :customer_id %>
     <%= f.text_field :formal_name %>
   </td>
   <td><%= f.text_field :name %></td>

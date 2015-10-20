@@ -1,0 +1,34 @@
+<script>
+  $(document).ready(function() {
+    hyacc.init_datepicker();
+    });
+</script>
+
+<%= form_for @investment, :remote => true do |f| %>
+  <%= flash_notice %>
+
+    <div style="float: left;">
+      <table>
+        <tr>
+          <th><%= f.label :yyyymmdd %></th>
+          <td><%= f.text_field :yyyymmdd, :class => 'datepicker' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :name %></th>
+          <td><%= f.text_field :name %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :buying_or_selling %></th>
+          <td><%= f.radio_button :buying_or_selling %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :shares %></th>
+          <td><%= f.text_field :shares %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :trading_value %></th>
+          <td><%= f.text_field :trading_value %></td>
+        </tr>
+      </table>
+    </div>
+<% end %>

@@ -19,7 +19,7 @@
         </tr>
         <tr>
           <th><%= f.label :buying_or_selling %></th>
-          <td><%= f.radio_button :buying_or_selling %></td>
+          <td>購入<%= f.radio_button :buying_or_selling, '1' %>　売却<%= f.radio_button :buying_or_selling, '0' %></td>
         </tr>
         <tr>
           <th><%= f.label :shares %></th>

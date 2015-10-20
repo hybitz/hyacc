@@ -276,7 +276,7 @@ class JournalsController::CrudTest < ActionController::TestCase
           :dc_type=>DC_TYPE_DEBIT,
           :account_id=>27,
           :branch_id => 1,
-          :input_amount=>1000,
+          :input_amount => '1000',
           :tax_type => TAX_TYPE_INCLUSIVE,
           :tax_rate_percent => 5
         },
@@ -285,7 +285,7 @@ class JournalsController::CrudTest < ActionController::TestCase
           :dc_type=>DC_TYPE_CREDIT,
           :account_id => 2,
           :branch_id => 1,
-          :input_amount=>1000,
+          :input_amount => '1000',
           :tax_type=>TAX_TYPE_NONTAXABLE
         }
       }

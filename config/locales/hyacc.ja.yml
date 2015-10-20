@@ -164,8 +164,8 @@ ja:
         detail_no: "明細番号"  
         dc_type: "貸借区分"  
         amount: "金額"  
-        created_on: "登録日時"  
-        updated_on: "更新日時"  
+        created_at: 登録日時
+        updated_at: 更新日時
         note: "備考"  
         social_expense_number_of_people: "接待交際の参加人数"  
         detail_type: "明細区分"  
@@ -180,12 +180,12 @@ ja:
       journal_details:
         <<: *journal_detail
 
-      journal_header: 
+      journal_header:
         day: "日"  
         remarks: "摘要"  
         amount: "伝票金額"  
-        created_on: "登録日時"  
-        updated_on: "更新日時"  
+        created_at: 登録日時
+        updated_at: 更新日時
         slip_type: "伝票区分"  
         ym: "年月"  
         finder_key: "検索キー"  

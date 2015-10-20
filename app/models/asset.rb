@@ -14,7 +14,19 @@ class Asset < ActiveRecord::Base
   validates :amount, presence: true, numericality: { only_integer: true, greater_than: 0 }
   
   before_save :update_start_and_end_fiscal_year
-  
+
+  def date
+    Date.new(year, month, day)
+  end
+
+  def year
+    ym / 100
+  end
+
+  def month
+    ym % 100
+  end
+
   def amount_at_start(fiscal_year)
     if depreciations.present?
       depreciations.find_by_fiscal_year(fiscal_year).amount_at_start

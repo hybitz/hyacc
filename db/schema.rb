@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151016072945) do
+ActiveRecord::Schema.define(version: 20151019132457) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -190,8 +190,8 @@ ActiveRecord::Schema.define(version: 20151016072945) do
     t.integer  "type_of",                    limit: 1, default: 0,      null: false
     t.string   "admin_email"
     t.boolean  "deleted",                              default: false,  null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "business_type_id"
     t.integer  "lock_version",                         default: 0,      null: false
     t.string   "payday",                               default: "0,25", null: false
@@ -218,19 +218,6 @@ ActiveRecord::Schema.define(version: 20151016072945) do
     t.datetime "updated_at"
     t.boolean  "disabled",           default: false, null: false
   end
-
-  create_table "depreciation_rates", force: true do |t|
-    t.integer  "durable_years",     limit: 2,                                         null: false
-    t.decimal  "fixed_amount_rate",           precision: 4, scale: 3,                 null: false
-    t.decimal  "rate",                        precision: 4, scale: 3,                 null: false
-    t.decimal  "revised_rate",                precision: 4, scale: 3,                 null: false
-    t.decimal  "guaranteed_rate",             precision: 6, scale: 5,                 null: false
-    t.boolean  "deleted",                                             default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "depreciation_rates", ["durable_years"], name: "index_depreciation_rates_on_durable_years", unique: true, using: :btree
 
   create_table "depreciations", force: true do |t|
     t.integer  "asset_id",                        null: false
@@ -286,8 +273,8 @@ ActiveRecord::Schema.define(version: 20151016072945) do
     t.integer  "closing_status",                   default: 0,     null: false
     t.integer  "tax_management_type",              default: 1,     null: false
     t.boolean  "deleted",                          default: false, null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "carry_status",                     default: false, null: false
     t.datetime "carried_at"
     t.integer  "lock_version",                     default: 0,     null: false
@@ -335,15 +322,6 @@ ActiveRecord::Schema.define(version: 20151016072945) do
 
   add_index "input_frequencies", ["user_id", "input_type", "input_value", "input_value2"], name: "index_input_frequencies_for_unique_key", unique: true, using: :btree
 
-  create_table "investments", force: true do |t|
-    t.date     "yyyymmdd",                  null: false
-    t.string   "name",                      null: false
-    t.integer  "shares",        default: 0, null: false
-    t.integer  "trading_value", default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "journal_details", force: true do |t|
     t.integer  "journal_header_id",                                                                 null: false
     t.integer  "detail_no",                                                                         null: false
@@ -363,8 +341,8 @@ ActiveRecord::Schema.define(version: 20151016072945) do
     t.boolean  "is_allocated_cost",                                                 default: false, null: false
     t.boolean  "is_allocated_assets",                                               default: false, null: false
     t.integer  "housework_detail_id"
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "settlement_type",                 limit: 1
     t.decimal  "tax_rate",                                  precision: 4, scale: 3, default: 0.0,   null: false
   end
@@ -386,8 +364,8 @@ ActiveRecord::Schema.define(version: 20151016072945) do
     t.integer  "housework_id"
     t.integer  "create_user_id",                          null: false
     t.integer  "update_user_id",                          null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "lock_version",            default: 0,     null: false
     t.integer  "fiscal_year_id"
     t.integer  "company_id",                              null: false
@@ -489,8 +467,8 @@ ActiveRecord::Schema.define(version: 20151016072945) do
     t.string   "name",                                               default: "",    null: false
     t.integer  "account_id",                                                         null: false
     t.boolean  "deleted",                                            default: false, null: false
-    t.datetime "created_on"
-    t.datetime "updated_on"
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "sub_account_type",                         limit: 2, default: 1,     null: false
     t.boolean  "social_expense_number_of_people_required",           default: false, null: false
   end

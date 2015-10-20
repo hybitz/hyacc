@@ -131,19 +131,26 @@ class Company < ActiveRecord::Base
     pd = self.payday
     pd = DEFAULT_PAYDAY if pd.blank?
 
-    month, day = pd.split(",")
-    month_jp = month + "ヶ月後"
-    month_jp = month.to_i.abs.to_s + "ヶ月前" if month.to_i < 0
-    case month
-    when "0"
-      month_jp = "当月"
-    when "1"
-      month_jp = "翌月"
-    when "-1"
-      month_jp = "前月"
+    month, day = pd.split(',')
+
+    case month.to_i
+    when 0
+      month_jp = '当月'
+    when 1
+      month_jp = '翌月'
+    else
+      month_jp = "#{month}ヶ月後"
     end
     
-    return month_jp + day + "日"
+    return "#{month_jp}#{day || 25}日"
+  end
+
+  def payroll_day(ym)
+    if month_of_payday == 0
+      day_of_payday
+    else
+      Date.new(ym/100, ym%100, -1).day
+    end
   end
 
   private
@@ -154,7 +161,7 @@ class Company < ActiveRecord::Base
 
     month, day = pd.split(",")
     self.month_of_payday = month.to_i
-    self.day_of_payday = day.to_i
+    self.day_of_payday = day.to_i > 0 ? day.to_i : 25
   end
 
 end

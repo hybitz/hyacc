@@ -10,14 +10,11 @@ Rails.application.routes.draw do
     end
 
     resources :branches
+    resources :business_offices
 
-    resources :companies, :only => ['index', 'update'] do
+    resources :companies, :only => ['index', 'edit', 'update'] do
       member do
         get 'show_logo'
-        get 'edit_logo'
-        get 'edit_admin'
-        get 'edit_payday'
-        get 'edit_business_type'
       end
     end
   end
@@ -44,7 +41,6 @@ Rails.application.routes.draw do
   resources :bank_accounts
   resources :bank_offices, :only => ['index']
 
-  resources :business_offices
   resources :careers
   resources :career_statements, :only => ['index', 'show']
   resources :customers do
@@ -53,7 +49,7 @@ Rails.application.routes.draw do
     end
   end
   resources :deemed_taxes
-  resources :depreciation_rates
+  resources :depreciation_rates, :only => 'index'
   resources :debts
 
   resources :employees do

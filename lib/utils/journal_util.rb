@@ -63,7 +63,7 @@ module JournalUtil
   def update_detail_attributes(jd, attributes)
     jd = JournalDetail.new unless jd
     
-    excludes = ['id', 'created_on']
+    excludes = ['id', 'created_at']
     ignores_when_null = ['detail_type', 'tax_type', 'is_allocated_cost', 'is_allocated_assets']
     
     message = "\n"

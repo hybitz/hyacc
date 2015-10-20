@@ -5,7 +5,7 @@ module Depreciation::Strategy
 
     def create_depreciations(asset)
       c = asset.branch.company
-      dr = DepreciationRate.find_by_durable_years(asset.durable_years)
+      dr = DepreciationRate.find_by_date_and_durable_years(asset.date, asset.durable_years)
       
       # 初年度の償却可能額を算定するための月数
       num_of_months = get_remaining_months(c.start_month_of_fiscal_year, asset.ym)

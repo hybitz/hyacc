@@ -2,10 +2,16 @@ class JournalHeader < ActiveRecord::Base
   include HyaccUtil
 
   belongs_to :depreciation
-  has_many :journal_details, :dependent => :destroy
+
+  has_many :journal_details, :inverse_of => 'journal_header', :dependent => :destroy
+  accepts_nested_attributes_for :journal_details
+
   has_many :transfer_journals, :foreign_key => :transfer_from_id, # 外部キーは所有される側にあるので、fromとしている
     :class_name => 'JournalHeader', :dependent => :destroy
+  accepts_nested_attributes_for :transfer_journals
+
   has_one :tax_admin_info, :dependent => :destroy
+  accepts_nested_attributes_for :tax_admin_info
 
   before_save :update_sum_info
   after_save :update_tax_admin_info
@@ -13,10 +19,6 @@ class JournalHeader < ActiveRecord::Base
   validates_presence_of :company_id, :ym, :day, :remarks
   validates_format_of :ym, :with => /[0-9]{6}/ #TODO 月をもっと正確にチェック
   validates_with JournalValidator
-
-  accepts_nested_attributes_for :tax_admin_info
-  accepts_nested_attributes_for :journal_details
-  accepts_nested_attributes_for :transfer_journals
 
   # 電子領収書添付用の入力フィールド
   attr_accessor :receipt_file

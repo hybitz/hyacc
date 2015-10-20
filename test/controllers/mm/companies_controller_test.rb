@@ -2,8 +2,8 @@ require 'test_helper'
 
 class Mm::CompaniesControllerTest < ActionController::TestCase
 
-  setup do
-    sign_in users(:first)
+  def setup
+    sign_in user
   end
 
   def test_index
@@ -20,21 +20,27 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
   end
 
   def test_事業区分の編集
-    xhr :get, :edit_business_type, :id => current_user.company_id
+    xhr :get, :edit, :id => current_user.company_id, :field => 'business_type'
     assert_response :success
     assert_template :edit_business_type
   end
 
   def test_ロゴの編集
-    xhr :get, :edit_logo, :id => current_user.company_id
+    xhr :get, :edit, :id => current_user.company_id, :field => 'logo'
     assert_response :success
     assert_template :edit_logo
   end
 
   def test_管理者の編集
-    xhr :get, :edit_admin, :id => current_user.company_id
+    xhr :get, :edit, :id => current_user.company_id, :field => 'admin'
     assert_response :success
     assert_template :edit_admin
+  end
+
+  def test_給与支払日の編集
+    xhr :get, :edit, :id => current_user.company_id, :field => 'payday'
+    assert_response :success
+    assert_template :edit_payday
   end
 
   def test_更新

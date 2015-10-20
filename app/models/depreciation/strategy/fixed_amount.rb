@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: fixed_amount.rb 2476 2011-03-23 15:29:06Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Depreciation::Strategy
     
   # 定額法
@@ -12,7 +5,7 @@ module Depreciation::Strategy
 
     def create_depreciations(asset)
       c = asset.branch.company
-      dr = DepreciationRate.find_by_durable_years(asset.durable_years)
+      dr = DepreciationRate.find_by_date_and_durable_years(asset.date, asset.durable_years)
       
       # 初年度の償却可能額を算定するための月数
       num_of_months = get_remaining_months(c.start_month_of_fiscal_year, asset.ym)

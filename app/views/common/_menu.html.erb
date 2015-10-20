@@ -59,6 +59,8 @@
   |
   <%= link_to '伝票管理', journal_admin_path, :style => style_for_menu(journal_admin_controllers) %>
   |
+  <%= link_to '有価証券', investments_path, :style => style_for_menu('/investments') %>
+  |
 
   <% if available?('payrolls') %>
     <%= link_to '賃金台帳', payrolls_path, :style => style_for_menu('/payrolls') %>

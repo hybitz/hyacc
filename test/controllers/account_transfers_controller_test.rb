@@ -18,7 +18,7 @@ class AccountTransfersControllerTest < ActionController::TestCase
 
     sign_in freelancer
 
-    post :update_details, :commit=>"一括振替",
+    post :update_details, :commit => '一括振替',
         :finder => finder_params,
         :form=>{
           "details"=>{
@@ -29,7 +29,7 @@ class AccountTransfersControllerTest < ActionController::TestCase
         }
       
     assert_response :redirect
-    assert_redirected_to :action => 'index', :finder => finder_params
+    assert_redirected_to :action => 'index', :finder => finder_params, :commit => true
     assert_equal "科目を一括振替しました。", flash[:notice]
 
     assert_equal 3, JournalDetail.find(32).account_id
@@ -48,7 +48,7 @@ class AccountTransfersControllerTest < ActionController::TestCase
         :form => {"details"=>{"jh_21_lv_4_jd_44"=>"1"}}
       
     assert_response :redirect
-    assert_redirected_to :action => 'index', :finder => finder_params
+    assert_redirected_to :action => 'index', :finder => finder_params, :commit => true
     assert_equal ERR_STALE_OBJECT, flash[:notice]
   end
 
@@ -60,7 +60,7 @@ class AccountTransfersControllerTest < ActionController::TestCase
         :form=>{"details"=>{"jh_16_lv_3_jd_35"=>"1"}}
       
     assert_response :redirect
-    assert_redirected_to :action => 'index', :finder => finder_params
+    assert_redirected_to :action => 'index', :finder => finder_params, :commit => true
     assert_equal ERR_INVALID_ACTION, flash[:notice]
   end
   
@@ -72,7 +72,7 @@ class AccountTransfersControllerTest < ActionController::TestCase
         :form => {"details"=>{"jh_6300_lv_0_jd_19025"=>"1"}}
       
     assert_response :redirect
-    assert_redirected_to :action => 'index', :finder => finder_params
+    assert_redirected_to :action => 'index', :finder => finder_params, :commit => true
     assert_equal ERR_INVALID_ACTION, flash[:notice]
   end
 

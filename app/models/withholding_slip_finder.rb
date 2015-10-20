@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: withholding_slip_finder.rb 3132 2013-08-16 05:46:04Z hiro $
-# Product: hyacc
-# Copyright 2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class WithholdingSlipFinder < Base::Finder
   attr_reader :company_id
   attr_reader :report_type

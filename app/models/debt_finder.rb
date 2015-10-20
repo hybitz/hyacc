@@ -4,7 +4,7 @@ class DebtFinder < Base::Finder
   def list
     ret = []
     sum = 0
-    jhs = JournalHeader.where(conditions).includes(:journal_details).order('ym desc, day desc, journal_headers.created_on desc').reverse
+    jhs = JournalHeader.where(conditions).includes(:journal_details).order('ym desc, day desc, journal_headers.created_at desc').reverse
     
     # 仮負債の明細ごとにリスト化する
     a = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)

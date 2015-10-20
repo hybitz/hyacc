@@ -106,7 +106,7 @@ class LedgerFinder < Daddy::Model
     ret = []
     details = JournalDetail.includes(:journal_header).references(:journal_header).select(:journal_header_id).where(conditions_for_journals(ym))
     ids = details.map(&:journal_header_id).uniq
-    JournalHeader.where(:id => ids).order('ym, day, created_on').includes(:journal_details).each do |jh|
+    JournalHeader.where(:id => ids).order('ym, day, created_at').includes(:journal_details).each do |jh|
       ret << Ledger.new(jh, self)
     end
 

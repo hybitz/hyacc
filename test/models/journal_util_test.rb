@@ -13,7 +13,7 @@ class JournalUtilTest < ActiveSupport::TestCase
     assert_nil jd.sub_account_id
     assert_nil jd.branch_id
     assert_nil jd.amount
-    assert_nil jd.updated_on
+    assert_nil jd.updated_at
     assert_nil jd.note
     assert_nil jd.social_expense_number_of_people
     assert_equal DETAIL_TYPE_NORMAL, jd.detail_type

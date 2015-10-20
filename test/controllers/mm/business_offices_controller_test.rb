@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BusinessOfficesControllerTest < ActionController::TestCase
+class Mm::BusinessOfficesControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in user

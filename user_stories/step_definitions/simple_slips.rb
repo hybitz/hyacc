@@ -40,7 +40,7 @@ end
       fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
       fill_in 'slip_day', :with => ymd.split('-').last
       fill_in 'slip_remarks', :with => remarks
-      select account.code_and_name, :from =>  'slip_account_id'
+      find(:select, 'slip_account_id').first(:option, account.code_and_name).select_option
       fill_in 'slip_amount_decrease', :with => amount
       click_on '登録'
     end
@@ -70,7 +70,7 @@ end
         fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
         fill_in 'slip_day', :with => ymd.split('-').last
         fill_in 'slip_remarks', :with => remarks
-        select account.code_and_name, :from =>  'slip_account_id'
+        find(:select, 'slip_account_id').first(:option, account.code_and_name).select_option
         fill_in 'slip_amount_increase', :with => amount
         sleep 3
         click_on '登録'
@@ -101,7 +101,7 @@ end
         fill_in 'slip_ym', :with => ym
         fill_in 'slip_day', :with => day
         fill_in 'slip_remarks', :with => remarks
-        select account.code_and_name, :from =>  'slip_account_id'
+        find(:select, 'slip_account_id').first(:option, account.code_and_name).select_option
         fill_in 'slip_amount_increase', :with => amount
         sleep 3
         click_on '登録'

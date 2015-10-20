@@ -142,6 +142,8 @@ Rails.application.routes.draw do
     resources :assets
   end
 
+  resources :investments
+  
   get 'closing', :to => 'closing#index'
   get 'journal_admin', :to => 'journal_admin#index'
   get 'mm', :to => 'mm#index'

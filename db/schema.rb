@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150814021743) do
+ActiveRecord::Schema.define(version: 20151016072945) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -334,6 +334,15 @@ ActiveRecord::Schema.define(version: 20150814021743) do
   end
 
   add_index "input_frequencies", ["user_id", "input_type", "input_value", "input_value2"], name: "index_input_frequencies_for_unique_key", unique: true, using: :btree
+
+  create_table "investments", force: true do |t|
+    t.date     "yyyymmdd",                  null: false
+    t.string   "name",                      null: false
+    t.integer  "shares",        default: 0, null: false
+    t.integer  "trading_value", default: 0, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "journal_details", force: true do |t|
     t.integer  "journal_header_id",                                                                 null: false

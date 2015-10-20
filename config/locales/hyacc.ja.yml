@@ -274,6 +274,13 @@ ja:
         six_dependent: "6人に依存する"  
         seven_dependent: "セブン依存"
         
+      investment:
+        yyyymmdd: "年月日"
+        name: "名称"
+        buying_or_selling: "売買区分"
+        shares: "株数"
+        trading_value: "取引金額"
+        
       exemption:
         employee_id: "従業員"
         yyyy: "年"
@@ -285,7 +292,7 @@ ja:
         spouse: "配偶者控除"
         disabled_persons: "障害者控除"
         basic: "基礎控除"
-
+        
   errors:
     messages:
       sub_accounts_duplicated: 補助科目が重複しています。

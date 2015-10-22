@@ -239,6 +239,7 @@ module HyaccConstants
     SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE = 9 => '接待交際費',
     SUB_ACCOUNT_TYPE_CORPORATE_TAX = 10 => '法人税',
     SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT = 11 => '一般口座',
+    SUB_ACCOUNT_TYPE_INVESTMENT = 12 => '投資先',
   }
 
   # 消費税取り扱い区分

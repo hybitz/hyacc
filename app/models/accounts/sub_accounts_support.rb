@@ -54,6 +54,11 @@ module Accounts::SubAccountsSupport
         @sub_accounts_cache << c unless c.deleted?
         @sub_accounts_all_cache << c
       end
+    when SUB_ACCOUNT_TYPE_INVESTMENT
+      Customer.where(:is_investment => true).each do |c|
+        @sub_accounts_cache << c unless c.deleted?
+        @sub_accounts_all_cache << c
+      end
     when SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
       SubAccount.where(:account_id => self.id).each do |sa|
         @sub_accounts_cache << sa unless sa.deleted?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151019132457) do
+ActiveRecord::Schema.define(version: 20151022141113) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -217,6 +217,7 @@ ActiveRecord::Schema.define(version: 20151019132457) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "disabled",           default: false, null: false
+    t.boolean  "is_investment",      default: false, null: false
   end
 
   create_table "depreciations", force: true do |t|
@@ -324,11 +325,11 @@ ActiveRecord::Schema.define(version: 20151019132457) do
 
   create_table "investments", force: true do |t|
     t.date     "yyyymmdd",                  null: false
-    t.string   "name",                      null: false
     t.integer  "shares",        default: 0, null: false
     t.integer  "trading_value", default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "customer_id"
   end
 
   create_table "journal_details", force: true do |t|

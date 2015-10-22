@@ -24,6 +24,11 @@
 </p>
 
 <p>
+  <b>投資フラグ:</b>
+  <%= HyaccConstants::STATUS_TYPES[ @customer.is_investment ] %>
+</p>
+
+<p>
   <b>状態:</b>
   <%= HyaccConstants::DELETED_TYPES[ @customer.deleted ] %>
 </p>

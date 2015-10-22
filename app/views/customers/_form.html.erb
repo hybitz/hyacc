@@ -45,6 +45,10 @@
       <td><%= f.select :is_order_placement, status_types %></td>
     </tr>
     <tr>
+      <th><%= f.label :is_investment %></th>
+      <td><%= f.select :is_investment, status_types %></td>
+    </tr>
+    <tr>
       <th>状態</th>
       <td><%= f.select :disabled, HyaccConstants::DISABLE_TYPES.invert %></td>
     </tr>

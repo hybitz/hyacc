@@ -84,7 +84,7 @@ class CustomersController < Base::HyaccController
 
   def customer_params
     permitted = [
-      :is_order_entry, :is_order_placement, :address, :disabled,
+      :is_order_entry, :is_order_placement, :is_investment, :address, :disabled,
       :customer_names_attributes => [:id, :_destroy, :name, :formal_name, :start_date]
     ]
 

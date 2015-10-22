@@ -108,6 +108,7 @@ ja:
         formal_name: 取引先名（正式名）
         is_order_entry: 受注フラグ
         is_order_placement: 発注フラグ
+        is_investment: 投資フラグ
         name: 取引先名（省略名）
 
       customer_name: &customer_name

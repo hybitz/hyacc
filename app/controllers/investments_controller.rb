@@ -1,5 +1,6 @@
 class InvestmentsController < Base::HyaccController
   view_attribute :title => '有価証券'
+  view_attribute :customers, :only => :new, :conditions => {:is_investment => true, :deleted => false}
 
   def index
   end

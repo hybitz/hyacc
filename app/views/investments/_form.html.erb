@@ -14,8 +14,9 @@
           <td><%= f.text_field :yyyymmdd, :class => 'datepicker' %></td>
         </tr>
         <tr>
-          <th><%= f.label :name %></th>
-          <td><%= f.text_field :name %></td>
+          <th><%= f.label :customer_name %></th>
+          <td><%= "取引先マスタに投資先が登録されていません。" if @customers.length == 0 %>
+              <%= f.select :customer, to_options(@customers) if @customers.length > 0 %></td>
         </tr>
         <tr>
           <th><%= f.label :buying_or_selling %></th>

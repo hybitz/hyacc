@@ -1,17 +1,21 @@
+<%= render 'common/search' %>
+
   <table>
     <tr>
       <th>年月</th>
       <th>日</th>
       <th>有価証券</th>
-      <th>買付</th>
-      <th>売却</th>
+      <th>株数</th>
+      <th>金額</th>
     </tr>
+    <% @investments.each do |inv| %>
     <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><%= inv.ym %></td>
+        <td><%= inv.day %></td>
+        <td><%= inv.customer.formal_name %></td>
+        <td><%= inv.shares %></td>
+        <td><%= inv.trading_value %></td>
     </tr>
+    <% end %>
 </table>
 <%= link_to '追加', new_investment_path, :class => 'add', :remote => true %>

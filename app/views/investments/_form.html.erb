@@ -16,7 +16,7 @@
         <tr>
           <th><%= f.label :customer_name %></th>
           <td><%= "取引先マスタに投資先が登録されていません。" if @customers.length == 0 %>
-              <%= f.select :customer, to_options(@customers) if @customers.length > 0 %></td>
+              <%= f.select :customer_id, to_options(@customers) if @customers.length > 0 %></td>
         </tr>
         <tr>
           <th><%= f.label :buying_or_selling %></th>

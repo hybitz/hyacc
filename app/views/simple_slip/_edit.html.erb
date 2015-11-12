@@ -9,7 +9,7 @@
 </div>
 
 <%= form_tag({:action => 'update', :account_code => params[:account_code]}, :id => "slip_edit_form", :enctype => "multipart/form-data", :remote => true) do %>
-  <%= render 'message' %>
+  <%= render 'common/message' %>
   <table>
     <tr>
       <th class="yearMonth">年　月</th>

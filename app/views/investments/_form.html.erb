@@ -3,11 +3,10 @@
     hyacc.init_datepicker();
     });
 </script>
-
+<%= flash_notice_in_span %>
 <%= form_for @investment, :remote => true do |f| %>
-  <%= flash_notice %>
-
     <div style="float: left;">
+      
       <table>
         <tr>
           <th><%= f.label :yyyymmdd %></th>
@@ -25,7 +24,7 @@
         </tr>
         <tr>
           <th><%= f.label :buying_or_selling %></th>
-          <td>購入<%= f.radio_button :buying_or_selling, '1' %>　売却<%= f.radio_button :buying_or_selling, '0' %></td>
+          <td>購入<%= f.radio_button :buying_or_selling, '1', {:checked => true} %>　売却<%= f.radio_button :buying_or_selling, '0' %></td>
         </tr>
         <tr>
           <th><%= f.label :shares %></th>

@@ -1,0 +1,17 @@
+<div class="messageDiv">
+  <%= flash_notice_in_span %>
+<script>
+  $(document).ready(function() {
+    setTimeout(function() {
+      $('.messageDiv').each(function() {
+        var table = $(this).next();
+        if(table.width() < $(this).width()){
+          $(this).css('width', table.width());
+         }
+        $(this).css('marginLeft', table.width() - $(this).width() + parseInt(table.css('margin-left'), 10) + 'px');
+        $(this).css('marginBottom', '-5px');
+       });
+     }, 0);
+  });
+</script>
+</div>

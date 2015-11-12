@@ -5,6 +5,9 @@ class Investment < ActiveRecord::Base
     with: /\d{4}-\d{2}-\d{2}/,
     message: 'のフォーマットが不正です'
   }
+  validates :buying_or_selling, :presence => true
+  validates_numericality_of :shares, :greater_than => 0
+  validates_numericality_of :trading_value, :greater_than => 0
   
   attr_accessor :buying_or_selling
   attr_accessor :yyyymmdd

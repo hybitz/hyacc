@@ -1,5 +1,5 @@
 <%= form_tag({:action => 'create', :account_code => @finder.account_code}, {:id => 'slip_new_form', :enctype => 'multipart/form-data', :method => 'post'}) do %>
-  <%= render 'message' %>
+  <%= render 'common/message' %>
   <table id="slipTable">
     <thead>
       <tr>

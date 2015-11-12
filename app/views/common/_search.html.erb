@@ -81,6 +81,10 @@
       <%= select('finder', 'report_style', @report_styles ) %>
     <% end %>
 
+    <% if @bank_accounts %>
+      証券口座：<%= select('finder', 'bank_account_id', to_options(@bank_accounts) ) %>
+    <% end %>
+
     <%= submit_tag "表示" %>
   <% end %>
   

@@ -1,9 +1,13 @@
 class InvestmentsController < Base::HyaccController
   view_attribute :title => '有価証券'
   view_attribute :customers, :only => [:new,:create], :conditions => {:is_investment => true, :deleted => false}
-  helper_method :finder
+  view_attribute :bank_accounts, :conditions => {financial_account_type: [FINANCIAL_ACCOUNT_TYPE_GENERAL,
+                                                                          FINANCIAL_ACCOUNT_TYPE_SPECIFIC,
+                                                                          FINANCIAL_ACCOUNT_TYPE_SPECIFIC_WITHHOLD]}
+  #helper_method :finder
   
   def index
+    return unless params[:commit]
     @investments = finder.list
   end
 
@@ -38,7 +42,7 @@ class InvestmentsController < Base::HyaccController
   end
   
   def investment_params
-    params.require(:investment).permit(:name, :yyyymmdd, :customer_id, :buying_or_selling,
-                                       :shares, :trading_value)
+    params.require(:investment).permit(:name, :yyyymmdd, :sub_account_id, :customer_id, :buying_or_selling,
+                                       :shares, :trading_value, :bank_account_id)
   end
 end

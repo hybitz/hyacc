@@ -15,7 +15,7 @@ class InvestmentFinder < Daddy::Model
   def conditions
     ym_range = get_ym_range
     sql = SqlBuilder.new
-    sql.append('ym <= ? and ym >= ?', ym_range.last, ym_range.first)
+    sql.append('bank_account_id = ? and ym >= ? and ym <= ?', self.bank_account_id, ym_range.first, ym_range.last)
     sql.to_a
   end
   

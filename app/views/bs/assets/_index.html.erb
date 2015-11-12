@@ -1,16 +1,4 @@
-<script>
-  $(document).ready(function() {
-    var container = $('#asset_container');
-    var search = $('#search');
-    var notice = $('#notice');
-    search.css('marginBottom', '-5px');
-    notice.css('marginLeft', container.width() - notice.width() + 'px');
-    notice.css('marginBottom', '-5px');
-  });
-</script>
-
-<div id="notice"><%= flash_notice_in_span %></div>
-
+<%= render 'common/message' %>
 <table id="asset_container">
   <tr>
     <th>資産コード</th>

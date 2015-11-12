@@ -11,14 +11,14 @@
       <th>金額</th>
     </tr>
     <% Array(@investments).each do |inv| %>
-    <tr>
+    <tr class="hover">
         <td><%= inv.ym %></td>
         <td><%= inv.day %></td>
         <td><%= inv.bank_account.name %></td>
         <td><%= inv.customer.formal_name %></td>
-        <td><%= inv.shares if inv.shares >= 0 %></td>
-        <td><%= inv.shares * -1 if inv.shares < 0 %></td>
-        <td><%= inv.trading_value %></td>
+        <td class="amount"><%= to_amount(inv.shares) if inv.shares >= 0 %></td>
+        <td class="amount"><%= to_amount(inv.shares * -1) if inv.shares < 0 %></td>
+        <td class="amount"><%= to_amount(inv.trading_value) %></td>
     </tr>
     <% end %>
 </table>

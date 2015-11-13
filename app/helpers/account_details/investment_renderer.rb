@@ -1,13 +1,13 @@
 module AccountDetails
 
-  class SocialExpenseRenderer < AccountDetailRenderer
+  class InvestmentRenderer < AccountDetailRenderer
   
     def initialize( account )
       super( account )
     end
 
     def get_template(controller_name)
-      controller_name + '/account_details/social_expense'
+      controller_name + '/account_details/investment'
     end
     
   end

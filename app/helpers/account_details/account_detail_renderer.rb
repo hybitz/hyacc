@@ -17,6 +17,8 @@ module AccountDetails
         FixedAssetRenderer.new( account )
       elsif account.is_corporate_tax
         CorporateTaxRenderer.new( account )
+      elsif account.path.include? ACCOUNT_CODE_INVESTMENT
+        InvestmentRenderer.new(account)
       else
         nil
       end

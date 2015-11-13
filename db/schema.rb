@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151109065431) do
+ActiveRecord::Schema.define(version: 20151113000150) do
 
   create_table "account_controls", force: true do |t|
     t.integer  "account_id",                           null: false
@@ -357,6 +357,7 @@ ActiveRecord::Schema.define(version: 20151109065431) do
     t.datetime "updated_at"
     t.integer  "settlement_type",                 limit: 1
     t.decimal  "tax_rate",                                  precision: 4, scale: 3, default: 0.0,   null: false
+    t.integer  "shares"
   end
 
   add_index "journal_details", ["journal_header_id", "detail_no"], name: "journal_details_journal_header_id_and_detail_no_index", unique: true, using: :btree

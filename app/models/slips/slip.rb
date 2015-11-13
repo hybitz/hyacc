@@ -46,6 +46,9 @@ module Slips
     attr_accessor :asset_code
     attr_accessor :asset_lock_version
 
+     # 有価証券用の入力フィールド
+    attr_accessor :shares
+
     # ARモデル
     attr_accessor :user
     attr_reader :journal_header

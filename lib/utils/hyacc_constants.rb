@@ -321,6 +321,7 @@ module HyaccConstants
   ACCOUNT_CODE_RENT = '8551' # 地代家賃
   ACCOUNT_CODE_DIVIDEND_RECEIVED = '4222' # 受取配当金
   ACCOUNT_CODE_DEPOSITS_PAID = '1811' # 預け金
+  ACCOUNT_CODE_INVESTMENT = '1400' # 有価証券
   
   # 補助科目コード
   SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY = '100' # 源泉所得税（立替金）

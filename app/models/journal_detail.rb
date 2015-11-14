@@ -17,9 +17,13 @@ class JournalDetail < ActiveRecord::Base
   attr_accessor :auto_journal_month
   attr_accessor :auto_journal_day
 
+  # 有価証券用の入力フィールド
+  attr_accessor :investment_id
+
   belongs_to :journal_header, :inverse_of => 'journal_details'
 
   has_one :asset, :dependent=>:destroy
+  has_one :investment, :dependent=>:destroy
   has_one :tax_journal_detail, :foreign_key=>:main_detail_id, :class_name=>"JournalDetail", :dependent=>:destroy
   belongs_to :main_journal_detail, :foreign_key=>:main_detail_id, :class_name=>"JournalDetail"
   has_many :transfer_journals, :foreign_key=>:transfer_from_detail_id, :class_name=>"JournalHeader", :dependent=>:destroy
@@ -30,7 +34,7 @@ class JournalDetail < ActiveRecord::Base
   validates :account_id, :presence => true
   validates :branch_id, :presence => true
   validate :validate_account_and_sub_account
-  validates :shares, numericality: { only_integer: true }
+  validates :shares, numericality: {allow_blank: true,  only_integer: true }
   validates_format_of :social_expense_number_of_people, :with => /[0-9]{0,3}/
   validates_format_of :settlement_type, :with => /[0-9]{0,1}/
   validates :amount, :presence => true

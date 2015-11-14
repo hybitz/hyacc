@@ -1,6 +1,8 @@
 class Investment < ActiveRecord::Base
   belongs_to :customer
   belongs_to :bank_account
+  belongs_to :journal_detail
+
   validates :yyyymmdd, :presence => true, format: {
     with: /\d{4}-\d{2}-\d{2}/,
     message: 'のフォーマットが不正です'

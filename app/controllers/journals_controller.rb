@@ -287,6 +287,22 @@ class JournalsController < Base::HyaccController
     end
   end
 
+  def create_or_update_inventment(detail)
+    # 有価証券の場合は有価証券情報を設定
+    a = Account.get(detail.account_id)
+    
+    if account.path.include? ACCOUNT_CODE_INVESTMENT
+      investment = Investment.find(detail.investment_id.to_i) if detail.investment_id.to_i > 0
+      unless investment
+        investment = Investment.new
+        investment.shares = detail.shares
+      end 
+    else
+      detail.asset = nil
+    end
+  end
+
+
   def retrieve_details(jh)
     # 明細が存在しない場合はエラー
     raise HyaccException.new unless params[:journal_details]

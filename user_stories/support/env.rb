@@ -1,7 +1,6 @@
 require 'rails'
 require 'daddy/cucumber/helpers'
 require 'capybara/cucumber'
-require 'capybara/webkit' if ENV['DRIVER'] == 'webkit'
 require 'capybara/poltergeist' if ENV['DRIVER'] == 'poltergeist'
 
 Capybara.default_driver = (ENV['DRIVER'] || :selenium).to_sym

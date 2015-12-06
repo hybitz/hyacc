@@ -1,6 +1,7 @@
 もし /^賃金台帳に今月分の給与を登録$/ do |ast_table|
   sign_in User.first unless current_user
 
+  @ym = 201309
   salary = normalize_table(ast_table).first[1]
 
   click_on '賃金台帳'
@@ -10,10 +11,10 @@
   click_on '表示'
   assert has_selector?('#payroll_table')
 
-  click_on '201309'
+  click_on @ym
   within '.ui-dialog' do
     begin
-      fill_in '基本給', :with => salary.gsub(',', '')
+      fill_in '基本給', :with => salary.to_ai
       assert has_selector?('form[insurance_loaded]');
 
       fill_in '住民税', :with => 0
@@ -33,4 +34,16 @@
   ensure
     capture
   end
+end
+
+もし /^健康保険は (.*?) 円$/ do |amount|
+  assert @ym
+end
+
+もし /^厚生年金は (.*?) 円$/ do |amount|
+  assert @ym
+end
+
+もし /^所得税は (.*?) 円$/ do |amount|
+  assert @ym
 end

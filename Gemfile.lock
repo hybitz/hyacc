@@ -82,7 +82,6 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     colorable (0.2.0)
-    colorize (0.7.7)
     cucumber (2.1.0)
       builder (>= 2.1.2)
       cucumber-core (~> 1.3.0)
@@ -92,7 +91,7 @@ GEM
       multi_test (>= 0.1.2)
     cucumber-core (1.3.0)
       gherkin3 (~> 3.1.0)
-    daddy (0.4.6)
+    daddy (0.4.7)
       capybara (~> 2.5)
       ci_reporter (>= 1.9.0, < 2.0.0)
       closer (~> 0.3)
@@ -112,7 +111,7 @@ GEM
     daemons (1.2.3)
     dalli (2.7.4)
     database_cleaner (1.5.1)
-    devise (3.5.2)
+    devise (3.5.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -149,7 +148,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.99)
-    mini_portile (0.6.2)
+    mini_portile2 (2.0.0)
     minitest (5.8.3)
     minitest-reporters (1.1.7)
       ansi
@@ -166,8 +165,8 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.0.1)
-    nokogiri (1.6.6.4)
-      mini_portile (~> 0.6.0)
+    nokogiri (1.6.7)
+      mini_portile2 (~> 2.0.0.rc2)
     orm_adapter (0.5.0)
     parser (2.2.3.0)
       ast (>= 1.1, < 3.0)
@@ -249,7 +248,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    simplecov (0.10.0)
+    simplecov (0.11.1)
       docile (~> 1.1.0)
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
@@ -260,7 +259,7 @@ GEM
       rack (~> 1.4)
       rack-protection (~> 1.4)
       tilt (>= 1.3, < 3)
-    spring (1.4.4)
+    spring (1.5.0)
     sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -271,8 +270,7 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     sqlite3 (1.3.11)
-    sshkit (1.7.1)
-      colorize (>= 0.7.0)
+    sshkit (1.8.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     strong_actions (0.0.6)
@@ -307,7 +305,7 @@ GEM
       raindrops (~> 0.7)
     vegas (0.1.11)
       rack (>= 1.0.0)
-    warden (1.2.3)
+    warden (1.2.4)
       rack (>= 1.0)
     websocket (1.2.2)
     websocket-driver (0.6.3)
@@ -360,4 +358,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.10.6
+   1.11.0

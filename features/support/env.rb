@@ -1,4 +1,3 @@
-require 'rails'
-require 'daddy/cucumber'
+require 'daddy/cucumber/rails'
 
 include HyaccConstants

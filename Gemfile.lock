@@ -72,7 +72,7 @@ GEM
     ci_reporter (2.0.0)
       builder (>= 2.1.2)
     cliver (0.3.2)
-    closer (0.3.1)
+    closer (0.3.3)
       cucumber (~> 2.1)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -91,16 +91,14 @@ GEM
       multi_test (>= 0.1.2)
     cucumber-core (1.3.1)
       gherkin3 (~> 3.1.0)
-    daddy (0.4.7)
+    daddy (0.4.8)
       capybara (~> 2.5)
       ci_reporter (>= 2.0.0)
       closer (~> 0.3)
       database_cleaner (~> 1.3)
-      differ (~> 0.1)
-      execjs (~> 2.2)
       faraday (~> 0.9)
       holiday_jp (~> 0.3)
-      poltergeist (~> 1.5)
+      poltergeist (~> 1.8)
       rails (>= 3.2.0, < 5.0.0)
       rails-i18n (< 5.0.0)
       resque (~> 1.25)
@@ -119,7 +117,6 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    differ (0.1.2)
     docile (1.1.5)
     erubis (2.7.0)
     eventmachine (1.0.8)
@@ -358,4 +355,4 @@ DEPENDENCIES
   will_paginate
 
 BUNDLED WITH
-   1.11.0
+   1.11.2

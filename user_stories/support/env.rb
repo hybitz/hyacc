@@ -1,3 +1,4 @@
+require 'closer'
 require 'rails'
 require 'daddy/cucumber/helpers'
 require 'capybara/cucumber'

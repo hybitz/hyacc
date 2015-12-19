@@ -9,6 +9,16 @@ end
   capture  
 end
 
+もし /^(.*?)を表示している$/ do |page|
+  begin
+    sign_in user unless current_user
+    click_on page
+    assert has_title?(page)
+  ensure
+    capture
+  end
+end
+
 もし /^マスタメンテを表示する$/ do
   sign_in user unless current_user
   click_on 'マスタメンテ'

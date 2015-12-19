@@ -1,4 +1,4 @@
-class BankOfficesController < Base::BasicMasterController
+class BankOfficesController < Base::HyaccController
   respond_to :json
   
   def index

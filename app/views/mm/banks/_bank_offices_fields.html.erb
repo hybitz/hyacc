@@ -1,18 +1,25 @@
-<table>
+<table class="bank_offices">
   <caption>金融機関営業店</caption>
-  <tr>
-    <th><%= BankOffice.human_attribute_name :code %></th>
-    <th><%= BankOffice.human_attribute_name :name %></th>
-    <th><%= BankOffice.human_attribute_name :disabled %></th>
-  </tr>
 
-  <% bank_offices.each_with_index do |bo, i| %>
-    <%= render 'bank_office_fields', :bank_office => bo, :index => i %>
-  <% end %>
+  <thead>
+    <tr>
+      <th><%= BankOffice.human_attribute_name :code %></th>
+      <th><%= BankOffice.human_attribute_name :name %></th>
+      <th><%= BankOffice.human_attribute_name :disabled %></th>
+    </tr>
+  </thead>
 
-  <tr>
-    <td colspan="4" align="right">
-      <%= link_to '追加', {:action => 'add_bank_office'}, :onclick => 'banks.add_bank_office(this); return false;' %>
-    </td>
-  </tr>
+  <tbody>
+    <% bank_offices.each_with_index do |bo, i| %>
+      <%= render 'bank_office_fields', :bank_office => bo, :index => i %>
+    <% end %>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td colspan="3">
+        <%= link_to '追加', {:action => 'add_bank_office'}, :onclick => 'banks.add_bank_office(this); return false;' %>
+      </td>
+    </tr>
+  </tfoot>
 </table>

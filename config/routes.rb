@@ -39,7 +39,7 @@ Rails.application.routes.draw do
   end
 
   resources :bank_accounts
-  resources :bank_offices, :only => ['index']
+  resources :bank_offices, :only => 'index'
 
   resources :careers
   resources :career_statements, :only => ['index', 'show']

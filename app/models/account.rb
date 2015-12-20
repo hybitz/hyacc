@@ -6,9 +6,6 @@ class Account < ActiveRecord::Base
   acts_as_cached :includes => 'accounts/account_cache'
   acts_as_tree :order => 'display_order'
 
-  has_one :account_control, :dependent => :destroy
-  accepts_nested_attributes_for :account_control
-
   validates_presence_of :name, :code
   validate :validate_account_type, :validate_dc_type
   

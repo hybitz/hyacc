@@ -11,17 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151113070348) do
-
-  create_table "account_controls", force: true do |t|
-    t.integer  "account_id",                           null: false
-    t.boolean  "system_required",      default: false, null: false
-    t.boolean  "sub_account_editable", default: true,  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "account_controls", ["account_id"], name: "index_account_controls_on_account_id", unique: true, using: :btree
+ActiveRecord::Schema.define(version: 20151220055136) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -48,6 +38,8 @@ ActiveRecord::Schema.define(version: 20151113070348) do
     t.boolean  "is_revenue_reserve_account",             default: false, null: false
     t.integer  "is_tax_account",               limit: 1, default: 0,     null: false
     t.integer  "parent_id"
+    t.boolean  "system_required",                        default: false, null: false
+    t.boolean  "sub_account_editable",                   default: true,  null: false
   end
 
   add_index "accounts", ["code"], name: "index_accounts_on_code", unique: true, using: :btree

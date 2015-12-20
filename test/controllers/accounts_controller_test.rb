@@ -118,10 +118,10 @@ class AccountsControllerTest < ActionController::TestCase
   end
 
   def test_補助科目変更不可の勘定科目で_補助科目区分が変更できないこと
-    id = 65;
+    id = 65
     a = Account.find(id)
     assert_equal SUB_ACCOUNT_TYPE_CORPORATE_TAX, a.sub_account_type
-    assert ! a.account_control.sub_account_editable
+    assert ! a.sub_account_editable?
     
     xhr :post, :update, :id => id, :commit => '更新',
                   :account => {:sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL},
@@ -154,10 +154,12 @@ class AccountsControllerTest < ActionController::TestCase
   # 伝票で使用されている勘定科目は削除できないこと
   def test_destroy_fail2
     account = Account.find(6) # 売掛金
-    assert ! account.account_control.system_required
-    assert_raise( HyaccException ){
-      post :destroy, :id=>account
-    }
+    assert ! account.system_required?
+    assert JournalDetail.where(:account_id => account.id).present?
+
+    assert_raise HyaccException do
+      delete :destroy, :id => account.id
+    end
   end
   
   def test_伝票が存在しない場合_補助科目がすべて削除可能であること

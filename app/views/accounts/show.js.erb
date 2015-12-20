@@ -1,7 +1,7 @@
 var options = {
   title: '<%= @title.present? ? @title + '　参照' : '参照' %>',
   buttons: [
-    <% unless @account.deleted or @account.account_control.system_required %>
+    <% unless @account.deleted or @account.system_required? %>
       {
         text: '削除',
         click: function() {

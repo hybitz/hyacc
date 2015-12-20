@@ -98,7 +98,6 @@ class FirstBootController < ApplicationController
 
     # 勘定科目、勘定科目制御の初期データロード
     ActiveRecord::FixtureSet.create_fixtures(dir, "accounts")
-    ActiveRecord::FixtureSet.create_fixtures(dir, "account_controls")
     if @c.personal?
       Account.delete_all(['company_only =?', true])
       Account.where('depreciable = ?', true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_AMOUNT])

@@ -42,9 +42,8 @@ class AccountsController < Base::HyaccController
   end
 
   def new
-    parent = Account.find( params[:parent_id] )
-    @account = Account.new( :parent_id=>parent.id, :dc_type=>parent.dc_type, :account_type=>parent.account_type )
-    @account.account_control = AccountControl.new
+    parent = Account.find(params[:parent_id])
+    @account = Account.new(:parent_id => parent.id, :dc_type => parent.dc_type, :account_type => parent.account_type)
   end
 
   def create
@@ -52,7 +51,6 @@ class AccountsController < Base::HyaccController
 
     begin
       @account.transaction do
-        @account.account_control = AccountControl.new
         @account.save!
         update_sub_accounts
       end
@@ -94,7 +92,7 @@ class AccountsController < Base::HyaccController
     @account = load_account
 
     # システム必須の勘定科目は削除不可
-    if @account.account_control.system_required
+    if @account.system_required?
       raise HyaccException.new(ERR_SYSTEM_REQUIRED_ACCOUNT) and return
     end
 
@@ -142,7 +140,7 @@ class AccountsController < Base::HyaccController
     return if account.sub_account_type == sub_account_type_old
     
     # 補助科目の変更可でなければエラー
-    unless account.account_control.sub_account_editable
+    unless account.sub_account_editable?
       raise HyaccException.new(ERR_SUB_ACCOUNT_TYPE_NOT_EDITABLE)
     end
   

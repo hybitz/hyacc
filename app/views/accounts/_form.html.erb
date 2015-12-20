@@ -90,7 +90,7 @@
     <tr>
       <th><%= f.label :sub_account_type %></th>
       <td>
-        <% if @account.account_control.sub_account_editable %>
+        <% if @account.sub_account_editable? %>
           <%= f.select :sub_account_type, sub_account_types, {}, :onchange=>"setSubAccountsVisible();" %>
           <div id="form_sub_accounts">
             <%= render 'sub_accounts_fields' %>

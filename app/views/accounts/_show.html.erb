@@ -16,7 +16,7 @@
   <b>税区分:</b> <%= @account.tax_type_name %>
 </p>
 <p>
-  <b>システム必須:</b> <%= @account.account_control.system_required ? '必須' : '任意' %>
+  <b>システム必須:</b> <%= @account.system_required? ? '必須' : '任意' %>
 </p>
 <p>
   <b>取引区分:</b> <%= @account.trade_type_name %>

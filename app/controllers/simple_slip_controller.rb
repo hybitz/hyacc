@@ -199,32 +199,29 @@ class SimpleSlipController < Base::HyaccController
   def new_from_copy
     slip = finder.find( params[:id] )
     account = Account.get(slip.account_id)
+
     renderer = AccountDetails::AccountDetailRenderer.get_instance(account.id)
     if renderer
-      account_detail = render_to_string(:partial => renderer.get_template(controller_name), :formats => ['html'], :handlers => ['erb'])
-      HyaccLogger.debug account_detail
+      account_detail = render_to_string(:partial => renderer.get_template(controller_name))
     end
     
-    @json = <<-"JSON"
-      {
-        "remarks":"#{slip.remarks}", 
-        "account_id":"#{slip.account_id.to_s}",
-        "sub_account_id":"#{slip.sub_account_id.to_s}",
-        "branch_id":"#{slip.branch_id.to_s}",
-        "amount_increase":"#{slip.amount_increase.to_s}",
-        "amount_decrease":"#{slip.amount_decrease.to_s}",
-        "tax_type":"#{get_tax_type_for_current_fy(slip.tax_type).to_s}",
-        "sub_accounts":#{account.sub_accounts.collect{|sa| sa = {:id=>sa.id, :name=>sa.name}}.to_json},
-        "account_detail":#{account_detail ? account_detail.to_json : '""'},
-        "tax_amount_increase":"#{slip.tax_amount_increase.to_s}",
-        "tax_amount_decrease":"#{slip.tax_amount_decrease.to_s}"
-       }
-    JSON
+    @json = {
+      :remarks => slip.remarks, 
+      :account_id => slip.account_id,
+      :sub_account_id => slip.sub_account_id,
+      :branch_id => slip.branch_id,
+      :amount_increase => slip.amount_increase,
+      :amount_decrease => slip.amount_decrease,
+      :tax_type => get_tax_type_for_current_fy(slip.tax_type),
+      :sub_accounts => account.sub_accounts.collect{|sa| sa = {:id => sa.id, :name => sa.name}},
+      :account_detail => account_detail,
+      :tax_amount_increase => slip.tax_amount_increase,
+      :tax_amount_decrease => slip.tax_amount_decrease
+    }
 
-    HyaccLogger.debug("json=" + @json)
-    render :partial=>'new_from_copy'
+    render :json => @json
   end
-  
+
   private
 
   # 補助科目が必須の場合でまだ補助科目が存在しない場合はマスタメンテに誘導する

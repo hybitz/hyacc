@@ -3,7 +3,7 @@ require 'test_helper'
 class SimpleSlipController::CrudTest < ActionController::TestCase
   include HyaccUtil
 
-  setup do
+  def setup
     sign_in user
   end
 
@@ -50,18 +50,18 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
   end
   
   # コピー元伝票のJSONフォーマットが正常に取得できること
-  def test_new_from_copy_success
+  def test_new_from_copy
     base_id = 6471
     xhr :get, :new_from_copy, :account_code => 1121, :id => base_id
     assert_response :success
-    assert_not_nil assigns[:json]
+    assert assigns[:json]
     
-    result = JSON.parse(assigns[:json])
+    result = JSON.parse(@response.body)
     jd = JournalDetail.find(19597)
     assert_equal JournalHeader.find(jd.journal_header_id).remarks, result['remarks']
-    assert_equal jd.account_id.to_s, result['account_id']
-    assert_equal jd.sub_account_id.to_s, result['sub_account_id']
-    assert_equal jd.tax_type.to_s, result['tax_type']
+    assert_equal jd.account_id, result['account_id']
+    assert_equal jd.sub_account_id, result['sub_account_id']
+    assert_equal jd.tax_type, result['tax_type']
   end
   
   def test_更新時に登録ユーザが更新されていないこと

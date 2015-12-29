@@ -1,5 +1,4 @@
 class Branch < ActiveRecord::Base
-  include HyaccConstants
   acts_as_cached :includes => 'branches/branch_cache'
   acts_as_tree :order => 'code'
 

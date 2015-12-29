@@ -1,6 +1,4 @@
 class Asset < ActiveRecord::Base
-  include HyaccConstants
-  
   belongs_to :account
   belongs_to :sub_account
   belongs_to :branch

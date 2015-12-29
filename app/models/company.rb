@@ -1,6 +1,4 @@
 class Company < ActiveRecord::Base
-  include HyaccConstants
-  
   belongs_to :business_type
   has_many :branches
   has_many :business_offices

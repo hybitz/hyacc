@@ -1,6 +1,4 @@
 class BankAccount < ActiveRecord::Base
-  include HyaccConstants
-
   belongs_to :bank
   belongs_to :bank_office
 

@@ -8,10 +8,10 @@
 <td class="amountDecrease"><%= to_amount( slip.slip_amount_decrease ) %></td>
 <td class="amountSum"></td>
 <td style="text-align: center;">
-  <%= "自振" if slip.has_auto_transfers %>
+  <%= '自振' if slip.has_auto_transfers %>
 </td>
 <td style="text-align: center;">
-  <%= link_to "(電子)", {:action=>'download_receipt', :id=>slip.id} if slip.journal_header.receipt_path %>
+  <%= link_to '(電子)', {:action=>'download_receipt', :id=>slip.id} if slip.journal_header.receipt_path %>
 </td>
 <td class="action" style="border-right: none;">
   <%# 編集可能な伝票の場合は簡易登録画面を表示 %>
@@ -36,6 +36,6 @@
 </td>
 <td class="action" style="border-left: none;">
   <% if slip.editable? %>
-    <%= link_to 'ｺﾋﾟｰ', url_for(:action=>'new_from_copy', :id=>slip.id, :account_code => params[:account_code]), :remote=>true %>
+    <%= link_to 'ｺﾋﾟｰ', url_for(:action=>'new_from_copy', :id=>slip.id, :account_code => params[:account_code]), :remote => true %>
   <% end %>
 </td>

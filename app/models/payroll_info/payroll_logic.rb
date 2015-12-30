@@ -60,8 +60,7 @@ module PayrollInfo
       end
       return bonuses
     end
-    
-    
+
     # みなし給与
     def get_total_deemed_salary
       deemed_salary = get_total_base_salary
@@ -72,6 +71,7 @@ module PayrollInfo
       deemed_salary = (deemed_salary/4000).to_i * 4000 if deemed_salary >= 1_624_000 && deemed_salary <= 6_599_999
       deemed_salary
     end
+
     # 給与所得控除額
     def get_deduction
       # みなし給与で計算
@@ -123,7 +123,7 @@ module PayrollInfo
                 e.special_tax_for_spouse + e.spouse + e.dependents + e.disabled_persons + e.basic
       return total
     end
-    
+
     # 源泉所得税
     def get_withholding_tax
       total_tax = 0
@@ -138,15 +138,14 @@ module PayrollInfo
       elsif b <= 3_300_000
         total_tax = b * 0.1 - 97500
       end
-      
+
       # 復興特別税（H25以降）
       total_tax = total_tax * 1.021 if @calendar_year >= 2013
       total_tax = (total_tax/100).to_i * 100
       
-      return total_tax
+      total_tax
     end
-    
-    
+
     # 健康保険料
     def get_health_insurance
       total_expense = 0

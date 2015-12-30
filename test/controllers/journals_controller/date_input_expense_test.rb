@@ -3,7 +3,7 @@ require 'test_helper'
 # 日付指定の計上日振替のテスト
 class JournalsController::DateInputExpenseTest < ActionController::TestCase
 
-  setup do
+  def setup
     assert user = User.find(4)
     assert user.company.get_fiscal_year(2009).is_closed
     assert user.company.get_fiscal_year(2010).is_open
@@ -60,8 +60,8 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
 
   def test_本締の年度からの費用振替の更新がエラーになること
     post_jh = JournalHeader.find(24)
-    assert post_jh.get_fiscal_year.is_open
-    assert post_jh.journal_details[0].transfer_journals[0].get_fiscal_year.is_closed
+    assert post_jh.fiscal_year.is_open
+    assert post_jh.journal_details[0].transfer_journals[0].fiscal_year.closed?
     
     xhr :patch, :update, :id => post_jh.id,
       :journal => {
@@ -109,8 +109,8 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
   
   def test_本締の年度への費用振替の更新がエラーになること
     post_jh = JournalHeader.find(27)
-    assert post_jh.get_fiscal_year.is_open
-    assert post_jh.journal_details[0].transfer_journals[0].get_fiscal_year.is_open # もともとは通常の年度に登録されている自動仕訳
+    assert post_jh.fiscal_year.is_open
+    assert post_jh.journal_details[0].transfer_journals[0].fiscal_year.is_open # もともとは通常の年度に登録されている自動仕訳
     
     xhr :patch, :update, :id => post_jh.id,
       :journal => {

@@ -51,7 +51,7 @@ class JournalHeader < ActiveRecord::Base
   
   # 同一会計年度かどうか
   def is_same_fiscal_year( other )
-    self.get_fiscal_year == other.get_fiscal_year
+    self.fiscal_year == other.fiscal_year
   end
   
   def year
@@ -131,7 +131,7 @@ class JournalHeader < ActiveRecord::Base
   # 消費税管理情報を更新する
   # 伝票を登録、更新する際には必ず消費税管理情報を初期化する
   def update_tax_admin_info
-    if get_fiscal_year.tax_management_type != TAX_MANAGEMENT_TYPE_EXCLUSIVE
+    if fiscal_year.tax_management_type != TAX_MANAGEMENT_TYPE_EXCLUSIVE
       self.tax_admin_info = nil
       return
     end
@@ -149,9 +149,9 @@ class JournalHeader < ActiveRecord::Base
     self.tax_admin_info.checked = 0
   end
 
-  def get_fiscal_year
+  def fiscal_year
     user = User.find(update_user_id)
-    user.company.get_fiscal_year( ym )
+    user.company.get_fiscal_year(self.ym)
   end
 
   def copy

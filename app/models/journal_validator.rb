@@ -12,7 +12,7 @@ class JournalValidator < ActiveModel::Validator
 
   # 会計年度が存在するかチェック
   def validate_fiscal_year(record)
-    unless record.get_fiscal_year
+    unless record.fiscal_year
       raise HyaccException.new( ERR_FISCAL_YEAR_NOT_EXISTS )
     end
   end
@@ -32,7 +32,7 @@ class JournalValidator < ActiveModel::Validator
     
     # 税抜経理方式でない会計年度に消費税の自動仕訳明細が含まれているとエラー
     if count > 0
-      if record.get_fiscal_year.tax_management_type != TAX_MANAGEMENT_TYPE_EXCLUSIVE
+      if record.fiscal_year.tax_management_type != TAX_MANAGEMENT_TYPE_EXCLUSIVE
         raise HyaccException.new( ERR_ILLEGAL_TAX_DETAIL )
       end
     end

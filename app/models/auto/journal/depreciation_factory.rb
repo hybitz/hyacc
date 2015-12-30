@@ -10,7 +10,7 @@ module Auto::Journal
       @user = auto_journal_param.user
     end
 
-    def make_journals()
+    def make_journals
       asset = @depreciation.asset
       c = asset.branch.company
       

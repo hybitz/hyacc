@@ -49,6 +49,10 @@ class FiscalYear < ActiveRecord::Base
     closing_status == CLOSING_STATUS_CLOSED
   end
   
+  def closed?
+    closing_status == CLOSING_STATUS_CLOSED
+  end
+
   def is_not_closed
     ! is_closed
   end

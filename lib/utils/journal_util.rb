@@ -89,10 +89,6 @@ module JournalUtil
     jd
   end
 
-  def get_closing_status( jh )
-    jh.get_fiscal_year().closing_status
-  end
-
   # 伝票直前までの累計金額の取得
   def get_sum_until(slip, account_id, dc_type)
     # 伝票が1件もなければ累計は０円
@@ -287,7 +283,7 @@ module JournalUtil
 
   # 伝票登録時の経理締めチェック
   def validate_closing_status_on_create( jh )
-    closing_status = get_closing_status( jh )
+    closing_status = jh.fiscal_year.closing_status
     
     if HyaccLogger.debug?
       HyaccLogger.debug "登録時締め状態チェック：　新規伝票＝＞#{CLOSING_STATUS[closing_status]} #{jh.ym}/#{jh.day}:#{jh.remarks}"
@@ -318,7 +314,7 @@ module JournalUtil
   
   # 伝票削除時の経理締めチェック
   def validate_closing_status_on_delete( jh )
-    closing_status = get_closing_status( jh )
+    closing_status = jh.fiscal_year.closing_status
 
     if HyaccLogger.debug?
       HyaccLogger.debug "削除時締め状態チェック：　削除伝票＝＞#{CLOSING_STATUS[closing_status]} #{jh.ym}/#{jh.day}:#{jh.remarks}"
@@ -349,8 +345,8 @@ module JournalUtil
   
   # 伝票更新時の経理締めチェック
   def validate_closing_status_on_update( jh, old )
-    closing_status_old = get_closing_status( old )
-    closing_status_new = get_closing_status( jh )
+    closing_status_old = old.fiscal_year.closing_status
+    closing_status_new = jh.fiscal_year.closing_status
     
     if HyaccLogger.debug?
       HyaccLogger.debug "更新時締め状態チェック：　更新前伝票＝＞#{CLOSING_STATUS[closing_status_old]}　 #{jh.ym}/#{jh.day}:#{jh.remarks}　 " +

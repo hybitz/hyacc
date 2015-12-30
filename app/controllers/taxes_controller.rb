@@ -1,6 +1,4 @@
 class TaxesController < Base::HyaccController
-  include JournalUtil
-
   view_attribute :title => '消費税管理'
   view_attribute :finder, :class => TaxFinder, :only => :index
   view_attribute :ym_list, :only => :index
@@ -13,7 +11,7 @@ class TaxesController < Base::HyaccController
   def update
     j = Journal.find(params[:id])
 
-    if get_closing_status(j) == CLOSING_STATUS_CLOSED
+    if j.fiscal_year.closed?
       # 本締めの場合は更新不可
       @message = ERR_CLOSING_STATUS_CLOSED
     else

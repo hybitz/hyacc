@@ -1,6 +1,6 @@
 class Depreciation < ActiveRecord::Base
   belongs_to :asset
-  has_many :journal_headers, -> {order(:fiscal_year)}, :dependent => :destroy
+  has_many :journal_headers, :dependent => :destroy
   accepts_nested_attributes_for :journal_headers
   
   def amount_depreciated

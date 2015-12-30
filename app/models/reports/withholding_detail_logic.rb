@@ -14,9 +14,9 @@ module Reports
       model.withholding_tax = get_withholding_tax                         # 源泉徴収税額
       model.social_insurance = get_social_insurance                       # 社会保険料等の金額
       model.life_insurance_deduction = get_life_insurance_deduction       # 住宅借入金等特別控除の額
-      model.exemption_for_dependents = e.dependents                       #扶養控除額
-      model.special_exemption_for_spouse = e.special_tax_for_spouse       #配偶者特別控除額
-      model.exemption_for_spouse = e.spouse                               #配偶者控除額
+      model.exemption_for_dependents = e.dependents                       # 扶養控除額
+      model.special_exemption_for_spouse = e.special_tax_for_spouse       # 配偶者特別控除額
+      model.exemption_for_spouse = e.spouse                               # 配偶者控除額
       model
     end
     

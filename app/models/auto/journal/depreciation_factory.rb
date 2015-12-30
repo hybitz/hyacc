@@ -32,7 +32,7 @@ module Auto::Journal
         amount = amount_per_month
         amount += amount_fraction if i == 0
 
-        jh = JournalHeader.new
+        jh = @depreciation.journal_headers.build
         jh.company_id = @user.company.id
         jh.slip_type = SLIP_TYPE_DEPRECIATION
         jh.ym = add_months(start_ym, i)
@@ -41,16 +41,15 @@ module Auto::Journal
         jh.create_user_id = @user.id
         jh.update_user_id = @user.id
         
-        jd = JournalDetail.new
+        jd = jh.journal_details.build
         jd.detail_no = 1
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = Account.get_by_code(ACCOUNT_CODE_DEPRECIATION).id
         jd.branch_id = asset.branch_id
         jd.tax_type = TAX_TYPE_NONTAXABLE
         jd.amount = amount
-        jh.journal_details << jd
         
-        jd = JournalDetail.new
+        jd = jh.journal_details.build
         jd.detail_no = 2
         jd.dc_type = DC_TYPE_CREDIT
         jd.account_id = asset.account_id
@@ -58,7 +57,6 @@ module Auto::Journal
         jd.branch_id = asset.branch_id
         jd.tax_type = TAX_TYPE_NONTAXABLE
         jd.amount = amount
-        jh.journal_details << jd
         
         ret << jh
       end

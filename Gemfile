@@ -6,6 +6,7 @@ gem 'rails', '4.1.13'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
+gem 'byebug'
 gem 'carrierwave'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'colorable'

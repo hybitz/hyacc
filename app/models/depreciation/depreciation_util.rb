@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: depreciation_util.rb 3150 2013-11-01 08:06:20Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Depreciation::DepreciationUtil
   include HyaccConstants
 
@@ -16,9 +9,9 @@ module Depreciation::DepreciationUtil
   def create_journals(depreciation, user)
     param = Auto::Journal::DepreciationParam.new( depreciation, user )
     factory = Auto::AutoJournalFactory.get_instance( param )
-    factory.make_journals()
+    factory.make_journals
   end
-  
+
   private
 
   def get_strategy(depreciation_method)

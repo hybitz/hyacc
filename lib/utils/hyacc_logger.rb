@@ -1,5 +1,4 @@
 class HyaccLogger
-  require "date"
   
   def self.fatal?
     Rails.logger.level == Logger::FATAL
@@ -63,7 +62,14 @@ class HyaccLogger
   end
   
   def self.called_by
-    caller[1]
+    ret = caller[1]
+
+    prefix = Rails.root.to_s + '/'
+    if ret.start_with?(prefix)
+      ret = ret.sub(prefix, '')
+    end
+
+    ret
   end
 
 end

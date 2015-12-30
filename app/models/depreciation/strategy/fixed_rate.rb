@@ -13,7 +13,7 @@ module Depreciation::Strategy
       guaranteed_amount = round_depreciation_amount(asset.amount * dr.guaranteed_rate, c)
       
       if HyaccLogger.debug?
-        HyaccLogger.debug "初年度償却対象月数：#{num_of_months}ヶ月、償却補償額：#{guaranteed_amount}"
+        HyaccLogger.debug "#{dr.to_yaml}\n初年度償却対象月数：#{num_of_months}ヶ月、償却補償額：#{guaranteed_amount}"
       end
       
       ret = []
@@ -27,15 +27,15 @@ module Depreciation::Strategy
         d.amount_at_start = amount
         
         # 償却額の計算
-        if ret.size == 0
+        if ret.empty?
           depreciation_amount = round_depreciation_amount(amount * num_of_months * dr.rate / 12, c)
         else
           depreciation_amount = round_depreciation_amount(amount * dr.rate, c)
-        end
-        
-        # 償却補償額を下回った時点で改定償却率での計算に切り替える
-        if depreciation_amount < guaranteed_amount
-          break
+
+          # 償却補償額を下回った時点で改定償却率での計算に切り替える
+          if depreciation_amount < guaranteed_amount
+            break
+          end
         end
         
         if (amount - depreciation_amount) > asset.depreciation_limit

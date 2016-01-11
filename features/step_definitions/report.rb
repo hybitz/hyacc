@@ -39,6 +39,7 @@ end
   
   form_selector = "#finders"
   within form_selector do
+    select '2009', :from => 'finder_calendar_year'
     select employee_name, :from => 'finder_employee_id'
     select report_type, :from => 'finder_report_type'  end
 end

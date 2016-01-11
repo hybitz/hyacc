@@ -2,7 +2,7 @@ class WithholdingSlipController < Base::HyaccController
   include JournalUtil
 
   view_attribute :title => '源泉徴収'
-  view_attribute :finder, :class=>WithholdingSlipFinder
+  view_attribute :finder, :class => WithholdingSlipFinder
   view_attribute :cy_list
   view_attribute :report_types
   view_attribute :employees

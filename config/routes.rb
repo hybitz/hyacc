@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   end
 
   namespace :mv do
+    resources :depreciation_rates, :only => 'index'
     resources :social_insurances, :only => 'index'
     resources :withheld_taxes, :only => 'index'
   end
@@ -49,7 +50,6 @@ Rails.application.routes.draw do
     end
   end
   resources :deemed_taxes
-  resources :depreciation_rates, :only => 'index'
   resources :debts
 
   resources :employees do

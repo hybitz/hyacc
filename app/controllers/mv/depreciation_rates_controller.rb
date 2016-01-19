@@ -1,4 +1,4 @@
-class DepreciationRatesController < Base::HyaccController
+class Mv::DepreciationRatesController < Base::HyaccController
   view_attribute :title => '減価償却率'
   helper_method :finder
   

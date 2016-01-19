@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class DepreciationRatesControllerTest < ActionController::TestCase
+class Mv::DepreciationRatesControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in user

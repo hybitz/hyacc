@@ -128,8 +128,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :social_expenses, :only => ['index']
-  resources :sub_accounts, :only => ['index']
+  resources :social_expenses, :only => 'index'
+  resources :sub_accounts, :only => 'index'
   resources :taxes, :only => ['index', 'update']
   resources :users
   resources :withholding_slip, :only => 'index'

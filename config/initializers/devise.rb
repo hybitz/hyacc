@@ -259,6 +259,6 @@ Devise.setup do |config|
 
   # two_factor_authentication
   config.max_login_attempts = 3
-  config.allowed_otp_drift_seconds = 30
+  config.allowed_otp_drift_seconds = 60
   config.otp_length = Rails.application.secrets.otp_length
 end

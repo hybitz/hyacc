@@ -1,4 +1,6 @@
 <script>
+  var journal;
+
   function validateJournal( form ) {
     if ( ! checkAutoJournalTypes( form ) ) {
       return false;
@@ -18,42 +20,10 @@
     
     return true;
   }
-  
-  $(document).ready(function() {
-    $('input[id$=_input_amount]').each(function(){
-      var id = $(this).attr('id');
-      shortcut.add("Down",
-        function() {
-            var detail_no = parseInt(id.split('_')[2]);
-            var next_detail_id = 'journal_details_' + (detail_no + 1) + '_input_amount';
-            var next_detail = document.getElementById(next_detail_id);
-            if (next_detail != null) {
-                next_detail.focus();
-                next_detail.select();
-            }
-        },
-        {
-          'target': document.getElementById(id)
-        }
-      );
-      shortcut.add("Up",
-        function() {
-            var detail_no = parseInt(id.split('_')[2]);
-            var prev_detail_id = 'journal_details_' + (detail_no - 1) + '_input_amount';
-            var prev_detail = document.getElementById(prev_detail_id);
-            if (prev_detail != null) {
-                prev_detail.focus();
-                prev_detail.select();
-            }
-        },
-        {
-          'target': document.getElementById(id)
-        }
-      );
-    });
-  });
 
   $(document).ready(function() {
+    journal = new hyacc.Journal({selector: '#journal_form'});
+
     calcTotalAmount();
     
     $('#journal_form').submit(function() {

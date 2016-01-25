@@ -82,7 +82,7 @@
     var debitAmount = 0;
     var creditAmount = 0;
   
-    var detailTrs = getDetailTrs();
+    var detailTrs = journal.get_details();
     for ( var i = 0; i < detailTrs.length; i ++ ) {
         var detailTr = detailTrs[i];
         
@@ -138,24 +138,8 @@
     return true;
   }
   
-  function getDetailTrs() {
-    var ret = new Array();
-  
-    $('.journal_details').find('tr[id]').each(function() {
-      var id = $(this).attr('id');
-
-      if ( id.match(/journal_details_[0-9]+_[0-9]+/) ) {
-        // 明細の先頭行以外は無視
-      } else {
-        ret.push($(this).get(0));
-      }
-    });
-    
-    return ret;
-  }
-  
   function validateAmount() {
-    var detailTrs = getDetailTrs();
+    var detailTrs = journal.get_details();
     for ( var i = 0; i < detailTrs.length; i ++ ) {
       var detailTr = detailTrs[i];
         
@@ -178,7 +162,7 @@
   
   // 全明細の自動振替の単一選択チェック
   function checkAutoJournalTypes( form ) {
-    var detailTrs = getDetailTrs();
+    var detailTrs = journal.get_details();
     for ( var i = 0; i < detailTrs.length; i ++ ) {
       var detailTr = detailTrs[i];
         
@@ -194,7 +178,7 @@
   
   // 全明細の自動振替日付チェック
   function checkAutoJournalDates( form ) {
-    var detailTrs = getDetailTrs();
+    var detailTrs = journal.get_details();
     for ( var i = 0; i < detailTrs.length; i ++ ) {
       var detailTr = detailTrs[i];
       
@@ -213,7 +197,7 @@
   }
   
   function flipDetails(show){
-    var detailTrs = getDetailTrs();
+    var detailTrs = journal.get_details();
     
     for (var i = 0; i < detailTrs.length; i++) {
       var detail = detailTrs[i];

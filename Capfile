@@ -25,7 +25,7 @@ require 'capistrano/deploy'
 require 'capistrano/rails'
 require 'capistrano/daddy'
 
-# Load custom tasks from `lib/capistrano/tasks' if you have any defined
+# Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 
 load File.join('lib', 'capistrano', 'my_git_strategy.rb')

@@ -39,7 +39,6 @@ class PayrollsController < Base::HyaccController
       # 表示対象ユーザID
       @payroll.employee_id = finder.employee_id
       # 従業員への未払費用
-      finder.sub_account_id = finder.employee_id
       @payroll.accrued_liability = finder.get_net_sum(ACCOUNT_CODE_UNPAID_EMPLOYEE)
     end
   end

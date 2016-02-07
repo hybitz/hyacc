@@ -64,6 +64,8 @@ class PayrollFinder < Base::Finder
   end
   
   def get_net_sum(account_code)
+    self.sub_account_id = self.employee_id
+    self.branch_id = Employee.find(self.employee_id).default_branch.id
     super( account_code )
   end
   

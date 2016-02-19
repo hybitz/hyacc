@@ -57,12 +57,12 @@ class FinancialReturnStatementsController < Base::HyaccController
   def render_social_expense
     logic = Reports::SocialExpenseLogic.new(finder)
     @model = logic.get_social_expense_model
-    render render_social_expense_layout(finder.fiscal_year)
+    render render_social_expense_layout(finder.start_year_month_of_fiscal_year)
   end
   
-  def render_social_expense_layout(fiscal_year)
-    case fiscal_year
-    when (2014..Float::INFINITY)
+  def render_social_expense_layout(yyyymm)
+    case yyyymm
+    when (201404..Float::INFINITY)
       return :social_expense_2014
     else
       return :social_expense

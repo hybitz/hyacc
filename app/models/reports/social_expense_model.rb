@@ -50,6 +50,14 @@ module Reports
       }
       ret
     end
+
+    def get_total_differential_amount
+      ret = 0
+      @details.each {|detail|
+        ret += detail.differential.to_i
+      }
+      ret
+    end
     
     def is_zero_deduction
       capital_stock > 100000000

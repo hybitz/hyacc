@@ -35,10 +35,12 @@ module Reports
               ret.amount += amount
               ret.deduction_amount += deduction_amount
               ret.social_expense_amount += social_expense_amount
+              ret.differential += social_expense_amount if jd.sub_account_id == SUB_ACCOUNT_CODE_DRINKING
             else
               ret.amount -= amount
               ret.deduction_amount -= deduction_amount
               ret.social_expense_amount -= social_expense_amount
+              ret.differential -= social_expense_amount if jd.sub_account_id == SUB_ACCOUNT_CODE_DRINKING
             end
           end
         end

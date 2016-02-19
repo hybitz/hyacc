@@ -57,7 +57,16 @@ class FinancialReturnStatementsController < Base::HyaccController
   def render_social_expense
     logic = Reports::SocialExpenseLogic.new(finder)
     @model = logic.get_social_expense_model
-    render :social_expense
+    render render_social_expense_layout(finder.fiscal_year)
+  end
+  
+  def render_social_expense_layout(fiscal_year)
+    case fiscal_year
+    when (2014..Float::INFINITY)
+      return :social_expense_2014
+    else
+      return :social_expense
+    end
   end
   
   # 買掛金の内訳書

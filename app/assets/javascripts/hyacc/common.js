@@ -143,10 +143,7 @@ function checkExclusive( form, elementName, message ) {
 
 // 日付の妥当性チェック
 function checkDate(year, month, day){
-  if ( isNaN( year ) || year <= 0 || isNaN( month ) || month <= 0 || isNaN( day ) || day <= 0 ) {
-    return false;
-  }
-  
-  return true;
-}
+  var date = new Date(year, month - 1, day);
+  return (date.getFullYear() == year && date.getMonth()== month - 1 && date.getDate() == day);
+};
 

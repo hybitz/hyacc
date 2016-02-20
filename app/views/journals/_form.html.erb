@@ -10,11 +10,11 @@
       return false;
     }
 
-    if ( ! validateAmount() ) {
+    if (! journal.validate_amount()) {
         return false;
     }
-    
-    if ( ! validateAmountBalance() ) {
+
+    if (! journal.validate_amount_balance()) {
         return false;
     }
     

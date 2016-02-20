@@ -119,40 +119,6 @@
     document.getElementById('journal_credit_amount_sum').innerHTML = toAmount( creditAmount );
   }
   
-  function validateAmountBalance() {
-    debitAmountSpan = document.getElementById('journal_debit_amount_sum');
-    debit = debitAmountSpan.innerHTML;
-    
-    creditAmountSpan = document.getElementById('journal_credit_amount_sum');
-    credit = creditAmountSpan.innerHTML;
-    
-    if ( debit != credit ) {
-      alert('貸借の金額が一致しません。');
-      return false;
-    }
-    else if ( debit == 0 ) {
-      alert('金額が０円です。');
-      return false;
-    }
-    
-    return true;
-  }
-  
-  function validateAmount() {
-    var detailTrs = journal.get_details();
-    for ( var i = 0; i < detailTrs.length; i ++ ) {
-      var detailTr = detailTrs[i];
-        
-      var amount = parseInt( document.getElementById( detailTr.id + '_input_amount' ).value );
-      if ( isNaN( amount ) || amount == 0 ) {
-        alert((i + 1) + '行目の金額が未入力です。');
-        return false;  
-      }
-    }
-    
-    return true;
-  }
-  
   function showDetailIfHidden(trId) {
     var detail2 = document.getElementById(trId + '_2');
     if (detail2.style.display == 'none') {

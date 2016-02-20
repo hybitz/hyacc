@@ -67,7 +67,7 @@ end
 
 ならば /^振替伝票の(参照|追加|編集)ダイアログが表示される$/ do |action|
   page.has_selector?("div.ui-dialog", :visible => true)
-  assert page.has_selector?("span.ui-dialog-title", :text => /#{'振替伝票.*' + action}/)
+  assert has_dialog?(/#{'振替伝票.*' + action}/)
   capture
 end
 
@@ -124,7 +124,27 @@ end
 
 もし /^登録して終了です。$/ do
   click_on '登録'
-  assert wait_until{ page.has_no_selector?("div.ui-dialog", :visible => true) }
-  assert page.has_selector?('#journals_table')
+  assert wait_until{ has_no_selector?("div.ui-dialog", :visible => true) }
+  assert has_selector?('#journals_table')
   capture
+end
+
+もし /^以下のような振替日は不正$/ do |ast_table|
+  sign_in :login_id => user.login_id unless current_user
+  click_on '振替伝票'
+  assert has_title?('振替伝票')
+  click_on '追加'
+  assert has_dialog?(/振替伝票.*追加/)
+
+  normalize_table(ast_table).each do |row|
+    year, month, day = row[0].split('-')
+
+    fill_in 'journal_details_1_auto_journal_year', :with => year
+    fill_in 'journal_details_1_auto_journal_month', :with => month
+    fill_in 'journal_details_1_auto_journal_day', :with => day
+    capture
+    accept_alert do
+      click_on '登録'
+    end
+  end
 end

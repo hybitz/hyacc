@@ -226,6 +226,11 @@
       sumAmountDiv.text(amount ? toAmount(amount + taxField.val().toInt()) : '');
     }
   }
+
+  // 自動振替の単一選択チェック
+  function checkAutoJournalType( element ) {
+    return checkExclusive(element.form, element.name, '自動振替は複数指定できません。');
+  }
   
   // 自動振替時の日付必須チェック
   function checkAutoTransferDate( form, idPrefix, namePrefix, message ) {

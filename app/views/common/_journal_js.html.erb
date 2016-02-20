@@ -1,9 +1,4 @@
 <script>
-  // 自動振替の単一選択チェック
-  function checkAutoJournalType( element ) {
-    return checkExclusive(element.form, element.name, '自動振替は複数指定できません。');
-  }
-  
   function updateTaxAmountAll(form) {
     var details = [];
     var table = $(form).find('tr[id^="journal_details_"]').each(function() {

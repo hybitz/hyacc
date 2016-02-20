@@ -136,8 +136,7 @@
            id="journal_details_<%= jd.detail_no %>_auto_journal_type"
            name="journal_details[<%= jd.detail_no %>][auto_journal_type]"
            value="<%= HyaccConstants::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %>
-           onclick="checkAutoJournalType(this);" />
+           <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />
     翌月
   </td>
   
@@ -160,8 +159,7 @@
            id="journal_details_<%= jd.detail_no %>_auto_journal_type"
            name="journal_details[<%= jd.detail_no %>][auto_journal_type]"
            value="<%= HyaccConstants::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %>
-           onclick="checkAutoJournalType(this);" />
+           <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %> />
     前月
   </td>
   <td rowspan="2" colspan="<%= colspan_of_account_details %>">
@@ -177,8 +175,7 @@
            id="journal_details_<%= jd.detail_no %>_auto_journal_type"
            name="journal_details[<%= jd.detail_no %>][auto_journal_type]"
            value="<%= HyaccConstants::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %>
-           onclick="checkAutoJournalType(this);" />
+           <%= jd.auto_journal_type.to_i == HyaccConstants::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
     <input type="text" id="journal_details_<%= jd.detail_no %>_auto_journal_year"
            name="journal_details[<%= jd.detail_no %>][auto_journal_year]" value="<%= jd.auto_journal_year %>" size="4" maxlength="4"/>
     年

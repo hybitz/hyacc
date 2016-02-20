@@ -2,7 +2,13 @@
   var journal;
 
   $(document).ready(function() {
-    journal = new hyacc.Journal({selector: '#journal_form'});
+    journal = new hyacc.Journal('#journal_form', {
+      branch_mode: <%= branch_mode %>,
+      get_account_detail_path: '<%= url_for :action => 'get_account_detail' %>',
+      get_allocation_path: '<%= url_for :action => 'get_allocation' %>',
+      get_tax_type_path: '<%= url_for :action => 'get_tax_type' %>',
+      sub_accounts_path: '<%= sub_accounts_path(:format => 'json') %>'
+    });
   });
 </script>
 

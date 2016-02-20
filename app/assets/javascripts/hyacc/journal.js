@@ -1,5 +1,6 @@
-hyacc.Journal = function(options) {
-  this.selector = options.selector;
+hyacc.Journal = function(selector, options) {
+  this.selector = selector;
+  this.options = options;
   this._init();
 };
 
@@ -11,8 +12,8 @@ hyacc.Journal.prototype.updateTaxAmount = function(trigger) {
 
   var amount = parseInt(this._get_input_amount(detailTr));
   var taxType = this._get_tax_type(detailTr);
-
   var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
+
   var taxRate = taxRatePercentField.val() * 0.01;
   if (! $(trigger).is('input[name*="\\[tax_rate_percent\\]"]')) {
     taxRate = tax.getRateOn(date);
@@ -29,7 +30,7 @@ hyacc.Journal.prototype.updateTaxAmount = function(trigger) {
     taxAmountField.prop('disabled', true);
   }
 
-  journal.refresh_total_amount();
+  this.refresh_total_amount();
 };
 
 hyacc.Journal.prototype.refresh_total_amount = function() {
@@ -172,10 +173,17 @@ hyacc.Journal.prototype._get_auto_journal_day = function(detail) {
   return $(tr).find('input[name*="\\[auto_journal_day\\]"]').val();
 };
 
+hyacc.Journal.prototype._get_branch_id = function(detail) {
+  return $(detail).find('select[name*="\\[branch_id\\]"]').val();
+};
+
 hyacc.Journal.prototype._get_dc_type = function(detail) {
   return $(detail).find('select[name*="\\[dc_type\\]"]').val();
 };
 
+hyacc.Journal.prototype._get_detail = function(trigger) {
+  return $(trigger).closest('tr[data-detail_no]');
+};
 hyacc.Journal.prototype._get_details = function() {
   return $(this.selector).find('.journal_details').find('tr[data-detail_no]');
 };
@@ -220,7 +228,38 @@ hyacc.Journal.prototype._init_shortcut = function() {
 
 hyacc.Journal.prototype._init_event_handlers = function() {
   var that = this;
-  $(this.selector).delegate('input[name*="\\[ym\\]"]', 'change', function() {
+
+  $(this.selector).delegate('select[name*="\\[account_id\\]"]', 'change', function() {
+    var detail = that._get_detail(this);
+    var params = {
+      account_id: $(this).val(),
+      branch_id: that._get_branch_id(detail),
+      dc_type: that._get_dc_type(detail),
+      detail_id: detail.data('detail_id'),
+      detail_no: detail.data('detail_no'),
+      order: 'code',
+    };
+
+    $.get(that.options.sub_accounts_path, params, function(json) {
+        replace_options('#' + detail.attr('id') + '_sub_account_id', json);
+      });
+      
+    $.getJSON(that.options.get_tax_type_path, params, function(json) {
+      that._set_tax_type(detail, json.tax_type);
+      that.updateTaxAmount(detail);
+    });
+    
+    $.get(that.options.get_account_detail_path, params, function(html) {
+        $('#journal_details_' + params.detail_no + '_account_detail').html(html);
+      });
+      
+    if (that.options.branch_mode) {
+      $.get(that.options.get_allocation_path, params, function(html) {
+        $('#jd_' + params.detail_no + '_allocation').html(html);
+      });
+    }
+  })
+  .delegate('input[name*="\\[ym\\]"]', 'change', function() {
     that._refresh_tax_amount_all();
   })
   .delegate('select[name*="\\[dc_type\\]"]', 'change', function() {
@@ -260,6 +299,10 @@ hyacc.Journal.prototype._remove_detail = function(trigger) {
   tr3.remove();
   tr2.remove();
   tr.remove();
+};
+
+hyacc.Journal.prototype._set_tax_type = function(detail, tax_type) {
+  $(detail).find('select[name*="\\[tax_type\\]"]').val(tax_type);
 };
 
 hyacc.Journal.prototype._validate_amount = function() {

@@ -97,7 +97,7 @@ Rails.application.routes.draw do
       get 'delete_receipt'
       get 'get_account_detail'
       get 'get_allocation'
-      get 'update_tax_type'
+      get 'get_tax_type'
     end
     member do
       get 'download_receipt'

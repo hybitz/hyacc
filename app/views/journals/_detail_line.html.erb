@@ -1,4 +1,4 @@
-<tr id="journal_details_<%= jd.detail_no %>" data-detail_no="<%= jd.detail_no %>">
+<tr id="journal_details_<%= jd.detail_no %>" data-detail_id="<%= jd.id %>" data-detail_no="<%= jd.detail_no %>">
   <td nowrap>
     <input type="hidden" name="journal_details[<%= jd.detail_no %>][id]" value="<%= jd.id %>"/>
     <input type="hidden" name="journal_details[<%= jd.detail_no %>][detail_no]" value="<%= jd.detail_no %>"/>
@@ -27,45 +27,6 @@
   <td>
     <%= collection_select_code_and_name("journal_details[" + jd.detail_no.to_s + "]", "account_id", @accounts, "id", "name",
           {:selected=>jd.account_id, :frequencies=>@frequencies}, {:class=>"accountSelect"}) %>
-    <script>
-      $('#journal_details_<%= jd.detail_no %>_account_id').change(function() {
-        var that = this;
-
-        $.get('<%= sub_accounts_path(:format => 'json') %>',
-          {
-            order: 'code',
-            account_id: $(this).val()
-          },
-          function(json) {
-            replace_options('#journal_details_<%= jd.detail_no %>_sub_account_id', json);
-          });
-          
-        $.getJSON('<%= url_for :action => 'update_tax_type' %>', {account_id: $(this).val()}, function(json) {
-          $('#journal_details_<%= jd.detail_no %>_tax_type').val(json.tax_type);
-          journal.updateTaxAmount(that);
-        });
-        
-        $.get('<%= url_for :action => 'get_account_detail', :detail_id => jd.id, :detail_no => jd.detail_no %>',
-          {
-            account_id: $(this).val()
-          },
-          function(html) {
-            $('#journal_details_<%= jd.detail_no %>_account_detail').html(html);
-          });
-          
-          <% if branch_mode %>
-            $.get('<%= url_for :action => 'get_allocation', :detail_no => jd.detail_no %>',
-              {
-                account_id: $(this).val(),
-                branch_id: $('#journal_details_<%= jd.detail_no %>_branch_id').val(),
-                dc_type: $('#journal_details_<%= jd.detail_no %>_dc_type').val()
-              },
-              function(html) {
-                $('#jd_<%= jd.detail_no %>_allocation').html(html);
-              });
-          <% end %>
-      });
-    </script>
   </td>
   <td>
     <% if jd.account and not jd.account.sub_accounts.empty? %>

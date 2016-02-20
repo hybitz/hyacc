@@ -4,34 +4,6 @@
     return checkExclusive(element.form, element.name, '自動振替は複数指定できません。');
   }
   
-  // 自動振替時の日付必須チェック
-  function checkAutoTransferDate( form, idPrefix, namePrefix, message ) {
-    var elementName = namePrefix + '[auto_journal_type]';
-    
-    var autoJournalType = 0;
-    for ( var i = 0; i < form.elements.length; i ++ ) {
-      var elem = form.elements[i];
-      if ( ! elem.name ) continue;
-      if ( elem.name == elementName && elem.checked ) {
-        autoJournalType = elem.value;
-        break;
-      }
-    }
-    
-    if ( autoJournalType == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ) {
-      var year = toInt( document.getElementById(idPrefix + '_auto_journal_year').value );
-      var month = toInt( document.getElementById(idPrefix + '_auto_journal_month').value );
-      var day = toInt( document.getElementById(idPrefix + '_auto_journal_day').value );
-
-      if ( ! checkDate(year, month, day) ) {
-        alert(message);
-        return false;
-      }
-    }
-  
-    return true;
-  }
-
   function updateTaxAmountAll(form) {
     var details = [];
     var table = $(form).find('tr[id^="journal_details_"]').each(function() {
@@ -117,26 +89,6 @@
     
     document.getElementById('journal_debit_amount_sum').innerHTML = toAmount( debitAmount );
     document.getElementById('journal_credit_amount_sum').innerHTML = toAmount( creditAmount );
-  }
-  
-  // 全明細の自動振替日付チェック
-  function checkAutoJournalDates( form ) {
-    var detailTrs = journal.get_details();
-    for ( var i = 0; i < detailTrs.length; i ++ ) {
-      var detailTr = detailTrs[i];
-      
-      // TRのidからnameの接頭語を算出
-      var index = detailTr.id.lastIndexOf('_') + 1;
-      var namePrefix = 'journal_details[' + detailTr.id.substring(index) + ']';
-      
-      var result = checkAutoTransferDate( form, detailTr.id, namePrefix, '【明細' + (i+1) + '】振替日の指定が不正です。');
-      if ( ! result ) {
-        journal.show_detail(detailTr);
-        return false;  
-      }
-    }
-    
-    return true;
   }
   
   function flipDetails(show){

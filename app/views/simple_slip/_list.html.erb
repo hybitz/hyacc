@@ -227,6 +227,34 @@
     }
   }
   
+  // 自動振替時の日付必須チェック
+  function checkAutoTransferDate( form, idPrefix, namePrefix, message ) {
+    var elementName = namePrefix + '[auto_journal_type]';
+    
+    var autoJournalType = 0;
+    for ( var i = 0; i < form.elements.length; i ++ ) {
+      var elem = form.elements[i];
+      if ( ! elem.name ) continue;
+      if ( elem.name == elementName && elem.checked ) {
+        autoJournalType = elem.value;
+        break;
+      }
+    }
+    
+    if ( autoJournalType == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ) {
+      var year = toInt( document.getElementById(idPrefix + '_auto_journal_year').value );
+      var month = toInt( document.getElementById(idPrefix + '_auto_journal_month').value );
+      var day = toInt( document.getElementById(idPrefix + '_auto_journal_day').value );
+
+      if ( ! checkDate(year, month, day) ) {
+        alert(message);
+        return false;
+      }
+    }
+  
+    return true;
+  }
+
   function validateSlip(form) {
     if (validateAmountOnOneSide(form, true) == null) {
       return false;

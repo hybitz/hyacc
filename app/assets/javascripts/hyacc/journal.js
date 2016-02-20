@@ -34,6 +34,32 @@ hyacc.Journal.prototype.check_auto_journal_types = function() {
   return true;
 };
 
+// 自動振替時の日付必須チェック
+hyacc.Journal.prototype.check_auto_journal_dates = function() {
+  var errors = [];
+
+  var that = this;
+  this._get_details().each(function(i) {
+    if (that._get_auto_journal_type(this) == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE) {
+      var year = toInt(that._get_auto_journal_year(this));
+      var month = toInt(that._get_auto_journal_month(this));
+      var day = toInt(that._get_auto_journal_day(this));
+
+      if (! checkDate(year, month, day)) {
+        errors.push('【明細' + (i+1) + '】振替日の指定が不正です。');
+        that.show_detail(this);
+      }
+    }
+  });
+
+  if (errors.length > 0) {
+    alert(errors.join('\n'));
+    return false;
+  }
+
+  return true;
+};
+
 hyacc.Journal.prototype.get_details = function() {
   var ret = [];
 
@@ -84,6 +110,35 @@ hyacc.Journal.prototype.validate_amount_balance = function() {
   }
 
   return true;
+};
+
+hyacc.Journal.prototype._get_auto_journal_type = function(detail) {
+  var tr = detail;
+  for (var i = 0; i < 3; i ++) {
+    var tr = $(tr).next();
+    var checkbox = $(tr).find('input[name*="\\[auto_journal_type\\]"]');
+    var checked = checkbox.prop('checked');
+    if (checked) {
+      return checkbox.val();
+    }
+  }
+
+  return null;  
+};
+
+hyacc.Journal.prototype._get_auto_journal_year = function(detail) {
+  var tr = $(detail).next().next().next();
+  return $(tr).find('input[name*="\\[auto_journal_year\\]"]').val();
+};
+
+hyacc.Journal.prototype._get_auto_journal_month = function(detail) {
+  var tr = $(detail).next().next().next();
+  return $(tr).find('input[name*="\\[auto_journal_month\\]"]').val();
+};
+
+hyacc.Journal.prototype._get_auto_journal_day = function(detail) {
+  var tr = $(detail).next().next().next();
+  return $(tr).find('input[name*="\\[auto_journal_day\\]"]').val();
 };
 
 hyacc.Journal.prototype._get_details = function() {

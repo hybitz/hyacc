@@ -6,7 +6,7 @@ rvm:
   - 2.1.6
 before_script:
   - cp -f travis/database.yml config/
-  - bundle exec rake dad:db:create NO_ROOT_PASSWORD=true
+  - bundle exec rake dad:db:create DAD_MYSQL_NO_ROOT_PASSWORD=true
   - bundle exec rake db:schema:load
 script:
   - bundle exec rake test

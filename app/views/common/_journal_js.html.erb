@@ -1,17 +1,4 @@
 <script>
-  function updateTaxAmountAll(form) {
-    var details = [];
-    var table = $(form).find('tr[id^="journal_details_"]').each(function() {
-      if ($(this).attr('id').split('_').length == 3) {
-        details.push($(this).attr('id'));
-      }
-    });
-    
-    for (var i = 0; i < details.length; i ++) {
-      updateTaxAmount(details[i]);
-    }
-  }
-
   function updateTaxAmount( detailId ) {
     var detailTr = document.getElementById( detailId );
     var taxAmountField = document.getElementById( detailTr.id + '_tax_amount' );
@@ -42,7 +29,7 @@
       taxAmountField.disabled = null;
     }
     
-    journal.refreshTotalAmount();
+    journal.refresh_total_amount();
   }
 
   function flipDetails(show){

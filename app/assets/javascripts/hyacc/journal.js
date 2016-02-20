@@ -3,7 +3,7 @@ hyacc.Journal = function(options) {
   this._init();
 };
 
-hyacc.Journal.prototype.refreshTotalAmount = function() {
+hyacc.Journal.prototype.refresh_total_amount = function() {
   var debitAmount = 0;
   var creditAmount = 0;
 
@@ -147,6 +147,10 @@ hyacc.Journal.prototype._get_dc_type = function(detail) {
   return $(detail).find('select[name*="\\[dc_type\\]"]').val();
 };
 
+hyacc.Journal.prototype._get_details = function() {
+  return $(this.selector).find('.journal_details').find('tr[data-detail_no]');
+};
+
 hyacc.Journal.prototype._get_input_amount = function(detail) {
   return $(detail).find('input[name*="\\[input_amount\\]"]').val();
 };
@@ -159,14 +163,11 @@ hyacc.Journal.prototype._get_tax_type = function(detail) {
   return $(detail).find('select[name*="\\[tax_type\\]"]').val();
 };
 
-hyacc.Journal.prototype._get_details = function() {
-  return $(this.selector).find('.journal_details').find('tr[data-detail_no]');
-};
-
 hyacc.Journal.prototype._init = function() {
   this._init_shortcut();
   this._init_validation();
   this._init_event_handlers();
+  this.refresh_total_amount();
 };
 
 hyacc.Journal.prototype._init_shortcut = function() {
@@ -190,16 +191,19 @@ hyacc.Journal.prototype._init_shortcut = function() {
 
 hyacc.Journal.prototype._init_event_handlers = function() {
   var that = this;
-  $(this.selector).delegate('select[name*="\\[dc_type\\]"]', 'change', function() {
-    calcTotalAmount();
+  $(this.selector).delegate('input[name*="\\[ym\\]"]', 'change', function() {
+    that._refresh_tax_amount_all();
+  })
+  .delegate('select[name*="\\[dc_type\\]"]', 'change', function() {
+    this.refresh_total_amount();
   })
   .delegate('.delete_detail_button', 'click', function() {
     that._remove_detail(this);
-    that.refreshTotalAmount();
+    that.refresh_total_amount();
     return false;
   })
   .delegate('input[name*="\\[tax_amount\\]"]', 'change', function() {
-    that.refreshTotalAmount();
+    that.refresh_total_amount();
   });
 };
 
@@ -207,6 +211,12 @@ hyacc.Journal.prototype._init_validation = function() {
   var that = this;
   $(this.selector).submit(function() {
     return that._validate_journal();
+  });
+};
+
+hyacc.Journal.prototype._refresh_tax_amount_all = function() {
+  this._get_details().each(function() {
+    updateTaxAmount($(this).attr('id'));
   });
 };
 

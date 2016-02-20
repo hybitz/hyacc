@@ -13,6 +13,13 @@ hyacc.Journal.prototype.get_details = function() {
   return ret;
 };
 
+hyacc.Journal.prototype.show_detail = function(tr) {
+  for (var i = 0; i < 3; i ++) {
+    var tr = $(tr).next();
+    tr.show();
+  }
+};
+
 hyacc.Journal.prototype.validate_amount = function() {
   var errors = [];
 

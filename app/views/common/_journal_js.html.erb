@@ -119,13 +119,6 @@
     document.getElementById('journal_credit_amount_sum').innerHTML = toAmount( creditAmount );
   }
   
-  function showDetailIfHidden(trId) {
-    var detail2 = document.getElementById(trId + '_2');
-    if (detail2.style.display == 'none') {
-      flipDetail(trId);
-    }
-  }
-  
   // 全明細の自動振替の単一選択チェック
   function checkAutoJournalTypes( form ) {
     var detailTrs = journal.get_details();
@@ -134,7 +127,7 @@
         
       var result = checkExclusive(form, document.getElementById( detailTr.id + '_auto_journal_type').name, '【明細' + (i+1) + '】自動振替は複数指定できません。');
       if ( ! result ) {
-        showDetailIfHidden(detailTr.id);
+        journal.show_detail(detailTr);
         return false;  
       }
     }
@@ -154,7 +147,7 @@
       
       var result = checkAutoTransferDate( form, detailTr.id, namePrefix, '【明細' + (i+1) + '】振替日の指定が不正です。');
       if ( ! result ) {
-        showDetailIfHidden(detailTr.id);
+        journal.show_detail(detailTr);
         return false;  
       }
     }

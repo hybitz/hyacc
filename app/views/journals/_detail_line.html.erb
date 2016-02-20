@@ -7,7 +7,7 @@
     <% end %>
 
     <%= select_tag("journal_details[" + jd.detail_no.to_s + "][dc_type]", options_for_select( dc_types, jd.dc_type ),
-               {:class=>'dcTypeSelect', :onchange=>"calcTotalAmount();"})%>
+               {:class=>'dcTypeSelect'}) %>
     <% if branch_mode %>
       <script>
         $('#journal_details_<%= jd.detail_no %>_dc_type').change(function() {
@@ -117,7 +117,7 @@
   <td class="amount">
     <input type="text" id="journal_details_<%= jd.detail_no %>_tax_amount" class="amountText"
            name="journal_details[<%= jd.detail_no %>][tax_amount]"
-           value="<%= jd.tax_amount.to_i %>" onchange="calcTotalAmount();"/>
+           value="<%= jd.tax_amount.to_i %>" />
   </td>
   <td class="amount" nowrap>
     <span id="journal_details_<%= jd.detail_no %>_amount_sum"></span>
@@ -126,7 +126,7 @@
     <a id="journal_details_<%= jd.detail_no %>_link" href="javascript:flipDetail('journal_details_<%= jd.detail_no %>');"><%= message_for_details %></a>
   </td>
   <td nowrap>
-    <a href="#" onclick="removeDetail('journal_details_<%= jd.detail_no %>'); calcTotalAmount();">削除</a>
+    <a href="#" class="delete_detail_button");">削除</a>
   </td>
 </tr>
 <tr id="journal_details_<%= jd.detail_no %>_2" style="<%= style_for_details %>">

@@ -113,6 +113,7 @@ hyacc.Journal.prototype._get_details = function() {
 hyacc.Journal.prototype._init = function() {
   this._init_shortcut();
   this._init_validation();
+  this._init_event_handlers();
 };
 
 hyacc.Journal.prototype._init_shortcut = function() {
@@ -134,11 +135,38 @@ hyacc.Journal.prototype._init_shortcut = function() {
   });
 };
 
+hyacc.Journal.prototype._init_event_handlers = function() {
+  var that = this;
+  $(this.selector).delegate('select[name*="\\[dc_type\\]"]', 'change', function() {
+    calcTotalAmount();
+  })
+  .delegate('.delete_detail_button', 'click', function() {
+    that._remove_detail(this);
+    calcTotalAmount();
+    return false;
+  })
+  .delegate('input[name*="\\[tax_amount\\]"]', 'change', function() {
+    calcTotalAmount();
+  });
+};
+
 hyacc.Journal.prototype._init_validation = function() {
   var that = this;
   $(this.selector).submit(function() {
     return that._validate_journal();
   });
+};
+
+hyacc.Journal.prototype._remove_detail = function(trigger) {
+  var tr = $(trigger).closest('tr[data-detail_no]');
+  var tr2 = tr.next();
+  var tr3 = tr2.next();
+  var tr4 = tr3.next();
+
+  tr4.remove();
+  tr3.remove();
+  tr2.remove();
+  tr.remove();
 };
 
 hyacc.Journal.prototype._validate_amount = function() {

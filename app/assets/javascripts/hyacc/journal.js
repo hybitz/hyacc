@@ -3,6 +3,37 @@ hyacc.Journal = function(options) {
   this._init();
 };
 
+// 全明細の自動振替の単一選択チェック
+hyacc.Journal.prototype.check_auto_journal_types = function() {
+  var errors = [];
+
+  var that = this;
+  this._get_details().each(function(i) {
+    var tr = $(this);
+    var count = 0;
+
+    for (var j = 0; j < 3; j ++) {
+      var tr = $(tr).next();
+      var checked = $(tr).find('input[name*="\\[auto_journal_type\\]"]').prop('checked');
+      if (checked) {
+        count ++;
+      }
+    }
+
+    if (count > 1) {
+      errors.push('【明細' + (i+1) + '】自動振替は複数指定できません。');
+      that.show_detail(this);
+    }
+  });
+
+  if (errors.length > 0) {
+    alert(errors.join('\n'));
+    return false;
+  }
+
+  return true;
+};
+
 hyacc.Journal.prototype.get_details = function() {
   var ret = [];
 

@@ -2,7 +2,7 @@
   var journal;
 
   function validateJournal( form ) {
-    if ( ! checkAutoJournalTypes( form ) ) {
+    if (! journal.check_auto_journal_types()) {
       return false;
     }
     

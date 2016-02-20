@@ -119,22 +119,6 @@
     document.getElementById('journal_credit_amount_sum').innerHTML = toAmount( creditAmount );
   }
   
-  // 全明細の自動振替の単一選択チェック
-  function checkAutoJournalTypes( form ) {
-    var detailTrs = journal.get_details();
-    for ( var i = 0; i < detailTrs.length; i ++ ) {
-      var detailTr = detailTrs[i];
-        
-      var result = checkExclusive(form, document.getElementById( detailTr.id + '_auto_journal_type').name, '【明細' + (i+1) + '】自動振替は複数指定できません。');
-      if ( ! result ) {
-        journal.show_detail(detailTr);
-        return false;  
-      }
-    }
-    
-    return true;
-  }
-  
   // 全明細の自動振替日付チェック
   function checkAutoJournalDates( form ) {
     var detailTrs = journal.get_details();

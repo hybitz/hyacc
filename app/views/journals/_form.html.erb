@@ -1,34 +1,10 @@
 <script>
   var journal;
 
-  function validateJournal( form ) {
-    if (! journal.check_auto_journal_types()) {
-      return false;
-    }
-    
-    if (! journal.check_auto_journal_dates()) {
-      return false;
-    }
-
-    if (! journal.validate_amount()) {
-        return false;
-    }
-
-    if (! journal.validate_amount_balance()) {
-        return false;
-    }
-    
-    return true;
-  }
-
   $(document).ready(function() {
     journal = new hyacc.Journal({selector: '#journal_form'});
 
     calcTotalAmount();
-    
-    $('#journal_form').submit(function() {
-      return validateJournal(this);
-    });
   });
 </script>
 

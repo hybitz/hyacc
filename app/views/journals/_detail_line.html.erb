@@ -120,7 +120,7 @@
            value="<%= jd.tax_amount.to_i %>" />
   </td>
   <td class="amount" nowrap>
-    <span id="journal_details_<%= jd.detail_no %>_amount_sum"></span>
+    <span id="journal_details_<%= jd.detail_no %>_amount_sum" class="amount_sum"></span>
   </td>
   <td nowrap>
     <a id="journal_details_<%= jd.detail_no %>_link" href="javascript:flipDetail('journal_details_<%= jd.detail_no %>');"><%= message_for_details %></a>
@@ -192,13 +192,15 @@
 <%# 消費税を初期化する %>
 <%# 非課税の場合は消費税入力欄を非活性にする %>
 <script>
-  var detailTr = document.getElementById('journal_details_<%= jd.detail_no %>');
-  var taxAmountField = document.getElementById( detailTr.id + '_tax_amount' );
-  var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
-
-  if ( taxType == tax.NONTAXABLE ) {
-    taxAmountField.value = "";
-    taxAmountField.disabled = 'disabled';
-  }
+  $(document).ready(function() {
+    var detailTr = document.getElementById('journal_details_<%= jd.detail_no %>');
+    var taxAmountField = document.getElementById( detailTr.id + '_tax_amount' );
+    var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
+  
+    if ( taxType == tax.NONTAXABLE ) {
+      taxAmountField.value = "";
+      taxAmountField.disabled = 'disabled';
+    }
+  });
 </script>
   

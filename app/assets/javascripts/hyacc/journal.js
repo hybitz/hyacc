@@ -3,6 +3,43 @@ hyacc.Journal = function(options) {
   this._init();
 };
 
+hyacc.Journal.prototype.refreshTotalAmount = function() {
+  var debitAmount = 0;
+  var creditAmount = 0;
+
+  var that = this;
+  this._get_details().each(function() {
+    var amount = parseInt(that._get_input_amount(this));
+    if (isNaN(amount)) {
+      amount = 0;
+    }
+    
+    var taxAmount = parseInt(that._get_tax_amount(this));
+    if (isNaN(taxAmount)) {
+      taxAmount = 0;
+    }
+
+    var taxType = that._get_tax_type(this);
+    if (taxType == tax.EXCLUSIVE) {
+      amount += taxAmount;
+    }
+    
+    $(this).find('span.amount_sum').text(toAmount(amount));
+
+    var dcType = that._get_dc_type(this);
+    if (dcType == DC_TYPE_DEBIT) {
+      debitAmount += amount;
+    } else if (dcType == DC_TYPE_CREDIT) {
+      creditAmount += amount;
+    } else {
+      alert('貸借が不正です。');
+    }
+  });
+
+  $(this.selector).find('.journal_debit_amount_sum').text(toAmount(debitAmount));
+  $(this.selector).find('.journal_credit_amount_sum').text(toAmount(creditAmount));
+};
+
 hyacc.Journal.prototype.get_details = function() {
   var ret = [];
 
@@ -106,6 +143,22 @@ hyacc.Journal.prototype._get_auto_journal_day = function(detail) {
   return $(tr).find('input[name*="\\[auto_journal_day\\]"]').val();
 };
 
+hyacc.Journal.prototype._get_dc_type = function(detail) {
+  return $(detail).find('select[name*="\\[dc_type\\]"]').val();
+};
+
+hyacc.Journal.prototype._get_input_amount = function(detail) {
+  return $(detail).find('input[name*="\\[input_amount\\]"]').val();
+};
+
+hyacc.Journal.prototype._get_tax_amount = function(detail) {
+  return $(detail).find('input[name*="\\[tax_amount\\]"]').val();
+};
+
+hyacc.Journal.prototype._get_tax_type = function(detail) {
+  return $(detail).find('select[name*="\\[tax_type\\]"]').val();
+};
+
 hyacc.Journal.prototype._get_details = function() {
   return $(this.selector).find('.journal_details').find('tr[data-detail_no]');
 };
@@ -142,11 +195,11 @@ hyacc.Journal.prototype._init_event_handlers = function() {
   })
   .delegate('.delete_detail_button', 'click', function() {
     that._remove_detail(this);
-    calcTotalAmount();
+    that.refreshTotalAmount();
     return false;
   })
   .delegate('input[name*="\\[tax_amount\\]"]', 'change', function() {
-    calcTotalAmount();
+    that.refreshTotalAmount();
   });
 };
 
@@ -188,8 +241,8 @@ hyacc.Journal.prototype._validate_amount = function() {
 };
   
 hyacc.Journal.prototype._validate_amount_balance = function() {
-  var debit = $('#journal_debit_amount_sum').text();
-  var credit = $('#journal_credit_amount_sum').text();
+  var debit = $(this.selector).find('.journal_debit_amount_sum').text();
+  var credit = $(this.selector).find('.journal_credit_amount_sum').text();
   
   if (debit != credit) {
     alert('貸借の金額が一致しません。');

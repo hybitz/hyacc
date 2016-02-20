@@ -42,50 +42,9 @@
       taxAmountField.disabled = null;
     }
     
-    calcTotalAmount();
+    journal.refreshTotalAmount();
   }
 
-  function calcTotalAmount() {
-    var debitAmount = 0;
-    var creditAmount = 0;
-  
-    var detailTrs = journal.get_details();
-    for ( var i = 0; i < detailTrs.length; i ++ ) {
-        var detailTr = detailTrs[i];
-        
-        var amount = parseInt( document.getElementById( detailTr.id + '_input_amount' ).value );
-        if ( isNaN( amount ) ) {
-          amount = 0;
-        }
-        
-        var taxAmount = parseInt( document.getElementById( detailTr.id + '_tax_amount' ).value );
-        if ( isNaN( taxAmount ) ) {
-          taxAmount = 0;
-        }
-        
-        var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
-        if ( taxType == tax.EXCLUSIVE ) {
-          amount += taxAmount;
-        }
-        
-        document.getElementById( detailTr.id + '_amount_sum').innerHTML = toAmount( amount );
-
-        var dcType = document.getElementById( detailTr.id + '_dc_type' ).value;
-        if ( dcType == DC_TYPE_DEBIT ) {
-          debitAmount += amount;
-        }
-        else if ( dcType == DC_TYPE_CREDIT ) {
-          creditAmount += amount;
-        }
-        else {
-          alert('貸借が不正です。');
-        }
-    }
-    
-    document.getElementById('journal_debit_amount_sum').innerHTML = toAmount( debitAmount );
-    document.getElementById('journal_credit_amount_sum').innerHTML = toAmount( creditAmount );
-  }
-  
   function flipDetails(show){
     var detailTrs = journal.get_details();
     

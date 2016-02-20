@@ -39,6 +39,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 group :development, :test do
+  gem 'quiet_assets'
   gem 'rubocop', :require => false
   gem 'thin'
 end

@@ -209,6 +209,8 @@ GEM
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     powerpack (0.1.1)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.5.5)
     rack-protection (1.5.3)
       rack
@@ -382,6 +384,7 @@ DEPENDENCIES
   minitest-reporters
   momentjs-rails
   mysql2 (~> 0.3.20)
+  quiet_assets
   rails (= 4.1.14.1)
   rails-csv-fixtures!
   rails-i18n

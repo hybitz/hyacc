@@ -38,13 +38,10 @@
             replace_options('#journal_details_<%= jd.detail_no %>_sub_account_id', json);
           });
           
-        $.get('<%= url_for :action => 'update_tax_type' %>',
-          {
-            format: 'js',
-            detail_no: <%= jd.detail_no %>,
-            account_id: $(this).val()
-          }
-        );
+        $.getJSON('<%= url_for :action => 'update_tax_type' %>', {account_id: $(this).val()}, function(json) {
+          $('#journal_details_<%= jd.detail_no %>_tax_type').val(json.tax_type);
+          journal.updateTaxAmount('journal_details_<%= jd.detail_no %>');
+        });
         
         $.get('<%= url_for :action => 'get_account_detail', :detail_id => jd.id, :detail_no => jd.detail_no %>',
           {
@@ -102,16 +99,16 @@
   <td class="amount">
     <input type="text" id="journal_details_<%= jd.detail_no %>_input_amount" class="amountText"
            name="journal_details[<%= jd.detail_no %>][input_amount]"
-           value="<%= jd.input_amount.to_i %>" onchange="updateTaxAmount('journal_details_<%= jd.detail_no %>');"/>
+           value="<%= jd.input_amount.to_i %>" onchange="journal.updateTaxAmount('journal_details_<%= jd.detail_no %>');"/>
   </td>
   <td nowrap>
     <select id="journal_details_<%= jd.detail_no %>_tax_type" name="journal_details[<%= jd.detail_no %>][tax_type]" class="taxTypeSelect"
-            onChange="updateTaxAmount('journal_details_<%= jd.detail_no %>');">
+            onChange="journal.updateTaxAmount('journal_details_<%= jd.detail_no %>');">
       <%= options_for_select( tax_types, jd.tax_type ) %>
     </select>
     <input type="text" id="journal_details_<%= jd.detail_no %>_tax_rate_percent" class="taxRatePercentText"
            name="journal_details[<%= jd.detail_no %>][tax_rate_percent]"
-           value="<%= jd.tax_rate_percent unless jd.tax_type_nontaxable? %>" onchange="updateTaxAmount('journal_details_<%= jd.detail_no %>');"/>
+           value="<%= jd.tax_rate_percent unless jd.tax_type_nontaxable? %>" onchange="journal.updateTaxAmount('journal_details_<%= jd.detail_no %>');"/>
     %
   </td>
   <td class="amount">

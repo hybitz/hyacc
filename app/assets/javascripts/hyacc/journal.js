@@ -3,6 +3,39 @@ hyacc.Journal = function(options) {
   this._init();
 };
 
+hyacc.Journal.prototype.updateTaxAmount = function( detailId ) {
+  var detailTr = document.getElementById( detailId );
+  var taxAmountField = document.getElementById( detailTr.id + '_tax_amount' );
+  var amount = parseInt( document.getElementById( detailTr.id + '_input_amount' ).value );
+  var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
+  var ymField = document.getElementById('journal_ym');
+  var taxRatePercentField = document.getElementById( detailTr.id + '_tax_rate_percent' );
+
+  var date = ymField.value.substring(0, 4) + '-' + ymField.value.substring(4, 6) + '-01';
+  var taxRate = tax.getRateOn(date);
+
+  // 非課税の場合は消費税入力欄を非活性にする
+  if ( taxType == tax.NONTAXABLE ) {
+    taxRatePercentField.value = '';
+    taxAmountField.value = '';
+    taxAmountField.disabled = 'disabled';
+  }
+  // 内税の場合は消費税を自動計算する
+  else if ( taxType == tax.INCLUSIVE ) {
+    taxRatePercentField.value = taxRate * 100;
+    taxAmountField.value = tax.calcTaxAmount(taxType, taxRate, amount);
+    taxAmountField.disabled = null;
+  }
+  // 外税の場合は消費税を自動計算する
+  else if ( taxType == tax.EXCLUSIVE ) {
+    taxRatePercentField.value = taxRate * 100;
+    taxAmountField.value = tax.calcTaxAmount(taxType, taxRate, amount);
+    taxAmountField.disabled = null;
+  }
+  
+  journal.refresh_total_amount();
+};
+
 hyacc.Journal.prototype.refresh_total_amount = function() {
   var debitAmount = 0;
   var creditAmount = 0;
@@ -215,8 +248,9 @@ hyacc.Journal.prototype._init_validation = function() {
 };
 
 hyacc.Journal.prototype._refresh_tax_amount_all = function() {
+  var that = this;
   this._get_details().each(function() {
-    updateTaxAmount($(this).attr('id'));
+    that.updateTaxAmount($(this).attr('id'));
   });
 };
 

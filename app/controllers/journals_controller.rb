@@ -182,6 +182,8 @@ class JournalsController < Base::HyaccController
         @tax_type = selected_account.tax_type
       end
     end
+
+    render :json => {:tax_type => @tax_type}
   end
 
   def destroy

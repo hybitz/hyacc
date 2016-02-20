@@ -195,7 +195,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     that._refresh_tax_amount_all();
   })
   .delegate('select[name*="\\[dc_type\\]"]', 'change', function() {
-    this.refresh_total_amount();
+    that.refresh_total_amount();
   })
   .delegate('.delete_detail_button', 'click', function() {
     that._remove_detail(this);

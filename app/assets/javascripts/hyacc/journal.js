@@ -3,34 +3,27 @@ hyacc.Journal = function(options) {
   this._init();
 };
 
-hyacc.Journal.prototype.updateTaxAmount = function( detailId ) {
-  var detailTr = document.getElementById( detailId );
-  var taxAmountField = document.getElementById( detailTr.id + '_tax_amount' );
-  var amount = parseInt( document.getElementById( detailTr.id + '_input_amount' ).value );
-  var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
-  var ymField = document.getElementById('journal_ym');
-  var taxRatePercentField = document.getElementById( detailTr.id + '_tax_rate_percent' );
+hyacc.Journal.prototype.updateTaxAmount = function(trigger) {
+  var detailTr = $(trigger).closest('tr[data-detail_no]');
+  var taxAmountField = $('#' + detailTr.attr('id') + '_tax_amount' );
+  var ymField = $('#journal_ym');
+  var taxRatePercentField = $('#' + detailTr.attr('id') + '_tax_rate_percent');
 
-  var date = ymField.value.substring(0, 4) + '-' + ymField.value.substring(4, 6) + '-01';
+  var amount = parseInt(this._get_input_amount(detailTr));
+  var taxType = this._get_tax_type(detailTr);
+
+  var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
   var taxRate = tax.getRateOn(date);
 
-  // 非課税の場合は消費税入力欄を非活性にする
-  if ( taxType == tax.NONTAXABLE ) {
-    taxRatePercentField.value = '';
-    taxAmountField.value = '';
-    taxAmountField.disabled = 'disabled';
-  }
-  // 内税の場合は消費税を自動計算する
-  else if ( taxType == tax.INCLUSIVE ) {
-    taxRatePercentField.value = taxRate * 100;
-    taxAmountField.value = tax.calcTaxAmount(taxType, taxRate, amount);
-    taxAmountField.disabled = null;
-  }
-  // 外税の場合は消費税を自動計算する
-  else if ( taxType == tax.EXCLUSIVE ) {
-    taxRatePercentField.value = taxRate * 100;
-    taxAmountField.value = tax.calcTaxAmount(taxType, taxRate, amount);
-    taxAmountField.disabled = null;
+  // 内税／外税の場合は消費税を計算
+  if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
+    taxRatePercentField.val(taxRate * 100);
+    taxAmountField.val(tax.calcTaxAmount(taxType, taxRate, amount));
+    taxAmountField.prop('disabled', false);
+  } else {
+    taxRatePercentField.val('');
+    taxAmountField.val('');
+    taxAmountField.prop('disabled', true);
   }
   
   journal.refresh_total_amount();
@@ -250,7 +243,7 @@ hyacc.Journal.prototype._init_validation = function() {
 hyacc.Journal.prototype._refresh_tax_amount_all = function() {
   var that = this;
   this._get_details().each(function() {
-    that.updateTaxAmount($(this).attr('id'));
+    that.updateTaxAmount(this);
   });
 };
 

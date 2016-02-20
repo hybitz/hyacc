@@ -173,17 +173,17 @@ class JournalsController < Base::HyaccController
   # 税抜経理方式の場合は、勘定科目の税区分を取得
   # それ以外は、非課税をデフォルトとする
   def update_tax_type
-    @tax_type = TAX_MANAGEMENT_TYPE_EXEMPT
+    tax_type = TAX_MANAGEMENT_TYPE_EXEMPT
 
     if params[:account_id].present?
       selected_account = Account.get( params[:account_id] )
       fy = current_user.company.current_fiscal_year
       if fy.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
-        @tax_type = selected_account.tax_type
+        tax_type = selected_account.tax_type
       end
     end
 
-    render :json => {:tax_type => @tax_type}
+    render :json => {:tax_type => tax_type}
   end
 
   def destroy

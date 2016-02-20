@@ -13,11 +13,14 @@ hyacc.Journal.prototype.updateTaxAmount = function(trigger) {
   var taxType = this._get_tax_type(detailTr);
 
   var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
-  var taxRate = tax.getRateOn(date);
+  var taxRate = taxRatePercentField.val() * 0.01;
+  if (! $(trigger).is('input[name*="\\[tax_rate_percent\\]"]')) {
+    taxRate = tax.getRateOn(date);
+  }
 
   // 内税／外税の場合は消費税を計算
   if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
-    taxRatePercentField.val(taxRate * 100);
+    taxRatePercentField.val(parseInt(taxRate * 100));
     taxAmountField.val(tax.calcTaxAmount(taxType, taxRate, amount));
     taxAmountField.prop('disabled', false);
   } else {
@@ -25,7 +28,7 @@ hyacc.Journal.prototype.updateTaxAmount = function(trigger) {
     taxAmountField.val('');
     taxAmountField.prop('disabled', true);
   }
-  
+
   journal.refresh_total_amount();
 };
 

@@ -118,19 +118,3 @@
   </td>
   <td></td>
 </tr>
-
-<%# 消費税を初期化する %>
-<%# 非課税の場合は消費税入力欄を非活性にする %>
-<script>
-  $(document).ready(function() {
-    var detailTr = document.getElementById('journal_details_<%= jd.detail_no %>');
-    var taxAmountField = document.getElementById( detailTr.id + '_tax_amount' );
-    var taxType = document.getElementById( detailTr.id + '_tax_type' ).value;
-  
-    if ( taxType == tax.NONTAXABLE ) {
-      taxAmountField.value = "";
-      taxAmountField.disabled = 'disabled';
-    }
-  });
-</script>
-  

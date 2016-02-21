@@ -139,11 +139,25 @@ hyacc.Journal.prototype._get_details = function() {
 };
 
 hyacc.Journal.prototype._get_input_amount = function(detail) {
-  return $(detail).find('input[name*="\\[input_amount\\]"]').val();
+  var ret = $(detail).find('input[name*="\\[input_amount\\]"]').val();
+
+  ret = parseInt(ret);
+  if (isNaN(ret)) {
+    ret = 0;
+  }
+
+  return ret;
 };
 
 hyacc.Journal.prototype._get_tax_amount = function(detail) {
-  return $(detail).find('input[name*="\\[tax_amount\\]"]').val();
+  var ret = $(detail).find('input[name*="\\[tax_amount\\]"]').val();
+
+  ret = parseInt(ret);
+  if (isNaN(ret)) {
+    ret = 0;
+  }
+
+  return ret;
 };
 
 hyacc.Journal.prototype._get_tax_type = function(detail) {
@@ -154,6 +168,7 @@ hyacc.Journal.prototype._init = function() {
   this._init_shortcut();
   this._init_validation();
   this._init_event_handlers();
+  this._refresh_tax_amount_all({visibility_only: true});
   this._refresh_total_amount();
 };
 
@@ -258,7 +273,9 @@ hyacc.Journal.prototype._refresh_allocation = function(detail) {
   }
 };
 
-hyacc.Journal.prototype._refresh_tax_amount = function(trigger) {
+hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
+  options = options || {};
+
   var detail = $(trigger).closest('tr[data-detail_no]');
   var taxAmountField = $('#' + detail.attr('id') + '_tax_amount' );
   var taxRatePercentField = $('#' + detail.attr('id') + '_tax_rate_percent');
@@ -266,31 +283,34 @@ hyacc.Journal.prototype._refresh_tax_amount = function(trigger) {
 
   // 内税／外税の場合は消費税を計算
   if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
-    var amount = parseInt(this._get_input_amount(detail));
-    var ymField = $('#journal_ym');
-    var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
+    if (!options.visibility_only) {
+      var amount = this._get_input_amount(detail);
+      var ymField = $('#journal_ym');
+      var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
 
-    var taxRate = taxRatePercentField.val() * 0.01;
-    if (! $(trigger).is('input[name*="\\[tax_rate_percent\\]"]')) {
-      taxRate = tax.getRateOn(date);
+      var taxRate = taxRatePercentField.val() * 0.01;
+      if (! $(trigger).is('input[name*="\\[tax_rate_percent\\]"]')) {
+        taxRate = tax.getRateOn(date);
+      }
+
+      taxRatePercentField.val(parseInt(taxRate * 100));
+      taxAmountField.val(tax.calcTaxAmount(taxType, taxRate, amount));
     }
 
-    taxRatePercentField.val(parseInt(taxRate * 100));
-    taxAmountField.val(tax.calcTaxAmount(taxType, taxRate, amount));
+    taxRatePercentField.prop('disabled', false);
     taxAmountField.prop('disabled', false);
   } else {
-    taxRatePercentField.val('');
-    taxAmountField.val('');
-    taxAmountField.prop('disabled', true);
+    taxRatePercentField.val('').prop('disabled', true);
+    taxAmountField.val('').prop('disabled', true);
   }
 
   this._refresh_total_amount();
 };
 
-hyacc.Journal.prototype._refresh_tax_amount_all = function() {
+hyacc.Journal.prototype._refresh_tax_amount_all = function(options) {
   var that = this;
   this._get_details().each(function() {
-    that._refresh_tax_amount(this);
+    that._refresh_tax_amount(this, options);
   });
 };
 
@@ -300,15 +320,8 @@ hyacc.Journal.prototype._refresh_total_amount = function() {
 
   var that = this;
   this._get_details().each(function() {
-    var amount = parseInt(that._get_input_amount(this));
-    if (isNaN(amount)) {
-      amount = 0;
-    }
-    
-    var taxAmount = parseInt(that._get_tax_amount(this));
-    if (isNaN(taxAmount)) {
-      taxAmount = 0;
-    }
+    var amount = that._get_input_amount(this);
+    var taxAmount = that._get_tax_amount(this);
 
     var taxType = that._get_tax_type(this);
     if (taxType == tax.EXCLUSIVE) {

@@ -26,16 +26,6 @@ hyacc.Journal.prototype.flip_details = function(show) {
   });
 };
 
-hyacc.Journal.prototype.get_details = function() {
-  var ret = [];
-
-  this._get_details().each(function() {
-    ret.push($(this).get(0));
-  });
-  
-  return ret;
-};
-
 hyacc.Journal.prototype.show_detail = function(tr) {
   for (var i = 0; i < 3; i ++) {
     var tr = $(tr).next();
@@ -100,6 +90,10 @@ hyacc.Journal.prototype._check_auto_journal_types = function() {
   return true;
 };
 
+hyacc.Journal.prototype._get_account_id = function(detail) {
+  return $(detail).find('select[name*="\\[account_id\\]"]').val();
+};
+
 hyacc.Journal.prototype._get_auto_journal_type = function(detail) {
   var tr = detail;
   for (var i = 0; i < 3; i ++) {
@@ -112,10 +106,6 @@ hyacc.Journal.prototype._get_auto_journal_type = function(detail) {
   }
 
   return null;  
-};
-
-hyacc.Journal.prototype._get_account_id = function(detail) {
-  return $(detail).find('select[name*="\\[account_id\\]"]').val();
 };
 
 hyacc.Journal.prototype._get_auto_journal_year = function(detail) {

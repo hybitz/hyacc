@@ -62,16 +62,15 @@
   <td class="amount">
     <input type="text" id="journal_details_<%= jd.detail_no %>_input_amount" class="amountText"
            name="journal_details[<%= jd.detail_no %>][input_amount]"
-           value="<%= jd.input_amount.to_i %>" onchange="journal.updateTaxAmount(this);"/>
+           value="<%= jd.input_amount.to_i %>" />
   </td>
   <td nowrap>
-    <select id="journal_details_<%= jd.detail_no %>_tax_type" name="journal_details[<%= jd.detail_no %>][tax_type]" class="taxTypeSelect"
-            onChange="journal.updateTaxAmount(this);">
+    <select id="journal_details_<%= jd.detail_no %>_tax_type" name="journal_details[<%= jd.detail_no %>][tax_type]" class="taxTypeSelect">
       <%= options_for_select( tax_types, jd.tax_type ) %>
     </select>
     <input type="text" id="journal_details_<%= jd.detail_no %>_tax_rate_percent" class="taxRatePercentText"
            name="journal_details[<%= jd.detail_no %>][tax_rate_percent]"
-           value="<%= jd.tax_rate_percent unless jd.tax_type_nontaxable? %>" onchange="journal.updateTaxAmount(this);"/>
+           value="<%= jd.tax_rate_percent unless jd.tax_type_nontaxable? %>" />
     %
   </td>
   <td class="amount">

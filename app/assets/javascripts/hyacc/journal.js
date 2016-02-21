@@ -270,11 +270,11 @@ hyacc.Journal.prototype._init_event_handlers = function() {
       that._set_tax_type(detail, json.tax_type);
       that.updateTaxAmount(detail);
     });
-    
+
     $.get(that.options.get_account_detail_path, params, function(html) {
         $('#journal_details_' + params.detail_no + '_account_detail').html(html);
       });
-      
+
     if (that.options.branch_mode) {
       $.get(that.options.get_allocation_path, params, function(html) {
         $('#jd_' + params.detail_no + '_allocation').html(html);
@@ -291,6 +291,15 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     that._remove_detail(this);
     that.refresh_total_amount();
     return false;
+  })
+  .delegate('input[name*="\\[input_amount\\]"]', 'change', function() {
+    that.updateTaxAmount(this);
+  })
+  .delegate('input[name*="\\[tax_rate_percent\\]"]', 'change', function() {
+    that.updateTaxAmount(this);
+  })
+  .delegate('select[name*="\\[tax_type\\]"]', 'change', function() {
+    that.updateTaxAmount(this);
   })
   .delegate('input[name*="\\[tax_amount\\]"]', 'change', function() {
     that.refresh_total_amount();

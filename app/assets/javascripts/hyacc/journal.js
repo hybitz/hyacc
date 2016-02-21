@@ -340,8 +340,8 @@ hyacc.Journal.prototype._refresh_total_amount = function() {
     }
   });
 
-  $(this.selector).find('.journal_debit_amount_sum').text(toAmount(debitAmount));
-  $(this.selector).find('.journal_credit_amount_sum').text(toAmount(creditAmount));
+  $(this.selector).find('.debit_amount_sum').text(toAmount(debitAmount));
+  $(this.selector).find('.credit_amount_sum').text(toAmount(creditAmount));
 };
 
 hyacc.Journal.prototype._remove_detail = function(trigger) {
@@ -379,8 +379,8 @@ hyacc.Journal.prototype._validate_amount = function() {
 };
   
 hyacc.Journal.prototype._validate_amount_balance = function() {
-  var debit = $(this.selector).find('.journal_debit_amount_sum').text();
-  var credit = $(this.selector).find('.journal_credit_amount_sum').text();
+  var debit = $(this.selector).find('.debit_amount_sum').text();
+  var credit = $(this.selector).find('.credit_amount_sum').text();
   
   if (debit != credit) {
     alert('貸借の金額が一致しません。');

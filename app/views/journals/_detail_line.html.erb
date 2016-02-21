@@ -14,7 +14,7 @@
           {:selected=>jd.account_id, :frequencies=>@frequencies}, {:class=>"accountSelect"}) %>
   </td>
   <td>
-    <% if jd.account and not jd.account.sub_accounts.empty? %>
+    <% if jd.account and jd.account.sub_accounts.present? %>
         <select id="journal_details_<%= jd.detail_no %>_sub_account_id" name="journal_details[<%= jd.detail_no %>][sub_account_id]" class="subAccountSelect">
           <%= options_for_select( to_options( jd.account.sub_accounts ), jd.sub_account_id ) %>
         </select>

@@ -12,7 +12,7 @@
   });
 </script>
 
-<%= form_for @journal, :html => {:id => "journal_form", :enctype => "multipart/form-data", :remote => true} do |f| %>
+<%= form_for @journal, :html => {:id => 'journal_form', :enctype => 'multipart/form-data', :remote => true} do |f| %>
   <%= flash_notice %>
   <%= f.hidden_field 'lock_version' %>
 

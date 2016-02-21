@@ -26,72 +26,6 @@ hyacc.Journal.prototype.flip_details = function(show) {
   });
 };
 
-hyacc.Journal.prototype.updateTaxAmount = function(trigger) {
-  var detailTr = $(trigger).closest('tr[data-detail_no]');
-  var taxAmountField = $('#' + detailTr.attr('id') + '_tax_amount' );
-  var ymField = $('#journal_ym');
-  var taxRatePercentField = $('#' + detailTr.attr('id') + '_tax_rate_percent');
-
-  var amount = parseInt(this._get_input_amount(detailTr));
-  var taxType = this._get_tax_type(detailTr);
-  var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
-
-  var taxRate = taxRatePercentField.val() * 0.01;
-  if (! $(trigger).is('input[name*="\\[tax_rate_percent\\]"]')) {
-    taxRate = tax.getRateOn(date);
-  }
-
-  // 内税／外税の場合は消費税を計算
-  if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
-    taxRatePercentField.val(parseInt(taxRate * 100));
-    taxAmountField.val(tax.calcTaxAmount(taxType, taxRate, amount));
-    taxAmountField.prop('disabled', false);
-  } else {
-    taxRatePercentField.val('');
-    taxAmountField.val('');
-    taxAmountField.prop('disabled', true);
-  }
-
-  this.refresh_total_amount();
-};
-
-hyacc.Journal.prototype.refresh_total_amount = function() {
-  var debitAmount = 0;
-  var creditAmount = 0;
-
-  var that = this;
-  this._get_details().each(function() {
-    var amount = parseInt(that._get_input_amount(this));
-    if (isNaN(amount)) {
-      amount = 0;
-    }
-    
-    var taxAmount = parseInt(that._get_tax_amount(this));
-    if (isNaN(taxAmount)) {
-      taxAmount = 0;
-    }
-
-    var taxType = that._get_tax_type(this);
-    if (taxType == tax.EXCLUSIVE) {
-      amount += taxAmount;
-    }
-    
-    $(this).find('span.amount_sum').text(toAmount(amount));
-
-    var dcType = that._get_dc_type(this);
-    if (dcType == DC_TYPE_DEBIT) {
-      debitAmount += amount;
-    } else if (dcType == DC_TYPE_CREDIT) {
-      creditAmount += amount;
-    } else {
-      alert('貸借が不正です。');
-    }
-  });
-
-  $(this.selector).find('.journal_debit_amount_sum').text(toAmount(debitAmount));
-  $(this.selector).find('.journal_credit_amount_sum').text(toAmount(creditAmount));
-};
-
 hyacc.Journal.prototype.get_details = function() {
   var ret = [];
 
@@ -230,7 +164,7 @@ hyacc.Journal.prototype._init = function() {
   this._init_shortcut();
   this._init_validation();
   this._init_event_handlers();
-  this.refresh_total_amount();
+  this._refresh_total_amount();
 };
 
 hyacc.Journal.prototype._init_shortcut = function() {
@@ -272,7 +206,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
       
     $.getJSON(that.options.get_tax_type_path, params, function(json) {
       that._set_tax_type(detail, json.tax_type);
-      that.updateTaxAmount(detail);
+      that._refresh_tax_amount(detail);
     });
 
     $.get(that.options.get_account_detail_path, params, function(html) {
@@ -287,25 +221,25 @@ hyacc.Journal.prototype._init_event_handlers = function() {
   })
   .delegate('select[name*="\\[dc_type\\]"]', 'change', function() {
     var detail = that._get_detail(this);
-    that.refresh_total_amount();
+    that._refresh_total_amount();
     that._refresh_allocation(detail);
   })
   .delegate('.delete_detail_button', 'click', function() {
     that._remove_detail(this);
-    that.refresh_total_amount();
+    that._refresh_total_amount();
     return false;
   })
   .delegate('input[name*="\\[input_amount\\]"]', 'change', function() {
-    that.updateTaxAmount(this);
+    that._refresh_tax_amount(this);
   })
   .delegate('input[name*="\\[tax_rate_percent\\]"]', 'change', function() {
-    that.updateTaxAmount(this);
+    that._refresh_tax_amount(this);
   })
   .delegate('select[name*="\\[tax_type\\]"]', 'change', function() {
-    that.updateTaxAmount(this);
+    that._refresh_tax_amount(this);
   })
   .delegate('input[name*="\\[tax_amount\\]"]', 'change', function() {
-    that.refresh_total_amount();
+    that._refresh_total_amount();
   })
   .delegate('input[name*="\\[ym\\]"]', 'change', function() {
     that._refresh_tax_amount_all();
@@ -334,11 +268,77 @@ hyacc.Journal.prototype._refresh_allocation = function(detail) {
   }
 };
 
+hyacc.Journal.prototype._refresh_tax_amount = function(trigger) {
+  var detailTr = $(trigger).closest('tr[data-detail_no]');
+  var taxAmountField = $('#' + detailTr.attr('id') + '_tax_amount' );
+  var ymField = $('#journal_ym');
+  var taxRatePercentField = $('#' + detailTr.attr('id') + '_tax_rate_percent');
+
+  var amount = parseInt(this._get_input_amount(detailTr));
+  var taxType = this._get_tax_type(detailTr);
+  var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
+
+  var taxRate = taxRatePercentField.val() * 0.01;
+  if (! $(trigger).is('input[name*="\\[tax_rate_percent\\]"]')) {
+    taxRate = tax.getRateOn(date);
+  }
+
+  // 内税／外税の場合は消費税を計算
+  if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
+    taxRatePercentField.val(parseInt(taxRate * 100));
+    taxAmountField.val(tax.calcTaxAmount(taxType, taxRate, amount));
+    taxAmountField.prop('disabled', false);
+  } else {
+    taxRatePercentField.val('');
+    taxAmountField.val('');
+    taxAmountField.prop('disabled', true);
+  }
+
+  this._refresh_total_amount();
+};
+
 hyacc.Journal.prototype._refresh_tax_amount_all = function() {
   var that = this;
   this._get_details().each(function() {
-    that.updateTaxAmount(this);
+    that._refresh_tax_amount(this);
   });
+};
+
+hyacc.Journal.prototype._refresh_total_amount = function() {
+  var debitAmount = 0;
+  var creditAmount = 0;
+
+  var that = this;
+  this._get_details().each(function() {
+    var amount = parseInt(that._get_input_amount(this));
+    if (isNaN(amount)) {
+      amount = 0;
+    }
+    
+    var taxAmount = parseInt(that._get_tax_amount(this));
+    if (isNaN(taxAmount)) {
+      taxAmount = 0;
+    }
+
+    var taxType = that._get_tax_type(this);
+    if (taxType == tax.EXCLUSIVE) {
+      amount += taxAmount;
+    }
+    
+    $(this).find('span.amount_sum').text(toAmount(amount));
+
+    var dcType = that._get_dc_type(this);
+    if (dcType == DC_TYPE_DEBIT) {
+      debitAmount += amount;
+    } else if (dcType == DC_TYPE_CREDIT) {
+      creditAmount += amount;
+    } else {
+      alert('貸借が不正です。');
+    }
+  });
+
+  $(this.selector).find('.journal_debit_amount_sum').text(toAmount(debitAmount));
+  $(this.selector).find('.journal_credit_amount_sum').text(toAmount(creditAmount));
 };
 
 hyacc.Journal.prototype._remove_detail = function(trigger) {

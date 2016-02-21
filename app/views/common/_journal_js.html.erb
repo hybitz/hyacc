@@ -1,29 +1,4 @@
 <script>
-  function flipDetails(show){
-    var detailTrs = journal.get_details();
-    
-    for (var i = 0; i < detailTrs.length; i++) {
-      var detail = detailTrs[i];
-      var detail2 = document.getElementById(detail.id + '_2');
-      var detail3 = document.getElementById(detail.id + '_3');
-      var detail4 = document.getElementById(detail.id + '_4');
-      var link = document.getElementById(detail.id + '_link');
-      
-      if (show) {
-        detail2.style.display = 'table-row';
-        detail3.style.display = 'table-row';
-        detail4.style.display = 'table-row';
-        link.innerHTML = '<%= message_for_details(true) %>'
-      }
-      else {
-        detail2.style.display = 'none';
-        detail3.style.display = 'none';
-        detail4.style.display = 'none';
-        link.innerHTML = '<%= message_for_details(false) %>'
-      }
-    }
-  }
-
   function flipDetail(id){
     var detail2 = document.getElementById(id + '_2');
     var detail3 = document.getElementById(id + '_3');

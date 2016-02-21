@@ -4,6 +4,28 @@ hyacc.Journal = function(selector, options) {
   this._init();
 };
 
+hyacc.Journal.prototype.flip_details = function(show) {
+  this._get_details().each(function() {
+    var tr = $(this);
+    var tr2 = tr.next();
+    var tr3 = tr2.next();
+    var tr4 = tr3.next();
+    var link = $('#' + tr.attr('id') + '_link');
+
+    if (show) {
+      tr2.show();
+      tr3.show();
+      tr4.show();
+      link.text('詳細を隠す');
+    } else {
+      tr2.hide();
+      tr3.hide();
+      tr4.hide();
+      link.text('詳細を表示');
+    }
+  });
+};
+
 hyacc.Journal.prototype.updateTaxAmount = function(trigger) {
   var detailTr = $(trigger).closest('tr[data-detail_no]');
   var taxAmountField = $('#' + detailTr.attr('id') + '_tax_amount' );

@@ -180,6 +180,10 @@ hyacc.Journal.prototype._get_auto_journal_type = function(detail) {
   return null;  
 };
 
+hyacc.Journal.prototype._get_account_id = function(detail) {
+  return $(detail).find('select[name*="\\[account_id\\]"]').val();
+};
+
 hyacc.Journal.prototype._get_auto_journal_year = function(detail) {
   var tr = $(detail).next().next().next();
   return $(tr).find('input[name*="\\[auto_journal_year\\]"]').val();
@@ -275,17 +279,16 @@ hyacc.Journal.prototype._init_event_handlers = function() {
         $('#journal_details_' + params.detail_no + '_account_detail').html(html);
       });
 
-    if (that.options.branch_mode) {
-      $.get(that.options.get_allocation_path, params, function(html) {
-        $('#jd_' + params.detail_no + '_allocation').html(html);
-      });
-    }
+    that._refresh_allocation(detail);
   })
-  .delegate('input[name*="\\[ym\\]"]', 'change', function() {
-    that._refresh_tax_amount_all();
+  .delegate('select[name*="\\[branch_id\\]"]', 'change', function() {
+    var detail = that._get_detail(this);
+    that._refresh_allocation(detail);
   })
   .delegate('select[name*="\\[dc_type\\]"]', 'change', function() {
+    var detail = that._get_detail(this);
     that.refresh_total_amount();
+    that._refresh_allocation(detail);
   })
   .delegate('.delete_detail_button', 'click', function() {
     that._remove_detail(this);
@@ -303,6 +306,9 @@ hyacc.Journal.prototype._init_event_handlers = function() {
   })
   .delegate('input[name*="\\[tax_amount\\]"]', 'change', function() {
     that.refresh_total_amount();
+  })
+  .delegate('input[name*="\\[ym\\]"]', 'change', function() {
+    that._refresh_tax_amount_all();
   });
 };
 
@@ -311,6 +317,21 @@ hyacc.Journal.prototype._init_validation = function() {
   $(this.selector).submit(function() {
     return that._validate_journal();
   });
+};
+
+hyacc.Journal.prototype._refresh_allocation = function(detail) {
+  if (this.options.branch_mode) {
+    var params = {
+      account_id: this._get_account_id(detail),
+      branch_id: this._get_branch_id(detail),
+      dc_type: this._get_dc_type(detail),
+      detail_no: detail.data('detail_no'),
+    };
+
+    $.get(this.options.get_allocation_path, params, function(html) {
+      $('#jd_' + params.detail_no + '_allocation').html(html);
+    });
+  }
 };
 
 hyacc.Journal.prototype._refresh_tax_amount_all = function() {

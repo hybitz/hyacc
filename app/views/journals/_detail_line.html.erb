@@ -8,21 +8,6 @@
 
     <%= select_tag("journal_details[" + jd.detail_no.to_s + "][dc_type]", options_for_select( dc_types, jd.dc_type ),
                {:class=>'dcTypeSelect'}) %>
-    <% if branch_mode %>
-      <script>
-        $('#journal_details_<%= jd.detail_no %>_dc_type').change(function() {
-          $.get('<%= url_for :action => 'get_allocation', :detail_no => jd.detail_no %>',
-            {
-              dc_type: $(this).val(),
-              account_id: $('#journal_details_<%= jd.detail_no %>_account_id').val(),
-              branch_id: $('#journal_details_<%= jd.detail_no %>_branch_id').val()
-            },
-            function(html) {
-              $('#jd_<%= jd.detail_no %>_allocation').html(html);
-          });
-        });
-      </script>
-    <% end %>
   </td>
   <td>
     <%= collection_select_code_and_name("journal_details[" + jd.detail_no.to_s + "]", "account_id", @accounts, "id", "name",
@@ -43,20 +28,6 @@
   <% if branch_mode %>
   <td>
     <%= collection_select("journal_details[" + jd.detail_no.to_s + "]", "branch_id", @branches, "id", "name", {:selected=>jd.branch_id}, {:class => 'branchSelect'}) %>
-    <script>
-      $('#journal_details_<%= jd.detail_no %>_branch_id').change(function() {
-        $.get('<%= url_for :action => 'get_allocation' %>',
-          {
-            detail_no: <%= jd.detail_no %>,
-            account_id: $('#journal_details_<%= jd.detail_no %>_account_id').val(),
-            branch_id: $(this).val(),
-            dc_type: $('#journal_details_<%= jd.detail_no %>_dc_type').val()
-          },
-          function(html) {
-            $('#jd_<%= jd.detail_no %>_allocation').html(html);
-          });
-      });
-    </script>
   </td>
   <% end %>
   <td class="amount">

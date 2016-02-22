@@ -3,7 +3,9 @@
   <td nowrap>
     <%= f.hidden_field :id %>
     <%= f.hidden_field :detail_no %>
-    <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id unless branch_mode %>
+    <% unless branch_mode %>
+      <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id %>
+    <% end %>
     <%= f.select :dc_type, options_for_select(dc_types, jd.dc_type), {}, :class => 'dcTypeSelect' %>
   </td>
   <td>
@@ -16,14 +18,12 @@
         <%= options_for_select( to_options( jd.account.sub_accounts ), jd.sub_account_id ) %>
       </select>
     <% else %>
-      <select name="journal_details[<%= index %>][sub_account_id]" class="subAccountSelect">
-      </select>
-      <%= hide_if_no_options("#journal_details_#{index}_sub_account_id") %>
+      <select name="journal_details[<%= index %>][sub_account_id]" class="subAccountSelect" style="display: none;"></select>
     <% end %>
   </td>
   <% if branch_mode %>
   <td>
-    <%= collection_select("journal_details[#{index}]", "branch_id", @branches, "id", "name", {:selected=>jd.branch_id}, {:class => 'branchSelect'}) %>
+    <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect' %>
   </td>
   <% end %>
   <td class="amount">

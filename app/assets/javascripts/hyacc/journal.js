@@ -191,11 +191,15 @@ hyacc.Journal.prototype._get_tax_type = function(detail) {
 };
 
 hyacc.Journal.prototype._init = function() {
-  this._init_shortcut();
-  this._init_validation();
-  this._init_event_handlers();
-  this._refresh_tax_amount_all({visibility_only: true});
-  this._refresh_total_amount();
+  if (this.options.readonly) {
+    $(this.selector).find('input, select').attr('disabled', true);
+  } else {
+    this._init_shortcut();
+    this._init_validation();
+    this._init_event_handlers();
+    this._refresh_tax_amount_all({visibility_only: true});
+    this._refresh_total_amount();
+  }
 };
 
 hyacc.Journal.prototype._init_event_handlers = function() {

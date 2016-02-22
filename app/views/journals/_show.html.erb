@@ -1,7 +1,11 @@
 <script>
+  var journal;
+
   $(document).ready(function() {
-    $('#journal_show_form').find('input').attr('disabled', true);
-    $('#journal_show_form').find('select').attr('disabled', true);
+    journal = new hyacc.Journal('#journal_show_form', {
+      branch_mode: <%= branch_mode %>,
+      readonly: true
+    });
   });
 </script>
 

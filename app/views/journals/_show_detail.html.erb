@@ -19,9 +19,8 @@
 <tr style="<%= style_for_details %>">
   <td rowspan="3" align="center">計上日<br/>振替</td>
   <td colspan="2">
-    <input type="checkbox" name="journal_details[<%= index %>][auto_journal_type]"
-           value="<%= AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />
+    <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
+           <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />
     翌月の費用
   </td>
   
@@ -37,9 +36,8 @@
 </tr>
 <tr style="<%= style_for_details %>">
   <td colspan="2">
-    <input type="checkbox" name="journal_details[<%= index %>][auto_journal_type]"
-           value="<%= AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %> />
+    <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
+           <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %> />
     前月の費用
   </td>
   <td rowspan="2" colspan="<%= colspan_of_account_details_for_show %>">
@@ -51,15 +49,11 @@
 </tr>
 <tr style="<%= style_for_details %>">
   <td colspan="2" nowrap>
-    <input type="checkbox" name="journal_details[<%= index %>][auto_journal_type]"
-           value="<%= AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
-    <input type="text"name="journal_details[<%= index %>][auto_journal_year]" value="<%= jd.auto_journal_year %>" size="4" maxlength="4"/>
-    年
-    <input type="text" name="journal_details[<%= index %>][auto_journal_month]" value="<%= jd.auto_journal_month %>" size="1" maxlength="2"/>
-    月
-    <input type="text" name="journal_details[<%= index %>][auto_journal_day]" value="<%= jd.auto_journal_day %>" size="1" maxlength="2"/>
-    日の費用
+    <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
+           <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
+    <%= jd.auto_journal_year %> 年
+    <%= jd.auto_journal_month %> 月
+    <%= jd.auto_journal_day %> 日の費用
   </td>
   <td></td>
 </tr>

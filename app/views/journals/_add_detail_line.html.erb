@@ -2,18 +2,16 @@
   <td colspan="<%= branch_mode ? 8 : 7 %>"></td>
   <td align="center" colspan="2">
     <script>
-      var next_journal_detail_no = <%= @journal.journal_details.size + 1 %>;
-
       function add_journal_detail(trigger) {
+        var tbody = $(trigger).closest('table').find('tbody');
+
         var params = {
-          detail_no: next_journal_detail_no,
+          index: tbody.find('tr').length / 4,
           format: 'html'
         }
-        next_journal_detail_no ++;
 
         $.get('<%= url_for :action => 'add_detail' %>', params, function(html) {
-          var tr = $(trigger).closest('tr');
-          tr.before(html);
+          tbody.append(html);
         });
       }
     </script>

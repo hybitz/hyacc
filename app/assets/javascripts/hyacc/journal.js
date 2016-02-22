@@ -26,11 +26,25 @@ hyacc.Journal.prototype.flip_details = function(show) {
   });
 };
 
-hyacc.Journal.prototype.show_detail = function(tr) {
-  for (var i = 0; i < 3; i ++) {
-    var tr = $(tr).next();
-    tr.show();
+hyacc.Journal.prototype.flip_detail = function(trigger) {
+  var detail = this._get_detail(trigger);
+  var link = $(trigger);
+
+  if (link.text() == '詳細を隠す') {
+    this.hide_detail(detail);
+    link.text('詳細を表示');
+  } else {
+    this.show_detail(detail);
+    link.text('詳細を隠す');
   }
+};
+
+hyacc.Journal.prototype.hide_detail = function(detail) {
+  $(detail).nextUntil('tr[data-detail_no]').hide();
+};
+
+hyacc.Journal.prototype.show_detail = function(detail) {
+  $(detail).nextUntil('tr[data-detail_no]').show();
 };
 
 // 自動振替時の日付必須チェック
@@ -134,6 +148,7 @@ hyacc.Journal.prototype._get_dc_type = function(detail) {
 hyacc.Journal.prototype._get_detail = function(trigger) {
   return $(trigger).closest('tr[data-detail_no]');
 };
+
 hyacc.Journal.prototype._get_details = function() {
   return $(this.selector).find('.journal_details').find('tr[data-detail_no]');
 };
@@ -147,6 +162,17 @@ hyacc.Journal.prototype._get_input_amount = function(detail) {
   }
 
   return ret;
+};
+
+hyacc.Journal.prototype._get_next_detail = function(trigger) {
+  var detail = this._get_detail(trigger);
+  return detail.next().next().next().next();
+};
+
+
+hyacc.Journal.prototype._get_prev_detail = function(trigger) {
+  var detail = this._get_detail(trigger);
+  return detail.prev().prev().prev().prev();
 };
 
 hyacc.Journal.prototype._get_tax_amount = function(detail) {
@@ -170,25 +196,6 @@ hyacc.Journal.prototype._init = function() {
   this._init_event_handlers();
   this._refresh_tax_amount_all({visibility_only: true});
   this._refresh_total_amount();
-};
-
-hyacc.Journal.prototype._init_shortcut = function() {
-  $('input[id$=_input_amount]').each(function(){
-    var detail_no = $(this).closest('[data-detail_no]').data('detail_no');
-
-    shortcut.add("Down",
-      function() {
-        var next_detail_id = '#journal_details_' + (detail_no + 1) + '_input_amount';
-        $(next_detail_id).focus().select();
-      }, {target: $(this).get(0)}
-    );
-    shortcut.add("Up",
-      function() {
-        var prev_detail_id = '#journal_details_' + (detail_no - 1) + '_input_amount';
-        $(prev_detail_id).focus().select();
-      }, {target: $(this).get(0)}
-    );
-  });
 };
 
 hyacc.Journal.prototype._init_event_handlers = function() {
@@ -251,6 +258,26 @@ hyacc.Journal.prototype._init_event_handlers = function() {
   });
 };
 
+hyacc.Journal.prototype._init_shortcut = function() {
+  var input_selector = 'input[name*="\\[input_amount\\]"]';
+  var that = this;
+
+  $(this.selector).find(input_selector).each(function() {
+    var detail = that._get_detail(this);
+
+    shortcut.add("Down",
+      function() {
+        that._get_next_detail(detail).find(input_selector).focus().select();
+      }, {target: $(this).get(0)}
+    );
+    shortcut.add("Up",
+      function() {
+        that._get_prev_detail(detail).find(input_selector).focus().select();
+      }, {target: $(this).get(0)}
+    );
+  });
+};
+
 hyacc.Journal.prototype._init_validation = function() {
   var that = this;
   $(this.selector).submit(function() {
@@ -264,11 +291,11 @@ hyacc.Journal.prototype._refresh_allocation = function(detail) {
       account_id: this._get_account_id(detail),
       branch_id: this._get_branch_id(detail),
       dc_type: this._get_dc_type(detail),
-      detail_no: detail.data('detail_no'),
+      index: detail.closest('[data-index]').data('index')
     };
 
     $.get(this.options.get_allocation_path, params, function(html) {
-      $('#jd_' + params.detail_no + '_allocation').html(html);
+      $('#jd_' + params.index + '_allocation').html(html);
     });
   }
 };
@@ -277,8 +304,8 @@ hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   options = options || {};
 
   var detail = $(trigger).closest('tr[data-detail_no]');
-  var taxAmountField = $('#' + detail.attr('id') + '_tax_amount' );
-  var taxRatePercentField = $('#' + detail.attr('id') + '_tax_rate_percent');
+  var taxAmountField = detail.find('input[name*="\\[tax_amount\\]"]');
+  var taxRatePercentField = detail.find('input[name*="\\[tax_rate_percent\\]"]');
   var taxType = this._get_tax_type(detail);
 
   // 内税／外税の場合は消費税を計算
@@ -328,7 +355,7 @@ hyacc.Journal.prototype._refresh_total_amount = function() {
       amount += taxAmount;
     }
     
-    $(this).find('span.amount_sum').text(toAmount(amount));
+    $(this).find('.amount_sum').text(toAmount(amount));
 
     var dcType = that._get_dc_type(this);
     if (dcType == DC_TYPE_DEBIT) {

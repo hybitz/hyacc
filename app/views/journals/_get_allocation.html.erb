@@ -1,14 +1,14 @@
-      <span id="jd_<%= jd.detail_no %>_allocation">
-<% if can_allocate_cost(jd.branch_id) and is_real_cost(jd.account_id) %>
-        <%= check_box 'journal_details[' + jd.detail_no.to_s + ']', 'is_allocated_cost', {:checked=>jd.is_allocated_cost} %>
-        費用配賦
-<% elsif can_allocate_assets(jd.account_id, jd.dc_type) %>
-        <%= check_box 'journal_details[' + jd.detail_no.to_s + ']', 'is_allocated_assets', {:checked=>jd.is_allocated_assets} %>
-        資産配賦
-<% elsif can_allocate_debt(jd.account_id, jd.dc_type) %>
-        <%= check_box 'journal_details[' + jd.detail_no.to_s + ']', 'is_allocated_assets', {:checked=>jd.is_allocated_assets} %>
-        負債配賦
-<% else %>
-        &nbsp;
-<% end %>
-      </span>
+<span id="jd_<%= index %>_allocation">
+  <% if can_allocate_cost(jd.branch_id) and is_real_cost(jd.account_id) %>
+    <%= check_box "journal_details[#{index}]", 'is_allocated_cost', {:checked=>jd.is_allocated_cost} %>
+    費用配賦
+  <% elsif can_allocate_assets(jd.account_id, jd.dc_type) %>
+    <%= check_box "journal_details[#{index}]", 'is_allocated_assets', {:checked=>jd.is_allocated_assets} %>
+    資産配賦
+  <% elsif can_allocate_debt(jd.account_id, jd.dc_type) %>
+    <%= check_box "journal_details[#{index}]", 'is_allocated_assets', {:checked=>jd.is_allocated_assets} %>
+    負債配賦
+  <% else %>
+    &nbsp;
+  <% end %>
+</span>

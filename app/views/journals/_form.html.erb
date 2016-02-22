@@ -41,23 +41,27 @@
   </table>
 
   <table id="journal_details" class="journal_details">
-    <tr>
-      <th>貸借</th>
-      <th>勘定科目</th>
-      <th>補助科目</th>
-      <% if branch_mode %><th>計上部門</th><% end %>
-      <th>金　額</th>
-      <th colspan="2">消費税</th>
-      <th>合計</th>
-      <th colspan="2">
-        すべて<a id="flip_details_link" href="#" onclick="journal.flip_details(true); return false;">表示</a>／<a id="flip_details_link" href="#" onclick="journal.flip_details(false); return false;">隠す</a>
-      </th>
-    </tr>
-    
-    <% @journal.normal_details.each do |jd| %>
-      <%= render 'detail_line', :jd => jd %>
-    <% end %>
-    
-    <%= render 'add_detail_line' %>
+    <thead>
+      <tr>
+        <th>貸借</th>
+        <th>勘定科目</th>
+        <th>補助科目</th>
+        <% if branch_mode %><th>計上部門</th><% end %>
+        <th>金　額</th>
+        <th colspan="2">消費税</th>
+        <th>合計</th>
+        <th colspan="2">
+          すべて<a href="#" onclick="journal.flip_details(true); return false;">表示</a>／<a href="#" onclick="journal.flip_details(false); return false;">隠す</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @journal.normal_details.each_with_index do |jd, i| %>
+        <%= render 'detail_fields', :jd => jd, :index => i %>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <%= render 'add_detail_line' %>
+    </tfoot>
   </table>
 <% end %>

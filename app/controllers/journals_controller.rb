@@ -56,8 +56,8 @@ class JournalsController < Base::HyaccController
   end
 
   def add_detail
-    @journal_detail = JournalDetail.new(:detail_no => params[:detail_no])
-    render :partial => 'detail_line', :locals => {:jd => @journal_detail}
+    @journal_detail = JournalDetail.new
+    render :partial => 'detail_fields', :locals => {:jd => @journal_detail, :index => params[:index]}
   end
 
   def create
@@ -214,11 +214,10 @@ class JournalsController < Base::HyaccController
   end
 
   def get_allocation
-    jd = JournalDetail.new(:detail_no => params[:detail_no], :dc_type => params[:dc_type], 
-                           :account_id => params[:account_id], :branch_id => params[:branch_id], 
-                           :is_allocated_cost => true,
-                           :is_allocated_assets => false)
-    render :partial => 'get_allocation', :locals => { :jd => jd }
+    jd = JournalDetail.new(:dc_type => params[:dc_type],
+            :account_id => params[:account_id], :branch_id => params[:branch_id], 
+            :is_allocated_cost => true, :is_allocated_assets => false)
+    render :partial => 'get_allocation', :locals => {:jd => jd, :index => params[:index]}
   end
 
   private

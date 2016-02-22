@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151220055136) do
+ActiveRecord::Schema.define(version: 20160222140404) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false

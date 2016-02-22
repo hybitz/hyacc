@@ -92,6 +92,10 @@ class JournalDetail < ActiveRecord::Base
       return nil
     end
   end
+
+  def auto_journal_type
+    @auto_journal_type.to_i
+  end
       
   # 伝票明細に関連しているすべての自動仕訳の自動仕訳区分を取得する
   def auto_journal_types

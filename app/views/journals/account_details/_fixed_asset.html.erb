@@ -1,6 +1,6 @@
-<input type="hidden" name="journal_details[<%= jd.detail_no %>][asset_id]" value="<%= jd.asset.id if jd.asset %>"/>
-<input type="hidden" name="journal_details[<%= jd.detail_no %>][asset_lock_version]" value="<%= jd.asset.lock_version if jd.asset %>"/>
+<input type="hidden" name="journal_details[<%= index %>][asset_id]" value="<%= jd.asset.id if jd.asset %>"/>
+<input type="hidden" name="journal_details[<%= index %>][asset_lock_version]" value="<%= jd.asset.lock_version if jd.asset %>"/>
 
-<% if jd.asset and jd.asset.id.to_i > 0 %>
+<% if jd.asset and jd.asset.persisted? %>
   資産コード：<%= jd.asset.code %>
 <% end %>

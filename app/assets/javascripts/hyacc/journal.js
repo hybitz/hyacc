@@ -204,6 +204,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
   $(this.selector).delegate('select[name*="\\[account_id\\]"]', 'change', function() {
     var detail = that._get_detail(this);
     var params = {
+      index: detail.data('index'),
       account_id: $(this).val(),
       branch_id: that._get_branch_id(detail),
       dc_type: that._get_dc_type(detail),
@@ -212,8 +213,8 @@ hyacc.Journal.prototype._init_event_handlers = function() {
       order: 'code',
     };
 
-    $.get(that.options.sub_accounts_path, params, function(json) {
-        replace_options('#' + detail.attr('id') + '_sub_account_id', json);
+    $.getJSON(that.options.sub_accounts_path, params, function(json) {
+        replace_options('tr[data-index="' + params.index + '"] [name*="\\[sub_account_id\\]"]', json);
       });
       
     $.getJSON(that.options.get_tax_type_path, params, function(json) {
@@ -222,16 +223,16 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     });
 
     $.get(that.options.get_account_detail_path, params, function(html) {
-        $('#journal_details_' + params.detail_no + '_account_detail').html(html);
+        $('#journal_details_' + params.index + '_account_detail').html(html);
       });
 
     that._refresh_allocation(detail);
   })
-  .delegate('select[name*="\\[branch_id\\]"]', 'change', function() {
+  .delegate('[name*="\\[branch_id\\]"]', 'change', function() {
     var detail = that._get_detail(this);
     that._refresh_allocation(detail);
   })
-  .delegate('select[name*="\\[dc_type\\]"]', 'change', function() {
+  .delegate('[name*="\\[dc_type\\]"]', 'change', function() {
     var detail = that._get_detail(this);
     that._refresh_total_amount();
     that._refresh_allocation(detail);
@@ -241,25 +242,25 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     that._refresh_total_amount();
     return false;
   })
-  .delegate('input[name*="\\[input_amount\\]"]', 'change', function() {
+  .delegate('[name*="\\[input_amount\\]"]', 'change', function() {
     that._refresh_tax_amount(this);
   })
-  .delegate('input[name*="\\[tax_rate_percent\\]"]', 'change', function() {
+  .delegate('[name*="\\[tax_rate_percent\\]"]', 'change', function() {
     that._refresh_tax_amount(this);
   })
-  .delegate('select[name*="\\[tax_type\\]"]', 'change', function() {
+  .delegate('[name*="\\[tax_type\\]"]', 'change', function() {
     that._refresh_tax_amount(this);
   })
-  .delegate('input[name*="\\[tax_amount\\]"]', 'change', function() {
+  .delegate('[name*="\\[tax_amount\\]"]', 'change', function() {
     that._refresh_total_amount();
   })
-  .delegate('input[name*="\\[ym\\]"]', 'change', function() {
+  .delegate('[name*="\\[ym\\]"]', 'change', function() {
     that._refresh_tax_amount_all();
   });
 };
 
 hyacc.Journal.prototype._init_shortcut = function() {
-  var input_selector = 'input[name*="\\[input_amount\\]"]';
+  var input_selector = '[name*="\\[input_amount\\]"]';
   var that = this;
 
   $(this.selector).find(input_selector).each(function() {

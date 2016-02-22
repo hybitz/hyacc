@@ -49,11 +49,7 @@
 <tr style="<%= style_for_details %>">
   <td rowspan="3" align="center">計上日<br/>振替</td>
   <td colspan="2">
-    <input type="checkbox"
-           name="journal_details[<%= index %>][auto_journal_type]"
-           value="<%= AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />
-    翌月
+    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %> 翌月
   </td>
   
   <% if branch_mode %>
@@ -70,24 +66,18 @@
 </tr>
 <tr style="<%= style_for_details %>">
   <td colspan="2">
-    <input type="checkbox"
-           name="journal_details[<%= index %>][auto_journal_type]"
-           value="<%= AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %> />
-    前月
+    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %> 前月
   </td>
   <td rowspan="2" colspan="<%= colspan_of_account_details %>">
     <div id="journal_details_<%= index %>_account_detail" style="margin:5px">
-      <%= render_account_details jd.account_id, :locals => {:jd => jd} %>
+      <%= render_account_details jd.account_id, :locals => {:jd => jd, :index => index} %>
     </div>
   </td>
   <td></td>
 </tr>
 <tr style="<%= style_for_details %>">
   <td colspan="2" nowrap>
-    <input type="checkbox" name="journal_details[<%= index %>][auto_journal_type]"
-           value="<%= AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
-           <%= jd.auto_journal_type.to_i == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
+    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
     <%= f.text_field :auto_journal_year, :size => 4, :maxlength => 4 %> 年
     <%= f.text_field :auto_journal_month, :size => 1, :maxlength => 2 %> 月
     <%= f.text_field :auto_journal_day, :size => 1, :maxlength => 2 %> 日

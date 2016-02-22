@@ -24,15 +24,14 @@ class JournalsController < Base::HyaccController
 
   # 勘定科目ごとの詳細入力部分を取得する
   def get_account_detail
-    id = params[:detail_id].to_i
-    jd = id > 0 ? JournalDetail.find( id ) : JournalDetail.new
-    jd.detail_no = params[:detail_no].to_i
+    jd = JournalDetail.find(params[:detail_id]) if params[:detail_id].present?
+    jd ||= JournalDetail.new
     
-    renderer = AccountDetails::AccountDetailRenderer.get_instance( params[:account_id] )
+    renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
     if renderer
-      render :partial=>renderer.get_template(controller_name), :locals=>{:jd=>jd}
+      render :partial => renderer.get_template(controller_name), :locals => {:jd => jd, :index => params[:index]}
     else
-      render :nothing=>true
+      render :nothing => true
     end
   end
 
@@ -176,7 +175,7 @@ class JournalsController < Base::HyaccController
     tax_type = TAX_MANAGEMENT_TYPE_EXEMPT
 
     if params[:account_id].present?
-      selected_account = Account.get( params[:account_id] )
+      selected_account = Account.get(params[:account_id])
       fy = current_user.company.current_fiscal_year
       if fy.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
         tax_type = selected_account.tax_type

@@ -99,14 +99,12 @@ class JournalsController < Base::HyaccController
     rescue => e
       handle(e)
       setup_view_attributes
-      @detail_no = @journal.journal_details.last.detail_no + 1
       render 'new'
     end
   end
 
   def edit
     @journal = Journal.find(params[:id])
-    @detail_no = @journal.journal_details.last.detail_no + 1
 
     # 編集不可能な伝票区分の場合はエラー
     # ただし、エラーメッセージを表示するのではなく一覧画面に遷移させる
@@ -163,7 +161,6 @@ class JournalsController < Base::HyaccController
     rescue => e
       handle(e)
       setup_view_attributes
-      @detail_no = @journal.journal_details.last.detail_no + 1
       render 'edit'
     end
   end
@@ -227,7 +224,7 @@ class JournalsController < Base::HyaccController
   end
 
   def create_new_journal
-    default_account = @frequencies.size > 0 ? Account.get(@frequencies[0].input_value.to_i) : @accounts[0]
+    default_account = @frequencies.size > 0 ? Account.get(@frequencies.first.input_value.to_i) : @accounts.first
 
     ret = Journal.new
     ret.ym = @ym

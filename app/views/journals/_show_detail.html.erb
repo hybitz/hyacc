@@ -51,9 +51,9 @@
   <td colspan="2" nowrap>
     <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
            <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
-    <%= jd.auto_journal_year %> 年
-    <%= jd.auto_journal_month %> 月
-    <%= jd.auto_journal_day %> 日の費用
+    <%= jd.auto_journal_year || '----' %> 年
+    <%= jd.auto_journal_month || '--' %> 月
+    <%= jd.auto_journal_day || '--' %> 日の費用
   </td>
   <td></td>
 </tr>

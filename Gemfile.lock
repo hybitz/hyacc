@@ -97,13 +97,14 @@ GEM
     cucumber-core (1.4.0)
       gherkin (~> 3.2.0)
     cucumber-wire (0.0.1)
-    daddy (0.5.2)
+    daddy (0.5.4)
       capybara (~> 2.6)
       ci_reporter (~> 2.0)
       closer (~> 0.3)
       database_cleaner (~> 1.5)
       faraday (~> 0.9)
       holiday_jp (~> 0.4)
+      i18n (~> 0.7)
       itamae (~> 1.9)
       ohai (~> 8.10)
       poltergeist (~> 1.9)
@@ -163,10 +164,10 @@ GEM
     libyajl2 (1.2.0)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    mime-types (2.99)
+    mime-types (2.99.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
-    minitest-reporters (1.1.7)
+    minitest-reporters (1.1.8)
       ansi
       builder
       minitest (>= 5.0)
@@ -300,7 +301,7 @@ GEM
       net-ssh (>= 2.7, < 3.1)
       net-telnet
       sfl
-    spring (1.6.3)
+    spring (1.6.4)
     sprockets (2.12.4)
       hike (~> 1.2)
       multi_json (~> 1.0)

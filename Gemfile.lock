@@ -97,7 +97,7 @@ GEM
     cucumber-core (1.4.0)
       gherkin (~> 3.2.0)
     cucumber-wire (0.0.1)
-    daddy (0.5.4)
+    daddy (0.5.5)
       capybara (~> 2.6)
       ci_reporter (~> 2.0)
       closer (~> 0.3)

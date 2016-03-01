@@ -267,19 +267,20 @@ hyacc.Journal.prototype._init_shortcut = function() {
   var input_selector = '[name*="\\[input_amount\\]"]';
   var that = this;
 
-  $(this.selector).find(input_selector).each(function() {
-    var detail = that._get_detail(this);
+  Mousetrap.bindGlobal('down', function(e) {
+    if ($(e.target).is(input_selector)) {
+      e.preventDefault();
+      var detail = that._get_detail(e.target);
+      that._get_next_detail(detail).find(input_selector).focus().select();
+    }
+  });
 
-    shortcut.add("Down",
-      function() {
-        that._get_next_detail(detail).find(input_selector).focus().select();
-      }, {target: $(this).get(0)}
-    );
-    shortcut.add("Up",
-      function() {
-        that._get_prev_detail(detail).find(input_selector).focus().select();
-      }, {target: $(this).get(0)}
-    );
+  Mousetrap.bindGlobal('up', function(e) {
+    if ($(e.target).is(input_selector)) {
+      e.preventDefault();
+      var detail = that._get_detail(e.target);
+      that._get_prev_detail(detail).find(input_selector).focus().select();
+    }
   });
 };
 

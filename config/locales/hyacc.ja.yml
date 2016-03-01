@@ -22,9 +22,8 @@ ja:
 
     attributes: 
       account: 
-        code: "勘定科目コード"  
-        deleted_sub_accounts: 削除指定された補助科目
-        name: "勘定科目名"
+        code: 勘定科目コード
+        name: 勘定科目名
         dc_type: "貸借区分"  
         account_type: "勘定科目区分"
         short_description: 概要

@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
-  has_many :simple_slip_settings
+  has_many :simple_slip_settings, -> { order(:shortcut_key) }
   accepts_nested_attributes_for :simple_slip_settings, :allow_destroy => true
 
   def has_google_account

@@ -21,6 +21,8 @@
 //= require tax_jp
 //= require daddy
 //= require jquery-ui/ympicker-ja
+//= require mousetrap
+//= require mousetrap/global
 //= require vendor
 //= require lib
 //= require hyacc

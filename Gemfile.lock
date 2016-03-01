@@ -179,6 +179,7 @@ GEM
     momentjs-rails (2.11.0)
       railties (>= 3.1)
     mono_logger (1.1.0)
+    mousetrap-rails (1.4.6)
     multi_json (1.11.2)
     multi_test (0.1.2)
     multipart-post (2.0.0)
@@ -384,6 +385,7 @@ DEPENDENCIES
   minitest
   minitest-reporters
   momentjs-rails
+  mousetrap-rails
   mysql2 (~> 0.3.20)
   quiet_assets
   rails (= 4.1.14.1)

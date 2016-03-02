@@ -10,19 +10,3 @@ hyacc.init_datepicker = function() {
     changeYear: true
   });
 };
-
-hyacc.trace_ajax = function() {
-  var count = 0;
-  $.ajaxSetup({
-    beforeSend: function() {
-      $('html').addClass('busy');
-      count ++;
-    },
-    complete: function() {
-      count --;
-      if (count == 0) {
-        $('html').removeClass('busy');
-      }
-    }
-  });
-};

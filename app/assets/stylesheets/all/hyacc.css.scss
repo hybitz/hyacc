@@ -6,10 +6,6 @@ html, body {
   min-height: 100%;
 }
 
-html.busy, html.busy * {  
-  cursor: wait !important;
-}
-
 a { color: #000; }
 a:visited { color: #000; }
 a:hover { color: #fff; background: #000; }

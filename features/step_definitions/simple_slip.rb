@@ -66,7 +66,6 @@ end
     attach_file 'slip_receipt_file', @slip.receipt_file if @slip.receipt_file.present?
   end
 
-  assert has_no_selector?('.busy')
   capture
   click_on action
 end

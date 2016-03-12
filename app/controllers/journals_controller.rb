@@ -61,10 +61,7 @@ class JournalsController < Base::HyaccController
 
   def create
     @journal = Journal.new(journal_params)
-    @journal.company_id = current_user.company.id
     @journal.slip_type = decide_slip_type
-    @journal.create_user_id = current_user.id
-    @journal.update_user_id = current_user.id
     retrieve_details(@journal)
 
     begin
@@ -76,7 +73,7 @@ class JournalsController < Base::HyaccController
         validate_assets(@journal, nil)
 
         # 領収書が指定されていれば保存
-        unless @journal.receipt_file.nil? or @journal.receipt_file.blank?
+        if @journal.receipt_file.present?
           @journal.receipt_path = save_receipt_file(receipt_save_dir(@journal), @journal.receipt_file)
         end
 
@@ -219,8 +216,14 @@ class JournalsController < Base::HyaccController
   private
 
   def journal_params
-    params.require(:journal).permit(:ym, :day, :slip_type, :remarks, :amount,
-        :delete_flag_of_receipt_file, :receipt_path, :lock_version, :fiscal_year_id, :company_id)
+    permitted = [
+      :ym, :day, :slip_type, :remarks, :amount,
+      :delete_flag_of_receipt_file, :receipt_path, :lock_version, :fiscal_year_id
+    ]
+
+    ret = params.require(:journal).permit(*permitted)
+    ret = ret.merge(:company_id => current_user.company_id, :create_user_id => current_user.id, :update_user_id => current_user.id)
+    ret
   end
 
   def create_new_journal

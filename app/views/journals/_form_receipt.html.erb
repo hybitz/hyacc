@@ -8,13 +8,13 @@
     }
   </script>
   <% if @journal.receipt_path.present? %>
+    （<%= link_to File.basename(@journal.receipt_path), download_receipt_journal_path(@journal) %>）
+    &nbsp;&nbsp;
+    <input type="button" value="領収書削除" onclick="delete_receipt();" />
+  <% else %>
     <%= fields_for @journal do |f| %>
       <%= f.file_field :receipt_file, :size => 60 %>
       <%= f.hidden_field :delete_flag_of_receipt_file %>
     <% end %>
-  <% else %>
-    （<%= link_to File.basename(@journal.receipt_path), download_receipt_journal_path(@journal) %>）
-    &nbsp;&nbsp;
-    <input type="button" value="領収書削除" onclick="delete_receipt();" />
   <% end %>
 </div>

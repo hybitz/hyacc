@@ -7,7 +7,7 @@
       });
     }
   </script>
-  <% if @journal.receipt_path.nil? %>
+  <% if @journal.receipt_path.present? %>
     <%= fields_for @journal do |f| %>
       <%= f.file_field :receipt_file, :size => 60 %>
       <%= f.hidden_field :delete_flag_of_receipt_file %>

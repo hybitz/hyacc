@@ -283,7 +283,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   
   def test_更新
     jh = JournalHeader.find(1)
-    assert ! jh.receipt.file?
+    assert ! jh.receipt
     assert_not_equal user.id, jh.create_user_id
     sign_in user
 

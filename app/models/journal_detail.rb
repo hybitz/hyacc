@@ -2,7 +2,6 @@ class JournalDetail < ActiveRecord::Base
   include HyaccConstants
   include HyaccErrors
 
-  attr_accessor :receipt_file
   attr_accessor :input_amount
   attr_accessor :tax_amount
   

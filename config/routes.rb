@@ -98,9 +98,6 @@ Rails.application.routes.draw do
       get 'get_allocation'
       get 'get_tax_type'
     end
-    member do
-      get 'download_receipt'
-    end
   end
 
   resources :ledgers, :only => ['index', 'show']

@@ -8,12 +8,6 @@ class JournalsController < Base::HyaccController
 
   before_action :setup_view_attributes, :only => ['index', 'new', 'show', 'edit', 'add_detail']
 
-  # 領収書をダウンロードする
-  def download_receipt
-    jh = JournalHeader.find( params[:id] )
-    send_file(File.join(UPLOAD_DIRECTORY, jh.receipt_path))
-  end
-
   # 勘定科目ごとの詳細入力部分を取得する
   def get_account_detail
     jd = JournalDetail.find(params[:detail_id]) if params[:detail_id].present?

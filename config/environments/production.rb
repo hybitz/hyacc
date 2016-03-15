@@ -82,5 +82,5 @@ Rails.application.configure do
   config.cache_store = :dalli_store, 'localhost:11211', {:namespace => 'hyacc_pro'}
 
   # アップロードした領収書の保存先
-  UPLOAD_DIRECTORY = Rails.root + '/../../shared/upload_data'
+  UPLOAD_DIRECTORY = File.expand_path('../../shared/upload_data', Rails.root)
 end

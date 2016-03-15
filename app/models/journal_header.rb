@@ -58,10 +58,6 @@ class JournalHeader < ActiveRecord::Base
     ym / 100
   end
 
-  def receipt
-    super || build_receipt
-  end
-
   # 自動振替伝票が存在するか
   def has_auto_transfers
       return true if transfer_journals.size > 0

@@ -1,4 +1,4 @@
-<%= f.fields_for :receipt_attributes, @journal.receipt do |f| %>
+<%= f.fields_for :receipt_attributes, @journal.receipt || @journal.build_receipt do |f| %>
   <table>
     <tr>
       <th><%= f.object.class.model_name.human %></th>

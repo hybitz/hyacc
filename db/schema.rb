@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160222140404) do
+ActiveRecord::Schema.define(version: 20160314225231) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -404,6 +404,15 @@ ActiveRecord::Schema.define(version: 20160222140404) do
   add_index "payrolls", ["pay_journal_header_id"], name: "fk_payrolls_pay_journal_header_id", using: :btree
   add_index "payrolls", ["payroll_journal_header_id"], name: "fk_payrolls_payroll_journal_header_id", using: :btree
   add_index "payrolls", ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true, using: :btree
+
+  create_table "receipts", force: true do |t|
+    t.integer  "journal_header_id",                 null: false
+    t.string   "file"
+    t.string   "original_filename"
+    t.boolean  "deleted",           default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "rents", force: true do |t|
     t.string   "name"

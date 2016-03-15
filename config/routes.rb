@@ -94,7 +94,6 @@ Rails.application.routes.draw do
   resources :journals do
     collection do
       get 'add_detail'
-      get 'delete_receipt'
       get 'get_account_detail'
       get 'get_allocation'
       get 'get_tax_type'
@@ -119,6 +118,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :receipts, :only => 'show'
   resources :rents
 
   resources :simple_slip_templates do

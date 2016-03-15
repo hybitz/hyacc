@@ -10,7 +10,7 @@
 </script>
 
 <form id="journal_show_form">
-  <div style="margin:5px;">
+  <div style="margin: 5px;">
     <table>
       <tr>
         <th>年月</th>
@@ -30,18 +30,8 @@
         <td class="amount"><%= to_amount(@journal.amount) %></td>
       </tr>
     </table>
-    
-    <% if @journal.receipt_path %>
-      <table style="margin-top: 10px;">
-        <tr>
-          <th>領収書</th>
-          <td>
-            <div id="receipt_status">
-              （<%= link_to"#{File::basename(@journal.receipt_path)}", {:action => :download_receipt, :id => @journal} %>）
-            </div>
-        </tr>
-      </table>
-    <% end %>
+
+    <%= render 'receipt' %>
   
     <table class="journal_details">
       <tr>

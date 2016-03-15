@@ -1,0 +1,10 @@
+<div style="margin: 1em 0;">
+  <% if @journal.receipt.present? %>
+    <table>
+      <tr>
+        <th>領収書</th>
+        <td><%= link_to @journal.receipt.original_filename, receipt_path(@journal.receipt), :data => {:'no-turbolink' => true} %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

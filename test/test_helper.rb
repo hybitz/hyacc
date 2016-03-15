@@ -26,7 +26,6 @@ class ActionController::TestCase
 
   def sign_in(user)
     super(user)
-    
     @_current_user = user
   end
 
@@ -34,13 +33,13 @@ class ActionController::TestCase
     @_current_user
   end
 
-  def upload_file(filename, content_type='text')
-    path = File.new("#{Rails.root}/test/upload_files/#{filename}")
+  def upload_file(filename)
+    path = File.join('test', 'upload_files', filename)
 
     ActionDispatch::Http::UploadedFile.new(
       :filename => filename,
-      :content_type => content_type,
-      :tempfile => path
+      :content_type => MimeMagic.by_path(path).to_s,
+      :tempfile => File.new(path)
     )
   end
 

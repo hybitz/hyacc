@@ -43,6 +43,17 @@ hyacc.Journal.prototype.hide_detail = function(detail) {
   $(detail).nextUntil('tr[data-detail_no]').hide();
 };
 
+hyacc.Journal.prototype.remove_receipt = function(trigger) {
+  var td = $(trigger).closest('td');
+  td.hide();
+
+  var tr = td.closest('tr');
+  tr.find('input[name*="\[deleted\]"]').val(true);
+  tr.find('input[name*="\[original_filename\]"]').remove();
+  tr.find('input.receipt').show();
+  tr.find('div.receipt').hide();
+};
+
 hyacc.Journal.prototype.show_detail = function(detail) {
   $(detail).nextUntil('tr[data-detail_no]').show();
 };

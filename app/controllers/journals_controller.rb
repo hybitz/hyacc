@@ -8,14 +8,6 @@ class JournalsController < Base::HyaccController
 
   before_action :setup_view_attributes, :only => ['index', 'new', 'show', 'edit', 'add_detail']
 
-  # 添付されている領収書を削除状態にする
-  def delete_receipt
-    @journal_header = JournalHeader.find(params[:id])
-    @journal_header.delete_flag_of_receipt_file = true
-    @journal_header.receipt_path = nil
-    render :partial => 'form_receipt'
-  end
-
   # 領収書をダウンロードする
   def download_receipt
     jh = JournalHeader.find( params[:id] )
@@ -72,11 +64,6 @@ class JournalsController < Base::HyaccController
         # 資産チェック
         validate_assets(@journal, nil)
 
-        # 領収書が指定されていれば保存
-        if @journal.receipt_file.present?
-          @journal.receipt_path = save_receipt_file(receipt_save_dir(@journal), @journal.receipt_file)
-        end
-
         # 自動仕訳を作成
         do_auto_transfers(@journal)
 
@@ -116,31 +103,12 @@ class JournalsController < Base::HyaccController
 
     begin
       @journal.transaction do
+        @journal.attributes = journal_params
         @journal.slip_type = decide_slip_type( old )
-        @journal.ym = params[:journal][:ym]
-        @journal.day = params[:journal][:day]
-        @journal.remarks = params[:journal][:remarks]
-        @journal.delete_flag_of_receipt_file = params[:journal][:delete_flag_of_receipt_file]
-        @journal.receipt_file = params[:journal][:receipt_file]
-        @journal.lock_version = params[:journal][:lock_version]
-        @journal.update_user_id = current_user.id
         retrieve_details(@journal)
 
         # 資産チェック
         validate_assets(@journal, old)
-
-        # 削除フラグが立っている場合、ファイルを物理削除
-        if @journal.receipt_path.present?
-          if @journal.delete_flag_of_receipt_file
-            delete_upload_file(@journal.receipt_path)
-            @journal.receipt_path = nil
-          end
-        end
-
-        # 領収書が指定されていれば保存
-        if @journal.receipt_file.present?
-          @journal.receipt_path = save_receipt_file(receipt_save_dir(@journal), @journal.receipt_file)
-        end
 
         # 自動仕訳を作成
         do_auto_transfers(@journal)
@@ -217,12 +185,18 @@ class JournalsController < Base::HyaccController
 
   def journal_params
     permitted = [
-      :ym, :day, :slip_type, :remarks, :amount,
-      :delete_flag_of_receipt_file, :receipt_path, :lock_version, :fiscal_year_id
+      :ym, :day, :remarks, :amount, :lock_version, :fiscal_year_id,
+      :receipt_attributes => [:id, :deleted, :original_filename, :file, :file_cache]
     ]
 
     ret = params.require(:journal).permit(*permitted)
-    ret = ret.merge(:company_id => current_user.company_id, :create_user_id => current_user.id, :update_user_id => current_user.id)
+    ret = ret.merge(:company_id => current_user.company_id, :update_user_id => current_user.id)
+
+    case action_name
+    when 'create'
+      ret = ret.merge(:create_user_id => current_user.id)
+    end
+
     ret
   end
 

@@ -35,6 +35,10 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_コピーを追加
+    copy_from = JournalHeader.find(1)
+    ym = Date.today.strftime('%Y%m')
+    assert_not_equal ym, copy_from.ym
+
     xhr :get, :new, :copy_id => 1
     assert_response :success
     assert_template 'new'
@@ -42,9 +46,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert @journal = assigns(:journal)
     assert @frequencies = assigns(:frequencies)
     assert_equal 22, @frequencies.first.input_value.to_i
-
-    # システム日を設定していれば、既存伝票の年月と同一なわけがない
-    assert_not_equal JournalHeader.find(1).ym, @journal.ym
+    assert_not_equal ym, @journal.ym
   end
 
   def test_登録
@@ -56,6 +58,9 @@ class JournalsController::CrudTest < ActionController::TestCase
           :ym => '200803',
           :day => '04',
           :remarks => remarks,
+          :receipt_attributes => {
+            :file => upload_file('inhabitant_tax.csv')
+          }
         },
         :journal_details => {
           '1' => {
@@ -79,11 +84,17 @@ class JournalsController::CrudTest < ActionController::TestCase
     end
 
     # 登録された仕訳をチェック
-    assert jh = JournalHeader.where(:remarks => remarks).first
+    assert jh = Journal.find(assigns(:journal).id)
     assert_equal SLIP_TYPE_TRANSFER, jh.slip_type
     assert_equal 200803, jh.ym
     assert_equal 4, jh.day
     assert_equal 1030, jh.amount
+    assert_equal user.id, jh.create_user_id
+    assert_equal user.id, jh.update_user_id
+
+    assert jh.receipt.present?
+    assert_equal 'inhabitant_tax.csv', jh.receipt.original_filename
+
     assert_equal 1, jh.journal_details[0].detail_no
     assert_equal 1, jh.journal_details[0].dc_type
     assert_equal 2, jh.journal_details[0].account_id
@@ -94,6 +105,43 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_equal 28, jh.journal_details[1].account_id
     assert_equal 2, jh.journal_details[1].branch_id
     assert_equal 1030, jh.journal_details[1].amount
+  end
+
+  def test_登録_入力エラー
+    assert_no_difference 'JournalHeader.count' do
+      xhr :post, :create,
+        :journal => {
+          :ym => '200803',
+          :day => '04',
+          :remarks => '',
+          :receipt_attributes => {
+            :file => upload_file('inhabitant_tax.csv')
+          }
+        },
+        :journal_details => {
+          '1' => {
+            :detail_no => '1',
+            :dc_type => '1',
+            :account_id => '2',
+            :branch_id => '2',
+            :input_amount => '1030',
+          },
+          '2' => {
+            :detail_no => '2',
+            :dc_type => '2',
+            :account_id => '28',
+            :branch_id => '2',
+            :input_amount => '1030',
+          }
+        }
+
+      assert_response :success
+      assert_template 'new'
+    end
+
+    assert jh = assigns(:journal)
+    assert jh.receipt.present?
+    assert_equal 'inhabitant_tax.csv', jh.receipt.original_filename
   end
 
   # 子を持つ勘定科目が指定できないことを確認
@@ -205,7 +253,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_template 'common/reload'
   end
 
-  def test_edit
+  def test_編集
     xhr :get, :edit, :id => JournalHeader.first
 
     assert_response :success
@@ -233,15 +281,21 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
   end
   
-  def test_update
+  def test_更新
     jh = JournalHeader.find(1)
-    
-    xhr :patch, :update, :id => jh,
+    assert ! jh.receipt.file?
+    assert_not_equal user.id, jh.create_user_id
+    sign_in user
+
+    xhr :patch, :update, :id => jh.id,
       :journal => {
         :ym=>200703,
         :day=>4,
         :remarks=>'摘要',
-        :lock_version=>jh.lock_version
+        :lock_version=>jh.lock_version,
+        :receipt_attributes => {
+          :file => upload_file('inhabitant_tax.csv')
+        }
       },
       :journal_details => {
         '1' => {
@@ -259,8 +313,14 @@ class JournalsController::CrudTest < ActionController::TestCase
           :input_amount => '1000',
         }
       }
+
     assert_response :success
     assert_template 'common/reload'
+    assert @journal = Journal.find(jh.id)
+    assert_equal jh.create_user_id, @journal.create_user_id
+    assert_equal user.id, @journal.update_user_id
+    assert @journal.receipt.file?
+    assert_equal 'inhabitant_tax.csv', @journal.receipt.original_filename
   end
 
   def test_Trac_99_バリデーションエラー時に金額が正しいか

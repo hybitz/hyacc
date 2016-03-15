@@ -17,12 +17,12 @@ class JournalHeader < ActiveRecord::Base
   after_save :update_tax_admin_info
   
   validates_presence_of :company_id, :ym, :day, :remarks
-  validates_format_of :ym, :with => /[0-9]{6}/ #TODO 月をもっと正確にチェック
+  validates_format_of :ym, :with => /[0-9]{6}/ # TODO 月をもっと正確にチェック
   validates_with JournalValidator
 
-  # 電子領収書添付用の入力フィールド
-  attr_accessor :receipt_file
-  attr_accessor :delete_flag_of_receipt_file
+  has_one :receipt, -> { where :deleted => false }, :inverse_of => 'journal_header'
+  accepts_nested_attributes_for :receipt,
+      :reject_if => proc {|attrs| attrs['id'].blank? && attrs['file'].blank? && attrs['file_cache'].blank? }
 
   def self.find_closing_journals(fiscal_year, slip_type)
     where(:company_id => fiscal_year.company_id, :fiscal_year_id => fiscal_year.id, :slip_type => slip_type)
@@ -48,7 +48,7 @@ class JournalHeader < ActiveRecord::Base
       return detail if detail.detail_no.to_i == detail_no.to_i
     end
   end
-  
+
   # 同一会計年度かどうか
   def is_same_fiscal_year( other )
     self.fiscal_year == other.fiscal_year
@@ -57,7 +57,11 @@ class JournalHeader < ActiveRecord::Base
   def year
     ym / 100
   end
-  
+
+  def receipt
+    super || build_receipt
+  end
+
   # 自動振替伝票が存在するか
   def has_auto_transfers
       return true if transfer_journals.size > 0

@@ -1,4 +1,9 @@
 ja:
+  attributes:
+    description: 説明
+    short_description: 概要
+    trade_type: 取引区分
+
   activerecord:
     models: 
       account: "勘定科目"  
@@ -13,7 +18,8 @@ ja:
       inhabitant_tax: "住民税"
       journal_detail: "仕訳明細"
       journal_header: "仕訳ヘッダ"
-      payroll: "給与"  
+      payroll: 給与
+      receipt: 領収書
       rent: 地代家賃
       sub_account: 補助科目
       tax_admin_info: "税務管理インフォメーション"
@@ -26,15 +32,12 @@ ja:
         name: 勘定科目名
         dc_type: "貸借区分"  
         account_type: "勘定科目区分"
-        short_description: 概要
-        description: 説明
         depreciable: 減価償却可否
         depreciation_method: 減価償却方法
         deleted: "を削除"  
         display_order: "の表示順"  
-        path: "道"  
+        path: 道
         system_required: "システム必須"  
-        trade_type: "取引区分"  
         is_settlement_report_account: 決算書出力
         is_trade_account_payable: 買掛金科目
         is_revenue_reserve_account: 利益積立金科目
@@ -98,8 +101,8 @@ ja:
         deleted: "を削除"  
         logo_path: "ロゴ経路"  
         founded_date: "設立日"  
-        users: "ユーザ"  
-        fiscal_years: "事業年度"  
+        users: ユーザ
+        fiscal_years: 事業年度
 
       customer: 
         address: 住所

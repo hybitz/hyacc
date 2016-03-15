@@ -27,22 +27,26 @@ end
 end
 
 ならば /^当該伝票が(登録|更新|削除)される$/ do |action|
-  if @slip
-    if action == '登録'
-      assert page.has_text?("伝票を#{action}しました。")
-    elsif action == '更新'
-      assert page.has_no_selector?('#slip_edit_form')
-      assert page.has_no_selector?('.reload_dialog')
+  begin
+    if @slip
+      if action == '登録'
+        assert page.has_text?("伝票を#{action}しました。")
+      elsif action == '更新'
+        assert page.has_no_selector?('#slip_edit_form')
+        assert page.has_no_selector?('.reload_dialog')
+      end
+      assert page.has_selector?('#slip_new_form')
+      assert_url "^/simple/#{@account.code}$"
+      assert has_selector? '.tax_type_ready'
+    else
+      if action == '登録' or action == '更新'
+        assert has_no_selector?('.ui-dialog-title', :text => "振替伝票　#{action}]")
+      end
+      assert has_text?("伝票を#{action}しました。")
+      assert_url "^/journals$"
     end
-    assert page.has_selector?('#slip_new_form')
-    assert_url "^/simple/#{@account.code}$"
-    assert has_selector? '.tax_type_ready'
-  else
-    if action == '登録' or action == '更新'
-      assert has_no_selector?('.ui-dialog-title', :text => "振替伝票　#{action}]")
-    end
-    assert page.has_text?("伝票を#{action}しました。")
-    assert_url "^/journals$"
+  ensure
+    capture
   end
 end
 

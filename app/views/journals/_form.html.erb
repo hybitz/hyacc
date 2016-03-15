@@ -33,12 +33,7 @@
     </tr>
   </table>
 
-  <table>
-    <tr>
-      <th>領収書</th>
-      <td><%= render 'form_receipt' %></td>
-    </tr>
-  </table>
+  <%= render 'receipt_fields', :f => f %>
 
   <table class="journal_details">
     <thead>

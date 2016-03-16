@@ -5,11 +5,11 @@ class ReceiptUploader < CarrierWave::Uploader::Base
   process :set_metadata
 
   def store_dir
-    "/var/lib/hyacc/#{Rails.env}/#{model.class.table_name}/#{model.journal_header_id}"
+    File.join(base_dir, model.class.table_name, model.journal_header_id.to_s)
   end
 
   def cache_dir
-    "/var/lib/hyacc/#{Rails.env}/tmp/cache"
+    File.join(base_dir, 'cache')
   end
 
   def filename
@@ -21,6 +21,14 @@ class ReceiptUploader < CarrierWave::Uploader::Base
   end
 
   private
+
+  def base_dir
+    if Rails.env.test?
+      "/tmp/hyacc/#{Rails.env}"
+    else
+      "/var/lib/hyacc/#{Rails.env}"
+    end
+  end
 
   def set_metadata
     if model.file?

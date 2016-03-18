@@ -22,6 +22,14 @@ end
   @journal.ym = header[0]
   @journal.day = header[1]
   @journal.remarks = header[2]
+
+  if header[3].present?
+    path = File.join(Rails.root, 'tmp', header[3])
+    FileUtils.mkdir_p File.dirname(path)
+    FileUtils.touch(path)
+    @journal.build_receipt(:file => File.new(path))
+  end
+
   details.each do |d|
     account = Account.find_by_name(d[1])
     branch = Branch.find_by_name(d[3])
@@ -47,6 +55,8 @@ end
   fill_in 'journal_ym', :with => @journal.ym
   fill_in 'journal_day', :with => @journal.day
   fill_in 'journal_remarks', :with => @journal.remarks
+  attach_file '領収書', @journal.receipt.file.path if @journal.receipt.present?
+
   @journal.journal_details.each_with_index do |detail, i|
     select detail.dc_type_name, :from => "journal_details_#{i}_dc_type"
     select detail.account_name, :from => "journal_details_#{i}_account_id"
@@ -148,6 +158,16 @@ end
     capture
     accept_alert do
       click_on '登録'
+    end
+  end
+end
+
+かつ /^電子領収書(も|が)(登録|削除)されている$/ do |prefix, action|
+  find('#journals_table tbody').all('tr').each do |tr|
+    if tr.text.include?(@journal.remarks)
+      assert has_link?('(電子)') if action == '登録'
+      assert has_no_link?('(電子)') if action == '削除'
+      break
     end
   end
 end

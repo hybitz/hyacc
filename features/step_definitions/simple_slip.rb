@@ -105,13 +105,3 @@ end
   wait_until { has_selector?("#slip_edit_form", :visible => true) }
   capture
 end
-
-かつ /^電子領収書(も|が)(登録|削除)されている$/ do |prefix, action|
-  find('#slipTable').all('tr[slip_id]').each do |tr|
-    if tr.text.include?(@slip.remarks)
-      assert page.has_link?('(電子)') if action == '登録'
-      assert page.has_no_link?('(電子)') if action == '削除'
-      break
-    end
-  end
-end

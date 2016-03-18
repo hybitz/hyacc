@@ -1,7 +1,7 @@
 <%= f.fields_for :receipt_attributes, @journal.receipt || @journal.build_receipt do |f| %>
   <table>
     <tr>
-      <th><%= f.object.class.model_name.human %></th>
+      <th><%= f.label :file %></th>
       <% if f.object.deleted? %>
         <td>
           <%= f.hidden_field :id %>

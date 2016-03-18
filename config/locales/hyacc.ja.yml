@@ -44,8 +44,6 @@ ja:
         journalizable: 仕訳登録可否
         sub_account_type: 補助科目区分
         tax_type: "税金区分"  
-        children: "子供たち"  
-        parent: "親"
         parent_id: 親勘定科目
         
       asset:
@@ -217,6 +215,9 @@ ja:
         accrued_liability: 従業員への未払費用
         year_end_adjustment_liability: "年末調整額（過払分）"  
         pay_day: "給与支払日"  
+
+      receipt:
+        file: 領収書
 
       rent: 
         rent_type: "家賃のタイプ"  

@@ -2,32 +2,37 @@
 <%= flash_notice %>
 
 <table id="journals_table" style="margin: 10px;">
-  <tr>
-    <th>年月</th>
-    <th>日</th>
-    <th>伝票区分</th>
-    <th>摘要</th>
-    <th>金額</th>
-    <th></th>
-  </tr>
-  
-  <% @journal_headers.each do |jh| %>
-    <tr class="hover">
-      <td class="yearMonth"><%= jh.ym %></td>
-      <td class="day"><%= jh.day %></td>
-      <td class="slipType"><%= jh.slip_type_name %></td>
-      <td class="remarks"><%= jh.remarks %></td>
-      <td class="amount"><%= to_amount( jh.amount ) %></td>
-      <td>
-        <%= link_to '参照', journal_path(jh), :remote => true %>
-        <%= link_to '編集', edit_journal_path(jh), :remote => true if can_edit(jh) %>
-        <% if can_delete( jh ) %>
-          <%= link_to '削除', journal_path(jh, :lock_version => jh.lock_version),
-                data: {confirm: '伝票を削除します。よろしいですか？'}, :method => :delete %>
-        <% end %>
-      </td>
+  <thead>
+    <tr>
+      <th>年月</th>
+      <th>日</th>
+      <th>伝票区分</th>
+      <th>摘要</th>
+      <th>金額</th>
+      <th>領収書</th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @journal_headers.each do |jh| %>
+      <tr class="hover">
+        <td class="yearMonth"><%= jh.ym %></td>
+        <td class="day"><%= jh.day %></td>
+        <td class="slipType"><%= jh.slip_type_name %></td>
+        <td class="remarks"><%= jh.remarks %></td>
+        <td class="amount"><%= to_amount( jh.amount ) %></td>
+        <td class="center"><%= link_to '(電子)', receipt_path(jh.receipt) if jh.receipt.present? %></td>
+        <td>
+          <%= link_to '参照', journal_path(jh), :remote => true %>
+          <%= link_to '編集', edit_journal_path(jh), :remote => true if can_edit(jh) %>
+          <% if can_delete( jh ) %>
+            <%= link_to '削除', journal_path(jh, :lock_version => jh.lock_version),
+                  data: {confirm: '伝票を削除します。よろしいですか？'}, :method => :delete %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>  
 </table>
 
 <%= will_paginate @journal_headers %>

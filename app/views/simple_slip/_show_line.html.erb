@@ -7,11 +7,11 @@
 <td class="amountIncrease"><%= to_amount( slip.slip_amount_increase ) %></td>
 <td class="amountDecrease"><%= to_amount( slip.slip_amount_decrease ) %></td>
 <td class="amountSum"></td>
-<td style="text-align: center;">
+<td class="center">
   <%= '自振' if slip.has_auto_transfers %>
 </td>
-<td style="text-align: center;">
-  <%= link_to '(電子)', {:action=>'download_receipt', :id=>slip.id} if slip.journal_header.receipt_path %>
+<td class="center">
+  <%= link_to '(電子)', receipt_path(slip.journal_header.receipt) if slip.journal_header.receipt.present? %>
 </td>
 <td class="action" style="border-right: none;">
   <%# 編集可能な伝票の場合は簡易登録画面を表示 %>

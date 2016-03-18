@@ -1,5 +1,5 @@
-<tr data-detail_id="<%= jd.id %>" data-detail_no="<%= jd.detail_no %>" data-index="<%= index %>">
 <%= fields_for "journal_details[#{index}]", jd do |f| %>
+<tr data-detail_id="<%= jd.id %>" data-detail_no="<%= jd.detail_no %>" data-index="<%= index %>">
   <td nowrap>
     <%= f.hidden_field :id %>
     <%= f.hidden_field :detail_no %>
@@ -83,5 +83,5 @@
     <%= f.text_field :auto_journal_day, :size => 1, :maxlength => 2 %> 日
   </td>
   <td></td>
-<% end %>
 </tr>
+<% end %>

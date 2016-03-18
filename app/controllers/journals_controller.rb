@@ -41,8 +41,8 @@ class JournalsController < Base::HyaccController
   end
 
   def add_detail
-    @journal_detail = JournalDetail.new
-    render :partial => 'detail_fields', :locals => {:jd => @journal_detail, :index => params[:index]}
+    journal = create_new_journal
+    render :partial => 'detail_fields', :locals => {:jd => journal.journal_details.first, :index => params[:index]}
   end
 
   def create

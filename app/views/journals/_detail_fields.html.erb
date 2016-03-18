@@ -13,13 +13,8 @@
           {:selected=>jd.account_id, :frequencies=>@frequencies}, {:class=>"accountSelect"}) %>
   </td>
   <td>
-    <% if jd.account and jd.account.sub_accounts.present? %>
-      <select name="journal_details[<%= index %>][sub_account_id]" class="subAccountSelect">
-        <%= options_for_select( to_options( jd.account.sub_accounts ), jd.sub_account_id ) %>
-      </select>
-    <% else %>
-      <select name="journal_details[<%= index %>][sub_account_id]" class="subAccountSelect" style="display: none;"></select>
-    <% end %>
+    <%= f.collection_select :sub_account_id, jd.account.sub_accounts, :id, :name, {},
+          :class => 'subAccountSelect', :style => ('display: none;' unless jd.account.sub_accounts.present?) %>
   </td>
   <% if branch_mode %>
   <td>
@@ -30,9 +25,7 @@
     <%= f.text_field :input_amount, :class => 'amountText' %>
   </td>
   <td nowrap>
-    <select name="journal_details[<%= index %>][tax_type]" class="taxTypeSelect">
-      <%= options_for_select(tax_types, jd.tax_type) %>
-    </select>
+    <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect' %>
     <%= f.text_field :tax_rate_percent, :class => 'taxRatePercentText' %> %
   </td>
   <td class="amount">
@@ -40,7 +33,7 @@
   </td>
   <td class="amount amount_sum" nowrap></td>
   <td nowrap>
-    <a href="#" onclick="journal.flip_detail(this); return false;"><%= message_for_details %></a>
+    <a href="#" class="flip_detail_button"><%= message_for_details %></a>
   </td>
   <td nowrap>
     <a href="#" class="delete_detail_button">削除</a>
@@ -49,7 +42,7 @@
 <tr style="<%= style_for_details %>">
   <td rowspan="3" align="center">計上日<br/>振替</td>
   <td colspan="2">
-    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %> 翌月
+    <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %> 翌月</label>
   </td>
   
   <% if branch_mode %>
@@ -66,7 +59,7 @@
 </tr>
 <tr style="<%= style_for_details %>">
   <td colspan="2">
-    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %> 前月
+    <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %> 前月</label>
   </td>
   <td rowspan="2" colspan="<%= colspan_of_account_details %>">
     <div id="journal_details_<%= index %>_account_detail" style="margin:5px">

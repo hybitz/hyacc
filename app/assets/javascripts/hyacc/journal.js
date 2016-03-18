@@ -23,7 +23,7 @@ hyacc.Journal.prototype.flip_details = function(show) {
     var tr2 = tr.next();
     var tr3 = tr2.next();
     var tr4 = tr3.next();
-    var link = $('#' + tr.attr('id') + '_link');
+    var link = tr.find('.flip_detail_button');
 
     if (show) {
       tr2.show();
@@ -216,6 +216,7 @@ hyacc.Journal.prototype._get_tax_type = function(detail) {
 
 hyacc.Journal.prototype._init = function() {
   if (this.options.readonly) {
+    this._init_event_handlers();
     $(this.selector).find('input, select').attr('disabled', true);
   } else {
     this._init_shortcut();
@@ -268,6 +269,10 @@ hyacc.Journal.prototype._init_event_handlers = function() {
   .delegate('.delete_detail_button', 'click', function() {
     that._remove_detail(this);
     that._refresh_total_amount();
+    return false;
+  })
+  .delegate('.flip_detail_button', 'click', function() {
+    that.flip_detail(this);
     return false;
   })
   .delegate('[name*="\\[input_amount\\]"]', 'change', function() {

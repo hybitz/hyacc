@@ -35,13 +35,6 @@ end
       @slip.account_id = Account.find_by_name(value).id
     when '計上部門'
       @slip.branch_id = Branch.where(:company_id => current_user.company_id, :name => value).first!.id
-    when '領収書'
-      system "rm -f #{Rails.root}/#{UPLOAD_DIRECTORY}/receipt/#{@slip.ym.to_i * 100 + @slip.day.to_i}/#{value}"
-      path = "#{Rails.root}/tmp/#{value}"
-      FileUtils.mkdir_p File.dirname(path)
-      FileUtils.touch(path)
-      @slip.receipt_file = path
-      assert File.exist?(@slip.receipt_file)
     else
       fail "不明なフィールドです。field_name=#{field_name}"
     end
@@ -63,16 +56,8 @@ end
 
     fill_in 'slip_amount_increase', :with => @slip.amount_increase
     fill_in 'slip_amount_decrease', :with => @slip.amount_decrease
-    attach_file 'slip_receipt_file', @slip.receipt_file if @slip.receipt_file.present?
   end
 
-  capture
-  click_on action
-end
-
-もし /^領収書を削除して(更新)する$/ do |action|
-  click_on '領収書削除'
-  assert page.has_no_selector?('input[type=button][value=領収書削除]', :visible => true)
   capture
   click_on action
 end

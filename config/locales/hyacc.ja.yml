@@ -188,14 +188,10 @@ ja:
         amount: "伝票金額"  
         created_at: 登録日時
         updated_at: 更新日時
-        slip_type: "伝票区分"  
-        ym: "年月"  
-        finder_key: "検索キー"  
-        receipt_path: "領収書ファイルのパス"  
-        transfer_journals: "振替元伝票ID"  
+        slip_type: 伝票区分
+        ym: 年月
         journal_details:
-          social_expense_number_of_people: "接待交際の参加人数"  
-        tax_admin_info: "消費税管理情報"
+          social_expense_number_of_people: 接待交際の参加人数
 
       payroll:
         ym: 年月

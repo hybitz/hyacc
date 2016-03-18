@@ -22,45 +22,6 @@ module HyaccUtil
     dc_type == DC_TYPE_DEBIT ? DC_TYPE_CREDIT : DC_TYPE_DEBIT
   end
 
-  def receipt_save_dir(jh)
-    "receipt/" + (jh.ym * 100 + jh.day).to_s
-  end
-  
-  # ファイルの保存 TODO 更新時には使えない（日時で保存のため、ファイル名が重複する）
-  def save_receipt_file(dir, file)
-    create_dir(File.join(UPLOAD_DIRECTORY, dir))
-    db_path = File.join(dir, file.original_filename)
-    
-    if File.exist?(File.join(UPLOAD_DIRECTORY, db_path))
-      raise HyaccException.new(ERR_FILE_ALREADY_EXISTS)
-    end
-    File.open(File.join(UPLOAD_DIRECTORY, db_path), "wb"){ |f| f.write(file.read) }
-    
-    return db_path
-  end
-
-  # アップロードファイル削除
-  def delete_upload_file(receipt_path)
-    path = File.join(UPLOAD_DIRECTORY, receipt_path)
-    File.delete(path) if File.exist?(path)
-  end
-  
-  # 再帰的にディレクトリを作成
-  def create_dir(path_to_dir)
-    d = ""
-    # 先頭が"/"でない場合は、カレントディレクトリから
-    if path_to_dir[0,1] != "/"
-      d = "."
-    end
-    
-    path_to_dir.split("/").each do |x|
-      d = File.join(d, x)
-      unless File.exists?(d)
-        Dir::mkdir(d)
-      end
-    end
-  end
-  
   # 分割した値を配列で返す
   # 割り切れない場合も合計が除算前になるように返す
   # 除数が０の場合は空の配列を返す

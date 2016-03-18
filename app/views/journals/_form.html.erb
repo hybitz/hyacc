@@ -4,6 +4,7 @@
   $(document).ready(function() {
     journal = new hyacc.Journal('#journal_form', {
       branch_mode: <%= branch_mode %>,
+      add_detail_path: '<%= url_for :action => 'add_detail' %>',
       get_account_detail_path: '<%= url_for :action => 'get_account_detail' %>',
       get_allocation_path: '<%= url_for :action => 'get_allocation' %>',
       get_tax_type_path: '<%= url_for :action => 'get_tax_type' %>',
@@ -58,7 +59,12 @@
       <% end %>
     </tbody>
     <tfoot>
-      <%= render 'add_detail_line' %>
+      <tr>
+        <td colspan="<%= branch_mode ? 8 : 7 %>"></td>
+        <td align="center" colspan="2">
+          <%= link_to '明細追加', '#', :onclick => 'journal.add_detail(this); return false;' %>
+        </td>
+      </tr>
     </tfoot>
   </table>
 <% end %>

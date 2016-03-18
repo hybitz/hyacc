@@ -4,6 +4,19 @@ hyacc.Journal = function(selector, options) {
   this._init();
 };
 
+hyacc.Journal.prototype.add_detail = function(trigger) {
+  var tbody = $(trigger).closest('table').find('tbody');
+
+  var params = {
+    index: tbody.find('tr').length / 4,
+    format: 'html'
+  };
+
+  $.get(this.options.add_detail_path, params, function(html) {
+    tbody.append(html);
+  });
+};
+
 hyacc.Journal.prototype.flip_details = function(show) {
   this._get_details().each(function() {
     var tr = $(this);

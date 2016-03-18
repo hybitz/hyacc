@@ -36,13 +36,14 @@ class JournalsController < Base::HyaccController
       @journal.day = @day
       clear_asset_from_details(@journal)
     else
-      @journal = create_new_journal
+      @journal = new_journal
     end
   end
 
   def add_detail
-    journal = create_new_journal
-    render :partial => 'detail_fields', :locals => {:jd => journal.journal_details.first, :index => params[:index]}
+    jd = new_journal.journal_details.first
+    jd.detail_no = nil
+    render :partial => 'detail_fields', :locals => {:jd => jd, :index => params[:index]}
   end
 
   def create
@@ -194,7 +195,7 @@ class JournalsController < Base::HyaccController
     ret
   end
 
-  def create_new_journal
+  def new_journal
     default_account = @frequencies.size > 0 ? Account.get(@frequencies.first.input_value.to_i) : @accounts.first
 
     ret = Journal.new

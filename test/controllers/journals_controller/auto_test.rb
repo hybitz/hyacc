@@ -211,107 +211,109 @@ class JournalsController::AutoTest < ActionController::TestCase
   end
   
   def test_create_allocate_assets_of_branch_office
-    num_journal_headers = JournalHeader.count
     post_jh = JournalHeader.new
     post_jh.remarks = '資産配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
     post_jh.day = 16
     post_jh.lock_version = 0
-    post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[0].detail_no = 1
-    post_jh.journal_details[0].branch_id = 1
-    post_jh.journal_details[0].account_id = 29 # 消耗品費
-    post_jh.journal_details[0].tax_amount = 476
-    post_jh.journal_details[0].input_amount = 10000
-    post_jh.journal_details[0].tax_type = TAX_TYPE_INCLUSIVE
-    post_jh.journal_details[0].tax_rate_percent = 5
-    post_jh.journal_details[0].is_allocated_cost = true
-    post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
-    post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[1].detail_no = 2
-    post_jh.journal_details[1].branch_id = 1
-    post_jh.journal_details[1].account_id = 3 # 小口現金
-    post_jh.journal_details[1].input_amount = 10000
-    post_jh.journal_details[1].tax_type = TAX_TYPE_NONTAXABLE
-    post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
-    post_jh.journal_details[1].is_allocated_assets = true
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :lock_version => post_jh.lock_version,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :tax_amount => post_jh.journal_details[0].tax_amount,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-          :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
-          :dc_type => post_jh.journal_details[0].dc_type,
-          :detail_no => post_jh.journal_details[0].detail_no,
-        },
-        '2' => {
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :dc_type => post_jh.journal_details[1].dc_type,
-          :detail_no => post_jh.journal_details[1].detail_no,
-          :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 7, JournalHeader.count
-    
+    jd = post_jh.journal_details.build
+    jd.branch_id = 1
+    jd.account = Account.find_by_name('消耗品費')
+    jd.tax_amount = 476
+    jd.input_amount = 10000
+    jd.tax_type = TAX_TYPE_INCLUSIVE
+    jd.tax_rate_percent = 5
+    jd.is_allocated_cost = true
+    jd.dc_type = DC_TYPE_DEBIT # 借方
+
+    jd = post_jh.journal_details.build
+    jd.branch_id = 1
+    jd.account = Account.find_by_name('小口現金')
+    jd.input_amount = 10000
+    jd.tax_type = TAX_TYPE_NONTAXABLE
+    jd.dc_type = DC_TYPE_CREDIT # 貸方
+    jd.is_allocated_assets = true
+
+    assert_difference 'JournalHeader.count', 7 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :lock_version => post_jh.lock_version,
+          :remarks => post_jh.remarks,
+        },
+        :journal_details => {
+          '1' => {
+            :branch_id => post_jh.journal_details[0].branch_id,
+            :account_id => post_jh.journal_details[0].account_id,
+            :tax_amount => post_jh.journal_details[0].tax_amount,
+            :input_amount => post_jh.journal_details[0].input_amount,
+            :tax_type => post_jh.journal_details[0].tax_type,
+            :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
+            :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+            :dc_type => post_jh.journal_details[0].dc_type
+          },
+          '2' => {
+            :branch_id => post_jh.journal_details[1].branch_id,
+            :account_id => post_jh.journal_details[1].account_id,
+            :input_amount => post_jh.journal_details[1].input_amount,
+            :tax_type => post_jh.journal_details[1].tax_type,
+            :dc_type => post_jh.journal_details[1].dc_type,
+            :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
+
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
     assert_equal 7, list.length, "自動仕訳が6つ作成されるので合計7仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks
     assert_equal post_jh.journal_details[0].input_amount, jh.amount
-    assert_equal 3, jh.journal_details.length, "消費税明細を含めて３明細"
-    assert_equal 0, jh.transfer_journals.length, "内部取引の自動仕訳は費用配賦と資産配賦の伝票に関連する"
-    assert_equal 1, jh.journal_details[0].transfer_journals.length, "費用配賦の自動仕訳が伝票明細に関連する"
-    assert_equal 1, jh.journal_details[1].transfer_journals.length, "資産配賦の自動仕訳が伝票明細に関連する"
+    assert_equal 0, jh.transfer_journals.count, "内部取引の自動仕訳は費用配賦と資産配賦の伝票に関連する"
+    assert_equal 3, jh.journal_details.count, "消費税明細を含めて３明細"
+    assert_equal 1, jh.journal_details.where(:is_allocated_cost => true).count
+    assert_equal 1, jh.journal_details.where(:is_allocated_cost => true).first.transfer_journals.count, "費用配賦の自動仕訳が伝票明細に関連する"
+    assert_equal 1, jh.journal_details.where(:is_allocated_assets => true).count
+    assert_equal 1, jh.journal_details.where(:is_allocated_assets => true).first.transfer_journals.count, "資産配賦の自動仕訳が伝票明細に関連する"
     
     # 自動仕訳（費用配賦）
-    auto1 = jh.journal_details[0].transfer_journals[0]
-    assert_equal jh.journal_details[0].id, auto1.transfer_from_detail_id
-    assert_equal 2, auto1.transfer_journals.length
-    assert_equal 4, auto1.journal_details.length, "本社に2明細、各部門に1明細ずつ"
-    assert_equal SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST, auto1.slip_type
-    assert_equal 74, auto1.journal_details[0].account_id, "本社費用負担の明細がある"
-    assert_equal 4762, auto1.journal_details[0].amount, "按分して￥４，７６２"
-    assert_equal 74, auto1.journal_details[2].account_id, "本社費用負担の明細がある"
-    assert_equal 4762, auto1.journal_details[2].amount, "按分して￥４，７６２"
+    jd = jh.journal_details.where(:is_allocated_cost => true).first
+    auto = jd.transfer_journals.first
+    assert_equal jd.id, auto.transfer_from_detail_id
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST, auto.slip_type
+    assert_equal 2, auto.transfer_journals.size
+    assert_equal 4, auto.journal_details.length, "本社に2明細、各部門に1明細ずつ"
+    assert_equal 2, auto.journal_details.where(:account_id => 74).size, "本社費用負担の明細がある"
+    auto.journal_details.where(:account_id => 74).each do |jd|
+      assert_equal 4762, jd.amount, "按分して￥４，７６２"
+    end
 
     # 自動仕訳（資産配賦）
-    auto2 = jh.journal_details[1].transfer_journals[0]
-    assert_equal jh.journal_details[1].id, auto2.transfer_from_detail_id
-    assert_equal 2, auto2.transfer_journals.length
-    assert_equal 4, auto2.journal_details.length, "本社に2明細、各部門に1明細ずつ"
-    assert_equal SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS, auto2.slip_type
-    assert_equal 83, auto2.journal_details[0].account_id, "仮資産の明細がある"
-    assert_equal post_jh.journal_details[1].branch_id, auto2.journal_details[0].branch_id, "配賦対象資産を保有している部門"
-    assert_equal 5000, auto2.journal_details[0].amount, "按分して￥５，０００"
-    assert_equal 85, auto2.journal_details[1].account_id, "仮負債の明細がある"
-    assert_equal 2, auto2.journal_details[1].branch_id, "相手部門"
-    assert_equal 32, auto2.journal_details[1].sub_account_id, "配賦対象資産を保有している部門"
-    assert_equal 5000, auto2.journal_details[1].amount, "按分して￥５，０００"
-    assert_equal 83, auto2.journal_details[2].account_id, "仮資産の明細がある"
-    assert_equal post_jh.journal_details[1].branch_id, auto2.journal_details[2].branch_id, "配賦対象資産を保有している部門"
-    assert_equal 5000, auto2.journal_details[2].amount, "按分して￥５，０００"
-    assert_equal 85, auto2.journal_details[3].account_id, "仮負債の明細がある"
-    assert_equal 3, auto2.journal_details[3].branch_id, "相手部門"
-    assert_equal 32, auto2.journal_details[3].sub_account_id, "配賦対象資産を保有している部門"
-    assert_equal 5000, auto2.journal_details[3].amount, "按分して￥５，０００"
+    jd = jh.journal_details.where(:is_allocated_assets => true).first
+    auto = jd.transfer_journals.first
+    assert_equal jd.id, auto.transfer_from_detail_id
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS, auto.slip_type
+    assert_equal 2, auto.transfer_journals.size
+    assert_equal 4, auto.journal_details.size, "本社に2明細、各部門に1明細ずつ"
+    assert_equal 83, auto.journal_details[0].account_id, "仮資産の明細がある"
+    assert_equal post_jh.journal_details[1].branch_id, auto.journal_details[0].branch_id, "配賦対象資産を保有している部門"
+    assert_equal 5000, auto.journal_details[0].amount, "按分して￥５，０００"
+    assert_equal 85, auto.journal_details[1].account_id, "仮負債の明細がある"
+    assert_equal 2, auto.journal_details[1].branch_id, "相手部門"
+    assert_equal 32, auto.journal_details[1].sub_account_id, "配賦対象資産を保有している部門"
+    assert_equal 5000, auto.journal_details[1].amount, "按分して￥５，０００"
+    assert_equal 83, auto.journal_details[2].account_id, "仮資産の明細がある"
+    assert_equal post_jh.journal_details[1].branch_id, auto.journal_details[2].branch_id, "配賦対象資産を保有している部門"
+    assert_equal 5000, auto.journal_details[2].amount, "按分して￥５，０００"
+    assert_equal 85, auto.journal_details[3].account_id, "仮負債の明細がある"
+    assert_equal 3, auto.journal_details[3].branch_id, "相手部門"
+    assert_equal 32, auto.journal_details[3].sub_account_id, "配賦対象資産を保有している部門"
+    assert_equal 5000, auto.journal_details[3].amount, "按分して￥５，０００"
   end
   
   def test_create_not_allocate_assets

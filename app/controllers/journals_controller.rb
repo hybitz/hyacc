@@ -237,8 +237,8 @@ class JournalsController < Base::HyaccController
       asset = Asset.find(detail.asset_id.to_i) if detail.asset_id.to_i > 0
       unless asset
         asset = Asset.new
-        asset.code = create_asset_code(current_user.company.get_fiscal_year_int(@journal_header.ym))
-        asset.name = detail.note.empty? ? @journal_header.remarks : detail.note
+        asset.code = create_asset_code(current_user.company.get_fiscal_year_int(@journal.ym))
+        asset.name = detail.note.empty? ? @journal.remarks : detail.note
         asset.status = ASSET_STATUS_CREATED
         asset.depreciation_method = a.depreciation_method
         asset.depreciation_limit = 1 # 平成19年度以降は1年まで償却可能
@@ -246,8 +246,8 @@ class JournalsController < Base::HyaccController
       asset.account_id = detail.account_id
       asset.sub_account_id = detail.sub_account_id
       asset.branch_id = detail.branch_id
-      asset.ym = @journal_header.ym
-      asset.day = @journal_header.day
+      asset.ym = @journal.ym
+      asset.day = @journal.day
       asset.amount = detail.amount
       asset.lock_version = detail.asset_lock_version.to_i
       detail.asset = asset

@@ -1,5 +1,4 @@
-株数
-<input type="text" id="journal_details_<%= index %>_shares"
-       class="sharesText"
-       name="journal_details[<%= index %>][shares]"
-       value="<%= jd.shares %>"/>
+<%= fields_for "journal_details[#{index}]", jd do |f| %>
+  株数：
+  <%= f.text_field :shares, :class => 'sharesText' %>
+<% end %>

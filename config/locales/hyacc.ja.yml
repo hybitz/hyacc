@@ -294,7 +294,11 @@ ja:
         spouse: "配偶者控除"
         disabled_persons: "障害者控除"
         basic: "基礎控除"
-        
+
   errors:
     messages:
       sub_accounts_duplicated: 補助科目が重複しています。
+
+  text:
+    hide_detail: 詳細を隠す
+    show_detail: 詳細を表示

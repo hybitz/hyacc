@@ -86,7 +86,7 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     colorable (0.2.0)
-    cucumber (2.3.2)
+    cucumber (2.3.3)
       builder (>= 2.1.2)
       cucumber-core (~> 1.4.0)
       cucumber-wire (~> 0.0.1)
@@ -144,6 +144,8 @@ GEM
     hike (1.2.3)
     holiday_jp (0.4.3)
     i18n (0.7.0)
+    i18n-js (3.0.0.rc12)
+      i18n (~> 0.6, >= 0.6.6)
     ipaddress (0.8.3)
     itamae (1.9.5)
       ansi
@@ -380,6 +382,7 @@ DEPENDENCIES
   devise
   fullcalendar-rails
   gcalapi
+  i18n-js (>= 3.0.0.rc11)
   jbuilder (~> 2.0)
   jquery-rails
   jquery-ui-rails

@@ -29,12 +29,12 @@ hyacc.Journal.prototype.flip_details = function(show) {
       tr2.show();
       tr3.show();
       tr4.show();
-      link.text('詳細を隠す');
+      link.text(I18n.t('text.hide_detail'));
     } else {
       tr2.hide();
       tr3.hide();
       tr4.hide();
-      link.text('詳細を表示');
+      link.text(I18n.t('text.show_detail'));
     }
   });
 };
@@ -43,12 +43,12 @@ hyacc.Journal.prototype.flip_detail = function(trigger) {
   var detail = this._get_detail(trigger);
   var link = $(trigger);
 
-  if (link.text() == '詳細を隠す') {
+  if (link.text() == I18n.t('text.hide_detail')) {
     this.hide_detail(detail);
-    link.text('詳細を表示');
+    link.text(I18n.t('text.show_detail'));
   } else {
     this.show_detail(detail);
-    link.text('詳細を隠す');
+    link.text(I18n.t('text.hide_detail'));
   }
 };
 

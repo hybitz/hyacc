@@ -1,80 +1,80 @@
 <%= fields_for "journal_details[#{index}]", jd do |f| %>
-<tr data-detail_id="<%= jd.id %>" data-detail_no="<%= jd.detail_no %>" data-index="<%= index %>">
-  <td nowrap>
-    <%= f.hidden_field :id %>
-    <%= f.hidden_field :detail_no %>
-    <% unless branch_mode %>
-      <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id %>
+  <tr data-detail_id="<%= jd.id %>" data-detail_no="<%= jd.detail_no %>" data-index="<%= index %>">
+    <td nowrap>
+      <%= f.hidden_field :id %>
+      <%= f.hidden_field :detail_no %>
+      <% unless branch_mode %>
+        <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id %>
+      <% end %>
+      <%= f.select :dc_type, options_for_select(dc_types, jd.dc_type), {}, :class => 'dcTypeSelect' %>
+    </td>
+    <td>
+      <%= collection_select_code_and_name("journal_details[#{index}]", "account_id", @accounts, "id", "name",
+            {:selected=>jd.account_id, :frequencies=>@frequencies}, {:class=>"accountSelect"}) %>
+    </td>
+    <td>
+      <%= f.collection_select :sub_account_id, jd.account.sub_accounts, :id, :name, {},
+            :class => 'subAccountSelect', :style => ('display: none;' unless jd.account.sub_accounts.present?) %>
+    </td>
+    <% if branch_mode %>
+    <td>
+      <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect' %>
+    </td>
     <% end %>
-    <%= f.select :dc_type, options_for_select(dc_types, jd.dc_type), {}, :class => 'dcTypeSelect' %>
-  </td>
-  <td>
-    <%= collection_select_code_and_name("journal_details[#{index}]", "account_id", @accounts, "id", "name",
-          {:selected=>jd.account_id, :frequencies=>@frequencies}, {:class=>"accountSelect"}) %>
-  </td>
-  <td>
-    <%= f.collection_select :sub_account_id, jd.account.sub_accounts, :id, :name, {},
-          :class => 'subAccountSelect', :style => ('display: none;' unless jd.account.sub_accounts.present?) %>
-  </td>
-  <% if branch_mode %>
-  <td>
-    <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect' %>
-  </td>
-  <% end %>
-  <td class="amount">
-    <%= f.text_field :input_amount, :class => 'amountText' %>
-  </td>
-  <td nowrap>
-    <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect' %>
-    <%= f.text_field :tax_rate_percent, :class => 'taxRatePercentText' %> %
-  </td>
-  <td class="amount">
-    <%= f.text_field :tax_amount, :class => 'amountText' %>
-  </td>
-  <td class="amount amount_sum" nowrap></td>
-  <td nowrap>
-    <a href="#" class="flip_detail_button"><%= message_for_details %></a>
-  </td>
-  <td nowrap>
-    <a href="#" class="delete_detail_button">削除</a>
-  </td>
-</tr>
-<tr style="<%= style_for_details %>">
-  <td rowspan="3" align="center">計上日<br/>振替</td>
-  <td colspan="2">
-    <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %> 翌月</label>
-  </td>
-  
-  <% if branch_mode %>
-  <td><%= render 'get_allocation', :jd => jd, :index => index %></td>
-  <% end %>
-  
-  <td colspan="3">
-    <div style="text-align: right; width: 100%;">
-      メモ：<%= f.text_field :note, :maxlength => 255, :class => 'noteText' %>
-    </div>
-  </td>
-  <td></td>
-  <td rowspan="3" colspan="2"></td>
-</tr>
-<tr style="<%= style_for_details %>">
-  <td colspan="2">
-    <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %> 前月</label>
-  </td>
-  <td rowspan="2" colspan="<%= colspan_of_account_details %>">
-    <div id="journal_details_<%= index %>_account_detail" style="margin:5px">
-      <%= render_account_details jd.account_id, :locals => {:jd => jd, :index => index} %>
-    </div>
-  </td>
-  <td></td>
-</tr>
-<tr style="<%= style_for_details %>">
-  <td colspan="2" nowrap>
-    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
-    <%= f.text_field :auto_journal_year, :size => 4, :maxlength => 4 %> 年
-    <%= f.text_field :auto_journal_month, :size => 1, :maxlength => 2 %> 月
-    <%= f.text_field :auto_journal_day, :size => 1, :maxlength => 2 %> 日
-  </td>
-  <td></td>
-</tr>
+    <td class="amount">
+      <%= f.text_field :input_amount, :class => 'amountText' %>
+    </td>
+    <td nowrap>
+      <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect' %>
+      <%= f.text_field :tax_rate_percent, :class => 'taxRatePercentText' %> %
+    </td>
+    <td class="amount">
+      <%= f.text_field :tax_amount, :class => 'amountText' %>
+    </td>
+    <td class="amount amount_sum" nowrap></td>
+    <td nowrap>
+      <a href="#" class="flip_detail_button"><%= message_for_details %></a>
+    </td>
+    <td nowrap>
+      <a href="#" class="delete_detail_button">削除</a>
+    </td>
+  </tr>
+  <tr style="<%= style_for_details %>">
+    <td rowspan="3" align="center">計上日<br/>振替</td>
+    <td colspan="2">
+      <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %> 翌月</label>
+    </td>
+    
+    <% if branch_mode %>
+    <td><%= render 'get_allocation', :jd => jd, :index => index %></td>
+    <% end %>
+    
+    <td colspan="3">
+      <div style="text-align: right; width: 100%;">
+        メモ：<%= f.text_field :note, :maxlength => 255, :class => 'noteText' %>
+      </div>
+    </td>
+    <td></td>
+    <td rowspan="3" colspan="2"></td>
+  </tr>
+  <tr style="<%= style_for_details %>">
+    <td colspan="2">
+      <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %> 前月</label>
+    </td>
+    <td rowspan="2" colspan="<%= colspan_of_account_details %>">
+      <div id="journal_details_<%= index %>_account_detail" style="margin:5px">
+        <%= render_account_details jd.account_id, :locals => {:jd => jd, :index => index} %>
+      </div>
+    </td>
+    <td></td>
+  </tr>
+  <tr style="<%= style_for_details %>">
+    <td colspan="2" nowrap>
+      <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
+      <%= f.text_field :auto_journal_year, :size => 4, :maxlength => 4 %> 年
+      <%= f.text_field :auto_journal_month, :size => 1, :maxlength => 2 %> 月
+      <%= f.text_field :auto_journal_day, :size => 1, :maxlength => 2 %> 日
+    </td>
+    <td></td>
+  </tr>
 <% end %>

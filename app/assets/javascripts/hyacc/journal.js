@@ -53,7 +53,7 @@ hyacc.Journal.prototype.flip_detail = function(trigger) {
 };
 
 hyacc.Journal.prototype.hide_detail = function(detail) {
-  $(detail).nextUntil('tr[data-detail_no]').hide();
+  $(detail).nextUntil('tr[data-detail_id]').hide();
 };
 
 hyacc.Journal.prototype.remove_receipt = function(trigger) {
@@ -68,7 +68,7 @@ hyacc.Journal.prototype.remove_receipt = function(trigger) {
 };
 
 hyacc.Journal.prototype.show_detail = function(detail) {
-  $(detail).nextUntil('tr[data-detail_no]').show();
+  $(detail).nextUntil('tr[data-detail_id]').show();
 };
 
 // 自動振替時の日付必須チェック
@@ -170,11 +170,11 @@ hyacc.Journal.prototype._get_dc_type = function(detail) {
 };
 
 hyacc.Journal.prototype._get_detail = function(trigger) {
-  return $(trigger).closest('tr[data-detail_no]');
+  return $(trigger).closest('tr[data-detail_id]');
 };
 
 hyacc.Journal.prototype._get_details = function() {
-  return $(this.selector).find('.journal_details').find('tr[data-detail_no]');
+  return $(this.selector).find('.journal_details').find('tr[data-detail_id]');
 };
 
 hyacc.Journal.prototype._get_input_amount = function(detail) {
@@ -238,7 +238,6 @@ hyacc.Journal.prototype._init_event_handlers = function() {
       branch_id: that._get_branch_id(detail),
       dc_type: that._get_dc_type(detail),
       detail_id: detail.data('detail_id'),
-      detail_no: detail.data('detail_no'),
       order: 'code',
     };
 
@@ -338,7 +337,7 @@ hyacc.Journal.prototype._refresh_allocation = function(detail) {
 hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   options = options || {};
 
-  var detail = $(trigger).closest('tr[data-detail_no]');
+  var detail = $(trigger).closest('tr[data-detail_id]');
   var taxAmountField = detail.find('input[name*="\\[tax_amount\\]"]');
   var taxRatePercentField = detail.find('input[name*="\\[tax_rate_percent\\]"]');
   var taxType = this._get_tax_type(detail);
@@ -407,15 +406,15 @@ hyacc.Journal.prototype._refresh_total_amount = function() {
 };
 
 hyacc.Journal.prototype._remove_detail = function(trigger) {
-  var tr = $(trigger).closest('tr[data-detail_no]');
+  var tr = $(trigger).closest('tr[data-detail_id]');
   var tr2 = tr.next();
   var tr3 = tr2.next();
   var tr4 = tr3.next();
 
-  tr4.remove();
-  tr3.remove();
-  tr2.remove();
-  tr.remove();
+  tr4.empty().hide();
+  tr3.empty().hide();
+  tr2.empty().hide();
+  tr.removeAttr('data-detail_id').empty().hide();
 };
 
 hyacc.Journal.prototype._set_tax_type = function(detail, tax_type) {

@@ -14,16 +14,15 @@ a.add {
   margin: 10px 20px;
 }
 
-input {
+input, select {
   background: #FFFAFA;
-}
 
-input[disabled] {
-  background: #EEEEEE;
+  &:disabled {
+    background: #EEEEEE;
+  }
 }
 
 input[type="file"] {
-  background: #FFFFFF;
   width: 36em;
 }
 

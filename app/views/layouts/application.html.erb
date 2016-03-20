@@ -5,6 +5,10 @@
   <%= render_title %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <script>
+    I18n.defaultLocale = '<%= I18n.default_locale %>';
+    I18n.locale = '<%= I18n.locale %>';
+  </script>
   <%= csrf_meta_tags %>
 </head>
 <body>

@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: auto_journal_util.rb 2528 2011-04-15 09:07:19Z ichy $
-# Product: hyacc
-# Copyright 2009-2011 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 require 'auto/auto_journal_factory'
 require 'auto/transfer_journal/internal_trade_param'
 require 'auto/transfer_journal/transfer_from_detail_param'

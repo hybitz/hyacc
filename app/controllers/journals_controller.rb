@@ -36,13 +36,14 @@ class JournalsController < Base::HyaccController
       @journal.day = @day
       clear_asset_from_details(@journal)
     else
-      @journal = create_new_journal
+      @journal = new_journal
     end
   end
 
   def add_detail
-    @journal_detail = JournalDetail.new
-    render :partial => 'detail_fields', :locals => {:jd => @journal_detail, :index => params[:index]}
+    jd = new_journal.journal_details.first
+    jd.detail_no = nil
+    render :partial => 'detail_fields', :locals => {:jd => jd, :index => params[:index]}
   end
 
   def create
@@ -194,7 +195,7 @@ class JournalsController < Base::HyaccController
     ret
   end
 
-  def create_new_journal
+  def new_journal
     default_account = @frequencies.size > 0 ? Account.get(@frequencies.first.input_value.to_i) : @accounts.first
 
     ret = Journal.new
@@ -236,8 +237,8 @@ class JournalsController < Base::HyaccController
       asset = Asset.find(detail.asset_id.to_i) if detail.asset_id.to_i > 0
       unless asset
         asset = Asset.new
-        asset.code = create_asset_code(current_user.company.get_fiscal_year_int(@journal_header.ym))
-        asset.name = detail.note.empty? ? @journal_header.remarks : detail.note
+        asset.code = create_asset_code(current_user.company.get_fiscal_year_int(@journal.ym))
+        asset.name = detail.note.empty? ? @journal.remarks : detail.note
         asset.status = ASSET_STATUS_CREATED
         asset.depreciation_method = a.depreciation_method
         asset.depreciation_limit = 1 # 平成19年度以降は1年まで償却可能
@@ -245,8 +246,8 @@ class JournalsController < Base::HyaccController
       asset.account_id = detail.account_id
       asset.sub_account_id = detail.sub_account_id
       asset.branch_id = detail.branch_id
-      asset.ym = @journal_header.ym
-      asset.day = @journal_header.day
+      asset.ym = @journal.ym
+      asset.day = @journal.day
       asset.amount = detail.amount
       asset.lock_version = detail.asset_lock_version.to_i
       detail.asset = asset

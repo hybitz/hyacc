@@ -35,39 +35,6 @@ class SimpleSlipController::DepositTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_file_upload
-    num_journal_headers = JournalHeader.count
-    
-    assert_difference 'JournalHeader.count', 1 do
-      post :create,
-        :account_code=>ACCOUNT_CODE_ORDINARY_DIPOSIT,
-        :slip => {
-          "my_sub_account_id"=>"1",
-          "ym"=>"200712",
-          "remarks"=>"アップロードテスト",
-          "branch_id"=>"2",
-          "account_id"=>"2",
-          "id"=>"",
-          "day"=>"07",
-          "amount_increase"=>"5000",
-          :tax_type => TAX_TYPE_NONTAXABLE,
-          "receipt_file" => upload_file('README')}
-    end
-    
-    # 領収書ファイルアップロードのテスト
-    assert_response :redirect
-    assert_redirected_to :action => 'index'
-    
-    list = JournalHeader.where(:remarks => 'アップロードテスト')
-    assert_equal 1, list.count
-    assert jh = list.first
-    assert_equal "README", File::basename(jh.receipt_path)
-    
-    # アップロードファイルを削除
-    delete_upload_file(jh.receipt_path)
-  end
-
-
   def test_預金で銀行口座の指定がない場合に更新処理がエラーになること
     post :update, :format => 'js',
       :account_code=>ACCOUNT_CODE_ORDINARY_DIPOSIT,

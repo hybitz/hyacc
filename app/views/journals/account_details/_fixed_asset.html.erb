@@ -1,6 +1,8 @@
-<input type="hidden" name="journal_details[<%= index %>][asset_id]" value="<%= jd.asset.id if jd.asset %>"/>
-<input type="hidden" name="journal_details[<%= index %>][asset_lock_version]" value="<%= jd.asset.lock_version if jd.asset %>"/>
+<%= fields_for "journal_details[#{index}]", jd do |f| %>
+  <% if jd.asset and jd.asset.persisted? %>
+    資産コード：<%= jd.asset.code %>
 
-<% if jd.asset and jd.asset.persisted? %>
-  資産コード：<%= jd.asset.code %>
+    <%= f.hidden_field :asset_id, :value => jd.asset.id %>
+    <%= f.hidden_field :asset_lock_version, :value => jd.asset.lock_version %>
+  <% end %>
 <% end %>

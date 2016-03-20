@@ -44,8 +44,6 @@ ja:
         journalizable: 仕訳登録可否
         sub_account_type: 補助科目区分
         tax_type: "税金区分"  
-        children: "子供たち"  
-        parent: "親"
         parent_id: 親勘定科目
         
       asset:
@@ -190,14 +188,10 @@ ja:
         amount: "伝票金額"  
         created_at: 登録日時
         updated_at: 更新日時
-        slip_type: "伝票区分"  
-        ym: "年月"  
-        finder_key: "検索キー"  
-        receipt_path: "領収書ファイルのパス"  
-        transfer_journals: "振替元伝票ID"  
+        slip_type: 伝票区分
+        ym: 年月
         journal_details:
-          social_expense_number_of_people: "接待交際の参加人数"  
-        tax_admin_info: "消費税管理情報"
+          social_expense_number_of_people: 接待交際の参加人数
 
       payroll:
         ym: 年月
@@ -217,6 +211,9 @@ ja:
         accrued_liability: 従業員への未払費用
         year_end_adjustment_liability: "年末調整額（過払分）"  
         pay_day: "給与支払日"  
+
+      receipt:
+        file: 領収書
 
       rent: 
         rent_type: "家賃のタイプ"  
@@ -298,7 +295,11 @@ ja:
         spouse: "配偶者控除"
         disabled_persons: "障害者控除"
         basic: "基礎控除"
-        
+
   errors:
     messages:
       sub_accounts_duplicated: 補助科目が重複しています。
+
+  text:
+    hide_detail: 詳細を隠す
+    show_detail: 詳細を表示

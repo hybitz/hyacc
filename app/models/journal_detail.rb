@@ -46,6 +46,10 @@ class JournalDetail < ActiveRecord::Base
     Account.get(self.account_id)
   end
 
+  def account=(account)
+    self.account_id = account.id
+  end
+
   def branch
     Branch.get(self.branch_id)
   end

@@ -1,10 +1,4 @@
-決算区分：
-<select id="journal_details_<%= index %>_settlement_type"
-       name="journal_details[<%= index %>][settlement_type]">
-
-    <option value=""></option>
-
-    <% settlement_types.each do |key, value| %>
-      <option value="<%= value %>" <%= "selected" if value == jd.settlement_type %>><%= key %></option>
-    <% end %>
-</select>
+<%= fields_for "journal_details[#{index}]", jd do |f| %>
+  決算区分：
+  <%= f.select :settlement_type, settlement_types, :include_blank => true %>
+<% end %>

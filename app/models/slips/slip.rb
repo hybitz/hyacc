@@ -30,11 +30,6 @@ module Slips
     attr_accessor :auto_journal_day
     attr_accessor :lock_version
     
-    # 電子領収書添付用の入力フィールド
-    attr_accessor :receipt_path
-    attr_accessor :receipt_file
-    attr_accessor :delete_flag_of_receipt_file
-
     # 接待交際費用の入力フィールド
     attr_accessor :social_expense_number_of_people
 
@@ -105,11 +100,6 @@ module Slips
         # 資産チェック
         validate_assets( @journal_header, nil )
 
-        # 領収書が指定されていれば保存
-        if receipt_file.present?
-          @journal_header.receipt_path = save_receipt_file(receipt_save_dir(@journal_header), receipt_file)
-        end
-        
         # 登録        
         @journal_header.save!
 
@@ -147,19 +137,6 @@ module Slips
         # 資産チェック
         validate_assets( @journal_header, old )
 
-        # 削除フラグが立っている場合、ファイルを物理削除
-        unless @journal_header.receipt_path.nil?
-          if delete_flag_of_receipt_file
-            delete_upload_file(@journal_header.receipt_path)
-            @journal_header.receipt_path = nil
-          end
-        end
-
-        # 領収書が指定されていれば保存
-        unless receipt_file.nil? or receipt_file.blank?
-          @journal_header.receipt_path = save_receipt_file(receipt_save_dir(@journal_header), receipt_file)
-        end
-
         # 自動仕訳を作成
         do_auto_transfers( @journal_header )
 
@@ -180,11 +157,6 @@ module Slips
       # 資産チェック
       validate_assets( nil, @journal_header )
 
-      # 領収書ファイルの削除
-      unless @journal_header.receipt_path.blank?
-        delete_upload_file(@journal_header.receipt_path)
-      end
-      
       @journal_header.lock_version = lock_version
       @journal_header.destroy
     end
@@ -377,9 +349,6 @@ module Slips
         end
       end
       
-      # 領収書ファイルのパスをセット
-      @receipt_path = @journal_header.receipt_path
-        
       if editable?
         # 本伝票が前提としている科目側の明細を取得
         my_detail = journal_details.where(:account_id => @my_account_id, :detail_type => DETAIL_TYPE_NORMAL).first
@@ -480,8 +449,6 @@ module Slips
       @auto_journal_day = hash[:auto_journal_day]
       @social_expense_number_of_people = hash[:social_expense_number_of_people]
       @settlement_type = hash[:settlement_type]
-      @receipt_file = hash[:receipt_file]
-      @delete_flag_of_receipt_file = hash[:delete_flag_of_receipt_file]
       @lock_version = hash[:lock_version]
 
       # 資産管理入力フィールド

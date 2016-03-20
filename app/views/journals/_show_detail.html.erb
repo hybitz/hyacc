@@ -1,4 +1,4 @@
-<tr data-detail_id="<%= jd.id %>" data-detail_no="<%= jd.detail_no %>" data-index="<%= index %>">
+<tr data-detail_id="<%= jd.id %>" data-index="<%= index %>">
   <td><%= jd.dc_type_name %></td>
   <td><%= jd.account.code + ":" + jd.account_name %></td>
   <td><%= jd.sub_account_name %></td>
@@ -13,7 +13,7 @@
   <td class="amount"><%= to_amount(jd.tax_amount, :show_zero => true) %></td>
   <td class="amount"><%= to_amount(jd.tax_type == TAX_TYPE_EXCLUSIVE ? jd.input_amount + jd.tax_amount : jd.input_amount ) %></td>
   <td nowrap>
-    <a href="#" onclick="journal.flip_detail(this); return false;"><%= message_for_details %></a>
+    <a href="#" class="flip_detail_button"><%= message_for_details %></a>
   </td>
 </tr>
 <tr style="<%= style_for_details %>">
@@ -42,7 +42,7 @@
   </td>
   <td rowspan="2" colspan="<%= colspan_of_account_details_for_show %>">
     <div id="journal_details_<%= index %>_account_detail" style="margin:5px">
-      <%= render_account_details jd.account_id, :locals => {:jd => jd, :index => index} %>
+      <%= render_account_details jd.account_id, :jd => jd, :index => index %>
     </div>
   </td>
   <td></td>

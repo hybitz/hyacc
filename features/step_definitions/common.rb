@@ -36,14 +36,12 @@ end
         assert page.has_no_selector?('.reload_dialog')
       end
       assert page.has_selector?('#slip_new_form')
-      assert_url "^/simple/#{@account.code}$"
       assert has_selector? '.tax_type_ready'
     else
       if action == '登録' or action == '更新'
         assert has_no_selector?('.ui-dialog-title', :text => "振替伝票　#{action}]")
       end
       assert has_text?("伝票を#{action}しました。")
-      assert_url "^/journals$"
     end
   ensure
     capture

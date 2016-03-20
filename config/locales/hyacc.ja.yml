@@ -285,6 +285,7 @@ ja:
         buying_or_selling: "売買区分"
         shares: "株数"
         trading_value: "取引金額"
+        charges: "手数料"
         
       exemption:
         employee_id: "従業員"

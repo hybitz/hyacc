@@ -238,11 +238,6 @@ ja:
         deleted: "を削除"  
         account: "口座"  
         
-      tax_admin_info: 
-        should_include_tax: "税金は含まれば"  
-        checked: "チェック"  
-        journal_header: "雑誌ヘッダ"
-        
       user:
         account_count_of_frequencies: 勘定科目の優先表示数
         code: "コード"  

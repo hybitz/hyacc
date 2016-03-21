@@ -20,7 +20,6 @@
   <% else %>
     <% @journal_headers.each do |jh| %>
     <tr>
-      <% target_account = find_target_account(jh) %>
       <td><%= jh.ym %></td>
       <td><%= jh.day %></td>
       <td><%= jh.remarks %></td>

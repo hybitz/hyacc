@@ -323,7 +323,7 @@ class JournalsController < Base::HyaccController
         tax_detail.amount = detail.tax_amount.to_i
 
         # 対象の明細との関連を設定
-        tax_detail.main_journal_detail = detail
+        tax_detail.main_detail = detail
         tax_detail.journal_header = jh
         new_details << tax_detail
       end

@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: slip_utils.rb 2817 2012-02-17 03:33:01Z ichy $
-# Product: hyacc
-# Copyright 2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class Slips::SlipUtils
   include HyaccConstants
 

@@ -37,10 +37,10 @@ class JournalHeader < ActiveRecord::Base
     ym % 100
   end
   
-  def get_normal_detail_count()
-      journal_details.inject( 0 ){ | count, jd |
-        jd.detail_type == DETAIL_TYPE_NORMAL ? count + 1 : count
-      }
+  def get_normal_detail_count
+    journal_details.inject( 0 ){| count, jd|
+      jd.detail_type == DETAIL_TYPE_NORMAL ? count + 1 : count
+    }
   end
   
   def journal_detail(detail_no)
@@ -82,15 +82,13 @@ class JournalHeader < ActiveRecord::Base
         jd.input_amount = jd.amount
   
         # 金額を消費税明細から計算
-        if jd.tax_journal_detail
-          if jd.tax_type == TAX_TYPE_NONTAXABLE
-          elsif jd.tax_type == TAX_TYPE_INCLUSIVE
-            jd.input_amount += jd.tax_journal_detail.amount
-            jd.tax_amount = jd.tax_journal_detail.amount
-          elsif jd.tax_type == TAX_TYPE_EXCLUSIVE
-            jd.tax_amount = jd.tax_journal_detail.amount
-          else
-            raise HyaccException.new(ERR_INVALID_TAX_TYPE)
+        if jd.tax_detail
+          case jd.tax_type
+          when TAX_TYPE_INCLUSIVE
+            jd.input_amount += jd.tax_detail.amount
+            jd.tax_amount = jd.tax_detail.amount
+          when TAX_TYPE_EXCLUSIVE
+            jd.tax_amount = jd.tax_detail.amount
           end
         end
         
@@ -98,11 +96,11 @@ class JournalHeader < ActiveRecord::Base
         if jd.has_auto_transfers
           jd.transfer_journals.each do |tj|
             case tj.slip_type
-            when SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE then
+            when SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE
               jd.auto_journal_type = AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
-            when SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE then
+            when SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE
               jd.auto_journal_type = AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
-            when SLIP_TYPE_AUTO_TRANSFER_EXPENSE then
+            when SLIP_TYPE_AUTO_TRANSFER_EXPENSE
               jd.auto_journal_type = AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
               jd.auto_journal_year = tj.year
               jd.auto_journal_month = tj.month
@@ -182,9 +180,9 @@ class JournalHeader < ActiveRecord::Base
     # Trac#171 2010/01/27
     # 本体明細に消費税明細への参照を設定する
     jh.journal_details.each do |src_jd|
-      if src_jd.tax_journal_detail.present?
+      if src_jd.tax_detail.present?
         copy_jd = copy.journal_detail(src_jd.detail_no) 
-        copy_jd.tax_journal_detail = copy.journal_detail(src_jd.tax_journal_detail.detail_no)
+        copy_jd.tax_detail = copy.journal_detail(src_jd.tax_detail.detail_no)
       end
     end
 

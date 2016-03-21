@@ -265,7 +265,7 @@ module Slips
         ret << jd3
         
         # 対象の明細との関連を設定
-        jd3.main_journal_detail = jd2
+        jd3.main_detail = jd2
       end
       
       return ret
@@ -373,19 +373,19 @@ module Slips
         # 金額、消費税額
         if my_detail.dc_type == my_detail.account.dc_type
           @amount_increase = target_detail.amount
-          if target_detail.tax_journal_detail.nil?
+          if target_detail.tax_detail.nil?
             @tax_amount_increase = 0
           else
-            @amount_increase += target_detail.tax_journal_detail.amount if tax_type == TAX_TYPE_INCLUSIVE
-            @tax_amount_increase = target_detail.tax_journal_detail.amount
+            @amount_increase += target_detail.tax_detail.amount if tax_type == TAX_TYPE_INCLUSIVE
+            @tax_amount_increase = target_detail.tax_detail.amount
           end
         else
           @amount_decrease = target_detail.amount
-          if target_detail.tax_journal_detail.nil?
+          if target_detail.tax_detail.nil?
             @tax_amount_decrease = 0
           else
-            @amount_decrease += target_detail.tax_journal_detail.amount if tax_type == TAX_TYPE_INCLUSIVE
-            @tax_amount_decrease = target_detail.tax_journal_detail.amount
+            @amount_decrease += target_detail.tax_detail.amount if tax_type == TAX_TYPE_INCLUSIVE
+            @tax_amount_decrease = target_detail.tax_detail.amount
           end
         end
   

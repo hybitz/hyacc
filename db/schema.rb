@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314225231) do
+ActiveRecord::Schema.define(version: 20160321035916) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -364,7 +364,6 @@ ActiveRecord::Schema.define(version: 20160314225231) do
     t.integer  "amount",                                  null: false
     t.string   "finder_key"
     t.integer  "transfer_from_id"
-    t.string   "receipt_path"
     t.integer  "depreciation_id"
     t.integer  "transfer_from_detail_id"
     t.integer  "housework_id"

@@ -69,6 +69,7 @@ ja:
         bank_id: 金融機関
         code: 営業店コード
         name: 営業店名
+        address: 住所
         deleted: 削除フラグ
         disabled: 状態
 

@@ -9,7 +9,7 @@ module Auto::TransferJournal
       @src_jh = auto_journal_param.journal_header
     end
     
-    def make_journals()
+    def make_journals
       # 伝票と伝票に紐付いているすべての自動振替伝票をリストアップ
       related_journals = get_all_related_journals(@src_jh)
       
@@ -28,8 +28,9 @@ module Auto::TransferJournal
         }
       end
     end
-    
-  private
+
+    private
+
     def make_transfer_journal( ym, day, branch_id, amount )
       branch = Branch.get( branch_id )
       

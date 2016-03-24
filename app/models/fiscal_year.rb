@@ -41,6 +41,10 @@ class FiscalYear < ActiveRecord::Base
     closing_status == CLOSING_STATUS_OPEN
   end
 
+  def open?
+    closing_status == CLOSING_STATUS_OPEN
+  end
+
   def is_closing
     closing_status == CLOSING_STATUS_CLOSING
   end
@@ -48,7 +52,7 @@ class FiscalYear < ActiveRecord::Base
   def is_closed
     closing_status == CLOSING_STATUS_CLOSED
   end
-  
+
   def closed?
     closing_status == CLOSING_STATUS_CLOSED
   end
@@ -60,7 +64,7 @@ class FiscalYear < ActiveRecord::Base
   def is_carried
     carry_status == CARRY_STATUS_CARRIED
   end
-  
+
   def is_not_carried
     ! is_carried
   end
@@ -68,21 +72,21 @@ class FiscalYear < ActiveRecord::Base
   # 期首の年月を取得
   def start_year_month
     ret = get_start_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )
-    
+
     # 初年度の場合を考慮
-    founded_year_month = to_int(company.founded_date) / 100 
+    founded_year_month = to_int(company.founded_date) / 100
     if ret < founded_year_month
       ret = founded_year_month
     end
-    
+
     ret
   end
-  
+
   # 期末の年月を取得
   def end_year_month
     get_end_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )
   end
-  
+
   # 期首から期末までの年月を配列で取得
   def year_month_range
     ret = []
@@ -93,10 +97,10 @@ class FiscalYear < ActiveRecord::Base
       ret << from
       from = add_months(from, 1)
     end
-    
+
     ret
   end
-  
+
   def tax_management_type_name
     TAX_MANAGEMENT_TYPES[tax_management_type]
   end
@@ -115,7 +119,7 @@ class FiscalYear < ActiveRecord::Base
       end
     end
   end
-  
+
   # 資産コード用のシーケンスを作成
   def create_sequence_for_asset_code
     Sequence.create_sequence(Asset, fiscal_year)

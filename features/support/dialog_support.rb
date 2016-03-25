@@ -8,6 +8,14 @@ module DialogSupport
     end
   end
 
+  def has_no_dialog?(options = {})
+    options = {:title => options} if options.is_a?(String) or options.is_a?(Regexp)
+
+    if options[:title]
+      has_no_selector?("span.ui-dialog-title", :text => options[:title])
+    end
+  end
+
 end
 
 World(DialogSupport)

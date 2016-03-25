@@ -17,7 +17,7 @@ end
   table = normalize_table(ast_table)
   header = table[1]
   details = [table[4], table[5]]
-  
+
   @journal = Journal.new
   @journal.ym = header[0]
   @journal.day = header[1]
@@ -41,17 +41,17 @@ end
     detail.branch_id = branch.id
     detail.branch_name = branch.name
     detail.input_amount = d[4]
-    
+
     account.sub_accounts.each do |sa|
       if sa.name == d[2]
         detail.sub_account_id = sa.id
         detail.sub_account_name = sa.name
       end
     end if d[2].present?
-    
+
     @journal.journal_details << detail
   end
-  
+
   fill_in 'journal_ym', :with => @journal.ym
   fill_in 'journal_day', :with => @journal.day
   fill_in 'journal_remarks', :with => @journal.remarks
@@ -64,7 +64,7 @@ end
     select detail.branch_name, :from => "journal_details_#{i}_branch_id"
     fill_in "journal_details_#{i}_input_amount", :with => detail.input_amount
   end
-  
+
   find('#journal_ym').click # キャプチャ前にフォーカスイベントを発生させたいだけ
   capture
   click_on action
@@ -72,12 +72,12 @@ end
 
 ならば /^振替伝票の一覧に遷移する$/ do
   assert has_title?('振替伝票')
+  assert has_no_selector?('.notice')
   assert_url '/journals'
 end
 
 ならば /^振替伝票の(参照|追加|編集)ダイアログが表示される$/ do |action|
-  page.has_selector?("div.ui-dialog", :visible => true)
-  assert has_dialog?(/#{'振替伝票.*' + action}/)
+  assert has_dialog?("振替伝票 #{action}")
   capture
 end
 
@@ -107,7 +107,7 @@ end
   select '借方', :from => "journal_details_1_dc_type"
   select '光熱費', :from => "journal_details_1_account_id"
   fill_in 'journal_details_1_input_amount', :with => 15000
-  
+
   capture
 end
 
@@ -124,7 +124,7 @@ end
 
 もし /^明細をもう１つ追加して、現金での支払いを入力します。$/ do
   click_on '明細追加'
-  
+
   select '貸方', :from => "journal_details_3_dc_type"
   select '小口現金', :from => "journal_details_3_account_id"
   fill_in 'journal_details_3_input_amount', :with => 96000

@@ -7,7 +7,7 @@ module HyaccViewHelper
   end
   
   def format_datetime( date, format=nil )
-    return "" if date.nil?
+    return '' if date.nil?
     
     format = '%Y/%m/%d %H:%M:%S' unless format
     date.strftime(format)
@@ -15,7 +15,7 @@ module HyaccViewHelper
 
   def format_date( date )
     if date.nil?
-      ""
+      ''
     else
       date.strftime('%Y/%m/%d')
     end
@@ -23,7 +23,7 @@ module HyaccViewHelper
 
   def format_year_month( year_month )
     zero_pad = (year_month % 100) < 10 ? '0' : '' 
-    (year_month / 100).to_s + "/" + zero_pad + (year_month % 100).to_s
+    (year_month / 100).to_s + '/' + zero_pad + (year_month % 100).to_s
   end
   
   def format_ymd( ym, day )
@@ -32,15 +32,17 @@ module HyaccViewHelper
   end
 
   def format_year_month_day( year_month_day )
-    format_year_month( year_month_day / 100 ) + "/" + (year_month_day % 100).to_s
+    format_year_month( year_month_day / 100 ) + '/' + (year_month_day % 100).to_s
   end
 
   def format_wareki_year_month( year_month )
+    year_month = year_month.to_i
     zero_pad = ( year_month % 100 ) < 10 ? '0' : ''
     Gengou.to_wareki( year_month / 100 ) + "年" + zero_pad + ( year_month % 100 ).to_s + "月"
   end
   
   def format_wareki_year_month_day( year_month_day )
+    year_month_day = year_month_day.to_i
     zero_pad = ( year_month_day % 100 ) < 10 ? '0' : ''
     format_wareki_year_month( year_month_day / 100 ) + zero_pad + ( year_month_day % 100 ).to_s + "日"
   end

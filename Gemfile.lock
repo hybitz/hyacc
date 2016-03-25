@@ -195,7 +195,7 @@ GEM
     net-telnet (0.1.1)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
-    ohai (8.12.1)
+    ohai (8.13.0)
       chef-config (>= 12.5.0.alpha.1, < 13)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
@@ -204,11 +204,11 @@ GEM
       mixlib-config (~> 2.0)
       mixlib-log
       mixlib-shellout (~> 2.0)
-      plist
+      plist (~> 3.1)
       systemu (~> 2.6.4)
       wmi-lite (~> 1.0)
     orm_adapter (0.5.0)
-    parser (2.3.0.6)
+    parser (2.3.0.7)
       ast (~> 2.2)
     plist (3.2.0)
     poltergeist (1.9.0)

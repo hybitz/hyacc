@@ -38,7 +38,8 @@ end
       assert has_selector?('#slip_new_form')
       assert has_selector? '.tax_type_ready'
     else
-      if action == '登録' or action == '更新'
+      case action
+      when '登録', '更新'
         assert has_no_dialog?("振替伝票　#{action}")
       end
       assert has_selector?('.notice', :text => "伝票を#{action}しました。")

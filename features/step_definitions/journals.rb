@@ -6,9 +6,15 @@ end
   all('#journals_table tr').each do |tr|
     next unless tr.has_link?(action)
     within tr do
-      click_on action
+      case action
+      when '削除'
+        accept_confirm do
+          click_on action
+        end
+      else
+        click_on action
+      end
     end
-    confirm if action == '削除'
     break
   end
 end

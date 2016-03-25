@@ -88,7 +88,7 @@ class Mm::BanksController < Base::HyaccController
   end
 
   def bank_params
-    params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :disabled])
+    params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :address, :disabled])
   end
 
 end

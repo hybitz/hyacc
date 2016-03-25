@@ -5,6 +5,7 @@
     <tr>
       <th><%= BankOffice.human_attribute_name :code %></th>
       <th><%= BankOffice.human_attribute_name :name %></th>
+      <th><%= BankOffice.human_attribute_name :address %></th>
       <th><%= BankOffice.human_attribute_name :disabled %></th>
     </tr>
   </thead>
@@ -17,7 +18,7 @@
 
   <tfoot>
     <tr>
-      <td colspan="3">
+      <td colspan="4">
         <%= link_to '追加', {:action => 'add_bank_office'}, :onclick => 'banks.add_bank_office(this); return false;' %>
       </td>
     </tr>

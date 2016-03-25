@@ -16,25 +16,25 @@
     <a href="#" class="flip_detail_button"><%= message_for_details %></a>
   </td>
 </tr>
-<tr style="<%= style_for_details %>">
+<tr style="<%= style_for_detail(jd) %>">
   <td rowspan="3" align="center">計上日<br/>振替</td>
   <td colspan="2">
     <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
            <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />
     翌月の費用
   </td>
-  
+
   <% if branch_mode %>
   <td><%= render 'get_allocation', :jd => jd, :index => index %></td>
   <% end %>
-  
+
   <td colspan="3">
     <div style="text-align: right; width: 100%;"><%= jd.note %></div>
   </td>
   <td></td>
   <td rowspan="3" colspan="2"></td>
 </tr>
-<tr style="<%= style_for_details %>">
+<tr style="<%= style_for_detail(jd) %>">
   <td colspan="2">
     <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
            <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %> />
@@ -47,7 +47,7 @@
   </td>
   <td></td>
 </tr>
-<tr style="<%= style_for_details %>">
+<tr style="<%= style_for_detail(jd) %>">
   <td colspan="2" nowrap>
     <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
            <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
@@ -57,4 +57,3 @@
   </td>
   <td></td>
 </tr>
-  

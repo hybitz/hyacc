@@ -1,8 +1,13 @@
-<%= fields_for "journal_details[#{index}]", jd do |f| %>
-  <% if jd.asset and jd.asset.persisted? %>
-    資産コード：<%= jd.asset.code %>
+<%
+  prefix = "journal[journal_details_attributes[#{index}]]"
+%>
+<% if jd.asset and jd.asset.persisted? %>
+  <%= fields_for prefix, jd do |f| %>
+    <%= f.fields_for 'asset_attributes', jd.asset do |f| %>
+      資産コード：<%= jd.asset.code %>
 
-    <%= f.hidden_field :asset_id, :value => jd.asset.id %>
-    <%= f.hidden_field :asset_lock_version, :value => jd.asset.lock_version %>
+      <%= f.hidden_field :id %>
+      <%= f.hidden_field :lock_version %>
+    <% end %>
   <% end %>
 <% end %>

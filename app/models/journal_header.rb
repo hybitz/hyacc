@@ -1,10 +1,11 @@
 class JournalHeader < ActiveRecord::Base
   include HyaccUtil
 
+  belongs_to :company
   belongs_to :depreciation
 
   has_many :journal_details, :inverse_of => 'journal_header', :dependent => :destroy
-  accepts_nested_attributes_for :journal_details
+  accepts_nested_attributes_for :journal_details, :allow_destroy => true
 
   has_many :transfer_journals, :foreign_key => :transfer_from_id, # 外部キーは所有される側にあるので、fromとしている
     :class_name => 'JournalHeader', :dependent => :destroy
@@ -15,7 +16,7 @@ class JournalHeader < ActiveRecord::Base
 
   before_save :update_sum_info
   after_save :update_tax_admin_info
-  
+
   validates_presence_of :company_id, :ym, :day, :remarks
   validates_format_of :ym, :with => /[0-9]{6}/ # TODO 月をもっと正確にチェック
   validates_with JournalValidator
@@ -32,17 +33,17 @@ class JournalHeader < ActiveRecord::Base
   def date
     Date.new( year, month, day )
   end
-  
+
   def month
     ym % 100
   end
-  
+
   def get_normal_detail_count
     journal_details.inject( 0 ){| count, jd|
-      jd.detail_type == DETAIL_TYPE_NORMAL ? count + 1 : count
+      jd.normal_detail? ? count + 1 : count
     }
   end
-  
+
   def journal_detail(detail_no)
     journal_details.each do |detail|
       return detail if detail.detail_no.to_i == detail_no.to_i
@@ -53,7 +54,7 @@ class JournalHeader < ActiveRecord::Base
   def is_same_fiscal_year( other )
     self.fiscal_year == other.fiscal_year
   end
-  
+
   def year
     ym / 100
   end
@@ -67,20 +68,20 @@ class JournalHeader < ActiveRecord::Base
 
     false
   end
-  
+
   # 通常明細に消費税明細をマージして返す
   # 自動振替伝票が関連している場合は、それもマージして返す
   def normal_details
     return @normal_details if @normal_details
-    
+
     @normal_details = []
     journal_details.each do |jd|
-      next unless jd.detail_type == DETAIL_TYPE_NORMAL
+      next unless jd.normal_detail?
 
       # 入力金額がない場合は、DBから読み込んだ時のはず
       if jd.input_amount.nil?
         jd.input_amount = jd.amount
-  
+
         # 金額を消費税明細から計算
         if jd.tax_detail
           case jd.tax_type
@@ -91,7 +92,7 @@ class JournalHeader < ActiveRecord::Base
             jd.tax_amount = jd.tax_detail.amount
           end
         end
-        
+
         # 計上日振替がされているかチェック
         if jd.has_auto_transfers
           jd.transfer_journals.each do |tj|
@@ -109,23 +110,62 @@ class JournalHeader < ActiveRecord::Base
           end
         end
       end
-      
+
       @normal_details << jd
     end
     @normal_details
   end
-  
+
   # 伝票区分名称
   def slip_type_name
     SLIP_TYPES[ slip_type ]
   end
-  
+
+  def save_with_tax!
+    journal_details.each do |detail|
+      next unless detail.normal_detail?
+
+      case detail.tax_type
+      when TAX_TYPE_INCLUSIVE
+        detail.amount = detail.input_amount.to_i - detail.tax_amount.to_i
+      else
+        detail.amount = detail.input_amount.to_i
+      end
+
+      # 税抜経理方式で消費税があれば、消費税明細を自動仕訳
+      if detail.tax_amount.to_i > 0
+        tax_detail = detail.tax_detail || journal_details.build(:main_detail => detail)
+        tax_detail.detail_no = nil # 画面で必要としないため、DB登録時に決定する
+        tax_detail.detail_type = DETAIL_TYPE_TAX
+        tax_detail.dc_type = detail.dc_type
+        tax_detail.tax_type = TAX_TYPE_NONTAXABLE
+
+        case detail.account.dc_type
+        when DC_TYPE_DEBIT
+          # 借方の場合は仮払消費税
+          tax_detail.account = Account.get_by_code( ACCOUNT_CODE_TEMP_PAY_TAX )
+        when DC_TYPE_CREDIT
+          # 貸方の場合は借受消費税
+          tax_detail.account = Account.get_by_code( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED )
+        end
+
+        tax_detail.branch = detail.branch
+        tax_detail.amount = detail.tax_amount.to_i
+      else
+        detail.tax_detail.mark_for_destruction if detail.tax_detail
+      end
+    end
+
+    set_detail_no
+    save!
+  end
+
   # 明細の集計情報を更新する
   def update_sum_info
     update_amount
     update_finder_key
   end
-  
+
   # 消費税管理情報を更新する
   # 伝票を登録、更新する際には必ず消費税管理情報を初期化する
   def update_tax_admin_info
@@ -141,7 +181,7 @@ class JournalHeader < ActiveRecord::Base
         break
       end
     end
-    
+
     self.tax_admin_info = TaxAdminInfo.new unless self.tax_admin_info
     self.tax_admin_info.should_include_tax = should_include_tax
     self.tax_admin_info.checked = 0
@@ -173,15 +213,15 @@ class JournalHeader < ActiveRecord::Base
       src_jd.transfer_journals.each do |tj|
         jd.transfer_journals << tj.copy
       end
-      
+
       copy.journal_details << jd
     end
-    
+
     # Trac#171 2010/01/27
     # 本体明細に消費税明細への参照を設定する
     jh.journal_details.each do |src_jd|
       if src_jd.tax_detail.present?
-        copy_jd = copy.journal_detail(src_jd.detail_no) 
+        copy_jd = copy.journal_detail(src_jd.detail_no)
         copy_jd.tax_detail = copy.journal_detail(src_jd.tax_detail.detail_no)
       end
     end
@@ -192,42 +232,57 @@ class JournalHeader < ActiveRecord::Base
 
     copy
   end
-  
+
   private
+
+  def set_detail_no
+    detail_no = 1
+    journal_details.each do |d|
+      next if d.deleted?
+      d.detail_no = detail_no
+      detail_no += 1
+    end
+  end
 
   # 伝票の合計金額を取得する
   # 借方のみ集計する
   def update_amount
     amount_debit = 0
     amount_credit = 0
-    
-    HyaccLogger.debug "伝票金額集計 ID[#{id}]"
-    journal_details.each do |jd|
-      HyaccLogger.debug "　　#{DC_TYPES[jd.dc_type]}:#{TAX_TYPES[jd.tax_type]}:#{jd.amount}"
 
-      if jd.dc_type == DC_TYPE_DEBIT
+    journal_details.each do |jd|
+      next if jd.deleted?
+
+      case jd.dc_type
+      when DC_TYPE_DEBIT
         amount_debit += jd.amount
-      elsif jd.dc_type = DC_TYPE_CREDIT
+      when DC_TYPE_CREDIT
         amount_credit += jd.amount
       else
         raise HyaccException.new( ERR_INVALID_DC_TYPE )
       end
     end
-    
+
     if amount_debit != amount_credit
       HyaccLogger.error ERR_DC_AMOUNT_NOT_THE_SAME + "　借方[#{amount_debit}]　貸方[#{amount_credit}]"
       raise HyaccException.new( ERR_DC_AMOUNT_NOT_THE_SAME )
     end
-    
+
+    if amount_debit == 0
+      raise '合計金額が 0 円です。'
+    end
+
     self.amount = amount_debit
   end
-  
+
   # 明細に含まれる勘定科目、補助科目、計上部門から伝票検索キーを作成
   def update_finder_key
     key = '-'
-    journal_details.each{ |jd|
+    journal_details.each do |jd|
+      next if jd.deleted?
+
       key << jd.account.code << ','
-      
+
       # 補助科目は指定なしの場合がある
       unless jd.sub_account_id.nil?
         key << jd.sub_account_id.to_s
@@ -235,8 +290,8 @@ class JournalHeader < ActiveRecord::Base
       key << ','
       key << jd.branch.id.to_s
       key << '-'
-    }
-    
+    end
+
     self.finder_key = key
-  end  
+  end
 end

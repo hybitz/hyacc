@@ -75,7 +75,7 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
     assert_equal 1, slip.asset_id
     assert_equal '100', slip.asset_code
     assert_equal 0, slip.asset_lock_version
-    
+
     xhr :patch, :update, :account_code => finder.account_code,
       :slip => {
         "id"=>slip.id,
@@ -96,8 +96,10 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
       }
     
     assert_response :success
-    assert_template 'common/reload'
+    assert @slip = assigns(:slip)
+    assert @slip.errors.empty?, @slip.errors.full_messages.join("\n")
     assert_equal '伝票を更新しました。', flash[:notice]
+    assert_template 'common/reload'
     
     jh = JournalHeader.find(11)
     assert_equal 1, jh.create_user_id

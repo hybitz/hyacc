@@ -3,7 +3,7 @@ require 'test_helper'
 # 振替伝票登録時に費用配賦の自動仕訳が正しく作成されているか
 class JournalsController::CorporateTaxTest < ActionController::TestCase
 
-  setup do
+  def setup
     sign_in users(:user2)
   end
   
@@ -11,7 +11,6 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     assert a = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
-    num_journal_headers = JournalHeader.count
     post_jh = JournalHeader.new
     post_jh.remarks = '法人税等の決済区分テスト' + Time.now.to_s
     post_jh.ym = 200911
@@ -34,39 +33,38 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     post_jh.journal_details[1].is_allocated_assets = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :detail_no => post_jh.journal_details[0].detail_no,
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :sub_account_id => post_jh.journal_details[0].sub_account_id,
-          :settlement_type => post_jh.journal_details[0].settlement_type,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
-          :dc_type => post_jh.journal_details[0].dc_type,
-        },
-        '2' => {
-          :detail_no => post_jh.journal_details[1].detail_no,
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
-          :dc_type => post_jh.journal_details[1].dc_type,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 7, JournalHeader.count
+    assert_difference 'JournalHeader.count', 7 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :sub_account_id => post_jh.journal_details[0].sub_account_id,
+              :settlement_type => post_jh.journal_details[0].settlement_type,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :dc_type => post_jh.journal_details[0].dc_type,
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+              :dc_type => post_jh.journal_details[1].dc_type,
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
     
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)

@@ -37,10 +37,6 @@ class FiscalYear < ActiveRecord::Base
     CONSUMPTION_ENTRY_TYPES[ consumption_entry_type ]
   end
 
-  def is_open
-    closing_status == CLOSING_STATUS_OPEN
-  end
-
   def open?
     closing_status == CLOSING_STATUS_OPEN
   end
@@ -58,7 +54,7 @@ class FiscalYear < ActiveRecord::Base
   end
 
   def is_not_closed
-    ! is_closed
+    ! closed?
   end
 
   def is_carried

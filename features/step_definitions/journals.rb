@@ -58,11 +58,13 @@ end
   attach_file '領収書', @journal.receipt.file.path if @journal.receipt.present?
 
   @journal.journal_details.each_with_index do |detail, i|
-    select detail.dc_type_name, :from => "journal_details_#{i}_dc_type"
-    select detail.account_name, :from => "journal_details_#{i}_account_id"
-    select detail.sub_account_name, :from => "journal_details_#{i}_sub_account_id" if detail.sub_account_id.present?
-    select detail.branch_name, :from => "journal_details_#{i}_branch_id"
-    fill_in "journal_details_#{i}_input_amount", :with => detail.input_amount
+    prefix = "journal_journal_details_attributes_#{i}_"
+
+    select detail.dc_type_name, :from => "#{prefix}_dc_type"
+    select detail.account_name, :from => "#{prefix}_account_id"
+    select detail.sub_account_name, :from => "#{prefix}_sub_account_id" if detail.sub_account_id.present?
+    select detail.branch_name, :from => "#{prefix}_branch_id"
+    fill_in "#{prefix}_input_amount", :with => detail.input_amount
   end
 
   find('#journal_ym').click # キャプチャ前にフォーカスイベントを発生させたいだけ
@@ -100,13 +102,13 @@ end
 end
 
 もし /^借方に家賃と光熱費を入力します。$/ do
-  select '借方', :from => "journal_details_0_dc_type"
-  select '地代家賃', :from => "journal_details_0_account_id"
-  fill_in 'journal_details_0_input_amount', :with => 78000
+  select '借方', :from => "journal_journal_details_attributes_0__dc_type"
+  select '地代家賃', :from => "journal_journal_details_attributes_0__account_id"
+  fill_in 'journal_journal_details_attributes_0__input_amount', :with => 78000
 
-  select '借方', :from => "journal_details_1_dc_type"
-  select '光熱費', :from => "journal_details_1_account_id"
-  fill_in 'journal_details_1_input_amount', :with => 15000
+  select '借方', :from => "journal_journal_details_attributes_1__dc_type"
+  select '光熱費', :from => "journal_journal_details_attributes_1__account_id"
+  fill_in 'journal_journal_details_attributes_1__input_amount', :with => 15000
 
   capture
 end
@@ -114,10 +116,10 @@ end
 もし /^明細を追加して町内会費を入力します。$/ do
   click_on '明細追加'
 
-  select '借方', :from => "journal_details_2_dc_type"
-  select '諸会費', :from => "journal_details_2_account_id"
-  fill_in 'journal_details_2_input_amount', :with => 3000
-  fill_in 'journal_details_2_note', :with => '町内会費として'
+  select '借方', :from => 'journal_journal_details_attributes_2__dc_type'
+  select '諸会費', :from => 'journal_journal_details_attributes_2__account_id'
+  fill_in 'journal_journal_details_attributes_2__input_amount', :with => 3000
+  fill_in 'journal_journal_details_attributes_2__note', :with => '町内会費として'
 
   capture
 end
@@ -125,9 +127,9 @@ end
 もし /^明細をもう１つ追加して、現金での支払いを入力します。$/ do
   click_on '明細追加'
 
-  select '貸方', :from => "journal_details_3_dc_type"
-  select '小口現金', :from => "journal_details_3_account_id"
-  fill_in 'journal_details_3_input_amount', :with => 96000
+  select '貸方', :from => "journal_journal_details_attributes_3__dc_type"
+  select '小口現金', :from => "journal_journal_details_attributes_3__account_id"
+  fill_in 'journal_journal_details_attributes_3__input_amount', :with => 96000
 
   capture
 end
@@ -136,7 +138,7 @@ end
   begin
     click_on '登録'
     assert has_no_selector?("div.ui-dialog", :visible => true)
-    assert has_selector?('#journals_table')
+    assert has_selector?('.notice')
   ensure
     capture
   end
@@ -150,11 +152,12 @@ end
   assert has_dialog?(/振替伝票.*追加/)
 
   normalize_table(ast_table).each do |row|
+    prefix = 'journal_journal_details_attributes_1_'
     year, month, day = row[0].split('-')
 
-    fill_in 'journal_details_1_auto_journal_year', :with => year
-    fill_in 'journal_details_1_auto_journal_month', :with => month
-    fill_in 'journal_details_1_auto_journal_day', :with => day
+    fill_in "#{prefix}_auto_journal_year", :with => year
+    fill_in "#{prefix}_auto_journal_month", :with => month
+    fill_in "#{prefix}_auto_journal_day", :with => day
     capture
     accept_alert do
       click_on '登録'

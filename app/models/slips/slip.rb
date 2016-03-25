@@ -97,11 +97,11 @@ module Slips
         # 簡易入力で入力可能な状態のデータであることを確認
         raise HyaccException.new(ERR_INVALID_SLIP) unless editable?
         
-        # 資産チェック
-        validate_assets( @journal_header, nil )
-
         # 登録        
         @journal_header.save!
+
+        # 資産チェック
+        validate_assets( @journal_header, nil )
 
         # 自動仕訳を作成
         do_auto_transfers( @journal_header )
@@ -215,32 +215,12 @@ module Slips
       jd2.auto_journal_year = @auto_journal_year
       jd2.auto_journal_month = @auto_journal_month
       jd2.auto_journal_day = @auto_journal_day
-      
-      # 固定資産の場合は資産を設定
-      if target_account.depreciable
-        asset = Asset.find(@asset_id) if @asset_id > 0
-        unless asset
-          asset = Asset.new
-          asset.code = create_asset_code(@user.company.get_fiscal_year_int(@journal_header.ym))
-          asset.name = @remarks
-          asset.status = ASSET_STATUS_CREATED
-          asset.depreciation_method = target_account.depreciation_method
-          asset.depreciation_limit = 1 # 平成19年度以降は1円まで償却可能なのでデフォルトは1円
-        end
-        asset.account_id = jd2.account_id
-        asset.sub_account_id = jd2.sub_account_id
-        asset.branch_id = jd2.branch_id
-        asset.ym = @ym
-        asset.day = @day
-        asset.amount = jd2.amount
-        asset.lock_version = @asset_lock_version.to_i
-        asset.journal_detail = jd2
-        jd2.asset = asset
-      else
-        jd2.asset = nil
-      end
+
+      # 資産の楽観ロック
+      jd2.asset.lock_version = @asset_lock_version if jd2.asset
+
       ret << jd2
-      
+
       # 税抜経理方式で消費税があれば、消費税明細を自動仕訳
       if tax_amount > 0
         jd3 = clear_detail_attributes journal_details[2]
@@ -262,12 +242,12 @@ module Slips
         jd3.branch_id = jd2.branch_id
         jd3.amount = tax_amount
 
-        ret << jd3
-        
         # 対象の明細との関連を設定
         jd3.main_detail = jd2
+
+        ret << jd3
       end
-      
+
       return ret
     end
     

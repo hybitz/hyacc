@@ -68,14 +68,4 @@ module SimpleSlipHelper
     end
   end
   
-  def find_target_account( journal_header )
-    journal_header.normal_details.each do |jd|
-      if ['1111','1121','1311','1551', '3171'].include? jd.account.code
-        return jd.account
-      end
-    end
-    
-    nil
-  end
-  
 end

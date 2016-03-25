@@ -363,7 +363,7 @@ module Auto::Journal
         journal_details[num_of_details][:branch_id] = branch_id
         journal_details[num_of_details][:amount] = (commission * tax_rate).to_i
         journal_details[num_of_details][:note] = "振込手数料の消費税"
-        journal_details[num_of_details][:main_journal_detail] = new_journal_details[new_journal_details.size - 1]
+        journal_details[num_of_details][:main_detail] = new_journal_details[new_journal_details.size - 1]
         new_journal_details << JournalDetail.new( journal_details[num_of_details] )
       end
       ### 普通預金

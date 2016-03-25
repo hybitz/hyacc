@@ -8,7 +8,7 @@ hyacc.Journal.prototype.add_detail = function(trigger) {
   var tbody = $(trigger).closest('table').find('tbody');
 
   var params = {
-    index: tbody.find('tr').length / 4,
+    index: this._get_details().last().data('index') + 1,
     format: 'html'
   };
 
@@ -411,10 +411,10 @@ hyacc.Journal.prototype._remove_detail = function(trigger) {
   var tr3 = tr2.next();
   var tr4 = tr3.next();
 
-  tr4.empty().hide();
-  tr3.empty().hide();
-  tr2.empty().hide();
-  tr.removeAttr('data-detail_id').empty().hide();
+  tr4.remove();
+  tr3.remove();
+  tr2.remove();
+  tr.remove();
 };
 
 hyacc.Journal.prototype._set_tax_type = function(detail, tax_type) {

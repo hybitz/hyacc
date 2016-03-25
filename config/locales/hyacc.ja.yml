@@ -9,8 +9,7 @@ ja:
       account: "勘定科目"  
       asset: "資産"
       bank_account: "銀行口座"  
-      branch: "部門"  
-      branches_user: "支店のユーザー"  
+      branch: 部門
       company: "会社"  
       customer: "顧客"  
       fiscal_year: "年度"  
@@ -22,9 +21,8 @@ ja:
       receipt: 領収書
       rent: 地代家賃
       sub_account: 補助科目
-      tax_admin_info: "税務管理インフォメーション"
-      user: "ユーザ"  
-      withheld_tax: "源泉徴収税"  
+      user: ユーザ
+      withheld_tax: 源泉徴収税
 
     attributes: 
       account: 
@@ -173,8 +171,6 @@ ja:
         detail_type: "明細区分"  
         tax_type: 消費税区分
         tax_rate: 消費税率
-        journal_header: "仕訳ヘッダ"  
-        tax_journal_detail: "税金仕分明細"  
         branch: 計上部門
         account: 勘定科目
         sub_account: 補助科目
@@ -238,11 +234,6 @@ ja:
         name: "名前"  
         deleted: "を削除"  
         account: "口座"  
-        
-      tax_admin_info: 
-        should_include_tax: "税金は含まれば"  
-        checked: "チェック"  
-        journal_header: "雑誌ヘッダ"
         
       user:
         account_count_of_frequencies: 勘定科目の優先表示数

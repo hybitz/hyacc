@@ -14,10 +14,10 @@ module ApplicationHelper
             hide = true;
           } else if (select.find('option').length == 1) {
             if (select.find('option').first().attr('value') == '') {
-              hide = true; 
+              hide = true;
             }
           }
-          
+
           if (hide) {
             select.hide();
           } else {
@@ -31,7 +31,7 @@ module ApplicationHelper
 
   def flash_notice(div = true, margin = 10)
     tag = div ? "div" : "span"
-    color = flash[:is_error_message] ? "red" : "green"
+    clazz = flash[:is_error_message] ? 'error' : 'notice'
     message = flash[:notice]
 
     flash.discard :is_error_message
@@ -39,7 +39,7 @@ module ApplicationHelper
 
     if message.present?
       ret = <<-"NOTICE"
-        <#{tag} style="margin: #{margin}px; color: #{color};">
+        <#{tag} class="#{clazz}" style="margin: #{margin}px;;">
         #{message}
         </#{tag}>
       NOTICE
@@ -48,11 +48,11 @@ module ApplicationHelper
       ""
     end
   end
-  
+
   def flash_notice_in_span
     flash_notice(false, 0)
   end
-  
+
   # メニュー項目のスタイルを取得する
   def style_for_menu(controller_path)
     # 簡易入力の場合
@@ -67,8 +67,8 @@ module ApplicationHelper
     elsif controller_path.is_a? Array and controller_path.any?{|c| c[:name] == '/' + controller.controller_path}
       'font-weight: bold; color: slateblue;'
     end
-  end  
-  
+  end
+
   # アクション項目のスタイルを取得する
   def style_for_action( action_name )
     if action_name.to_s == controller.action_name
@@ -98,7 +98,7 @@ module ApplicationHelper
       render 'common/header'
     end
   end
-  
+
   # メニューを表示する
   def render_menu(options={})
     only = options[:only]
@@ -106,7 +106,7 @@ module ApplicationHelper
       render 'common/menu'
     end
   end
-  
+
   # アクションメニューを表示する
   def render_action_menu(options={})
     only = options[:only]

@@ -58,24 +58,30 @@ end
     @journal.journal_details << detail
   end
 
-  fill_in 'journal_ym', :with => @journal.ym
-  fill_in 'journal_day', :with => @journal.day
-  fill_in 'journal_remarks', :with => @journal.remarks
-  attach_file '領収書', @journal.receipt.file.path if @journal.receipt.present?
+  begin
+    within '#journal_form' do
+      fill_in 'journal_ym', :with => @journal.ym
+      fill_in 'journal_day', :with => @journal.day
+      fill_in 'journal_remarks', :with => @journal.remarks
+      attach_file '領収書', @journal.receipt.file.path if @journal.receipt.present?
 
-  @journal.journal_details.each_with_index do |detail, i|
-    prefix = "journal_journal_details_attributes_#{i}_"
+      @journal.journal_details.each_with_index do |detail, i|
+        prefix = "journal_journal_details_attributes_#{i}_"
 
-    select detail.dc_type_name, :from => "#{prefix}_dc_type"
-    select detail.account_name, :from => "#{prefix}_account_id"
-    select detail.sub_account_name, :from => "#{prefix}_sub_account_id" if detail.sub_account_id.present?
-    select detail.branch_name, :from => "#{prefix}_branch_id"
-    fill_in "#{prefix}_input_amount", :with => detail.input_amount
+        select detail.dc_type_name, :from => "#{prefix}_dc_type"
+        select detail.account_name, :from => "#{prefix}_account_id"
+        select detail.sub_account_name, :from => "#{prefix}_sub_account_id" if detail.sub_account_id.present?
+        select detail.branch_name, :from => "#{prefix}_branch_id"
+        fill_in "#{prefix}_input_amount", :with => detail.input_amount
+      end
+
+      find('#journal_ym').click # キャプチャ前にフォーカスイベントを発生させたいだけ
+    end
+
+    click_on action
+  ensure
+    capture
   end
-
-  find('#journal_ym').click # キャプチャ前にフォーカスイベントを発生させたいだけ
-  capture
-  click_on action
 end
 
 ならば /^振替伝票の一覧に遷移する$/ do

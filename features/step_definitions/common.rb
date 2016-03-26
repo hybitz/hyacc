@@ -40,9 +40,9 @@ end
     else
       case action
       when '登録', '更新'
-        assert has_no_selector?('.ui-dialog-title', :text => "振替伝票　#{action}]")
+        assert has_no_selector?("div.ui-dialog", :visible => true)
       end
-      assert has_selector?('.notice', :text => "伝票を#{action}しました。")
+      assert has_selector?('.notice')
     end
   ensure
     capture

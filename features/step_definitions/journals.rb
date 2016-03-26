@@ -91,7 +91,7 @@ end
 end
 
 ならば /^振替伝票の(参照|追加|編集)ダイアログが表示される$/ do |action|
-  assert has_dialog?(/振替伝票.*/)
+  assert has_selector?("div.ui-dialog", :visible => true)
   capture
 end
 

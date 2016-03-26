@@ -220,6 +220,7 @@ module HyaccConstants
     SLIP_TYPE_HOUSEWORK = 11 => '家事按分',
     SLIP_TYPE_CARRY_FORWARD = 12 => '年次繰越',
     SLIP_TYPE_DEEMED_TAX = 13 => 'みなし消費税',
+    SLIP_TYPE_INVESTMENT = 14 => '有価証券',
   }
 
   # 状態区分
@@ -263,6 +264,12 @@ module HyaccConstants
   TRADE_TYPES = {
     TRADE_TYPE_EXTERNAL = 1 => '外部取引',
     TRADE_TYPE_INTERNAL = 2 => '内部取引',
+  }
+
+  # 有価証券目的区分
+  SECURITIES_TYPES = {
+    SECURITIES_TYPE_FOR_TRADING = 1 => '売買目的（1年以内）',
+    SECURITIES_TYPE_FOR_INVESTMENT = 2 => '投資目的（1年以上）',
   }
 
   # 勘定科目コード
@@ -323,7 +330,9 @@ module HyaccConstants
   ACCOUNT_CODE_RENT = '8551' # 地代家賃
   ACCOUNT_CODE_DIVIDEND_RECEIVED = '4222' # 受取配当金
   ACCOUNT_CODE_DEPOSITS_PAID = '1811' # 預け金
-  ACCOUNT_CODE_INVESTMENT = '1400' # 有価証券
+  ACCOUNT_CODE_SECURITIES = '1400' # 有価証券
+  ACCOUNT_CODE_TRADING_SECURITIES = '1410' # 売買目的有価証券
+  ACCOUNT_CODE_INVESTMENT_SECURITIES = '1420' # 投資有価証券
   
   # 補助科目コード
   SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY = '100' # 源泉所得税（立替金）

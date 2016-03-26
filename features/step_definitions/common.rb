@@ -40,7 +40,7 @@ end
     else
       case action
       when '登録', '更新'
-        assert has_no_dialog?("振替伝票　#{action}")
+        assert has_no_dialog?(/振替伝票.*/)
       end
       assert has_selector?('.notice', :text => "伝票を#{action}しました。")
     end

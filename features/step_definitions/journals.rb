@@ -85,7 +85,7 @@ end
 end
 
 ならば /^振替伝票の(参照|追加|編集)ダイアログが表示される$/ do |action|
-  assert has_dialog?("振替伝票　#{action}")
+  assert has_dialog?(/振替伝票.*/)
   capture
 end
 
@@ -94,7 +94,7 @@ end
   click_on '振替伝票'
   assert has_title?('振替伝票')
   click_on '追加'
-  assert has_selector?("div.ui-dialog", :visible => true)
+  assert has_dialog?(/振替伝票.*/)
   capture
 end
 

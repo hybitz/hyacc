@@ -93,6 +93,7 @@ ActiveRecord::Schema.define(version: 20160321035916) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "disabled",             default: false, null: false
+    t.string   "address"
   end
 
   create_table "banks", force: true do |t|

@@ -3,6 +3,8 @@
 end
 
 もし /^任意の振替伝票の(参照|編集|削除)をクリックする$/ do |action|
+  assert has_selector?('#journals_table tr')
+
   all('#journals_table tr').each do |tr|
     next unless tr.has_link?(action)
     within tr do

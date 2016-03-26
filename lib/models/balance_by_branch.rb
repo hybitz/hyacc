@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: balance_by_branch.rb 2484 2011-03-23 15:51:29Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class BalanceByBranch
   attr_accessor :branch_id
   attr_accessor :amount_debit

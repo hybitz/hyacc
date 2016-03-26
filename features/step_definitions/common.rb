@@ -6,7 +6,7 @@ end
 前提 /^(.*?)が(.*?)を表示している$/ do |name, page|
   sign_in :name => name
   click_on page
-  capture  
+  capture
 end
 
 もし /^(.*?)を表示している$/ do |page|
@@ -30,18 +30,19 @@ end
   begin
     if @slip
       if action == '登録'
-        assert page.has_text?("伝票を#{action}しました。")
+        assert has_selector?('.notice', :text => "伝票を#{action}しました。")
       elsif action == '更新'
-        assert page.has_no_selector?('#slip_edit_form')
-        assert page.has_no_selector?('.reload_dialog')
+        assert has_no_selector?('#slip_edit_form')
+        assert has_no_selector?('.reload_dialog')
       end
-      assert page.has_selector?('#slip_new_form')
+      assert has_selector?('#slip_new_form')
       assert has_selector? '.tax_type_ready'
     else
-      if action == '登録' or action == '更新'
-        assert has_no_selector?('.ui-dialog-title', :text => "振替伝票　#{action}]")
+      case action
+      when '登録', '更新'
+        assert has_no_dialog?("振替伝票　#{action}")
       end
-      assert has_text?("伝票を#{action}しました。")
+      assert has_selector?('.notice', :text => "伝票を#{action}しました。")
     end
   ensure
     capture
@@ -68,7 +69,7 @@ end
       assert_equal current_user.employee.id, page.find('#finder_employee_id').value.to_i
     when '勘定科目'
       assert_equal 'ブランク', row[1]
-      assert page.find('#finder_account_id').value.blank? 
+      assert page.find('#finder_account_id').value.blank?
     when '暦年'
       assert_equal '今年', row[1]
       #assert_equal ?, page.find('#finder_calendar_year').value.to_i

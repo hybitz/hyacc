@@ -12,7 +12,7 @@ class JournalsController < Base::HyaccController
   def get_account_detail
     jd = JournalDetail.find(params[:detail_id]) if params[:detail_id].present?
     jd ||= JournalDetail.new
-    
+
     renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
     if renderer
       render :partial => renderer.get_template(controller_name), :locals => {:jd => jd, :index => params[:index]}
@@ -34,7 +34,7 @@ class JournalsController < Base::HyaccController
       @journal = Journal.find(params[:copy_id]).copy
       @journal.ym = @ym
       @journal.day = @day
-      clear_asset_from_details(@journal)
+      AssetUtil.clear_asset_from_details(@journal)
     else
       @journal = new_journal
     end
@@ -42,19 +42,16 @@ class JournalsController < Base::HyaccController
 
   def add_detail
     jd = new_journal.journal_details.first
-    jd.detail_no = nil
     render :partial => 'detail_fields', :locals => {:jd => jd, :index => params[:index]}
   end
 
   def create
     @journal = Journal.new(journal_params)
-    @journal.slip_type = decide_slip_type
-    retrieve_details(@journal)
 
     begin
       @journal.transaction do
         # まずは登録してIDを取得
-        @journal.save!
+        @journal.save_with_tax!
 
         # 資産チェック
         validate_assets(@journal, nil)
@@ -95,12 +92,13 @@ class JournalsController < Base::HyaccController
   def update
     @journal = Journal.find(params[:id])
     old = @journal.copy
+    @journal.attributes = journal_params
+    @journal.slip_type = decide_slip_type(old)
 
     begin
       @journal.transaction do
-        @journal.attributes = journal_params
-        @journal.slip_type = decide_slip_type( old )
-        retrieve_details(@journal)
+        # まずは更新
+        @journal.save_with_tax!
 
         # 資産チェック
         validate_assets(@journal, old)
@@ -111,7 +109,7 @@ class JournalsController < Base::HyaccController
         # 仕訳チェック
         validate_journal(@journal, old)
 
-        # 登録        
+        # 更新
         @journal.save!
       end
 
@@ -171,7 +169,7 @@ class JournalsController < Base::HyaccController
 
   def get_allocation
     jd = JournalDetail.new(:dc_type => params[:dc_type],
-            :account_id => params[:account_id], :branch_id => params[:branch_id], 
+            :account_id => params[:account_id], :branch_id => params[:branch_id],
             :is_allocated_cost => true, :is_allocated_assets => false)
     render :partial => 'get_allocation', :locals => {:jd => jd, :index => params[:index]}
   end
@@ -181,6 +179,14 @@ class JournalsController < Base::HyaccController
   def journal_params
     permitted = [
       :ym, :day, :remarks, :amount, :lock_version, :fiscal_year_id,
+      :journal_details_attributes => [
+          :id, :_destroy, :dc_type, :account_id, :branch_id, :sub_account_id,
+          :input_amount, :tax_type, :tax_rate_percent, :tax_amount,
+          :social_expense_number_of_people, :note,
+          :is_allocated_cost, :is_allocated_assets, :settlement_type, :shares,
+          :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,
+          :asset_attributes => [:id, :lock_version]
+      ],
       :receipt_attributes => [:id, :deleted, :original_filename, :file, :file_cache]
     ]
 
@@ -189,7 +195,7 @@ class JournalsController < Base::HyaccController
 
     case action_name
     when 'create'
-      ret = ret.merge(:create_user_id => current_user.id)
+      ret = ret.merge(:slip_type => SLIP_TYPE_TRANSFER, :create_user_id => current_user.id)
     end
 
     ret
@@ -201,17 +207,8 @@ class JournalsController < Base::HyaccController
     ret = Journal.new
     ret.ym = @ym
     ret.day = @day
-
-    ret.journal_details << JournalDetail.new
-    ret.journal_details[0].detail_no = 1
-    ret.journal_details[0].dc_type = DC_TYPE_DEBIT
-    ret.journal_details[0].account_id = default_account.id
-
-    ret.journal_details << JournalDetail.new
-    ret.journal_details[1].detail_no = 2
-    ret.journal_details[1].dc_type = DC_TYPE_CREDIT
-    ret.journal_details[1].account_id = default_account.id
-
+    ret.journal_details.build(:dc_type => DC_TYPE_DEBIT, :account_id => default_account.id)
+    ret.journal_details.build(:dc_type => DC_TYPE_CREDIT, :account_id => default_account.id)
     ret
   end
 
@@ -237,7 +234,7 @@ class JournalsController < Base::HyaccController
       asset = Asset.find(detail.asset_id.to_i) if detail.asset_id.to_i > 0
       unless asset
         asset = Asset.new
-        asset.code = create_asset_code(current_user.company.get_fiscal_year_int(@journal.ym))
+        asset.code = AssetUtil.create_asset_code(current_user.company.get_fiscal_year_int(@journal.ym))
         asset.name = detail.note.empty? ? @journal.remarks : detail.note
         asset.status = ASSET_STATUS_CREATED
         asset.depreciation_method = a.depreciation_method
@@ -259,78 +256,16 @@ class JournalsController < Base::HyaccController
   def create_or_update_inventment(detail)
     # 有価証券の場合は有価証券情報を設定
     a = Account.get(detail.account_id)
-    
+
     if account.path.include? ACCOUNT_CODE_INVESTMENT
       investment = Investment.find(detail.investment_id.to_i) if detail.investment_id.to_i > 0
       unless investment
         investment = Investment.new
         investment.shares = detail.shares
-      end 
+      end
     else
       detail.asset = nil
     end
-  end
-
-
-  def retrieve_details(jh)
-    # 明細が存在しない場合はエラー
-    raise HyaccException.new unless params[:journal_details]
-
-    new_details = []
-    params[:journal_details].each do |key, value|
-      id = value[:id].to_i
-      detail = nil
-      if id > 0
-        jh.journal_details.each do |jd|
-          if jd.id == id
-            detail = jd
-            break
-          end
-        end
-      end
-      detail = update_detail_attributes(detail, value)
-      detail.journal_header = jh
-
-      if detail.tax_type == TAX_TYPE_INCLUSIVE
-        detail.amount = detail.input_amount.to_i - detail.tax_amount.to_i
-        HyaccLogger.debug("内税なので、入力金額[#{detail.input_amount}]から消費税額[#{detail.tax_amount}]を引いた額を本体金額[#{detail.amount}]とします。")
-      else
-        detail.amount = detail.input_amount.to_i
-      end
-
-      create_or_update_asset(detail)
-      new_details << detail
-
-      # 税抜経理方式で消費税があれば、消費税明細を自動仕訳
-      if detail.tax_amount.to_i > 0
-        tax_detail = JournalDetail.new
-        tax_detail.detail_no = nil # 画面で必要としないため、DB登録時に決定する
-        tax_detail.detail_type = DETAIL_TYPE_TAX
-        tax_detail.dc_type = detail.dc_type
-        tax_detail.tax_type = TAX_TYPE_NONTAXABLE
-
-        account = Account.get(detail.account_id)
-
-        # 借方の場合は仮払消費税
-        if account.dc_type == DC_TYPE_DEBIT
-          tax_detail.account_id = Account.get_by_code( ACCOUNT_CODE_TEMP_PAY_TAX ).id
-        # 貸方の場合は借受消費税
-        elsif account.dc_type == DC_TYPE_CREDIT
-          tax_detail.account_id = Account.get_by_code( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED ).id
-        end
-
-        tax_detail.branch_id = detail.branch_id
-        tax_detail.amount = detail.tax_amount.to_i
-
-        # 対象の明細との関連を設定
-        tax_detail.main_detail = detail
-        tax_detail.journal_header = jh
-        new_details << tax_detail
-      end
-    end
-
-    set_detail_no( new_details )
-    jh.journal_details = new_details
   end
 
   def save_input_frequencies(jh)

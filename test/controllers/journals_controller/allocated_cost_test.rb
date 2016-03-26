@@ -3,12 +3,11 @@ require 'test_helper'
 # 振替伝票登録時に費用配賦の自動仕訳が正しく作成されているか
 class JournalsController::AllocatedCostTest < ActionController::TestCase
 
-  setup do
+  def setup
     sign_in users(:user3)
   end
   
   def test_create_allocated_cost
-    num_journal_headers = JournalHeader.count
     post_jh = JournalHeader.new
     post_jh.remarks = '費用配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
@@ -30,38 +29,37 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].tax_type = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :tax_amount => post_jh.journal_details[0].tax_amount,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-          :is_allocated_cost => true,
-          :dc_type => post_jh.journal_details[0].dc_type,
-          :detail_no => post_jh.journal_details[0].detail_no,
-        },
-        '2' => {
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :dc_type => post_jh.journal_details[1].dc_type,
-          :detail_no => post_jh.journal_details[1].detail_no,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 4, JournalHeader.count
+    assert_difference 'JournalHeader.count', 4 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :tax_amount => post_jh.journal_details[0].tax_amount,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
+              :is_allocated_cost => true,
+              :dc_type => post_jh.journal_details[0].dc_type
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :dc_type => post_jh.journal_details[1].dc_type
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
     
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
@@ -102,7 +100,6 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   end
   
   def test_auto_journal_type_prepaid_expense
-    num_journal_headers = JournalHeader.count
     remarks = '費用配賦テスト' + Time.now.to_s
     
     post_jh = JournalHeader.new
@@ -110,7 +107,6 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.ym = 200908
     post_jh.day = 14
     post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details[0].branch_id = 1
     post_jh.journal_details[0].account_id = 20 # 福利厚生費
     post_jh.journal_details[0].tax_amount = 4
@@ -121,45 +117,43 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
     post_jh.journal_details[0].auto_journal_type = AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
     post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[1].detail_no = 2
     post_jh.journal_details[1].branch_id = 1
     post_jh.journal_details[1].account_id = 2 # 現金
     post_jh.journal_details[1].input_amount = 100
     post_jh.journal_details[1].tax_type = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :detail_no => post_jh.journal_details[0].detail_no,
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :tax_amount => post_jh.journal_details[0].tax_amount,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-          :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
-          :dc_type => post_jh.journal_details[0].dc_type,
-          :auto_journal_type => post_jh.journal_details[0].auto_journal_type,
-        },
-        '2' => {
-          :detail_no => post_jh.journal_details[1].detail_no,
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :dc_type => post_jh.journal_details[1].dc_type,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 6, JournalHeader.count, "自動仕訳が５つ作成されるので合計６仕訳"
+    assert_difference 'JournalHeader.count', 6 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :tax_amount => post_jh.journal_details[0].tax_amount,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
+              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :dc_type => post_jh.journal_details[0].dc_type,
+              :auto_journal_type => post_jh.journal_details[0].auto_journal_type,
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :dc_type => post_jh.journal_details[1].dc_type,
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
     
     # 仕訳内容の確認
     assert @journal = JournalHeader.where(:remarks => remarks).first
@@ -173,7 +167,6 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   end
 
   def test_auto_journal_type_accrued_expense
-    num_journal_headers = JournalHeader.count
     remarks = '費用配賦テスト' + Time.now.to_s
     
     post_jh = JournalHeader.new
@@ -181,7 +174,6 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.ym = 200908
     post_jh.day = 15
     post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details[0].branch_id = 1
     post_jh.journal_details[0].account_id = 20 # 福利厚生費
     post_jh.journal_details[0].tax_amount = 4
@@ -192,45 +184,43 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
     post_jh.journal_details[0].auto_journal_type = AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
     post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[1].detail_no = 2
     post_jh.journal_details[1].branch_id = 1
     post_jh.journal_details[1].account_id = 2 # 現金
     post_jh.journal_details[1].input_amount = 100
     post_jh.journal_details[1].tax_type = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :detail_no => post_jh.journal_details[0].detail_no,
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :tax_amount => post_jh.journal_details[0].tax_amount,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-          :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
-          :dc_type => post_jh.journal_details[0].dc_type,
-          :auto_journal_type => post_jh.journal_details[0].auto_journal_type,
-        },
-        '2' => {
-          :detail_no => post_jh.journal_details[1].detail_no,
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :dc_type => post_jh.journal_details[1].dc_type,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 6, JournalHeader.count, "自動仕訳が５つ作成されるので合計６仕訳"
+    assert_difference 'JournalHeader.count', 6 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :tax_amount => post_jh.journal_details[0].tax_amount,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
+              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :dc_type => post_jh.journal_details[0].dc_type,
+              :auto_journal_type => post_jh.journal_details[0].auto_journal_type
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :dc_type => post_jh.journal_details[1].dc_type
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
     
     # 仕訳内容の確認
     assert jh = JournalHeader.where(:remarks => remarks).first
@@ -244,7 +234,6 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   end
 
   def test_auto_journal_type_date_input_expense
-    num_journal_headers = JournalHeader.count
     remarks = '費用配賦テスト' + Time.now.to_s
     
     post_jh = JournalHeader.new
@@ -260,7 +249,6 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[0].tax_rate_percent = 5
     post_jh.journal_details[0].is_allocated_cost = true
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
-    post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details[0].auto_journal_type = AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
     post_jh.journal_details[0].auto_journal_year = 2009
     post_jh.journal_details[0].auto_journal_month = 11
@@ -271,43 +259,41 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].input_amount = 100
     post_jh.journal_details[1].tax_type = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
-    post_jh.journal_details[1].detail_no = 2
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :detail_no => post_jh.journal_details[0].detail_no,
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :tax_amount => post_jh.journal_details[0].tax_amount,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-          :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
-          :dc_type => post_jh.journal_details[0].dc_type,
-          :auto_journal_type => post_jh.journal_details[0].auto_journal_type,
-          :auto_journal_year => post_jh.journal_details[0].auto_journal_year,
-          :auto_journal_month => post_jh.journal_details[0].auto_journal_month,
-          :auto_journal_day => post_jh.journal_details[0].auto_journal_day,
-        },
-        '2' => {
-          :detail_no => post_jh.journal_details[1].detail_no,
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :dc_type => post_jh.journal_details[1].dc_type,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 6, JournalHeader.count, "自動仕訳が５つ作成されるので合計６仕訳"
+    assert_difference 'JournalHeader.count', 6 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :tax_amount => post_jh.journal_details[0].tax_amount,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
+              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :dc_type => post_jh.journal_details[0].dc_type,
+              :auto_journal_type => post_jh.journal_details[0].auto_journal_type,
+              :auto_journal_year => post_jh.journal_details[0].auto_journal_year,
+              :auto_journal_month => post_jh.journal_details[0].auto_journal_month,
+              :auto_journal_day => post_jh.journal_details[0].auto_journal_day
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :dc_type => post_jh.journal_details[1].dc_type
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
     
     # 仕訳内容の確認
     assert jh = JournalHeader.where(:remarks => remarks).first
@@ -324,7 +310,6 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert a = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
-    num_journal_headers = JournalHeader.count
     post_jh = JournalHeader.new
     post_jh.remarks = '法人税配賦テスト' + Time.now.to_s
     post_jh.ym = 200911
@@ -347,39 +332,38 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].is_allocated_assets = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :detail_no => post_jh.journal_details[0].detail_no,
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :sub_account_id => post_jh.journal_details[0].sub_account_id,
-          :settlement_type => post_jh.journal_details[0].settlement_type,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
-          :dc_type => post_jh.journal_details[0].dc_type,
-        },
-        '2' => {
-          :detail_no => post_jh.journal_details[1].detail_no,
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
-          :dc_type => post_jh.journal_details[1].dc_type,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 7, JournalHeader.count
+    assert_difference 'JournalHeader.count', 7 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :sub_account_id => post_jh.journal_details[0].sub_account_id,
+              :settlement_type => post_jh.journal_details[0].settlement_type,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :dc_type => post_jh.journal_details[0].dc_type,
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+              :dc_type => post_jh.journal_details[1].dc_type,
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
     
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
@@ -402,7 +386,6 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   
   
   def test_create_not_allocate_cost
-    num_journal_headers = JournalHeader.count
     post_jh = JournalHeader.new
     post_jh.remarks = '費用配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
@@ -424,38 +407,37 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].tax_type = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :tax_amount => post_jh.journal_details[0].tax_amount,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-          :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
-          :dc_type => post_jh.journal_details[0].dc_type,
-          :detail_no => post_jh.journal_details[0].detail_no,
-        },
-        '2' => {
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :dc_type => post_jh.journal_details[1].dc_type,
-          :detail_no => post_jh.journal_details[1].detail_no,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 1, JournalHeader.count
+    assert_difference 'JournalHeader.count', 1 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :tax_amount => post_jh.journal_details[0].tax_amount,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
+              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :dc_type => post_jh.journal_details[0].dc_type
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :dc_type => post_jh.journal_details[1].dc_type
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
 
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)

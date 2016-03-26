@@ -5,14 +5,14 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
 
   setup do
     user = User.find(4)
-    assert user.company.get_fiscal_year(2009).is_closed
-    assert user.company.get_fiscal_year(2010).is_open
+    assert user.company.get_fiscal_year(2009).closed?
+    assert user.company.get_fiscal_year(2010).open?
 
     sign_in user
   end
 
   def test_本締の年度への費用振替の登録がエラーになること
-    
+
     post :create,
       :account_code=>ACCOUNT_CODE_CASH,
       :slip => {
@@ -36,7 +36,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     finder = Slips::SlipFinder.new(current_user)
     finder.account_code = Account.get(29).code
     slip = finder.find(12)
-    
+
     xhr :post, :update,
       :account_code=>finder.account_code,
       :slip => {
@@ -59,12 +59,12 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     assert_not_nil assigns(:slip)
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end
-  
+
   def test_本締の年度への費用振替の更新がエラーになること
     finder = Slips::SlipFinder.new(current_user)
     finder.account_code = Account.get(29).code
     slip = finder.find(15)
-    
+
     xhr :post, :update,
       :account_code => finder.account_code,
       :slip => {
@@ -103,7 +103,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
   def test_通常の年度への費用振替の登録が正常終了すること
     remarks = "通常の年度への費用振替の登録が正常終了すること#{Time.new}"
     assert_nil JournalHeader.find_by_remarks(remarks)
-    
+
     post :create,
       :account_code=>ACCOUNT_CODE_CASH,
       :slip => {
@@ -120,7 +120,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action=>:index
     assert_equal '伝票を登録しました。', flash[:notice]
-    
+
     jh = JournalHeader.find_by_remarks(remarks)
     assert_not_nil jh
     assert_equal 201005, jh.ym
@@ -136,7 +136,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     assert_equal 2, jh.journal_details.size
     assert_equal 0, jh.journal_details[0].transfer_journals.size
     assert_equal 1, jh.journal_details[1].transfer_journals.size
-    
+
     auto = jh.journal_details[1].transfer_journals[0]
     assert_not_nil auto
     assert_equal 201004, auto.ym
@@ -152,7 +152,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     assert_equal 2, auto.journal_details.size
     assert_equal 0, auto.journal_details[0].transfer_journals.size
     assert_equal 0, auto.journal_details[1].transfer_journals.size
-    
+
     reverse = auto.transfer_journals[0]
     assert_not_nil reverse
     assert_equal 201005, reverse.ym
@@ -174,7 +174,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     remarks = "通常の年度への費用振替の更新が正常終了すること#{Time.new}"
     jh = JournalHeader.find(15)
     lock_version = jh.lock_version
-    
+
     xhr :post, :update,
       :account_code=>ACCOUNT_CODE_CASH,
       :slip => {
@@ -196,7 +196,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/reload'
     assert_equal '伝票を更新しました。', flash[:notice]
-    
+
     jh = JournalHeader.find_by_remarks(remarks)
     assert_not_nil jh
     assert_equal 201012, jh.ym
@@ -212,7 +212,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     assert_equal 2, jh.journal_details.size
     assert_equal 0, jh.journal_details[0].transfer_journals.size
     assert_equal 1, jh.journal_details[1].transfer_journals.size
-    
+
     auto = jh.journal_details[1].transfer_journals[0]
     assert_not_nil auto
     assert_equal 201011, auto.ym
@@ -228,7 +228,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     assert_equal 2, auto.journal_details.size
     assert_equal 0, auto.journal_details[0].transfer_journals.size
     assert_equal 0, auto.journal_details[1].transfer_journals.size
-    
+
     reverse = auto.transfer_journals[0]
     assert_not_nil reverse
     assert_equal 201012, reverse.ym
@@ -248,7 +248,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
 
   def test_通常の年度の費用振替の削除が正常終了すること
     jh = JournalHeader.find(15)
-    
+
     assert_difference 'JournalHeader.count', -3 do
       post :destroy, :account_code => ACCOUNT_CODE_CASH, :id => jh.id, :lock_version => jh.lock_version
     end
@@ -257,5 +257,5 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
     assert_equal '伝票を削除しました。', flash[:notice]
   end
-  
+
 end

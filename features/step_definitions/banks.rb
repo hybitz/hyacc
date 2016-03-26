@@ -25,7 +25,8 @@ end
   capture
 end
 
-もし /^金融機関および営業店が登録される$/ do
+ならば /^金融機関および営業店が登録される$/ do
+  assert has_selector?('.notice')
   assert @bank_params
   assert @bank = Bank.find_by_name(@bank_params[:name])
   assert @bank.bank_offices.present?

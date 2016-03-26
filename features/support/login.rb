@@ -18,11 +18,13 @@ module Login
       fill_in 'code', :with => User.find(current_user.id).otp_code
       click_on 'Submit'
     end
+
+    assert_url '/'
   end
 
   def current_user
     @_current_user
-  end  
+  end
 end
 
 World(Login)

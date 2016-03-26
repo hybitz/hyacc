@@ -15,9 +15,18 @@ end
 かつ /^メッセージ「(.*?)」が表示(される|されない)$/ do |message, result|
   case result
     when 'される'
-      assert page.has_text?(message)
+      assert has_text?(message)
     when 'されない'
-      assert page.has_no_text?(message)
+      assert has_no_text?(message)
+  end
+end
+
+かつ /^エラーメッセージ「(.*?)」が表示(される|されない)$/ do |message, result|
+  case result
+    when 'される'
+      assert has_selector?('.error', message)
+    when 'されない'
+      assert has_no_text?(message)
   end
 end
 

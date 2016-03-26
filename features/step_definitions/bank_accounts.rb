@@ -14,7 +14,8 @@ end
 end
 
 もし /^口座が登録される$/ do
-  assert page.has_no_selector?('.ui-dialog')
+  assert has_no_selector?('.ui-dialog')
+  assert has_selector?('.notice')
   assert find_tr '.bank_accounts', @name, false
   capture
 end

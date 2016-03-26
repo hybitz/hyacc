@@ -1,4 +1,7 @@
-<%= fields_for "journal_details[#{index}]", jd do |f| %>
+<%
+  prefix = "journal[journal_details_attributes[#{index}]]"
+%>
+<%= fields_for prefix, jd do |f| %>
   <span id="jd_<%= index %>_allocation">
     <% if can_allocate_cost(jd.branch_id) and is_real_cost(jd.account_id) %>
       <label><%= f.check_box :is_allocated_cost %> 費用配賦</label>

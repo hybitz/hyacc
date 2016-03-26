@@ -1,16 +1,19 @@
-<%= fields_for "journal_details[#{index}]", jd do |f| %>
-  <tr data-detail_id="<%= jd.id %>" data-index="<%= index %>">
+<%
+  prefix = "journal[journal_details_attributes[#{index}]]"
+%>
+<%= fields_for prefix, jd do |f| %>
+  <tr data-detail_id="<%= jd.id %>" data-index="<%= index %>" style="<%= 'display: none;' if jd.deleted? %>">
     <td nowrap>
       <%= f.hidden_field :id %>
-      <%= f.hidden_field :detail_no %>
+      <%= f.hidden_field :_destroy, :value => jd.deleted? %>
       <% unless branch_mode %>
         <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id %>
       <% end %>
       <%= f.select :dc_type, options_for_select(dc_types, jd.dc_type), {}, :class => 'dcTypeSelect' %>
     </td>
     <td>
-      <%= collection_select_code_and_name("journal_details[#{index}]", "account_id", @accounts, "id", "name",
-            {:selected=>jd.account_id, :frequencies=>@frequencies}, {:class=>"accountSelect"}) %>
+      <%= collection_select_code_and_name(prefix, :account_id, @accounts, :id, :name,
+            {:selected => jd.account_id, :frequencies => @frequencies}, {:class=>"accountSelect"}) %>
     </td>
     <td>
       <%= f.collection_select :sub_account_id, jd.account.sub_accounts, :id, :name, {},
@@ -39,16 +42,16 @@
       <a href="#" class="delete_detail_button">削除</a>
     </td>
   </tr>
-  <tr style="<%= style_for_details %>">
+  <tr style="<%= style_for_detail(jd) %>">
     <td rowspan="3" align="center">計上日<br/>振替</td>
     <td colspan="2">
       <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %> 翌月</label>
     </td>
-    
+
     <% if branch_mode %>
     <td><%= render 'get_allocation', :jd => jd, :index => index %></td>
     <% end %>
-    
+
     <td colspan="3">
       <div style="text-align: right; width: 100%;">
         メモ：<%= f.text_field :note, :maxlength => 255, :class => 'noteText' %>
@@ -57,7 +60,7 @@
     <td></td>
     <td rowspan="3" colspan="2"></td>
   </tr>
-  <tr style="<%= style_for_details %>">
+  <tr style="<%= style_for_detail(jd) %>">
     <td colspan="2">
       <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %> 前月</label>
     </td>
@@ -68,7 +71,7 @@
     </td>
     <td></td>
   </tr>
-  <tr style="<%= style_for_details %>">
+  <tr style="<%= style_for_detail(jd) %>">
     <td colspan="2" nowrap>
       <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
       <%= f.text_field :auto_journal_year, :size => 4, :maxlength => 4 %> 年

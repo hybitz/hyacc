@@ -50,7 +50,7 @@ table {
     &.hover:hover {
       background: #EEEEEE;
     }
-    
+
     th, td {
       border: 1px solid grey;
       border-collapse: collapse;
@@ -59,7 +59,7 @@ table {
       padding: 0.1em 0.2em;
       vertical-align: middle;
     }
-    
+
     th {
       background: #D3D3D3;
     }
@@ -77,6 +77,14 @@ table {
 
 .dialog_wrapper {
   margin-top: 0.5em;
+}
+
+.error {
+  color: red;
+}
+
+.notice {
+  color: green;
 }
 
 .menu {
@@ -102,7 +110,7 @@ table {
 }
 
 #bsContainer {
-  margin: 10px;  
+  margin: 10px;
 }
 
 #notice {
@@ -114,7 +122,7 @@ table {
 }
 
 #plContainer {
-  margin: 10px;  
+  margin: 10px;
 }
 
 .yearMonth {

@@ -14,28 +14,26 @@ class JournalsController::AutoTest < ActionController::TestCase
           :ym => 200812,
           :day => 2,
           :remarks => '本支店間取引の自動仕訳テスト',
-        },
-        :journal_details => {
-          '1' => {
-            :detail_no => '1',
-            :dc_type => '1',
-            :account_id => '2',
-            :branch_id => '1', # 本店
-            :input_amount => '1000',
-          },
-          '2' => {
-            :detail_no => '2',
-            :dc_type => '2',
-            :account_id => '2',
-            :branch_id => '2', # 支店
-            :input_amount => '1000',
+          :journal_details_attributes => {
+            '1' => {
+              :dc_type => '1',
+              :account_id => '2',
+              :branch_id => '1', # 本店
+              :input_amount => '1000'
+            },
+            '2' => {
+              :dc_type => '2',
+              :account_id => '2',
+              :branch_id => '2', # 支店
+              :input_amount => '1000'
+            }
           }
         }
 
       assert_response :success
       assert_template 'common/reload'
     end
-    
+
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => 200812, :day => 2)
     assert_equal 2, list.length, "自動仕訳が１つ作成されるので合計２仕訳"
@@ -48,7 +46,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_nil jh.transfer_from_detail_id
     assert_equal 2, jh.journal_details.size
     assert_equal 1, jh.transfer_journals.size
-    
+
     # 自動仕訳（支店）
     auto = jh.transfer_journals[0]
     assert_equal 200812, auto.ym
@@ -62,36 +60,34 @@ class JournalsController::AutoTest < ActionController::TestCase
   end
 
   def test_create_branch_and_branch
-    num_journal_headers = JournalHeader.count
-    remarks = '支店間取引の自動仕訳テスト' + Time.now.to_s
+    remarks = "支店間取引の自動仕訳テスト #{Time.now}"
 
-    xhr :post, :create,
-      :journal => {
-        :ym =>200812,
-        :day=>02,
-        :remarks=>remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :detail_no => '1',
-          :dc_type => '1',
-          :account_id => '2',
-          :branch_id => '2', # 支店
-          :input_amount => '3000',
-        },
-        '2' => {
-          :detail_no => '2',
-          :dc_type => '2',
-          :account_id => '2',
-          :branch_id => '3', # 支店
-          :input_amount => '3000',
+    assert_difference 'JournalHeader.count', 3 do
+      xhr :post, :create,
+        :journal => {
+          :ym =>200812,
+          :day=>02,
+          :remarks=>remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :dc_type => '1',
+              :account_id => '2',
+              :branch_id => '2', # 支店
+              :input_amount => '3000',
+            },
+            '2' => {
+              :dc_type => '2',
+              :account_id => '2',
+              :branch_id => '3', # 支店
+              :input_amount => '3000',
+            }
+          }
         }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 3, JournalHeader.count
-    
+      assert_response :success
+      assert_template 'common/reload'
+    end
+
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => 200812, :day => 2)
     assert_equal 3, list.length, "自動仕訳が２つ作成されるので合計３仕訳"
@@ -100,7 +96,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_equal 3000, jh.amount
     assert_equal 2, jh.journal_details.length
     assert_equal 2, jh.transfer_journals.length
-    
+
     # 自動仕訳（支店１）
     auto1 = jh.transfer_journals[0]
     assert_equal SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE, auto1.slip_type
@@ -108,7 +104,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_nil auto1.transfer_from_detail_id
     assert_not_nil auto1.journal_details.find_by_account_id(71), "支店勘定の明細がある"
     assert_not_nil auto1.journal_details.find_by_account_id(72), "本店勘定の明細がある"
-    
+
     # 自動仕訳（支店２）
     auto2 = jh.transfer_journals[1]
     assert_equal SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE, auto2.slip_type
@@ -117,9 +113,8 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_not_nil auto2.journal_details.find_by_account_id(71), "支店勘定の明細がある"
     assert_not_nil auto2.journal_details.find_by_account_id(72), "本店勘定の明細がある"
   end
-  
+
   def test_create_allocate_assets_of_head_office
-    num_journal_headers = JournalHeader.count
     post_jh = JournalHeader.new
     post_jh.remarks = '資産配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
@@ -141,39 +136,38 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
     post_jh.journal_details[1].is_allocated_assets = true
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :lock_version => post_jh.lock_version,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :dc_type => post_jh.journal_details[0].dc_type,
-          :detail_no => post_jh.journal_details[0].detail_no,
-        },
-        '2' => {
-          :sub_account_id => post_jh.journal_details[1].sub_account_id,
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :dc_type => post_jh.journal_details[1].dc_type,
-          :detail_no => post_jh.journal_details[1].detail_no,
-          :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 4, JournalHeader.count
-    
+    assert_difference 'JournalHeader.count', 4 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :lock_version => post_jh.lock_version,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :dc_type => post_jh.journal_details[0].dc_type
+            },
+            '2' => {
+              :sub_account_id => post_jh.journal_details[1].sub_account_id,
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :dc_type => post_jh.journal_details[1].dc_type,
+              :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
+
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
     assert_equal 4, list.length, "自動仕訳が３つ作成されるので合計４仕訳"
@@ -183,7 +177,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_equal 2, jh.journal_details.length, "２明細が作成される"
     assert_equal 0, jh.transfer_journals.length, "内部取引伝票は資産配賦伝票に関連付けされる"
     assert_equal 1, jh.journal_details[1].transfer_journals.length
-    
+
     # 自動仕訳（資産配賦）
     auto1 = jh.journal_details[1].transfer_journals[0]
     assert_equal jh.journal_details[1].id, auto1.transfer_from_detail_id
@@ -209,7 +203,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_not_nil auto3.journal_details.find_by_account_id(71), "支店勘定の明細がある"
     assert_not_nil auto3.journal_details.find_by_account_id(72), "本店勘定の明細がある"
   end
-  
+
   def test_create_allocate_assets_of_branch_office
     post_jh = JournalHeader.new
     post_jh.remarks = '資産配賦テスト' + Time.now.to_s
@@ -240,27 +234,26 @@ class JournalsController::AutoTest < ActionController::TestCase
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
-          :lock_version => post_jh.lock_version,
           :remarks => post_jh.remarks,
-        },
-        :journal_details => {
-          '1' => {
-            :branch_id => post_jh.journal_details[0].branch_id,
-            :account_id => post_jh.journal_details[0].account_id,
-            :tax_amount => post_jh.journal_details[0].tax_amount,
-            :input_amount => post_jh.journal_details[0].input_amount,
-            :tax_type => post_jh.journal_details[0].tax_type,
-            :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-            :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
-            :dc_type => post_jh.journal_details[0].dc_type
-          },
-          '2' => {
-            :branch_id => post_jh.journal_details[1].branch_id,
-            :account_id => post_jh.journal_details[1].account_id,
-            :input_amount => post_jh.journal_details[1].input_amount,
-            :tax_type => post_jh.journal_details[1].tax_type,
-            :dc_type => post_jh.journal_details[1].dc_type,
-            :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :tax_amount => post_jh.journal_details[0].tax_amount,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
+              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :dc_type => post_jh.journal_details[0].dc_type
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :dc_type => post_jh.journal_details[1].dc_type,
+              :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+            }
           }
         }
 
@@ -280,7 +273,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_equal 1, jh.journal_details.where(:is_allocated_cost => true).first.transfer_journals.count, "費用配賦の自動仕訳が伝票明細に関連する"
     assert_equal 1, jh.journal_details.where(:is_allocated_assets => true).count
     assert_equal 1, jh.journal_details.where(:is_allocated_assets => true).first.transfer_journals.count, "資産配賦の自動仕訳が伝票明細に関連する"
-    
+
     # 自動仕訳（費用配賦）
     jd = jh.journal_details.where(:is_allocated_cost => true).first
     auto = jd.transfer_journals.first
@@ -289,8 +282,8 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_equal 2, auto.transfer_journals.size
     assert_equal 4, auto.journal_details.length, "本社に2明細、各部門に1明細ずつ"
     assert_equal 2, auto.journal_details.where(:account_id => 74).size, "本社費用負担の明細がある"
-    auto.journal_details.where(:account_id => 74).each do |jd|
-      assert_equal 4762, jd.amount, "按分して￥４，７６２"
+    auto.journal_details.where(:account_id => 74).each do |d|
+      assert_equal 4762, d.amount, "按分して￥４，７６２"
     end
 
     # 自動仕訳（資産配賦）
@@ -315,9 +308,8 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_equal 32, auto.journal_details[3].sub_account_id, "配賦対象資産を保有している部門"
     assert_equal 5000, auto.journal_details[3].amount, "按分して￥５，０００"
   end
-  
+
   def test_create_not_allocate_assets
-    num_journal_headers = JournalHeader.count
     post_jh = JournalHeader.new
     post_jh.remarks = '費用配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
@@ -339,39 +331,38 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
     post_jh.journal_details[1].is_allocated_assets = false
-    
-    xhr :post, :create,
-      :journal => {
-        :ym => post_jh.ym,
-        :day => post_jh.day,
-        :remarks => post_jh.remarks,
-      },
-      :journal_details => {
-        '1' => {
-          :branch_id => post_jh.journal_details[0].branch_id,
-          :account_id => post_jh.journal_details[0].account_id,
-          :input_amount => post_jh.journal_details[0].input_amount,
-          :tax_type => post_jh.journal_details[0].tax_type,
-          :is_allocated_assets => post_jh.journal_details[0].is_allocated_assets,
-          :dc_type => post_jh.journal_details[0].dc_type,
-          :detail_no => post_jh.journal_details[0].detail_no,
-        },
-        '2' => {
-          :branch_id => post_jh.journal_details[1].branch_id,
-          :account_id => post_jh.journal_details[1].account_id,
-          :sub_account_id => post_jh.journal_details[1].sub_account_id,
-          :input_amount => post_jh.journal_details[1].input_amount,
-          :tax_type => post_jh.journal_details[1].tax_type,
-          :dc_type => post_jh.journal_details[1].dc_type,
-          :detail_no => post_jh.journal_details[1].detail_no,
-          :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
-        }
-      }
 
-    assert_response :success
-    assert_template 'common/reload'
-    assert_equal num_journal_headers + 1, JournalHeader.count
-    
+    assert_difference 'JournalHeader.count', 1 do
+      xhr :post, :create,
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              :branch_id => post_jh.journal_details[0].branch_id,
+              :account_id => post_jh.journal_details[0].account_id,
+              :input_amount => post_jh.journal_details[0].input_amount,
+              :tax_type => post_jh.journal_details[0].tax_type,
+              :is_allocated_assets => post_jh.journal_details[0].is_allocated_assets,
+              :dc_type => post_jh.journal_details[0].dc_type
+            },
+            '2' => {
+              :branch_id => post_jh.journal_details[1].branch_id,
+              :account_id => post_jh.journal_details[1].account_id,
+              :sub_account_id => post_jh.journal_details[1].sub_account_id,
+              :input_amount => post_jh.journal_details[1].input_amount,
+              :tax_type => post_jh.journal_details[1].tax_type,
+              :dc_type => post_jh.journal_details[1].dc_type,
+              :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+            }
+          }
+        }
+
+      assert_response :success
+      assert_template 'common/reload'
+    end
+
     # 仕訳内容の確認
     list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
     assert_equal 1, list.length, "自動仕訳は作成されないので合計１仕訳"

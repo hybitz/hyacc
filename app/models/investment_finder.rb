@@ -1,5 +1,7 @@
-class InvestmentFinder < Daddy::Model
+class InvestmentFinder < Base::Finder
   include HyaccDateUtil
+  
+  attr_accessor :bank_account_id
   
   def list
     Investment.where(conditions).order('ym, day')
@@ -8,6 +10,15 @@ class InvestmentFinder < Daddy::Model
   def fiscal_years
     c = Company.find(company_id)
     c.fiscal_years.map{|fy| fy.fiscal_year }.sort
+  end
+  
+  def is_not_related_to_journal_detail
+    investment_ids = Account.where(Account.arel_table[:path].matches('%' + ACCOUNT_CODE_SECURITIES + '%')).pluck(:id)
+    JournalDetail.where(:account_id => investment_ids).pluck(:id).each do |id|
+      if not Investment.exists?(:journal_detail_id => id)
+        return true
+      end
+    end
   end
   
   private

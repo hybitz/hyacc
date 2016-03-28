@@ -38,6 +38,7 @@ module HyaccConstants
     AUTO_JOURNAL_TYPE_HOUSEWORK = 10 => 'Journal::HouseworkFactory',
     AUTO_JOURNAL_TYPE_CARRY_FORWARD = 11 => 'Journal::CarryForwardFactory',
     AUTO_JOURNAL_TYPE_DEEMED_TAX = 12 => 'Journal::DeemedTaxFactory',
+    AUTO_JOURNAL_TYPE_INVESTMENT = 13 => 'Journal::InvestmentFactory',
   }
 
   # 給与振込口座
@@ -269,7 +270,7 @@ module HyaccConstants
   # 有価証券目的区分
   SECURITIES_TYPES = {
     SECURITIES_TYPE_FOR_TRADING = 1 => '売買目的（1年以内）',
-    SECURITIES_TYPE_FOR_INVESTMENT = 2 => '投資目的（1年以上）',
+    SECURITIES_TYPE_FOR_INVESTMENT = 2 => '投資目的（1年越え）',
   }
 
   # 勘定科目コード
@@ -330,7 +331,7 @@ module HyaccConstants
   ACCOUNT_CODE_RENT = '8551' # 地代家賃
   ACCOUNT_CODE_DIVIDEND_RECEIVED = '4222' # 受取配当金
   ACCOUNT_CODE_DEPOSITS_PAID = '1811' # 預け金
-  ACCOUNT_CODE_INVESTMENT = '1400' # 有価証券
+  ACCOUNT_CODE_SECURITIES = '1400' # 有価証券
   ACCOUNT_CODE_TRADING_SECURITIES = '1410' # 売買目的有価証券
   ACCOUNT_CODE_INVESTMENT_SECURITIES = '1420' # 投資有価証券
   

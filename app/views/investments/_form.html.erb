@@ -24,7 +24,11 @@
         </tr>
         <tr>
           <th><%= f.label :buying_or_selling %></th>
-          <td>購入<%= f.radio_button :buying_or_selling, '1', {:checked => true} %>　売却<%= f.radio_button :buying_or_selling, '0' %></td>
+          <td><%= f.radio_button :buying_or_selling, '1', {:checked => true} %>購入　<%= f.radio_button :buying_or_selling, '0' %>売却</td>
+        </tr>
+        <tr>
+          <th><%= f.label :for_what %></th>
+          <td><%= f.radio_button :for_what, '1', {:checked => true} %>売買目的（1年以内）　<%= f.radio_button :for_what, '0' %>投資目的（1年越え）</td>
         </tr>
         <tr>
           <th><%= f.label :shares %></th>
@@ -33,6 +37,10 @@
         <tr>
           <th><%= f.label :trading_value %></th>
           <td><%= f.text_field :trading_value %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :charges %></th>
+          <td><%= f.text_field :charges %></td>
         </tr>
       </table>
     </div>

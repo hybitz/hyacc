@@ -2,6 +2,14 @@ require 'test_helper'
 
 class FinancialReturnStatementsControllerTest < ActionController::TestCase
 
+
+  def test_6_有価証券の内訳書
+    sign_in user
+    get :index, :commit => true, :finder => investment_finder
+    assert_response :success
+    assert_template :investment_securities
+  end
+
   def test_9_買掛金の内訳書
     sign_in user
     get :index, :commit => true, :finder => trade_account_payable_finder

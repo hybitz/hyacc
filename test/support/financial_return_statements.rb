@@ -48,4 +48,13 @@ module FinancialReturnStatements
       :report_type => REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
     }
   end
+  
+
+  def investment_finder(current_user = nil)
+    current_user ||= user
+    {
+      :fiscal_year => current_user.company.current_fiscal_year_int,
+      :report_type => REPORT_TYPE_INVESTMENT_SECURITIES
+    }
+  end
 end

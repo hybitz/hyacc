@@ -1,13 +1,15 @@
 module Reports
-  class RentStatementLogic
+  class RentStatementLogic < BaseLogic
     include JournalUtil
-
-    def get_rent_statement(finder)
+    
+    def initialize(finder)
+      super(finder)
+    end
+    
+    def get_rent_statement
       rents = {}
-      ym_start = get_start_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year)
-      ym_end = get_end_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year)
-      ymd_start = (ym_start.to_s + '01').to_i
-      ymd_end = (ym_end.to_s + get_days_of_month(ym_end/100, ym_end%100).to_s).to_i
+      ymd_start = (@start_ym.to_s + '01').to_i
+      ymd_end = (@end_ym.to_s + get_days_of_month(@end_ym/100, @end_ym%100).to_s).to_i
 
       Rent.order('status, ymd_end desc').each{|rent|
         rent.total_amount = 0
@@ -23,7 +25,7 @@ module Reports
       rents['etc'] = Rent.new(:total_amount => 0, :address => '不明',
                               :remarks => '補助科目が指定されていない伝票',
                               :customer => Customer.new)
-      JournalHeader.where(conditions(finder.branch_id, ym_start, ym_end)).includes(:journal_details).each do |jh|
+      JournalHeader.where(conditions(@finder.branch_id)).includes(:journal_details).each do |jh|
         jh.journal_details.each do |jd|
           if jd.account.code == ACCOUNT_CODE_RENT
             sub_account_id = jd.sub_account_id || 'etc'
@@ -41,10 +43,10 @@ module Reports
 
     private
 
-    def conditions(branch_id, ym_start, ym_end)
+    def conditions(branch_id)
       sql = SqlBuilder.new
       sql.append('deleted = ?', false)
-      sql.append('and ym >= ? and ym <= ?', ym_start, ym_end)
+      sql.append('and ym >= ? and ym <= ?', @start_ym, @end_ym)
       sql.append('and finder_key rlike ?', build_rlike_condition(ACCOUNT_CODE_RENT, 0, branch_id))
       sql.to_a
     end

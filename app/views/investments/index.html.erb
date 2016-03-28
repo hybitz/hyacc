@@ -1,4 +1,8 @@
 <%= render 'common/search' %>
+<% if @has_not_related %>
+<div>関連付けされていない伝票が存在します</div>
+<% end %>
+<% if @investments %>
 <%= render 'common/message' %>
   <table id="investment_container">
     <tr>
@@ -18,8 +22,9 @@
         <td><%= inv.customer.formal_name %></td>
         <td class="amount"><%= to_amount(inv.shares) if inv.shares >= 0 %></td>
         <td class="amount"><%= to_amount(inv.shares * -1) if inv.shares < 0 %></td>
-        <td class="amount"><%= to_amount(inv.trading_value) %></td>
+        <td class="amount"><%= to_amount(inv.trading_value).to_s.gsub('-','△') %></td>
     </tr>
     <% end %>
 </table>
 <%= link_to '追加', new_investment_path, :class => 'add', :remote => true %>
+<% end %>

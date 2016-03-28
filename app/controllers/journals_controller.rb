@@ -217,12 +217,13 @@ class JournalsController < Base::HyaccController
   # 更新前の仕訳が
   # ・簡易入力の場合は一般振替
   # ・一般振替の場合は一般振替
-  # ・台帳登録の場合は台帳登録
+  # ・台帳登録の場合は台帳登録 ※有価証券は台帳からの登録のみ可
   # ・それ以外の場合はエラー
   def decide_slip_type( old_journal = nil )
     return SLIP_TYPE_TRANSFER if old_journal.nil?
     return SLIP_TYPE_TRANSFER if old_journal.slip_type == SLIP_TYPE_SIMPLIFIED
-    return old_journal.slip_type if [SLIP_TYPE_TRANSFER, SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION].include? old_journal.slip_type
+    return old_journal.slip_type if [SLIP_TYPE_TRANSFER,
+                                     SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION].include? old_journal.slip_type
 
     raise HyaccException.new(ERR_INVALID_SLIP_TYPE)
   end
@@ -257,7 +258,7 @@ class JournalsController < Base::HyaccController
     # 有価証券の場合は有価証券情報を設定
     a = Account.get(detail.account_id)
 
-    if account.path.include? ACCOUNT_CODE_INVESTMENT
+    if account.path.include? ACCOUNT_CODE_SECURITIES
       investment = Investment.find(detail.investment_id.to_i) if detail.investment_id.to_i > 0
       unless investment
         investment = Investment.new

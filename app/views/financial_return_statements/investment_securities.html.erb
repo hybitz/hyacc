@@ -1,0 +1,44 @@
+<div  style="margin: 10px;">
+    <table class="none_border" width="780">
+      <tr>
+        <td class="none_border"><b>有価証券の内訳書</b></td>
+      </tr>
+    </table>
+    <br/>
+    <table width="780">
+      <tr style="background-color: lightgrey;">
+        <td rowspan="3" width="100">区分／種類／銘柄</td>
+        <td colspan="2">期末現在高</td>
+        <td colspan="4">期中増（減）の明細</td>
+        <td rowspan="3" width="100">摘要</td>
+      </tr>
+      <tr style="background-color: lightgrey;">
+        <td rowspan="2">数量</td>
+        <td rowspan="2">金額</td>
+        <td>異動年月日</td>
+        <td rowspan="2">数量</td>
+        <td rowspan="2">金額</td>
+        <td>売却(買入)先の名称(氏名)</td>
+      </tr>
+      <tr style="background-color: lightgrey;">
+        <td>異動事由</td>
+        <td>売却(買入)先の所在地(住所)</td>
+      </tr>
+      <% @investments.each do |investment| %>
+      <tr>
+        <td rowspan="2"><%= investment[:formal_name] %></td>
+        <td rowspan="2"><%= number_to_currency(investment[:last_shares], :unit => '',:precision => 0, :format => '%u%n') %></td>
+        <td rowspan="2"><%= number_to_currency(investment[:last_trading_value], :unit => '',:precision => 0, :format => '%u%n') %></td>
+        <td><%= format_wareki_year_month_day(investment[:ymd]) %></td>
+        <td rowspan="2"><%= number_to_currency(investment[:shares], :unit => '',:precision => 0, :format => '%u%n') %></td>
+        <td rowspan="2"><%= number_to_currency(investment[:trading_value], :unit => '',:precision => 0, :format => '%u%n') %></td>
+        <td><%= investment[:bank_name] %></td>
+        <td rowspan="2"><%= investment[:etc] %></td>
+      </tr>
+      <tr>
+        <td><%= investment[:reason] %></td>
+        <td><%= investment[:address] %></td>
+      </tr>
+      <% end %>
+    </table>
+</div>

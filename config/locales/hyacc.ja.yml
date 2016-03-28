@@ -272,6 +272,7 @@ ja:
         bank_account_id: "証券口座"
         customer_name: "投資先名"
         buying_or_selling: "売買区分"
+        for_what: "投資目的"
         shares: "株数"
         trading_value: "取引金額"
         charges: "手数料"

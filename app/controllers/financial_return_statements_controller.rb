@@ -25,6 +25,8 @@ class FinancialReturnStatementsController < Base::HyaccController
       render_trade_account_receivable
     when REPORT_TYPE_DIVIDEND_RECEIVED
       render_dividend_received
+    when REPORT_TYPE_INVESTMENT_SECURITIES
+      render_investment_securities
     end if finder.commit
   end
 
@@ -37,8 +39,8 @@ class FinancialReturnStatementsController < Base::HyaccController
   end
 
   def render_rent
-    logic = Reports::RentStatementLogic.new
-    @rents = logic.get_rent_statement(finder)
+    logic = Reports::RentStatementLogic.new(finder)
+    @rents = logic.get_rent_statement
     render :rent
   end
   
@@ -88,5 +90,12 @@ class FinancialReturnStatementsController < Base::HyaccController
     logic = Reports::DividendReceivedLogic.new
     @models = logic.get_dividend_received_model(finder)
     render :dividend_received
+  end
+  
+  # 有価証券
+  def render_investment_securities
+    logic = Reports::InvestmentLogic.new(finder)
+    @investments = logic.get_investments_report
+    render :investment_securities
   end
 end

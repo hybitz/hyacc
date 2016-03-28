@@ -1,0 +1,36 @@
+attributes1:
+  id: 1
+  shares: 100
+  trading_value: 240000
+  created_at: 2016-03-28 03:59:41
+  updated_at: 2016-03-28 03:59:41
+  customer_id: 24
+  ym: 201503
+  day: 1
+  bank_account_id: 3
+  journal_detail_id: 78985
+  for_what: 1
+attributes2:
+  id: 2
+  shares: 500
+  trading_value: 100000
+  created_at: 2016-03-28 04:00:09
+  updated_at: 2016-03-28 04:00:09
+  customer_id: 24
+  ym: 201603
+  day: 10
+  bank_account_id: 3
+  journal_detail_id: 78996
+  for_what: 1
+attributes3:
+  id: 3
+  shares: -300
+  trading_value: -330000
+  created_at: 2016-03-28 04:15:14
+  updated_at: 2016-03-28 04:15:14
+  customer_id: 24
+  ym: 201603
+  day: 20
+  bank_account_id: 3
+  journal_detail_id: 79059
+  for_what: 1

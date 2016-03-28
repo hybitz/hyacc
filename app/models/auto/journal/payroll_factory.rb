@@ -33,7 +33,7 @@ module Auto::Journal
       journal_header.update_user_id = @user.id
       # 年月の設定
       journal_header.ym = @payroll.ym
-      journal_header.company_id = @user.company.id
+      journal_header.company_id = @user.company_id
       
       # 明細の作成
       ## デフォルト部門の取得

@@ -10,9 +10,11 @@ class Investment < ActiveRecord::Base
   validates :buying_or_selling, :presence => true
   validates_numericality_of :shares, :greater_than => 0
   validates_numericality_of :trading_value, :greater_than => 0
+  validates_numericality_of :charges, :greater_than => 0
   
   attr_accessor :buying_or_selling
   attr_accessor :yyyymmdd
+  attr_accessor :charges
   
   before_save :set_ym_and_day
   before_save :set_trading_value

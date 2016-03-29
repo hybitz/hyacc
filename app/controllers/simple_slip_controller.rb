@@ -6,7 +6,7 @@ class SimpleSlipController < Base::HyaccController
   def get_account_details
     id = params[:id].to_i
     @slip = finder.find( id ) if id > 0
-    
+
     renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
     if renderer
       render :partial => renderer.get_template(controller_name)
@@ -14,7 +14,7 @@ class SimpleSlipController < Base::HyaccController
       render :nothing => true
     end
   end
-  
+
   def get_templates
     @slip = finder.find(params[:id]) if params[:id].to_i > 0
     my_account = Account.get_by_code(finder.account_code)
@@ -22,7 +22,7 @@ class SimpleSlipController < Base::HyaccController
     like = '%' + Daddy::Utils::SqlUtils.escape_search(params[:query]) + '%'
     query = 'account_id <> ? and (keywords like ? or remarks like ?) and deleted=?', my_account.id, like, like, false
     templates = SimpleSlipTemplate.where(query)
-    
+
     json = '['
     templates.each_with_index do |t, index|
       if t.account_id.to_i > 0
@@ -41,7 +41,7 @@ class SimpleSlipController < Base::HyaccController
           increase_or_decrease = account.dc_type == t.dc_type ? "increase" : "decrease"
         end
       end
-      
+
       # 税抜経理方式でなければ、消費税は非課税として扱う
       tax_type = get_tax_type_for_current_fy(t.tax_type)
       if tax_type == TAX_TYPE_NONTAXABLE
@@ -49,10 +49,10 @@ class SimpleSlipController < Base::HyaccController
       else
         tax_amount = t.tax_amount
       end
-      
+
       # 金額が０円の場合は、空白にする（そのほうが入力が楽）
       amount = t.amount.to_i > 0 ? t.amount.to_s : ''
-    
+
       json << ',' if index > 0
       json << <<-"JSON"
         {
@@ -74,20 +74,20 @@ class SimpleSlipController < Base::HyaccController
       JSON
     end
     json << ']'
-    
+
     if HyaccLogger.debug?
       HyaccLogger.debug("json=" + json)
     end
 
     render :json => json
   end
-  
+
   def index
     @slip ||= setup_new_slip
-        
+
     # 登録済み伝票を検索
     @slips = finder.list(:per_page => current_user.slips_per_page)
-    
+
     # 表示伝票直前までの累計金額、現在の累計金額の取得
     if @slips.empty?
       @pre_sum_amount = @sum_amount = 0
@@ -108,16 +108,16 @@ class SimpleSlipController < Base::HyaccController
   def create
     @slip = new_slip(params[:slip])
     @slip.user = current_user
-    
+
     begin
       @slip.create
-      
+
       # 年月日を入力状態を保存
       save_ymd_input_state
-      
+
       # 選択した勘定科目をカウント
       save_input_frequencies(@slip)
-      
+
       flash[:notice] = '伝票を登録しました。'
       redirect_to :action => :index, :account_code => params[:account_code]
     rescue Exception => e
@@ -130,11 +130,12 @@ class SimpleSlipController < Base::HyaccController
     @slip = finder.find( params[:id] )
     setup_view_attributes
   end
-  
+
   def update
+    #@slip = finder.find(params[:id])
     @slip = finder.find(params[:slip][:id])
     @slip.user = current_user
-    
+
     begin
       params[:slip][:account_code] = params[:account_code]
       @slip.update(params[:slip])
@@ -151,7 +152,7 @@ class SimpleSlipController < Base::HyaccController
       render 'edit'
     end
   end
-  
+
   # 税区分の選択状態を更新する
   # 税抜経理方式の場合は、勘定科目の税区分を取得
   # それ以外は、非課税をデフォルトとする
@@ -181,7 +182,7 @@ class SimpleSlipController < Base::HyaccController
     # 正常終了でもエラーでもリストへ戻る
     redirect_to :action => :index
   end
-  
+
   def new_from_copy
     slip = finder.find( params[:id] )
     account = Account.get(slip.account_id)
@@ -190,9 +191,9 @@ class SimpleSlipController < Base::HyaccController
     if renderer
       account_detail = render_to_string(:partial => renderer.get_template(controller_name))
     end
-    
+
     @json = {
-      :remarks => slip.remarks, 
+      :remarks => slip.remarks,
       :account_id => slip.account_id,
       :sub_account_id => slip.sub_account_id,
       :branch_id => slip.branch_id,
@@ -225,14 +226,14 @@ class SimpleSlipController < Base::HyaccController
     slip = Slips::Slip.new( hash )
     slip
   end
-  
+
   def save_input_frequencies(slip)
     InputFrequency.save_input_frequency(current_user.id, INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID, slip.account_id)
   end
 
   def save_ymd_input_state
     ymd = session[:ymd_input_state]
-    if ymd.nil?  
+    if ymd.nil?
       ymd = Slips::YmdInputState.new
       session[:ymd_input_state] = ymd
     end
@@ -242,7 +243,7 @@ class SimpleSlipController < Base::HyaccController
 
   def setup_new_slip
     ymd = session[:ymd_input_state]
-    if ymd.nil?  
+    if ymd.nil?
       now = Time.now
       ymd = Slips::YmdInputState.new
       ymd.ym = now.strftime("%Y%m")
@@ -285,7 +286,7 @@ class SimpleSlipController < Base::HyaccController
     unless current_user.company.current_fiscal_year.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
       return TAX_TYPE_NONTAXABLE
     end
-    
-    tax_type    
+
+    tax_type
   end
 end

@@ -228,32 +228,6 @@ class JournalsController < Base::HyaccController
     raise HyaccException.new(ERR_INVALID_SLIP_TYPE)
   end
 
-  def create_or_update_asset(detail)
-    # 固定資産の場合は資産を設定
-    a = Account.get(detail.account_id)
-    if a.depreciable
-      asset = Asset.find(detail.asset_id.to_i) if detail.asset_id.to_i > 0
-      unless asset
-        asset = Asset.new
-        asset.code = AssetUtil.create_asset_code(current_user.company.get_fiscal_year_int(@journal.ym))
-        asset.name = detail.note.empty? ? @journal.remarks : detail.note
-        asset.status = ASSET_STATUS_CREATED
-        asset.depreciation_method = a.depreciation_method
-        asset.depreciation_limit = 1 # 平成19年度以降は1年まで償却可能
-      end
-      asset.account_id = detail.account_id
-      asset.sub_account_id = detail.sub_account_id
-      asset.branch_id = detail.branch_id
-      asset.ym = @journal.ym
-      asset.day = @journal.day
-      asset.amount = detail.amount
-      asset.lock_version = detail.asset_lock_version.to_i
-      detail.asset = asset
-    else
-      detail.asset = nil
-    end
-  end
-
   def create_or_update_inventment(detail)
     # 有価証券の場合は有価証券情報を設定
     a = Account.get(detail.account_id)

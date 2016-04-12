@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412225934) do
+ActiveRecord::Schema.define(version: 20160412231125) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -327,6 +327,7 @@ ActiveRecord::Schema.define(version: 20160412225934) do
     t.integer  "bank_account_id",               null: false
     t.integer  "journal_detail_id"
     t.integer  "for_what",                      null: false
+    t.integer  "charges",           default: 0, null: false
   end
 
   create_table "journal_details", force: true do |t|

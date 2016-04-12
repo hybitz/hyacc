@@ -174,7 +174,6 @@ ja:
         branch: 計上部門
         account: 勘定科目
         sub_account: 補助科目
-        shares: 株数
       
       journal_details:
         <<: *journal_detail

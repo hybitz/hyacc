@@ -1,7 +1,0 @@
-<%
-  prefix = "journal[journal_details_attributes[#{index}]]"
-%>
-<%= fields_for prefix, jd do |f| %>
-  株数：
-  <%= f.text_field :shares, :class => 'sharesText' %>
-<% end %>

@@ -13,6 +13,7 @@
       <th>購入株数</th>
       <th>売却株数</th>
       <th>金額</th>
+      <th />
     </tr>
     <% Array(@investments).each do |inv| %>
     <tr class="hover">
@@ -23,6 +24,11 @@
         <td class="amount"><%= to_amount(inv.shares) if inv.shares >= 0 %></td>
         <td class="amount"><%= to_amount(inv.shares * -1) if inv.shares < 0 %></td>
         <td class="amount"><%= to_amount(inv.trading_value).to_s.gsub('-','△') %></td>
+        <td>
+          <%= link_to '編集', edit_investment_path(inv), :remote => true %>
+          <%= link_to '削除', investment_path(inv),
+                data: {confirm: '伝票を削除します。よろしいですか？'}, :method => :delete %>
+        </td>
     </tr>
     <% end %>
 </table>

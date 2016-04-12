@@ -35,12 +35,13 @@ module Reports
     
     # 期末時点の株数と購入額合計
     def get_total_shares_and_trading_values()
-      ym_condition = Investment.arel_table[:ym].lteq(@end_ym)
+      arel = Investment.arel_table
+      ym_condition = arel[:ym].lteq(@end_ym)
       Investment.where(ym_condition).group(:customer_id,
                                            :bank_account_id).select(:customer_id,
                                                                     :bank_account_id,
-                                                                    [:shares].sum,
-                                                                    [:trading_value].sum)
+                                                                    arel[:shares].sum.as('shares'),
+                                                                    arel[:trading_value].sum.as('trading_value'))
     end
   end
 end

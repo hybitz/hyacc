@@ -29,7 +29,7 @@ module Slips
     attr_accessor :auto_journal_month
     attr_accessor :auto_journal_day
     attr_accessor :lock_version
-    
+
     # 接待交際費用の入力フィールド
     attr_accessor :social_expense_number_of_people
 
@@ -44,11 +44,11 @@ module Slips
     # ARモデル
     attr_accessor :user
     attr_reader :journal_header
-    
+
     # 簡易入力が前提としている勘定科目、補助科目
     attr_accessor :my_account_id
     attr_accessor :my_sub_account_id
-    
+
     def initialize(*args)
       # 第1引数が伝票ヘッダの場合
       if args[0].is_a? JournalHeader
@@ -90,11 +90,11 @@ module Slips
         @journal_header.create_user_id = user.id
         @journal_header.update_user_id = user.id
         @journal_header.journal_details = create_details()
-        
+
         # 簡易入力で入力可能な状態のデータであることを確認
         raise HyaccException.new(ERR_INVALID_SLIP) unless editable?
-        
-        # 登録        
+
+        # 登録
         @journal_header.save!
 
         # 資産チェック
@@ -102,7 +102,7 @@ module Slips
 
         # 自動仕訳を作成
         do_auto_transfers( @journal_header )
-        
+
         # 仕訳チェック
         validate_journal( @journal_header, nil )
 
@@ -112,7 +112,7 @@ module Slips
         return self
       end
     end
-    
+
     def update( params )
       setup_from_params( params )
       old = @journal_header.copy
@@ -125,7 +125,7 @@ module Slips
         @journal_header.update_user_id = @user.id
         @journal_header.lock_version = @lock_version
         @journal_header.journal_details = create_details
-        
+
         # 簡易入力で入力可能な状態のデータであることを確認
         unless editable?
           raise HyaccException.new(ERR_INVALID_SLIP)
@@ -139,30 +139,30 @@ module Slips
 
         # 仕訳チェック
         validate_journal( @journal_header, old )
-      
+
         # 更新
         @journal_header.save!
 
         return self
       end
     end
-    
+
     def destroy
       # 締め状態の確認
       validate_closing_status_on_delete( @journal_header )
-      
+
       # 資産チェック
       validate_assets( nil, @journal_header )
 
       @journal_header.lock_version = lock_version
       @journal_header.destroy
     end
-    
+
     # 自動振替伝票があるか
     def has_auto_transfers
       @journal_header.has_auto_transfers
     end
-    
+
     private
 
     # 仕訳明細の作成
@@ -171,9 +171,9 @@ module Slips
       target_account = Account.get( @account_id )
       amount = @amount_increase.to_i > 0 ? @amount_increase.to_i : @amount_decrease.to_i
       tax_amount = @amount_increase.to_i > 0 ? @tax_amount_increase.to_i : @tax_amount_decrease.to_i
-    
+
       ret = []
-    
+
       # この簡易入力が扱っている科目
       jd1 = clear_detail_attributes journal_details[0]
       jd1.journal_header = @journal_header
@@ -200,10 +200,10 @@ module Slips
       jd2.branch_id = jd1.branch_id
       jd2.sub_account_id = sub_account_id if sub_account_id > 0
       jd2.amount = calc_amount(@tax_type, amount, tax_amount)
-      
+
       # 接待交際費の参加人数
       jd2.social_expense_number_of_people = target_account.is_social_expense ? @social_expense_number_of_people : nil
-      
+
       # 法人税の決算区分
       jd2.settlement_type = target_account.is_corporate_tax ? @settlement_type : nil
 
@@ -227,7 +227,7 @@ module Slips
         jd3.dc_type = jd2.dc_type
         jd3.tax_type = TAX_TYPE_NONTAXABLE
         jd3.tax_rate_percent = 0
-        
+
         # 借方の場合は仮払消費税
         if target_account.dc_type == DC_TYPE_DEBIT
           jd3.account_id = Account.get_by_code( ACCOUNT_CODE_TEMP_PAY_TAX ).id
@@ -235,7 +235,7 @@ module Slips
         elsif target_account.dc_type == DC_TYPE_CREDIT
           jd3.account_id = Account.get_by_code( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED ).id
         end
-        
+
         jd3.branch_id = jd2.branch_id
         jd3.amount = tax_amount
 
@@ -247,7 +247,7 @@ module Slips
 
       return ret
     end
-    
+
     # 自動振替仕訳の作成
     def do_auto_transfers( jh )
       slip_types = [
@@ -272,7 +272,7 @@ module Slips
       factory = Auto::AutoJournalFactory.get_instance( param )
       factory.make_journals()
     end
-    
+
     def has_accrued_expense_transfers
       journals = get_all_related_journals(@journal_header)
       return false if journals.size != 3
@@ -280,7 +280,7 @@ module Slips
       return false if journals[2].slip_type != SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE
       true
     end
-    
+
     def has_date_input_expense_transfers
       journals = get_all_related_journals(@journal_header)
       return false if journals.size != 3
@@ -296,11 +296,11 @@ module Slips
       return false if journals[2].slip_type != SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE
       true
     end
-    
+
     def setup_from_journal( slip_finder )
       my_account = Account.get_by_code(slip_finder.account_code)
       @my_account_id = my_account.id
-    
+
       @id = @journal_header.id
       @ym = @journal_header.ym
       @day = @journal_header.day
@@ -308,12 +308,12 @@ module Slips
       @lock_version = @journal_header.lock_version
 
       if has_prepaid_expense_transfers
-        @auto_journal_type = AUTO_JOURNAL_TYPE_PREPAID_EXPENSE 
+        @auto_journal_type = AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
       elsif has_accrued_expense_transfers
         @auto_journal_type = AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
       elsif has_date_input_expense_transfers
         @auto_journal_type = AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
-        
+
         journals = get_all_related_journals(@journal_header)
         if journals[0].date != journals[1].date
           @auto_journal_year = journals[1].date.year
@@ -325,10 +325,10 @@ module Slips
           @auto_journal_day = journals[2].date.day
         end
       end
-      
+
       if editable?
         # 本伝票が前提としている科目側の明細を取得
-        my_detail = journal_details.where(:account_id => @my_account_id, :detail_type => DETAIL_TYPE_NORMAL).first
+        my_detail = journal_details.find{|jd| jd.account_id == @my_account_id.to_i && jd.detail_type == DETAIL_TYPE_NORMAL}
 
         # 本伝票が前提としている科目側の補助科目を設定
         @my_sub_account_id = my_detail.sub_account_id
@@ -342,7 +342,7 @@ module Slips
         @branch_name = target_detail.branch_name
         @sub_account_id = target_detail.sub_account_id
         @sub_account_name = target_detail.sub_account_name
-        
+
         # 消費税税区分、消費税率
         @tax_type = target_detail.tax_type
         @tax_rate_percent = target_detail.tax_rate_percent
@@ -365,20 +365,20 @@ module Slips
             @tax_amount_decrease = target_detail.tax_detail.amount
           end
         end
-  
+
         # 接待交際費の参加人数
         @social_expense_number_of_people = target_detail.social_expense_number_of_people
-        
+
         # 法人税の決算区分
-        @settlement_type = target_detail.settlement_type 
-        
+        @settlement_type = target_detail.settlement_type
+
         # 固定資産の場合は資産コード、資産名をVOにセットする
         if target_detail.asset
           @asset_id = target_detail.asset.id
           @asset_code = target_detail.asset.code
           @asset_lock_version = target_detail.asset.lock_version
         end
-        
+
       else
         various = Account.get_by_code( ACCOUNT_CODE_VARIOUS )
         @account_code = various.code
@@ -392,7 +392,7 @@ module Slips
         next if jd.account_id != @my_account_id
         next if slip_finder.sub_account_id.to_i > 0 and jd.sub_account_id != slip_finder.sub_account_id.to_i
         next if slip_finder.branch_id.to_i > 0 and jd.branch_id != slip_finder.branch_id.to_i
-        
+
         if jd.dc_type == my_account.dc_type
           @slip_amount_increase += jd.amount
         else

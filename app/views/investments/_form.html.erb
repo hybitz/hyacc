@@ -28,7 +28,7 @@
         </tr>
         <tr>
           <th><%= f.label :for_what %></th>
-          <td><%= f.radio_button :for_what, '1', {:checked => true} %>売買目的（1年以内）　<%= f.radio_button :for_what, '0' %>投資目的（1年越え）</td>
+          <td><%= f.radio_button :for_what, SECURITIES_TYPE_FOR_TRADING, {:checked => true} %>売買目的（1年以内）　<%= f.radio_button :for_what, SECURITIES_TYPE_FOR_INVESTMENT %>投資目的（1年越え）</td>
         </tr>
         <tr>
           <th><%= f.label :shares %></th>
@@ -43,5 +43,6 @@
           <td><%= f.text_field :charges %></td>
         </tr>
       </table>
+      <%= f.hidden_field :journal_detail_id %>
     </div>
 <% end %>

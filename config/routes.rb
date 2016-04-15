@@ -89,7 +89,13 @@ Rails.application.routes.draw do
       post 'confirm'
     end
   end
-  
+ 
+  resources :investments do
+    collection do
+      get 'not_related'
+      get 'relate'
+    end
+  end
 
   resources :journals do
     collection do

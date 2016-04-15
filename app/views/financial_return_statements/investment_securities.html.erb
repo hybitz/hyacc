@@ -27,11 +27,11 @@
       <% @investments.each do |investment| %>
       <tr>
         <td rowspan="2"><%= investment[:formal_name] %></td>
-        <td rowspan="2"><%= number_to_currency(investment[:last_shares], :unit => '',:precision => 0, :format => '%u%n') %></td>
-        <td rowspan="2"><%= number_to_currency(investment[:last_trading_value], :unit => '',:precision => 0, :format => '%u%n') %></td>
+        <td rowspan="2"><%= to_amount(investment[:last_shares]) %></td>
+        <td rowspan="2"><%= to_amount(investment[:last_trading_value]) %></td>
         <td><%= format_wareki_year_month_day(investment[:ymd]) %></td>
-        <td rowspan="2"><%= number_to_currency(investment[:shares], :unit => '',:precision => 0, :format => '%u%n') %></td>
-        <td rowspan="2"><%= number_to_currency(investment[:trading_value], :unit => '',:precision => 0, :format => '%u%n') %></td>
+        <td rowspan="2"><%= to_amount(investment[:shares]) %></td>
+        <td rowspan="2"><%= to_amount(investment[:trading_value]) %></td>
         <td><%= investment[:bank_name] %></td>
         <td rowspan="2"><%= investment[:etc] %></td>
       </tr>
@@ -40,5 +40,19 @@
         <td><%= investment[:address] %></td>
       </tr>
       <% end %>
+      <tr>
+        <td rowspan="2" />
+        <td rowspan="2" />
+        <td rowspan="2" />
+        <td />
+        <td rowspan="2" />
+        <td rowspan="2" />
+        <td />
+        <td rowspan="2" />
+      </tr>
+      <tr>
+        <td />
+        <td />
+      </tr>
     </table>
 </div>

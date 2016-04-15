@@ -14,7 +14,6 @@ class Investment < ActiveRecord::Base
   
   attr_accessor :buying_or_selling
   attr_accessor :yyyymmdd
-  attr_accessor :charges
   
   before_save :set_ym_and_day
   before_save :set_trading_value

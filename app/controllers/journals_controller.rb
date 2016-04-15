@@ -183,7 +183,7 @@ class JournalsController < Base::HyaccController
           :id, :_destroy, :dc_type, :account_id, :branch_id, :sub_account_id,
           :input_amount, :tax_type, :tax_rate_percent, :tax_amount,
           :social_expense_number_of_people, :note,
-          :is_allocated_cost, :is_allocated_assets, :settlement_type, :shares,
+          :is_allocated_cost, :is_allocated_assets, :settlement_type,
           :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,
           :asset_attributes => [:id, :lock_version]
       ],
@@ -226,21 +226,6 @@ class JournalsController < Base::HyaccController
                                      SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION].include? old_journal.slip_type
 
     raise HyaccException.new(ERR_INVALID_SLIP_TYPE)
-  end
-
-  def create_or_update_inventment(detail)
-    # 有価証券の場合は有価証券情報を設定
-    a = Account.get(detail.account_id)
-
-    if account.path.include? ACCOUNT_CODE_SECURITIES
-      investment = Investment.find(detail.investment_id.to_i) if detail.investment_id.to_i > 0
-      unless investment
-        investment = Investment.new
-        investment.shares = detail.shares
-      end
-    else
-      detail.asset = nil
-    end
   end
 
   def save_input_frequencies(jh)

@@ -3,7 +3,7 @@ class InvestmentsController < Base::HyaccController
   
   view_attribute :title => '有価証券'
   view_attribute :finder, :class => InvestmentFinder
-  view_attribute :customers, :only => [:new,:create], :conditions => {:is_investment => true, :deleted => false}
+  view_attribute :customers, :only => [:new,:create,:edit], :conditions => {:is_investment => true, :deleted => false}
   view_attribute :bank_accounts, :conditions => {financial_account_type: [FINANCIAL_ACCOUNT_TYPE_GENERAL,
                                                                           FINANCIAL_ACCOUNT_TYPE_SPECIFIC,
                                                                           FINANCIAL_ACCOUNT_TYPE_SPECIFIC_WITHHOLD]}
@@ -30,8 +30,23 @@ class InvestmentsController < Base::HyaccController
       render :action => 'new'
     end
   end
+  
+  def edit
+    @investment = Investment.find(params[:id])
+  end
 
-  private
+  def destroy
+    @investment = Investment.find(params[:id])
+
+    @investment.transaction do
+      @investment.destroy
+    end
+
+    flash[:notice] = '有価証券情報を削除しました。'
+    redirect_to :action => :index
+  end
+
+private
 
   def finder
     unless @finder

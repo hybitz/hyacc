@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class SimpleSlipController::CashTest < ActionController::TestCase
+class SimpleSlipsController::CashTest < ActionController::TestCase
 
-  setup do
+  def setup
     sign_in user
   end
 
@@ -67,11 +67,10 @@ class SimpleSlipController::CashTest < ActionController::TestCase
   # 楽観的ロックによる更新エラー
   def test_edit_fail_by_lock
     jh = JournalHeader.find(10)
-    
-    post :update, :format => 'js',
-      :account_code=>ACCOUNT_CODE_CASH,
+
+    xhr :patch, :update, :id => jh.id,
+      :account_code => ACCOUNT_CODE_CASH,
       :slip => {
-        "id"=>10,
         "my_sub_account_id"=>"",
         "ym"=>200905,
         "day"=>17,
@@ -88,9 +87,9 @@ class SimpleSlipController::CashTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/reload'
     assert_not_nil assigns(:slip)
-    
-    post :update, :format => 'js',
-      :account_code=>ACCOUNT_CODE_CASH,
+
+    xhr :patch, :update, :id => jh.id,
+      :account_code => ACCOUNT_CODE_CASH,
       :slip => {
         "my_sub_account_id"=>"",
         "ym"=>200905,
@@ -98,7 +97,6 @@ class SimpleSlipController::CashTest < ActionController::TestCase
         "remarks"=>"タクシー代",
         "branch_id"=>2,
         "account_id"=>21,
-        "id"=>10,
         "amount_increase"=>1130,
         :tax_type => TAX_TYPE_NONTAXABLE,
         "lock_version"=>jh.lock_version
@@ -109,14 +107,12 @@ class SimpleSlipController::CashTest < ActionController::TestCase
     assert_not_nil assigns(:slip)
     assert assigns(:slip).errors.empty?
   end
-  
+
   # 楽観的ロックによる削除エラー
   def test_destroy_fail_by_lock
-    
-    post :update, :format => 'js',
-      :account_code=>ACCOUNT_CODE_CASH,
+    xhr :patch, :update, :id => 10,
+      :account_code => ACCOUNT_CODE_CASH,
       :slip => {
-        "id"=>10,
         "my_sub_account_id"=>"",
         "ym"=>200905,
         "day"=>17,
@@ -131,7 +127,7 @@ class SimpleSlipController::CashTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/reload'
     assert_not_nil assigns(:slip)
-    
+
     post :destroy,
       :account_code => ACCOUNT_CODE_CASH,
       :id => 10,

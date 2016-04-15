@@ -1,7 +1,7 @@
 require 'test_helper'
 
 # 未払費用の計上日振替のテスト
-class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
+class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
 
   setup do
     sign_in freelancer
@@ -39,11 +39,10 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
     slip = finder.find(18)
     assert_equal 201101, slip.journal_header.journal_details[0].transfer_journals[0].transfer_journals[0].ym
 
-    xhr :post, :update,
+    xhr :patch, :update, :id => slip.id,
       :account_code => finder.account_code,
       :slip => {
-        "id"=>slip.id,
-        "ym"=>201011,
+        "ym" => 201011,
         "day"=>21,
         "remarks"=>slip.remarks,
         "branch_id"=>slip.branch_id,
@@ -70,10 +69,9 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
     finder.account_code = Account.get(5).code
     slip = finder.find(21)
 
-    xhr :post, :update,
+    xhr :patch, :update, :id => slip.id,
       :account_code => finder.account_code,
       :slip => {
-        "id"=>slip.id,
         "ym"=>201012,
         "day"=>7,
         "remarks"=>"本締の年度への費用振替の更新がエラーになること",
@@ -89,7 +87,7 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'edit'
-    assert_not_nil assigns(:slip)
+    assert assigns(:slip)
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end
 
@@ -187,10 +185,9 @@ class SimpleSlipController::PrepaidExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(21)
     lock_version = jh.lock_version
 
-    xhr :post, :update,
-      :account_code=>ACCOUNT_CODE_CASH,
+    xhr :post, :update, :id => jh.id,
+      :account_code => ACCOUNT_CODE_CASH,
       :slip => {
-        "id"=>jh.id,
         "ym"=>201011,
         "day"=>30,
         "remarks"=>remarks,

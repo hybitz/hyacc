@@ -1,27 +1,27 @@
-<% unless @slip.new_record? %>
-  <%= text_field 'slip', 'remarks', :class=>'remarksText' %>
+<% if @simple_slip.persisted? %>
+  <%= f.text_field :remarks, :class => 'remarksText' %>
 <% else %>
   <div>
-    <%= text_field 'slip', 'remarks', :class=>'remarksText autocomplete' %>
+    <%= f.text_field :remarks, :class=>'remarksText autocomplete' %>
     <script>
       function get_templates(req, res) {
-        var url = '<%= url_for :action => 'get_templates', :id => @slip.id, :account_code => params[:account_code] %>';
+        var url = '<%= url_for :action => 'get_templates' %>';
         var params = {format: 'json', query: req.term};
         $.getJSON(url, params, function(json) {
           res(json);
         });
       }
-      
+
       function item_selected(event, ui) {
         var item = ui.item;
 
         $('#slip_account_id').val(item.account_id);
-        
+
         if ($('#slip_sub_account_id').length > 0) {
           replace_options('#slip_sub_account_id', item.sub_accounts);
           $('#slip_sub_account_id').val(item.sub_account_id);
         }
-        
+
         if ($('#slip_branch_id').length > 0) {
           if (item.branch_id) {
             $('#slip_branch_id').val(item.branch_id);
@@ -39,7 +39,7 @@
           $('#slip_amount_decrease').val(item.amount);
           $('#slip_tax_amount_decrease').val(item.tax_amount);
         }
-        
+
         $('#account_detail').html(item.account_detail);
 
         var form = $('#slip_new_form');
@@ -50,10 +50,10 @@
           if (item.increase_or_decrease) {
             focus = focus + '_' + item.increase_or_decrease;
           } else {
-            focus = null;  
+            focus = null;
           }
         }
-        
+
         if (focus) {
           $('#slip_' + focus).focus();
         }

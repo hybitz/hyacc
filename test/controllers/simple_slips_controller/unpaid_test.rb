@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class SimpleSlipController::UnpaidTest < ActionController::TestCase
+class SimpleSlipsController::UnpaidTest < ActionController::TestCase
 
-  setup do
+  def setup
     sign_in users(:first)
   end
 
@@ -25,7 +25,7 @@ class SimpleSlipController::UnpaidTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to :action => 'index'
-    
+
     # 登録した伝票のチェック
     jh = JournalHeader.find_by_remarks(remarks)
     assert_equal( 200801, jh.ym )
@@ -45,7 +45,7 @@ class SimpleSlipController::UnpaidTest < ActionController::TestCase
     assert_equal( 2, jh.journal_details[1].branch_id )
     assert_equal( 22, jh.journal_details[1].account_id )
     assert_equal( nil, jh.journal_details[1].sub_account_id )
-    
+
     # 自動振替伝票のチェック（前月の伝票）
     auto1 = jh.journal_details[1].transfer_journals.first
     assert_not_nil( auto1 )
@@ -67,7 +67,7 @@ class SimpleSlipController::UnpaidTest < ActionController::TestCase
     assert_equal( 2, auto1.journal_details[1].branch_id )
     assert_equal( Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE).id, auto1.journal_details[1].account_id )
     assert_nil( auto1.journal_details[1].sub_account_id )
-    
+
     # 自動振替伝票のチェック（今月の伝票）
     auto2 = auto1.transfer_journals.first
     assert_equal( 200801, auto2.ym )
@@ -109,7 +109,7 @@ class SimpleSlipController::UnpaidTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to :action=>:index
-    
+
     # 登録した伝票のチェック
     assert jh = JournalHeader.where(:remarks => remarks).first
     assert_equal( 200801, jh.ym )
@@ -129,7 +129,7 @@ class SimpleSlipController::UnpaidTest < ActionController::TestCase
     assert_equal( 2, jh.journal_details[1].branch_id )
     assert_equal( 21, jh.journal_details[1].account_id )
     assert_equal( nil, jh.journal_details[1].sub_account_id )
-    
+
     # 自動振替伝票のチェック（今月の伝票）
     jh = jh.journal_details[1].transfer_journals.first
     assert_not_nil( jh )
@@ -150,7 +150,7 @@ class SimpleSlipController::UnpaidTest < ActionController::TestCase
     assert_equal( 2, jh.journal_details[1].branch_id )
     assert_equal( Account.find_by_code(ACCOUNT_CODE_PREPAID_EXPENSE).id, jh.journal_details[1].account_id )
     assert_equal( nil, jh.journal_details[1].sub_account_id )
-    
+
     # 自動振替伝票のチェック（翌月の伝票）
     jh = jh.transfer_journals.first
     assert_equal( 200802, jh.ym )

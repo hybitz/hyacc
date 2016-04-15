@@ -8,7 +8,7 @@
   <% end %>
 </div>
 
-<%= form_tag({:action => 'update', :account_code => params[:account_code]}, :id => "slip_edit_form", :enctype => "multipart/form-data", :remote => true) do %>
+<%= form_for @simple_slip, :html => {:id => "slip_edit_form", :remote => true} do |f| %>
   <%= render 'common/message' %>
   <table>
     <tr>

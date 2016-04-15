@@ -1,0 +1,124 @@
+<tr>
+  <td class="yearMonth">
+    <%= f.hidden_field :my_sub_account_id %>
+    <%= f.hidden_field :lock_version %>
+    <%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText', :onchange => "updateTaxAmountSimple(this.form);" %>
+  </td>
+  <td><%= f.text_field :day, :maxlength => 2, :class => 'dayText' %></td>
+  <td><%= render 'form_remarks', :f => f %></td>
+  <td>
+    <%= collection_select_code_and_name(:simple_slip, :account_id, @accounts, :id, :name,
+          {:selected => @simple_slip.account_id, :frequencies => @frequencies}, :class => 'accountSelect') %>
+    <script>
+      $(document).ready(function() {
+        var form = $('#<%= @simple_slip.new_record? ? 'slip_new_form' : 'slip_edit_form' %>');
+
+        form.find('.accountSelect').change(function() {
+          form.removeClass('tax_type_ready');
+
+          $.get('<%= url_for :controller => 'sub_accounts', :format => 'json' %>',
+            {order: 'code', account_id: $(this).val()},
+            function(data) {
+              replace_options(form.find('.subAccountSelect'), data);
+            }
+          );
+
+          $.get('<%= url_for :controller => 'accounts', :action => 'get_tax_type' %>', {account_id: $(this).val()},
+            function(tax_type) {
+              form.find('.taxTypeSelect').val(tax_type);
+              updateTaxAmountSimple(form);
+              form.addClass('tax_type_ready');
+          });
+
+          $.get('<%= url_for :action => 'get_account_details', :account_code => params[:account_code] %>',
+            {account_id: $(this).val()},
+            function(html) {
+              form.find('.account_detail').html(html);
+            }
+          );
+        });
+
+        form.submit(function() {
+          return validateSlip(this);
+        });
+      });
+    </script>
+  </td>
+  <td>
+    <%= f.collection_select :sub_account_id, @sub_accounts, :id, :name, {}, :class => 'subAccountSelect', :style => 'width: 100%;' %>
+    <%= hide_if_no_options("##{@simple_slip.new_record? ? 'slip_new_form' : 'slip_edit_form'} .subAccountSelect") %>
+  </td>
+
+  <% if branch_mode %>
+    <td class="branchName">
+      <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect', :style => 'width: 100%;' %>
+    </td>
+  <% end %>
+
+  <td class="amount"><%= f.text_field :amount_increase, :class => 'amountText', :onchange => 'updateTaxAmountSimple(this.form);' %></td>
+  <td class="amount"><%= f.text_field :amount_decrease, :class => 'amountText', :onchange => 'updateTaxAmountSimple(this.form);' %></td>
+
+  <%# 一覧画面での表示の場合 %>
+  <% if @simple_slip.new_record? %>
+    <td></td>
+    <td colspan="2"></td>
+    <td rowspan="4" colspan="4" valign="middle" align="center">
+      <%= f.submit %>
+    </td>
+  <% end %>
+</tr>
+<tr>
+  <td rowspan="3" valign="middle" align="center">振替</td>
+  <td align="center" style="border-right-style: none;">
+    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE, :onclick => 'checkAutoJournalType(this);' %>
+  </td>
+  <td style="border-left-style: none;">&nbsp;翌月</td>
+  <td rowspan="2" colspan="<%= branch_mode ? 2 : 1 %>">
+    <%# 勘定科目ごとの入力項目 %>
+    <div id="account_detail" class="account_detail" style="valign: middle; margin: 5px;">
+      <%= render_account_details @simple_slip.account_id %>
+    </div>
+  </td>
+  <td nowrap align="right">
+    <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect', :onchange => 'updateTaxAmountSimple(this.form);' %>
+    <%= f.text_field :tax_rate_percent, :class => 'taxRatePercentText', :onchange => 'updateTaxAmountSimple(this.form);' %>
+    <span>%</span>
+  </td>
+  <td class="amount">
+    <%= text_field 'slip', 'tax_amount_increase', {:class=>'amountText', :onchange=>"updateTaxAmountSimple(this.form, this.value, null);"} %>
+  </td>
+  <td class="amount">
+    <%= text_field 'slip', 'tax_amount_decrease', {:class=>'amountText', :onchange=>"updateTaxAmountSimple(this.form, null, this.value);"} %>
+  </td>
+  <%# 一覧画面の表示かどうかで列数を調整 %>
+  <% if @simple_slip.new_record? %>
+    <td rowspan="2"></td>
+    <td rowspan="2" colspan="2"></td>
+  <% end %>
+</tr>
+<tr>
+  <td align="center" style="border-right-style: none;">
+    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE, :onclick => 'checkAutoJournalType(this);' %>
+  </td>
+  <td style="border-left-style: none;">&nbsp;前月</td>
+  <td align="right"><b>合計</b></td>
+  <td class="amount" style="font-weight:bold;">
+    <div class="sum_amount_increase"><%= to_amount(@simple_slip.slip_amount_increase) %></div>
+  </td>
+  <td class="amount" style="font-weight:bold;">
+    <div class="sum_amount_decrease"><%= to_amount(@simple_slip.slip_amount_decrease) %></div>
+  </td>
+</tr>
+<tr>
+  <td align="center" style="border-right-style: none;">
+    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE, :onclick => 'checkAutoJournalType(this);' %>
+  </td>
+  <td nowrap style="border-left-style: none;">
+      &nbsp;<%= text_field 'slip', 'auto_journal_year', :maxlength => 4, :class => 'year' %> 年
+      <%= text_field 'slip', 'auto_journal_month', :maxlength => 2, :class => 'month' %> 月
+      <%= text_field 'slip', 'auto_journal_day', :maxlength => 2, :class => 'day' %> 日
+  </td>
+
+  <%# 一覧画面の表示かどうかで列数を調整 %>
+  <td colspan="<%= define_colspan_of_receipt %>"></td>
+</tr>

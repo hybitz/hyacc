@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SimpleSlipController::CrudTest < ActionController::TestCase
+class SimpleSlipsController::CrudTest < ActionController::TestCase
   include HyaccUtil
 
   def setup
@@ -10,10 +10,10 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
   def test_Trac_144_売上高の補助科目が受注先である場合に正しく伝票登録できること
     num_journal_headers = JournalHeader.count
     remarks = '売掛金と売上高の伝票' + Time.now.to_s
-    
+
     a = Account.find_by_code(6121)
     assert_equal SUB_ACCOUNT_TYPE_ORDER_ENTRY, a.sub_account_type
-    
+
     sa = Customer.find(3)
 
     post :create,
@@ -32,30 +32,30 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action=>:index
     assert_equal num_journal_headers + 1, JournalHeader.count
-    
+
     jh = JournalHeader.find_by_remarks(remarks)
     assert_equal 2, jh.journal_details.size
-    
+
     jd = jh.journal_details[0]
     assert_equal 6, jd.account_id
     assert_equal Account.find_by_code(1551).name, jd.account_name
     assert_equal sa.id, jd.sub_account_id
     assert_equal sa.name, jd.sub_account_name
-    
+
     jd = jh.journal_details[1]
     assert_equal a.id, jd.account_id
     assert_equal a.name, jd.account_name
     assert_equal sa.id, jd.sub_account_id
     assert_equal sa.name, jd.sub_account_name
   end
-  
+
   # コピー元伝票のJSONフォーマットが正常に取得できること
   def test_new_from_copy
     base_id = 6471
     xhr :get, :new_from_copy, :account_code => 1121, :id => base_id
     assert_response :success
     assert assigns[:json]
-    
+
     result = JSON.parse(@response.body)
     jd = JournalDetail.find(19597)
     assert_equal JournalHeader.find(jd.journal_header_id).remarks, result['remarks']
@@ -63,7 +63,7 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
     assert_equal jd.sub_account_id, result['sub_account_id']
     assert_equal jd.tax_type, result['tax_type']
   end
-  
+
   def test_更新時に登録ユーザが更新されていないこと
     user = User.find(2)
     sign_in user
@@ -76,11 +76,11 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
     assert_equal '100', slip.asset_code
     assert_equal 0, slip.asset_lock_version
 
-    xhr :patch, :update, :account_code => finder.account_code,
+    xhr :patch, :update, :id => slip.id,
+      :account_code => finder.account_code,
       :slip => {
-        "id"=>slip.id,
-        "ym"=>slip.ym,
-        "day"=>slip.day,
+        :ym => slip.ym,
+        "day" => slip.day,
         "remarks"=>"更新時に登録ユーザが更新されていないこと",
         "branch_id"=>slip.branch_id,
         "account_id"=>slip.account_id,
@@ -94,18 +94,18 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
         "asset_code"=>slip.asset_code,
         "asset_lock_version"=>slip.asset_lock_version,
       }
-    
+
     assert_response :success
     assert @slip = assigns(:slip)
     assert @slip.errors.empty?, @slip.errors.full_messages.join("\n")
     assert_equal '伝票を更新しました。', flash[:notice]
     assert_template 'common/reload'
-    
+
     jh = JournalHeader.find(11)
     assert_equal 1, jh.create_user_id
     assert_equal 2, jh.update_user_id
   end
-  
+
   def test_new
     get :index, :account_code=>1121
     assert_response :success
@@ -114,7 +114,7 @@ class SimpleSlipController::CrudTest < ActionController::TestCase
     assert_not_nil assigns(:frequencies)
     assert_equal 32, assigns(:frequencies)[0].input_value.to_i
   end
-  
+
   def test_edit
     xhr :get, :edit, :account_code => 1121, :id => 10
     assert_response :success

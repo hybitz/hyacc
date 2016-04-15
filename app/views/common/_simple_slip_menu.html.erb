@@ -1,5 +1,5 @@
 <% current_user.simple_slip_settings.each do |sss| %>
-  <%= link_to "#{sss.shortcut_key[5]}.#{sss.account.name}", {:controller => '/simple_slip', :account_code => sss.account.code},
+  <%= link_to "#{sss.shortcut_key[5]}.#{sss.account.name}", {:controller => 'simple_slips', :account_code => sss.account.code},
         :style => style_for_menu(sss.account.code), :title => "#{sss.account.name}　　#{sss.shortcut_key}" %>
   |
 <% end %>
@@ -7,9 +7,9 @@
 <script>
   $(document).ready(function() {
     <% current_user.simple_slip_settings.each do |sss| %>
-      Mousetrap.bindGlobal('<%= sss.shortcut_key.downcase %>', function(e) { 
+      Mousetrap.bindGlobal('<%= sss.shortcut_key.downcase %>', function(e) {
         e.preventDefault();
-        document.location.href = '<%= url_for :controller => '/simple_slip', :account_code => sss.account.code %>';
+        document.location.href = '<%= url_for :controller => 'simple_slips', :account_code => sss.account.code %>';
       });
     <% end %>
   });

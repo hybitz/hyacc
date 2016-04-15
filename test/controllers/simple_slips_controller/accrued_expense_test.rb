@@ -1,9 +1,9 @@
 require 'test_helper'
 
 # 未払費用の計上日振替のテスト
-class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
+class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
-  setup do
+  def setup
     user = User.find(4)
     assert user.company.get_fiscal_year(2009).closed?
     assert user.company.get_fiscal_year(2010).open?
@@ -37,10 +37,9 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     finder.account_code = Account.get(29).code
     slip = finder.find(12)
 
-    xhr :post, :update,
-      :account_code=>finder.account_code,
+    xhr :patch, :update, :id => slip.id,
+      :account_code => finder.account_code,
       :slip => {
-        "id"=>slip.id,
         "ym"=>201002,
         "day"=>7,
         "remarks"=>slip.remarks,
@@ -65,10 +64,9 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     finder.account_code = Account.get(29).code
     slip = finder.find(15)
 
-    xhr :post, :update,
+    xhr :post, :update, :id => slip.id,
       :account_code => finder.account_code,
       :slip => {
-        "id"=>slip.id,
         "ym"=>201001,
         "day"=>7,
         "remarks"=>"本締の年度への費用振替の更新がエラーになること",
@@ -84,7 +82,7 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
 
     assert_response :success
     assert_template 'edit'
-    assert_not_nil assigns(:slip)
+    assert assigns(:slip)
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end
 
@@ -175,10 +173,9 @@ class SimpleSlipController::AccruedExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(15)
     lock_version = jh.lock_version
 
-    xhr :post, :update,
+    xhr :post, :update, :id => jh.id,
       :account_code=>ACCOUNT_CODE_CASH,
       :slip => {
-        "id"=>jh.id,
         "ym"=>201012,
         "day"=>31,
         "remarks"=>remarks,

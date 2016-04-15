@@ -1,4 +1,5 @@
-class SimpleSlipController < Base::HyaccController
+class SimpleSlipsController < Base::HyaccController
+  before_action :preload_account
   before_action :check_sub_accounts
   view_attribute :finder, :class => Slips::SlipFinder, :include_params => :account_code
 
@@ -75,15 +76,11 @@ class SimpleSlipController < Base::HyaccController
     end
     json << ']'
 
-    if HyaccLogger.debug?
-      HyaccLogger.debug("json=" + json)
-    end
-
     render :json => json
   end
 
   def index
-    @slip ||= setup_new_slip
+    @simple_slip ||= setup_new_slip
 
     # 登録済み伝票を検索
     @slips = finder.list(:per_page => current_user.slips_per_page)
@@ -92,8 +89,8 @@ class SimpleSlipController < Base::HyaccController
     if @slips.empty?
       @pre_sum_amount = @sum_amount = 0
     else
-      @pre_sum_amount = finder.get_net_sum_until( @slips.first )
-      @sum_amount = finder.get_net_sum()
+      @pre_sum_amount = finder.get_net_sum_until(@slips.first)
+      @sum_amount = finder.get_net_sum
     end
 
     setup_view_attributes
@@ -101,7 +98,7 @@ class SimpleSlipController < Base::HyaccController
   end
 
   def show
-    @slip = finder.find( params[:id] )
+    @slip = finder.find(params[:id])
     setup_view_attributes
   end
 
@@ -127,13 +124,12 @@ class SimpleSlipController < Base::HyaccController
   end
 
   def edit
-    @slip = finder.find( params[:id] )
+    @simple_slip = finder.find(params[:id])
     setup_view_attributes
   end
 
   def update
-    #@slip = finder.find(params[:id])
-    @slip = finder.find(params[:slip][:id])
+    @slip = finder.find(params[:id])
     @slip.user = current_user
 
     begin
@@ -151,21 +147,6 @@ class SimpleSlipController < Base::HyaccController
       setup_view_attributes
       render 'edit'
     end
-  end
-
-  # 税区分の選択状態を更新する
-  # 税抜経理方式の場合は、勘定科目の税区分を取得
-  # それ以外は、非課税をデフォルトとする
-  def update_tax_type
-    @tax_type = TAX_MANAGEMENT_TYPE_EXEMPT
-
-    fy = current_user.company.current_fiscal_year
-    if fy.tax_exclusive?
-      account = get_account(params[:account_id])
-      @tax_type = account.tax_type if account
-    end
-
-    render :text => @tax_type
   end
 
   def destroy
@@ -221,10 +202,8 @@ class SimpleSlipController < Base::HyaccController
     end
   end
 
-  def new_slip( hash = {} )
-    hash[:account_code] = params[:account_code]
-    slip = Slips::Slip.new( hash )
-    slip
+  def new_slip(hash = {})
+    SimpleSlip.new(hash.merge(:my_account_id => @account.id))
   end
 
   def save_input_frequencies(slip)
@@ -258,10 +237,12 @@ class SimpleSlipController < Base::HyaccController
     ret
   end
 
-  def setup_view_attributes
-    # この簡易入力が対象としている科目
-    @account = Account.get_by_code( finder.account_code )
+  # この簡易入力が対象としている科目
+  def preload_account
+    @account = Account.get_by_code(params[:account_code])
+  end
 
+  def setup_view_attributes
     # 勘定科目選択用リスト
     # 自身と同じ勘定科目は選択させない（貸借のどちらか一方に限定するため）
     @accounts = []
@@ -274,7 +255,7 @@ class SimpleSlipController < Base::HyaccController
         .order('frequency desc').limit(current_user.account_count_of_frequencies)
 
     # 補助科目選択用リスト
-    @sub_accounts = load_sub_accounts(@slip.account_id)
+    @sub_accounts = load_sub_accounts(@simple_slip.account_id)
 
     # 部門選択用リスト
     @branches = get_branches

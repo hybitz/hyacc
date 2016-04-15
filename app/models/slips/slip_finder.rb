@@ -8,7 +8,7 @@ module Slips
     attr_accessor :prev_offset
     attr_accessor :next_offset
     attr_accessor :keep_paging
-    
+
     def initialize( user )
       super( user )
       @sub_account_id_map = {}
@@ -20,7 +20,7 @@ module Slips
       else
         @keep_paging = false
       end
-    
+
       # ページングを維持する場合は検索条件の変更をしない
       if @keep_paging
         @offset = params[:offset]
@@ -32,12 +32,12 @@ module Slips
           @deleted = params[:deleted] # 親クラスの定義をオーバーライド
           put_sub_account_id(params[:sub_account_id].to_i)
         end
-        
+
         @offset = nil
         @prev_offset = nil
         @next_offset = nil
       end
-      
+
       # 補助科目の指定がない場合は、先頭の補助科目を検索条件にする
       account = Account.get_by_code( @account_code )
       if account.sub_accounts.empty?
@@ -54,18 +54,18 @@ module Slips
     end
 
     def find(id)
-      jh = JournalHeader.find(id)
-      Slip.new(jh, self)
+      jh = Journal.find(id)
+      SimpleSlip.build_from_journal(Account.get_by_code(@account_code).id, jh)
     end
 
     def get_net_sum
       super( account_code )
     end
-    
+
     def get_net_sum_until( slip )
       super( slip, account_code )
     end
-        
+
     # 伝票を検索する
     def list(options = {})
       per_page = options[:per_page] || slips_per_page
@@ -74,7 +74,7 @@ module Slips
 
       # 条件に該当する総伝票数を取得
       total_count = JournalHeader.where(conditions).count
-      
+
       # 前伝票ページングのためのオフセットを計算
       prev_count = total_count - offset.to_i - per_page
       if prev_count <= 0
@@ -84,7 +84,7 @@ module Slips
       else
         self.prev_offset = offset.to_i + per_page
       end
-      
+
       # 次伝票ページングのためのオフセットを計算
       if offset.to_i == 0
         self.next_offset = nil
@@ -106,16 +106,16 @@ module Slips
     def get_sub_account_id
       @sub_account_id = @sub_account_id_map[account_code].to_i
     end
-    
+
     def put_sub_account_id(sub_account_id)
       @sub_account_id = sub_account_id
       @sub_account_id_map[account_code] = @sub_account_id
     end
-  
+
     # 伝票検索条件を生成する
     def get_conditions()
       conditions = []
-      
+
       # 伝票区分は簡易入力もしくは一般振替、台帳登録
       conditions[0] = "slip_type in ( ?, ?, ?, ? ) " if branch_id > 0
       conditions[0] = "slip_type in ( ?, ?, ?) " if branch_id == 0
@@ -124,7 +124,7 @@ module Slips
       conditions << SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
       conditions << SLIP_TYPE_TEMPORARY_DEBT if branch_id > 0
 
-      
+
       conditions[0] << "and finder_key rlike ? "
       conditions << build_rlike_condition( account_code, sub_account_id, branch_id )
 
@@ -135,15 +135,15 @@ module Slips
         conditions << normalized_ym
         conditions << normalized_ym
       end
-      
+
       # 摘要は任意
       if remarks.present?
         conditions[0] << "and journal_headers.remarks like ? "
         conditions << '%' + remarks + '%'
       end
-      
+
       conditions
     end
-    
+
   end
 end

@@ -191,6 +191,12 @@ module HyaccConstants
     REPORT_STYLE_YEARLY = 2 => '年間',
   }
 
+  # 有価証券目的区分
+  SECURITIES_TYPES = {
+    SECURITIES_TYPE_FOR_TRADING = 1 => '売買目的（1年以内）',
+    SECURITIES_TYPE_FOR_INVESTMENT = 2 => '投資目的（1年越え）',
+  }
+
   # 決算区分
   SETTLEMENT_TYPES = {
     SETTLEMENT_TYPE_HALF = 1 => '中間決算',
@@ -265,12 +271,6 @@ module HyaccConstants
   TRADE_TYPES = {
     TRADE_TYPE_EXTERNAL = 1 => '外部取引',
     TRADE_TYPE_INTERNAL = 2 => '内部取引',
-  }
-
-  # 有価証券目的区分
-  SECURITIES_TYPES = {
-    SECURITIES_TYPE_FOR_TRADING = 1 => '売買目的（1年以内）',
-    SECURITIES_TYPE_FOR_INVESTMENT = 2 => '投資目的（1年越え）',
   }
 
   # 勘定科目コード

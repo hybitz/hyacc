@@ -1,6 +1,6 @@
 <%= render 'common/search' %>
 <% if @has_not_related %>
-<div>関連付けされていない伝票が存在します</div>
+<div><%= link_to '関連付けされていない伝票が存在します', not_related_investments_path %></div>
 <% end %>
 <% if @investments %>
 <%= render 'common/message' %>

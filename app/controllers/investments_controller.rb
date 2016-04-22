@@ -3,7 +3,7 @@ class InvestmentsController < Base::HyaccController
   
   view_attribute :title => '有価証券'
   view_attribute :finder, :class => InvestmentFinder
-  view_attribute :customers, :only => [:new,:create,:edit], :conditions => {:is_investment => true, :deleted => false}
+  view_attribute :customers, :only => [:new,:create,:edit,:relate], :conditions => {:is_investment => true, :deleted => false}
   view_attribute :bank_accounts, :conditions => {financial_account_type: [FINANCIAL_ACCOUNT_TYPE_GENERAL,
                                                                           FINANCIAL_ACCOUNT_TYPE_SPECIFIC,
                                                                           FINANCIAL_ACCOUNT_TYPE_SPECIFIC_WITHHOLD]}
@@ -34,18 +34,47 @@ class InvestmentsController < Base::HyaccController
   def edit
     @investment = Investment.find(params[:id])
   end
+  
+  def update
+    @investment = Investment.find(params[:journal_header_id])
+
+    begin
+      @investment.transaction do
+        @investment.destroy
+        @investment = Investment.new(investment_params)
+        save_investment!
+      end
+      
+      flash[:notice] = '有価証券情報を更新しました。'
+      render 'common/reload'
+
+    rescue Exception => e
+      handle(e)
+      render :edit
+    end
+  end
+  
+  def relate
+    @investment = finder.set_investment_from_journal(params[:journal_header_id])
+    render :new
+  end
 
   def destroy
     @investment = Investment.find(params[:id])
-
-    @investment.transaction do
-      @investment.destroy
+    begin
+      destroy_investment!
+      flash[:notice] = '有価証券情報を削除しました。'
+      redirect_to :action => :index
+    rescue => e
+      handle(e)
+      redirect_to :action => :index
     end
-
-    flash[:notice] = '有価証券情報を削除しました。'
-    redirect_to :action => :index
   end
 
+  def not_related
+    @journal_details = finder.journal_details_not_related
+  end
+  
 private
 
   def finder
@@ -61,7 +90,7 @@ private
   
   def investment_params
     params.require(:investment).permit(:name, :yyyymmdd, :sub_account_id, :customer_id, :buying_or_selling, :for_what,
-                                       :shares, :trading_value, :bank_account_id, :charges)
+                                       :shares, :trading_value, :bank_account_id, :charges, :journal_detail_id)
   end
   
   def check_if_related
@@ -70,14 +99,27 @@ private
   
   def save_investment!
     @investment.transaction do
-      param = Auto::Journal::InvestmentParam.new(@investment, current_user)
-      factory = Auto::Journal::InvestmentFactory.get_instance(param)
-      factory.make_journals.each do |jh|
-         # 自動仕訳を作成
-        do_auto_transfers(jh)
-        validate_journal(jh)
-        jh.save!
+      if @investment.journal_detail_id.nil?
+        param = Auto::Journal::InvestmentParam.new(@investment, current_user)
+        factory = Auto::Journal::InvestmentFactory.get_instance(param)
+        factory.make_journals.each do |jh|
+           # 自動仕訳を作成
+          do_auto_transfers(jh)
+          validate_journal(jh)
+          jh.save!
+        end
+      else
+        # 関連付のみの場合は自動仕訳をしない
+        @investment.save!
       end
+    end
+  end
+  
+  def destroy_investment!
+    @investment.transaction do
+      # 有価証券の登録で追加した自動仕訳伝票の場合のみ関連伝票を削除
+      jh = @investment.journal_detail.journal_header
+      SLIP_TYPE_INVESTMENT == jh.slip_type ? jh.destroy : @investment.destroy
     end
   end
   

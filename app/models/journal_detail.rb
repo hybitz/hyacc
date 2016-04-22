@@ -47,7 +47,7 @@ class JournalDetail < ActiveRecord::Base
   end
 
   def account=(account)
-    self.account_id = account.id
+    self.account_id = account ? account.id : nil
   end
 
   def branch
@@ -55,7 +55,7 @@ class JournalDetail < ActiveRecord::Base
   end
 
   def branch=(branch)
-    self.branch_id = branch.id
+    self.branch_id = branch ? branch.id : nil
   end
 
   def dc_type_name

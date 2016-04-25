@@ -5,45 +5,40 @@
     <%= f.text_field :remarks, :class=>'remarksText autocomplete' %>
     <script>
       function get_templates(req, res) {
-        var url = '<%= url_for :action => 'get_templates' %>';
+        var url = '<%= url_for :action => 'get_templates', :account_code => @simple_slip.my_account.code %>';
         var params = {format: 'json', query: req.term};
         $.getJSON(url, params, function(json) {
           res(json);
         });
       }
 
-      function item_selected(event, ui) {
+      function item_selected(e, ui) {
+        var form = $(e.target).closest('form');
         var item = ui.item;
 
-        $('#slip_account_id').val(item.account_id);
+        form.find('[name*="\[account_id\]"]').val(item.account_id);
 
-        if ($('#slip_sub_account_id').length > 0) {
-          replace_options('#slip_sub_account_id', item.sub_accounts);
-          $('#slip_sub_account_id').val(item.sub_account_id);
+        replace_options(form.find('[name*="\[sub_account_id\]"]'), item.sub_accounts);
+        form.find('[name*="\[sub_account_id\]"]').val(item.sub_account_id);
+
+        if (item.branch_id) {
+          form.find('[name*="\[branch_id\]"]').val(item.branch_id);
         }
 
-        if ($('#slip_branch_id').length > 0) {
-          if (item.branch_id) {
-            $('#slip_branch_id').val(item.branch_id);
-          }
-        }
-
-        if ($('#slip_tax_type').length > 0) {
-          $('#slip_tax_type').val(item.tax_type);
-        }
+        form.find('[name*="\[tax_type\]"]').val(item.tax_type);
 
         if (item.increase_or_decrease == 'increase') {
-          $('#slip_amount_increase').val(item.amount);
+          form.find('[name*="\[amount_increase\]"]').val(item.amount);
+          form.find('[name*="\[tax_amount_increase\]"]').val(item.tax_amount);
           $('#slip_tax_amount_increase').val(item.tax_amount);
         } else if (item.increase_or_decrease == 'decrease') {
-          $('#slip_amount_decrease').val(item.amount);
-          $('#slip_tax_amount_decrease').val(item.tax_amount);
+          form.find('[name*="\[amount_decrease\]"]').val(item.amount);
+          form.find('[name*="\[tax_amount_decrease\]"]').val(item.tax_amount);
         }
 
         $('#account_detail').html(item.account_detail);
 
-        var form = $('#slip_new_form');
-        updateTaxAmountSimple(form, $('#slip_tax_amount_increase').val(), $('#slip_tax_amount_decrease').val());
+        updateTaxAmountSimple(form, form.find('[name*="\[tax_amount_increase\]"]').val(), form.find('[name*="\[tax_amount_decrease\]"]').val());
 
         var focus = item.focus_on_complete;
         if (focus == 'amount' || focus == 'tax_amount') {
@@ -55,7 +50,7 @@
         }
 
         if (focus) {
-          $('#slip_' + focus).focus();
+          form.find('[name*="\[' + focus + '\]"]').focus();
         }
       };
 

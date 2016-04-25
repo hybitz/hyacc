@@ -80,73 +80,6 @@ module Slips
       SlipUtils.editable_as_simple_slip(@journal_header, @my_account_id)
     end
 
-    def create
-      @journal_header.transaction do
-        @journal_header.company_id = @user.company.id
-        @journal_header.ym = ym
-        @journal_header.day = day
-        @journal_header.remarks = remarks
-        @journal_header.slip_type = SLIP_TYPE_SIMPLIFIED
-        @journal_header.create_user_id = user.id
-        @journal_header.update_user_id = user.id
-        @journal_header.journal_details = create_details()
-
-        # 簡易入力で入力可能な状態のデータであることを確認
-        raise HyaccException.new(ERR_INVALID_SLIP) unless editable?
-
-        # 登録
-        @journal_header.save!
-
-        # 資産チェック
-        validate_assets( @journal_header, nil )
-
-        # 自動仕訳を作成
-        do_auto_transfers( @journal_header )
-
-        # 仕訳チェック
-        validate_journal( @journal_header, nil )
-
-        # 登録
-        @journal_header.save!
-
-        return self
-      end
-    end
-
-    def update( params )
-      setup_from_params( params )
-      old = @journal_header.copy
-
-      @journal_header.transaction do
-        @journal_header.ym = @ym
-        @journal_header.day = @day
-        @journal_header.remarks = @remarks
-        @journal_header.slip_type = SLIP_TYPE_SIMPLIFIED
-        @journal_header.update_user_id = @user.id
-        @journal_header.lock_version = @lock_version
-        @journal_header.journal_details = create_details
-
-        # 簡易入力で入力可能な状態のデータであることを確認
-        unless editable?
-          raise HyaccException.new(ERR_INVALID_SLIP)
-        end
-
-        # 資産チェック
-        validate_assets( @journal_header, old )
-
-        # 自動仕訳を作成
-        do_auto_transfers( @journal_header )
-
-        # 仕訳チェック
-        validate_journal( @journal_header, old )
-
-        # 更新
-        @journal_header.save!
-
-        return self
-      end
-    end
-
     def destroy
       # 締め状態の確認
       validate_closing_status_on_delete( @journal_header )
@@ -248,55 +181,6 @@ module Slips
       return ret
     end
 
-    # 自動振替仕訳の作成
-    def do_auto_transfers( jh )
-      slip_types = [
-        SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE,
-        SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE,
-        SLIP_TYPE_AUTO_TRANSFER_EXPENSE]
-      clear_auto_journals(jh, slip_types)
-
-      # ユーザが入力した科目側の明細に対して振替仕訳を作成する
-      target_jd = nil
-      jh.journal_details.each do |jd|
-        if jd.account_id != @my_account_id
-          if jd.detail_type == DETAIL_TYPE_NORMAL
-            target_jd = jd
-            break
-          end
-        end
-      end
-      raise HyaccException.new(ERR_INVALID_SLIP) unless target_jd
-
-      param = Auto::TransferJournal::TransferFromDetailParam.new( @auto_journal_type, target_jd )
-      factory = Auto::AutoJournalFactory.get_instance( param )
-      factory.make_journals()
-    end
-
-    def has_accrued_expense_transfers
-      journals = get_all_related_journals(@journal_header)
-      return false if journals.size != 3
-      return false if journals[1].slip_type != SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE
-      return false if journals[2].slip_type != SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE
-      true
-    end
-
-    def has_date_input_expense_transfers
-      journals = get_all_related_journals(@journal_header)
-      return false if journals.size != 3
-      return false if journals[1].slip_type != SLIP_TYPE_AUTO_TRANSFER_EXPENSE
-      return false if journals[2].slip_type != SLIP_TYPE_AUTO_TRANSFER_EXPENSE
-      true
-    end
-
-    def has_prepaid_expense_transfers
-      journals = get_all_related_journals(@journal_header)
-      return false if journals.size != 3
-      return false if journals[1].slip_type != SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE
-      return false if journals[2].slip_type != SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE
-      true
-    end
-
     def setup_from_journal( slip_finder )
       my_account = Account.get_by_code(slip_finder.account_code)
       @my_account_id = my_account.id
@@ -306,25 +190,6 @@ module Slips
       @day = @journal_header.day
       @remarks = @journal_header.remarks
       @lock_version = @journal_header.lock_version
-
-      if has_prepaid_expense_transfers
-        @auto_journal_type = AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
-      elsif has_accrued_expense_transfers
-        @auto_journal_type = AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
-      elsif has_date_input_expense_transfers
-        @auto_journal_type = AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
-
-        journals = get_all_related_journals(@journal_header)
-        if journals[0].date != journals[1].date
-          @auto_journal_year = journals[1].date.year
-          @auto_journal_month = journals[1].date.month
-          @auto_journal_day = journals[1].date.day
-        else
-          @auto_journal_year = journals[2].date.year
-          @auto_journal_month = journals[2].date.month
-          @auto_journal_day = journals[2].date.day
-        end
-      end
 
       if editable?
         # 本伝票が前提としている科目側の明細を取得

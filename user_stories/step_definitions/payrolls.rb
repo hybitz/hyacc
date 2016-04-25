@@ -22,12 +22,13 @@
       capture
     end
 
-    click_on '登録'
-    confirm
+    accept_confirm do
+      click_on '登録'
+    end
   end
 
-  assert has_no_selector?('.ui-dialog')
   begin
+    assert has_no_selector?('.ui-dialog')
     find_tr '#payroll_table', '基本給' do
       assert has_selector?('td', :text => salary, :count => 2)
     end

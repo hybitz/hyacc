@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render_meta %>
+  <%= render_title :title => @account.name %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <script>
+    I18n.defaultLocale = '<%= I18n.default_locale %>';
+    I18n.locale = '<%= I18n.locale %>';
+  </script>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render 'common/common_js' %>
+  <%= render_header :only => ['index', 'create', 'sub_accounts_required'] %>
+  <%= render_menu :only => ['index', 'create', 'sub_accounts_required'] %>
+  <%= yield %>
+</body>
+</html>

@@ -1,18 +1,18 @@
 <div style="margin: 10px;">
-  <%= form_tag({:action => 'index'}, :method => 'get') do %>
+  <%= form_tag({:action => 'index', :account_code => @finder.account_code}, :method => 'get') do %>
     <%= hidden_field_tag 'account_code', @finder.account_code %>
 
     <div style="margin:5px;">
       年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %>
       <a href='#' onclick='$("#finder_ym").val("");'>×</a>
-      
+
       摘要：<%= text_field 'finder', 'remarks' %>
       <a href='#' onclick='$("#finder_remarks").val("");'>×</a>
-      
+
       <% if branch_mode %>
       部門：<%= collection_select('finder', 'branch_id', @branches, "id", "name", {:include_blank=>true}) %>
       <% end %>
-  
+
       <%= submit_tag "表示" %>
     </div>
     <div style="margin:5px;">

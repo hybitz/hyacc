@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class JournalDetailTest < ActiveSupport::TestCase
-  
+
   def test_account_id_required
 
     # テスト前は正常に保存できることを前提とする
@@ -10,9 +10,9 @@ class JournalDetailTest < ActiveSupport::TestCase
 
     # 未設定は認めない
     @jd.account_id = nil
-    assert_raise( ActiveRecord::RecordInvalid ){ @jd.save! }
+    assert @jd.invalid?
   end
-  
+
   def test_branch_id_required
     # テスト前は正常に保存できることを前提とする
     @jd = JournalDetail.find(11573)
@@ -51,7 +51,7 @@ class JournalDetailTest < ActiveSupport::TestCase
   def test_消費税率の必須チェック
     @jd = JournalDetail.new
     @jd.tax_rate = ''
-    
+
     @jd.tax_type = TAX_TYPE_NONTAXABLE
     assert @jd.tax_rate.blank?
     assert @jd.invalid?

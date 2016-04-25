@@ -3,15 +3,16 @@
   assert_equal row[1], row[3]
 
   click_on row[0]
+  assert has_title?(row[0])
   capture row[0]
   assert has_no_selector?('#slipTable tbody tr')
 
-  within '#slip_new_form' do
-    fill_in 'slip_ym', :with => current_user.company.founded_year_month
-    fill_in 'slip_day', :with => current_user.company.founded_date.day
-    fill_in 'slip_remarks', :with => '営業を開始'
-    select row[2], :from => 'slip_account_id'
-    fill_in 'slip_amount_increase', :with => row[1].gsub(',', '')
+  within '#new_simple_slip' do
+    fill_in 'simple_slip_ym', :with => current_user.company.founded_year_month
+    fill_in 'simple_slip_day', :with => current_user.company.founded_date.day
+    fill_in 'simple_slip_remarks', :with => '営業を開始'
+    select row[2], :from => 'simple_slip_account_id'
+    fill_in 'simple_slip_amount_increase', :with => row[1].gsub(',', '')
   end
   capture '仕訳を登録'
   click_on '登録'
@@ -31,21 +32,25 @@ end
     simple_slip = row[4]
 
     click_on simple_slip
-    sleep 3
     assert has_title? simple_slip
+    assert has_no_selector? 'span.notice'
     assert has_selector? '.tax_type_ready'
 
-    count = all('#slipTable tbody tr').count
-    within '#slip_new_form' do
-      fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
-      fill_in 'slip_day', :with => ymd.split('-').last
-      fill_in 'slip_remarks', :with => remarks
-      find(:select, 'slip_account_id').first(:option, account.code_and_name).select_option
-      fill_in 'slip_amount_decrease', :with => amount
-      click_on '登録'
+    begin
+      count = all('#slipTable tbody tr').count
+      within '#new_simple_slip' do
+        fill_in 'simple_slip_ym', :with => ymd.split('-').slice(0, 2).join
+        fill_in 'simple_slip_day', :with => ymd.split('-').last
+        fill_in 'simple_slip_remarks', :with => remarks
+        find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+        fill_in 'simple_slip_amount_decrease', :with => amount
+        click_on '登録'
+      end
+      assert has_selector? 'span.notice'
+      assert has_selector?('#slipTable tbody tr', :count => count + 1)
+    ensure
+      capture
     end
-    assert has_selector?('#slipTable tbody tr', :count => count + 1)
-    capture
   end
 end
 
@@ -61,17 +66,16 @@ end
       account = Account.where(:name => row[4], :deleted => false).first!
 
       click_on simple_slip
-      sleep 3
       assert has_title? simple_slip
       assert has_selector? '.tax_type_ready'
 
       count = all('#slipTable tbody tr').count
-      within '#slip_new_form' do
-        fill_in 'slip_ym', :with => ymd.split('-').slice(0, 2).join
-        fill_in 'slip_day', :with => ymd.split('-').last
-        fill_in 'slip_remarks', :with => remarks
-        find(:select, 'slip_account_id').first(:option, account.code_and_name).select_option
-        fill_in 'slip_amount_increase', :with => amount
+      within '#new_simple_slip' do
+        fill_in 'simple_slip_ym', :with => ymd.split('-').slice(0, 2).join
+        fill_in 'simple_slip_day', :with => ymd.split('-').last
+        fill_in 'simple_slip_remarks', :with => remarks
+        find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+        fill_in 'simple_slip_amount_increase', :with => amount
         sleep 3
         click_on '登録'
       end
@@ -97,15 +101,16 @@ end
       visit_simple_slip(:account => Account.find_by_name(simple_slip))
 
       count = all('#slipTable tbody tr').count
-      within '#slip_new_form' do
-        fill_in 'slip_ym', :with => ym
-        fill_in 'slip_day', :with => day
-        fill_in 'slip_remarks', :with => remarks
-        find(:select, 'slip_account_id').first(:option, account.code_and_name).select_option
-        fill_in 'slip_amount_increase', :with => amount
+      within '#new_simple_slip' do
+        fill_in 'simple_slip_ym', :with => ym
+        fill_in 'simple_slip_day', :with => day
+        fill_in 'simple_slip_remarks', :with => remarks
+        find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+        fill_in 'simple_slip_amount_increase', :with => amount
         sleep 3
         click_on '登録'
       end
+      assert has_selector?('span.notice')
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     ensure
       capture
@@ -122,15 +127,15 @@ end
   4.times do |i|
     begin
       visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
-  
+
       count = all('#slipTable tbody tr').count
-      fill_in 'slip_ym', :with => '201309'
-      fill_in 'slip_day', :with => i + 1
-      fill_in 'slip_remarks', :with => "ATM手数料（科目間違い #{i+1} 回目）"
-      find(:select, 'slip_account_id').first(:option, @account.code_and_name).select_option
+      fill_in 'simple_slip_ym', :with => '201309'
+      fill_in 'simple_slip_day', :with => i + 1
+      fill_in 'simple_slip_remarks', :with => "ATM手数料（科目間違い #{i+1} 回目）"
+      find(:select, 'simple_slip_account_id').first(:option, @account.code_and_name).select_option
       assert has_selector?('.tax_type_ready')
-      select tax_type_name, :from => 'slip_tax_type'
-      fill_in 'slip_amount_increase', :with => amount
+      select tax_type_name, :from => 'simple_slip_tax_type'
+      fill_in 'simple_slip_amount_increase', :with => amount
       click_on '登録'
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     ensure

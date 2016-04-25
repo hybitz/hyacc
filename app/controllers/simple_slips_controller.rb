@@ -17,8 +17,8 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def get_templates
-    @slip = finder.find(params[:id]) if params[:id].to_i > 0
     my_account = Account.get_by_code(finder.account_code)
+    @simple_slip = SimpleSlip.new(:my_account_id => my_account.id)
 
     like = '%' + Daddy::Utils::SqlUtils.escape_search(params[:query]) + '%'
     query = 'account_id <> ? and (keywords like ? or remarks like ?) and deleted=?', my_account.id, like, like, false
@@ -98,26 +98,27 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def show
-    @slip = finder.find(params[:id])
+    @simple_slip = finder.find(params[:id])
     setup_view_attributes
   end
 
   def create
-    @slip = new_slip(params[:slip])
-    @slip.user = current_user
+    @simple_slip = SimpleSlip.new(simple_slip_params)
 
     begin
-      @slip.create
+      ActiveRecord::Base.transaction do
+        @simple_slip.save!
 
-      # 年月日を入力状態を保存
-      save_ymd_input_state
+        # 年月日を入力状態を保存
+        save_ymd_input_state(@simple_slip)
 
-      # 選択した勘定科目をカウント
-      save_input_frequencies(@slip)
+        # 選択した勘定科目をカウント
+        save_input_frequencies(@simple_slip)
+      end
 
       flash[:notice] = '伝票を登録しました。'
-      redirect_to :action => :index, :account_code => params[:account_code]
-    rescue Exception => e
+      redirect_to :action => :index, :account_code => @simple_slip.my_account.code
+    rescue => e
       handle(e)
       index
     end
@@ -129,20 +130,21 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def update
-    @slip = finder.find(params[:id])
-    @slip.user = current_user
+    @simple_slip = finder.find(params[:id])
+    @simple_slip.attributes = simple_slip_params
 
     begin
-      params[:slip][:account_code] = params[:account_code]
-      @slip.update(params[:slip])
+      ActiveRecord::Base.transaction do
+        @simple_slip.save!
 
-      # 年月日を入力状態を保存
-      save_ymd_input_state
+        # 年月日を入力状態を保存
+        save_ymd_input_state(@simple_slip)
+      end
 
       flash[:notice] = '伝票を更新しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       setup_view_attributes
       render 'edit'
@@ -150,13 +152,16 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def destroy
+    @simple_slip = finder.find(params[:id])
+    @simple_slip.lock_version = params[:lock_version]
+
     begin
-      slip = finder.find(params[:id])
-      slip.lock_version = params[:lock_version]
-      if slip.destroy
-        flash[:notice] = '伝票を削除しました。'
+      ActiveRecord::Base.transaction do
+        if @simple_slip.destroy
+          flash[:notice] = '伝票を削除しました。'
+        end
       end
-    rescue Exception => e
+    rescue => e
       handle(e)
     end
 
@@ -165,8 +170,8 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def new_from_copy
-    slip = finder.find( params[:id] )
-    account = Account.get(slip.account_id)
+    @simple_slip = finder.find(params[:id])
+    account = Account.get(@simple_slip.account_id)
 
     renderer = AccountDetails::AccountDetailRenderer.get_instance(account.id)
     if renderer
@@ -174,23 +179,54 @@ class SimpleSlipsController < Base::HyaccController
     end
 
     @json = {
-      :remarks => slip.remarks,
-      :account_id => slip.account_id,
-      :sub_account_id => slip.sub_account_id,
-      :branch_id => slip.branch_id,
-      :amount_increase => slip.amount_increase,
-      :amount_decrease => slip.amount_decrease,
-      :tax_type => get_tax_type_for_current_fy(slip.tax_type),
+      :remarks => @simple_slip.remarks,
+      :account_id => @simple_slip.account_id,
+      :sub_account_id => @simple_slip.sub_account_id,
+      :branch_id => @simple_slip.branch_id,
+      :amount_increase => @simple_slip.amount_increase,
+      :amount_decrease => @simple_slip.amount_decrease,
+      :tax_type => get_tax_type_for_current_fy(@simple_slip.tax_type),
       :sub_accounts => account.sub_accounts.collect{|sa| sa = {:id => sa.id, :name => sa.name}},
       :account_detail => account_detail,
-      :tax_amount_increase => slip.tax_amount_increase,
-      :tax_amount_decrease => slip.tax_amount_decrease
+      :tax_amount_increase => @simple_slip.tax_amount_increase,
+      :tax_amount_decrease => @simple_slip.tax_amount_decrease
     }
 
     render :json => @json
   end
 
   private
+
+  def default_url_options
+    {
+      :account_code => params[:account_code]
+    }
+  end
+
+  def simple_slip_params
+    permitted = [
+      :my_sub_account_id, :my_branch_id,
+      :ym, :day, :remarks,
+      :account_id, :sub_account_id, :branch_id,
+      :amount_increase, :amount_decrease,
+      :tax_type, :tax_rate_percent, :tax_amount_increase, :tax_amount_decrease,
+      :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,
+      :social_expense_number_of_people, :settlement_type,
+      :asset_id, :asset_lock_version,
+      :lock_version
+    ]
+
+    ret = params.require(:simple_slip).permit(*permitted).merge(:my_account_id => @account.id)
+
+    case action_name
+    when 'create'
+      ret = ret.merge(:create_user_id => current_user.id, :company_id => current_user.company_id)
+    when 'update'
+      ret = ret.merge(:update_user_id => current_user.id)
+    end
+
+    ret
+  end
 
   # 補助科目が必須の場合でまだ補助科目が存在しない場合はマスタメンテに誘導する
   def check_sub_accounts
@@ -210,14 +246,14 @@ class SimpleSlipsController < Base::HyaccController
     InputFrequency.save_input_frequency(current_user.id, INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID, slip.account_id)
   end
 
-  def save_ymd_input_state
+  def save_ymd_input_state(simple_slip)
     ymd = session[:ymd_input_state]
     if ymd.nil?
       ymd = Slips::YmdInputState.new
       session[:ymd_input_state] = ymd
     end
-    ymd.ym = @slip.ym
-    ymd.day = @slip.day
+    ymd.ym = simple_slip.ym
+    ymd.day = simple_slip.day
   end
 
   def setup_new_slip

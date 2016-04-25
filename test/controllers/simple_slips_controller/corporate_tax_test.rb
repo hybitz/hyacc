@@ -3,7 +3,7 @@ require 'test_helper'
 class SimpleSlipsController::CorporateTaxTest < ActionController::TestCase
   include HyaccUtil
 
-  setup do
+  def setup
     sign_in user
   end
 
@@ -13,8 +13,8 @@ class SimpleSlipsController::CorporateTaxTest < ActionController::TestCase
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
     post :create,
-      :account_code=>ACCOUNT_CODE_CASH,
-      :slip => {
+      :account_code => ACCOUNT_CODE_CASH,
+      :simple_slip => {
         "ym"=>200911,
         "day"=>25,
         "remarks"=>remarks,

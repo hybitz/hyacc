@@ -11,7 +11,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
 
     post :create,
       :account_code => ACCOUNT_CODE_UNPAID_EMPLOYEE,
-      :slip => {
+      :simple_slip => {
         "ym"=>200801,
         "day"=>15,
         "remarks"=>remarks,
@@ -95,7 +95,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
 
     post :create,
       :account_code=>ACCOUNT_CODE_UNPAID_EMPLOYEE,
-      :slip => {
+      :simple_slip => {
         "ym"=>200801,
         "day"=>7,
         "remarks"=>remarks,
@@ -175,7 +175,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
   def test_一覧
     get :index,
       :account_code => ACCOUNT_CODE_UNPAID_EMPLOYEE,
-      :finder=> {
+      :finder => {
         "ym" => "",
         "remarks" => "",
         "sub_account_id" => 1,

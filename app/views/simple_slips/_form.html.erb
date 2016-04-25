@@ -1,6 +1,9 @@
 <tr>
   <td class="yearMonth">
     <%= f.hidden_field :my_sub_account_id %>
+    <% unless branch_mode %>
+      <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id %>
+    <% end %>
     <%= f.hidden_field :lock_version %>
     <%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText', :onchange => "updateTaxAmountSimple(this.form);" %>
   </td>
@@ -11,7 +14,7 @@
           {:selected => @simple_slip.account_id, :frequencies => @frequencies}, :class => 'accountSelect') %>
     <script>
       $(document).ready(function() {
-        var form = $('#<%= @simple_slip.new_record? ? 'slip_new_form' : 'slip_edit_form' %>');
+        var form = $('#<%= @simple_slip.new_record? ? 'new_simple_slip' : 'edit_simple_slip' %>');
 
         form.find('.accountSelect').change(function() {
           form.removeClass('tax_type_ready');
@@ -46,7 +49,7 @@
   </td>
   <td>
     <%= f.collection_select :sub_account_id, @sub_accounts, :id, :name, {}, :class => 'subAccountSelect', :style => 'width: 100%;' %>
-    <%= hide_if_no_options("##{@simple_slip.new_record? ? 'slip_new_form' : 'slip_edit_form'} .subAccountSelect") %>
+    <%= hide_if_no_options("##{@simple_slip.new_record? ? 'new_simple_slip' : 'edit_simple_slip'} .subAccountSelect") %>
   </td>
 
   <% if branch_mode %>
@@ -85,10 +88,10 @@
     <span>%</span>
   </td>
   <td class="amount">
-    <%= text_field 'slip', 'tax_amount_increase', {:class=>'amountText', :onchange=>"updateTaxAmountSimple(this.form, this.value, null);"} %>
+    <%= f.text_field :tax_amount_increase, :class => 'amountText', :onchange => 'updateTaxAmountSimple(this.form, this.value, null);' %>
   </td>
   <td class="amount">
-    <%= text_field 'slip', 'tax_amount_decrease', {:class=>'amountText', :onchange=>"updateTaxAmountSimple(this.form, null, this.value);"} %>
+    <%= f.text_field :tax_amount_decrease, :class => 'amountText', :onchange => 'updateTaxAmountSimple(this.form, null, this.value);' %>
   </td>
   <%# 一覧画面の表示かどうかで列数を調整 %>
   <% if @simple_slip.new_record? %>
@@ -114,9 +117,9 @@
     <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE, :onclick => 'checkAutoJournalType(this);' %>
   </td>
   <td nowrap style="border-left-style: none;">
-      &nbsp;<%= text_field 'slip', 'auto_journal_year', :maxlength => 4, :class => 'year' %> 年
-      <%= text_field 'slip', 'auto_journal_month', :maxlength => 2, :class => 'month' %> 月
-      <%= text_field 'slip', 'auto_journal_day', :maxlength => 2, :class => 'day' %> 日
+      &nbsp;<%= f.text_field :auto_journal_year, :maxlength => 4, :class => 'year' %> 年
+      <%= f.text_field :auto_journal_month, :maxlength => 2, :class => 'month' %> 月
+      <%= f.text_field :auto_journal_day, :maxlength => 2, :class => 'day' %> 日
   </td>
 
   <%# 一覧画面の表示かどうかで列数を調整 %>

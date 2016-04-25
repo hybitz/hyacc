@@ -5,14 +5,7 @@ require 'auto/transfer_journal/transfer_from_detail_param'
 module Auto::AutoJournalUtil
   include HyaccConstants
 
-  def clear_auto_journals(jh, slip_types)
-    clear_auto_journals_internal(jh, slip_types)
-    jh.journal_details.each do |jd|
-      clear_auto_journals_internal(jd, slip_types)
-    end
-  end
-
-  def do_auto_transfers( jh )
+  def do_auto_transfers(jh)
     # 自動仕訳をクリア
     slip_types = [
       SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE,
@@ -27,24 +20,30 @@ module Auto::AutoJournalUtil
     # 明細単位で発生する自動仕訳
     jh.journal_details.each do |jd|
       jd.auto_journal_types.each do |ajt|
-        param = Auto::TransferJournal::TransferFromDetailParam.new( ajt, jd )
+        param = Auto::TransferJournal::TransferFromDetailParam.new(ajt, jd)
         factory = Auto::AutoJournalFactory.get_instance( param )
-        factory.make_journals()
+        factory.make_journals
       end
     end
 
     # 内部取引
     param = Auto::TransferJournal::InternalTradeParam.new( jh )
     factory = Auto::AutoJournalFactory.get_instance( param )
-    factory.make_journals()
+    factory.make_journals
   end
 
-private
-  def clear_auto_journals_internal(src, slip_types)
-    transfer_journals = []
-    src.transfer_journals.each do |tj|
-      transfer_journals << tj unless slip_types.include? tj.slip_type
+  private
+
+  def clear_auto_journals(jh, slip_types)
+    clear_auto_journals_internal(jh, slip_types)
+    jh.journal_details.each do |jd|
+      clear_auto_journals_internal(jd, slip_types)
     end
-    src.transfer_journals = transfer_journals
+  end
+
+  def clear_auto_journals_internal(src, slip_types)
+    src.transfer_journals.each do |tj|
+      tj.mark_for_destruction if slip_types.include?(tj.slip_type)
+    end
   end
 end

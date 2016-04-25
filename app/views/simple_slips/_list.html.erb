@@ -31,7 +31,7 @@
         <td></td>
         <td></td>
         <td colspan="4" align="center">
-          <%= link_to( '△', :action=>'index', 'finder[offset]'=>@finder.prev_offset, 'finder[keep_paging]'=>true) if @finder.prev_offset %>
+          <%= link_to '△', {:action => 'index', :account_code => @finder.account_code, 'finder[offset]' => @finder.prev_offset, 'finder[keep_paging]' => true} if @finder.prev_offset %>
         </td>
       </tr>
     </thead>
@@ -58,7 +58,7 @@
         <td></td>
         <td></td>
         <td colspan="4" align="center">
-          <%= link_to( '▽', :action=>'index', 'finder[offset]'=>@finder.next_offset, 'finder[keep_paging]'=>true) if @finder.next_offset %>
+          <%= link_to '▽', {:action => 'index', :account_code => @finder.account_code, 'finder[offset]' => @finder.next_offset, 'finder[keep_paging]' => true} if @finder.next_offset %>
         </td>
       </tr>
 
@@ -98,12 +98,12 @@
   }
 
   $(document).ready(function() {
-    $('#slip_day').select().focus();
+    $('#simple_slip_day').select().focus();
 
     calcSum();
 
     // 消費税欄を初期化
-    var form = $('#slip_new_form');
+    var form = $('#new_simple_slip');
     <% if 'index' == action_name %>
       var url = '<%= url_for :controller => 'accounts', :action => 'get_tax_type' %>';
       var params = {account_id: form.find('.accountSelect').val()};
@@ -280,10 +280,8 @@
 
   // 親画面上で表示している補助科目（検索条件の補助科目）をフォームにセットする
   function setMySubAccount(form) {
-    if (form.action.match('.*create')) {
-      if (document.getElementById('finder_sub_account_id') != null) {
-        document.getElementById('slip_my_sub_account_id').value = document.getElementById('finder_sub_account_id').value;
-      }
+    if ($(form).attr('id') == 'new_simple_slip') {
+      $('#simple_slip_my_sub_account_id').val($('#finder_sub_account_id').val());
     }
   }
 </script>

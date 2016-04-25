@@ -13,22 +13,24 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
   def test_本締の年度への費用振替の登録がエラーになること
 
-    post :create,
-      :account_code=>ACCOUNT_CODE_CASH,
-      :slip => {
-        "ym"=>201001,
-        "day"=>20,
-        "remarks"=>"タクシー代",
-        "branch_id"=>5,
-        "account_id"=>21,
-        "amount_increase"=>1500,
-        :tax_type => TAX_TYPE_NONTAXABLE,
-        "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
-      }
+    assert_no_difference 'JournalHeader.count' do
+      post :create,
+        :account_code=>ACCOUNT_CODE_CASH,
+        :simple_slip => {
+          "ym"=>201001,
+          "day"=>20,
+          "remarks"=>"タクシー代",
+          "branch_id"=>5,
+          "account_id"=>21,
+          "amount_increase"=>1500,
+          :tax_type => TAX_TYPE_NONTAXABLE,
+          "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
+        }
+    end
 
     assert_response :success
     assert_template :index
-    assert_not_nil assigns(:slip)
+    assert assigns(:simple_slip)
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end
 
@@ -37,25 +39,27 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     finder.account_code = Account.get(29).code
     slip = finder.find(12)
 
-    xhr :patch, :update, :id => slip.id,
-      :account_code => finder.account_code,
-      :slip => {
-        "ym"=>201002,
-        "day"=>7,
-        "remarks"=>slip.remarks,
-        "branch_id"=>slip.branch_id,
-        "account_id"=>slip.account_id,
-        "sub_account_id"=>slip.sub_account_id,
-        "amount_increase"=>slip.amount_increase,
-        "amount_decrease"=>slip.amount_decrease,
-        :tax_type => TAX_TYPE_NONTAXABLE,
-        "lock_version"=>slip.lock_version,
-        "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
-      }
+    assert_no_difference 'JournalHeader.count' do
+      xhr :patch, :update, :id => slip.id,
+        :account_code => finder.account_code,
+        :simple_slip => {
+          "ym"=>201002,
+          "day"=>7,
+          "remarks"=>slip.remarks,
+          "branch_id"=>slip.branch_id,
+          "account_id"=>slip.account_id,
+          "sub_account_id"=>slip.sub_account_id,
+          "amount_increase"=>slip.amount_increase,
+          "amount_decrease"=>slip.amount_decrease,
+          :tax_type => TAX_TYPE_NONTAXABLE,
+          "lock_version"=>slip.lock_version,
+          "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
+        }
+    end
 
     assert_response :success
     assert_template 'edit'
-    assert_not_nil assigns(:slip)
+    assert_not_nil assigns(:simple_slip)
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end
 
@@ -64,25 +68,27 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     finder.account_code = Account.get(29).code
     slip = finder.find(15)
 
-    xhr :post, :update, :id => slip.id,
-      :account_code => finder.account_code,
-      :slip => {
-        "ym"=>201001,
-        "day"=>7,
-        "remarks"=>"本締の年度への費用振替の更新がエラーになること",
-        "branch_id"=>slip.branch_id,
-        "account_id"=>slip.account_id,
-        "sub_account_id"=>slip.sub_account_id,
-        "amount_increase"=>slip.amount_increase,
-        "amount_decrease"=>slip.amount_decrease,
-        :tax_type => TAX_TYPE_NONTAXABLE,
-        "lock_version"=>slip.lock_version,
-        "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
-      }
+    assert_no_difference 'JournalHeader.count' do
+      xhr :post, :update, :id => slip.id,
+        :account_code => finder.account_code,
+        :simple_slip => {
+          "ym"=>201001,
+          "day"=>7,
+          "remarks"=>"本締の年度への費用振替の更新がエラーになること",
+          "branch_id"=>slip.branch_id,
+          "account_id"=>slip.account_id,
+          "sub_account_id"=>slip.sub_account_id,
+          "amount_increase"=>slip.amount_increase,
+          "amount_decrease"=>slip.amount_decrease,
+          :tax_type => TAX_TYPE_NONTAXABLE,
+          "lock_version"=>slip.lock_version,
+          "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
+        }
+    end
 
     assert_response :success
     assert_template 'edit'
-    assert assigns(:slip)
+    assert assigns(:simple_slip)
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end
 
@@ -104,7 +110,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
     post :create,
       :account_code=>ACCOUNT_CODE_CASH,
-      :slip => {
+      :simple_slip => {
         "ym"=>201005,
         "day"=>17,
         "remarks"=>remarks,
@@ -169,13 +175,13 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度への費用振替の更新が正常終了すること
-    remarks = "通常の年度への費用振替の更新が正常終了すること#{Time.new}"
+    remarks = "通常の年度への費用振替の更新が正常終了すること #{Time.new}"
     jh = JournalHeader.find(15)
     lock_version = jh.lock_version
 
     xhr :post, :update, :id => jh.id,
-      :account_code=>ACCOUNT_CODE_CASH,
-      :slip => {
+      :account_code => ACCOUNT_CODE_CASH,
+      :simple_slip => {
         "ym"=>201012,
         "day"=>31,
         "remarks"=>remarks,
@@ -194,31 +200,29 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     assert_template 'common/reload'
     assert_equal '伝票を更新しました。', flash[:notice]
 
-    jh = JournalHeader.find_by_remarks(remarks)
-    assert_not_nil jh
+    assert jh = JournalHeader.find_by_remarks(remarks)
     assert_equal 201012, jh.ym
     assert_equal 31, jh.day
     assert_equal SLIP_TYPE_SIMPLIFIED, jh.slip_type
     assert_equal remarks, jh.remarks
     assert_equal 1600, jh.amount
-    assert_equal 0, jh.transfer_from_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
-    assert_equal 0, jh.transfer_from_detail_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
-    assert_equal 0, jh.depreciation_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
+    assert_nil jh.transfer_from_id
+    assert_nil jh.transfer_from_detail_id
+    assert_nil jh.depreciation_id
     assert_equal lock_version + 1, jh.lock_version
     assert_equal 0, jh.transfer_journals.size
     assert_equal 2, jh.journal_details.size
-    assert_equal 0, jh.journal_details[0].transfer_journals.size
-    assert_equal 1, jh.journal_details[1].transfer_journals.size
+    assert_equal 1, jh.journal_details[0].transfer_journals.size
+    assert_equal 0, jh.journal_details[1].transfer_journals.size
 
-    auto = jh.journal_details[1].transfer_journals[0]
-    assert_not_nil auto
+    assert auto = jh.journal_details[0].transfer_journals[0]
     assert_equal 201011, auto.ym
     assert_equal 30, auto.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, auto.slip_type
     assert_equal remarks + "【自動】", auto.remarks
     assert_equal 1600, auto.amount
     assert_nil auto.transfer_from_id
-    assert_equal jh.journal_details[1].id, auto.transfer_from_detail_id
+    assert_equal jh.journal_details[0].id, auto.transfer_from_detail_id
     assert_nil auto.depreciation_id
     assert_equal 0, auto.lock_version
     assert_equal 1, auto.transfer_journals.size

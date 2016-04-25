@@ -54,8 +54,7 @@ module Slips
     end
 
     def find(id)
-      jh = Journal.find(id)
-      SimpleSlip.build_from_journal(Account.get_by_code(@account_code).id, jh)
+      SimpleSlip.build_from_journal(Account.get_by_code(@account_code).id, id)
     end
 
     def get_net_sum
@@ -95,7 +94,7 @@ module Slips
       end
 
       # 条件に該当する伝票を取得
-      journal_headers = JournalHeader.where(conditions).includes(:journal_details)
+      journal_headers = JournalHeader.where(conditions).includes(:journal_details, :receipt)
             .order('journal_headers.ym desc, journal_headers.day desc, journal_headers.id desc')
             .limit(ym.to_i == 0 ? per_page : nil).offset(offset.to_i).reverse
       journal_headers.map{|jh| Slip.new(jh, self) }
@@ -113,7 +112,7 @@ module Slips
     end
 
     # 伝票検索条件を生成する
-    def get_conditions()
+    def get_conditions
       conditions = []
 
       # 伝票区分は簡易入力もしくは一般振替、台帳登録

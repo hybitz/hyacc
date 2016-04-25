@@ -1,19 +1,16 @@
 class Payroll < ActiveRecord::Base
   include JournalUtil
 
-  belongs_to :payroll_journal_headers, :foreign_key=>:payroll_journal_header_id,
-          :class_name=>"JournalHeader", :dependent => :destroy
-  belongs_to :pay_journal_headers, :foreign_key=>:pay_journal_header_id,
-          :class_name=>"JournalHeader", :dependent => :destroy
-  belongs_to :commission_journal_headers, :foreign_key=>:commission_journal_header_id,
-          :class_name=>"JournalHeader", :dependent => :destroy
-  
+  belongs_to :payroll_journal_header, :class_name => 'JournalHeader'
+  belongs_to :pay_journal_header, :class_name => 'JournalHeader'
+  belongs_to :commission_journal_header, :class_name => 'JournalHeader'
+
   validates_presence_of :employee_id, :ym, :message => "は必須です。"
   validates_numericality_of :days_of_work, :hours_of_work,
                             :hours_of_day_off_work, :hours_of_early_for_work,
                             :hours_of_late_night_work,
                             :allow_nil => true, :message=>"は数値で入力して下さい。"
-                            
+
   # フィールド
   attr_accessor :base_salary
   attr_accessor :income_tax     # 源泉所得税
@@ -31,16 +28,16 @@ class Payroll < ActiveRecord::Base
   attr_accessor :grade                 # 報酬等級
   attr_accessor :accrued_liability     # 従業員への未払費用
   attr_accessor :year_end_adjustment_liability # 年末調整額（過払分）
-  
+
   # 相手先伝票区分
   CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED = '0'
   CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY = '1'
-  
+
   def initialize( args = nil )
     super( args )
     @is_new = true
   end
-    
+
   def init
     @income_tax = 0
     @insurance = 0
@@ -56,12 +53,12 @@ class Payroll < ActiveRecord::Base
     @year_end_adjustment_liability = 0
     self
   end
-  
+
   # 社会保険料（健康保険＋厚生年金）
   def social_insurance
     @insurance + @pension
   end
-  
+
   # 社会保険料控除後の所得
   def after_insurance_deduction
     @base_salary - social_insurance
@@ -71,7 +68,7 @@ class Payroll < ActiveRecord::Base
   def after_deduction
     after_insurance_deduction - @income_tax - @inhabitant_tax
   end
-  
+
   def validate_params?
     result = true
     unless base_salary =~ /^[0-9]{1,}$/
@@ -117,7 +114,7 @@ class Payroll < ActiveRecord::Base
     end
     return result
   end
-  
+
   def self.find_by_ym_and_employee_id(ym, employee_id)
     # 月別情報を検索
     payroll = Payroll.where(:ym => ym, :employee_id => employee_id, :is_bonus => false).first
@@ -132,14 +129,14 @@ class Payroll < ActiveRecord::Base
     payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
     payroll.base_salary = payroll.get_base_salary_from_jd
     payroll.year_end_adjustment_liability = payroll.get_year_end_adjustment_liability_from_jd
-    
+
     # 支払の伝票取得
-    if payroll.pay_journal_headers != nil
-      jh = payroll.pay_journal_headers
+    if payroll.pay_journal_header != nil
+      jh = payroll.pay_journal_header
       payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
       payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
-    
+
     # 小計のセット
     payroll.subtotal = payroll.base_salary
     payroll.total = payroll.subtotal
@@ -148,7 +145,7 @@ class Payroll < ActiveRecord::Base
 
     payroll
   end
-  
+
   # Payrollから賞与情報を取得
   def self.list_bonus(ym_range, employee_id)
     Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.shift, ym_range.pop, true).order('ym desc')
@@ -168,14 +165,14 @@ class Payroll < ActiveRecord::Base
     payroll.insurance = payroll.get_insurance_from_jd
     payroll.pension = payroll.get_pension_from_jd
     payroll.base_salary = payroll.get_base_bonus_from_jd
-    
+
     # 支払の伝票取得
-    if payroll.pay_journal_headers != nil
-      jh = payroll.pay_journal_headers
+    if payroll.pay_journal_header != nil
+      jh = payroll.pay_journal_header
       payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
       payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
-    
+
     # 小計のセット
     payroll.subtotal = payroll.base_salary
     payroll.total = payroll.subtotal
@@ -195,7 +192,7 @@ class Payroll < ActiveRecord::Base
     dr_income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
     am_income_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY)
 
-    payroll_journal_headers.journal_details.each do | jd |
+    payroll_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_CREDIT
         if self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED and
            jd.account_id == deposits_received.id and
@@ -212,7 +209,7 @@ class Payroll < ActiveRecord::Base
     end
     return amount
   end
-  
+
   # 仕分明細から健康保険料を取得する
   def get_insurance_from_jd
     amount = 0
@@ -224,7 +221,7 @@ class Payroll < ActiveRecord::Base
     dr_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_DEPOSITS_RECEIVED)
     am_insurance = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_ADVANCE_MONEY)
 
-    self.payroll_journal_headers.journal_details.each do | jd |
+    self.payroll_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_CREDIT
         if self.credit_account_type_of_insurance == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED and
            jd.account_id == deposits_received.id and
@@ -241,7 +238,7 @@ class Payroll < ActiveRecord::Base
     end
     return amount
   end
-  
+
   # 仕分明細から厚生年金を取得する
   def get_pension_from_jd
     amount = 0
@@ -253,7 +250,7 @@ class Payroll < ActiveRecord::Base
     dr_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED)
     am_pension = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_ADVANCE_MONEY)
 
-    self.payroll_journal_headers.journal_details.each do | jd |
+    self.payroll_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_CREDIT
         if self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED and
            jd.account_id == deposits_received.id and
@@ -270,7 +267,7 @@ class Payroll < ActiveRecord::Base
     end
     return amount
   end
-  
+
   # 仕分明細から住民税を取得する
   def get_inhabitant_tax_from_jd
     amount = 0
@@ -282,7 +279,7 @@ class Payroll < ActiveRecord::Base
     dr_inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_DEPOSITS_RECEIVED)
     am_inhabitant_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_ADVANCE_MONEY)
 
-    self.payroll_journal_headers.journal_details.each do | jd |
+    self.payroll_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_CREDIT
         if self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED and
            jd.account_id == deposits_received.id and
@@ -299,14 +296,14 @@ class Payroll < ActiveRecord::Base
     end
     return amount
   end
-  
-  
+
+
   # 仕分明細から給与を取得する
   def get_base_salary_from_jd
     amount = 0
 
     salary_id = Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id
-    self.payroll_journal_headers.journal_details.each do | jd |
+    self.payroll_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == salary_id
         amount = jd.amount
         break
@@ -315,12 +312,12 @@ class Payroll < ActiveRecord::Base
 
     amount
   end
-  
+
   # 仕分明細から未払費用を取得する
   def get_accrued_liability_from_jd
     amount = 0
     unpaid_id = Account.get_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE).id
-    self.pay_journal_headers.journal_details.each do | jd |
+    self.pay_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == unpaid_id
         amount = jd.amount
         break
@@ -328,8 +325,8 @@ class Payroll < ActiveRecord::Base
     end
     return amount
   end
-  
-  
+
+
   # 仕分明細から年末調整額を取得する
   def get_year_end_adjustment_liability_from_jd
     amount = 0
@@ -337,9 +334,9 @@ class Payroll < ActiveRecord::Base
     deposits_received = Account.get_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     # 預り金（源泉所得税）
     dr_income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
-    
+
     # 給与明細から借方の預り金（源泉所得税）を検索
-    self.payroll_journal_headers.journal_details.each do | jd |
+    self.payroll_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_DEBIT
          if jd.account_id == deposits_received.id and
            jd.sub_account_id == dr_income_tax.id
@@ -350,13 +347,13 @@ class Payroll < ActiveRecord::Base
     end
     return amount
   end
-  
-  
+
+
   # 仕分明細から未払役員賞与を取得する
   def get_base_bonus_from_jd
     amount = 0
     salary_id = Account.get_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id
-    self.payroll_journal_headers.journal_details.each do | jd |
+    self.payroll_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == salary_id
         amount = jd.amount
         break
@@ -364,5 +361,5 @@ class Payroll < ActiveRecord::Base
     end
     return amount
   end
-  
+
 end

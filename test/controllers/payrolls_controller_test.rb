@@ -11,7 +11,7 @@ class PayrollsControllerTest < ActionController::TestCase
     get :index
     assert_response :forbidden
   end
-  
+
   def test_一覧
     get :index
     assert_response :success
@@ -20,7 +20,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
   end
-  
+
   def test_追加
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -31,7 +31,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'new'
   end
-  
+
   def test_編集
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -68,7 +68,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal JournalDetail.find(17735).amount, assigns(:payroll).base_salary
     assert_equal 8100, assigns(:payroll).inhabitant_tax
   end
-  
+
   def test_should_get_create_deposits_received
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -113,13 +113,13 @@ class PayrollsControllerTest < ActionController::TestCase
     jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => inhabitant_tax.id)
     assert_equal 1, jd.count
   end
-  
+
   def test_should_get_create_advance_money
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
-    
+
     ym = 200902
     employee_id = 2
     xhr :post, :create, :payroll => valid_payroll_params(:ym => ym, :employee_id => employee_id)
@@ -161,13 +161,13 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal 1, jd.count
     assert_equal 25, jd[0].amount
   end
-  
+
   def test_should_get_create_with_errors
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
-    
+
     xhr :post, :create,
         :payroll => {:ym => 200902, :employee_id => 2,
                      :days_of_work => 28, :hours_of_work => 224,
@@ -184,13 +184,13 @@ class PayrollsControllerTest < ActionController::TestCase
     assert assigns(:payroll).errors.size == 7
     assert_template 'new'
   end
-  
+
   def test_should_get_create_with_errors2
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
-    
+
     xhr :post, :create,
         :payroll => {:ym => 200912, :employee_id => 2,
                      :days_of_work => 28, :hours_of_work => 224,
@@ -210,7 +210,7 @@ class PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_更新
-    xhr :put, :update, :id => payroll, :payroll => valid_payroll_params
+    xhr :patch, :update, :id => payroll.id, :payroll => valid_payroll_params
     assert assigns(:payroll).errors.empty?
     assert_response :success
     assert_template 'common/reload'

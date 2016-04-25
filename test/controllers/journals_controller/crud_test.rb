@@ -484,15 +484,14 @@ class JournalsController::CrudTest < ActionController::TestCase
     end
   end
 
-  # 不正な伝票区分の場合は編集画面に遷移できないこと
-  def test_edit_fail_by_invalid_slip_type
+  def test_編集_不正な伝票区分の場合は編集画面に遷移できないこと
     xhr :get, :edit, :id => 5
     assert_response :redirect
     assert_redirected_to :action => 'index'
   end
 
   # 自動仕訳がある簡易入力伝票が編集画面に遷移できること
-  def test_edit_fail
+  def test_編集_自動仕訳がある簡易入力伝票が編集画面に遷移できること
     finder = Slips::SlipFinder.new(current_user)
     finder.account_code = Account.get(3).code
     slip = finder.find(6)

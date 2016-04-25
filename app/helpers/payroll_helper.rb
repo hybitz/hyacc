@@ -1,6 +1,6 @@
 module PayrollHelper
   include HyaccConstants
-  
+
   # 標準報酬月額の計算
   def get_standard_remuneration(ym = nil, employee = nil, base_salary = nil)
     standard_remuneration = 0
@@ -16,11 +16,11 @@ module PayrollHelper
         pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee.id)
         pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee.id)
         pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee.id)
-        if pr_3.payroll_journal_headers.nil?
-          unless pr_2.payroll_journal_headers.nil?
+        if pr_3.payroll_journal_header.nil?
+          unless pr_2.payroll_journal_header.nil?
             return get_remuneration(ym_2, prefecture_code, pr_2.base_salary)
           end
-          unless pr_1.payroll_journal_headers.nil?
+          unless pr_1.payroll_journal_header.nil?
             return get_remuneration(ym_1, prefecture_code, pr_1.base_salary)
           end
           return get_basic_info(ym, prefecture_code, base_salary).monthly_earnings
@@ -32,7 +32,7 @@ module PayrollHelper
           x = y.to_s + "04"
         end
         pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
-        while pr.payroll_journal_headers.nil?
+        while pr.payroll_journal_header.nil?
           x = (Date.new(x/100, x%100, 1) >> 1).strftime("%Y%m")
           pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
         end
@@ -84,7 +84,7 @@ module PayrollHelper
       # 標準報酬月額の取得
       standard_remuneration = get_standard_remuneration(ym, e, base_salary)
       insurance = get_insurance(ym, prefecture_code, standard_remuneration)
-      
+
       # 保険料の設定
       # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
       payroll.insurance =  (insurance.health_insurance_half - 0.01).round
@@ -92,11 +92,11 @@ module PayrollHelper
       payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
       # 端数対応（折半額の端数は個人負担）
       payroll.pension = (insurance.welfare_pension_insurance_half - 0.01).round
-      
+
       # 対象月の末日の扶養家族の人数から源泉徴収税額を取得
       day = Date.new(ym.to_i/100, ym.to_i%100,-1)
       e = Employee.find(employee_id)
-      
+
       payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(day, payroll.after_insurance_deduction, e.num_of_dependent(day))
     end
 
@@ -107,7 +107,7 @@ module PayrollHelper
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
     service.get_insurance(ym, prefecture_code, base_salary)
   end
-  
+
   #標準報酬額を取得
   def get_remuneration(ym, prefecture_code, base_salary)
     remuneration = 0
@@ -118,13 +118,13 @@ module PayrollHelper
     end
     return remuneration
   end
-  
+
   #標準報酬の基本情報を取得
   def get_basic_info(ym, prefecture_code, base_salary)
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
     service.get_basic_info(ym, prefecture_code, base_salary)
   end
-  
+
   def get_previous_base_salary(ym = nil, employee_id = nil)
     base_salary = 0
     # 前月分を検索
@@ -137,7 +137,7 @@ module PayrollHelper
     end
     base_salary
   end
-  
+
   def get_pay_day(ym, employee_id = nil)
     company = Employee.find(employee_id).company
     pay_day = Date.new(ym.to_i/100, ym.to_i%100, company.day_of_payday)
@@ -149,5 +149,5 @@ module PayrollHelper
     end
     pay_day
   end
-  
+
 end

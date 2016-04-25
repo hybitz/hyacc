@@ -15,6 +15,7 @@ module VisitPage
     visit '/'
     click_on options[:account].name
     assert has_title?(options[:account].name)
+    assert has_no_selector?('span.notice')
     assert has_selector? '.tax_type_ready'
   end
 

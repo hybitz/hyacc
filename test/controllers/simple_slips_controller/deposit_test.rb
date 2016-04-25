@@ -11,7 +11,7 @@ class SimpleSlipsController::DepositTest < ActionController::TestCase
     assert_difference 'JournalHeader.count', 1 do
       post :create,
         :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
-        :slip => {
+        :simple_slip => {
           "my_sub_account_id"=>"1",
           "ym"=>"200712",
           "remarks"=>"a",
@@ -27,52 +27,51 @@ class SimpleSlipsController::DepositTest < ActionController::TestCase
   end
 
   def test_index
-    get :index,
-      :account_code=>ACCOUNT_CODE_ORDINARY_DIPOSIT,
-      :branch_id=>nil
-
+    get :index, :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT
     assert_response :success
+    assert_template :index
   end
 
   def test_預金で銀行口座の指定がない場合に更新処理がエラーになること
-    xhr :post, :update, :id => 9,
-      :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
-      :slip => {
-        "my_sub_account_id"=>"",
-        "ym"=>200712,
-        "day"=>7,
-        "remarks"=>"a",
-        "branch_id"=>"2",
-        "account_id"=>"2",
-        "amount_increase"=>10000,
-        :tax_type => TAX_TYPE_NONTAXABLE}
+    assert_no_difference 'JournalHeader.count' do
+      xhr :post, :update, :id => 9,
+        :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
+        :simple_slip => {
+          "my_sub_account_id"=>"",
+          "ym"=>200712,
+          "day"=>7,
+          "remarks"=>"a",
+          "branch_id"=>"2",
+          "account_id"=>"2",
+          "amount_increase"=>10000,
+          :tax_type => TAX_TYPE_NONTAXABLE}
+    end
 
     assert_response :success
     assert_template 'edit'
-    assert assigns(:slip)
-    assert assigns(:slip).errors.present?
-    assert assigns(:slip).journal_header.journal_details[0].errors[:sub_account].any?
+    assert simple_slip = assigns(:simple_slip)
+    assert simple_slip.errors[:my_sub_account].any?
   end
 
   def test_預金で銀行口座の指定がない場合に登録処理がエラーになること
-    post :create,
-      :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
-      :slip => {
-        "my_sub_account_id"=>"",
-        "ym"=>"200805",
-        "remarks"=>"a",
-        "branch_id"=>"2",
-        "account_id"=>"2",
-        "id"=>"",
-        "day"=>"07",
-        "amount_increase"=>"10000",
-        :tax_type => TAX_TYPE_NONTAXABLE}
+    assert_no_difference 'JournalHeader.count' do
+      post :create,
+        :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
+        :simple_slip => {
+          "my_sub_account_id"=>"",
+          "ym"=>"200805",
+          "remarks"=>"a",
+          "branch_id"=>"2",
+          "account_id"=>"2",
+          "day"=>"07",
+          "amount_increase"=>"10000",
+          :tax_type => TAX_TYPE_NONTAXABLE}
+    end
 
     assert_response :success
     assert_template :index
-    assert_not_nil assigns(:slip)
-    assert_not_nil assigns(:slip).errors
-    assert_not_nil assigns(:slip).journal_header.journal_details[0].errors[:sub_account]
+    assert simple_slip = assigns(:simple_slip)
+    assert simple_slip.errors[:my_sub_account].any?
   end
 
 end

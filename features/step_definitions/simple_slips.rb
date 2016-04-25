@@ -40,40 +40,46 @@ end
     end
   end
 
-  form_selector = action == '登録' ? '#slip_new_form' : "#slip_edit_form"
-  account = Account.find(@slip.account_id)
-  branch = Branch.find(@slip.branch_id)
+  begin
+    form_selector = action == '登録' ? '#new_simple_slip' : "#edit_simple_slip"
+    account = Account.find(@slip.account_id)
+    branch = Branch.find(@slip.branch_id)
 
-  within form_selector do
-    fill_in 'slip_ym', :with => @slip.ym
-    fill_in 'slip_day', :with => @slip.day
-    fill_in 'slip_remarks', :with => @slip.remarks
+    within form_selector do
+      fill_in 'simple_slip_ym', :with => @slip.ym
+      fill_in 'simple_slip_day', :with => @slip.day
+      fill_in 'simple_slip_remarks', :with => @slip.remarks
 
-    select account.name, :from => 'slip_account_id'
-    assert has_select?('slip_tax_type', :selected => account.tax_type_name)
+      select account.name, :from => 'simple_slip_account_id'
+      assert has_select?('simple_slip_tax_type', :selected => account.tax_type_name)
 
-    select branch.name, :from => 'slip_branch_id'
+      select branch.name, :from => 'simple_slip_branch_id'
 
-    fill_in 'slip_amount_increase', :with => @slip.amount_increase
-    fill_in 'slip_amount_decrease', :with => @slip.amount_decrease
+      fill_in 'simple_slip_amount_increase', :with => @slip.amount_increase
+      fill_in 'simple_slip_amount_decrease', :with => @slip.amount_decrease
+    end
+  ensure
+    capture
   end
 
-  capture
   click_on action
 end
 
 もし /^任意の簡易伝票の(参照|編集|削除|コピー)をクリックする$/ do |action|
   assert @account = Account.find_by_name(page.title)
 
-  within '#slipTable' do
-    tr = all('tr.cashRow')[1]
+  assert tr = first('#slipTable tbody tr')
+  within tr do
     @slip = Slips::Slip.new(:account_code => @account.code)
     @slip.id = tr['slip_id'].to_i
+    @slip.remarks = find('td.remarks').text
 
-    within tr do
-      @slip.remarks = find('td.remarks').text
+    if action == '削除'
+      accept_confirm do
+        click_on action
+      end
+    else
       click_on action
-      confirm if action == '削除'
     end
   end
 end
@@ -81,12 +87,18 @@ end
 ならば /^(小口現金|普通預金|未払金（従業員）)の一覧に遷移する$/ do |account_name|
   assert account = Account.where(:name => account_name).first
 
-  assert has_title?(account.name)
-  assert has_selector?('.tax_type_ready');
-  capture
+  begin
+    assert has_title?(account.name)
+    assert has_selector?('.tax_type_ready');
+  ensure
+    capture
+  end
 end
 
 ならば /^簡易伝票の(参照|編集)ダイアログが表示される$/ do |action|
-  wait_until { has_selector?("#slip_edit_form", :visible => true) }
-  capture
+  begin
+    assert has_selector?('#edit_simple_slip')
+  ensure
+    capture
+  end
 end

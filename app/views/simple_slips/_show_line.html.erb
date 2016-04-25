@@ -32,7 +32,7 @@
   <% end %>
 </td>
 <td class="action" style="border-left: none; border-right: none;">
-  <%= link_to '削除', {:action=>:destroy, :id=>slip.id, :lock_version=>slip.lock_version, :account_code => params[:account_code]}, data: {confirm: '削除します。よろしいですか？'}, :method=>:post %>
+  <%= link_to '削除', {:action=>:destroy, :id=>slip.id, :lock_version=>slip.lock_version, :account_code => params[:account_code]}, data: {confirm: '削除します。よろしいですか？'}, :method => :delete %>
 </td>
 <td class="action" style="border-left: none;">
   <% if slip.editable? %>

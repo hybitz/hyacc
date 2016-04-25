@@ -14,9 +14,6 @@ class JournalHeader < ActiveRecord::Base
   has_one :tax_admin_info, :dependent => :destroy
   accepts_nested_attributes_for :tax_admin_info
 
-  before_save :update_sum_info
-  after_save :update_tax_admin_info
-
   validates_presence_of :company_id, :ym, :day, :remarks
   validates_format_of :ym, :with => /[0-9]{6}/ # TODO 月をもっと正確にチェック
   validates_with JournalValidator
@@ -24,6 +21,9 @@ class JournalHeader < ActiveRecord::Base
   has_one :receipt, -> { where :deleted => false }, :inverse_of => 'journal_header'
   accepts_nested_attributes_for :receipt,
       :reject_if => proc {|attrs| attrs['id'].blank? && attrs['file'].blank? && attrs['file_cache'].blank? }
+
+  before_save :update_sum_info, :set_update_user_id
+  after_save :update_tax_admin_info
 
   def self.find_closing_journals(fiscal_year, slip_type)
     where(:company_id => fiscal_year.company_id, :fiscal_year_id => fiscal_year.id, :slip_type => slip_type)
@@ -67,6 +67,24 @@ class JournalHeader < ActiveRecord::Base
     end
 
     false
+  end
+
+  # 伝票と伝票に紐付いているすべての自動振替伝票をリストアップ
+  def get_all_related_journals
+    ret = []
+    ret << self
+
+    journal_details.each do |jd|
+      jd.transfer_journals.each do |tj|
+        ret += tj.get_all_related_journals
+      end
+    end
+
+    transfer_journals.each do |tj|
+      ret += tj.get_all_related_journals
+    end
+
+    ret
   end
 
   # 通常明細に消費税明細をマージして返す
@@ -134,8 +152,8 @@ class JournalHeader < ActiveRecord::Base
 
       # 税抜経理方式で消費税があれば、消費税明細を自動仕訳
       if detail.tax_amount.to_i > 0
-        tax_detail = detail.tax_detail || journal_details.build(:main_detail => detail)
-        tax_detail.detail_no = nil # 画面で必要としないため、DB登録時に決定する
+        tax_detail = journal_details.find{|jd| jd.persisted? and jd.main_detail_id == detail.id }
+        tax_detail ||= journal_details.build(:main_detail => detail)
         tax_detail.detail_type = DETAIL_TYPE_TAX
         tax_detail.dc_type = detail.dc_type
         tax_detail.tax_type = TAX_TYPE_NONTAXABLE
@@ -143,16 +161,24 @@ class JournalHeader < ActiveRecord::Base
         case detail.account.dc_type
         when DC_TYPE_DEBIT
           # 借方の場合は仮払消費税
-          tax_detail.account = Account.get_by_code( ACCOUNT_CODE_TEMP_PAY_TAX )
+          tax_detail.account = Account.get_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
         when DC_TYPE_CREDIT
           # 貸方の場合は借受消費税
-          tax_detail.account = Account.get_by_code( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED )
+          tax_detail.account = Account.get_by_code(ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED)
         end
 
         tax_detail.branch = detail.branch
         tax_detail.amount = detail.tax_amount.to_i
-      else
-        detail.tax_detail.mark_for_destruction if detail.tax_detail
+      end
+    end
+
+    journal_details.each do |detail|
+      next if detail.normal_detail?
+      next if detail.new_record?
+
+      main_detail = journal_details.find{|jd| jd.id == detail.main_detail_id }
+      if main_detail.tax_type_nontaxable?
+        detail.mark_for_destruction
       end
     end
 
@@ -188,7 +214,7 @@ class JournalHeader < ActiveRecord::Base
   end
 
   def fiscal_year
-    user = User.find(update_user_id)
+    user = User.find(update_user_id || create_user_id)
     user.company.get_fiscal_year(self.ym)
   end
 
@@ -237,9 +263,9 @@ class JournalHeader < ActiveRecord::Base
 
   def set_detail_no
     detail_no = 1
-    journal_details.each do |d|
-      next if d.deleted?
-      d.detail_no = detail_no
+    journal_details.each do |jd|
+      next if jd.deleted?
+      jd.detail_no = detail_no
       detail_no += 1
     end
   end
@@ -259,7 +285,7 @@ class JournalHeader < ActiveRecord::Base
       when DC_TYPE_CREDIT
         amount_credit += jd.amount
       else
-        raise HyaccException.new( ERR_INVALID_DC_TYPE )
+        raise HyaccException.new(ERR_INVALID_DC_TYPE)
       end
     end
 
@@ -293,5 +319,9 @@ class JournalHeader < ActiveRecord::Base
     end
 
     self.finder_key = key
+  end
+
+  def set_update_user_id
+    self.update_user_id ||= self.create_user_id
   end
 end

@@ -10,6 +10,15 @@
     I18n.locale = '<%= I18n.locale %>';
   </script>
   <%= csrf_meta_tags %>
+
+  <script>
+    $(document).on('page:fetch', function() {
+      $('body').css('cursor', 'wait');
+    });
+    $(document).on('page:load', function() {
+      $('body').css('cursor', 'default');
+    });
+  </script>
 </head>
 <body>
   <%= render 'common/common_js' %>

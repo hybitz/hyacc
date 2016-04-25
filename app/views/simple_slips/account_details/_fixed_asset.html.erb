@@ -1,5 +1,7 @@
-<% if @slip and @slip.asset_id.to_i > 0 %>
-  <%= hidden_field 'slip', 'asset_id' %>
-  <%= hidden_field 'slip', 'asset_lock_version' %>
-  資産コード：<%= @slip.asset_code %>
+<% if @simple_slip.asset_id.present? %>
+  <%= fields_for @simple_slip do |f| %>
+    <%= f.hidden_field :asset_id %>
+    <%= f.hidden_field :asset_lock_version %>
+    資産コード：<%= f.object.asset_code %>
+  <% end %>
 <% end %>

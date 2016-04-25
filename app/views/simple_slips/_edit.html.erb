@@ -1,14 +1,14 @@
 <div class="target_account_info">
   <%# 補助科目が存在する科目の場合は補助科目名を表示する %>
   <% if @account.sub_accounts_all.present? %>
-    <%= get_sub_account_title( @account ) %>：
-    <b><%= @account.get_sub_account_by_id(@slip.my_sub_account_id).name if @slip.my_sub_account_id.to_i > 0 %></b>
+    <%= get_sub_account_title(@account) %>：
+    <b><%= @account.get_sub_account_by_id(@simple_slip.my_sub_account_id).name if @simple_slip.my_sub_account_id.present? %></b>
   <% else %>
     &nbsp;
   <% end %>
 </div>
 
-<%= form_for @simple_slip, :html => {:id => "slip_edit_form", :remote => true} do |f| %>
+<%= form_for @simple_slip, :html => {:id => 'edit_simple_slip', :remote => true} do |f| %>
   <%= render 'common/message' %>
   <table>
     <tr>
@@ -21,14 +21,14 @@
       <th>増　加</th>
       <th>減　少</th>
     </tr>
-    <%= render 'form' %>
+    <%= render 'form', :f => f %>
   </table>
 <% end %>
 
 <% if action_name == 'show' %>
   <script>
     $(document).ready(function() {
-      $('#slip_edit_form :input').attr('disabled', true);
+      $('#edit_simple_slip :input').attr('disabled', true);
     });
   </script>
 <% end %>

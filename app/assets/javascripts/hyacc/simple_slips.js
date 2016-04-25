@@ -19,8 +19,8 @@ simple_slips.copy = function(trigger) {
       $('#slip_sub_account_id').val(data.sub_account_id);
     }
     $('#account_detail').html(data.account_detail);
-    
-    updateTaxAmountSimple($('#slip_new_form'));
+
+    updateTaxAmountSimple($('#new_simple_slip'));
     $('#slip_day').focus();
   });
 };

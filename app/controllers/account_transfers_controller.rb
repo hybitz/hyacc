@@ -6,7 +6,7 @@ class AccountTransfersController < Base::HyaccController
 
   view_attribute :title => '科目振替'
   helper_method :finder
-  
+
   def index
     @journals = finder.list if finder.commit
   end
@@ -24,24 +24,24 @@ class AccountTransfersController < Base::HyaccController
       a = Account.get(finder.to_account_id)
       sa = a.get_sub_account_by_id(finder.to_sub_account_id) if finder.to_sub_account_id > 0
       journals = {}
-      
+
       a.transaction do
         form[:details].each do |detail|
           next unless detail[1].to_i == 1
-    
+
           jh_id, lock_version, jd_id = /jh_([0-9]+)_lv_([0-9]+)_jd_([0-9]+)/.match(detail[0]).to_a.values_at(1, 2, 3)
-          
+
           if HyaccLogger.debug?
             HyaccLogger.debug "jh_id=#{jh_id}, lock_version=#{lock_version}, jd_id=#{jd_id}"
           end
-          
+
           jh = JournalHeader.find(jh_id)
           old_jh = jh.copy
           raise HyaccException.new(ERR_INVALID_ACTION) unless can_edit(jh)
 
           jd = jh.journal_details.find(jd_id)
           raise HyaccException.new(ERR_INVALID_ACTION) unless can_transfer_account(jd)
-          
+
           jd.account_id = a.id
           if sa
             jd.sub_account_id = sa.id
@@ -49,24 +49,24 @@ class AccountTransfersController < Base::HyaccController
             jd.sub_account_id = nil
           end
           jd.save!
-          
+
           journals.store("#{jh.id}", lock_version) unless journals.has_key?("#{jh.id}")
           jh.lock_version = journals["#{jh.id}"]
-          
+
           do_auto_transfers(jh)
-          validate_assets(jh, old_jh)
+          AssetUtil.validate_assets(jh, old_jh)
           validate_journal(jh, old_jh)
           jh.save!
-          
+
           journals.store("#{jh.id}", jh.lock_version.to_i)
         end
       end
-      
+
       flash[:notice] = '科目を一括振替しました。'
     rescue => e
       handle(e)
     end
-    
+
     redirect_to :action => :index, :finder => params[:finder], :commit => true
   end
 
@@ -82,7 +82,7 @@ class AccountTransfersController < Base::HyaccController
       @finder.page = params[:page]
       @finder.per_page = current_user.slips_per_page
     end
-    
+
     @finder
   end
 

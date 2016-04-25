@@ -80,6 +80,7 @@ module ApplicationHelper
 
   # <title>タグを表示する
   def render_title(options = {})
+    @title = options.fetch(:title, @title)
     render 'common/title'
   end
 

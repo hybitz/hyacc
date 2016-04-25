@@ -32,15 +32,15 @@ end
       if action == '登録'
         assert has_selector?('.notice', :text => "伝票を#{action}しました。")
       elsif action == '更新'
-        assert has_no_selector?('#slip_edit_form')
+        assert has_no_selector?('#edit_simple_slip')
         assert has_no_selector?('.reload_dialog')
       end
-      assert has_selector?('#slip_new_form')
+      assert has_selector?('#new_simple_slip')
       assert has_selector? '.tax_type_ready'
     else
       case action
       when '登録', '更新'
-        assert has_no_selector?("div.ui-dialog", :visible => true)
+        assert has_no_dialog?(/振替伝票.*/)
       end
       assert has_selector?('.notice')
     end

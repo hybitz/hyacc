@@ -338,9 +338,9 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal SLIP_TYPE_TRANSFER, jh.slip_type
     assert_equal remarks, jh.remarks
     assert_equal 1999, jh.amount
-    assert_equal 0, jh.transfer_from_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
-    assert_equal 0, jh.transfer_from_detail_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
-    assert_equal 0, jh.depreciation_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
+    assert_nil jh.transfer_from_id
+    assert_nil jh.transfer_from_detail_id
+    assert_nil jh.depreciation_id
     assert_equal lock_version + 1, jh.lock_version
     assert_equal 0, jh.transfer_journals.size
     assert_equal 3, jh.journal_details.size

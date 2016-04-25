@@ -18,19 +18,19 @@ class JournalHeaderTest < ActiveSupport::TestCase
     # 年月が空文字列は認めない
     jh.ym = ''
     assert_raise( ActiveRecord::RecordInvalid ){ jh.save! }
-    
+
     # 年月は数値6桁しか認めない
     jh.ym = 2007
     assert_raise( ActiveRecord::RecordInvalid ){ jh.save! }
-    
+
     # 正常系
     jh.ym = 200706
     assert jh.save!
   end
-  
+
   def test_day
     jh = JournalHeader.find(1)
-    
+
     # 日が未設定は認めない
     jh.ym = 200701
     jh.day = nil
@@ -48,16 +48,16 @@ class JournalHeaderTest < ActiveSupport::TestCase
     jh.day = 32
     assert_raise( ActiveRecord::RecordInvalid ){ jh.save! }
   end
-  
+
   def test_find_by_finder_key
     journals = JournalHeader.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,1-.*')
     assert_equal 2, journals.count
-    
+
     # 検索条件がすべて１つの明細のものでなければヒットしない
     journals = JournalHeader.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,2-.*')
     assert_equal 0, journals.count
   end
-  
+
   # 貸借の一致しない仕訳の登録がエラーになること
   def test_illegal_dc_amount
     jh = JournalHeader.new
@@ -81,18 +81,18 @@ class JournalHeaderTest < ActiveSupport::TestCase
     jh.journal_details[1].account_id = Account.find_by_code(ACCOUNT_CODE_CASH).id
     jh.journal_details[1].branch_id = Branch.find(1).id
     jh.journal_details[1].amount = 20000
-    
+
     assert_raise( HyaccException ){ jh.save! }
   end
-  
+
   # Trac#190
   def test_validate_fiscal_year
     jh = JournalHeader.find(1)
-    
+
     assert_nothing_raised {
       jh.save!
     }
-    
+
     jh.ym = 190001
 
     assert_raise( HyaccException ) {
@@ -103,7 +103,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
   def test_copy_journal
     list = []
     list << JournalHeader.find(5880)
-    
+
     list.each do |jh|
       copy = JournalHeader.copy_journal(jh)
       assert copy.new_record?
@@ -143,7 +143,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
         assert_equal jd.note, copy_jd.note
         assert_equal jd.created_at, copy_jd.created_at
         assert_equal jd.updated_at, copy_jd.updated_at
-        
+
         # コピーを編集しても元データに変更はない
         copy_jd.amount += 1
         copy_jd.asset = Asset.new
@@ -151,6 +151,16 @@ class JournalHeaderTest < ActiveSupport::TestCase
         assert_not_equal jd.asset, copy_jd.asset
       end
     end
+  end
+
+  def test_get_all_related_journals
+    journal = JournalHeader.new
+    journal.transfer_journals << JournalHeader.new
+    journal.transfer_journals[0].transfer_journals << JournalHeader.new
+    assert_equal 3, journal.get_all_related_journals.length
+
+    journal.transfer_journals << JournalHeader.new
+    assert_equal 4, journal.get_all_related_journals.length
   end
 
 end

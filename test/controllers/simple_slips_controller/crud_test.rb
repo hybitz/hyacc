@@ -9,16 +9,16 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
 
   def test_Trac_144_売上高の補助科目が受注先である場合に正しく伝票登録できること
     num_journal_headers = JournalHeader.count
-    remarks = '売掛金と売上高の伝票' + Time.now.to_s
+    remarks = "売掛金と売上高の伝票 #{Time.now}"
 
-    a = Account.find_by_code(6121)
+    assert a = Account.find_by_code(6121)
     assert_equal SUB_ACCOUNT_TYPE_ORDER_ENTRY, a.sub_account_type
 
     sa = Customer.find(3)
 
     post :create,
-      :account_code=>1551,
-      :slip => {
+      :account_code => 1551,
+      :simple_slip => {
         "my_sub_account_id"=>sa.id,
         "ym"=>200909,
         "day"=>29,
@@ -52,7 +52,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
   # コピー元伝票のJSONフォーマットが正常に取得できること
   def test_new_from_copy
     base_id = 6471
-    xhr :get, :new_from_copy, :account_code => 1121, :id => base_id
+    xhr :get, :new_from_copy, :account_code => ACCOUNT_CODE_SMALL_CASH, :id => base_id
     assert_response :success
     assert assigns[:json]
 
@@ -71,14 +71,15 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
     finder = Slips::SlipFinder.new(user)
     finder.account_code = Account.get(2).code # 現金
     slip = finder.find(11)
-    assert_equal 1, slip.journal_header.create_user_id
+    jh = JournalHeader.find(11)
+    assert_equal 1, jh.create_user_id
     assert_equal 1, slip.asset_id
     assert_equal '100', slip.asset_code
     assert_equal 0, slip.asset_lock_version
 
     xhr :patch, :update, :id => slip.id,
       :account_code => finder.account_code,
-      :slip => {
+      :simple_slip => {
         :ym => slip.ym,
         "day" => slip.day,
         "remarks"=>"更新時に登録ユーザが更新されていないこと",
@@ -91,12 +92,11 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
         "lock_version"=>slip.lock_version,
         "auto_journal_type"=>0,
         "asset_id"=>slip.asset_id,
-        "asset_code"=>slip.asset_code,
         "asset_lock_version"=>slip.asset_lock_version,
       }
 
     assert_response :success
-    assert @slip = assigns(:slip)
+    assert @slip = assigns(:simple_slip)
     assert @slip.errors.empty?, @slip.errors.full_messages.join("\n")
     assert_equal '伝票を更新しました。', flash[:notice]
     assert_template 'common/reload'
@@ -107,20 +107,20 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
   end
 
   def test_new
-    get :index, :account_code=>1121
+    get :index, :account_code => ACCOUNT_CODE_SMALL_CASH
     assert_response :success
     assert_template :index
-    assert_not_nil assigns(:slip)
-    assert_not_nil assigns(:frequencies)
+    assert assigns(:simple_slip)
+    assert assigns(:frequencies).present?
     assert_equal 32, assigns(:frequencies)[0].input_value.to_i
   end
 
   def test_edit
-    xhr :get, :edit, :account_code => 1121, :id => 10
+    xhr :get, :edit, :account_code => ACCOUNT_CODE_SMALL_CASH, :id => 10
     assert_response :success
     assert_template :edit
-    assert_not_nil assigns(:slip)
-    assert_not_nil assigns(:frequencies)
+    assert assigns(:simple_slip)
+    assert assigns(:frequencies).present?
     assert_equal 32, assigns(:frequencies)[0].input_value.to_i
   end
 end

@@ -24,7 +24,7 @@ end
 かつ /^エラーメッセージ「(.*?)」が表示(される|されない)$/ do |message, result|
   case result
     when 'される'
-      assert has_selector?('.error', message)
+      assert has_selector?('.error', :text => message)
     when 'されない'
       assert has_no_text?(message)
   end

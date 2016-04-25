@@ -6,6 +6,7 @@ end
 前提 /^(.*?)が(.*?)を表示している$/ do |name, page|
   sign_in :name => name
   click_on page
+  assert has_title?(page)
   capture
 end
 

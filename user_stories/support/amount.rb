@@ -9,3 +9,20 @@ class String
   end
 
 end
+
+class Fixnum
+
+  def to_amount_string
+    self.to_as
+  end
+
+  def to_as
+    ret = []
+    self.to_s.reverse.chars.each_with_index do |char, i|
+      ret << ',' if i > 0 && i % 3 == 0
+      ret << char
+    end
+    ret.reverse.join
+  end
+
+end

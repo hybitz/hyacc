@@ -19,6 +19,13 @@ module VisitPage
     assert has_selector? '.tax_type_ready'
   end
 
+  def visit_companies
+    assert current_user || sign_in(User.first)
+
+    visit '/mm/companies'
+    assert has_selector?('.company')
+  end
+
 end
 
 World(VisitPage)

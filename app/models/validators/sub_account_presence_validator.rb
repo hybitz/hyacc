@@ -8,8 +8,6 @@ module Validators
 
       if record.account.sub_accounts.present?
         if record.sub_account_id.to_i == 0
-          puts record.account.to_yaml
-          puts record.account.sub_accounts.to_yaml
           record.errors[:sub_account] = I18n.t('errors.messages.empty')
         end
       end

@@ -25,6 +25,8 @@
   capture '口座情報を入力して登録'
 
   click_on '登録'
+  assert has_no_selector?('.ui-dialog')
+  assert has_selector?('.notice')
   assert has_selector?('.bank_accounts', :text => @bank_account.name)
   capture '登録完了'
 end

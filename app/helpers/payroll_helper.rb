@@ -76,27 +76,31 @@ module PayrollHelper
   # 健康保険料と所得税の取得
   def get_tax(ym = nil, employee_id = nil, base_salary = 0)
     payroll = Payroll.new.init
-    if ym != nil && employee_id != nil
-      # 従業員IDから事業所の都道府県コードを取得
+
+    if ym && employee_id
       e = Employee.find(employee_id)
-      prefecture_code = e.business_office.prefecture_code
+      
+      payroll.ym = ym
+      payroll.employee = e
       payroll.base_salary = base_salary.to_i
+
+      # 事業所の都道府県コードを取得
+      prefecture_code = e.business_office.prefecture_code
+
       # 標準報酬月額の取得
       standard_remuneration = get_standard_remuneration(ym, e, base_salary)
       insurance = get_insurance(ym, prefecture_code, standard_remuneration)
 
       # 保険料の設定
       # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
+      # 折半額の端数は個人負担
       payroll.insurance =  (insurance.health_insurance_half - 0.01).round
       payroll.insurance_all = insurance.health_insurance_all.truncate
-      payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
-      # 端数対応（折半額の端数は個人負担）
       payroll.pension = (insurance.welfare_pension_insurance_half - 0.01).round
+      payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
 
       # 対象月の末日の扶養家族の人数から源泉徴収税額を取得
-      day = Date.new(ym.to_i/100, ym.to_i%100,-1)
-      e = Employee.find(employee_id)
-
+      day = Date.new(ym.to_i/100, ym.to_i%100, -1)
       payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(day, payroll.after_insurance_deduction, e.num_of_dependent(day))
     end
 
@@ -123,19 +127,6 @@ module PayrollHelper
   def get_basic_info(ym, prefecture_code, base_salary)
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
     service.get_basic_info(ym, prefecture_code, base_salary)
-  end
-
-  def get_previous_base_salary(ym = nil, employee_id = nil)
-    base_salary = 0
-    # 前月分を検索
-    past_ym = ym.to_i - 1
-    # 1月の場合、-1年(-100)+11月
-    past_ym = ym.to_i - 89 if ym.to_i%100 == 1
-    previous_payroll = Payroll.where(:ym => past_ym, :employee_id => employee_id, :is_bonus => false).order('ym').first
-    if previous_payroll
-      base_salary = previous_payroll.get_base_salary_from_jd
-    end
-    base_salary
   end
 
   def get_pay_day(ym, employee_id = nil)

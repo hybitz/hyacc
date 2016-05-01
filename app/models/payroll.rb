@@ -1,6 +1,7 @@
 class Payroll < ActiveRecord::Base
   include JournalUtil
 
+  belongs_to :employee
   belongs_to :payroll_journal_header, :class_name => 'JournalHeader'
   belongs_to :pay_journal_header, :class_name => 'JournalHeader'
   belongs_to :commission_journal_header, :class_name => 'JournalHeader'
@@ -113,6 +114,19 @@ class Payroll < ActiveRecord::Base
       result = false
     end
     return result
+  end
+
+  def self.get_previous_base_salary(ym, employee_id)
+    base_salary = 0
+    # 前月分を検索
+    past_ym = ym.to_i - 1
+    # 1月の場合、-1年(-100)+11月
+    past_ym = ym.to_i - 89 if ym.to_i%100 == 1
+    previous_payroll = Payroll.where(:ym => past_ym, :employee_id => employee_id, :is_bonus => false).order('ym').first
+    if previous_payroll
+      base_salary = previous_payroll.get_base_salary_from_jd
+    end
+    base_salary
   end
 
   def self.find_by_ym_and_employee_id(ym, employee_id)

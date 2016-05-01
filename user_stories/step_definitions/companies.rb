@@ -1,9 +1,6 @@
 もし /^法務局に提出する「商業・法人登記申請」に記した本社を登録$/ do
   begin
-    sign_in User.first unless current_user
-
-    visit '/mm/companies'
-    assert has_selector?('.company')
+    visit_companies
 
     within '#business_offices_table' do
       click_on '追加'
@@ -29,4 +26,22 @@
   ensure
     capture
   end
+end
+
+もし /^給与支払日を翌月7日に設定$/ do
+  visit_companies
+
+  find_tr '.company', '給与支払日' do
+    click_on '変更'
+  end
+  assert has_selector?('.edit_company')
+  within '.edit_company' do
+    select '翌月', :from => 'company_month_of_payday'
+    fill_in 'company_day_of_payday', :with => '7'
+  end
+  capture
+
+  click_on '更新'
+  assert has_no_selector?('.edit_company')
+  capture
 end

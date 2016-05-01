@@ -25,19 +25,23 @@ class PayrollsController < Base::HyaccController
   end
 
   def new
-    @payroll = Payroll.new.init
     ym = params[:ym]
-    # 初期値の設定
-    if ym.present?
-      @payroll.ym = ym
+    unless ym.present?
+      @payroll = Payroll.new.init
+    else
+      employee_id = finder.employee_id
+      base_salary = Payroll.get_previous_base_salary(ym, finder.employee_id)
+
+      @payroll = get_tax(ym, finder.employee_id, base_salary)
+
+      # 初期値の設定
       @payroll.days_of_work = Date.new(ym.to_i/100, ym.to_i%100, -1).day
       @payroll.hours_of_work = @payroll.days_of_work * 8
-      @payroll.base_salary = get_previous_base_salary(ym, finder.employee_id)
+
       # 住民税マスタより住民税額を取得
       @payroll.inhabitant_tax = get_inhabitant_tax(finder.employee_id, ym)
       @payroll.pay_day = get_pay_day(ym, finder.employee_id).strftime("%Y-%m-%d")
-      # 表示対象ユーザID
-      @payroll.employee_id = finder.employee_id
+
       # 従業員への未払費用
       @payroll.accrued_liability = finder.get_net_sum(ACCOUNT_CODE_UNPAID_EMPLOYEE)
     end

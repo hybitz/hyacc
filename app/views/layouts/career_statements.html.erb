@@ -1,0 +1,10 @@
+<% content_for :body do %>
+    <%= render 'common/common_js' %>
+    <%= render_header %>
+    <%= render_menu %>
+  
+    <div class="main">
+      <%= yield %>
+    </div>
+<% end %>
+<%= render :template => 'layouts/application' %>

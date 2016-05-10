@@ -4,33 +4,37 @@
   <%= render_meta %>
   <%= render_title %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    'application-print', media: 'print', 'data-turbolinks-track' => false %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <script>
-    I18n.defaultLocale = '<%= I18n.default_locale %>';
-    I18n.locale = '<%= I18n.locale %>';
-  </script>
   <%= csrf_meta_tags %>
 
   <script>
+    I18n.defaultLocale = '<%= I18n.default_locale %>';
+    I18n.locale = '<%= I18n.locale %>';
+
     $(document).on('page:fetch', function() {
       $('body').css('cursor', 'wait');
     });
-    $(document).on('page:load', function() {
+    $(document).on('page:load page:restore', function() {
       $('body').css('cursor', 'default');
     });
   </script>
 </head>
 <body>
-  <%= render 'common/common_js' %>
-  <%= render_header :only => 'index' %>
-  <%= render_menu :only => 'index' %>
-
-  <div class="main">
-    <% if content_for? :main %>
-      <%= content_for :main %>
-    <% else %>
-      <%= yield %>
-    <% end %>
-  </div>
+  <% if content_for? :body %>
+    <%= content_for :body %>
+  <% else %>
+    <%= render 'common/common_js' %>
+    <%= render_header :only => 'index' %>
+    <%= render_menu :only => 'index' %>
+  
+    <div class="main">
+      <% if content_for? :main %>
+        <%= content_for :main %>
+      <% else %>
+        <%= yield %>
+      <% end %>
+    </div>
+  <% end %>
 </body>
 </html>

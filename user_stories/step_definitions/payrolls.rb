@@ -32,6 +32,10 @@
     find_tr '#payroll_table', '基本給' do
       assert has_selector?('td', :text => @salary.to_as, :count => 2)
     end
+    capture
+
+    click_on '10月07日'
+    assert has_selector?('.ui-dialog')
   ensure
     capture
   end

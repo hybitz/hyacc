@@ -129,13 +129,13 @@ end
       visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
 
       count = all('#slipTable tbody tr').count
-      fill_in 'simple_slip_ym', :with => '201309'
+      fill_in 'simple_slip_ym', :with => '201308'
       fill_in 'simple_slip_day', :with => i + 1
       fill_in 'simple_slip_remarks', :with => "ATM手数料（科目間違い #{i+1} 回目）"
       find(:select, 'simple_slip_account_id').first(:option, @account.code_and_name).select_option
       assert has_selector?('.tax_type_ready')
       select tax_type_name, :from => 'simple_slip_tax_type'
-      fill_in 'simple_slip_amount_increase', :with => amount
+      fill_in 'simple_slip_amount_decrease', :with => amount
       click_on '登録'
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     ensure

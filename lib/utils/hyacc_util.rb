@@ -1,7 +1,13 @@
+require 'digest/md5'
+
 module HyaccUtil
   include HyaccConstants
   include HyaccErrors
   include HyaccDateUtil
+
+  def self.hashed_filename(filename)
+    "#{Digest::MD5.file(filename)}#{File.extname(filename)}"
+  end
 
   def add( amount1, amount2 )
     ret = 0

@@ -1,5 +1,3 @@
-require 'digest/md5'
-
 class ReceiptUploader < CarrierWave::Uploader::Base
   storage :file
   process :set_metadata
@@ -13,11 +11,7 @@ class ReceiptUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    if model.file?
-      @_filename ||= "#{Digest::MD5.file(file.path)}#{File.extname(file.path)}"
-    else
-      super
-    end
+    @_filename ||= HyaccUtil.hashed_filename(file.path)
   end
 
   private
@@ -31,7 +25,7 @@ class ReceiptUploader < CarrierWave::Uploader::Base
   end
 
   def set_metadata
-    if model.file?
+    if model.present?
       if file.is_a?(File)
         model.original_filename = File.basename(file)
       else

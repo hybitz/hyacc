@@ -1,0 +1,5 @@
+1:
+  id: 1
+  journal_header_id: 34
+  file: <%= HyaccUtil.hashed_filename('test/data/スクリーンショット.png') %>
+  original_filename: スクリーンショット.png

@@ -4,7 +4,7 @@
     <th class="yearsOfCareer" rowspan="2" colspan="3">業務経歴： <%= @employee.years_of_career %>年</th>
   </tr>
   <tr>
-    <th class="employee">氏名： <%= @employee.full_name %></th>
+    <th class="employee">氏名： <%= @employee.fullname %></th>
   </tr>
   <% @employee.careers.each_with_index do |c, index| %>
   <tr>

@@ -11,7 +11,7 @@
   <% @users.each do |user| %>
     <tr>
       <td><%= user.login_id %></td>
-      <td><%= user.employee.full_name %></td>
+      <td><%= user.employee.fullname %></td>
       <td><%= HyaccConstants::DELETED_TYPES[user.deleted] %></td>
       <td><%= link_to '参照', {:action => 'show', :id => user.id}, :remote => true %></td>
       <td><%= link_to '編集', {:action => 'edit', :id => user.id}, :remote => true %></td>

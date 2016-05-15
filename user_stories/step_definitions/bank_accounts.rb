@@ -10,7 +10,7 @@
   @bank_account.code = '1234567'
   @bank_account.name = 'メイン口座'
   @bank_account.financial_account_type = FINANCIAL_ACCOUNT_TYPE_SAVING
-  @bank_account.holder_name = current_user.employee.full_name('')
+  @bank_account.holder_name = current_user.employee.fullname('')
   assert has_no_selector?('.bank_accounts', :text => @bank_account.name)
 
   click_on '追加'

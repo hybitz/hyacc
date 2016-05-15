@@ -19,7 +19,7 @@ module Reports
               detail.name = sa.name
               detail.address = sa.address
             elsif a.sub_account_type == SUB_ACCOUNT_TYPE_EMPLOYEE
-              detail.name = sa.employee.full_name
+              detail.name = sa.employee.fullname
             else
               detail.name = sa.name
             end

@@ -18,6 +18,15 @@ module VisitPage
     assert has_title?('科目振替')
   end
 
+  def visit_companies
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    click_on 'マスタメンテ'
+    click_on '会社'
+    assert has_selector?('.company')
+  end
+
   def visit_simple_slip(options = {})
     assert current_user || sign_in(User.first)
 
@@ -28,11 +37,13 @@ module VisitPage
     assert has_selector? '.tax_type_ready'
   end
 
-  def visit_companies
+  def visit_users
     assert current_user || sign_in(User.first)
 
-    visit '/mm/companies'
-    assert has_selector?('.company')
+    visit '/'
+    click_on 'マスタメンテ'
+    click_on 'ユーザ'
+    assert has_title?('ユーザ')
   end
 
 end

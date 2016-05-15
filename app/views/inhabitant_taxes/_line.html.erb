@@ -1,6 +1,6 @@
 <div id="data_<%= data.id %>">
   <div class="div_td_yyyy"><%= data.ym %></div>
-  <div class="div_td_user"><%= data.employee.full_name %></div>
+  <div class="div_td_user"><%= data.employee.fullname %></div>
   <div class="div_td_money"><%= to_amount(data.amount) %></div>
   <div class="div_td_link">
     <%= link_to '編集', edit_inhabitant_tax_path(data), :remote => true %>

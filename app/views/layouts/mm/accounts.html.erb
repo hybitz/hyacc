@@ -1,0 +1,12 @@
+<% content_for :body do %>
+  <%= render 'common/common_js' %>
+  <%= render_header %>
+  <%= render_menu %>
+  <%= render_action_menu :actions => ['index', 'list_tree'], :titles => ['一覧表示', 'ツリー表示'] %>
+
+  <div style="margin: 10px;">
+    <%= yield %>
+  </div>
+<% end %>
+<%= render :template => 'layouts/application' %>
+

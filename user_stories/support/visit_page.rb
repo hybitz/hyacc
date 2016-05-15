@@ -1,5 +1,14 @@
 module VisitPage
 
+  def visit_accounts(options = {})
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    click_on 'マスタメンテ'
+    click_on '勘定科目'
+    assert has_title?('勘定科目')
+  end
+
   def visit_account_transfers(options = {})
     assert current_user || sign_in(User.first)
 

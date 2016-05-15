@@ -11,6 +11,10 @@ require 'daddy/cucumber'
 
 include HyaccConstants
 
+Dir[File.join(Rails.root, 'features', 'support', '*_support.rb')].each do |f|
+  require f
+end
+
 if ENV['CI'] != 'travis'
   Before do |scenario|
     db_dump = DbDump.instance

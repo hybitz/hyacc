@@ -6,7 +6,7 @@ var options = {
         text: '削除',
         click: function() {
           if (confirm('削除します。よろしいですか？')) {
-            $.post('<%= account_path(@account) %>', {'_method': 'delete'});
+            $.post('<%= mm_account_path(@account) %>', {'_method': 'delete'});
           }
         }
       }

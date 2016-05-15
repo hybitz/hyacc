@@ -3,6 +3,15 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :mm do
+    resources :accounts do
+      collection do
+        get 'add_sub_account'
+        get 'get_tax_type'
+        get 'list_tree'
+        post 'update_tree'
+      end
+    end
+
     resources :banks do
       collection do
         get 'add_bank_office'
@@ -23,15 +32,6 @@ Rails.application.routes.draw do
     resources :depreciation_rates, :only => 'index'
     resources :social_insurances, :only => 'index'
     resources :withheld_taxes, :only => 'index'
-  end
-
-  resources :accounts do
-    collection do
-      get 'add_sub_account'
-      get 'get_tax_type'
-      get 'list_tree'
-      post 'update_tree'
-    end
   end
 
   resources :account_transfers, :only => 'index' do

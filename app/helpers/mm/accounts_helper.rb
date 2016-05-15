@@ -1,7 +1,7 @@
-module AccountHelper
+module Mm::AccountsHelper
 
   def convert_account_to_json(account)
-    label = link_to("#{account.code}： #{account.name}", account_path(account), :remote => true)
+    label = link_to("#{account.code}： #{account.name}", mm_account_path(account), :remote => true)
     
     ret = "{id: #{account.id}, label: '#{label}', children: ["
     account.children.each_with_index do |a, i|

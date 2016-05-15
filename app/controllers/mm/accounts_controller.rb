@@ -1,4 +1,4 @@
-class AccountsController < Base::HyaccController
+class Mm::AccountsController < Base::HyaccController
   view_attribute :title => '勘定科目管理'
 
   helper_method :finder

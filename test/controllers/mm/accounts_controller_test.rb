@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AccountsControllerTest < ActionController::TestCase
+class Mm::AccountsControllerTest < ActionController::TestCase
 
   def setup
     @first_id = Account.find(28).id

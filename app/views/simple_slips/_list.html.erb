@@ -105,7 +105,7 @@
     // 消費税欄を初期化
     var form = $('#new_simple_slip');
     <% if 'index' == action_name %>
-      var url = '<%= url_for :controller => 'accounts', :action => 'get_tax_type' %>';
+      var url = '<%= url_for :controller => '/mm/accounts', :action => 'get_tax_type' %>';
       var params = {account_id: form.find('.accountSelect').val()};
 
       $.get(url, params, function(tax_type) {

@@ -26,7 +26,7 @@
             }
           );
 
-          $.get('<%= url_for :controller => 'accounts', :action => 'get_tax_type' %>', {account_id: $(this).val()},
+          $.get('<%= url_for :controller => '/mm/accounts', :action => 'get_tax_type' %>', {account_id: $(this).val()},
             function(tax_type) {
               form.find('.taxTypeSelect').val(tax_type);
               updateTaxAmountSimple(form);

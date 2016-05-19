@@ -253,11 +253,17 @@ class PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_削除
+    @payroll = payroll
+    assert @payroll.payroll_journal_header.present?
+    assert @payroll.pay_journal_header.present?
+
     assert_difference 'Payroll.count', -1 do
       xhr :delete, :destroy, :id => payroll
       assert_response :success
       assert_template 'common/reload'
     end
+
+    assert Journal.where(:id => [@payroll.payroll_journal_header_id, @payroll.pay_journal_header_id]).empty?
   end
 
 end

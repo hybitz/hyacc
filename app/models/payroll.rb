@@ -1,10 +1,14 @@
 class Payroll < ActiveRecord::Base
   include JournalUtil
 
+  # 相手先伝票区分
+  CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED = '0'
+  CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY = '1'
+
   belongs_to :employee
-  belongs_to :payroll_journal_header, :class_name => 'JournalHeader'
-  belongs_to :pay_journal_header, :class_name => 'JournalHeader'
-  belongs_to :commission_journal_header, :class_name => 'JournalHeader'
+  belongs_to :payroll_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
+  belongs_to :pay_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
+  belongs_to :commission_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
 
   validates_presence_of :employee_id, :ym, :message => "は必須です。"
   validates_numericality_of :days_of_work, :hours_of_work,
@@ -25,14 +29,9 @@ class Payroll < ActiveRecord::Base
   attr_accessor :is_new
   attr_accessor :inhabitant_tax        # 住民税
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
-#  attr_accessor :standard_remuneration # 各月の単純標準報酬月額
   attr_accessor :grade                 # 報酬等級
   attr_accessor :accrued_liability     # 従業員への未払費用
   attr_accessor :year_end_adjustment_liability # 年末調整額（過払分）
-
-  # 相手先伝票区分
-  CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED = '0'
-  CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY = '1'
 
   def initialize( args = nil )
     super( args )

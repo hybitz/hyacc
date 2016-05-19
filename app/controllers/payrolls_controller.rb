@@ -125,13 +125,14 @@ class PayrollsController < Base::HyaccController
   end
 
   def destroy
-    payroll = Payroll.find(params[:id])
+    @payroll = Payroll.find(params[:id])
     begin
-      payroll.destroy
+      @payroll.transaction do
+        @payroll.destroy
+      end
 
       flash[:notice] = '賃金台帳情報を削除しました。'
       render 'common/reload'
-
     rescue => e
       handle(e)
       render :edit

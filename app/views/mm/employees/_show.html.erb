@@ -1,6 +1,6 @@
 <script>
   $(document).ready(function() {
-      var employee_id = <%= @e.id %>;
+    var employee_id = <%= @e.id %>;
     $('#edit_employee_' + employee_id).find('input').attr('disabled', true);
     $('#edit_employee_' + employee_id).find('select').attr('disabled', true);
     $('#edit_employee_' + employee_id).find('a').remove();

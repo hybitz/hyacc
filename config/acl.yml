@@ -4,7 +4,6 @@ self:
 current_company:
   debts: branch_mode
   deemed_taxes: tax_simplified?
-  employees: '!personal?'
   financial_return_statements: '!personal?'
   houseworks: personal?
   housework_details: personal?
@@ -12,6 +11,11 @@ current_company:
   payrolls: '!personal?'
   social_expenses: '!personal?'
   taxes: tax_exclusive?
+  users:
+    index: personal?
+  withholding_slip: '!personal?'
+
+  mm/employees: '!personal?'
+
   mv/social_insurances: '!personal?'
   mv/withheld_taxes: '!personal?'
-  withholding_slip: '!personal?'

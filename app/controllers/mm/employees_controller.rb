@@ -1,4 +1,4 @@
-class EmployeesController < Base::HyaccController
+class Mm::EmployeesController < Base::HyaccController
   view_attribute :title => '従業員'
   view_attribute :branches, :except => [:index, :destroy]
 

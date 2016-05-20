@@ -120,7 +120,7 @@ ja:
       employee:
         address: 住所
         business_office_id: 所属する事業所
-        employment_date: 入社年月日
+        employment_date: 入社日
         first_name: 名
         last_name: 姓
         sex: 性別
@@ -129,8 +129,6 @@ ja:
 
       fiscal_year:
         fiscal_year: "会計年度"
-        closing_status: "閉会ステータス"
-        deleted: "を削除"
         tax_management_type: "税務管理のタイプ"
         company: "会社"
 
@@ -141,19 +139,7 @@ ja:
         business_ratio: 事業費率
 
       insurance:
-        apply_start_ym: "適用開始ym"
-        apply_end_ym: "適用終了ym"
-        pay_range_above: "有料範囲を超えて"
-        pay_range_under: "有料の範囲の下で"
-        monthly_earnings: "毎月の収益"
-        daily_earnings: "毎日の収益"
-        health_insurance_all: "健康保険のすべて"
-        health_insurance_half: "健康保険の半分"
-        health_insurance_all_care: "健康保険の全てのケア"
-        health_insurance_half_care: "健康保険の半分ケア"
-        welfare_pension_insurance_all: "厚生年金保険のすべて"
-        welfare_pension_insurance_half: "厚生年金保険料の半分"
-        grade: "グレード"
+        grade: 等級
 
       inhabitant_tax:
         amount: 金額

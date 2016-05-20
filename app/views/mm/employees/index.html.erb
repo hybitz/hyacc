@@ -1,7 +1,7 @@
 <%= render 'common/search' %>
 <%= flash_notice %>
 
-<table>
+<table class="employees">
   <tr>
     <th>氏名</th>
     <th>所属部門</th>
@@ -21,10 +21,13 @@
         <% end %>
       </td>
       <td><%= e.deleted_name %></td>
-      <td><%= link_to '編集', edit_employee_path(e), :remote => true %></td>
-      <td><%= link_to '削除', {:action => 'destroy', :id => e.id}, data: {confirm: '削除します。よろしいですか？'}, :method=>:post %></td>
+      <td><%= link_to '編集', edit_mm_employee_path(e), :remote => true %></td>
+      <td><%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
     </tr>
   <% end %>
 </table>
 
 <%= will_paginate @employees %>
+<div style="margin: 10px 0;">
+  <%= link_to '追加', new_user_path, :class => 'add', :remote => true %>
+</div>

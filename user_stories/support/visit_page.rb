@@ -36,6 +36,15 @@ module VisitPage
     assert has_selector?('.company')
   end
 
+  def visit_employees
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    click_on 'マスタメンテ'
+    click_on '従業員', :exact => true
+    assert has_title?('従業員')
+  end
+
   def visit_payrolls
     assert current_user || sign_in(User.first)
 

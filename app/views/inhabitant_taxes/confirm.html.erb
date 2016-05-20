@@ -20,12 +20,11 @@
         <td><%= index + 1 %></td>
         <td><%= ic.kanji_last_name + ic.kanji_first_name %></td>
         <td><%= ic.address %></td>
-        <td><% if ic.employee_id  %>
-              <%= link_to ic.kanji_last_name + ic.kanji_first_name , employee_path(ic.employee_id), :remote => true %>
-              <%= f.hidden_field :employee_id %>
-            <% else %>
-              
-            <% end %>
+        <td>
+          <% if ic.employee_id %>
+            <%= link_to ic.kanji_last_name + ic.kanji_first_name , mm_employee_path(ic.employee_id), :remote => true %>
+            <%= f.hidden_field :employee_id %>
+          <% end %>
         </td>
         <td><%= ic.amounts %><%= f.hidden_field :amounts %></td>
     </tr>

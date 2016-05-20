@@ -26,6 +26,13 @@ Rails.application.routes.draw do
         get 'show_logo'
       end
     end
+
+    resources :employees do
+      collection do
+        get 'add_branch'
+        get 'add_employee_history'
+      end
+    end
   end
 
   namespace :mv do
@@ -52,16 +59,7 @@ Rails.application.routes.draw do
   end
   resources :deemed_taxes
   resources :debts
-
-  resources :employees do
-    collection do
-      get 'add_branch'
-      get 'add_employee_history'
-    end
-  end
-
   resources :exemptions
-
   resources :financial_return_statements, :only => 'index'
   resources :financial_statements, :only => 'index'
   resources :first_boot, :only => ['index', 'create']

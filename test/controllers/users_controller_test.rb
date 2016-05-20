@@ -3,11 +3,8 @@ require 'test_helper'
 class UsersControllerTest < ActionController::TestCase
   include HyaccViewHelper
 
-  def setup
-    sign_in user
-  end
-
   def test_index
+    sign_in freelancer
     get :index
 
     assert_response :success
@@ -16,6 +13,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_show
+    sign_in user
     xhr :get, :show, :id => user.id
 
     assert_response :success
@@ -26,13 +24,17 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_new
+    sign_in user
     xhr :get, :new
+
     assert_response :success
     assert_template 'new'
     assert_not_nil assigns(:user)
   end
 
   def test_create
+    sign_in user
+
     assert_difference 'User.count' do
       xhr :post, :create, :user => {
         :login_id => 'zero',
@@ -62,6 +64,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_edit
+    sign_in user
     xhr :get, :edit, :id => user.id
 
     assert_response :success
@@ -72,6 +75,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_更新
+    sign_in user
     xhr :patch, :update, :id => user.id, :user => valid_user_params
     assert_response :success
     assert_template 'common/reload'
@@ -82,6 +86,7 @@ class UsersControllerTest < ActionController::TestCase
       User.find(2)
     }
 
+    sign_in user
     delete :destroy, :id => 2
     assert_response :redirect
     assert_redirected_to :action => 'index'
@@ -94,6 +99,7 @@ class UsersControllerTest < ActionController::TestCase
       User.find(user.id)
     }
 
+    sign_in user
     delete :destroy, :id => user.id
 
     assert_response :redirect

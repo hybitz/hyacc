@@ -3,7 +3,6 @@
     <td><%= f.check_box '_destroy' %></td>
     <td>
         <%= f.hidden_field :id %>
-        <%= f.hidden_field :user_id %>
         <%= f.select :account_id, to_options(@accounts) %>
     </td>
     <td><%= f.text_field :shortcut_key, :maxlength => 6 %></td>

@@ -1,4 +1,4 @@
-module EmployeesHelper
+module Mm::EmployeesHelper
   
   def render_duration(year, month)
     ret = ''

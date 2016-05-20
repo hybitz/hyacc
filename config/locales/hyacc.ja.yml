@@ -5,15 +5,15 @@ ja:
     trade_type: 取引区分
 
   activerecord:
-    models: 
-      account: "勘定科目"  
+    models:
+      account: "勘定科目"
       asset: "資産"
-      bank_account: "銀行口座"  
+      bank_account: "銀行口座"
       branch: 部門
-      company: "会社"  
-      customer: "顧客"  
-      fiscal_year: "年度"  
-      insurance: "保険料"  
+      company: "会社"
+      customer: "顧客"
+      fiscal_year: "年度"
+      insurance: "保険料"
       inhabitant_tax: "住民税"
       journal_detail: "仕訳明細"
       journal_header: "仕訳ヘッダ"
@@ -24,26 +24,26 @@ ja:
       user: ユーザ
       withheld_tax: 源泉徴収税
 
-    attributes: 
-      account: 
+    attributes:
+      account:
         code: 勘定科目コード
         name: 勘定科目名
-        dc_type: "貸借区分"  
+        dc_type: "貸借区分"
         account_type: "勘定科目区分"
         depreciable: 減価償却可否
         depreciation_method: 減価償却方法
-        deleted: "を削除"  
-        display_order: "の表示順"  
+        deleted: "を削除"
+        display_order: "の表示順"
         path: 道
-        system_required: "システム必須"  
+        system_required: "システム必須"
         is_settlement_report_account: 決算書出力
         is_trade_account_payable: 買掛金科目
         is_revenue_reserve_account: 利益積立金科目
         journalizable: 仕訳登録可否
         sub_account_type: 補助科目区分
-        tax_type: "税金区分"  
+        tax_type: "税金区分"
         parent_id: 親勘定科目
-        
+
       asset:
         code: 資産コード
         depreciation_limit: 償却限度額
@@ -56,14 +56,14 @@ ja:
         code: 口座番号
         financial_account_type: 区分
         holder_name: 口座名義
-        name: 口座名 
+        name: 口座名
 
-      bank: 
+      bank:
         code: 金融機関コード
         name: 金融機関名
         disabled: 状態
 
-      bank_office: 
+      bank_office:
         bank_id: 金融機関
         code: 営業店コード
         name: 営業店名
@@ -73,15 +73,15 @@ ja:
 
       branch:
         business_office_id: 事業所
-        code: 部門コード  
+        code: 部門コード
         name: 部門名
         is_head_office: 本社
         parent_id: 親部門
 
-      branches_employee: 
-        cost_ratio: コスト割合 
-        default_branch: 主所属部門  
-      
+      branches_employee:
+        cost_ratio: コスト割合
+        default_branch: 主所属部門
+
       business_office:
         name: 事業所名
         prefecture_code: 都道府県
@@ -92,16 +92,16 @@ ja:
 
       company:
         admin_email: 管理者メールアドレス
-        name: "名前"  
-        fiscal_year: "年度"  
-        start_month_of_fiscal_year: "2002年度のスタート月"  
-        deleted: "を削除"  
-        logo_path: "ロゴ経路"  
-        founded_date: "設立日"  
+        name: "名前"
+        fiscal_year: "年度"
+        start_month_of_fiscal_year: "2002年度のスタート月"
+        deleted: "を削除"
+        logo_path: "ロゴ経路"
+        founded_date: "設立日"
         users: ユーザ
         fiscal_years: 事業年度
 
-      customer: 
+      customer:
         address: 住所
         code: 取引先コード
         formal_name: 取引先名（正式名）
@@ -127,61 +127,61 @@ ja:
         zip_code: 郵便番号
         birth: 生年月日
 
-      fiscal_year: 
+      fiscal_year:
         fiscal_year: "会計年度"
-        closing_status: "閉会ステータス"  
-        deleted: "を削除"  
-        tax_management_type: "税務管理のタイプ"  
-        company: "会社"  
-      
+        closing_status: "閉会ステータス"
+        deleted: "を削除"
+        tax_management_type: "税務管理のタイプ"
+        company: "会社"
+
       housework:
         fiscal_year: 会計年度
 
       housework_detail:
         business_ratio: 事業費率
 
-      insurance: 
-        apply_start_ym: "適用開始ym"  
-        apply_end_ym: "適用終了ym"  
-        pay_range_above: "有料範囲を超えて"  
-        pay_range_under: "有料の範囲の下で"  
-        monthly_earnings: "毎月の収益"  
-        daily_earnings: "毎日の収益"  
-        health_insurance_all: "健康保険のすべて"  
-        health_insurance_half: "健康保険の半分"  
-        health_insurance_all_care: "健康保険の全てのケア"  
-        health_insurance_half_care: "健康保険の半分ケア"  
-        welfare_pension_insurance_all: "厚生年金保険のすべて"  
-        welfare_pension_insurance_half: "厚生年金保険料の半分"  
-        grade: "グレード"  
+      insurance:
+        apply_start_ym: "適用開始ym"
+        apply_end_ym: "適用終了ym"
+        pay_range_above: "有料範囲を超えて"
+        pay_range_under: "有料の範囲の下で"
+        monthly_earnings: "毎月の収益"
+        daily_earnings: "毎日の収益"
+        health_insurance_all: "健康保険のすべて"
+        health_insurance_half: "健康保険の半分"
+        health_insurance_all_care: "健康保険の全てのケア"
+        health_insurance_half_care: "健康保険の半分ケア"
+        welfare_pension_insurance_all: "厚生年金保険のすべて"
+        welfare_pension_insurance_half: "厚生年金保険料の半分"
+        grade: "グレード"
 
-      inhabitant_tax: 
+      inhabitant_tax:
         amount: 金額
         employee_id: 従業員
         ym: 年月
-        
+
       journal_detail: &journal_detail
-        detail_no: "明細番号"  
-        dc_type: "貸借区分"  
-        amount: "金額"  
+        detail_no: "明細番号"
+        dc_type: "貸借区分"
+        amount: "金額"
         created_at: 登録日時
         updated_at: 更新日時
-        note: "備考"  
-        social_expense_number_of_people: "接待交際の参加人数"  
-        detail_type: "明細区分"  
+        note: "備考"
+        social_expense_number_of_people: "接待交際の参加人数"
+        detail_type: "明細区分"
         tax_type: 消費税区分
         tax_rate: 消費税率
         branch: 計上部門
         account: 勘定科目
         sub_account: 補助科目
-      
+
       journal_details:
         <<: *journal_detail
 
       journal_header:
-        day: "日"  
-        remarks: "摘要"  
-        amount: "伝票金額"  
+        day: "日"
+        remarks: "摘要"
+        amount: "伝票金額"
         created_at: 登録日時
         updated_at: 更新日時
         slip_type: 伝票区分
@@ -196,28 +196,28 @@ ja:
         hours_of_day_off_work: 休日労働時間数
         hours_of_early_for_work: 早出残業時間数
         hours_of_late_night_work: 深夜労働時間数
-        payroll_journal_headers: 給与伝票
-        pay_journal_headers: 支払伝票
-        commission_journal_headers: 支払手数料伝票
+        payroll_journal_header: 給与伝票
+        pay_journal_header: 支払伝票
+        commission_journal_header: 支払手数料伝票
         insurance: 健康保険料
         base_salary: 基本給
         pension: 厚生年金保険料
         income_tax: 所得税
         inhabitant_tax: 住民税
         accrued_liability: 従業員への未払費用
-        year_end_adjustment_liability: "年末調整額（過払分）"  
-        pay_day: "給与支払日"  
+        year_end_adjustment_liability: "年末調整額（過払分）"
+        pay_day: "給与支払日"
 
       receipt:
         file: 領収書
 
-      rent: 
-        rent_type: "家賃のタイプ"  
-        usage_type: "使い方タイプ"  
+      rent:
+        rent_type: "家賃のタイプ"
+        usage_type: "使い方タイプ"
         zip_code: "郵便番号"
         address: "住所"
         name: "名前"
-        status: "地位"  
+        status: "地位"
         ymd_start: "契約開始日"
         ymd_end: "契約終了日"
 
@@ -228,44 +228,44 @@ ja:
         remarks: "摘要"
         keywords: "キーワード"
 
-      sub_account: 
-        code: "コード"  
-        name: "名前"  
-        deleted: "を削除"  
-        account: "口座"  
-        
+      sub_account:
+        code: "コード"
+        name: "名前"
+        deleted: "を削除"
+        account: "口座"
+
       user:
         account_count_of_frequencies: 勘定科目の優先表示数
-        code: "コード"  
-        password: パスワード  
-        first_name: "名前"  
+        code: "コード"
+        password: パスワード
+        first_name: "名前"
         last_name: "姓"
         login_id: ログインID
-        deleted: "を削除"  
-        email: "メールアドレス"  
+        deleted: "を削除"
+        email: "メールアドレス"
         slips_per_page: 1ページの伝票表示数
-        employment_date: "就業日"  
-        sex: "性別"  
-        company: "会社"  
-        branches: "支店"  
-        branches_users: "支店のユーザー"  
+        employment_date: "就業日"
+        sex: "性別"
+        company: "会社"
+        branches: "支店"
+        branches_users: "支店のユーザー"
         simple_slip_settings:
           shortcut_key: ショートカットキー
 
-      withheld_tax: 
-        apply_start_ym: "適用開始ym"  
-        apply_end_ym: "適用終了ym"  
-        pay_range_above: "有料範囲を超えて"  
-        pay_range_under: "有料の範囲の下で"  
-        no_dependent: "いいえに依存"  
-        one_dependent: "1依存"  
-        two_dependent: "の2つ依存"  
-        three_dependent: "3依存性"  
-        four_dependent: "四つ依存"  
-        five_dependent: "5依存"  
-        six_dependent: "6人に依存する"  
+      withheld_tax:
+        apply_start_ym: "適用開始ym"
+        apply_end_ym: "適用終了ym"
+        pay_range_above: "有料範囲を超えて"
+        pay_range_under: "有料の範囲の下で"
+        no_dependent: "いいえに依存"
+        one_dependent: "1依存"
+        two_dependent: "の2つ依存"
+        three_dependent: "3依存性"
+        four_dependent: "四つ依存"
+        five_dependent: "5依存"
+        six_dependent: "6人に依存する"
         seven_dependent: "セブン依存"
-        
+
       investment:
         yyyymmdd: "年月日"
         bank_account_id: "証券口座"
@@ -275,7 +275,7 @@ ja:
         shares: "株数"
         trading_value: "取引金額"
         charges: "手数料"
-        
+
       exemption:
         employee_id: "従業員"
         yyyy: "年"
@@ -290,6 +290,7 @@ ja:
 
   errors:
     messages:
+      accounts_duplicated: 勘定科目が重複しています。
       sub_accounts_duplicated: 補助科目が重複しています。
 
   text:

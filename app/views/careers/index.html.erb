@@ -14,7 +14,7 @@
     <% @careers.each do |c| %>
       <tr class="hover">
         <td><%= format_date(c.start_from) %> ～ <%= format_date(c.end_to) %></td>
-        <td><%= c.employee.full_name %></td>
+        <td><%= c.employee.fullname %></td>
         <td><%= c.customer_name %></td>
         <td><%= c.project_name %></td>
         <td><%= link_to '編集', edit_career_path(c), :remote => true %></td>

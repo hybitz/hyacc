@@ -323,9 +323,8 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
             :branch_id => post_jh.normal_details[0].branch_id,
             :account_id => post_jh.normal_details[0].account_id,
             :sub_account_id => post_jh.normal_details[0].sub_account_id,
-            :tax_amount => post_jh.normal_details[0].tax_amount,
             :input_amount => 1000,
-            :tax_type => post_jh.normal_details[0].tax_type,
+            :tax_type => TAX_TYPE_NONTAXABLE,
             :is_allocated_cost => post_jh.normal_details[0].is_allocated_cost,
             :dc_type => post_jh.normal_details[0].dc_type,
             :auto_journal_type => post_jh.normal_details[0].auto_journal_type,
@@ -339,7 +338,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
             :account_id => post_jh.normal_details[1].account_id,
             :sub_account_id => post_jh.normal_details[1].sub_account_id,
             :input_amount => 1999,
-            :tax_type => post_jh.normal_details[1].tax_type,
+            :tax_type => TAX_TYPE_NONTAXABLE,
             :dc_type => post_jh.normal_details[1].dc_type,
             :auto_journal_type => post_jh.normal_details[1].auto_journal_type,
             :auto_journal_year => post_jh.normal_details[1].auto_journal_year,
@@ -352,7 +351,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
             :sub_account_id => post_jh.normal_details[0].sub_account_id,
             :tax_amount => post_jh.normal_details[0].tax_amount,
             :input_amount => 999,
-            :tax_type => post_jh.normal_details[0].tax_type,
+            :tax_type => TAX_TYPE_NONTAXABLE,
             :is_allocated_cost => post_jh.normal_details[0].is_allocated_cost,
             :dc_type => post_jh.normal_details[0].dc_type,
             :auto_journal_type => post_jh.normal_details[0].auto_journal_type,
@@ -373,9 +372,9 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
     assert_equal SLIP_TYPE_TRANSFER, jh.slip_type
     assert_equal remarks, jh.remarks
     assert_equal 1999, jh.amount
-    assert_equal 0, jh.transfer_from_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
-    assert_equal 0, jh.transfer_from_detail_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
-    assert_equal 0, jh.depreciation_id, "更新後にIDが0になるのはなぜ？（DB内はnull）" # TODO
+    assert_nil jh.transfer_from_id
+    assert_nil jh.transfer_from_detail_id
+    assert_nil jh.depreciation_id
     assert_equal lock_version + 1, jh.lock_version
     assert_equal 0, jh.transfer_journals.size
     assert_equal 3, jh.journal_details.size
@@ -383,8 +382,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
     assert_equal 0, jh.journal_details[1].transfer_journals.size
     assert_equal 1, jh.journal_details[2].transfer_journals.size
 
-    auto = jh.journal_details[0].transfer_journals[0]
-    assert_not_nil auto
+    assert auto = jh.journal_details[0].transfer_journals[0]
     assert_equal 201009, auto.ym
     assert_equal 20, auto.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_EXPENSE, auto.slip_type

@@ -5,11 +5,11 @@
   assert account = Account.find_by_name(table[1][0])
   assert sub_account = account.sub_accounts.find{|sa| sa.name == table[1][1] }
   assert tax_type_name = table[1][2]
-  assert amount = table[1][3].gsub(',', '').to_i
+  assert amount = table[1][3].to_ai
 
   begin
     visit_account_transfers
-    fill_in 'finder_ym', :with => '2013-09'
+    fill_in 'finder_ym', :with => '2013-08'
     select @account.code_and_name, :from => 'finder_account_id'
     choose '一般振替と簡易入力'
     click_on '検索'

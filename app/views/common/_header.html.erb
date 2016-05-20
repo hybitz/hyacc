@@ -20,7 +20,7 @@
   </div>
   <div style="text-align: right;">
     <nobr>
-        <%= link_to "#{current_user.employee.last_name} #{current_user.employee.first_name} さん", edit_profile_path(current_user) %>
+        <%= link_to "#{current_user.employee.fullname} さん", edit_profile_path(current_user) %>
         |
         <% if branch_mode %>
           所属部門：<%= current_user.employee.default_branch_name %>

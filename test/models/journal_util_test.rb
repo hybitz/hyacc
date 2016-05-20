@@ -2,7 +2,7 @@ require 'test_helper'
 
 class JournalUtilTest < ActiveSupport::TestCase
   include JournalUtil
-  
+
   def test_clear_detail_attributes
     jd = clear_detail_attributes(JournalDetail.find(3))
     assert_equal 3, jd.id
@@ -25,16 +25,6 @@ class JournalUtilTest < ActiveSupport::TestCase
     assert_equal 100, calc_amount(TAX_TYPE_NONTAXABLE, 100, 5)
     assert_equal 96, calc_amount(TAX_TYPE_INCLUSIVE, 100, 4)
     assert_equal 100, calc_amount(TAX_TYPE_EXCLUSIVE, 100, 5)
-  end
-  
-  def test_get_all_related_journals
-    journal = JournalHeader.new
-    journal.transfer_journals << JournalHeader.new
-    journal.transfer_journals[0].transfer_journals << JournalHeader.new
-    assert_equal(3, get_all_related_journals(journal).length)
-    
-    journal.transfer_journals << JournalHeader.new
-    assert_equal(4, get_all_related_journals(journal).length)
   end
 
 end

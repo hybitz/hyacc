@@ -1,0 +1,3 @@
+<%= fields_for @simple_slip do |f| %>
+  本人を含め<%= f.text_field :social_expense_number_of_people, :maxlength => 3, :size => 2 %>人参加
+<% end %>

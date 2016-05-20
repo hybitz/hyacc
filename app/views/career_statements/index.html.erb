@@ -11,7 +11,7 @@
   
   <% @employees.each do |e| %>
     <tr>
-      <td><%= e.full_name %></td>
+      <td><%= e.fullname %></td>
       <% if branch_mode %>
       <td><%= e.default_branch_name %></td>
       <% end %>

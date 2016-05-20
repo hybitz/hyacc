@@ -11,26 +11,38 @@ require 'daddy/cucumber'
 
 include HyaccConstants
 
+Dir[File.join(Rails.root, 'features', 'support', '*_support.rb')].each do |f|
+  require f
+end
+
 if ENV['CI'] != 'travis'
   Before do |scenario|
+    db_dump = DbDump.instance
     feature_file = scenario.feature.location.file
     dump_dir = File.join('tmp', File.dirname(feature_file), File.basename(feature_file, '.feature'))
 
     if ARGV.include?(feature_file)
-      db = Dir.glob(File.join(dump_dir, '*.dump.gz')).first
-      if db
-        system("bundle exec rake dad:db:load DUMP_FILE=#{db} --quiet")
+      if db_dump.current_feature.nil?
+        db = Dir.glob(File.join(dump_dir, '*.dump.gz')).first
+        if db
+          command = "bundle exec rake dad:db:load DUMP_FILE=#{db} --quiet"
+          puts command
+          system(command)
+        end
+        db_dump.current_feature = feature_file
       end
     else
       # 直前のDBをダンプしておく
-      if @current_feature != feature_file
+      if db_dump.current_feature != feature_file
+        puts feature_file.to_s
         system("rm -Rf #{dump_dir}")
-        system("bundle exec rake dad:db:dump DUMP_DIR=#{dump_dir} --quiet")
-        @current_feature = feature_file
+        
+        command = "bundle exec rake dad:db:dump DUMP_DIR=#{dump_dir} --quiet"
+        puts command
+        system(command)
+        db_dump.current_feature = feature_file
       end
     end
-
-    resize_window(1280, 720)
   end
 end
 

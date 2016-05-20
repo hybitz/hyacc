@@ -5,7 +5,7 @@ class Company < ActiveRecord::Base
   has_many :users
   has_many :employees
   has_many :fiscal_years
-  
+
   mount_uploader :logo, LogoUploader
 
   validates_presence_of :name, :founded_date
@@ -23,7 +23,7 @@ class Company < ActiveRecord::Base
   def current_fiscal_year_int
     current_fiscal_year.fiscal_year
   end
-  
+
   def founded_fiscal_year
     get_fiscal_year(founded_year_month)
   end
@@ -31,36 +31,36 @@ class Company < ActiveRecord::Base
   def founded_year_month
     founded_date.year * 100 + founded_date.month
   end
-  
+
   def last_fiscal_year
     fiscal_years.order("fiscal_year desc").first
   end
-  
+
   def get_fiscal_year( yyyymmORyyyy )
     if yyyymmORyyyy > 10000
       yyyy = get_fiscal_year_int( yyyymmORyyyy )
     else
       yyyy = yyyymmORyyyy
     end
-    
+
     fiscal_years.where(:fiscal_year => yyyy).first
   end
-  
+
   def get_fiscal_year_int( ym )
     year = ym.to_i / 100
     month = ym.to_i % 100
-    
+
     # 年度開始月が年の後半の場合
     if start_month_of_fiscal_year >= 7
       if month >= start_month_of_fiscal_year
-        year + 1 
+        year + 1
       else
         year
-      end   
+      end
     # 年度開始月が年の前半の場合
     else
       if month < start_month_of_fiscal_year
-        year - 1 
+        year - 1
       else
         year
       end
@@ -80,7 +80,7 @@ class Company < ActiveRecord::Base
   def branch_mode
     branches.where(:deleted => false).size > 1
   end
-  
+
   # 本部を取得する
   def get_head_office
     ret = branches.where(:is_head_office => true).first
@@ -99,11 +99,11 @@ class Company < ActiveRecord::Base
   def personal?
     type_of == COMPANY_TYPE_PERSONAL
   end
-  
+
   def company_type_name
     COMPANY_TYPES[type_of]
   end
-  
+
   def business_type_name
     return nil unless business_type_id
     business_type.name
@@ -136,10 +136,12 @@ class Company < ActiveRecord::Base
       month_jp = '当月'
     when 1
       month_jp = '翌月'
+    when 2
+      month_jp = '翌々月'
     else
       month_jp = "#{month}ヶ月後"
     end
-    
+
     return "#{month_jp}#{day || 25}日"
   end
 

@@ -11,7 +11,7 @@ module Auto::TransferJournal
 
     def make_journals
       # 伝票と伝票に紐付いているすべての自動振替伝票をリストアップ
-      related_journals = get_all_related_journals(@src_jh)
+      related_journals = @src_jh.get_all_related_journals
 
       # 各伝票ごとに支店間または本支店間取引があるか確認し、あれば内部取引仕訳を作成する
       related_journals.each do |rj|

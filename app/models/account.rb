@@ -2,13 +2,13 @@ class Account < ActiveRecord::Base
   include HyaccConstants
   include HyaccErrors
   include Accounts::SubAccountsSupport
-  
+
   acts_as_cached :includes => 'accounts/account_cache'
   acts_as_tree :order => 'display_order'
 
   validates_presence_of :name, :code
   validate :validate_account_type, :validate_dc_type
-  
+
   validates_with Validators::UniqueSubAccountsValidator
 
   before_save :update_path
@@ -24,11 +24,11 @@ class Account < ActiveRecord::Base
   def account_type_name
     ACCOUNT_TYPES[account_type]
   end
-  
+
   def dc_type_name
     DC_TYPES[dc_type]
   end
-  
+
   def debit?
     self.dc_type == DC_TYPE_DEBIT
   end
@@ -37,14 +37,19 @@ class Account < ActiveRecord::Base
     self.dc_type == DC_TYPE_CREDIT
   end
 
+  # 反対の貸借区分を取得
+  def opposite_dc_type
+    debit? ? DC_TYPE_CREDIT : DC_TYPE_DEBIT
+  end
+
   def depreciation_method_name
     DEPRECIATION_METHODS[depreciation_method]
   end
-  
+
   def sub_account_type_name
     SUB_ACCOUNT_TYPES[sub_account_type]
   end
-  
+
   def tax_type_name
     TAX_TYPES[tax_type]
   end
@@ -52,11 +57,11 @@ class Account < ActiveRecord::Base
   def trade_type_name
     TRADE_TYPES[trade_type]
   end
-  
+
   def is_leaf
     children.empty?
   end
-  
+
   def is_leaf_on_settlement_report
     # リーフの場合は、親をチェック
     if is_leaf
@@ -65,7 +70,7 @@ class Account < ActiveRecord::Base
       else
         is_settlement_report_account
       end
-    else    
+    else
       # 子供のうち1つでも決算書科目でなければtrueを返す
       leaf_on_settlement_report = false
       children.each do |child|
@@ -73,7 +78,7 @@ class Account < ActiveRecord::Base
           leaf_on_settlement_report = true
         end
       end
-      
+
       leaf_on_settlement_report
     end
   end
@@ -81,7 +86,7 @@ class Account < ActiveRecord::Base
   def is_node
     ! is_leaf
   end
-  
+
   def node_level
     path.count('/')
   end
@@ -90,12 +95,12 @@ class Account < ActiveRecord::Base
   def is_debt
     account_type == ACCOUNT_TYPE_DEBT
   end
-  
+
   # 収益かどうか
   def is_profit
     account_type == ACCOUNT_TYPE_PROFIT
   end
-  
+
   # 資本かどうか
   def is_capital
     account_type == ACCOUNT_TYPE_CAPITAL
@@ -138,11 +143,11 @@ class Account < ActiveRecord::Base
       end
     end
   end
-  
+
   def update_path
     self.path = get_absolute_path( self )
   end
-  
+
   def get_absolute_path( account )
     ret = '/' + account.code
 

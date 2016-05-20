@@ -1,0 +1,29 @@
+<div style="margin: 10px;">
+  <%= form_tag({:action => 'index', :account_code => @finder.account_code}, :method => 'get') do %>
+    <%= hidden_field_tag 'account_code', @finder.account_code %>
+
+    <div style="margin:5px;">
+      年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %>
+      <a href='#' onclick='$("#finder_ym").val("");'>×</a>
+
+      摘要：<%= text_field 'finder', 'remarks' %>
+      <a href='#' onclick='$("#finder_remarks").val("");'>×</a>
+
+      <% if branch_mode %>
+      部門：<%= collection_select('finder', 'branch_id', @branches, "id", "name", {:include_blank=>true}) %>
+      <% end %>
+
+      <%= submit_tag "表示" %>
+    </div>
+    <div style="margin:5px;">
+      <%# 補助科目が存在する科目の場合は補助科目選択をできるようにする %>
+      <% if @account.has_sub_accounts %>
+        <b><%= @account.sub_account_type_name %></b>：
+        <% sub_accounts = @finder.deleted.to_i == 0 ? @account.sub_accounts : @account.sub_accounts_all %>
+        <%= collection_select("finder", "sub_account_id", sub_accounts, "id", "name",
+                      {}, { :onchange=>"submit();" }) %>
+        <%= check_box 'finder', 'deleted', :onchange=>"submit();" %>全て
+      <% end %>
+    </div>
+  <% end %>
+</div>

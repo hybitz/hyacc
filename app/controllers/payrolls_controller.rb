@@ -1,7 +1,7 @@
 class PayrollsController < Base::HyaccController
   include PayrollHelper
   include JournalUtil
-  
+
   view_attribute :title => '賃金台帳'
   view_attribute :finder, :class => PayrollFinder, :only => :index
   view_attribute :ym_list, :only => :index
@@ -18,31 +18,35 @@ class PayrollsController < Base::HyaccController
       payroll = Payroll.where("employee_id = ? and ym >= ? and ym <= ? and is_bonus = false", @employee.id, ym_range.first, ym_range.last).order("ym desc").first
       ym = payroll.ym if payroll
       base_salary = Payroll.find_by_ym_and_employee_id(ym, @employee.id).base_salary
-      
+
       @employee.standard_remuneration = get_standard_remuneration(ym, @employee, base_salary)
       @pd = finder.list_monthly_pay
     end
   end
 
   def new
-    @payroll = Payroll.new.init
     ym = params[:ym]
-    # 初期値の設定
-    if ym.present?
-      @payroll.ym = ym
+    unless ym.present?
+      @payroll = Payroll.new.init
+    else
+      employee_id = finder.employee_id
+      base_salary = Payroll.get_previous_base_salary(ym, finder.employee_id)
+
+      @payroll = get_tax(ym, finder.employee_id, base_salary)
+
+      # 初期値の設定
       @payroll.days_of_work = Date.new(ym.to_i/100, ym.to_i%100, -1).day
       @payroll.hours_of_work = @payroll.days_of_work * 8
-      @payroll.base_salary = get_previous_base_salary(ym, finder.employee_id)
+
       # 住民税マスタより住民税額を取得
       @payroll.inhabitant_tax = get_inhabitant_tax(finder.employee_id, ym)
       @payroll.pay_day = get_pay_day(ym, finder.employee_id).strftime("%Y-%m-%d")
-      # 表示対象ユーザID
-      @payroll.employee_id = finder.employee_id
+
       # 従業員への未払費用
       @payroll.accrued_liability = finder.get_net_sum(ACCOUNT_CODE_UNPAID_EMPLOYEE)
     end
   end
-  
+
   def create
     @payroll = Payroll.new(payroll_params)
 
@@ -65,21 +69,21 @@ class PayrollsController < Base::HyaccController
       render 'new'
     end
   end
-  
+
   def edit
     p = Payroll.find(params[:id])
     @payroll = Payroll.find_by_ym_and_employee_id(p.ym, p.employee_id)
   end
-  
+
   def update
     @payroll = Payroll.find(params[:id])
     @payroll.attributes = payroll_params
 
     # 削除用に旧伝票を取得
     payroll_on_db = Payroll.find(@payroll.id)
-    payroll_journal_headers_on_db = payroll_on_db.payroll_journal_headers
-    pay_journal_headers_on_db = payroll_on_db.pay_journal_headers
-    commission_journal_headers_on_db = payroll_on_db.commission_journal_headers
+    payroll_journal_header_on_db = payroll_on_db.payroll_journal_header
+    pay_journal_header_on_db = payroll_on_db.pay_journal_header
+    commission_journal_header_on_db = payroll_on_db.commission_journal_header
 
     begin
       # 入力チェック
@@ -98,17 +102,17 @@ class PayrollsController < Base::HyaccController
         payroll_on_db.credit_account_type_of_pension = @payroll.credit_account_type_of_pension
         payroll_on_db.credit_account_type_of_income_tax = @payroll.credit_account_type_of_income_tax
         payroll_on_db.credit_account_type_of_inhabitant_tax = @payroll.credit_account_type_of_inhabitant_tax
-        
+
         make_journals(@payroll)
-        
-        payroll_on_db.payroll_journal_headers = @payroll.payroll_journal_headers
-        payroll_on_db.pay_journal_headers = @payroll.pay_journal_headers
-        payroll_on_db.commission_journal_headers = @payroll.commission_journal_headers
+
+        payroll_on_db.payroll_journal_header = @payroll.payroll_journal_header
+        payroll_on_db.pay_journal_header = @payroll.pay_journal_header
+        payroll_on_db.commission_journal_header = @payroll.commission_journal_header
         payroll_on_db.save!
-        
-        JournalHeader.find(payroll_journal_headers_on_db.id).destroy if payroll_journal_headers_on_db
-        JournalHeader.find(pay_journal_headers_on_db.id).destroy if pay_journal_headers_on_db
-        JournalHeader.find(commission_journal_headers_on_db.id).destroy if commission_journal_headers_on_db
+
+        JournalHeader.find(payroll_journal_header_on_db.id).destroy if payroll_journal_header_on_db
+        JournalHeader.find(pay_journal_header_on_db.id).destroy if pay_journal_header_on_db
+        JournalHeader.find(commission_journal_header_on_db.id).destroy if commission_journal_header_on_db
       end
 
       flash[:notice] = '賃金台帳情報を更新しました。'
@@ -121,19 +125,20 @@ class PayrollsController < Base::HyaccController
   end
 
   def destroy
-    payroll = Payroll.find(params[:id])
+    @payroll = Payroll.find(params[:id])
     begin
-      payroll.destroy
+      @payroll.transaction do
+        @payroll.destroy
+      end
 
       flash[:notice] = '賃金台帳情報を削除しました。'
       render 'common/reload'
-
     rescue => e
       handle(e)
       render :edit
     end
   end
-  
+
   # 保険料と厚生年金を自動計算して画面に返却する
   def auto_calc
     # 保険料の検索
@@ -144,10 +149,10 @@ class PayrollsController < Base::HyaccController
 
     render :json => {:insurance => payroll.insurance, :pension => payroll.pension, :income_tax => payroll.income_tax}
   end
-  
+
   # 部門を選択した時に、動的にユーザ選択リストを更新する
   def get_branch_employees
-    finder.branch_id = params[:branch_id].to_i 
+    finder.branch_id = params[:branch_id].to_i
 
     # 従業員選択用
     branch = Branch.find( finder.branch_id ) unless finder.branch_id == 0
@@ -170,15 +175,26 @@ class PayrollsController < Base::HyaccController
         :accrued_liability, :year_end_adjustment_liability, :pay_day)
   end
 
-  def make_journals( payroll )
-    param = Auto::Journal::PayrollParam.new( payroll, current_user )
+  def make_journals(payroll)
+    param = Auto::Journal::PayrollParam.new(payroll, current_user)
     factory = Auto::AutoJournalFactory.get_instance( param )
     journals = factory.make_journals()
-    payroll.payroll_journal_headers = journals[0]
-    payroll.pay_journal_headers = journals[1]
-    payroll.commission_journal_headers = journals[2]
+
+    journals.each do |j|
+      begin
+        j.save!
+      rescue => e
+        Rails.logger.warn j.to_yaml
+        Rails.logger.warn j.journal_details.to_yaml
+        raise e
+      end
+    end
+
+    payroll.payroll_journal_header = journals[0]
+    payroll.pay_journal_header = journals[1]
+    payroll.commission_journal_header = journals[2]
   end
-  
+
   def get_inhabitant_tax( employee_id, ym )
     inhabitant_tax = InhabitantTax.find_by_employee_id_and_ym(employee_id, ym)
     inhabitant_tax ? inhabitant_tax.amount : 0

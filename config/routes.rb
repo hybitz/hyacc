@@ -3,6 +3,15 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :mm do
+    resources :accounts do
+      collection do
+        get 'add_sub_account'
+        get 'get_tax_type'
+        get 'list_tree'
+        post 'update_tree'
+      end
+    end
+
     resources :banks do
       collection do
         get 'add_bank_office'
@@ -23,14 +32,6 @@ Rails.application.routes.draw do
     resources :depreciation_rates, :only => 'index'
     resources :social_insurances, :only => 'index'
     resources :withheld_taxes, :only => 'index'
-  end
-
-  resources :accounts do
-    collection do
-      get  'add_sub_account'
-      get  'list_tree'
-      post 'update_tree'
-    end
   end
 
   resources :account_transfers, :only => 'index' do
@@ -124,6 +125,15 @@ Rails.application.routes.draw do
   resources :receipts, :only => 'show'
   resources :rents
 
+  resources :simple_slips, :except => 'index' do
+    collection do
+      get 'get_account_details'
+      get 'get_templates'
+      get 'new_from_copy'
+    end
+  end
+  get 'simple/:account_code', :to => 'simple_slips#index'
+
   resources :simple_slip_templates do
     collection do
       get 'get_keywords'
@@ -142,15 +152,12 @@ Rails.application.routes.draw do
   end
 
   resources :investments
-  
+
   get 'closing', :to => 'closing#index'
   get 'journal_admin', :to => 'journal_admin#index'
   get 'mm', :to => 'mm#index'
   get 'mv', :to => 'mv#index'
   get 'report', :to => 'report#index'
-
-  get  'simple/:account_code(/:action(/:id))', :controller => 'simple_slip'
-  post 'simple/:account_code(/:action(/:id))', :controller => 'simple_slip'
 
   root 'welcome#index'
 

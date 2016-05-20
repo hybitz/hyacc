@@ -70,7 +70,7 @@
     <% end %>
 
     <% if @finder.employee_id_enabled? and @employees %>
-      従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'full_name', :include_blank => true) %>
+      従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'fullname', :include_blank => true) %>
     <% end %>
     
     <% if @report_types %>

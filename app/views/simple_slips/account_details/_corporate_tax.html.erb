@@ -1,0 +1,3 @@
+<%= fields_for @simple_slip do |f| %>
+  決算区分：<%= f.select :settlement_type, settlement_types %>
+<% end %>

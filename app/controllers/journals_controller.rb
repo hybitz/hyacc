@@ -54,7 +54,7 @@ class JournalsController < Base::HyaccController
         @journal.save_with_tax!
 
         # 資産チェック
-        validate_assets(@journal, nil)
+        AssetUtil.validate_assets(@journal, nil)
 
         # 自動仕訳を作成
         do_auto_transfers(@journal)
@@ -101,7 +101,7 @@ class JournalsController < Base::HyaccController
         @journal.save_with_tax!
 
         # 資産チェック
-        validate_assets(@journal, old)
+        AssetUtil.validate_assets(@journal, old)
 
         # 自動仕訳を作成
         do_auto_transfers(@journal)
@@ -146,7 +146,7 @@ class JournalsController < Base::HyaccController
       begin
         jh.transaction do
           # 資産チェック
-          validate_assets(nil, jh)
+          AssetUtil.validate_assets(nil, jh)
 
           # 仕訳チェック
           validate_closing_status_on_delete(jh)

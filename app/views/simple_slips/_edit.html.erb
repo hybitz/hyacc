@@ -1,0 +1,34 @@
+<div class="target_account_info">
+  <%# 補助科目が存在する科目の場合は補助科目名を表示する %>
+  <% if @account.sub_accounts_all.present? %>
+    <%= get_sub_account_title(@account) %>：
+    <b><%= @account.get_sub_account_by_id(@simple_slip.my_sub_account_id).name if @simple_slip.my_sub_account_id.present? %></b>
+  <% else %>
+    &nbsp;
+  <% end %>
+</div>
+
+<%= form_for @simple_slip, :html => {:id => 'edit_simple_slip', :remote => true} do |f| %>
+  <%= render 'common/message' %>
+  <table>
+    <tr>
+      <th class="yearMonth">年　月</th>
+      <th class="day">日</th>
+      <th class="remarks">摘　　要</th>
+      <th class="accountName">勘定科目</th>
+      <th class="subAccountName">補助科目</th>
+      <% if branch_mode %><th class="branchName">計上部門</th><% end %>
+      <th>増　加</th>
+      <th>減　少</th>
+    </tr>
+    <%= render 'form', :f => f %>
+  </table>
+<% end %>
+
+<% if action_name == 'show' %>
+  <script>
+    $(document).ready(function() {
+      $('#edit_simple_slip :input').attr('disabled', true);
+    });
+  </script>
+<% end %>

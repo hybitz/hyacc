@@ -52,13 +52,13 @@ class Employee < ActiveRecord::Base
     DELETED_TYPES[deleted]
   end
 
-  def full_name(separetor = ' ')
+  def fullname(separetor = ' ')
     last_name + separetor + first_name
   end
   
   # 補助科目として表示する際の名称
   def name
-    full_name
+    fullname
   end
   
   # 扶養家族の人数

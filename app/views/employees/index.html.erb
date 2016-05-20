@@ -11,7 +11,7 @@
   </tr>
   <% @employees.each do |e| %>
     <tr class="hover">
-      <td><%= e.full_name %></td>
+      <td><%= e.fullname %></td>
       <td><%= e.default_branch_name %></td>
       <td align="right">
         <% if e.years_of_career > 0 %>

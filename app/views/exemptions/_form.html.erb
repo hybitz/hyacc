@@ -6,7 +6,7 @@
   </div>
   <table>
     <tr>
-      <th>従業員</th><td><%= f.collection_select :employee_id, @employees, 'id', 'full_name' %></td>
+      <th>従業員</th><td><%= f.collection_select :employee_id, @employees, 'id', 'fullname' %></td>
     </tr>
     <tr>
       <th>暦年</th><td><%= f.select :yyyy, @cy_list %></td>

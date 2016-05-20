@@ -11,10 +11,6 @@
     base_salary.change(function() {
       loadInsurance(form);
     });
-
-    <% if @payroll.new_record? %>
-      loadInsurance(form);
-    <% end %>
   });
 
   function loadInsurance(form) {

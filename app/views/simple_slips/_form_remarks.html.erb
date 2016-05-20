@@ -1,0 +1,71 @@
+<% if @simple_slip.persisted? %>
+  <%= f.text_field :remarks, :class => 'remarksText' %>
+<% else %>
+  <div>
+    <%= f.text_field :remarks, :class=>'remarksText autocomplete' %>
+    <script>
+      function get_templates(req, res) {
+        var url = '<%= url_for :action => 'get_templates', :account_code => @simple_slip.my_account.code %>';
+        var params = {format: 'json', query: req.term};
+        $.getJSON(url, params, function(json) {
+          res(json);
+        });
+      }
+
+      function item_selected(e, ui) {
+        var form = $(e.target).closest('form');
+        var item = ui.item;
+
+        form.find('[name*="\[account_id\]"]').val(item.account_id);
+
+        replace_options(form.find('[name*="\[sub_account_id\]"]'), item.sub_accounts);
+        form.find('[name*="\[sub_account_id\]"]').val(item.sub_account_id);
+
+        if (item.branch_id) {
+          form.find('[name*="\[branch_id\]"]').val(item.branch_id);
+        }
+
+        form.find('[name*="\[tax_type\]"]').val(item.tax_type);
+
+        if (item.increase_or_decrease == 'increase') {
+          form.find('[name*="\[amount_increase\]"]').val(item.amount);
+          form.find('[name*="\[tax_amount_increase\]"]').val(item.tax_amount);
+          $('#slip_tax_amount_increase').val(item.tax_amount);
+        } else if (item.increase_or_decrease == 'decrease') {
+          form.find('[name*="\[amount_decrease\]"]').val(item.amount);
+          form.find('[name*="\[tax_amount_decrease\]"]').val(item.tax_amount);
+        }
+
+        $('#account_detail').html(item.account_detail);
+
+        updateTaxAmountSimple(form, form.find('[name*="\[tax_amount_increase\]"]').val(), form.find('[name*="\[tax_amount_decrease\]"]').val());
+
+        var focus = item.focus_on_complete;
+        if (focus == 'amount' || focus == 'tax_amount') {
+          if (item.increase_or_decrease) {
+            focus = focus + '_' + item.increase_or_decrease;
+          } else {
+            focus = null;
+          }
+        }
+
+        if (focus) {
+          form.find('[name*="\[' + focus + '\]"]').focus();
+        }
+      };
+
+      $(document).ready(function() {
+        $('.autocomplete').autocomplete({
+          minLength: 2,
+          source: get_templates,
+          select: item_selected,
+        }).data('ui-autocomplete')._renderItem = function(ul, item) {
+          var html = '<div>'+ item.remarks + '</div>';
+          html += '<div style="float: right; display: inline;">' + item.account_code + ":" + item.account_name + '</div>';
+          html += '<br style="clear: both;"/>';
+          return $('<li>').append(html).appendTo(ul);
+        };
+      });
+    </script>
+  </div>
+<% end %>

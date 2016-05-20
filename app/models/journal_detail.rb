@@ -21,6 +21,7 @@ class JournalDetail < ActiveRecord::Base
 
   has_one :investment, :dependent => :destroy
   accepts_nested_attributes_for :investment
+
   has_one :tax_detail, :foreign_key => :main_detail_id, :class_name => 'JournalDetail', :dependent => :destroy
   belongs_to :main_detail, :class_name => 'JournalDetail'
 
@@ -28,8 +29,9 @@ class JournalDetail < ActiveRecord::Base
   accepts_nested_attributes_for :transfer_journals
 
   validates :account_id, :presence => true
-  validates :branch_id, :presence => true
   validate :validate_account_and_sub_account
+  validates_with Validators::SubAccountPresenceValidator
+  validates :branch_id, :presence => true
   validates_format_of :social_expense_number_of_people, :with => /[0-9]{0,3}/
   validates_format_of :settlement_type, :with => /[0-9]{0,1}/
   validates :amount, :presence => true
@@ -44,11 +46,11 @@ class JournalDetail < ActiveRecord::Base
   end
 
   def account
-    Account.get(self.account_id)
+    account_id ? Account.get(self.account_id) : nil
   end
 
   def account=(account)
-    self.account_id = account.id
+    self.account_id = account ? account.id : nil
   end
 
   def branch
@@ -56,7 +58,7 @@ class JournalDetail < ActiveRecord::Base
   end
 
   def branch=(branch)
-    self.branch_id = branch.id
+    self.branch_id = branch ? branch.id : nil
   end
 
   def dc_type_name
@@ -89,7 +91,7 @@ class JournalDetail < ActiveRecord::Base
   end
 
   def tax_type_nontaxable?
-    self.tax_type.to_i == HyaccConstants::TAX_TYPE_NONTAXABLE
+    self.tax_type.to_i == TAX_TYPE_NONTAXABLE
   end
 
   # 自動振替日付を取得します
@@ -123,6 +125,10 @@ class JournalDetail < ActiveRecord::Base
     detail_type == DETAIL_TYPE_NORMAL
   end
 
+  def tax_detail?
+    detail_type == DETAIL_TYPE_TAX
+  end
+
   def sub_account
     # 勘定科目が未設定の場合はnilを返す
     return nil unless account
@@ -141,13 +147,6 @@ class JournalDetail < ActiveRecord::Base
 
   def validate_account_and_sub_account
     return unless account
-
-    # 補助科目を持つ勘定科目の場合は補助科目の指定が必須
-    if account.sub_accounts.present?
-      if sub_account_id.to_i == 0
-        errors[:sub_account] = I18n.t('errors.messages.empty')
-      end
-    end
 
     # 仕訳登録可能な勘定科目かどうか
     unless account.journalizable

@@ -1,0 +1,17 @@
+var options = {
+  title: '<%= @title.present? ? @title + '　参照' : '参照' %>',
+  buttons: [
+    <% unless @account.deleted or @account.system_required? %>
+      {
+        text: '削除',
+        click: function() {
+          if (confirm('削除します。よろしいですか？')) {
+            $.post('<%= mm_account_path(@account) %>', {'_method': 'delete'});
+          }
+        }
+      }
+    <% end %>
+  ]
+};
+
+hyacc.current_dialog(options).show('<%=j render 'show' %>');

@@ -7,7 +7,7 @@
 
     within find('tr', :text => name) do
       click_on '参照'
-      assert has_dialog?('勘定科目　参照')
     end
+    assert has_dialog?('勘定科目　参照')
   end
 end

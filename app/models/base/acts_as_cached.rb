@@ -59,10 +59,6 @@ module Base
         if cache
           elapsed = now - cache[:cached_time]
           if elapsed < LOCAL_LATENCY
-            if ::HyaccLogger.debug?
-              #HyaccLogger.debug(key)
-            end
-  
             return cache[:cached_object]
           end
         end

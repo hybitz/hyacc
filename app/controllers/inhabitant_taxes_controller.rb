@@ -14,7 +14,7 @@ class InhabitantTaxesController < Base::BasicMasterController
     if file.nil?
       redirect_to :action => 'index', :finder => finder, :commit => ''
     else
-      @list = InhabitantCsv.load(file.tempfile)
+      @list, @linked = InhabitantCsv.load(file.tempfile, current_company)
     end
   end
 

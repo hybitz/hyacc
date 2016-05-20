@@ -7,8 +7,9 @@ class InhabitantCsv
   attr_accessor :csv_string
   attr_accessor :employee_id
   
-  def self.load(file)
+  def self.load(file, current_company)
     list = []
+    linked = true
     file.each do |row|
       csv_array = CSV.parse(NKF.nkf('-S -w', row))[0]
       model_array = []
@@ -16,19 +17,21 @@ class InhabitantCsv
       model_array << csv_array[3]  # 住所
       model_array << csv_array[8..19].join(",")  # 金額
       model_array << csv_array  # ROW
-      list << new_by_array(model_array)
+      ic = new_by_array(model_array, current_company)
+      linked = false unless ic.employee_id
+      list << ic
     end
-    list
+    return list, linked
   end
   
-  def self.new_by_array(arr)
+  def self.new_by_array(arr, current_company)
     ic = InhabitantCsv.new
     ic.kanji_first_name = arr[0].split(/　/)[1]
     ic.kanji_last_name = arr[0].split(/　/)[0]
     ic.address = arr[1]
     ic.amounts = arr[2]
     ic.csv_string = arr[3]
-    ic.employee_id = ic.find_employee_id
+    ic.employee_id = ic.find_employee_id(current_company)
     ic
   end
   
@@ -50,8 +53,8 @@ class InhabitantCsv
     end
   end
   
-  def find_employee_id
-    e = Employee.where(:last_name => kanji_last_name, :first_name => kanji_first_name)
+  def find_employee_id(current_company)
+    e = Employee.where(:last_name => kanji_last_name, :first_name => kanji_first_name, :company_id => current_company.id)
     e.length == 1 ? e[0].id : nil
   end
 end

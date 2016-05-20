@@ -19,6 +19,11 @@ module Accounts::SubAccountsSupport
         @sub_accounts_cache << sa unless sa.deleted?
         @sub_accounts_all_cache << sa
       end
+    when SUB_ACCOUNT_TYPE_BRANCH
+      Branch.all.each do |b|
+        @sub_accounts_cache << b unless b.deleted?
+        @sub_accounts_all_cache << b
+      end
     when SUB_ACCOUNT_TYPE_EMPLOYEE
       User.all.each do |u|
         @sub_accounts_cache << u unless u.deleted?
@@ -82,19 +87,13 @@ module Accounts::SubAccountsSupport
   # コードに一致する補助科目を取得する
   # 論理削除されている補助科目も対象
   def get_sub_account_by_code(code)
-    sub_accounts_all.each {|sa|
-      return sa if sa.code == code
-    }
-    nil
+    sub_accounts_all.find {|sa| sa.code == code }
   end
   
   # IDに一致する補助科目を取得する
   # 論理削除されている補助科目も対象
   def get_sub_account_by_id(id)
-    sub_accounts_all.each {|sa|
-      return sa if sa.id == id
-    }
-    nil
+    sub_accounts_all.find {|sa| sa.id == id }
   end
   
   def has_bank_accounts

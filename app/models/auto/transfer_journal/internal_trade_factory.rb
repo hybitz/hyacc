@@ -31,8 +31,8 @@ module Auto::TransferJournal
 
     private
 
-    def make_transfer_journal( ym, day, branch_id, amount )
-      branch = Branch.get( branch_id )
+    def make_transfer_journal(ym, day, branch_id, amount)
+      branch = Branch.get(branch_id)
 
       # 部門が本店の場合は振替不要
       return nil if branch.is_head_office
@@ -50,7 +50,6 @@ module Auto::TransferJournal
       jh.updated_at = @src_jh.updated_at
 
       # 明細作成準備
-      detail_no = 0
       head_office = branch.company.get_head_office
       account_head_office = Account.get_by_code(ACCOUNT_CODE_HEAD_OFFICE)
       account_branch_office = Account.get_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
@@ -59,21 +58,18 @@ module Auto::TransferJournal
 
       # 明細作成
       # 支店分の明細を作成
-      detail_no += 1
-      jd = JournalDetail.new
-      jd.detail_no = detail_no
+      jd = jh.journal_details.build
+      jd.detail_no = jh.journal_details.size
       jd.dc_type = dc_type
       jd.account_id = account_head_office.id
       jd.branch_id = branch_id
       jd.amount = amount
       jd.created_at = @src_jh.created_at
       jd.updated_at = @src_jh.updated_at
-      jh.journal_details << jd
 
       # 本店分の明細を作成
-      detail_no += 1
-      jd2 = JournalDetail.new
-      jd2.detail_no = detail_no
+      jd2 = jh.journal_details.build
+      jd2.detail_no = jh.journal_details.size
       jd2.dc_type = opposite_dc_type( dc_type )
       jd2.account_id = account_branch_office.id
       jd2.sub_account_id = account_branch_office.get_sub_account_by_code(branch.code).id
@@ -81,7 +77,6 @@ module Auto::TransferJournal
       jd2.amount = amount
       jd2.created_at = @src_jh.created_at
       jd2.updated_at = @src_jh.updated_at
-      jh.journal_details << jd2
 
       jh
     end

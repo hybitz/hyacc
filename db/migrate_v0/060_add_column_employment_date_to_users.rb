@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 class AddColumnEmploymentDateToUsers < ActiveRecord::Migration
   include HyaccConstants
 
@@ -8,7 +7,7 @@ class AddColumnEmploymentDateToUsers < ActiveRecord::Migration
     # カラム情報を最新にする
     User.reset_column_information
     
-    # 入社年月を設定する
+    # 入社日を設定する
     User.update_all("employment_date='2007/2/28'")
     # 性別を設定する
     User.update_all("sex='M'")

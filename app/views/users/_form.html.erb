@@ -1,3 +1,8 @@
+<script>
+  $(document).ready(function() {
+    hyacc.init_datepicker();
+  });
+</script>
 <%= form_for @user, :remote => true do |f| %>
   <%= flash_notice %>
 
@@ -44,11 +49,11 @@
           </tr>
           <tr>
             <th><%= f.label :birth %></th>
-            <td><%= f.date_select :birth, :start_year => Time.now.year - 100, :end_year => Time.now.year - 10, :default => 30.years.ago, :include_blank => true %></td>
+            <td><%= f.text_field :birth, :class => 'datepicker' %></td>
           </tr>
           <tr>
             <th><%= f.label :employment_date %></th>
-            <td><%= f.date_select :employment_date %></td>
+            <td><%= f.text_field :employment_date, :class => 'datepicker' %></td>
           </tr>
           <tr>
             <th><%= f.label :zip_code %></th>

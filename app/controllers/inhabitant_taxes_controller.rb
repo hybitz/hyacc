@@ -19,7 +19,7 @@ class InhabitantTaxesController < Base::BasicMasterController
   end
 
   def inhabitant_tax_params
-    params.require(:inhabitant_tax).permit(:employee_id, :amount)
+    params.require(:inhabitant_tax).permit(:employee_id, :amount, :ym)
   end
 
 end

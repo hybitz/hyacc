@@ -1,25 +1,20 @@
 もし /^賃金台帳に今月分の給与を登録$/ do |ast_table|
-  sign_in User.first unless current_user
+  table = normalize_table(ast_table)
 
-  @ym = 201309
-  @salary = normalize_table(ast_table)[0][1].to_ai
+  @ym = table[0][1].split('-').join
+  @salary = table[1][1].to_ai
 
-  click_on '賃金台帳'
-  assert has_title?('賃金台帳')
-  assert has_no_selector?('#payroll_table')
-
+  visit_payrolls
   click_on '表示'
   assert has_selector?('#payroll_table')
 
   click_on @ym
   within '.ui-dialog' do
-    begin
+    with_capture do
       fill_in '基本給', :with => @salary
       assert has_selector?('form[insurance_loaded]');
 
       fill_in '住民税', :with => 0
-    ensure
-      capture
     end
 
     accept_confirm do
@@ -27,7 +22,7 @@
     end
   end
 
-  begin
+  with_capture do
     assert has_no_selector?('.ui-dialog')
     find_tr '#payroll_table', '基本給' do
       assert has_selector?('td', :text => @salary.to_as, :count => 2)
@@ -36,8 +31,6 @@
 
     click_on '10月07日'
     assert has_selector?('.ui-dialog')
-  ensure
-    capture
   end
 end
 

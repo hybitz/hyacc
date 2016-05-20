@@ -27,6 +27,15 @@ module VisitPage
     assert has_selector?('.company')
   end
 
+  def visit_payrolls
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    click_on '賃金台帳'
+    assert has_title?('賃金台帳')
+    assert has_no_selector?('#payroll_table')
+  end
+
   def visit_profile
     assert current_user || sign_in(User.first)
 

@@ -34,7 +34,6 @@ if ENV['CI'] != 'travis'
     else
       # 直前のDBをダンプしておく
       if db_dump.current_feature != feature_file
-        puts feature_file.to_s
         system("rm -Rf #{dump_dir}")
         
         command = "bundle exec rake dad:db:dump DUMP_DIR=#{dump_dir} --quiet"

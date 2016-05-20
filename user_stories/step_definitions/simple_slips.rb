@@ -56,7 +56,7 @@ end
 
 もし /^売上を計上$/ do |ast_table|
   normalize_table(ast_table)[1..-1].each do |row|
-    begin
+    with_capture do
       assert_equal row[3], row[5]
 
       ymd = row[0]
@@ -65,9 +65,7 @@ end
       amount = row[3].gsub(',', '')
       account = Account.where(:name => row[4], :deleted => false).first!
 
-      click_on simple_slip
-      assert has_title? simple_slip
-      assert has_selector? '.tax_type_ready'
+      visit_simple_slip(:account => Account.find_by_name(simple_slip))
 
       count = all('#slipTable tbody tr').count
       within '#new_simple_slip' do
@@ -80,8 +78,6 @@ end
         click_on '登録'
       end
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
-    ensure
-      capture
     end
   end
 end

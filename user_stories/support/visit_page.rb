@@ -23,8 +23,18 @@ module VisitPage
 
     visit '/'
     click_on 'マスタメンテ'
-    click_on '会社'
+    click_on '会社', :exact => true
     assert has_selector?('.company')
+  end
+
+  def visit_profile
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    within '.header' do
+      click_on current_user.employee.fullname
+    end
+    assert has_title?('個人設定')
   end
 
   def visit_simple_slip(options = {})

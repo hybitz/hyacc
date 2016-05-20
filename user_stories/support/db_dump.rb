@@ -18,7 +18,7 @@ class DbDump
 
     command = "bundle exec rake dad:db:dump DUMP_DIR=#{dump_dir} --quiet"
     puts command
-    raise 'DBダンプに失敗しました。', system(command)
+    raise 'DBダンプに失敗しました。' unless system(command)
   end
 
   private

@@ -26,12 +26,10 @@ if ENV['CI'] != 'travis'
         db_dump.load
       end
     else
-      unless db_dump.current_feature.nil?
-        # 直前のDBをダンプしておく
-        if db_dump.current_feature != feature_file
-          db_dump.dump
-          db_dump.current_feature = feature_file
-        end
+      # 直前のDBをダンプしておく
+      if db_dump.current_feature != feature_file
+        db_dump.current_feature = feature_file
+        db_dump.dump
       end
     end
   end

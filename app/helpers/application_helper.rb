@@ -56,7 +56,7 @@ module ApplicationHelper
   # メニュー項目のスタイルを取得する
   def style_for_menu(controller_path)
     # 簡易入力の場合
-    if controller.controller_name == 'simple_slip'
+    if controller.controller_name == 'simple_slips'
       if @account.code == controller_path
         'font-weight: bold; color: slateblue;'
       end

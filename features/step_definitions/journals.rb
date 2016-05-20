@@ -42,7 +42,7 @@ end
     account = Account.find_by_name(d[1])
     branch = Branch.find_by_name(d[3])
 
-    detail = JournalDetail.new
+    detail = @journal.journal_details.build
     detail.dc_type = DC_TYPES.invert[d[0]]
     detail.account_id = account.id
     detail.account_name = account.name
@@ -56,11 +56,9 @@ end
         detail.sub_account_name = sa.name
       end
     end if d[2].present?
-
-    @journal.journal_details << detail
   end
 
-  begin
+  with_capture do
     within '#journal_form' do
       fill_in 'journal_ym', :with => @journal.ym
       fill_in 'journal_day', :with => @journal.day
@@ -72,6 +70,7 @@ end
 
         select detail.dc_type_name, :from => "#{prefix}_dc_type"
         select detail.account_name, :from => "#{prefix}_account_id"
+        assert has_selector?(".journal_details [data-index=\"#{i}\"].sub_account_ready")
         select detail.sub_account_name, :from => "#{prefix}_sub_account_id" if detail.sub_account_id.present?
         select detail.branch_name, :from => "#{prefix}_branch_id"
         fill_in "#{prefix}_input_amount", :with => detail.input_amount
@@ -79,11 +78,9 @@ end
 
       find('#journal_ym').click # キャプチャ前にフォーカスイベントを発生させたいだけ
     end
-
-    click_on action
-  ensure
-    capture
   end
+
+  click_on action
 end
 
 ならば /^振替伝票の一覧に遷移する$/ do

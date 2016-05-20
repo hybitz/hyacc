@@ -235,6 +235,10 @@ hyacc.Journal.prototype._init = function() {
 hyacc.Journal.prototype._init_event_handlers = function() {
   var that = this;
 
+  this._get_details().each(function() {
+    $(this).addClass('sub_account_ready');
+  });
+
   $(this.selector).delegate('select[name*="\\[account_id\\]"]', 'change', function() {
     var detail = that._get_detail(this);
     var params = {
@@ -246,8 +250,10 @@ hyacc.Journal.prototype._init_event_handlers = function() {
       order: 'code',
     };
 
+    detail.removeClass('sub_account_ready');
     $.getJSON(that.options.sub_accounts_path, params, function(json) {
         replace_options('tr[data-index="' + params.index + '"] [name*="\\[sub_account_id\\]"]', json);
+        detail.addClass('sub_account_ready');
       });
 
     $.getJSON(that.options.get_tax_type_path, params, function(json) {

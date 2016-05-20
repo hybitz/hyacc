@@ -17,12 +17,14 @@
         var form = $('#<%= @simple_slip.new_record? ? 'new_simple_slip' : 'edit_simple_slip' %>');
 
         form.find('.accountSelect').change(function() {
+          form.removeClass('sub_account_ready');
           form.removeClass('tax_type_ready');
 
           $.get('<%= url_for :controller => 'sub_accounts', :format => 'json' %>',
             {order: 'code', account_id: $(this).val()},
             function(data) {
               replace_options(form.find('.subAccountSelect'), data);
+              form.addClass('sub_account_ready');
             }
           );
 

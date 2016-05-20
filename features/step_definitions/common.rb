@@ -28,7 +28,7 @@ end
 end
 
 ならば /^当該伝票が(登録|更新|削除)される$/ do |action|
-  begin
+  with_capture do
     if @slip
       if action == '登録'
         assert has_selector?('.notice', :text => "伝票を#{action}しました。")
@@ -45,8 +45,6 @@ end
       end
       assert has_selector?('.notice')
     end
-  ensure
-    capture
   end
 end
 

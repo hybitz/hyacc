@@ -30,7 +30,19 @@ class InhabitantTaxesControllerTest < ActionController::TestCase
   end
   
   def test_登録
-    
+    sign_in user
+    file = upload_file('inhabitant_tax.csv')
+    finder = {:year => '2016'}
+      
+    list = InhabitantCsv.load(file.tempfile)
+    inhabitant = {}
+    list.each_with_index do |ic, index|
+      inhabitant[index] = {:employee_id => ic.employee_id, :amounts => ic.amounts}
+    end
+    post :create, :inhabitant_csv => inhabitant, :finder => finder
+    assert_redirected_to :action => 'index',  :finder => finder, :commit => ''
+    assert_equal 14, InhabitantTax.where("ym like ?", "2016%").size
+    assert_equal 10, InhabitantTax.where("ym like ?", "2017%").size
   end
   
   def test_参照

@@ -35,12 +35,13 @@ class InhabitantCsv
   def self.create_csv(params)
     inhabitant_csv = params[:inhabitant_csv]
     year = params[:finder][:year]
+    next_yaer = (year.to_i + 1).to_s
     return if inhabitant_csv.nil?
     inhabitant_csv.each do |key, value|
       employee_id = value[:employee_id]
       amounts = value[:amounts].split(",")
       ["06","07","08","09","10","11","12","01","02","03","04","05"].each_with_index do |mm, i|
-        ym = (year + mm).to_i
+        ym = i <= 6 ? (year + mm).to_i : (next_yaer + mm).to_i
         it = InhabitantTax.where(:ym => ym, :employee_id => employee_id).first
         it = InhabitantTax.new(:ym => ym, :employee_id => employee_id) if it.nil?
         it.amount = amounts[i]

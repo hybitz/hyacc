@@ -1,6 +1,9 @@
 <div style="margin: 20px;">
 <%= form_tag({:action => 'create'}, :method => 'post') do %>
-<%= @finder_year %>年６月〜翌年５月のデータを登録します。
+<%= @finder_year %>年6月〜翌年5月のデータを登録します。
+<% unless @linked %>
+<div style="margin-bottom:10px; color: red;">従業員マスタと紐づけできませんでした。従業員マスタに登録してください。</div>
+<% end %>
 <%= hidden_field 'finder', 'year', :value => @finder_year %>
 <%= hidden_field 'commit', 'something' %>
 <table>
@@ -29,6 +32,6 @@
       <% end %>
     <% end %>
 </table>
-  <%= submit_tag '登録' %>
+  <%= submit_tag '登録', {:disabled => ! @linked, :disable_with=>'登録中...'} %>
 <% end %>
 </div>

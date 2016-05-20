@@ -16,36 +16,6 @@
           <td><%= f.password_field :password %></td>
         </tr>
 
-        <%= f.fields_for "employee_attributes", @profile.employee do |f| %>
-          <tr>
-            <th><%= f.label :last_name %></th>
-            <td>
-              <%= f.hidden_field :id %>
-              <%= f.text_field :last_name %>
-            </td>
-          </tr>
-          <tr>
-            <th><%= f.label :first_name %></th>
-            <td><%= f.text_field :first_name %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :sex %></th>
-            <td><%= f.select :sex, sex_types %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :employment_date %></th>
-            <td><%= f.date_select :employment_date %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :zip_code %></th>
-            <td><%= f.text_field :zip_code %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :address %></th>
-            <td><%= f.text_field :address %></td>
-          </tr>
-        <% end %>
-
         <tr>
           <th><%= f.label :email %></th>
           <td><%= f.text_field :email %></td>

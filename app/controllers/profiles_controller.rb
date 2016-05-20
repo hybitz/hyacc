@@ -2,7 +2,7 @@ class ProfilesController < Base::HyaccController
   before_filter :check_current_user
 
   view_attribute :title => '個人設定'
-  view_attribute :accounts, :conditions=>['account_type in (?, ?) and journalizable=? and tax_type=? and deleted=?',
+  view_attribute :accounts, :conditions => ['account_type in (?, ?) and journalizable=? and tax_type=? and deleted=?',
       ACCOUNT_TYPE_ASSET, ACCOUNT_TYPE_DEBT, true, TAX_TYPE_NONTAXABLE, false]
 
   def edit
@@ -51,7 +51,15 @@ class ProfilesController < Base::HyaccController
   end
 
   def profile_params
-    params[:profile].permit!
+    permitted = [
+      :login_id, :password, :email, :slips_per_page, :account_count_of_frequencies, :show_details,
+      :google_account, :google_password, :yahoo_api_app_id,
+      :simple_slip_settings_attributes => [
+        :id, :account_id, :shortcut_key, :_destroy
+      ]
+    ]
+    
+    params.require(:profile).permit(*permitted)
   end
 
 end

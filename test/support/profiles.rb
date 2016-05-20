@@ -1,4 +1,5 @@
 module Profiles
+  include HyaccConstants
 
   def valid_profile_params
     {
@@ -6,14 +7,11 @@ module Profiles
       :slips_per_page => '20',
       :account_count_of_frequencies => '10',
       :show_details => true,
-      :employee_attributes => {
-        :id => user.id,
-        :last_name => 'a',
-        :first_name => 'a',
-        :sex => 'M',
-        :employment_date => '2015-12-19',
-        :zip_code => '1112222',
-        :address => 'テスト住所'
+      :simple_slip_settings_attributes => {
+        '0' => {
+          :account_id => Account.where(:code => ACCOUNT_CODE_CASH).first.id,
+          :shortcut_key => 'Ctrl+1'
+        }
       }
     }
   end

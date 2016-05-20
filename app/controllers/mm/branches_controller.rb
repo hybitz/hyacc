@@ -1,5 +1,5 @@
 class Mm::BranchesController < Base::HyaccController
-  view_attribute :title => '部門管理'
+  view_attribute :title => '部門'
 
   def index
   end
@@ -19,6 +19,7 @@ class Mm::BranchesController < Base::HyaccController
       @branch.save!
     end
     
+    flash[:notice] = '部門を追加しました。'
     render 'common/reload'
   end
 

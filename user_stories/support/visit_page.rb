@@ -18,6 +18,15 @@ module VisitPage
     assert has_title?('科目振替')
   end
 
+  def visit_branches
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    click_on 'マスタメンテ'
+    click_on '部門'
+    assert has_title?('部門')
+  end
+
   def visit_companies
     assert current_user || sign_in(User.first)
 

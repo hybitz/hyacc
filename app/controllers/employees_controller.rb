@@ -1,6 +1,6 @@
 class EmployeesController < Base::HyaccController
   view_attribute :title => '従業員'
-  view_attribute :branches, :except=>[:index, :destroy]
+  view_attribute :branches, :except => [:index, :destroy]
 
   helper_method :finder
 

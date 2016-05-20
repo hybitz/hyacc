@@ -1,3 +1,4 @@
+<%= flash_notice %>
 <script>
   var data = [
     <% current_company.branches.where(:parent => nil, :deleted => false).each do |b| %>

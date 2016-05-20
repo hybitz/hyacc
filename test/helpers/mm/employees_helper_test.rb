@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class EmployeesHelperTest < ActionView::TestCase
+class Mm::EmployeesHelperTest < ActionView::TestCase
   
   def test_render_duration
     assert_equal '1ヶ月', render_duration(0, 0)

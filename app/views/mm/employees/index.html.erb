@@ -28,3 +28,6 @@
 </table>
 
 <%= will_paginate @employees %>
+<div style="margin: 10px 0;">
+  <%= link_to '追加', new_user_path, :class => 'add', :remote => true %>
+</div>

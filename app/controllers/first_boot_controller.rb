@@ -47,6 +47,9 @@ class FirstBootController < ApplicationController
     @be.default_branch = true
 
     @c.transaction do
+      # マスタデータをロード
+      load_fixtures
+
       @c.save!
 
       @fy.company_id = @c.id
@@ -63,12 +66,6 @@ class FirstBootController < ApplicationController
       @be.branch_id = @b.id
       @be.employee_id = @e.id
       @be.save!
-
-      # マスタデータをロード
-      load_fixtures
-
-      # デフォルトの簡易入力設定
-      load_simple_slip_settings
     end
 
     redirect_to root_path
@@ -121,21 +118,6 @@ class FirstBootController < ApplicationController
     # 事業区分の初期データロード
     ActiveRecord::FixtureSet.create_fixtures(dir, "business_types")
     BusinessType.update_all(['created_at = ?, updated_at = ?', now, now])
-  end
-
-  def load_simple_slip_settings
-      SimpleSlipSetting.new(
-        :user_id=>@u.id,
-        :account_id=>Account.get_by_code(ACCOUNT_CODE_CASH).id,
-        :shortcut_key=>'Ctrl+1').save!
-      SimpleSlipSetting.new(
-        :user_id=>@u.id,
-        :account_id=>Account.get_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT).id,
-        :shortcut_key=>'Ctrl+2').save!
-      SimpleSlipSetting.new(
-        :user_id=>@u.id,
-        :account_id=>Account.get_by_code(ACCOUNT_CODE_RECEIVABLE).id,
-        :shortcut_key=>'Ctrl+3').save!
   end
 
   def current_company

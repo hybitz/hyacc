@@ -1,15 +1,20 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: simple_slip_setting.rb 2824 2012-02-17 05:58:06Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class SimpleSlipSetting < ActiveRecord::Base
   
-  validates :shortcut_key, :format => { :with => /Ctrl\+[0-9]/ }
+  validates :shortcut_key, :format => {:with => /Ctrl\+[0-9]/}
   
-  def account
-    Account.get(account_id)
+  def self.set_default_simple_slip_settings(user)
+    user.simple_slip_settings.build(:shortcut_key => 'Ctrl+1', :account => Account.get_by_code(ACCOUNT_CODE_CASH))
+    user.simple_slip_settings.build(:shortcut_key => 'Ctrl+2', :account => Account.get_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
+    user.simple_slip_settings.build(:shortcut_key => 'Ctrl+3', :account => Account.get_by_code(ACCOUNT_CODE_RECEIVABLE))
   end
+
+  def account
+    @account ||= Account.get(account_id)
+  end
+
+  def account=(account)
+    self.account_id = account.id
+    @account = nil
+  end
+
 end

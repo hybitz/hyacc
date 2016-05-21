@@ -15,6 +15,11 @@ module Login
     @_current_user = user
   end
 
+  def sign_out
+    click_on 'ログアウト'
+    assert has_selector?('form.new_user')
+  end
+
   def current_user
     @_current_user
   end

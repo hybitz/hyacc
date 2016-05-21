@@ -28,6 +28,8 @@ class User < ActiveRecord::Base
   has_many :simple_slip_settings, -> { order(:shortcut_key) }
   accepts_nested_attributes_for :simple_slip_settings, :allow_destroy => true
 
+  before_create :set_default_simple_slip_settings
+
   def has_google_account
     google_account.to_s.size > 0
   end
@@ -92,5 +94,9 @@ class User < ActiveRecord::Base
   def self.new_salt
     s = rand.to_s.tr('+', '.')
     s[0, if s.size > 32 then 32 else s.size end]
+  end
+
+  def set_default_simple_slip_settings
+    SimpleSlipSetting.set_default_simple_slip_settings(self)
   end
 end

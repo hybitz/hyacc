@@ -45,6 +45,14 @@ module VisitPage
     assert has_title?('従業員')
   end
 
+  def visit_journals
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    click_on '振替伝票'
+    assert has_title?('振替伝票')
+  end
+
   def visit_payrolls
     assert current_user || sign_in(User.first)
 
@@ -70,7 +78,13 @@ module VisitPage
     visit '/'
     click_on options[:account].name
     assert has_title?(options[:account].name)
-    assert has_no_selector?('span.notice')
+
+    if options[:branch]
+      select options[:branch].name, :from => 'finder_branch_id'
+      click_on '表示'
+    end
+
+    assert has_no_selector?('.notice')
     assert has_selector? '.tax_type_ready'
   end
 

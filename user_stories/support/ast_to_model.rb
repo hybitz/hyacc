@@ -17,6 +17,64 @@ module AstToModel
     
     ret
   end
+
+  def to_simple_slips(ast_table)
+    table = normalize_table(ast_table)
+    
+    ret = []
+    table[1..-1].each do |row|
+      assert a1 = Account.where(:name => row[2], :deleted => false).first
+      assert a2 = Account.where(:name => row[4], :deleted => false).first
+      assert_equal row[3], row[5]
+
+      ss = SimpleSlip.new
+      ss.ym = row[0].split('-')[0..1].join
+      ss.day = row[0].split('-').last
+      ss.remarks = row[1]
+
+      if a1.asset? or a1.debt?
+        ss.my_account_id = a1.id
+        ss.account_id = a2.id
+        ss.amount_increase = row[3].to_ai
+      elsif a2.asset? or a2.debt?
+        ss.account_id = a1.id
+        ss.my_account_id = a2.id
+        ss.amount_decrease = row[5].to_ai
+      else
+        raise '簡易入力は資産か負債が対象です。'
+      end
+
+      ret << ss
+    end
+    
+    ret
+  end
+
+  def to_journal(ast_table)
+    table = normalize_table(ast_table)
+
+    ret = Journal.new
+    ret.ym = table[1][0].split('-')[0..1].join
+    ret.day = table[1][0].split('-').last
+    ret.remarks = table[1][1]
+
+    jd = ret.journal_details.build
+    jd.dc_type = DC_TYPE_DEBIT
+    assert jd.account = Account.find_by_name(table[1][2])
+    jd.sub_account_id = jd.account.sub_accounts.first.id if jd.account.sub_accounts.present?
+    assert jd.branch = Branch.find_by_name(table[1][3])
+    jd.input_amount = table[1][4].to_ai
+
+    jd = ret.journal_details.build
+    jd.dc_type = DC_TYPE_CREDIT
+    assert jd.account = Account.find_by_name(table[1][5])
+    jd.sub_account_id = jd.account.sub_accounts.first.id if jd.account.sub_accounts.present?
+    assert jd.branch = Branch.find_by_name(table[1][6])
+    jd.input_amount = table[1][7].to_ai
+    
+    ret
+  end
+
 end
 
 World(AstToModel)

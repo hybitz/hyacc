@@ -146,12 +146,12 @@ end
 end
 
 もし /^登録して終了です。$/ do
-  begin
-    click_on '登録'
-    assert has_no_selector?("div.ui-dialog", :visible => true)
+  with_capture do
+    within_dialog do
+      click_on '登録'
+    end
+    assert has_no_dialog?
     assert has_selector?('.notice')
-  ensure
-    capture
   end
 end
 

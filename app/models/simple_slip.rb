@@ -100,6 +100,10 @@ class SimpleSlip
     Account.get(account_id)
   end
 
+  def branch
+    Branch.get(branch_id)
+  end
+
   def amount
     amount_increase.to_i > 0 ? amount_increase.to_i : amount_decrease.to_i
   end

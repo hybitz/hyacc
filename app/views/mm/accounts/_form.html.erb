@@ -75,7 +75,7 @@
       <th><%= f.label :journalizable %></th>
       <td><%= f.select :journalizable, {'可' => true, '不可' => false} %></td>
     </tr>
-    <% if @account.is_debt %>
+    <% if @account.debt? %>
     <tr>
       <th><%= f.label :is_trade_account_payable %></th>
       <td><%= f.select :is_trade_account_payable, {'はい' => true, 'いいえ' => false} %></td>

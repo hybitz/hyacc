@@ -91,8 +91,13 @@ class Account < ActiveRecord::Base
     path.count('/')
   end
 
+  # 資産かどうか
+  def asset?
+    account_type == ACCOUNT_TYPE_ASSET
+  end
+
   # 負債かどうか
-  def is_debt
+  def debt?
     account_type == ACCOUNT_TYPE_DEBT
   end
 

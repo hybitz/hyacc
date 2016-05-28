@@ -44,7 +44,7 @@ end
   normalize_table(ast_table).each do |row|
     find_tr '#payroll_table', row[0] do |tr|
       case row[0]
-      when '健康保険料'
+      when '健康保険'
         rowspan = 1
       else
         rowspan = 0

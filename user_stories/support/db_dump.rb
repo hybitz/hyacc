@@ -13,18 +13,22 @@ class DbDump
     end
   end
 
-  def dump
-    raise 'DBダンプの削除に失敗しました。' unless system("rm -Rf #{dump_dir}")
+  def dump(dir = nil)
+    raise 'DBダンプの削除に失敗しました。' unless system("rm -f #{dump_dir(dir)}/*.gz")
 
-    command = "bundle exec rake dad:db:dump DUMP_DIR=#{dump_dir} --quiet"
+    command = "bundle exec rake dad:db:dump DUMP_DIR=#{dump_dir(dir)} --quiet"
     puts command
     raise 'DBダンプに失敗しました。' unless system(command)
   end
 
   private
 
-  def dump_dir
-    File.join('tmp', File.dirname(current_feature), File.basename(current_feature, '.feature'))
+  def dump_dir(dir = nil)
+    if dir.to_s.empty?
+      dir = File.join('tmp', File.dirname(current_feature), File.basename(current_feature, '.feature'))
+    end
+
+    dir
   end
 
 end

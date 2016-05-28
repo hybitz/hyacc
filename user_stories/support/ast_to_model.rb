@@ -50,27 +50,36 @@ module AstToModel
     ret
   end
 
-  def to_journal(ast_table)
-    table = normalize_table(ast_table)
+  def to_journals(ast_table)
+    ret = []
 
+    table = normalize_table(ast_table)
+    table[1..-1].each do |row|
+      ret << to_journal(row)
+    end
+
+    ret
+  end
+
+  def to_journal(row)
     ret = Journal.new
-    ret.ym = table[1][0].split('-')[0..1].join
-    ret.day = table[1][0].split('-').last
-    ret.remarks = table[1][1]
+    ret.ym = row[0].split('-')[0..1].join
+    ret.day = row[0].split('-').last
+    ret.remarks = row[1]
 
     jd = ret.journal_details.build
     jd.dc_type = DC_TYPE_DEBIT
-    assert jd.account = Account.find_by_name(table[1][2])
+    assert jd.account = Account.find_by_name(row[2])
     jd.sub_account_id = jd.account.sub_accounts.first.id if jd.account.sub_accounts.present?
-    assert jd.branch = Branch.find_by_name(table[1][3])
-    jd.input_amount = table[1][4].to_ai
+    assert jd.branch = Branch.find_by_name(row[3])
+    jd.input_amount = row[4].to_ai
 
     jd = ret.journal_details.build
     jd.dc_type = DC_TYPE_CREDIT
-    assert jd.account = Account.find_by_name(table[1][5])
+    assert jd.account = Account.find_by_name(row[5])
     jd.sub_account_id = jd.account.sub_accounts.first.id if jd.account.sub_accounts.present?
-    assert jd.branch = Branch.find_by_name(table[1][6])
-    jd.input_amount = table[1][7].to_ai
+    assert jd.branch = Branch.find_by_name(row[6])
+    jd.input_amount = row[7].to_ai
     
     ret
   end

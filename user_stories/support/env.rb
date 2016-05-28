@@ -33,6 +33,16 @@ if ENV['CI'] != 'travis'
       end
     end
   end
+
+  After do |scenario|
+    db_dump = DbDump.instance
+    feature_file = scenario.feature.location.file
+
+    if ARGV.include?(feature_file)
+      # 最新のDBをダンプしておく
+      db_dump.dump('tmp/user_stories')
+    end
+  end
 end
 
 Before do |scenario|

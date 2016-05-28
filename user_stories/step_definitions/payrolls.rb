@@ -51,7 +51,7 @@ end
       end
 
       expected = tr.all('td')[col + rowspan].text
-      assert value == expected, "#{row[0]} の金額 #{row[1]} が #{expected} と一致しません"
+      assert row[1] == expected, "#{row[0]} の金額 #{row[1]} が #{expected} と一致しません"
     end
   end
 end

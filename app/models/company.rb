@@ -153,6 +153,18 @@ class Company < ActiveRecord::Base
     end
   end
 
+  def get_actual_pay_day_for(ym)
+    ret = Date.new(ym.to_i/100, ym.to_i%100, day_of_payday)
+    ret = ret >> month_of_payday
+
+    # 土日だったら休日前支払
+    while ret.wday == 0 or ret.wday == 6
+      ret = ret - 1
+    end
+
+    ret
+  end
+
   private
 
   def load_payday

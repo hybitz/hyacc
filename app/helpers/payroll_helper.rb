@@ -131,14 +131,7 @@ module PayrollHelper
 
   def get_pay_day(ym, employee_id = nil)
     company = Employee.find(employee_id).company
-    pay_day = Date.new(ym.to_i/100, ym.to_i%100, company.day_of_payday)
-    pay_day = pay_day >> company.month_of_payday
-
-    # 土日だったら休日前支払
-    while pay_day.wday == 0 or pay_day.wday == 6
-      pay_day = pay_day - 1
-    end
-    pay_day
+    company.get_actual_pay_day_for(ym)
   end
 
 end

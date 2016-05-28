@@ -1,6 +1,4 @@
 class Bs::AssetsController < Base::HyaccController
-  include Depreciation::DepreciationUtil
-
   view_attribute :title => '資産管理'
   view_attribute :branches, :only => :index
   before_filter :load_accounts, :only => 'index'
@@ -37,17 +35,14 @@ class Bs::AssetsController < Base::HyaccController
     begin
       @asset.transaction do
         if @asset.status_created?
-          @asset.depreciations.clear
+          @asset.depreciations.map{|d| d.mark_for_destruction }
         elsif @asset.status_waiting?
-          @asset.depreciations = create_depreciations(@asset)
+          Depreciation::DepreciationUtil.create_depreciations(@asset)
         elsif @asset.status_depreciating?
-          d = @asset.depreciations.where(:fiscal_year => current_user.company.current_fiscal_year_int).first
-          d.journal_headers = create_journals(d, current_user)
+          d = @asset.depreciations.find{|d| d.fiscal_year == current_user.company.current_fiscal_year_int }
+          Depreciation::DepreciationUtil.create_journals(d, current_user)
           d.depreciated = true
-          d.save!
-          if @asset.depreciations.where(:depreciated => false).empty?
-            @asset.status = ASSET_STATUS_DEPRECIATED
-          end
+          @asset.status = ASSET_STATUS_DEPRECIATED unless @asset.depreciations.find{|d| ! d.depreciated? }
         end
         
         @asset.save!

@@ -174,6 +174,8 @@ class JournalDetail < ActiveRecord::Base
   private
 
   def set_asset
+    return unless dc_type == DC_TYPE_DEBIT
+
     asset = self.asset
 
     # 固定資産の場合は資産を設定

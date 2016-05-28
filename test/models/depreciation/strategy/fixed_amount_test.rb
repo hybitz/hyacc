@@ -2,12 +2,11 @@ require 'test_helper'
 
 module Depreciation::Strategy
   class FixedAmountTest < ActiveSupport::TestCase
-    include Depreciation::DepreciationUtil
-    
+
     def test_create_depreciations_5_years
       asset = Asset.find(1)
       asset.depreciation_method = DEPRECIATION_METHOD_FIXED_AMOUNT
-      asset.depreciations = create_depreciations(asset)
+      Depreciation::DepreciationUtil.create_depreciations(asset)
       assert_nothing_raised{ asset.save! }
       
       assert_equal 2009, asset.start_fiscal_year
@@ -23,10 +22,13 @@ module Depreciation::Strategy
       assert_equal 20000, asset.depreciations[3].amount_at_end
       assert_equal 20000, asset.depreciations[4].amount_at_start
       assert_equal 1, asset.depreciations[4].amount_at_end
-      
-      # 年度途中で取得した資産の場合
+    end
+
+    def test_年度途中で取得した資産
+      asset = Asset.find(1)
       asset.ym = 200906
-      asset.depreciations = create_depreciations(asset)
+      asset.depreciation_method = DEPRECIATION_METHOD_FIXED_AMOUNT
+      Depreciation::DepreciationUtil.create_depreciations(asset)
       assert_nothing_raised{ asset.save! }
       
       assert_equal 2009, asset.start_fiscal_year

@@ -26,7 +26,6 @@ module Auto::Journal
       amount_per_month = (@depreciation.amount_depreciated / num_of_months).truncate
       amount_fraction = @depreciation.amount_depreciated - (amount_per_month * num_of_months)
         
-      ret = []
       num_of_months.times do |i|
         amount = amount_per_month
         amount += amount_fraction if i == 0
@@ -41,7 +40,7 @@ module Auto::Journal
         jh.update_user_id = @user.id
         
         jd = jh.journal_details.build
-        jd.detail_no = 1
+        jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = Account.get_by_code(ACCOUNT_CODE_DEPRECIATION).id
         jd.branch_id = asset.branch_id
@@ -49,17 +48,14 @@ module Auto::Journal
         jd.amount = amount
         
         jd = jh.journal_details.build
-        jd.detail_no = 2
+        jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_CREDIT
         jd.account_id = asset.account_id
         jd.sub_account_id = asset.sub_account_id
         jd.branch_id = asset.branch_id
         jd.tax_type = TAX_TYPE_NONTAXABLE
         jd.amount = amount
-        
-        ret << jh
       end
-      ret
     end
   end
 end

@@ -15,14 +15,14 @@ module Depreciation::Strategy
       if HyaccLogger.debug?
         HyaccLogger.debug "#{dr.to_yaml}\n初年度償却対象月数：#{num_of_months}ヶ月、償却補償額：#{guaranteed_amount}"
       end
-      
+
       ret = []
       fiscal_year = c.get_fiscal_year_int(asset.ym)
       amount = asset.amount
       
       # 通常の償却率での計算
       while true
-        d = Depreciation.new
+        d = asset.depreciations.build
         d.fiscal_year = fiscal_year
         d.amount_at_start = amount
         
@@ -34,6 +34,7 @@ module Depreciation::Strategy
 
           # 償却補償額を下回った時点で改定償却率での計算に切り替える
           if depreciation_amount < guaranteed_amount
+            d.mark_for_destruction
             break
           end
         end
@@ -60,7 +61,7 @@ module Depreciation::Strategy
       
       # 改定償却率での計算
       while true
-        d = Depreciation.new
+        d = asset.depreciations.build
         d.fiscal_year = fiscal_year
         d.amount_at_start = amount
 
@@ -75,7 +76,7 @@ module Depreciation::Strategy
           break
         end
       end
-      
+
       ret
     end
   end

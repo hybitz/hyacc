@@ -15,18 +15,18 @@ module Depreciation::Strategy
       if HyaccLogger.debug?
         HyaccLogger.debug "初年度償却対象月数：#{num_of_months}ヶ月、償却額：#{depreciation_amount}"
       end
-      
+
       ret = []
       fiscal_year = c.get_fiscal_year_int(asset.ym)
       amount = asset.amount
       
       while true
-        d = Depreciation.new
+        d = asset.depreciations.build
         d.fiscal_year = fiscal_year
         d.amount_at_start = amount
         
         # 償却額の計算
-        if ret.size == 0
+        if ret.empty?
           amount -= round_depreciation_amount(depreciation_amount * num_of_months / 12, c)
         else
           amount -= depreciation_amount 
@@ -43,7 +43,7 @@ module Depreciation::Strategy
         ret << d
         fiscal_year += 1
       end
-      
+
       ret
     end
   end

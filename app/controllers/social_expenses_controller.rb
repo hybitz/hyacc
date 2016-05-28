@@ -1,6 +1,4 @@
 class SocialExpensesController < Base::HyaccController
-  include JournalUtil
-  
   view_attribute :title => '交際費管理'
   view_attribute :finder, :class => SocialExpenseFinder
   view_attribute :ym_list

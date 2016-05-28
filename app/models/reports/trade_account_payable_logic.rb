@@ -1,12 +1,12 @@
 module Reports
   class TradeAccountPayableLogic
-    include HyaccDateUtil
+    include HyaccConstants
 
     def get_trade_account_payable_model(finder)
       ret = Reports::TradeAccountPayableModel.new
   
       # 期末の年月
-      end_ym = get_end_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year )
+      end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year )
   
       # 対象となる科目ごとに明細を組み立てる
       accounts = Account.where(:is_trade_account_payable => true).order('code')

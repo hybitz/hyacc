@@ -1,6 +1,6 @@
 class InvestmentFinder < Base::Finder
-  include HyaccDateUtil
-  
+  include HyaccConstants
+
   attr_accessor :bank_account_id
   
   def list
@@ -70,8 +70,8 @@ class InvestmentFinder < Base::Finder
   
   # 会計年度内の年月を12ヶ月分、yyyymmの配列として取得する。
   def get_ym_range
-    start_year_month = get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
-    get_year_months( start_year_month, 12 )
+    start_year_month = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+    HyaccDateUtil.get_year_months( start_year_month, 12 )
   end
   
 end

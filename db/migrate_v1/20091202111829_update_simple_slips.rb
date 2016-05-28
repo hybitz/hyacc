@@ -1,15 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: 20091202111829_update_simple_slips.rb 2484 2011-03-23 15:51:29Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
-
-class Util
-  include JournalUtil
-end
-
 # 自動振替伝票と元伝票との紐付けルールが変わったのでデータ移行
 class UpdateSimpleSlips < ActiveRecord::Migration
   include HyaccConstants
@@ -18,25 +6,23 @@ class UpdateSimpleSlips < ActiveRecord::Migration
     # slip_typeがnullの伝票が存在する場合は、汎用的な振替伝票として扱う
     connection.execute("update journal_headers set slip_type=1 where slip_type is null")
 
-    util = Util.new
-    
     puts '未払金（従業員）を更新'
     a = Account.find_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE)
-    rlike = util.build_rlike_condition(a.code, 0, 0)
+    rlike = JournalUtil.build_rlike_condition(a.code, 0, 0)
     JournalHeader.find(:all, :conditions=>['slip_type = ? and finder_key rlike ?', SLIP_TYPE_SIMPLIFIED, rlike]).each do|jh|
       update_auto_journal(a, jh)
     end
     
     puts '小口現金を更新'
     a = Account.find_by_code('1121')
-    rlike = util.build_rlike_condition(a.code, 0, 0)
+    rlike = JournalUtil.build_rlike_condition(a.code, 0, 0)
     JournalHeader.find(:all, :conditions=>['slip_type = ? and finder_key rlike ?', SLIP_TYPE_SIMPLIFIED, rlike]).each do|jh|
       update_auto_journal(a, jh)
     end
     
     puts '普通預金を更新'
     a = Account.find_by_code('1311')
-    rlike = util.build_rlike_condition(a.code, 0, 0)
+    rlike = JournalUtil.build_rlike_condition(a.code, 0, 0)
     JournalHeader.find(:all, :conditions=>['slip_type = ? and finder_key rlike ?', SLIP_TYPE_SIMPLIFIED, rlike]).each do|jh|
       update_auto_journal(a, jh)
     end
@@ -46,9 +32,7 @@ class UpdateSimpleSlips < ActiveRecord::Migration
   end
 
   def self.update_auto_journal(a, jh)
-    util = Util.new
-
-    journals = util.get_all_related_journals(jh)
+    journals = JournalUtil.get_all_related_journals(jh)
 
     auto = has_prepaid_expense_transfers(journals)
     auto = has_accrued_expense_transfers(journals) unless auto

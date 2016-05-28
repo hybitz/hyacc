@@ -5,7 +5,7 @@ require 'auto/transfer_journal/transfer_from_detail_param'
 module Auto::AutoJournalUtil
   include HyaccConstants
 
-  def do_auto_transfers(jh)
+  def self.do_auto_transfers(jh)
     # 自動仕訳をクリア
     slip_types = [
       SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE,
@@ -32,16 +32,14 @@ module Auto::AutoJournalUtil
     factory.make_journals
   end
 
-  private
-
-  def clear_auto_journals(jh, slip_types)
+  def self.clear_auto_journals(jh, slip_types)
     clear_auto_journals_internal(jh, slip_types)
     jh.journal_details.each do |jd|
       clear_auto_journals_internal(jd, slip_types)
     end
   end
 
-  def clear_auto_journals_internal(src, slip_types)
+  def self.clear_auto_journals_internal(src, slip_types)
     src.transfer_journals.each do |tj|
       tj.mark_for_destruction if slip_types.include?(tj.slip_type)
     end

@@ -1,6 +1,4 @@
 class DebtsController < Base::HyaccController
-  include JournalUtil
-
   view_attribute :title => '仮負債精算'
   view_attribute :finder, :class => DebtFinder, :only => :index
   view_attribute :ym_list, :only => :index
@@ -50,11 +48,11 @@ class DebtsController < Base::HyaccController
     end
 
     # 仮負債仕訳
-    param = Auto::Journal::TemporaryDebtParam.new( params, user )
-    factory = Auto::AutoJournalFactory.get_instance( param )
     jh.transaction do
-      jh.transfer_journals << factory.make_journals()
-      validate_closing_status_on_update( jh, old )
+      param = Auto::Journal::TemporaryDebtParam.new(params, user)
+      factory = Auto::AutoJournalFactory.get_instance( param )
+      factory.make_journals
+      JournalUtil.validate_closing_status_on_update(jh, old)
       jh.save!
     end
     jh.transfer_journals.last.id

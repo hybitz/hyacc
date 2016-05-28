@@ -1,6 +1,5 @@
 module Base::ViewAttributeHandler
   require 'models/name_and_value'
-  include HyaccUtil
   include HyaccViewHelper
 
   protected
@@ -80,7 +79,7 @@ module Base::ViewAttributeHandler
       ret = account.sub_accounts
     end
 
-    sort(ret, options[:order])
+    HyaccUtil.sort(ret, options[:order])
   end
   
   def get_branches(options = {})
@@ -191,14 +190,14 @@ module Base::ViewAttributeHandler
   def get_ym_select
     first = current_user.company.founded_fiscal_year.fiscal_year
     last = current_user.company.fiscal_years.last.fiscal_year
-    get_ym_list( first, 0, last - first )
+    HyaccDateUtil.get_ym_list( first, 0, last - first )
   end
   
   # 暦年選択リストを取得する
   def get_cy_select
     first = current_user.company.founded_fiscal_year.fiscal_year
     last = Date.today.year
-    get_ym_list( first, 0, last - first )
+    HyaccDateUtil.get_ym_list( first, 0, last - first )
   end
 
   # 従業員一覧を取得する

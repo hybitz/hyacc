@@ -35,7 +35,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替_日付指定_の更新がエラーになること
-    assert_equal CLOSING_STATUS_CLOSED, users(:first).company.get_fiscal_year(200610).closing_status
+    assert users(:first).company.get_fiscal_year(200610).closed?
 
     jh = JournalHeader.find(10)
 
@@ -48,7 +48,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
           "remarks"=>"タクシー代",
           "branch_id"=>2,
           "account_id"=>21,
-          "amount_increase" => 1130,
+          "amount_decrease" => 1130,
           :tax_type => TAX_TYPE_NONTAXABLE,
           :tax_amount_increase => 0,
           "lock_version"=>jh.lock_version,

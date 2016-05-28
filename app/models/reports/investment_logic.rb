@@ -1,7 +1,6 @@
 module Reports
   class InvestmentLogic < BaseLogic
-    include JournalUtil
-    
+
     def initialize(finder)
       super(finder)
     end

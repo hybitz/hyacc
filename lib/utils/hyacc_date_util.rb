@@ -1,18 +1,18 @@
 module HyaccDateUtil
   include HyaccConstants
 
-  def to_date(yyyymmdd)
+  def self.to_date(yyyymmdd)
     Date.new(yyyymmdd/10000, yyyymmdd/100%100, yyyymmdd%100)
   end
   
-  def to_int(date)
+  def self.to_int(date)
     date.year * 10000 + date.month * 100 + date.day
   end
 
   # 年度初年月を取得
   # 年初月が7月以降の場合は、前年からが会計年度とする
   # 例：年初月が12月の場合、2007年度の始まりは2006年12月から
-  def get_start_year_month_of_fiscal_year(fiscal_year, start_month_of_fiscal_year)
+  def self.get_start_year_month_of_fiscal_year(fiscal_year, start_month_of_fiscal_year)
     if start_month_of_fiscal_year > 6
       start_year = fiscal_year.to_i - 1
     else
@@ -23,7 +23,7 @@ module HyaccDateUtil
   end
   
   # 年度末年月を取得
-  def get_end_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+  def self.get_end_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
     start_year_month = get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
     start_year = start_year_month / 100
     start_month = start_year_month % 100
@@ -47,10 +47,8 @@ module HyaccDateUtil
     ret
   end
 
-  private
-
   # 指定年月からNヶ月分の年月配列を作成する
-  def get_year_months( year_month_from, number_of_months )
+  def self.get_year_months( year_month_from, number_of_months )
     year = year_month_from / 100
     month = year_month_from % 100  
 
@@ -71,7 +69,7 @@ module HyaccDateUtil
   end
 
   # 月末の日付を取得
-  def get_days_of_month( year, month )
+  def self.get_days_of_month(year, month)
     Date.new( year, month, -1 ).day
   end
   
@@ -79,18 +77,18 @@ module HyaccDateUtil
   # @param ym 年
   # @param before 前何年分かを指定
   # @param after 後何年分かを指定
-  def get_ym_list( ym, before, after )
+  def self.get_ym_list( ym, before, after )
     ym - before .. ym + after
   end
  
   # 月末の日を取得します。
   # @param ym 年月（yyyymm）
-  def last_day_of_month( ym )
+  def self.last_day_of_month(ym)
     Date.new( ym/100, ym%100, -1 ).day
   end
   
   # 前月を取得します。
-  def last_month( ym )
+  def self.last_month(ym)
     year = ym / 100
     month = ym % 100
     
@@ -104,7 +102,7 @@ module HyaccDateUtil
   end
   
   # 次月を取得します。
-  def next_month( ym )
+  def self.next_month( ym )
     year = ym / 100
     month = ym % 100
     
@@ -118,7 +116,7 @@ module HyaccDateUtil
   end
   
   # 月を加算した年月を取得します。
-  def add_months(ym, num_of_months)
+  def self.add_months(ym, num_of_months)
     year = ym / 100
     month = ym % 100
 
@@ -141,10 +139,7 @@ module HyaccDateUtil
   end
   
   # 年度にymを含めて後何ヶ月残っているか
-  def get_remaining_months(start_month_of_fiscal_year, ym)
+  def self.get_remaining_months(start_month_of_fiscal_year, ym)
     12 - HyaccDateUtil.get_ym_index(start_month_of_fiscal_year, ym)
   end
-  
-  module_function :last_month
-  module_function :next_month
 end

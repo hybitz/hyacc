@@ -2,7 +2,6 @@ module Base
   class HyaccController < ApplicationController
     include HyaccConstants
     include HyaccErrors
-    include HyaccUtil
     include ViewAttributeHandler
     include ExceptionHandler
     include CurrentCompany

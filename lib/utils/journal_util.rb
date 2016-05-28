@@ -1,25 +1,11 @@
+require 'models/balance_by_branch'
+
 module JournalUtil
-  require 'models/balance_by_branch'
-  include HyaccUtil
-  include Auto::AutoJournalUtil
+  include HyaccConstants
+  include HyaccErrors
 
-  def calc_amount(tax_type, amount, tax_amount)
-    ret = 0;
-    if tax_type.to_i == TAX_TYPE_INCLUSIVE
-      ret = amount - tax_amount
-    else
-      ret = amount
-    end
-
-    if HyaccLogger.debug?
-      HyaccLogger.debug "金額[#{amount}]:消費税区分[#{TAX_TYPES[tax_type]}]:消費税[#{tax_amount}]：計算金額#{ret}"
-    end
-
-    ret
-  end
-
-  def build_rlike_condition(account_code, sub_account_id, branch_id)
-    JournalUtil.finder_key_rlike(account_code, sub_account_id, branch_id)
+  def self.build_rlike_condition(account_code, sub_account_id, branch_id)
+    finder_key_rlike(account_code, sub_account_id, branch_id)
   end
 
   def self.escape_search(str)
@@ -56,41 +42,8 @@ module JournalUtil
     ret
   end
 
-  def clear_detail_attributes(jd)
-    update_detail_attributes(jd, {})
-  end
-
-  def update_detail_attributes(jd, attributes)
-    jd = JournalDetail.new unless jd
-
-    excludes = ['id', 'created_at']
-    ignores_when_null = ['detail_type', 'tax_type', 'is_allocated_cost', 'is_allocated_assets']
-
-    message = "\n"
-
-    jd.attribute_names.each do |name|
-      next if excludes.include? name
-      next if ignores_when_null.include? name and attributes[name].nil?
-
-      message << "  ActiveRecord属性設定：#{name} => #{attributes[name]}\n"
-      jd.__send__(name + '=', attributes[name])
-      attributes.delete(name)
-    end
-
-    attributes.each do |name, value|
-      next if excludes.include? name
-      next if ignores_when_null.include? name and value.nil?
-
-      message << "  モデル属性設定：#{name} => #{value}\n"
-      jd.__send__(name + '=', value)
-    end
-
-    HyaccLogger.debug message
-    jd
-  end
-
   # 伝票直前までの累計金額の取得
-  def get_sum_until(slip, account_id, dc_type)
+  def self.get_sum_until(slip, account_id, dc_type, branch_id, sub_account_id)
     # 伝票が1件もなければ累計は０円
     return 0 if slip.nil?
 
@@ -111,7 +64,7 @@ module JournalUtil
     JournalDetail.joins(:journal_header).where(sql.to_a).sum('journal_details.amount')
   end
 
-  def get_net_sum_until( slip, account )
+  def self.get_net_sum_until(slip, account, branch_id, sub_account_id)
     # 伝票がない場合
     return 0 if slip.nil?
 
@@ -127,31 +80,28 @@ module JournalUtil
       return 0
     end
 
-    pre_sum_amount_increase = get_sum_until(slip, account.id, account.dc_type)
-    pre_sum_amount_decrease = get_sum_until(slip, account.id, opposite_dc_type( account.dc_type ))
-    subtract(pre_sum_amount_increase, pre_sum_amount_decrease)
+    pre_sum_amount_increase = get_sum_until(slip, account.id, account.dc_type, branch_id, sub_account_id)
+    pre_sum_amount_decrease = get_sum_until(slip, account.id, account.opposite_dc_type, branch_id, sub_account_id)
+    HyaccUtil.subtract(pre_sum_amount_increase, pre_sum_amount_decrease)
   end
 
   # 現在の累計金額の取得
-  def get_sum( account_id, dc_type )
+  def self.get_sum(company_id, account_id, dc_type, branch_id, sub_account_id)
     sql = SqlBuilder.new
     sql.append('account_id = ?', account_id)
     sql.append('and dc_type = ?', dc_type)
     sql.append('and branch_id = ?', branch_id) if branch_id > 0
     sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id > 0
-
-    if company_id.present?
-      sql.append('and exists (')
-      sql.append('  select 1 from journal_headers jh')
-      sql.append('  where jh.id = journal_details.journal_header_id')
-      sql.append('    and jh.company_id = ?', company_id)
-      sql.append(')')
-    end
+    sql.append('and exists (')
+    sql.append('  select 1 from journal_headers jh')
+    sql.append('  where jh.id = journal_details.journal_header_id')
+    sql.append('    and jh.company_id = ?', company_id)
+    sql.append(')')
 
     JournalDetail.where(sql.to_a).sum(:amount)
   end
 
-  def get_net_sum( account )
+  def self.get_net_sum(company_id, account, branch_id, sub_account_id)
     # accountが勘定科目コードの場合はマスタを検索
     if account.kind_of? String
       account = Account.get_by_code( account )
@@ -164,20 +114,20 @@ module JournalUtil
       return 0
     end
 
-    sum_amount_increase = get_sum( account.id, account.dc_type )
-    sum_amount_decrease = get_sum( account.id, opposite_dc_type( account.dc_type ) )
-    subtract( sum_amount_increase, sum_amount_decrease )
+    sum_amount_increase = get_sum(company_id, account.id, account.dc_type, branch_id, sub_account_id)
+    sum_amount_decrease = get_sum(company_id, account.id, account.opposite_dc_type, branch_id, sub_account_id)
+    HyaccUtil.subtract( sum_amount_increase, sum_amount_decrease )
   end
 
   # 自動振替伝票かどうか
-  def is_auto_transfer_journal( slip_type )
+  def self.is_auto_transfer_journal( slip_type )
     [ SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE,
       SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE,
       SLIP_TYPE_AUTO_TRANSFER_EXPENSE ].include?( slip_type )
   end
 
   # 部門別で貸借の金額が釣り合っているかどうか
-  def is_balanced_by_branch( related_journals )
+  def self.is_balanced_by_branch( related_journals )
     balance_by_branch_map = make_balance_by_branch_map( related_journals )
 
     # 部門別に貸借の金額が釣り合っているか確認
@@ -187,14 +137,16 @@ module JournalUtil
       end
     }
 
-    return true
+    true
   end
 
-  def make_balance_by_branch_map( related_journals )
+  def self.make_balance_by_branch_map( related_journals )
     balance_by_branch_map = {}
 
     related_journals.each{|jh|
       jh.journal_details.each do |detail|
+        next if detail.marked_for_destruction?
+
         balance_by_branch = balance_by_branch_map[detail.branch_id]
         if balance_by_branch.nil?
           balance_by_branch = BalanceByBranch.new
@@ -217,23 +169,13 @@ module JournalUtil
     balance_by_branch_map
   end
 
-  def set_detail_no(details)
-    max_detail_no = 0
-    details.each do |d|
-      max_detail_no = d.detail_no if d.detail_no.to_i > max_detail_no
-    end
-
-    details.each do |d|
-      if d.detail_no.to_i == 0
-        max_detail_no += 1
-        d.detail_no = max_detail_no
-      end
-    end
-  end
-
-  def validate_journal(new_journal, old_journal = nil)
+  def self.validate_journal(new_journal, old_journal = nil)
     # 部門別貸借の確認
     unless is_balanced_by_branch(new_journal.get_all_related_journals)
+      if Rails.env.test?
+        puts new_journal.to_yaml
+        puts new_journal.journal_details.to_yaml
+      end
       raise HyaccException.new(ERR_AMOUNT_UNBALANCED_BY_BRANCH)
     end
 
@@ -247,13 +189,13 @@ module JournalUtil
 
   # 費用配賦を計算する
   # 配賦不可能な場合は空のハッシュを返す
-  def make_allocated_cost(branch_id, cost)
+  def self.make_allocated_cost(branch_id, cost)
     branches = Branch.get(branch_id).children.where(:deleted => false)
     return {} if branches.empty?
 
     allocated_costs = {}
 
-    costs = divide(cost, branches.size)
+    costs = HyaccUtil.divide(cost, branches.size)
     branches.each_with_index do |b, i|
       allocated_costs[b.id] = costs[i]
     end
@@ -261,10 +203,8 @@ module JournalUtil
     allocated_costs
   end
 
-  private
-
   # 伝票登録時の経理締めチェック
-  def validate_closing_status_on_create( jh )
+  def self.validate_closing_status_on_create(jh)
     closing_status = jh.fiscal_year.closing_status
 
     if HyaccLogger.debug?
@@ -295,7 +235,7 @@ module JournalUtil
   end
 
   # 伝票削除時の経理締めチェック
-  def validate_closing_status_on_delete( jh )
+  def self.validate_closing_status_on_delete( jh )
     closing_status = jh.fiscal_year.closing_status
 
     if HyaccLogger.debug?
@@ -326,7 +266,7 @@ module JournalUtil
   end
 
   # 伝票更新時の経理締めチェック
-  def validate_closing_status_on_update( jh, old )
+  def self.validate_closing_status_on_update( jh, old )
     closing_status_old = old.fiscal_year.closing_status
     closing_status_new = jh.fiscal_year.closing_status
 

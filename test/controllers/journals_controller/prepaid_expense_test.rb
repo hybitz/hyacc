@@ -230,8 +230,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal 0, auto.journal_details[0].transfer_journals.size
     assert_equal 0, auto.journal_details[1].transfer_journals.size
 
-    reverse = auto.transfer_journals[0]
-    assert_not_nil reverse
+    assert reverse = auto.transfer_journals[0]
     assert_equal 201010, reverse.ym
     assert_equal 1, reverse.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE, reverse.slip_type
@@ -240,14 +239,13 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal auto.id, reverse.transfer_from_id
     assert_nil reverse.transfer_from_detail_id
     assert_nil reverse.depreciation_id
-    assert_equal 1, reverse.lock_version
+    assert_equal 0, reverse.lock_version
     assert_equal 0, reverse.transfer_journals.size
     assert_equal 2, reverse.journal_details.size
     assert_equal 0, reverse.journal_details[0].transfer_journals.size
     assert_equal 0, reverse.journal_details[1].transfer_journals.size
 
-    auto2 = jh.journal_details[2].transfer_journals[0]
-    assert_not_nil auto2
+    assert auto2 = jh.journal_details[2].transfer_journals[0]
     assert_equal 201009, auto2.ym
     assert_equal 30, auto2.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE, auto2.slip_type
@@ -262,8 +260,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal 0, auto2.journal_details[0].transfer_journals.size
     assert_equal 0, auto2.journal_details[1].transfer_journals.size
 
-    reverse2 = auto2.transfer_journals[0]
-    assert_not_nil reverse2
+    assert reverse2 = auto2.transfer_journals[0]
     assert_equal 201010, reverse2.ym
     assert_equal 1, reverse2.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE, reverse2.slip_type
@@ -272,7 +269,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal auto2.id, reverse2.transfer_from_id
     assert_nil reverse2.transfer_from_detail_id
     assert_nil reverse2.depreciation_id
-    assert_equal 1, reverse2.lock_version
+    assert_equal 0, reverse2.lock_version
     assert_equal 0, reverse2.transfer_journals.size
     assert_equal 2, reverse2.journal_details.size
     assert_equal 0, reverse2.journal_details[0].transfer_journals.size
@@ -372,7 +369,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal auto.id, reverse.transfer_from_id
     assert_nil reverse.transfer_from_detail_id
     assert_nil reverse.depreciation_id
-    assert_equal 1, reverse.lock_version
+    assert_equal 0, reverse.lock_version
     assert_equal 0, reverse.transfer_journals.size
     assert_equal 2, reverse.journal_details.size
     assert_equal 0, reverse.journal_details[0].transfer_journals.size
@@ -402,7 +399,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal auto2.id, reverse2.transfer_from_id
     assert_nil reverse2.transfer_from_detail_id
     assert_nil reverse2.depreciation_id
-    assert_equal 1, reverse2.lock_version
+    assert_equal 0, reverse2.lock_version
     assert_equal 0, reverse2.transfer_journals.size
     assert_equal 2, reverse2.journal_details.size
     assert_equal 0, reverse2.journal_details[0].transfer_journals.size

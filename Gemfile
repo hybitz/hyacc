@@ -46,11 +46,11 @@ gem 'spring',        group: :development
 group :development, :test do
   gem 'quiet_assets'
   gem 'rubocop', :require => false
-  gem 'thin'
 end
 
 group :test do
   gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
   gem 'minitest'
   gem 'minitest-reporters'
 end

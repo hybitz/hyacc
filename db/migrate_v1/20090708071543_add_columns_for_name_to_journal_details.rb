@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 require 'journal_detail'
 
 # 過去データには補助科目がない場合があるけど、現時点で補助科目が必須になっている可能性がある。
@@ -6,10 +5,6 @@ require 'journal_detail'
 class JournalDetail
   def validate
   end
-end
-
-class RLike
-  include JournalUtil
 end
 
 class AddColumnsForNameToJournalDetails < ActiveRecord::Migration
@@ -24,7 +19,7 @@ class AddColumnsForNameToJournalDetails < ActiveRecord::Migration
     JournalDetail.reset_column_information
 
     # 過去データに内部取引仕訳がおかしいデータがある
-    rlike = RLike.new.build_rlike_condition(ACCOUNT_CODE_BRANCH_OFFICE, 1, 0)
+    rlike = JournalUtil.build_rlike_condition(ACCOUNT_CODE_BRANCH_OFFICE, 1, 0)
     JournalHeader.find(:all, :conditions=>['slip_type=? and finder_key rlike ?',
         SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE, rlike]).each do |jh|
       

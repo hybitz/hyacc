@@ -1,6 +1,4 @@
 class TaxFinder < Base::Finder
-  include JournalUtil
-
   attr_accessor :include_has_tax
   attr_accessor :include_nontaxable
   attr_accessor :include_checked
@@ -31,8 +29,8 @@ class TaxFinder < Base::Finder
     
     # 年月
     sql.append "ym >= ? and ym <= ?",
-        get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year ),
-        get_end_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+        HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year ),
+        HyaccDateUtil.get_end_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
     
     # 伝票区分
     sql.append "and slip_type in (?, ?, ?)",
@@ -42,13 +40,13 @@ class TaxFinder < Base::Finder
 
     # 検索キー
     sql.append "and finder_key rlike ?",
-        build_rlike_condition( nil, 0, branch_id )
+        JournalUtil.build_rlike_condition( nil, 0, branch_id )
 
     # 消費税を含む伝票も含むかどうか
     unless include_has_tax.to_i == 1
       sql.append "and finder_key not rlike ? and finder_key not rlike ?",
-          build_rlike_condition( ACCOUNT_CODE_TEMP_PAY_TAX, 0, 0 ),
-          build_rlike_condition( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED, 0, 0 )
+          JournalUtil.build_rlike_condition( ACCOUNT_CODE_TEMP_PAY_TAX, 0, 0 ),
+          JournalUtil.build_rlike_condition( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED, 0, 0 )
     end
 
     # 非課税のみで構成されている伝票も含むかどうか

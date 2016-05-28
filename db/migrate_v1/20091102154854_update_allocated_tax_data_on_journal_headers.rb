@@ -1,12 +1,8 @@
-# -*- encoding : utf-8 -*-
 require 'app/models/auto/auto_journal_util'
-
-class A
-  include Auto::AutoJournalUtil
-end
 
 class UpdateAllocatedTaxDataOnJournalHeaders < ActiveRecord::Migration
   include HyaccConstants
+
   def self.up
     jhs = JournalHeader.find(:all, :conditions=>["finder_key like ?","%" + ACCOUNT_CODE_CORPORATE_TAXES + "%"])
     puts "Head office tax cost #{jhs.size.to_s} match."

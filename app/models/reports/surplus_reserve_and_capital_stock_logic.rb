@@ -1,6 +1,5 @@
 module Reports
   class SurplusReserveAndCapitalStockLogic < BaseLogic
-    include JournalUtil
 
     def initialize(finder)
       super(finder)

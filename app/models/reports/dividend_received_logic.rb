@@ -1,11 +1,10 @@
 module Reports
   class DividendReceivedLogic
-    include HyaccDateUtil
-    
+
     def get_dividend_received_model(finder)
       model = DividendReceivedModel.new
-      ym_start = get_start_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year)
-      ym_end = get_end_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year)
+      ym_start = HyaccDateUtil.get_start_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year)
+      ym_end = HyaccDateUtil.get_end_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year)
       model.fully_owned_stocks = get_fully_owned_stocks(ym_start, ym_end)
       model.fully_owned_stocks_amount = model.fully_owned_stocks.inject(0){|sum, d| sum + d.amount}
       model.partially_stocks = get_partially_owned_stocks(ym_start, ym_end)

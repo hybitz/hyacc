@@ -2,22 +2,21 @@ module Auto::TransferJournal
   
   # 費用の自動配賦
   class AllocatedCostFactory < Auto::AutoJournalFactory
-    include JournalUtil
-    
+
     def initialize( auto_journal_param )
       super( auto_journal_param )
       @src_jd = auto_journal_param.journal_detail
       @src_jh = @src_jd.journal_header
     end
 
-    def make_journals()
-      transfer_journal = make_journal_allocated_cost(@src_jd)
-      @src_jd.transfer_journals << transfer_journal
+    def make_journals
+      make_journal_allocated_cost(@src_jd)
     end
-    
-  private
+
+    private
+
     def make_journal_allocated_cost(src_jd)
-      jh = JournalHeader.new
+      jh = src_jd.transfer_journals.build
       jh.company_id = @src_jh.company_id
       jh.ym, jh.day = calc_ym_and_day(src_jd)
       jh.slip_type = SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST
@@ -45,23 +44,20 @@ module Auto::TransferJournal
       end
       
       # 配賦明細の作成
-      detail_no = 0
-      make_allocated_cost(src_jd.branch_id, src_jd.amount).each do |branch_id, cost|
+      JournalUtil.make_allocated_cost(src_jd.branch_id, src_jd.amount).each do |branch_id, cost|
         # 本社費用負担
-        detail_no += 1
-        jd = JournalDetail.new
-        jd.detail_no = detail_no
+        jd = jh.journal_details.build
+        jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = account_cost_share.id
         jd.branch_id = branch_id
         jd.amount = cost
         jd.created_at = src_jd.created_at
         jd.updated_at = src_jd.updated_at
-        jh.journal_details << jd
+
         # 本社費用配賦
-        detail_no += 1
-        jd2 = JournalDetail.new
-        jd2.detail_no = detail_no
+        jd2 = jh.journal_details.build
+        jd2.detail_no = jh.journal_details.size
         jd2.dc_type = DC_TYPE_CREDIT
         jd2.account_id = account_cost.id
         jd2.sub_account_id = account_cost.get_sub_account_by_code( Branch.find(branch_id).code ).id
@@ -69,20 +65,18 @@ module Auto::TransferJournal
         jd2.amount = cost
         jd2.created_at = src_jd.created_at
         jd2.updated_at = src_jd.updated_at
-        jh.journal_details << jd2
       end
-      return jh
     end
     
     def calc_ym_and_day(jd)
       ajt = jd.auto_journal_type.to_i
       
       if ajt == AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
-        ym = next_month( jd.journal_header.ym ) 
+        ym = HyaccDateUtil.next_month( jd.journal_header.ym ) 
         [ ym, 1 ]
       elsif ajt == AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
-        ym = last_month( jd.journal_header.ym )
-        [ ym, last_day_of_month(ym) ]
+        ym = HyaccDateUtil.last_month( jd.journal_header.ym )
+        [ ym, HyaccDateUtil.last_day_of_month(ym) ]
       elsif ajt == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
         [ jd.auto_journal_year.to_i * 100 + jd.auto_journal_month.to_i, jd.auto_journal_day.to_i ]
       else

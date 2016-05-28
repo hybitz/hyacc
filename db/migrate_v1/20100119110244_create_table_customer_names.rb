@@ -1,14 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: 20100119110244_create_table_customer_names.rb 2484 2011-03-23 15:51:29Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
-class Util
-  include HyaccDateUtil
-end
-
 class Customer < ActiveRecord::Base
   has_many :customer_names, :dependent=>:destroy
   accepts_nested_attributes_for :customer_names
@@ -31,8 +20,7 @@ class CreateTableCustomerNames < ActiveRecord::Migration
     # カラム情報を最新にする
     CustomerName.reset_column_information
     
-    util = Util.new
-    date = util.to_date(Company.find(:first).founded_date)
+    date = HyaccDateUtil.to_date(Company.find(:first).founded_date)
     
     Customer.find(:all).each do |c|
       p c.name + ' : ' + c.formal_name

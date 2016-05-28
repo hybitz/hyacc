@@ -1,7 +1,6 @@
 class AccountTransfersController < Base::HyaccController
   include JournalHelper
   include AccountTransferHelper
-  include JournalUtil
   include AssetUtil
 
   view_attribute :title => '科目振替'
@@ -53,9 +52,9 @@ class AccountTransfersController < Base::HyaccController
           journals.store("#{jh.id}", lock_version) unless journals.has_key?("#{jh.id}")
           jh.lock_version = journals["#{jh.id}"]
 
-          do_auto_transfers(jh)
           AssetUtil.validate_assets(jh, old_jh)
-          validate_journal(jh, old_jh)
+          Auto::AutoJournalUtil.do_auto_transfers(jh)
+          JournalUtil.validate_journal(jh, old_jh)
           jh.save!
 
           journals.store("#{jh.id}", jh.lock_version.to_i)

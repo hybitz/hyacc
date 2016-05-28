@@ -1,6 +1,4 @@
 class HouseworksController < Base::HyaccController
-  include JournalUtil
-  
   view_attribute :title => '家事按分'
   view_attribute :finder, :class => HouseworkFinder
   view_attribute :ym_list
@@ -14,12 +12,14 @@ class HouseworksController < Base::HyaccController
     
     begin
       hw.transaction do
-        param = Auto::Journal::HouseworkParam.new( hw, current_user )
+        param = Auto::Journal::HouseworkParam.new(hw, current_user)
         factory = Auto::AutoJournalFactory.get_instance( param )
-        hw.journal_headers = factory.make_journals()
+        factory.make_journals
+
         hw.journal_headers.each do |jh|
-          validate_journal(jh)
+          JournalUtil.validate_journal(jh)
         end
+
         hw.save!
       end
     

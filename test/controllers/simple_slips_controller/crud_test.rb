@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class SimpleSlipsController::CrudTest < ActionController::TestCase
-  include HyaccUtil
 
   def setup
     sign_in user

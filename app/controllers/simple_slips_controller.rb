@@ -20,7 +20,7 @@ class SimpleSlipsController < Base::HyaccController
     my_account = Account.get_by_code(finder.account_code)
     @simple_slip = SimpleSlip.new(:my_account_id => my_account.id)
 
-    like = '%' + Daddy::Utils::SqlUtils.escape_search(params[:query]) + '%'
+    like = '%' + JournalUtil.escape_search(params[:query]) + '%'
     query = 'account_id <> ? and (keywords like ? or remarks like ?) and deleted=?', my_account.id, like, like, false
     templates = SimpleSlipTemplate.where(query)
 
@@ -38,7 +38,7 @@ class SimpleSlipsController < Base::HyaccController
         if my_account.dc_type == account.dc_type
           increase_or_decrease = account.dc_type == t.dc_type ? "decrease" : "increase"
         # テンプレートが画面の対象としている科目と異なる貸借区分であれば金額は増加側にセット
-        elsif my_account.dc_type == opposite_dc_type( account.dc_type )
+        elsif my_account.dc_type == account.opposite_dc_type
           increase_or_decrease = account.dc_type == t.dc_type ? "increase" : "decrease"
         end
       end

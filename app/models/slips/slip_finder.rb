@@ -1,7 +1,7 @@
 module Slips
 
   class SlipFinder < Base::Finder
-    include JournalUtil
+    include HyaccConstants
 
     attr_accessor :account_code
     attr_accessor :offset
@@ -58,11 +58,11 @@ module Slips
     end
 
     def get_net_sum
-      super( account_code )
+      JournalUtil.get_net_sum(company_id, account_code, branch_id, sub_account_id)
     end
 
-    def get_net_sum_until( slip )
-      super( slip, account_code )
+    def get_net_sum_until(slip)
+      JournalUtil.get_net_sum_until(slip, account_code, branch_id, sub_account_id)
     end
 
     # 伝票を検索する
@@ -125,7 +125,7 @@ module Slips
 
 
       conditions[0] << "and finder_key rlike ? "
-      conditions << build_rlike_condition( account_code, sub_account_id, branch_id )
+      conditions << JournalUtil.build_rlike_condition( account_code, sub_account_id, branch_id )
 
       # 年月は任意
       normalized_ym = ym.to_s.length > 6 ? ym[0..3] + ym[-2..-1] : nil

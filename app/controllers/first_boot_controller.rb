@@ -1,6 +1,5 @@
 class FirstBootController < ApplicationController
   require 'active_record/fixtures'
-  include HyaccDateUtil
   include Base::ExceptionHandler
   include FirstBoot
 

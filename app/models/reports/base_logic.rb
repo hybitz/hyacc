@@ -1,16 +1,16 @@
 module Reports
   class BaseLogic
-    include HyaccDateUtil
-    
+    include HyaccConstants
+
     def initialize(finder)
       @finder = finder
-      @start_ym = get_start_year_month_of_fiscal_year( @finder.fiscal_year, @finder.start_month_of_fiscal_year )
-      @end_ym = get_end_year_month_of_fiscal_year( @finder.fiscal_year, @finder.start_month_of_fiscal_year )
+      @start_ym = HyaccDateUtil.get_start_year_month_of_fiscal_year( @finder.fiscal_year, @finder.start_month_of_fiscal_year )
+      @end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year( @finder.fiscal_year, @finder.start_month_of_fiscal_year )
     end
 
     # 期首時点での累計金額を取得する
     def get_amount_at_start(account_id)
-      last_year_end_ym = get_end_year_month_of_fiscal_year( @finder.fiscal_year - 1, @finder.start_month_of_fiscal_year )
+      last_year_end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year( @finder.fiscal_year - 1, @finder.start_month_of_fiscal_year )
       VMonthlyLedger.get_net_sum_amount(nil, last_year_end_ym, account_id, 0, @finder.branch_id)
     end
     

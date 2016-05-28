@@ -1,8 +1,6 @@
-# -*- encoding : utf-8 -*-
 # 部門間で貸借が合っていない振替伝票を支店間取引に対応させる
 class UpdateJournals < ActiveRecord::Migration
   include HyaccConstants
-  include JournalUtil
   
   def self.up
     JournalHeader.find(:all, :conditions=>['slip_type=?', SLIP_TYPE_TRANSFER]).each do |jh|

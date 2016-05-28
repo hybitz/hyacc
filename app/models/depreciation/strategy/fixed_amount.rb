@@ -8,7 +8,7 @@ module Depreciation::Strategy
       dr = DepreciationRate.find_by_date_and_durable_years(asset.date, asset.durable_years)
       
       # 初年度の償却可能額を算定するための月数
-      num_of_months = get_remaining_months(c.start_month_of_fiscal_year, asset.ym)
+      num_of_months = HyaccDateUtil.get_remaining_months(c.start_month_of_fiscal_year, asset.ym)
       # 償却額
       depreciation_amount = round_depreciation_amount(asset.amount * dr.fixed_amount_rate, c)
       

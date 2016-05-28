@@ -1,7 +1,5 @@
 module Base
   class Finder
-    include HyaccDateUtil
-    
     attr_reader :start_month_of_fiscal_year
     attr_reader :slips_per_page
     attr_reader :login_user_id
@@ -64,11 +62,11 @@ module Base
     end
 
     def start_year_month_of_fiscal_year
-      get_start_year_month_of_fiscal_year(@fiscal_year, @start_month_of_fiscal_year)
+      HyaccDateUtil.get_start_year_month_of_fiscal_year(@fiscal_year, @start_month_of_fiscal_year)
     end
     
     def end_year_month_of_fiscal_year
-      get_end_year_month_of_fiscal_year(@fiscal_year, @start_month_of_fiscal_year)
+      HyaccDateUtil.get_end_year_month_of_fiscal_year(@fiscal_year, @start_month_of_fiscal_year)
     end
     
     def start_year_month_day_of_fiscal_year

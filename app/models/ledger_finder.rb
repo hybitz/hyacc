@@ -1,5 +1,5 @@
 class LedgerFinder < Daddy::Model
-  include JournalUtil
+  include HyaccConstants
 
   def conditions_for_journals(ym = 0)
     sql = SqlBuilder.new
@@ -30,10 +30,10 @@ class LedgerFinder < Daddy::Model
     raise ArgumentError.new("貸借区分の指定がありません。") unless [DC_TYPE_DEBIT, DC_TYPE_CREDIT].include?(dc_type)
 
     # 前年度末
-    start_year_month = get_start_year_month_of_fiscal_year(last_year, start_month_of_fiscal_year)
+    start_year_month = HyaccDateUtil.get_start_year_month_of_fiscal_year(last_year, start_month_of_fiscal_year)
 
     sql = SqlBuilder.new
-    sql.append('ym <= ?', get_year_months( start_year_month, 12 ).last)
+    sql.append('ym <= ?', HyaccDateUtil.get_year_months( start_year_month, 12 ).last)
     sql.append('and account_id = ?', account_id)
     sql.append('and dc_type = ?', dc_type)
     sql.append('and branch_id = ?', branch_id) if branch_id.to_i > 0
@@ -66,13 +66,13 @@ class LedgerFinder < Daddy::Model
   def list
     # 科目の指定なしでは検索しない
     return [] unless account_id.to_i > 0
-    
-    ym_from = get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+
+    ym_from = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
     ym_to = (ym_from / 100 + 1) * 100 + (ym_from % 100)
 
     ret = {}
     12.times do |i|
-      ym = add_months(ym_from, i)
+      ym = HyaccDateUtil.add_months(ym_from, i)
 
       ml = MonthlyLedger.new
       ml.ym = ym

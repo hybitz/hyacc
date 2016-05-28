@@ -3,7 +3,6 @@ module Auto::Journal
   # 給与仕訳ファクトリ
   class PayrollFactory < Auto::AutoJournalFactory
     include PayrollHelper
-    include JournalUtil
 
     def initialize( auto_journal_param )
       super( auto_journal_param )

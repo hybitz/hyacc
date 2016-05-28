@@ -2,7 +2,6 @@ class SimpleSlip
   include ActiveModel::Model
   include HyaccConstants
   include HyaccErrors
-  include JournalUtil
 
   attr_accessor :id, :company_id, :lock_version
   attr_accessor :my_account_id, :my_sub_account_id
@@ -45,32 +44,13 @@ class SimpleSlip
   def save!
     raise ActiveRecord::RecordInvalid.new(self) unless valid?
 
-    if persisted?
-      old_journal = JournalHeader.find(id)
-    else
-      old_journal = nil
-    end
-
-    # 保存
     build_journal
     journal.save_with_tax!
-
-    # 資産チェック
-    AssetUtil.validate_assets(journal, old_journal)
-
-    # 自動仕訳を作成
-    do_auto_transfers(journal)
-
-    # 仕訳チェック
-    validate_journal(journal, old_journal)
-
-    # 保存
-    journal.save!
   end
 
   def destroy
     # 締め状態の確認
-    validate_closing_status_on_delete(journal)
+    JournalUtil.validate_closing_status_on_delete(journal)
 
     # 資産チェック
     AssetUtil.validate_assets(nil, journal)

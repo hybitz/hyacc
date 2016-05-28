@@ -1,6 +1,4 @@
 class InvestmentsController < Base::HyaccController
-  include JournalUtil
-  
   view_attribute :title => '有価証券'
   view_attribute :finder, :class => InvestmentFinder
   view_attribute :customers, :only => [:new,:create,:edit,:relate], :conditions => {:is_investment => true, :deleted => false}
@@ -75,7 +73,7 @@ class InvestmentsController < Base::HyaccController
     @journal_details = finder.journal_details_not_related
   end
   
-private
+  private
 
   def finder
     unless @finder
@@ -104,8 +102,8 @@ private
         factory = Auto::Journal::InvestmentFactory.get_instance(param)
         factory.make_journals.each do |jh|
            # 自動仕訳を作成
-          do_auto_transfers(jh)
-          validate_journal(jh)
+          Auto::AutoJournalUtil.do_auto_transfers(jh)
+          JournalUtil.validate_journal(jh)
           jh.save!
         end
       else

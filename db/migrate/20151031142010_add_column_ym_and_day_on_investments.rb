@@ -1,5 +1,5 @@
 class AddColumnYmAndDayOnInvestments < ActiveRecord::Migration
-  include HyaccDateUtil
+
   def up
     add_column :investments, :ym, :integer, :null => false
     add_column :investments, :day, :integer, :null => false

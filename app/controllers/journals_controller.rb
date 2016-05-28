@@ -1,6 +1,5 @@
 class JournalsController < Base::HyaccController
   include JournalHelper
-  include JournalUtil
   include AssetUtil
 
   view_attribute :title => '振替伝票'
@@ -50,20 +49,7 @@ class JournalsController < Base::HyaccController
 
     begin
       @journal.transaction do
-        # まずは登録してIDを取得
         @journal.save_with_tax!
-
-        # 資産チェック
-        AssetUtil.validate_assets(@journal, nil)
-
-        # 自動仕訳を作成
-        do_auto_transfers(@journal)
-
-        # 仕訳チェック
-        validate_journal(@journal)
-
-        # 登録
-        @journal.save!
       end
 
       # 選択した勘定科目をカウント
@@ -97,20 +83,7 @@ class JournalsController < Base::HyaccController
 
     begin
       @journal.transaction do
-        # まずは更新
         @journal.save_with_tax!
-
-        # 資産チェック
-        AssetUtil.validate_assets(@journal, old)
-
-        # 自動仕訳を作成
-        do_auto_transfers(@journal)
-
-        # 仕訳チェック
-        validate_journal(@journal, old)
-
-        # 更新
-        @journal.save!
       end
 
       flash[:notice] = '伝票を更新しました。'
@@ -149,7 +122,7 @@ class JournalsController < Base::HyaccController
           AssetUtil.validate_assets(nil, jh)
 
           # 仕訳チェック
-          validate_closing_status_on_delete(jh)
+          JournalUtil.validate_closing_status_on_delete(jh)
 
           jh.lock_version = params[:lock_version]
           jh.destroy

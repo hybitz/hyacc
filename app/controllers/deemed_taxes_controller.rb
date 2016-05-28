@@ -1,6 +1,4 @@
 class DeemedTaxesController < Base::HyaccController
-  include JournalUtil
-
   view_attribute :title => 'みなし消費税'
   before_filter :check_business_type
   
@@ -23,7 +21,7 @@ class DeemedTaxesController < Base::HyaccController
         param = Auto::Journal::DeemedTaxParam.new(fy, current_user)
         factory = Auto::AutoJournalFactory.get_instance(param)
         factory.make_journals.each do |jh|
-          validate_journal(jh)
+          JournalUtil.validate_journal(jh)
           jh.save!
         end
       end

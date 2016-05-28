@@ -1,6 +1,5 @@
 module Reports
   class TradeAccountReceivableLogic
-    include HyaccDateUtil
 
     def get_trade_account_receivable_model(finder)
       res = []

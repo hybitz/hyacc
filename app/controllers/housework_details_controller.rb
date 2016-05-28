@@ -1,6 +1,4 @@
 class HouseworkDetailsController < Base::HyaccController
-  include JournalUtil
-  
   view_attribute :title => '家事按分'
   view_attribute :accounts, :conditions => ['account_type=? and journalizable=?', ACCOUNT_TYPE_EXPENSE, true]
   view_attribute :sub_accounts

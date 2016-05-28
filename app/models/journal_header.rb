@@ -1,5 +1,6 @@
 class JournalHeader < ActiveRecord::Base
-  include HyaccUtil
+  include HyaccConstants
+  include HyaccErrors
 
   belongs_to :company
   belongs_to :depreciation
@@ -140,6 +141,8 @@ class JournalHeader < ActiveRecord::Base
   end
 
   def save_with_tax!
+    old = Journal.find(self.id) if self.persisted?
+
     journal_details.each do |detail|
       next unless detail.normal_detail?
 
@@ -182,7 +185,18 @@ class JournalHeader < ActiveRecord::Base
       end
     end
 
+    # 明細番号を付与
     set_detail_no
+
+    # 資産チェック
+    AssetUtil.validate_assets(self, old)
+
+    # 自動仕訳を作成
+    Auto::AutoJournalUtil.do_auto_transfers(self)
+
+    # 仕訳チェック
+    JournalUtil.validate_journal(self, old)
+
     save!
   end
 
@@ -290,7 +304,7 @@ class JournalHeader < ActiveRecord::Base
     end
 
     if amount_debit != amount_credit
-      HyaccLogger.error ERR_DC_AMOUNT_NOT_THE_SAME + "　借方[#{amount_debit}]　貸方[#{amount_credit}]"
+      HyaccLogger.error ERR_DC_AMOUNT_NOT_THE_SAME + "　借方[#{amount_debit}]　貸方[#{amount_credit}] #{self.to_yaml}"
       raise HyaccException.new( ERR_DC_AMOUNT_NOT_THE_SAME )
     end
 

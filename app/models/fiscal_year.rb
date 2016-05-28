@@ -1,6 +1,5 @@
 class FiscalYear < ActiveRecord::Base
   include HyaccErrors
-  include HyaccDateUtil
 
   belongs_to :company
   validates_presence_of :company_id, :fiscal_year
@@ -67,10 +66,10 @@ class FiscalYear < ActiveRecord::Base
 
   # 期首の年月を取得
   def start_year_month
-    ret = get_start_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )
+    ret = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )
 
     # 初年度の場合を考慮
-    founded_year_month = to_int(company.founded_date) / 100
+    founded_year_month = HyaccDateUtil.to_int(company.founded_date) / 100
     if ret < founded_year_month
       ret = founded_year_month
     end
@@ -80,7 +79,7 @@ class FiscalYear < ActiveRecord::Base
 
   # 期末の年月を取得
   def end_year_month
-    get_end_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )
+    HyaccDateUtil.get_end_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )
   end
 
   # 期首から期末までの年月を配列で取得
@@ -91,7 +90,7 @@ class FiscalYear < ActiveRecord::Base
 
     while from <= to
       ret << from
-      from = add_months(from, 1)
+      from = HyaccDateUtil.add_months(from, 1)
     end
 
     ret

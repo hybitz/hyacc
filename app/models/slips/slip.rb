@@ -1,7 +1,6 @@
 module Slips
-
   class Slip
-    include JournalUtil
+    include HyaccConstants
     include AssetUtil
 
     # 入力フィールド
@@ -82,7 +81,7 @@ module Slips
 
     def destroy
       # 締め状態の確認
-      validate_closing_status_on_delete( @journal_header )
+      JournalUtil.validate_closing_status_on_delete( @journal_header )
 
       # 資産チェック
       validate_assets( nil, @journal_header )
@@ -97,89 +96,6 @@ module Slips
     end
 
     private
-
-    # 仕訳明細の作成
-    def create_details
-      account = Account.get( @my_account_id )
-      target_account = Account.get( @account_id )
-      amount = @amount_increase.to_i > 0 ? @amount_increase.to_i : @amount_decrease.to_i
-      tax_amount = @amount_increase.to_i > 0 ? @tax_amount_increase.to_i : @tax_amount_decrease.to_i
-
-      ret = []
-
-      # この簡易入力が扱っている科目
-      jd1 = clear_detail_attributes journal_details[0]
-      jd1.journal_header = @journal_header
-      jd1.detail_no = 1
-      jd1.detail_type = DETAIL_TYPE_NORMAL
-      jd1.dc_type = amount_increase.to_i > 0 ? account.dc_type : opposite_dc_type( account.dc_type )
-      jd1.tax_type = TAX_TYPE_NONTAXABLE
-      jd1.tax_rate_percent = 0
-      jd1.account_id = account.id
-      jd1.branch_id = @user.company.branch_mode ? @branch_id : @user.employee.default_branch.id
-      jd1.sub_account_id = @my_sub_account_id if @my_sub_account_id > 0
-      jd1.amount = calc_amount(@tax_type, amount, tax_amount) + tax_amount
-      ret << jd1
-
-      # 入力された科目
-      jd2 = clear_detail_attributes journal_details[1]
-      jd2.journal_header = @journal_header
-      jd2.detail_no = 2
-      jd2.detail_type = DETAIL_TYPE_NORMAL
-      jd2.dc_type = opposite_dc_type( jd1.dc_type )
-      jd2.tax_type = @tax_type
-      jd2.tax_rate_percent = @tax_rate_percent
-      jd2.account_id = target_account.id
-      jd2.branch_id = jd1.branch_id
-      jd2.sub_account_id = sub_account_id if sub_account_id > 0
-      jd2.amount = calc_amount(@tax_type, amount, tax_amount)
-
-      # 接待交際費の参加人数
-      jd2.social_expense_number_of_people = target_account.is_social_expense ? @social_expense_number_of_people : nil
-
-      # 法人税の決算区分
-      jd2.settlement_type = target_account.is_corporate_tax ? @settlement_type : nil
-
-      # 計上日振替の設定
-      jd2.auto_journal_type = @auto_journal_type
-      jd2.auto_journal_year = @auto_journal_year
-      jd2.auto_journal_month = @auto_journal_month
-      jd2.auto_journal_day = @auto_journal_day
-
-      # 資産の楽観ロック
-      jd2.asset.lock_version = @asset_lock_version if jd2.asset
-
-      ret << jd2
-
-      # 税抜経理方式で消費税があれば、消費税明細を自動仕訳
-      if tax_amount > 0
-        jd3 = clear_detail_attributes journal_details[2]
-        jd3.journal_header = @journal_header
-        jd3.detail_no = 3
-        jd3.detail_type = DETAIL_TYPE_TAX
-        jd3.dc_type = jd2.dc_type
-        jd3.tax_type = TAX_TYPE_NONTAXABLE
-        jd3.tax_rate_percent = 0
-
-        # 借方の場合は仮払消費税
-        if target_account.dc_type == DC_TYPE_DEBIT
-          jd3.account_id = Account.get_by_code( ACCOUNT_CODE_TEMP_PAY_TAX ).id
-        # 貸方の場合は借受消費税
-        elsif target_account.dc_type == DC_TYPE_CREDIT
-          jd3.account_id = Account.get_by_code( ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED ).id
-        end
-
-        jd3.branch_id = jd2.branch_id
-        jd3.amount = tax_amount
-
-        # 対象の明細との関連を設定
-        jd3.main_detail = jd2
-
-        ret << jd3
-      end
-
-      return ret
-    end
 
     def setup_from_journal( slip_finder )
       my_account = Account.get_by_code(slip_finder.account_code)

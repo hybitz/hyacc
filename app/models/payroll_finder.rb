@@ -1,10 +1,9 @@
 class PayrollFinder < Base::Finder
-  include JournalUtil
 
   # 会計年度内の年月を12ヶ月分、yyyymmの配列として取得する。
   def get_ym_range
-    start_year_month = get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
-    get_year_months( start_year_month, 12 )
+    start_year_month = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+    HyaccDateUtil.get_year_months( start_year_month, 12 )
   end
 
   # 月別給与の配列を取得する
@@ -66,7 +65,7 @@ class PayrollFinder < Base::Finder
   def get_net_sum(account_code)
     self.sub_account_id = self.employee_id
     self.branch_id = Employee.find(self.employee_id).default_branch.id
-    super( account_code )
+    JournalUtil.get_net_sum(company_id, account_code, branch_id, sub_account_id)
   end
   
 end

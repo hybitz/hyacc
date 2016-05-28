@@ -1,5 +1,4 @@
 class Payroll < ActiveRecord::Base
-  include JournalUtil
 
   # 相手先伝票区分
   CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED = '0'

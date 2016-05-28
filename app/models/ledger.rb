@@ -1,5 +1,5 @@
 class Ledger
-  include HyaccUtil
+  include HyaccConstants
 
   attr_accessor :id
   attr_accessor :ym

@@ -143,8 +143,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal 0, jh.journal_details[0].transfer_journals.size
     assert_equal 1, jh.journal_details[1].transfer_journals.size
 
-    auto = jh.journal_details[1].transfer_journals[0]
-    assert_not_nil auto
+    assert auto = jh.journal_details[1].transfer_journals[0]
     assert_equal 201005, auto.ym
     assert_equal 31, auto.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE, auto.slip_type
@@ -159,8 +158,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal 0, auto.journal_details[0].transfer_journals.size
     assert_equal 0, auto.journal_details[1].transfer_journals.size
 
-    reverse = auto.transfer_journals[0]
-    assert_not_nil reverse
+    assert reverse = auto.transfer_journals[0]
     assert_equal 201006, reverse.ym
     assert_equal 1, reverse.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE, reverse.slip_type
@@ -169,7 +167,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal auto.id, reverse.transfer_from_id
     assert_nil reverse.transfer_from_detail_id
     assert_nil reverse.depreciation_id
-    assert_equal 1, reverse.lock_version
+    assert_equal 0, reverse.lock_version
     assert_equal 0, reverse.transfer_journals.size
     assert_equal 2, reverse.journal_details.size
     assert_equal 0, reverse.journal_details[0].transfer_journals.size
@@ -243,7 +241,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     assert_equal auto.id, reverse.transfer_from_id
     assert_nil reverse.transfer_from_detail_id
     assert_nil reverse.depreciation_id
-    assert_equal 1, reverse.lock_version
+    assert_equal 0, reverse.lock_version
     assert_equal 0, reverse.transfer_journals.size
     assert_equal 2, reverse.journal_details.size
     assert_equal 0, reverse.journal_details[0].transfer_journals.size

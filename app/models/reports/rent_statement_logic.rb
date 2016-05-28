@@ -1,7 +1,6 @@
 module Reports
   class RentStatementLogic < BaseLogic
-    include JournalUtil
-    
+
     def initialize(finder)
       super(finder)
     end
@@ -9,7 +8,7 @@ module Reports
     def get_rent_statement
       rents = {}
       ymd_start = (@start_ym.to_s + '01').to_i
-      ymd_end = (@end_ym.to_s + get_days_of_month(@end_ym/100, @end_ym%100).to_s).to_i
+      ymd_end = (@end_ym.to_s + HyaccDateUtil.get_days_of_month(@end_ym/100, @end_ym%100).to_s).to_i
 
       Rent.order('status, ymd_end desc').each{|rent|
         rent.total_amount = 0
@@ -47,7 +46,7 @@ module Reports
       sql = SqlBuilder.new
       sql.append('deleted = ?', false)
       sql.append('and ym >= ? and ym <= ?', @start_ym, @end_ym)
-      sql.append('and finder_key rlike ?', build_rlike_condition(ACCOUNT_CODE_RENT, 0, branch_id))
+      sql.append('and finder_key rlike ?', JournalUtil.build_rlike_condition(ACCOUNT_CODE_RENT, 0, branch_id))
       sql.to_a
     end
 

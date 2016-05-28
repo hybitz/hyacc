@@ -1,6 +1,5 @@
 class PayrollsController < Base::HyaccController
   include PayrollHelper
-  include JournalUtil
 
   view_attribute :title => '賃金台帳'
   view_attribute :finder, :class => PayrollFinder, :only => :index

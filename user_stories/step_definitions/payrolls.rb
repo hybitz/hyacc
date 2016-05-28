@@ -42,8 +42,16 @@ end
   assert col = find('#payroll_table thead tr').all('th').index{|th| th.has_link?(@ym) }
 
   normalize_table(ast_table).each do |row|
-    find_tr '#payroll_table', row[0] do
-      assert_equal row[1], all('td')[col].text
+    find_tr '#payroll_table', row[0] do |tr|
+      case row[0]
+      when '健康保険料'
+        rowspan = 1
+      else
+        rowspan = 0
+      end
+
+      expected = tr.all('td')[col + rowspan].text
+      assert value == expected, "#{row[0]} の金額 #{row[1]} が #{expected} と一致しません"
     end
   end
 end

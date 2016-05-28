@@ -1,10 +1,10 @@
 module CaptureSupport
 
-  def with_capture
+  def with_capture(title = nil)
     begin
       yield
     ensure
-      capture
+      capture(:title => title)
     end
   end
 

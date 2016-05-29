@@ -21,14 +21,19 @@ module SimpleSlips
       visit_simple_slip(:account => simple_slip.my_account, :branch => simple_slip.branch)
 
       count = all('#slipTable tbody tr').count
+
       within '#new_simple_slip' do
         fill_in 'simple_slip_ym', :with => simple_slip.ym
         fill_in 'simple_slip_day', :with => simple_slip.day
         fill_in 'simple_slip_remarks', :with => simple_slip.remarks
         find(:select, 'simple_slip_account_id').first(:option, simple_slip.account.code_and_name).select_option
-        if simple_slip.account.has_sub_accounts
-          assert has_selector?('#simple_slip_sub_account_id')
-        end
+      end
+
+      if simple_slip.account.has_sub_accounts
+        assert has_selector?('.sub_account_ready')
+      end
+
+      within '#new_simple_slip' do
         select simple_slip.branch.name, :from => 'simple_slip_branch_id' if simple_slip.branch
         if simple_slip.amount_increase.present?
           fill_in 'simple_slip_amount_increase', :with => simple_slip.amount_increase
@@ -37,6 +42,7 @@ module SimpleSlips
         end
         click_on '登録'
       end
+
       assert has_selector?('.notice')
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     end

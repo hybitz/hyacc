@@ -1,5 +1,4 @@
 module PayrollHelper
-  include HyaccConstants
 
   # 標準報酬月額の計算
   def get_standard_remuneration(ym = nil, employee = nil, base_salary = nil)

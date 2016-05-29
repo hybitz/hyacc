@@ -80,6 +80,10 @@ class SimpleSlip
     Account.get(account_id)
   end
 
+  def sub_account
+    account.sub_accounts.find{|sa| sa.id == sub_account_id } if sub_account_id
+  end
+
   def branch
     Branch.get(branch_id)
   end

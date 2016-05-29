@@ -5,8 +5,7 @@ class SimpleSlipsController < Base::HyaccController
 
   # 勘定科目ごとの詳細入力部分を取得する
   def get_account_details
-    id = params[:id].to_i
-    @slip = finder.find( id ) if id > 0
+    @simple_slip = new_slip
 
     renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
     if renderer

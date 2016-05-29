@@ -23,7 +23,7 @@ if ENV['CI'] != 'travis'
     if ARGV.include?(feature_file)
       if db_dump.current_feature.nil?
         db_dump.current_feature = feature_file
-        db_dump.load
+        db_dump.load('tmp/user_stories')
       end
     else
       # 直前のDBをダンプしておく

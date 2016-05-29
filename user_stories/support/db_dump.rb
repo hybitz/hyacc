@@ -3,8 +3,9 @@ class DbDump
 
   attr_accessor :current_feature
 
-  def load
+  def load(dir)
     db = Dir.glob(File.join(dump_dir, '*.dump.gz')).first
+    db ||= Dir.glob(File.join(dir, '*.dump.gz')).first
 
     if db
       command = "bundle exec rake dad:db:load DUMP_FILE=#{db} --quiet"

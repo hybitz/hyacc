@@ -72,22 +72,6 @@ module VisitPage
     assert has_title?('個人設定')
   end
 
-  def visit_simple_slip(options = {})
-    assert current_user || sign_in(User.first)
-
-    visit '/'
-    click_on options[:account].name
-    assert has_title?(options[:account].name)
-
-    if options[:branch]
-      select options[:branch].name, :from => 'finder_branch_id'
-      click_on '表示'
-    end
-
-    assert has_no_selector?('.notice')
-    assert has_selector? '.tax_type_ready'
-  end
-
   def visit_users
     assert current_user || sign_in(User.first)
 

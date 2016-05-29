@@ -18,6 +18,21 @@ module VisitPage
     assert has_title?('科目振替')
   end
 
+  def visit_assets(options = {})
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    click_on '資産管理'
+    assert has_title?('資産管理')
+
+    if options[:branch]
+      select options[:branch].name, :from => 'finder_branch_id'
+      click_on '表示'
+    end
+
+    assert has_selector?('#asset_container')
+  end
+
   def visit_branches
     assert current_user || sign_in(User.first)
 

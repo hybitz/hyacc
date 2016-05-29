@@ -179,6 +179,7 @@ end
 end
 
 もし /^(.*?)でパソコンを購入$/ do |branch_name, ast_table|
+  assert @branch = Branch.where(:name => branch_name).first
   row = normalize_table(ast_table)[1]
 
   ss = SimpleSlip.new
@@ -187,7 +188,7 @@ end
   ss.remarks = row[1]
   ss.my_account_id = Account.where(:name => row[4], :deleted => false).first.id
   ss.account_id = Account.where(:name => row[2], :deleted => false).first.id
-  ss.branch_id = Branch.where(:name => branch_name).first.id
+  ss.branch_id = @branch.id
   ss.amount_decrease = row[5].to_ai
 
   create_simple_slip(ss)
@@ -197,5 +198,10 @@ end
       click_on '参照'
     end
     assert has_dialog?
+    
+    within '#edit_simple_slip' do
+      assert has_selector?('#account_detail')
+      assert @asset_code = find('#account_detail').text.split('：').last
+    end
   end
 end

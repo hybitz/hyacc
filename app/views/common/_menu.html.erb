@@ -55,29 +55,29 @@
 <div class="menu">
   <%= render 'common/simple_slip_menu' %>
   
-  <%= link_to '振替伝票', journals_path, :style => style_for_menu('/journals') %>
+  <%= link_to '振替伝票', journals_path(purified_params), :style => style_for_menu('/journals') %>
   |
-  <%= link_to '伝票管理', journal_admin_path, :style => style_for_menu(journal_admin_controllers) %>
+  <%= link_to '伝票管理', journal_admin_path(purified_params), :style => style_for_menu(journal_admin_controllers) %>
   |
-  <%= link_to_if true, '有価証券', investments_path, :style => style_for_menu('/investments') %>
+  <%= link_to_if true, '有価証券', investments_path(purified_params), :style => style_for_menu('/investments') %>
   |
 
   <% if available?('payrolls') %>
-    <%= link_to '賃金台帳', payrolls_path, :style => style_for_menu('/payrolls') %>
+    <%= link_to '賃金台帳', payrolls_path(purified_params), :style => style_for_menu('/payrolls') %>
     |
   <% end %>
 
-  <%= link_to '資産管理', bs_assets_path, :style => style_for_menu('/bs/assets') %>
+  <%= link_to '資産管理', bs_assets_path(purified_params), :style => style_for_menu('/bs/assets') %>
   |
-  <%= link_to '締め処理', closing_path, :style => style_for_menu(closing_controllers) %>
+  <%= link_to '締め処理', closing_path(purified_params), :style => style_for_menu(closing_controllers) %>
   |
-  <%= link_to '元帳', ledgers_path, :style => style_for_menu('/ledgers') %>
+  <%= link_to '元帳', ledgers_path(purified_params), :style => style_for_menu('/ledgers') %>
   |
-  <%= link_to '帳票出力', report_path, :style => style_for_menu(report_controllers) %>
+  <%= link_to '帳票出力', report_path(purified_params), :style => style_for_menu(report_controllers) %>
   |
-  <%= link_to 'マスタメンテ', mm_path, :style => style_for_menu(mm_controllers) %>
+  <%= link_to 'マスタメンテ', mm_path(purified_params), :style => style_for_menu(mm_controllers) %>
   |
-  <%= link_to 'マスタビューア', mv_path, :style => style_for_menu(mv_controllers) %>
+  <%= link_to 'マスタビューア', mv_path(purified_params), :style => style_for_menu(mv_controllers) %>
 </div>
 
 <%= render 'common/sub_menu', :controllers => journal_admin_controllers %>

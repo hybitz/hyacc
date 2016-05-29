@@ -1,41 +1,44 @@
 <%= render 'common/message' %>
 <table id="asset_container">
-  <tr>
-    <th>資産コード</th>
-    <th>資産名</th>
-    <th>勘定科目</th>
-    <th>補助科目</th>
-    <% if branch_mode %><th>部門</th><% end %>
-    <th>取得年月日</th>
-    <th>償却方法</th>
-    <th>耐用年数</th>
-    <th>取得価額</th>
-    <th>期首簿価</th>
-    <th>期末簿価</th>
-    <th>ステータス</th>
-    <th></th>
-  </tr>
-
-  <% @assets.each do |asset| %>
-    <tr class="hover">
-      <td><%= asset.code %></td>
-      <td><%= asset.name %></td>
-      <td><%= asset.account.name %></td>
-      <td><%= asset.sub_account.name if asset.sub_account %></td>
-      <% if branch_mode %><td><%= asset.branch.name %></td><% end %>
-      <td align="center"><%= render_ymd(asset) %></td>
-      <td align="center"><%= asset.depreciation_method_name %></td>
-      <td align="center"><%= "#{asset.durable_years}年" if asset.durable_years.to_i > 0 %></td>
-      <td class="amount"><%= to_amount(asset.amount) %></td>
-      <td class="amount"><%= to_amount(asset.amount_at_start(@finder.fiscal_year)) %></td>
-      <td class="amount"><%= to_amount(asset.amount_at_end(@finder.fiscal_year), :show_zero => true) %></td>
-      <td align="center"><%= asset.status_name %></td>
-      <td>
-        <%= link_to '参照', bs_asset_path(asset), :remote => true %>
-        <%= link_to '編集', edit_bs_asset_path(asset), :remote => true %>
-      </td>
+  <thead>
+    <tr>
+      <th>資産コード</th>
+      <th>資産名</th>
+      <th>勘定科目</th>
+      <th>補助科目</th>
+      <% if branch_mode %><th>部門</th><% end %>
+      <th>取得年月日</th>
+      <th>償却方法</th>
+      <th>耐用年数</th>
+      <th>取得価額</th>
+      <th>期首簿価</th>
+      <th>期末簿価</th>
+      <th>ステータス</th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @assets.each do |asset| %>
+      <tr class="hover">
+        <td><%= asset.code %></td>
+        <td><%= asset.name %></td>
+        <td><%= asset.account.name %></td>
+        <td><%= asset.sub_account.name if asset.sub_account %></td>
+        <% if branch_mode %><td><%= asset.branch.name %></td><% end %>
+        <td align="center"><%= render_ymd(asset) %></td>
+        <td align="center"><%= asset.depreciation_method_name %></td>
+        <td align="center"><%= "#{asset.durable_years}年" if asset.durable_years.to_i > 0 %></td>
+        <td class="amount"><%= to_amount(asset.amount) %></td>
+        <td class="amount"><%= to_amount(asset.amount_at_start(@finder.fiscal_year)) %></td>
+        <td class="amount"><%= to_amount(asset.amount_at_end(@finder.fiscal_year), :show_zero => true) %></td>
+        <td align="center"><%= asset.status_name %></td>
+        <td>
+          <%= link_to '参照', bs_asset_path(asset), :remote => true %>
+          <%= link_to '編集', edit_bs_asset_path(asset), :remote => true %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <%= will_paginate @assets %>

@@ -32,7 +32,7 @@ module PayrollHelper
         end
         pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
         while pr.payroll_journal_header.nil?
-          x = (Date.new(x/100, x%100, 1) >> 1).strftime("%Y%m")
+          x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
           pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
         end
         # 基準となる標準報酬月額

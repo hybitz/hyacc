@@ -23,28 +23,34 @@ module AstToModel
     
     ret = []
     table[1..-1].each do |row|
-      assert a1 = Account.where(:name => row[2], :deleted => false).first
-      assert a2 = Account.where(:name => row[4], :deleted => false).first
-      assert_equal row[3], row[5]
+      ret << to_simple_slip(row)
+    end
+    
+    ret
+  end
 
-      ss = SimpleSlip.new
-      ss.ym = row[0].split('-')[0..1].join
-      ss.day = row[0].split('-').last
-      ss.remarks = row[1]
+  def to_simple_slip(row)
+    assert a1 = Account.where(:name => row[2], :deleted => false).first
+    assert a2 = Account.where(:name => row[4], :deleted => false).first
+    assert_equal row[3], row[5]
 
-      if a1.asset? or a1.debt?
-        ss.my_account_id = a1.id
-        ss.account_id = a2.id
-        ss.amount_increase = row[3].to_ai
-      elsif a2.asset? or a2.debt?
-        ss.account_id = a1.id
-        ss.my_account_id = a2.id
-        ss.amount_decrease = row[5].to_ai
-      else
-        raise '簡易入力は資産か負債が対象です。'
-      end
+    ret = SimpleSlip.new
+    ret.ym = row[0].split('-')[0..1].join
+    ret.day = row[0].split('-').last
+    ret.remarks = row[1]
 
-      ret << ss
+    if a1.asset? or a1.debt?
+      ret.my_account_id = a1.id
+      ret.account_id = a2.id
+      ret.sub_account_id = a2.sub_accounts.first.id if a2.has_sub_accounts
+      ret.amount_increase = row[3].to_ai
+    elsif a2.asset? or a2.debt?
+      ret.my_account_id = a2.id
+      ret.account_id = a1.id
+      ret.sub_account_id = a1.sub_accounts.first.id if a1.has_sub_accounts
+      ret.amount_decrease = row[5].to_ai
+    else
+      raise '簡易入力は資産か負債が対象です。'
     end
     
     ret

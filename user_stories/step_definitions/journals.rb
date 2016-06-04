@@ -1,4 +1,4 @@
-もし /^本店から営業部に資金を異動$/ do |ast_table|
+もし /^本店から資金を異動$/ do |ast_table|
   to_journals(ast_table).each do |journal|
     visit_journals
     click_on '追加'

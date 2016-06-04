@@ -1,4 +1,4 @@
-もし /^配属先となる営業部を登録$/ do
+もし /^配属先となる(.*?)を登録$/ do |branch_name|
   visit_branches
   click_on '本店'
   within_dialog('部門　参照') do
@@ -9,7 +9,7 @@
     with_capture do
       select '本社', :from => '事業所'
       fill_in '部門コード', :with => '200'
-      fill_in '部門名', :with => '営業部'
+      fill_in '部門名', :with => branch_name
     end
     click_on '登録'
   end

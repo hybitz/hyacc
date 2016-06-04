@@ -21,7 +21,7 @@
   capture
 end
 
-もし /^花子を営業部に配属$/ do
+もし /^花子を(.*?)に配属$/ do |branch_name|
   assert @employee = Employee.where(:first_name => '花子', :deleted => false).first
 
   visit_employees
@@ -40,7 +40,7 @@ end
       assert has_selector?('#branch_employees_table tbody tr', :count => 1)
 
       within first('#branch_employees_table tbody tr') do
-        select '営業部', :from => find('[name*="\[branch_id\]"]')['id']
+        select branch_name, :from => find('[name*="\[branch_id\]"]')['id']
         fill_in find('[name*="\[cost_ratio\]"]')['id'], :with => '100'
         check find('[name*="\[default_branch\]"]')['id']
       end

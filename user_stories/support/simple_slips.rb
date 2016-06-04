@@ -30,8 +30,9 @@ module SimpleSlips
       assert has_selector?('.sub_account_ready') if simple_slip.account.has_sub_accounts
 
       within '#new_simple_slip' do
-        if simple_slip.account.has_sub_accounts
-          select simple_slip.sub_account.name, :from => 'simple_slip_sub_account_id' if simple_slip.sub_account
+        if simple_slip.sub_account.present?
+          assert has_selector?('#simple_slip_sub_account_id')
+          select simple_slip.sub_account.name, :from => 'simple_slip_sub_account_id'
         end
 
         select simple_slip.branch.name, :from => 'simple_slip_branch_id' if simple_slip.branch

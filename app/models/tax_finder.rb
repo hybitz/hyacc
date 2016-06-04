@@ -1,4 +1,6 @@
 class TaxFinder < Base::Finder
+  include HyaccConstants
+
   attr_accessor :include_has_tax
   attr_accessor :include_nontaxable
   attr_accessor :include_checked

@@ -1,6 +1,5 @@
 module FirstBoot
   extend ActiveSupport::Concern
-  include HyaccConstants
 
   included do
     skip_before_action :authenticate_user!

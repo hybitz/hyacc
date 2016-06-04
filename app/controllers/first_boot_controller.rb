@@ -1,5 +1,7 @@
+require 'active_record/fixtures'
+
 class FirstBootController < ApplicationController
-  require 'active_record/fixtures'
+  include HyaccConstants
   include Base::ExceptionHandler
   include FirstBoot
 

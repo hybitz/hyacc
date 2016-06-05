@@ -65,6 +65,8 @@ module PayrollHelper
           end
         end
       rescue => e
+        Rails.logger.warn e.message
+        Rails.logger.warn e.backtrace.join("\n")
         flash[:notice] = e.message
       end
     end

@@ -168,7 +168,7 @@ class SimpleSlipsController < Base::HyaccController
     redirect_to :action => :index
   end
 
-  def new_from_copy
+  def copy
     @simple_slip = finder.find(params[:id])
     account = Account.get(@simple_slip.account_id)
 

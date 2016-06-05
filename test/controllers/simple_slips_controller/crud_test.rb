@@ -49,9 +49,9 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
   end
 
   # コピー元伝票のJSONフォーマットが正常に取得できること
-  def test_new_from_copy
+  def test_copy
     base_id = 6471
-    xhr :get, :new_from_copy, :account_code => ACCOUNT_CODE_SMALL_CASH, :id => base_id
+    xhr :get, :copy, :account_code => ACCOUNT_CODE_SMALL_CASH, :id => base_id
     assert_response :success
     assert assigns[:json]
 

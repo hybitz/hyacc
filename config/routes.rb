@@ -127,7 +127,9 @@ Rails.application.routes.draw do
     collection do
       get 'get_account_details'
       get 'get_templates'
-      get 'new_from_copy'
+    end
+    member do
+      get 'copy'
     end
   end
   get 'simple/:account_code', :to => 'simple_slips#index'

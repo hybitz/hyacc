@@ -242,8 +242,7 @@ class JournalHeader < ActiveRecord::Base
     copy.id = nil
 
     jh.journal_details.each do |src_jd|
-      jd = JournalDetail.new
-      jd.attributes = src_jd.attributes
+      jd = copy.journal_details.build(src_jd.attributes.except('id', 'created_at', 'updated_at'))
 
       if src_jd.asset
         jd.asset = Asset.new
@@ -253,8 +252,6 @@ class JournalHeader < ActiveRecord::Base
       src_jd.transfer_journals.each do |tj|
         jd.transfer_journals << tj.copy
       end
-
-      copy.journal_details << jd
     end
 
     # Trac#171 2010/01/27

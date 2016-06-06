@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412231125) do
+ActiveRecord::Schema.define(version: 20160606164042) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -379,6 +379,7 @@ ActiveRecord::Schema.define(version: 20160412231125) do
     t.boolean  "deleted",                 default: false, null: false
   end
 
+  add_index "journal_headers", ["company_id", "ym", "day"], name: "index_journal_headers_on_company_id_and_date", using: :btree
   add_index "journal_headers", ["transfer_from_detail_id"], name: "index_journal_headers_transfer_from_detail_id", using: :btree
   add_index "journal_headers", ["ym"], name: "index_journal_headers_on_ym", using: :btree
 

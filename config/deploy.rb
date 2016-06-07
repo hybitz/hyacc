@@ -46,18 +46,18 @@ namespace :deploy do
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
       execute "sudo service memcached restart"
-      execute "sudo service unicorn_hyacc_pro start"
+      execute "sudo service unicorn_#{fetch(:application)}_pro start"
     end
   end
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo service unicorn_hyacc_pro stop"
+      execute "sudo service unicorn_#{fetch(:application)}_pro stop"
     end
   end
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       execute "sudo service memcached stop"
-      execute "sudo service unicorn_hyacc_pro restart"
+      execute "sudo service unicorn_#{fetch(:application)}_pro restart"
       execute "sudo service memcached start"
     end
   end

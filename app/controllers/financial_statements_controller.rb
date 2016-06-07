@@ -161,7 +161,7 @@ class FinancialStatementsController < Base::HyaccController
 
     # 最大ノードレベルを算出
     calc_max_node_level(@sum)
-
+byebug
     render :pl_monthly
   end
 

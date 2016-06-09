@@ -77,9 +77,8 @@ end
       click_on ym
       within_dialog do
         fill_in '基本給', :with => salary
-        assert has_selector?('form[insurance_loaded]')
-  
         fill_in '住民税', :with => 0
+        assert has_selector?('form[insurance_loaded]')
     
         accept_confirm do
           click_on '登録'

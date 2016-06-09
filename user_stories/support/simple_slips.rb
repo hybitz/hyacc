@@ -29,6 +29,7 @@ module SimpleSlips
 
       if simple_slip.account.has_sub_accounts
         assert has_selector?('.sub_account_ready')
+        assert has_selector?('#simple_slip_sub_account_id')
       end
 
       within '#new_simple_slip' do

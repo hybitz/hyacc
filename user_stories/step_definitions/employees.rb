@@ -14,6 +14,7 @@
       select @user.employee.sex_name, :from => '性別'
       fill_in '生年月日', :with => @user.employee.birth
       fill_in '入社日', :with => @user.employee.employment_date
+      all('.datepicker.hasDatepicker').last.send_keys(:escape)
     end
     click_on '登録'
   end

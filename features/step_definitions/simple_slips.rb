@@ -49,12 +49,16 @@ end
       fill_in 'simple_slip_ym', :with => @slip.ym
       fill_in 'simple_slip_day', :with => @slip.day
       fill_in 'simple_slip_remarks', :with => @slip.remarks
+      find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+    end
 
-      select account.name, :from => 'simple_slip_account_id'
-      assert has_select?('simple_slip_tax_type', :selected => account.tax_type_name)
+    if account.has_sub_accounts
+      assert has_selector?('.sub_account_ready')
+      assert has_selector?('#simple_slip_sub_account_id')
+    end
 
+    within form_selector do
       select branch.name, :from => 'simple_slip_branch_id'
-
       fill_in 'simple_slip_amount_increase', :with => @slip.amount_increase
       fill_in 'simple_slip_amount_decrease', :with => @slip.amount_decrease
     end

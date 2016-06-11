@@ -1,4 +1,4 @@
-もし /^従業員 花子 を登録$/ do |ast_table|
+もし /^従業員 (.*) を登録$/ do |name, ast_table|
   @user = to_user(ast_table)
 
   visit_employees
@@ -14,15 +14,19 @@
       select @user.employee.sex_name, :from => '性別'
       fill_in '生年月日', :with => @user.employee.birth
       fill_in '入社日', :with => @user.employee.employment_date
+      all('.datepicker.hasDatepicker').last.send_keys(:escape)
     end
     click_on '登録'
   end
-  assert has_selector?('.notice')
-  capture
+  
+  with_capture do
+    assert has_no_dialog?
+    assert has_selector?('.notice')
+  end
 end
 
-もし /^花子を(.*?)に配属$/ do |branch_name|
-  assert @employee = Employee.where(:first_name => '花子', :deleted => false).first
+もし /^(.*?)を(.*?)に配属$/ do |first_name, branch_name|
+  assert @employee = Employee.where(:first_name => first_name, :deleted => false).first
 
   visit_employees
 
@@ -49,6 +53,7 @@ end
   end
 
   with_capture do
+    assert has_no_dialog?
     assert has_selector?('.notice')
   end
 end

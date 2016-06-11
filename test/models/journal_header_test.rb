@@ -124,7 +124,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
         jd = jh.journal_details[i]
         copy_jd = copy.journal_details[i]
         assert copy_jd.new_record?
-        assert_equal jd.journal_header_id, copy_jd.journal_header_id
+        assert_nil copy_jd.journal_header_id
         assert_equal jd.detail_no, copy_jd.detail_no
         assert_equal jd.dc_type, copy_jd.dc_type
         assert_equal jd.account_id, copy_jd.account_id
@@ -141,8 +141,8 @@ class JournalHeaderTest < ActiveSupport::TestCase
         assert_equal jd.branch_name, copy_jd.branch_name
         assert_equal jd.social_expense_number_of_people, copy_jd.social_expense_number_of_people
         assert_equal jd.note, copy_jd.note
-        assert_equal jd.created_at, copy_jd.created_at
-        assert_equal jd.updated_at, copy_jd.updated_at
+        assert_nil copy_jd.created_at
+        assert_nil copy_jd.updated_at
 
         # コピーを編集しても元データに変更はない
         copy_jd.amount += 1

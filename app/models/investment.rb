@@ -17,6 +17,7 @@ class Investment < ActiveRecord::Base
   
   before_save :set_ym_and_day
   before_save :set_trading_value
+  after_find :set_buying_or_sellng
   
   def set_ym_and_day
     split = self.yyyymmdd.split("-")
@@ -30,5 +31,13 @@ class Investment < ActiveRecord::Base
       self.trading_value = self.trading_value * -1
     end
   end
-    
+
+  def set_buying_or_sellng
+    self.buying_or_selling = "1"
+    if self.trading_value < 0
+      self.shares = self.shares * -1
+      self.trading_value = self.trading_value * -1
+      self.buying_or_selling = "0"
+    end
+  end
 end

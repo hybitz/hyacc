@@ -21,9 +21,12 @@
         <td><%= inv.day %></td>
         <td><%= inv.bank_account.name %></td>
         <td><%= inv.customer.formal_name %></td>
-        <td class="amount"><%= to_amount(inv.shares) if inv.shares >= 0 %></td>
-        <td class="amount"><%= to_amount(inv.shares * -1) if inv.shares < 0 %></td>
-        <td class="amount"><%= to_amount(inv.trading_value).to_s.gsub('-','△') %></td>
+        <td class="amount"><%= to_amount(inv.shares) if inv.buying_or_selling == "1" %></td>
+        <td class="amount"><%= to_amount(inv.shares) if inv.buying_or_selling == "0" %></td>
+        <td class="amount">
+        	<%= '△' + to_amount(inv.trading_value) if inv.buying_or_selling == "0" %>
+        	<%= to_amount(inv.trading_value) if inv.buying_or_selling == "1" %>
+        </td>
         <td>
           <%= link_to '編集', edit_investment_path(inv), :remote => true %>
           <%= link_to '削除', investment_path(inv),

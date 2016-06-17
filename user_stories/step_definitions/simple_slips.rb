@@ -178,7 +178,7 @@ end
   end
 end
 
-もし /^(.*?)でパソコンを購入$/ do |branch_name, ast_table|
+もし /^(.*?)で(パソコン|サーバマシン)を購入$/ do |branch_name, what, ast_table|
   assert @branch = Branch.where(:name => branch_name).first
   row = normalize_table(ast_table)[1]
 

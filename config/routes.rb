@@ -33,6 +33,8 @@ Rails.application.routes.draw do
         get 'add_employee_history'
       end
     end
+
+    resources :rents
   end
 
   namespace :mv do
@@ -121,7 +123,6 @@ Rails.application.routes.draw do
   end
 
   resources :receipts, :only => 'show'
-  resources :rents
 
   resources :simple_slips, :except => 'index' do
     collection do

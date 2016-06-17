@@ -2,7 +2,7 @@
   to_journals(ast_table).each do |journal|
     visit_journals
     click_on '追加'
-  
+
     within_dialog('振替伝票　追加') do
       with_capture do
         fill_in 'journal_ym', :with => journal.ym

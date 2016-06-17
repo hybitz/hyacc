@@ -1,4 +1,4 @@
-class RentsController < Base::HyaccController
+class Mm::RentsController < Base::HyaccController
   before_action :check_customer_exists
   view_attribute :title => '地代家賃'
   view_attribute :deleted_types

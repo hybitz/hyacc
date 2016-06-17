@@ -64,7 +64,7 @@ class InvestmentFinder < Base::Finder
   def conditions
     ym_range = get_ym_range
     sql = SqlBuilder.new
-    sql.append('bank_account_id = ? and ym >= ? and ym <= ?', self.bank_account_id, ym_range.first, ym_range.last)
+    sql.append('bank_account_id = ? and ym <= ?', self.bank_account_id, ym_range.last)
     sql.to_a
   end
   

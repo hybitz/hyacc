@@ -1,8 +1,8 @@
 require 'test_helper'
 
-class RentsControllerTest < ActionController::TestCase
+class Mm::RentsControllerTest < ActionController::TestCase
 
-  setup do
+  def setup
     sign_in user
   end
   
@@ -19,7 +19,7 @@ class RentsControllerTest < ActionController::TestCase
   end
 
   def test_should_create_rent
-    assert_difference('Rent.count') do
+    assert_difference 'Rent.count', 1 do
       xhr :post, :create,
           :rent => {:rent_type => "1", :usage_type => "1",
                     :address => "住所", :customer_id => "1",
@@ -62,6 +62,6 @@ class RentsControllerTest < ActionController::TestCase
       delete :destroy, :id => rents(:rent_00005).id
     end
 
-    assert_redirected_to rents_path
+    assert_redirected_to :action => 'index'
   end
 end

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class BankAccountsControllerTest < ActionController::TestCase
+class Mm::BankAccountsControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in user

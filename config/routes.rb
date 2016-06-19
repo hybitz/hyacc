@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :bank_accounts
+
     resources :banks do
       collection do
         get 'add_bank_office'
@@ -49,7 +51,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :bank_accounts
   resources :bank_offices, :only => 'index'
 
   resources :careers

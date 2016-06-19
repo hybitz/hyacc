@@ -1,4 +1,4 @@
-<%= form_for @bank_account, :remote => true do |f| %>
+<%= form_for [:mm, @bank_account], :remote => true do |f| %>
   <%= flash_notice %>
 
   <script>

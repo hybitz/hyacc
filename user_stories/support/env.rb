@@ -15,7 +15,7 @@ Dir[File.join(Rails.root, 'features', 'support', '*_support.rb')].each do |f|
   require f
 end
 
-if ENV['CI'] != 'travis'
+unless ENV['CI']
   Before do |scenario|
     db_dump = DbDump.instance
     feature_file = scenario.feature.location.file

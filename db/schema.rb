@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160606164042) do
+ActiveRecord::Schema.define(version: 20160621142419) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -242,7 +242,7 @@ ActiveRecord::Schema.define(version: 20160606164042) do
     t.boolean  "deleted",                   default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "birth"
+    t.date     "birth",                                     null: false
     t.integer  "user_id"
   end
 

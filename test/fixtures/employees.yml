@@ -46,6 +46,7 @@ user4:
   first_name: 太郎
   employment_date: 2010-05-05
   sex: M
+  birth: 1962-05-05
 
 user6:
   id: 6

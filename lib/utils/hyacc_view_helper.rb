@@ -38,7 +38,7 @@ module HyaccViewHelper
   def format_wareki_year_month( year_month )
     year_month = year_month.to_i
     zero_pad = ( year_month % 100 ) < 10 ? '0' : ''
-    Gengou.to_wareki( year_month / 100 ) + "年" + zero_pad + ( year_month % 100 ).to_s + "月"
+    TaxJp::Gengou.to_wareki( year_month / 100 ) + "年" + zero_pad + ( year_month % 100 ).to_s + "月"
   end
   
   def format_wareki_year_month_day( year_month_day )
@@ -182,9 +182,7 @@ module HyaccViewHelper
   private
 
   def revert_and_sort( hash )
-    ret = hash.dup
-    ret = hash.invert
-    ret.sort_by{|key, value| value}
+    hash.invert.sort_by{|key, value| value}
   end
 
 end

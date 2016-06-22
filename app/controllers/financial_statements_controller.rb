@@ -72,7 +72,7 @@ class FinancialStatementsController < Base::HyaccController
 
     # 各科目の月別ネット累計を取得
     @sum = {}
-    trees.each do |acount|
+    trees.each do |account|
       @sum.update(list_monthly_net_sum(account))
     end
 

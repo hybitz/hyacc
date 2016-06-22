@@ -107,18 +107,18 @@ class FinancialStatementsController < Base::HyaccController
     render :bs_monthly
   end
 
-  def list_monthly_net_sum( account )
+  def list_monthly_net_sum(account)
     ret = {}
 
     # 自身の累計を取得
     sum = {}
     sum[:account] = account
-    sum[:ym] = finder.list_monthly_net_sum( account )
+    sum[:ym] = finder.list_monthly_net_sum(account)
     ret[account.code] = sum
 
     # 子ノードの累計を取得
     account.children.each do | child |
-      ret.update( list_monthly_net_sum( child ) )
+      ret.update(list_monthly_net_sum(child))
     end
 
     ret

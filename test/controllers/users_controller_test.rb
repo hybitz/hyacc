@@ -47,6 +47,7 @@ class UsersControllerTest < ActionController::TestCase
           :employment_date => '2009-01-01',
           :sex => 'M',
           :birth => '2000-01-01',
+          :my_number => '123456789012'
         }
       }
     end

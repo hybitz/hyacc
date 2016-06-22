@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621142419) do
+ActiveRecord::Schema.define(version: 20160621142747) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -232,18 +232,19 @@ ActiveRecord::Schema.define(version: 20160621142419) do
   end
 
   create_table "employees", force: true do |t|
-    t.integer  "company_id",                                null: false
-    t.string   "first_name",                                null: false
-    t.string   "last_name",                                 null: false
-    t.date     "employment_date",                           null: false
+    t.integer  "company_id",                                 null: false
+    t.string   "first_name",                                 null: false
+    t.string   "last_name",                                  null: false
+    t.date     "employment_date",                            null: false
     t.string   "zip_code"
     t.string   "address"
-    t.string   "sex",             limit: 1,                 null: false
-    t.boolean  "deleted",                   default: false, null: false
+    t.string   "sex",             limit: 1,                  null: false
+    t.boolean  "deleted",                    default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "birth",                                     null: false
+    t.date     "birth",                                      null: false
     t.integer  "user_id"
+    t.string   "my_number",       limit: 12
   end
 
   create_table "exemptions", force: true do |t|

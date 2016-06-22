@@ -54,10 +54,10 @@
   </tr>
 
   <%# 売上高 %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_SALE, :style=>'font-weight: bold;' %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_SALE, :style=>'font-weight: bold;' %>
     
   <%# 売上原価 %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_COST_OF_SALES %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_COST_OF_SALES %>
   
   <%# 売上総利益 %>
   <tr id="grossProfit" style="font-weight: bold;">
@@ -77,11 +77,11 @@
 
   <%# 販売費および一般管理費に関する科目 %>
   <% @sum[HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:account].children.each do |child| %>
-    <%= render 'line_pl_monthly', :account_code=>child.code %>
+    <%= render 'line_pl_monthly', :account_code => child.code %>
   <% end %>
 
   <%# 販売費および一般管理費 %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE, :style=>'font-weight: bold;' %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE, :style=>'font-weight: bold;' %>
 
   <%# 営業利益 %>
   <tr id="operatingIncome" style="font-weight: bold;">
@@ -101,19 +101,19 @@
   
   <%# 営業外収益に関する科目 %>
   <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:account].children.each do |child| %>
-    <%= render 'line_pl_monthly', :account_code=>child.code %>
+    <%= render 'line_pl_monthly', :account_code => child.code %>
   <% end %>
 
   <%# 営業外収益 %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_NON_OPERATING_PROFIT %>
 
   <%# 営業外費用に関する科目 %>
   <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE][:account].children.each do |child| %>
-    <%= render 'line_pl_monthly', :account_code=>child.code %>
+    <%= render 'line_pl_monthly', :account_code => child.code %>
   <% end %>
 
   <%# 営業外費用 %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_NON_OPERATING_EXPENSE %>
 
   <%# 経常利益 %>
   <tr id="ordinaryIncome" style="font-weight: bold;">
@@ -134,11 +134,11 @@
 
   <%# 特別利益に関する科目 %>
   <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:account].children.each do |child| %>
-    <%= render 'line_pl_monthly', :account_code=>child.code %>
+    <%= render 'line_pl_monthly', :account_code => child.code %>
   <% end %>
 
   <%# 特別利益 %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_EXTRAORDINARY_PROFIT %>
 
   <%# 特別費用に関する科目 %>
   <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:account].children.each do |child| %>
@@ -146,7 +146,7 @@
   <% end %>
 
   <%# 特別費用 %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_EXTRAORDINARY_EXPENSE %>
 
   <%# 税引前当期利益 %>
   <tr id="pretaxProfit" style="font-weight: bold;">
@@ -166,9 +166,9 @@
   </tr>
 
   <%# 法人税等 %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_CORPORATE_TAXES %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE %>
-  <%= render 'line_pl_monthly', :account_code=>HyaccConstants::ACCOUNT_CODE_HEAD_OFFICE_TAXES %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_CORPORATE_TAXES %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_HEAD_OFFICE_TAXES %>
 
   <%# 当期利益 %>
   <tr id="profit" style="font-weight: bold;">

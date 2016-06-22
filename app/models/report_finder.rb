@@ -30,7 +30,7 @@ class ReportFinder < Base::Finder
   # 戻り値は、データ構造が12ヶ月分
   # - ym: 年月のyyyymm
   #   amount: 対象となる勘定科目の月別累計金額
-  def list_monthly_sum( account )
+  def list_monthly_sum(account)
     raise '勘定科目の指定がありません。' unless account
 
     ym_range = get_ym_range

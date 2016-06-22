@@ -35,9 +35,9 @@ class FinancialStatementsController < Base::HyaccController
   def render_bs_yearly
     # BS関係の勘定科目ツリーを取得
     trees = [
-      Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_ASSET).first,
-      Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_DEBT).first,
-      Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_CAPITAL).first,
+      Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_ASSET).first,
+      Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_DEBT).first,
+      Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_CAPITAL).first
     ]
 
     # 各科目のネット累計を取得
@@ -47,8 +47,8 @@ class FinancialStatementsController < Base::HyaccController
     end
 
     # 繰越利益剰余金の計算
-    profit_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_PROFIT).first
-    expense_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_EXPENSE).first
+    profit_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_PROFIT).first
+    expense_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_EXPENSE).first
     # 今期の利益
     profit = finder.get_net_sum_amount( profit_account )
     expense = finder.get_net_sum_amount( expense_account )

@@ -43,18 +43,26 @@ class ReportFinder < Base::Finder
     
     # 1期分の月別累計情報を検索
     sql = SqlBuilder.new
-    sql.append('ym >= ? and ym <= ?', ym_range.first, ym_range.last)
-    sql.append('and path like ?', '%' + account.path + '%')
-    sql.append('and branch_id = ?', branch_id) if branch_id > 0
-    VMonthlyLedger.where(sql.to_a).each do |vml|
+    sql.append('select')
+    sql.append('  jh.ym,')
+    sql.append('  jd.dc_type,')
+    sql.append('  sum(jd.amount) as amount')
+    sql.append('from journal_details jd')
+    sql.append('inner join journal_headers jh on (jh.id = jd.journal_header_id)')
+    sql.append('inner join accounts a on (a.id = jd.account_id)')
+    sql.append('where ym >= ? and ym <= ?', ym_range.first, ym_range.last)
+    sql.append('  and path like ?', '%' + account.path + '%')
+    sql.append('  and branch_id = ?', branch_id) if branch_id > 0
+    sql.append('group by jh.ym, jd.dc_type')
+    JournalDetail.find_by_sql(sql.to_a).each do |row|
       # 年月からデータを格納する配列のインデックスを算出
-      index = vml.ym % 100 - start_month_of_fiscal_year
+      index = row.ym % 100 - start_month_of_fiscal_year
       index += 12 if index < 0
 
-      if vml.dc_type == account.dc_type
-        ret[index][:amount] += vml.amount
+      if row.dc_type == account.dc_type
+        ret[index][:amount] += row.amount
       else
-        ret[index][:amount] -= vml.amount
+        ret[index][:amount] -= row.amount
       end
     end
   
@@ -77,7 +85,7 @@ class ReportFinder < Base::Finder
   # 戻り値は、データ構造が12ヶ月分
   # - ym: 年月のyyyymm
   #   amount: 対象となる勘定科目のその月までのネット累計金額
-  def list_monthly_net_sum( account )
+  def list_monthly_net_sum(account)
     raise '勘定科目の指定がありません。' unless account
 
     ym_range = get_ym_range
@@ -90,31 +98,47 @@ class ReportFinder < Base::Finder
 
     # 1月目までの累計を取得
     sql = SqlBuilder.new
-    sql.append('ym <= ?', ym_range.first)
-    sql.append('and path like ?', '%' + account.path + '%')
-    sql.append('and branch_id = ?', branch_id) if branch_id > 0
-    VMonthlyLedger.where(sql.to_a).each do |vml|
-      if vml.dc_type == account.dc_type
-        ret[0][:amount] += vml.amount
+    sql.append('select')
+    sql.append('  jh.ym,')
+    sql.append('  jd.dc_type,')
+    sql.append('  sum(jd.amount) as amount')
+    sql.append('from journal_details jd')
+    sql.append('inner join journal_headers jh on (jh.id = jd.journal_header_id)')
+    sql.append('inner join accounts a on (a.id = jd.account_id)')
+    sql.append('where ym <= ?', ym_range.first)
+    sql.append('  and path like ?', '%' + account.path + '%')
+    sql.append('  and branch_id = ?', branch_id) if branch_id > 0
+    sql.append('group by jh.ym, jd.dc_type')
+    JournalDetail.find_by_sql(sql.to_a).each do |row|
+      if row.dc_type == account.dc_type
+        ret[0][:amount] += row.amount
       else
-        ret[0][:amount] -= vml.amount
+        ret[0][:amount] -= row.amount
       end
     end
     
     # 2月目からの月別累計情報を検索
     sql = SqlBuilder.new
-    sql.append('ym > ? and ym <= ?', ym_range.first, ym_range.last)
-    sql.append('and path like ?', '%' + account.path + '%')
-    sql.append('and branch_id = ?', branch_id) if branch_id > 0
-    VMonthlyLedger.where(sql.to_a).each do |vml|
+    sql.append('select')
+    sql.append('  jh.ym,')
+    sql.append('  jd.dc_type,')
+    sql.append('  sum(jd.amount) as amount')
+    sql.append('from journal_details jd')
+    sql.append('inner join journal_headers jh on (jh.id = jd.journal_header_id)')
+    sql.append('inner join accounts a on (a.id = jd.account_id)')
+    sql.append('where ym > ? and ym <= ?', ym_range.first, ym_range.last)
+    sql.append('  and path like ?', '%' + account.path + '%')
+    sql.append('  and branch_id = ?', branch_id) if branch_id > 0
+    sql.append('group by jh.ym, jd.dc_type')
+    JournalDetail.find_by_sql(sql.to_a).each do |row|
       # 年月からデータを格納する配列のインデックスを算出
-      index = vml.ym % 100 - start_month_of_fiscal_year
+      index = row.ym % 100 - start_month_of_fiscal_year
       index += 12 if index < 0
       
-      if vml.dc_type == account.dc_type
-        ret[index][:amount] += vml.amount
+      if row.dc_type == account.dc_type
+        ret[index][:amount] += row.amount
       else
-        ret[index][:amount] -= vml.amount
+        ret[index][:amount] -= row.amount
       end
     end
     

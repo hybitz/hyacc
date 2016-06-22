@@ -65,20 +65,20 @@ class FinancialStatementsController < Base::HyaccController
   def render_bs_monthly
     # BS関係の勘定科目ツリーを取得
     trees = [
-      Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_ASSET).first,
-      Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_DEBT).first,
-      Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_CAPITAL).first,
+      Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_ASSET).first,
+      Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_DEBT).first,
+      Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_CAPITAL).first
     ]
 
     # 各科目の月別ネット累計を取得
     @sum = {}
-    trees.each do | tree |
-      @sum.update( list_monthly_net_sum( tree ) )
+    trees.each do |acount|
+      @sum.update(list_monthly_net_sum(account))
     end
 
     # 利益剰余金の計算
-    profit_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_PROFIT).first
-    expense_account = Account.where("account_type=? and parent_id is null", ACCOUNT_TYPE_EXPENSE).first
+    profit_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_PROFIT).first
+    expense_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_EXPENSE).first
 
     # 今期の収益と費用
     profit = finder.list_monthly_sum( profit_account )

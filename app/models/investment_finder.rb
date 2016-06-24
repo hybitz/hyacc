@@ -18,6 +18,7 @@ class InvestmentFinder < Base::Finder
         return true
       end
     end
+    return false
   end
   
   def journal_details_not_related

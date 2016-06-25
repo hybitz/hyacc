@@ -59,7 +59,7 @@ module Base
 
       rf = ReportFinder.new(current_user)
       rf.setup_from_params(:fiscal_year => fiscal_year)
-      rf.get_net_sum_amount(stock)
+      rf.get_net_sum(stock)
     end
   end
 end

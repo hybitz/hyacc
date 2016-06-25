@@ -16,11 +16,6 @@ class ReportFinder < Base::Finder
     end
   end
 
-  # 指定年月までの累計を求める
-  def get_net_sum_until(ym, account)
-    VMonthlyLedger.get_net_sum_amount(nil, ym, account.id, 0, branch_id, :ym_to_exclusive => true)
-  end
-
   # 月別累計の配列を取得する
   # 戻り値は、データ構造が12ヶ月分
   # - ym: 年月のyyyymm
@@ -65,7 +60,7 @@ class ReportFinder < Base::Finder
   end
 
   # 年度末までの累計金額を求める
-  def get_net_sum_amount(account)
+  def get_net_sum(account)
     ret = 0
 
     sql = SqlBuilder.new

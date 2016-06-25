@@ -50,8 +50,8 @@ class FinancialStatementsController < Base::HyaccController
     profit_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_PROFIT).first
     expense_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_EXPENSE).first
     # 今期の利益
-    profit = finder.get_net_sum_amount( profit_account )
-    expense = finder.get_net_sum_amount( expense_account )
+    profit = finder.get_net_sum(profit_account)
+    expense = finder.get_net_sum(expense_account)
     revenue = profit - expense
     # 前期までの利益は繰越利益剰余金に振替済みなので、そこに計算結果を付け足す
     @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:amount] += revenue
@@ -134,7 +134,7 @@ class FinancialStatementsController < Base::HyaccController
 
     # リーフの場合は累計を取得
     if account.is_leaf_on_settlement_report
-      ret[account.code][:amount] = finder.get_net_sum_amount(account)
+      ret[account.code][:amount] = finder.get_net_sum(account)
     end
 
     # 子ノードの累計を取得

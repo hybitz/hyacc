@@ -134,13 +134,13 @@ class FinancialStatementsController < Base::HyaccController
 
     # リーフの場合は累計を取得
     if account.is_leaf_on_settlement_report
-      ret[account.code][:amount] = finder.get_net_sum_amount( account )
+      ret[account.code][:amount] = finder.get_net_sum_amount(account)
     end
 
     # 子ノードの累計を取得
     account.children.each do |child|
-      net_sum = get_net_sum( child )
-      ret.update( net_sum ) if net_sum
+      net_sum = get_net_sum(child)
+      ret.update(net_sum) if net_sum
     end
 
     ret

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160621142747) do
+ActiveRecord::Schema.define(version: 20160628151647) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -245,6 +245,7 @@ ActiveRecord::Schema.define(version: 20160621142747) do
     t.date     "birth",                                      null: false
     t.integer  "user_id"
     t.string   "my_number",       limit: 12
+    t.boolean  "executive",                  default: false, null: false
   end
 
   create_table "exemptions", force: true do |t|

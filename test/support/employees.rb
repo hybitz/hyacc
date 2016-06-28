@@ -14,7 +14,8 @@ module Employees
       'employment_date(1i)' => '1990',
       'employment_date(2i)' => '1',
       'employment_date(3i)' => '1',
-      :my_number => '123456789012'
+      :my_number => '123456789012',
+      :executive => false
     }
   end
   

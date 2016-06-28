@@ -121,6 +121,9 @@ ja:
         address: 住所
         business_office_id: 所属する事業所
         employment_date: 入社日
+        executive: 雇用形態
+        executive_true: 役員
+        executive_false: 従業員
         first_name: 名
         last_name: 姓
         my_number: マイナンバー

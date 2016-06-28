@@ -22,7 +22,7 @@
         </tr>
         <tr>
           <th><%= f.label :zip_code %></th>
-          <td><%= f.text_field :zip_code %></td>
+          <td><%= f.text_field :zip_code, :class => 'zip_code' %></td>
         </tr>
         <tr>
           <th><%= f.label :address %></th>
@@ -35,6 +35,10 @@
         <tr>
           <th><%= f.label :my_number %></th>
           <td><%= f.text_field :my_number, :class => 'my_number' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :executive %></th>
+          <td><label><%= f.check_box :executive %> <%= Employee.human_attribute_name :executive_true %></label></td>
         </tr>
       </table>
     </div>

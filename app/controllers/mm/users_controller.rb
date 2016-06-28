@@ -1,4 +1,4 @@
-class UsersController < Base::HyaccController
+class Mm::UsersController < Base::HyaccController
   view_attribute :title => 'ユーザ'
          
   def index
@@ -11,7 +11,7 @@ class UsersController < Base::HyaccController
 
   def new
     @user = User.new
-    @user.employee = Employee.new
+    @user.build_employee
   end
 
   def create

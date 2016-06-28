@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     end
 
     resources :rents
+    resources :users
   end
 
   namespace :mv do
@@ -146,7 +147,6 @@ Rails.application.routes.draw do
   resources :social_expenses, :only => 'index'
   resources :sub_accounts, :only => 'index'
   resources :taxes, :only => ['index', 'update']
-  resources :users
   resources :withholding_slip, :only => 'index'
 
   namespace :bs do

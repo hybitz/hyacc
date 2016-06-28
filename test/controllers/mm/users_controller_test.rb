@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UsersControllerTest < ActionController::TestCase
+class Mm::UsersControllerTest < ActionController::TestCase
   include HyaccViewHelper
 
   def test_index

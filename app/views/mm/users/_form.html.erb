@@ -3,7 +3,7 @@
     hyacc.init_datepicker();
   });
 </script>
-<%= form_for @user, :remote => true do |f| %>
+<%= form_for [:mm, @user], :remote => true do |f| %>
   <%= flash_notice %>
 
   <div>

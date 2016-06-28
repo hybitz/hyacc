@@ -34,6 +34,10 @@ class User < ActiveRecord::Base
     google_account.to_s.size > 0
   end
 
+  def code
+    login_id
+  end
+
   # 補助科目として表示する際の名称
   def name
     login_id

@@ -24,24 +24,28 @@
 
 <% if @account.has_bank_accounts %>
   <div>
-    <%= link_to '金融口座管理へ', :controller=>'bank_accounts' %>
+    <%= link_to '金融口座管理へ', :controller => 'bank_accounts' %>
   </div>
 <% end %>
 
 <% if @account.has_customers %>
   <div>
-    <%= link_to '取引先管理へ', :controller=>'customers' %>
+    <%= link_to '取引先管理へ', :controller => 'customers' %>
   </div>
 <% end %>
 
 <% if @account.has_employees %>
   <div>
-    <%= link_to 'ユーザ管理へ', :controller => '/mm/users' %>
+    <% if current_company.personal? %>
+      <%= link_to 'ユーザ管理へ', :controller => '/mm/users' %>
+    <% else %>
+      <%= link_to '従業員管理へ', :controller => '/mm/employees' %>
+    <% end %>
   </div>
 <% end %>
 
 <% if @account.has_rents %>
   <div>
-    <%= link_to '地代家賃管理へ', :controller=>'rents' %>
+    <%= link_to '地代家賃管理へ', :controller => 'rents' %>
   </div>
 <% end %>

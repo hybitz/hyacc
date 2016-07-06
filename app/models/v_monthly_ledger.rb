@@ -41,7 +41,7 @@ EOS
     account = Account.get(account_id)
   
     sql = ["select sum(amount) as amount from (#{VIEW}) as monthly_ledger "]
-    
+
     if options[:include_children] or not options.has_key?(:include_children)
       sql[0] << "where path like ? "
       sql << '%' + account.path + '%'

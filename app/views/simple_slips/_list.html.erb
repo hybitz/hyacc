@@ -28,7 +28,7 @@
         <th colspan="4"></th>
       </tr>
 
-      <tr id="cashSumBefore" class="cashRow">
+      <tr class="cashRow">
         <td></td>
         <td></td>
         <td></td>
@@ -55,7 +55,7 @@
     </tbody>
 
     <tfoot>
-      <tr id="cashSumAfter" class="cashRow">
+      <tr class="cashRow">
         <td></td>
         <td></td>
         <td></td>
@@ -78,37 +78,8 @@
 <% end %>
 
 <script>
-  // 累計の計算
-  // 累計がマイナスの場合は、金額を赤色表示にする
-  function calcSum() {
-    var container = $('#slipTable');
-    var rows = container.find('tr[slip_id]');
-
-    var before = container.find('tr#cashSumBefore .amountSum');
-    var sum = toInt(before.text());
-    if ( sum < 0 ) {
-      $(before).css('color', 'red');
-    }
-
-    container.find('tr[slip_id]').each(function() {
-      sum += toInt($(this).find('.amountIncrease').text());
-      sum -= toInt($(this).find('.amountDecrease').text());
-      $(this).find('.amountSum').text(toAmount(sum));
-
-      if ( sum < 0 ) {
-        $(this).find('.amountSum').css('color', 'red');
-      }
-    });
-
-    var after = container.find('tr#cashSumAfter .amountSum');
-    var sum = toInt(after.text()); // 過去伝票をページングして参照しているかもしれないので画面の計算値に依存しない
-    if ( sum < 0 ) {
-      $(after).css('color', 'red');
-    }
-  }
-
   $(document).ready(function() {
-    calcSum();
+    simple_slips.calc_sum();
 
     // 消費税欄を初期化
     var form = $('#new_simple_slip');

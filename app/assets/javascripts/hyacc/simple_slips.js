@@ -24,3 +24,30 @@ simple_slips.copy = function(trigger) {
     $('#simple_slip_day').focus();
   });
 };
+
+simple_slips.calc_sum = function() {
+  var table = $('#slipTable');
+  var rows = table.find('tr[slip_id]');
+
+  var before = table.find('thead tr').last().find('.amountSum');
+  var sum = toInt(before.text());
+  if (sum < 0) {
+    $(before).css('color', 'red');
+  }
+
+  table.find('tr[slip_id]').each(function() {
+    sum += toInt($(this).find('.amountIncrease').text());
+    sum -= toInt($(this).find('.amountDecrease').text());
+    $(this).find('.amountSum').text(toAmount(sum));
+
+    if (sum < 0) {
+      $(this).find('.amountSum').css('color', 'red');
+    }
+  });
+
+  var after = table.find('tfoot tr').first().find('.amountSum');
+  var sum = toInt(after.text()); // 過去伝票をページングして参照しているかもしれないので画面の計算値に依存しない
+  if (sum < 0) {
+    $(after).css('color', 'red');
+  }
+};

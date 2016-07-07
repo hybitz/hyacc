@@ -83,7 +83,7 @@ class FirstBootController < ApplicationController
   end
 
   def employee_params
-    params.require(:e).permit(:last_name, :first_name, :sex, :birth)
+    params.require(:e).permit(:last_name, :first_name, :sex, :birth).merge(:executive => true)
   end
 
   def user_params
@@ -97,7 +97,7 @@ class FirstBootController < ApplicationController
     # 勘定科目、勘定科目制御の初期データロード
     ActiveRecord::FixtureSet.create_fixtures(dir, "accounts")
     if @c.personal?
-      Account.delete_all(['company_only =?', true])
+      Account.delete_all(['company_only = ?', true])
       Account.where('depreciable = ?', true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_AMOUNT])
     else
       Account.delete_all(['personal_only = ?', true])

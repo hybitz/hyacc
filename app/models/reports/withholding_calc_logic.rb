@@ -47,7 +47,7 @@ module Reports
     # 支払金額
     def get_total_salarys
       logic = PayrollInfo::PayrollLogic.new(@finder)
-      return logic.get_base_salarys
+      return logic.get_base_salaries
     end
     
     # 支払金額(賞与)

@@ -14,9 +14,9 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     assert_equal 2_653_000, logic.get_total_base_salary
   end
   
-  def test_get_base_salarys
+  def test_get_base_salaries
     logic = logic_builder(2008)
-    assert_equal 349_000, logic.get_base_salarys["20080507"]
+    assert_equal 349_000, logic.get_base_salaries["20080507"]
   end
   
   def test_get_base_bonuses

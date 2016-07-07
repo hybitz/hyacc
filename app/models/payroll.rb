@@ -317,8 +317,14 @@ class Payroll < ActiveRecord::Base
     salary_id = Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id
     self.payroll_journal_header.journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == salary_id
-        amount = jd.amount
-        break
+        amount += jd.amount
+      end
+    end
+
+    salary_id = Account.get_by_code(ACCOUNT_CODE_SALARY).id
+    self.payroll_journal_header.journal_details.each do | jd |
+      if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == salary_id
+        amount += jd.amount
       end
     end
 

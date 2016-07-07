@@ -11,32 +11,43 @@ module PayrollInfo
     # 支払金額
     def get_total_base_salary
       total_base_salary = 0
+
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal_header).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
 
       list.each do |p|
-        # 給与
+        # 役員給与
         p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
-          total_base_salary = total_base_salary + d.amount
+          total_base_salary += d.amount
+        end
+        # 給与手当
+        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
+          total_base_salary += d.amount
         end
         # 賞与
         p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
-          total_base_salary = total_base_salary + d.amount
+          total_base_salary += d.amount
         end
       end
-      return total_base_salary
+
+      total_base_salary
     end
 
     # 支払金額(給与)
-    def get_base_salarys
+    def get_base_salaries
       salarys = {}
 
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.joins(:pay_journal_header).where("journal_headers.ym like ?",  @calendar_year.to_s + '%').order("journal_headers.ym, journal_headers.day")
 
       list.each do |p|
-        # 給与
+        # 役員給与
         p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+          yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
+          salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
+        end
+        # 給与手当
+        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
           yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
           salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
         end

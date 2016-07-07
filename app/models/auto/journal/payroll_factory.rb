@@ -46,9 +46,11 @@ module Auto::Journal
       advance_money = Account.get_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
 
       ## 給与明細
-      ### 役員給与
+      ### 役員給与・給与手当
       if @payroll.base_salary.to_i != 0
-        account = Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY)
+        account = employee.executive? ?
+            Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
+            Account.get_by_code(ACCOUNT_CODE_SALARY)
 
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size

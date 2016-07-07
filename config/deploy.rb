@@ -45,13 +45,14 @@ namespace :deploy do
 
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo service memcached restart"
       execute "sudo service unicorn_#{fetch(:application)}_pro start"
+      execute "sudo service memcached start"
     end
   end
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
       execute "sudo service unicorn_#{fetch(:application)}_pro stop"
+      execute "sudo service memcached stop"
     end
   end
   task :restart do

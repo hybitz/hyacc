@@ -6,7 +6,7 @@ module Reports
       ret = Reports::TradeAccountPayableModel.new
   
       # 期末の年月
-      end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year )
+      end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(finder.fiscal_year, finder.start_month_of_fiscal_year)
   
       # 対象となる科目ごとに明細を組み立てる
       accounts = Account.where(:is_trade_account_payable => true).order('code')
@@ -23,14 +23,14 @@ module Reports
             else
               detail.name = sa.name
             end
-            detail.amount_at_end = VMonthlyLedger.get_net_sum_amount(nil, end_ym, a.id, sa.id, finder.branch_id, :include_children => false)
+            detail.amount_at_end = get_net_sum_amount(end_ym, a, sa.id, finder.branch_id)
             detail.remarks = a.short_description
             ret.add_detail(detail)
           end
         else
           detail = Reports::TradeAccountPayableDetailModel.new
           detail.account = a
-          detail.amount_at_end = VMonthlyLedger.get_net_sum_amount(nil, end_ym, a.id, 0, finder.branch_id, :include_children => false)
+          detail.amount_at_end = get_net_sum_amount(end_ym, a, 0, finder.branch_id)
           detail.remarks = a.short_description
           ret.add_detail(detail)
         end
@@ -41,6 +41,34 @@ module Reports
         d.amount_at_end == 0
       end
       
+      ret
+    end
+
+    private
+
+    def get_net_sum_amount(ym, account, sub_account_id, branch_id)
+      ret = 0
+
+      sql = SqlBuilder.new
+      sql.append('select')
+      sql.append('  jd.dc_type,')
+      sql.append('  sum(jd.amount) as amount')
+      sql.append('from journal_details jd')
+      sql.append('inner join journal_headers jh on (jh.id = jd.journal_header_id)')
+      sql.append('inner join accounts a on (a.id = jd.account_id)')
+      sql.append('where ym <= ?', ym)
+      sql.append('  and account_id = ?', account.id)
+      sql.append('  and sub_account_id = ?', sub_account_id) if sub_account_id > 0
+      sql.append('  and branch_id = ?', branch_id) if branch_id > 0
+      sql.append('group by jd.dc_type')
+      JournalDetail.find_by_sql(sql.to_a).each do |row|
+        if row.dc_type == account.dc_type
+          ret += row.amount.to_i
+        else
+          ret -= row.amount.to_i
+        end
+      end
+
       ret
     end
   end

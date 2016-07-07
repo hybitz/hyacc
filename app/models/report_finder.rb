@@ -16,16 +16,6 @@ class ReportFinder < Base::Finder
     end
   end
 
-  # 年度末までの累計を求める
-  def get_net_sum_amount(account)
-    VMonthlyLedger.get_net_sum_amount(nil, end_year_month_of_fiscal_year, account.id, 0, branch_id)
-  end
-
-  # 指定年月までの累計を求める
-  def get_net_sum_until(ym, account)
-    VMonthlyLedger.get_net_sum_amount(nil, ym, account.id, 0, branch_id, :ym_to_exclusive => true)
-  end
-
   # 月別累計の配列を取得する
   # 戻り値は、データ構造が12ヶ月分
   # - ym: 年月のyyyymm
@@ -69,16 +59,55 @@ class ReportFinder < Base::Finder
     ret
   end
 
-  def get_yearly_net_sum( account )
-    # 勘定科目は必須
-    raise '勘定科目の指定がありません。' unless account
+  # 年度末までの累計金額を求める
+  def get_net_sum(account)
+    ret = 0
 
-    VMonthlyLedger.get_net_sum_amount(
-      start_year_month_of_fiscal_year,
-      end_year_month_of_fiscal_year,
-      account.id,
-      0,
-      branch_id)
+    sql = SqlBuilder.new
+    sql.append('select')
+    sql.append('  jd.dc_type,')
+    sql.append('  sum(jd.amount) as amount')
+    sql.append('from journal_details jd')
+    sql.append('inner join journal_headers jh on (jh.id = jd.journal_header_id)')
+    sql.append('inner join accounts a on (a.id = jd.account_id)')
+    sql.append('where jh.ym <= ?', end_year_month_of_fiscal_year)
+    sql.append('  and a.path like ?', '%' + account.path + '%')
+    sql.append('  and jd.branch_id = ?', branch_id) if branch_id > 0
+    sql.append('group by jd.dc_type')
+    JournalDetail.find_by_sql(sql.to_a).each do |row|
+      if row.dc_type == account.dc_type
+        ret += row.amount
+      else
+        ret -= row.amount
+      end
+    end
+
+    ret
+  end
+
+  def get_yearly_net_sum(account)
+    ret = 0
+
+    sql = SqlBuilder.new
+    sql.append('select')
+    sql.append('  jd.dc_type,')
+    sql.append('  sum(jd.amount) as amount')
+    sql.append('from journal_details jd')
+    sql.append('inner join journal_headers jh on (jh.id = jd.journal_header_id)')
+    sql.append('inner join accounts a on (a.id = jd.account_id)')
+    sql.append('where jh.ym >= ? and jh.ym <= ?', start_year_month_of_fiscal_year, end_year_month_of_fiscal_year)
+    sql.append('  and a.path like ?', '%' + account.path + '%')
+    sql.append('  and jd.branch_id = ?', branch_id) if branch_id > 0
+    sql.append('group by jd.dc_type')
+    JournalDetail.find_by_sql(sql.to_a).each do |row|
+      if row.dc_type == account.dc_type
+        ret += row.amount
+      else
+        ret -= row.amount
+      end
+    end
+
+    ret
   end
 
   # 対象範囲年月のネット累計金額の配列を取得する

@@ -26,7 +26,7 @@ module Auto::Journal
       # 給与日の設定
       journal_header.day = @user.company.payroll_day(@payroll.ym)
       # 摘要の設定
-      journal_header.remarks = "役員給与　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
+      journal_header.remarks = "役員給与　#{employee.fullname}　#{@payroll.ym%100}月分"
       journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
       journal_header.create_user_id = @user.id
       journal_header.update_user_id = @user.id
@@ -54,6 +54,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = account
+        detail.sub_account_id = employee.user_id
         detail.branch_id = branch_id
         detail.amount = @payroll.base_salary
       end

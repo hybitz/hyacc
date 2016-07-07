@@ -3,7 +3,7 @@
     hyacc.init_datepicker();
   });
 </script>
-<%= form_for @user, :remote => true do |f| %>
+<%= form_for [:mm, @user], :remote => true do |f| %>
   <%= flash_notice %>
 
   <div>
@@ -57,7 +57,7 @@
           </tr>
           <tr>
             <th><%= f.label :zip_code %></th>
-            <td><%= f.text_field :zip_code %></td>
+            <td><%= f.text_field :zip_code, :class => 'zip_code' %></td>
           </tr>
           <tr>
             <th><%= f.label :address %></th>
@@ -65,7 +65,7 @@
           </tr>
           <tr>
             <th><%= f.label :my_number %></th>
-            <td><%= f.text_field :my_number %></td>
+            <td><%= f.text_field :my_number, :class => 'my_number' %></td>
           </tr>
         <% end %>
       </table>

@@ -84,6 +84,10 @@ class SimpleSlip
     account.sub_accounts.find{|sa| sa.id == sub_account_id } if sub_account_id
   end
 
+  def sub_accounts
+    account ? HyaccUtil.sort(account.sub_accounts.map{|sa| [sa.name, sa.id] }, :code) : []
+  end
+
   def branch
     Branch.get(branch_id)
   end

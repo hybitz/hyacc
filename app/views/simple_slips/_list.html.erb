@@ -83,18 +83,8 @@
 
     // 消費税欄を初期化
     var form = $('#new_simple_slip');
-    <% if 'index' == action_name %>
-      var url = '<%= url_for :controller => '/mm/accounts', :action => 'get_tax_type' %>';
-      var params = {account_id: form.find('.accountSelect').val()};
-
-      $.get(url, params, function(tax_type) {
-        form.find('.taxTypeSelect').val(tax_type);
-        updateTaxAmountSimple(form);
-        form.addClass('tax_type_ready');
-      });
-    <% else %>
-      updateTaxAmountSimple(form, $('#slip_tax_amount_increase').val(), $('#slip_tax_amount_decrease').val());
-    <% end %>
+    updateTaxAmountSimple(form, $('#simple_slip_tax_amount_increase').val(), $('#simple_slip_tax_amount_decrease').val());
+    form.addClass('tax_type_ready');
   });
 
   function validateAmountOnOneSide( form, showAlert ) {

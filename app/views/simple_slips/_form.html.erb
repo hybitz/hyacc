@@ -50,7 +50,7 @@
     </script>
   </td>
   <td>
-    <%= f.collection_select :sub_account_id, @sub_accounts, :id, :name, {}, :class => 'subAccountSelect', :style => 'width: 100%;' %>
+    <%= f.select :sub_account_id, f.object.sub_accounts, {}, :class => 'subAccountSelect', :style => 'width: 100%;' %>
     <%= hide_if_no_options("##{@simple_slip.new_record? ? 'new_simple_slip' : 'edit_simple_slip'} .subAccountSelect") %>
   </td>
 

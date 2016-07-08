@@ -39,11 +39,9 @@ module HyaccUtil
   
   # ARを指定カラムでソートします。
   def self.sort(records, column_name)
-    return nil unless records
-    return records unless column_name
-    return records if records.size == 0
-    # メソッドが存在しない場合
-    return records unless records[0].respond_to?(column_name)
+    return records unless records.present?
+    return records unless column_name and records.first.respond_to?(column_name)
+
     records.sort{|x, y| x.__send__(column_name) <=> y.__send__(column_name)}
   end
 end

@@ -79,6 +79,7 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def index
+    setup_view_attributes
     @simple_slip ||= setup_new_slip
 
     # 登録済み伝票を検索
@@ -92,13 +93,12 @@ class SimpleSlipsController < Base::HyaccController
       @sum_amount = finder.get_net_sum
     end
 
-    setup_view_attributes
     render :index
   end
 
   def show
-    @simple_slip = finder.find(params[:id])
     setup_view_attributes
+    @simple_slip = finder.find(params[:id])
   end
 
   def create
@@ -124,8 +124,8 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def edit
-    @simple_slip = finder.find(params[:id])
     setup_view_attributes
+    @simple_slip = finder.find(params[:id])
   end
 
   def update
@@ -268,6 +268,11 @@ class SimpleSlipsController < Base::HyaccController
     ret = new_slip
     ret.ym = ymd.ym
     ret.day = ymd.day
+
+    account = @frequencies.present? ? Account.get(@frequencies.first.input_value) : @accounts.first
+    ret.account_id = account.id
+    ret.tax_type = current_user.company.get_tax_type_for(account)
+
     ret.branch_id = @finder.branch_id
     ret
   end
@@ -285,9 +290,6 @@ class SimpleSlipsController < Base::HyaccController
     # 勘定科目の利用頻度
     @frequencies = InputFrequency.where(:user_id => current_user.id, :input_type => INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID)
         .order('frequency desc').limit(current_user.account_count_of_frequencies)
-
-    # 補助科目選択用リスト
-    @sub_accounts = load_sub_accounts(@simple_slip.account_id)
 
     # 部門選択用リスト
     @branches = get_branches

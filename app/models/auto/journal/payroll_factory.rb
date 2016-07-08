@@ -20,19 +20,22 @@ module Auto::Journal
 
     # 給与明細の取得
     def make_payroll
-      journal_header = JournalHeader.new
-      # 氏名
       employee = Employee.find(@payroll.employee_id)
+      salary_account = employee.executive? ?
+          Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
+          Account.get_by_code(ACCOUNT_CODE_SALARY)
+
+      journal_header = JournalHeader.new
+      journal_header.company_id = @user.company_id
+
       # 給与日の設定
+      journal_header.ym = @payroll.ym
       journal_header.day = @user.company.payroll_day(@payroll.ym)
       # 摘要の設定
-      journal_header.remarks = "役員給与　#{employee.fullname}　#{@payroll.ym%100}月分"
+      journal_header.remarks = "#{salary_account.name}　#{employee.fullname}　#{@payroll.ym%100}月分"
       journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
       journal_header.create_user_id = @user.id
       journal_header.update_user_id = @user.id
-      # 年月の設定
-      journal_header.ym = @payroll.ym
-      journal_header.company_id = @user.company_id
 
       # 明細の作成
       # ￥０の明細を作成しない
@@ -48,14 +51,10 @@ module Auto::Journal
       ## 給与明細
       ### 役員給与・給与手当
       if @payroll.base_salary.to_i != 0
-        account = employee.executive? ?
-            Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
-            Account.get_by_code(ACCOUNT_CODE_SALARY)
-
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
-        detail.account = account
+        detail.account = salary_account
         detail.sub_account_id = employee.user_id
         detail.branch_id = branch_id
         detail.amount = @payroll.base_salary
@@ -199,23 +198,22 @@ module Auto::Journal
 
     # 支払明細の取得
     def make_pay
-      journal_header = JournalHeader.new
-      # 氏名
       employee = Employee.find(@payroll.employee_id)
+      salary_account = employee.executive? ?
+          Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
+          Account.get_by_code(ACCOUNT_CODE_SALARY)
+
+      journal_header = JournalHeader.new
+      journal_header.company_id = @user.company.id
+
       # 給与日の設定
+      journal_header.ym = @payroll.pay_day.split('-')[0..1].join.to_i
       journal_header.day = @payroll.pay_day.split('-').last
       # 摘要の設定
       journal_header.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
       journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
       journal_header.create_user_id = @user.id
       journal_header.update_user_id = @user.id
-      # 年月の設定
-      journal_header.ym = @payroll.pay_day.split('-')[0..1].join.to_i
-      journal_header.company_id = @user.company.id
-
-      # 消費税率
-      tax_rate = TaxJp.rate_on(journal_header.date)
-      Rails.logger.debug "tax_rate=#{tax_rate}, date=#{journal_header.date}"
 
       # 明細の作成
       ## ￥０の明細を作成しない
@@ -236,7 +234,7 @@ module Auto::Journal
         detail.sub_account_id = employee.user_id
         detail.branch_id = branch_id
         detail.amount = @payroll.transfer_payment
-        detail.note = "役員報酬"
+        detail.note = salary_account.name
       end
       ### 未払金（従業員）.ユーザ
       if @payroll.accrued_liability.to_i != 0

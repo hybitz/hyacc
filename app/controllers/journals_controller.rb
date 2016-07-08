@@ -214,7 +214,7 @@ class JournalsController < Base::HyaccController
     @day = now.strftime("%d")
 
     # 勘定科目選択用リスト
-    @accounts = get_accounts
+    @accounts = Account.get_journalizable_accounts
 
     # 勘定科目の利用頻度
     @frequencies = InputFrequency.where(:user_id => current_user.id, :input_type => INPUT_TYPE_JOURNAL_ACCOUNT_ID)

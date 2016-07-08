@@ -279,11 +279,8 @@ class SimpleSlipsController < Base::HyaccController
 
   def setup_view_attributes
     # 勘定科目選択用リスト
-    # 自身と同じ勘定科目は選択させない（貸借のどちらか一方に限定するため）
-    @accounts = []
-    get_accounts.each do |a|
-      @accounts << a unless a.id == @account.id
-    end
+    # 自身と同じ勘定科目は選択させない（貸借のどちらか一方に限定）
+    @accounts = Account.get_journalizable_accounts.select{|a| a.id != @account.id }
 
     # 勘定科目の利用頻度
     @frequencies = InputFrequency.where(:user_id => current_user.id, :input_type => INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID)

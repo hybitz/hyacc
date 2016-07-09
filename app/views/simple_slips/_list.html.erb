@@ -87,37 +87,6 @@
     form.addClass('tax_type_ready');
   });
 
-  function validateAmountOnOneSide(form, showAlert) {
-    if (! form && $(form).length == 0) {
-      alert('システムエラー');
-      return null;
-    }
-
-    form = $(form);
-
-    var increase = form.find('[name*=\\[amount_increase\\]]').val().toInt();
-    var decrease = form.find('[name*=\\[amount_decrease\\]]').val().toInt();
-
-    if ( increase == 0 && decrease == 0 ) {
-      if ( showAlert ) {
-        alert('金額を入力してください。');
-      }
-      return null;
-    } else if ( increase != 0 && decrease != 0 ) {
-      if ( showAlert ) {
-        alert('金額は増加・減少のどちらか一方に入力してください。');
-      }
-      return null;
-    } else if ( increase < 0 || decrease < 0 ) {
-      if ( showAlert ) {
-        alert('金額がマイナスです。');
-      }
-      return null;
-    }
-
-    return increase > 0 ? increase : decrease;
-  }
-
   function updateTaxAmountSimple(form, taxAmountIncrease, taxAmountDecrease) {
     form = $(form);
     var amountFieldIncrease = form.find('[name*=\\[amount_increase\\]]');
@@ -131,7 +100,7 @@
     var ymField = form.find('[name*=\\[ym\\]]');
 
     var taxType = taxTypeSelect.val();
-    var amount = validateAmountOnOneSide(form, false);
+    var amount = simple_slip.validate_amount_on_one_side(form);
 
     if (!amount) {
       taxFieldIncrease.val('');
@@ -226,11 +195,11 @@
   }
 
   function validateSlip(form) {
-    if (validateAmountOnOneSide(form, true) == null) {
+    if (!simple_slip.validate_amount_on_one_side(form, true)) {
       return false;
     }
 
-    if (! simple_slip.check_auto_journal_types()) {
+    if (!simple_slip.check_auto_journal_types()) {
       return false;
     }
 

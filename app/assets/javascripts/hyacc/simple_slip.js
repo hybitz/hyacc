@@ -22,3 +22,29 @@ hyacc.SimpleSlip.prototype.check_auto_journal_types = function() {
 
   return true;
 };
+
+hyacc.SimpleSlip.prototype.validate_amount_on_one_side = function(form, showAlert) {
+  form = $(form);
+
+  var increase = form.find('[name*=\\[amount_increase\\]]').val().toInt();
+  var decrease = form.find('[name*=\\[amount_decrease\\]]').val().toInt();
+
+  if (increase == 0 && decrease == 0) {
+    if ( showAlert ) {
+      alert('金額を入力してください。');
+    }
+    return null;
+  } else if (increase != 0 && decrease != 0) {
+    if ( showAlert ) {
+      alert('金額は増加・減少のどちらか一方に入力してください。');
+    }
+    return null;
+  } else if (increase < 0 || decrease < 0) {
+    if ( showAlert ) {
+      alert('金額がマイナスです。');
+    }
+    return null;
+  }
+
+  return increase > 0 ? increase : decrease;
+};

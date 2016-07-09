@@ -105,9 +105,8 @@ hyacc.Journal.prototype._check_auto_journal_types = function() {
     var count = 0;
 
     for (var j = 0; j < 3; j ++) {
-      var tr = $(tr).next();
-      var checked = $(tr).find('input[name*="\\[auto_journal_type\\]"]').prop('checked');
-      if (checked) {
+      tr = $(tr).next();
+      if ($(tr).find('input[name*="\\[auto_journal_type\\]"]').prop('checked')) {
         count ++;
       }
     }

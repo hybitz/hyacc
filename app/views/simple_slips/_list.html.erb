@@ -87,7 +87,7 @@
     form.addClass('tax_type_ready');
   });
 
-  function validateAmountOnOneSide( form, showAlert ) {
+  function validateAmountOnOneSide(form, showAlert) {
     if (! form && $(form).length == 0) {
       alert('システムエラー');
       return null;
@@ -197,11 +197,6 @@
     }
   }
 
-  // 自動振替の単一選択チェック
-  function checkAutoJournalType( element ) {
-    return checkExclusive(element.form, element.name, '自動振替は複数指定できません。');
-  }
-
   // 自動振替時の日付必須チェック
   function checkAutoTransferDate( form, idPrefix, namePrefix, message ) {
     var elementName = namePrefix + '[auto_journal_type]';
@@ -235,7 +230,7 @@
       return false;
     }
 
-    if ( ! checkExclusive(form, 'slip[auto_journal_type]', '自動振替は複数指定できません。') ) {
+    if (! simple_slip.check_auto_journal_types()) {
       return false;
     }
 

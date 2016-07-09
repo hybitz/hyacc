@@ -114,33 +114,6 @@ function replace_options(selector, json, include_blank) {
   }
 };
 
-// 
-/**
- * 同じName属性を持つチェックボックスのうち１つだけが選択されているかチェックします。
- * 
- * @param {Form} form フォーム
- * @param {String} elementName チェックボックスのName属性
- * @param {String} message エラー時に表示するメッセージ
- * @return true：1つだけ選択されているか何も選択されていない場合、false：2つ以上選択されている場合
- */
-function checkExclusive( form, elementName, message ) {
-  var checkedCount = 0;
-  for ( var i = 0; i < form.elements.length; i ++ ) {
-    var elem = form.elements[i];
-    if ( ! elem.name ) continue;
-    if ( elem.name == elementName && elem.checked ) {
-      checkedCount ++;
-    }
-  }
-  
-  if ( checkedCount > 1 ) {
-    alert(message);
-    return false;
-  }
-  
-  return true;
-}
-
 // 日付の妥当性チェック
 function checkDate(year, month, day){
   var date = new Date(year, month - 1, day);

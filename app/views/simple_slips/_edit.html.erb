@@ -1,3 +1,13 @@
+<script>
+  var simple_slip;
+
+  $(document).ready(function() {
+    simple_slip = new hyacc.SimpleSlip('#edit_simple_slip', {
+      branch_mode: <%= branch_mode %>
+    });
+  });
+</script>
+
 <div class="target_account_info">
   <%# 補助科目が存在する科目の場合は補助科目名を表示する %>
   <% if @account.sub_accounts_all.present? %>

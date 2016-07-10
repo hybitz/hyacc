@@ -34,4 +34,16 @@ class FiscalYearTest < ActiveSupport::TestCase
     assert_equal 200704, range[0]
     assert_equal 200803, range[11]
   end
+
+  def test_start_day
+    company.founded_date = '2015-03-10'
+    company.start_month_of_fiscal_year = 4
+
+    fy = FiscalYear.new(:company => company, :fiscal_year => 2014)
+    assert_equal '2015-03-10', fy.start_day.strftime('%Y-%m-%d')
+
+    fy = FiscalYear.new(:company => company, :fiscal_year => 2015)
+    assert_equal '2015-04-01', fy.start_day.strftime('%Y-%m-%d')
+  end
+
 end

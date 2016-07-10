@@ -77,6 +77,15 @@ class FiscalYear < ActiveRecord::Base
     ret
   end
 
+  def start_day
+    ret = Date.strptime("#{start_year_month}01", '%Y%m%d')
+    if ret < company.founded_date
+      company.founded_date
+    else
+      ret
+    end
+  end
+
   # 期末の年月を取得
   def end_year_month
     HyaccDateUtil.get_end_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )

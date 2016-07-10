@@ -23,6 +23,25 @@ hyacc.SimpleSlip.prototype.check_auto_journal_types = function() {
   return true;
 };
 
+// 自動振替時の日付必須チェック
+hyacc.SimpleSlip.prototype.check_auto_transfer_date = function() {
+  var form = $(this.selector);
+
+  var auto_journal_type = form.find('input:checked[name*="\\[auto_journal_type\\]"]').val();
+  if (auto_journal_type == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE) {
+    var year = form.find('input[name*="\\[auto_journal_year\\]"]').val().toInt();
+    var month = form.find('input[name*="\\[auto_journal_month\\]"]').val().toInt();
+    var day = form.find('input[name*="\\[auto_journal_day\\]"]').val().toInt();
+
+    if (! checkDate(year, month, day)) {
+      alert('振替日の指定が不正です。');
+      return false;
+    }
+  }
+
+  return true;
+};
+
 hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAmountDecrease) {
   var form = $(this.selector);
   var amountFieldIncrease = form.find('[name*=\\[amount_increase\\]]');

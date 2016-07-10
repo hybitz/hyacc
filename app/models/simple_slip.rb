@@ -102,6 +102,10 @@ class SimpleSlip
     tax_amount_increase.to_i > 0 ? tax_amount_increase.to_i : tax_amount_decrease.to_i
   end
 
+  def auto_journal_type
+    @auto_journal_type.to_i
+  end
+
   def has_auto_transfers
     journal.has_auto_transfers
   end

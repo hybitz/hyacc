@@ -243,16 +243,43 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     assert_equal 0, reverse.journal_details[1].transfer_journals.size
   end
 
+  def test_通常の年度の費用振替を取り消して更新できること
+    jh = JournalHeader.find(15)
+    assert my_account = Account.find_by_code(ACCOUNT_CODE_CASH)
+    assert_accrued_expense(my_account, jh)
+
+    assert_difference 'JournalHeader.count', -2 do
+      xhr :patch, :update, :account_code => my_account.code, :id => jh.id,
+          :simple_slip => {:lock_version => jh.lock_version}
+    end
+
+    assert_response :success
+    assert_template 'common/reload'
+    assert_equal '伝票を更新しました。', flash[:notice]
+  end
+
   def test_通常の年度の費用振替の削除が正常終了すること
     jh = JournalHeader.find(15)
+    assert my_account = Account.find_by_code(ACCOUNT_CODE_CASH)
+    assert_accrued_expense(my_account, jh)
 
     assert_difference 'JournalHeader.count', -3 do
-      post :destroy, :account_code => ACCOUNT_CODE_CASH, :id => jh.id, :lock_version => jh.lock_version
+      post :destroy, :account_code => my_account.code, :id => jh.id, :lock_version => jh.lock_version
     end
 
     assert_response :redirect
     assert_redirected_to :action => 'index'
     assert_equal '伝票を削除しました。', flash[:notice]
+  end
+
+  private
+
+  def assert_accrued_expense(my_account, jh)
+    assert_equal 2, jh.normal_details.size
+    assert jd = jh.normal_details.find{|d| d.account_id != my_account.id }
+    assert_equal 1, jd.transfer_journals.size
+    assert auto = jd.transfer_journals.first
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, auto.slip_type
   end
 
 end

@@ -222,6 +222,7 @@ class SimpleSlipsController < Base::HyaccController
       ret = ret.merge(:create_user_id => current_user.id, :company_id => current_user.company_id)
     when 'update'
       ret = ret.merge(:update_user_id => current_user.id)
+      ret[:auto_journal_type] ||= nil
     end
 
     ret

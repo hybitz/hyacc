@@ -204,7 +204,7 @@ class SimpleSlipsController < Base::HyaccController
 
   def simple_slip_params
     permitted = [
-      :my_sub_account_id, :my_branch_id,
+      :my_sub_account_id,
       :ym, :day, :remarks,
       :account_id, :sub_account_id, :branch_id,
       :amount_increase, :amount_decrease,

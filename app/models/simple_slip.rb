@@ -46,6 +46,8 @@ class SimpleSlip
 
     build_journal
     journal.save_with_tax!
+
+    self.id = journal.id
   end
 
   def destroy

@@ -228,8 +228,7 @@ class JournalHeader < ActiveRecord::Base
   end
 
   def fiscal_year
-    user = User.find(update_user_id || create_user_id)
-    user.company.get_fiscal_year(self.ym)
+    company.get_fiscal_year(self.ym)
   end
 
   def copy

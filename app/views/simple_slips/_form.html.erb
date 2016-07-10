@@ -5,7 +5,7 @@
       <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id %>
     <% end %>
     <%= f.hidden_field :lock_version %>
-    <%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText', :onchange => "updateTaxAmountSimple(this.form);" %>
+    <%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText', :onchange => "simple_slip.update_tax_amount();" %>
   </td>
   <td><%= f.text_field :day, :maxlength => 2, :class => 'dayText' %></td>
   <td><%= render 'form_remarks', :f => f %></td>
@@ -31,7 +31,7 @@
           $.get('<%= url_for :controller => '/mm/accounts', :action => 'get_tax_type' %>', {account_id: $(this).val()},
             function(tax_type) {
               form.find('.taxTypeSelect').val(tax_type);
-              updateTaxAmountSimple(form);
+              simple_slip.update_tax_amount();
               form.addClass('tax_type_ready');
           });
 
@@ -60,8 +60,8 @@
     </td>
   <% end %>
 
-  <td class="amount"><%= f.text_field :amount_increase, :class => 'amountText', :onchange => 'updateTaxAmountSimple(this.form);' %></td>
-  <td class="amount"><%= f.text_field :amount_decrease, :class => 'amountText', :onchange => 'updateTaxAmountSimple(this.form);' %></td>
+  <td class="amount"><%= f.text_field :amount_increase, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount();' %></td>
+  <td class="amount"><%= f.text_field :amount_decrease, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount();' %></td>
 
   <%# 一覧画面での表示の場合 %>
   <% if @simple_slip.new_record? %>
@@ -85,15 +85,15 @@
     </div>
   </td>
   <td nowrap align="right">
-    <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect', :onchange => 'updateTaxAmountSimple(this.form);' %>
-    <%= f.text_field :tax_rate_percent, :class => 'taxRatePercentText', :onchange => 'updateTaxAmountSimple(this.form);' %>
+    <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect', :onchange => 'simple_slip.update_tax_amount();' %>
+    <%= f.text_field :tax_rate_percent, :class => 'taxRatePercentText', :onchange => 'simple_slip.update_tax_amount();' %>
     <span>%</span>
   </td>
   <td class="amount">
-    <%= f.text_field :tax_amount_increase, :class => 'amountText', :onchange => 'updateTaxAmountSimple(this.form, this.value, null);' %>
+    <%= f.text_field :tax_amount_increase, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount(this.value, null);' %>
   </td>
   <td class="amount">
-    <%= f.text_field :tax_amount_decrease, :class => 'amountText', :onchange => 'updateTaxAmountSimple(this.form, null, this.value);' %>
+    <%= f.text_field :tax_amount_decrease, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount(null, this.value);' %>
   </td>
   <%# 一覧画面の表示かどうかで列数を調整 %>
   <% if @simple_slip.new_record? %>

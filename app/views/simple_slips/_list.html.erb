@@ -83,88 +83,9 @@
 
     // 消費税欄を初期化
     var form = $('#new_simple_slip');
-    updateTaxAmountSimple(form, $('#simple_slip_tax_amount_increase').val(), $('#simple_slip_tax_amount_decrease').val());
+    simple_slip.update_tax_amount($('#simple_slip_tax_amount_increase').val(), $('#simple_slip_tax_amount_decrease').val());
     form.addClass('tax_type_ready');
   });
-
-  function updateTaxAmountSimple(form, taxAmountIncrease, taxAmountDecrease) {
-    form = $(form);
-    var amountFieldIncrease = form.find('[name*=\\[amount_increase\\]]');
-    var taxFieldIncrease = form.find('[name*=\\[tax_amount_increase\\]]');
-    var sumAmountDivIncrease = form.find('.sum_amount_increase');
-    var amountFieldDecrease = form.find('[name*=\\[amount_decrease\\]]');
-    var taxFieldDecrease = form.find('[name*=\\[tax_amount_decrease\\]]');
-    var sumAmountDivDecrease = form.find('.sum_amount_decrease');
-    var taxTypeSelect = form.find('[name*=\\[tax_type\\]]');
-    var taxRatePercentField = form.find('[name*=\\[tax_rate_percent\\]]');
-    var ymField = form.find('[name*=\\[ym\\]]');
-
-    var taxType = taxTypeSelect.val();
-    var amount = simple_slip.validate_amount_on_one_side(form);
-
-    if (!amount) {
-      taxFieldIncrease.val('');
-      sumAmountDivIncrease.text('');
-      taxFieldDecrease.val('');
-      sumAmountDivDecrease.text('');
-
-      // 非課税の場合は消費税入力欄を非活性にする
-      if (taxType == tax.NONTAXABLE) {
-        taxFieldIncrease.attr('disabled', true);
-        taxFieldDecrease.attr('disabled', true);
-      }
-
-      return;
-    }
-
-    var taxAmount;
-    var taxField;
-    var sumAmountDiv;
-    if ( amountFieldIncrease.val().isPresent() ) {
-      taxAmount = taxAmountIncrease;
-      taxField = taxFieldIncrease;
-      sumAmountDiv = sumAmountDivIncrease;
-      taxFieldDecrease.val('');
-      sumAmountDivDecrease.text('');
-    } else if ( amountFieldDecrease.val().isPresent() ) {
-      taxAmount = taxAmountDecrease;
-      taxField = taxFieldDecrease;
-      sumAmountDiv = sumAmountDivDecrease;
-      taxFieldIncrease.val('');
-      sumAmountDivIncrease.text('');
-    } else {
-      return;
-    }
-
-    var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
-    var taxRate = tax.getRateOn(date);
-
-    // 非課税の場合は消費税入力欄を非活性にする
-    if ( taxType == tax.NONTAXABLE ) {
-      taxRatePercentField.val('');
-      taxFieldIncrease.val('');
-      taxFieldIncrease.attr('disabled', true);
-      taxFieldDecrease.val('');
-      taxFieldDecrease.attr('disabled', true);
-      sumAmountDiv.text(amount ? toAmount(amount) : '');
-    }
-    // 内税の場合は消費税を自動計算する
-    else if ( taxType == tax.INCLUSIVE ) {
-      taxRatePercentField.val(taxRate * 100);
-      taxField.val(taxAmount ? taxAmount : tax.calcTaxAmount(taxType, taxRate, amount));
-      taxFieldIncrease.attr('disabled', false);
-      taxFieldDecrease.attr('disabled', false);
-      sumAmountDiv.text(amount ? toAmount(amount) : '');
-    }
-    // 外税の場合は消費税を自動計算する
-    else if ( taxType == tax.EXCLUSIVE ) {
-      taxRatePercentField.val(taxRate * 100);
-      taxField.val(taxAmount ? taxAmount : tax.calcTaxAmount(taxType, taxRate, amount));
-      taxFieldIncrease.attr('disabled', false);
-      taxFieldDecrease.attr('disabled', false);
-      sumAmountDiv.text(amount ? toAmount(amount + taxField.val().toInt()) : '');
-    }
-  }
 
   // 自動振替時の日付必須チェック
   function checkAutoTransferDate( form, idPrefix, namePrefix, message ) {

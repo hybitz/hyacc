@@ -20,7 +20,7 @@ simple_slips.copy = function(trigger) {
     }
     $('#account_detail').html(data.account_detail);
 
-    updateTaxAmountSimple($('#new_simple_slip'));
+    simple_slip.update_tax_amount();
     $('#simple_slip_day').focus();
   });
 };

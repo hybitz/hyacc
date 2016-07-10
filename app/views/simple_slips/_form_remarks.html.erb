@@ -38,7 +38,7 @@
 
         $('#account_detail').html(item.account_detail);
 
-        updateTaxAmountSimple(form, form.find('[name*="\[tax_amount_increase\]"]').val(), form.find('[name*="\[tax_amount_decrease\]"]').val());
+        simple_slip.update_tax_amount(form.find('[name*="\[tax_amount_increase\]"]').val(), form.find('[name*="\[tax_amount_decrease\]"]').val());
 
         var focus = item.focus_on_complete;
         if (focus == 'amount' || focus == 'tax_amount') {

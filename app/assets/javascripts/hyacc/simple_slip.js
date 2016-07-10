@@ -23,6 +23,89 @@ hyacc.SimpleSlip.prototype.check_auto_journal_types = function() {
   return true;
 };
 
+hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAmountDecrease) {
+  var form = $(this.selector);
+  var amountFieldIncrease = form.find('[name*=\\[amount_increase\\]]');
+  var taxFieldIncrease = form.find('[name*=\\[tax_amount_increase\\]]');
+  var sumAmountDivIncrease = form.find('.sum_amount_increase');
+  var amountFieldDecrease = form.find('[name*=\\[amount_decrease\\]]');
+  var taxFieldDecrease = form.find('[name*=\\[tax_amount_decrease\\]]');
+  var sumAmountDivDecrease = form.find('.sum_amount_decrease');
+  var taxTypeSelect = form.find('[name*=\\[tax_type\\]]');
+  var taxRatePercentField = form.find('[name*=\\[tax_rate_percent\\]]');
+  var ymField = form.find('[name*=\\[ym\\]]');
+
+  var taxType = taxTypeSelect.val();
+  var amount = simple_slip.validate_amount_on_one_side(form);
+
+  if (!amount) {
+    taxFieldIncrease.val('');
+    sumAmountDivIncrease.text('');
+    taxFieldDecrease.val('');
+    sumAmountDivDecrease.text('');
+
+    // 非課税の場合は消費税入力欄を非活性にする
+    if (taxType == tax.NONTAXABLE) {
+      taxRatePercentField.attr('disabled', true);
+      taxFieldIncrease.attr('disabled', true);
+      taxFieldDecrease.attr('disabled', true);
+    }
+
+    return;
+  }
+
+  var taxAmount;
+  var taxField;
+  var sumAmountDiv;
+  if (amountFieldIncrease.val().isPresent()) {
+    taxAmount = taxAmountIncrease;
+    taxField = taxFieldIncrease;
+    sumAmountDiv = sumAmountDivIncrease;
+    taxFieldDecrease.val('');
+    sumAmountDivDecrease.text('');
+  } else if (amountFieldDecrease.val().isPresent()) {
+    taxAmount = taxAmountDecrease;
+    taxField = taxFieldDecrease;
+    sumAmountDiv = sumAmountDivDecrease;
+    taxFieldIncrease.val('');
+    sumAmountDivIncrease.text('');
+  } else {
+    return;
+  }
+
+  var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
+  var taxRate = tax.getRateOn(date);
+
+  // 非課税の場合は消費税入力欄を非活性にする
+  if ( taxType == tax.NONTAXABLE ) {
+    taxRatePercentField.val('');
+    taxRatePercentField.attr('disabled', true);
+    taxFieldIncrease.val('');
+    taxFieldIncrease.attr('disabled', true);
+    taxFieldDecrease.val('');
+    taxFieldDecrease.attr('disabled', true);
+    sumAmountDiv.text(amount ? toAmount(amount) : '');
+  }
+  // 内税の場合は消費税を自動計算する
+  else if ( taxType == tax.INCLUSIVE ) {
+    taxRatePercentField.val(taxRate * 100);
+    taxField.val(taxAmount ? taxAmount : tax.calcTaxAmount(taxType, taxRate, amount));
+    taxRatePercentField.attr('disabled', false);
+    taxFieldIncrease.attr('disabled', false);
+    taxFieldDecrease.attr('disabled', false);
+    sumAmountDiv.text(amount ? toAmount(amount) : '');
+  }
+  // 外税の場合は消費税を自動計算する
+  else if ( taxType == tax.EXCLUSIVE ) {
+    taxRatePercentField.val(taxRate * 100);
+    taxField.val(taxAmount ? taxAmount : tax.calcTaxAmount(taxType, taxRate, amount));
+    taxRatePercentField.attr('disabled', false);
+    taxFieldIncrease.attr('disabled', false);
+    taxFieldDecrease.attr('disabled', false);
+    sumAmountDiv.text(amount ? toAmount(amount + taxField.val().toInt()) : '');
+  }
+};
+
 hyacc.SimpleSlip.prototype.validate_amount_on_one_side = function(form, showAlert) {
   form = $(form);
 

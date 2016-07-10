@@ -110,7 +110,7 @@ class JournalDetail < ActiveRecord::Base
   # 伝票明細に関連しているすべての自動仕訳の自動仕訳区分を取得する
   def auto_journal_types
     ret = []
-    ret << @auto_journal_type if @auto_journal_type.to_i > 0
+    ret << auto_journal_type if auto_journal_type > 0
     ret << AUTO_JOURNAL_TYPE_ALLOCATED_COST if is_allocated_cost
     ret << AUTO_JOURNAL_TYPE_ALLOCATED_ASSETS if is_allocated_assets
     ret

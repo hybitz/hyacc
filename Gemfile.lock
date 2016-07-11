@@ -23,6 +23,8 @@ GEM
     activejob (0)
       activemodel-globalid
       activesupport (>= 4.1.0)
+    activejob_backport (0.0.3)
+      activesupport (>= 4.0.0)
     activemodel (4.1.15)
       activesupport (= 4.1.15)
       builder (~> 3.1)
@@ -82,7 +84,7 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
       mimemagic (>= 0.3.0)
-    chef-config (12.12.13)
+    chef-config (12.12.15)
       fuzzyurl (~> 0.8.0)
       mixlib-config (~> 2.0)
       mixlib-shellout (~> 2.0)
@@ -317,9 +319,9 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       redis (~> 3.2, >= 3.2.1)
       sinatra (>= 1.4.7)
-    simplecov (0.11.2)
+    simplecov (0.12.0)
       docile (~> 1.1.0)
-      json (~> 1.8)
+      json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
     simplecov-rcov (0.2.3)
@@ -357,8 +359,9 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    turbolinks (2.5.3)
-      coffee-rails
+    turbolinks (5.0.0)
+      turbolinks-source (~> 5)
+    turbolinks-source (5.0.0)
     two_factor_authentication (1.1.5)
       devise
       encryptor
@@ -391,6 +394,7 @@ PLATFORMS
 
 DEPENDENCIES
   activejob
+  activejob_backport
   activerecord-session_store
   acts_as_tree
   byebug

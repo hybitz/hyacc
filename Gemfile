@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.15'
 
 gem 'activejob'
+gem 'activejob_backport'
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
 gem 'byebug'

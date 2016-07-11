@@ -7,6 +7,17 @@ hyacc.SimpleSlip = function(selector, options) {
 hyacc.SimpleSlip.prototype._init = function() {
   if (this.options.readonly) {
   } else {
+    if (this.options.my_sub_account_id) {
+      this.set_my_sub_account_id(this.options.my_sub_account_id);
+    }
+
+    this.update_tax_amount($('#simple_slip_tax_amount_increase').val(), $('#simple_slip_tax_amount_decrease').val());
+    $(this.selector).addClass('tax_type_ready');
+
+    var that = this;
+    $(this.selector).submit(function() {
+      return that.validate_slip();
+    });
     $(this.selector).find('input[name*="\\[day\\]"]').select().focus();
   }
 };
@@ -42,6 +53,10 @@ hyacc.SimpleSlip.prototype.check_auto_transfer_date = function() {
   return true;
 };
 
+hyacc.SimpleSlip.prototype.set_my_sub_account_id = function(my_sub_account_id) {
+  $(this.selector).find('input[name*=\\[my_sub_account_id\\]]').val(my_sub_account_id);
+};
+
 hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAmountDecrease) {
   var form = $(this.selector);
   var amountFieldIncrease = form.find('[name*=\\[amount_increase\\]]');
@@ -55,7 +70,7 @@ hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAm
   var ymField = form.find('[name*=\\[ym\\]]');
 
   var taxType = taxTypeSelect.val();
-  var amount = simple_slip.validate_amount_on_one_side(form);
+  var amount = this.validate_amount_on_one_side();
 
   if (!amount) {
     taxFieldIncrease.val('');
@@ -125,9 +140,8 @@ hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAm
   }
 };
 
-hyacc.SimpleSlip.prototype.validate_amount_on_one_side = function(form, showAlert) {
-  form = $(form);
-
+hyacc.SimpleSlip.prototype.validate_amount_on_one_side = function(showAlert) {
+  var form = $(this.selector);
   var increase = form.find('[name*=\\[amount_increase\\]]').val().toInt();
   var decrease = form.find('[name*=\\[amount_decrease\\]]').val().toInt();
 
@@ -149,4 +163,20 @@ hyacc.SimpleSlip.prototype.validate_amount_on_one_side = function(form, showAler
   }
 
   return increase > 0 ? increase : decrease;
+};
+
+hyacc.SimpleSlip.prototype.validate_slip = function() {
+  if (!this.validate_amount_on_one_side(true)) {
+    return false;
+  }
+
+  if (!this.check_auto_journal_types()) {
+    return false;
+  }
+
+  if (!this.check_auto_transfer_date()) {
+    return false;
+  }
+
+  return true;
 };

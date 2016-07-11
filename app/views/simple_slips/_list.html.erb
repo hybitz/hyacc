@@ -2,8 +2,11 @@
   var simple_slip;
 
   $(document).ready(function() {
+    simple_slips.calc_sum();
+
     simple_slip = new hyacc.SimpleSlip('#new_simple_slip', {
-      branch_mode: <%= branch_mode %>
+      branch_mode: <%= branch_mode %>,
+      my_sub_account_id: $('#finder_sub_account_id').val()
     });
   });
 </script>
@@ -76,38 +79,3 @@
     </tfoot>
   </table>
 <% end %>
-
-<script>
-  $(document).ready(function() {
-    simple_slips.calc_sum();
-
-    // 消費税欄を初期化
-    var form = $('#new_simple_slip');
-    simple_slip.update_tax_amount($('#simple_slip_tax_amount_increase').val(), $('#simple_slip_tax_amount_decrease').val());
-    form.addClass('tax_type_ready');
-  });
-
-  function validateSlip(form) {
-    if (!simple_slip.validate_amount_on_one_side(form, true)) {
-      return false;
-    }
-
-    if (!simple_slip.check_auto_journal_types()) {
-      return false;
-    }
-
-    if (!simple_slip.check_auto_transfer_date()) {
-      return false;
-    }
-
-    setMySubAccount(form);
-    return true;
-  }
-
-  // 親画面上で表示している補助科目（検索条件の補助科目）をフォームにセットする
-  function setMySubAccount(form) {
-    if ($(form).attr('id') == 'new_simple_slip') {
-      $('#simple_slip_my_sub_account_id').val($('#finder_sub_account_id').val());
-    }
-  }
-</script>

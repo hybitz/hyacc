@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160707120530) do
+ActiveRecord::Schema.define(version: 20160712220712) do
 
   create_table "accounts", force: true do |t|
     t.string   "code",                                   default: "",    null: false
@@ -175,19 +175,19 @@ ActiveRecord::Schema.define(version: 20160707120530) do
   end
 
   create_table "companies", force: true do |t|
-    t.string   "name",                                 default: "",     null: false
-    t.integer  "fiscal_year",                                           null: false
-    t.integer  "start_month_of_fiscal_year",                            null: false
-    t.string   "logo",                                 default: ""
-    t.date     "founded_date",                                          null: false
-    t.integer  "type_of",                    limit: 1, default: 0,      null: false
+    t.string   "name",                       default: "",     null: false
+    t.integer  "fiscal_year",                                 null: false
+    t.integer  "start_month_of_fiscal_year",                  null: false
+    t.string   "logo",                       default: ""
+    t.date     "founded_date",                                null: false
+    t.integer  "type_of",                    default: 0,      null: false
     t.string   "admin_email"
-    t.boolean  "deleted",                              default: false,  null: false
+    t.boolean  "deleted",                    default: false,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "business_type_id"
-    t.integer  "lock_version",                         default: 0,      null: false
-    t.string   "payday",                               default: "0,25", null: false
+    t.integer  "lock_version",               default: 0,      null: false
+    t.string   "payday",                     default: "0,25", null: false
   end
 
   create_table "customer_names", force: true do |t|

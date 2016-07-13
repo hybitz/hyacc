@@ -120,7 +120,7 @@ GEM
       nokogiri (~> 1.5)
       railties (>= 3, < 5)
     cucumber-wire (0.0.1)
-    daddy (0.5.11)
+    daddy (0.5.12)
       capybara (~> 2.7)
       ci_reporter (~> 2.0)
       closer (~> 0.3)

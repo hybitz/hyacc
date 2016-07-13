@@ -11,7 +11,7 @@ current_company:
   payrolls: '!personal?'
   social_expenses: '!personal?'
   taxes: tax_exclusive?
-  users:
+  mm/users:
     index: personal?
   withholding_slip: '!personal?'
 

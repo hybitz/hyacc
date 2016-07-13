@@ -1,7 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require 'active_job'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -25,9 +24,9 @@ module Hyacc
     # config.i18n.default_locale = :de
     config.i18n.default_locale = :ja
 
-    config.action_controller.action_on_unpermitted_parameters = :raise
+    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
 
-    ActiveJob::Base.queue_adapter = :sidekiq     # for rails4.1
-    # config.active_job.queue_adapter = :sidekiq # for rails4.2
+    config.action_controller.action_on_unpermitted_parameters = :raise
   end
 end

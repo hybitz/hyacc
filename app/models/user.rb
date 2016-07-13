@@ -69,7 +69,7 @@ class User < ActiveRecord::Base
   end
 
   def send_two_factor_authentication_code
-    LoginMailer.invoice_login(self).deliver
+    LoginMailer.invoice_login(self).deliver_now
   end
 
   private

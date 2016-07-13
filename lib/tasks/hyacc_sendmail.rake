@@ -24,7 +24,7 @@ namespace :hyacc do
       mail_body = "週次バックアップ(" + yyyymmdd + ")"
       
       #メールの送信
-      TaskMailer.create(to, mail_title, mail_body,dbdata_path).deliver if File.exist?(dbdata_path) && to.present?
+      TaskMailer.create(to, mail_title, mail_body,dbdata_path).deliver_now if File.exist?(dbdata_path) && to.present?
     end
   end
 end

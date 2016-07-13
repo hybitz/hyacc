@@ -6,7 +6,7 @@ class TaskMailerTest < ActionMailer::TestCase
     subject = 'メールタイトル'
     message = 'testmessage'
     attachments_path = __FILE__
-    email = TaskMailer.create(toAddress, subject, message, attachments_path).deliver
+    email = TaskMailer.create(toAddress, subject, message, attachments_path).deliver_now
     
     assert !ActionMailer::Base.deliveries.empty?
     assert_equal [toAddress], email.to

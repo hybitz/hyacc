@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/seuros/capistrano-sidekiq.git
+  revision: 416d1ba6ac29e550b506468c45053b9fe65347b3
+  specs:
+    capistrano-sidekiq (0.5.4)
+      capistrano
+      sidekiq (>= 3.4)
+
 PATH
   remote: vendor/gems/rails-csv-fixtures
   specs:
@@ -420,6 +428,7 @@ DEPENDENCIES
   capistrano
   capistrano-bundler
   capistrano-rails
+  capistrano-sidekiq!
   carrierwave
   coffee-rails (~> 4.1.0)
   colorable
@@ -451,6 +460,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   sidekiq
   simplecov (= 0.11.2)
+  sinatra
   spring
   strong_actions
   tax_jp

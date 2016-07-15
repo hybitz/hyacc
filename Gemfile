@@ -28,6 +28,7 @@ gem 'remotipart'
 gem 'rmagick'
 gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
+gem 'sinatra'
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'two_factor_authentication'
@@ -49,6 +50,7 @@ group :development do
   gem 'capistrano'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
+  gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 end
 
 group :development, :test do

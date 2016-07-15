@@ -91,18 +91,19 @@ end
 ならば /^(小口現金|普通預金|未払金（従業員）)の一覧に遷移する$/ do |account_name|
   assert account = Account.where(:name => account_name).first
 
-  begin
+  with_capture do
     assert has_title?(account.name)
     assert has_selector?('.tax_type_ready');
-  ensure
-    capture
   end
 end
 
 ならば /^簡易伝票の(参照|編集)ダイアログが表示される$/ do |action|
-  begin
-    assert has_selector?('#edit_simple_slip')
-  ensure
-    capture
+  with_capture do
+    case action
+    when '参照'
+      assert has_selector?('#show_simple_slip')
+    when '編集'
+      assert has_selector?('#edit_simple_slip')
+    end
   end
 end

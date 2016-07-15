@@ -1,11 +1,3 @@
-GIT
-  remote: git://github.com/seuros/capistrano-sidekiq.git
-  revision: 416d1ba6ac29e550b506468c45053b9fe65347b3
-  specs:
-    capistrano-sidekiq (0.5.4)
-      capistrano
-      sidekiq (>= 3.4)
-
 PATH
   remote: vendor/gems/rails-csv-fixtures
   specs:
@@ -82,6 +74,9 @@ GEM
     capistrano-rails (1.1.7)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
+    capistrano-sidekiq (0.5.4)
+      capistrano
+      sidekiq (>= 3.4)
     capybara (2.7.1)
       addressable
       mime-types (>= 1.16)
@@ -428,7 +423,7 @@ DEPENDENCIES
   capistrano
   capistrano-bundler
   capistrano-rails
-  capistrano-sidekiq!
+  capistrano-sidekiq
   carrierwave
   coffee-rails (~> 4.1.0)
   colorable

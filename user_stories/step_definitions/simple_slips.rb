@@ -199,7 +199,7 @@ end
     end
     assert has_dialog?
     
-    within '#edit_simple_slip' do
+    within '#show_simple_slip' do
       assert has_selector?('#account_detail')
       assert @asset_code = find('#account_detail').text.split('：').last
     end

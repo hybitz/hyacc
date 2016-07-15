@@ -102,6 +102,14 @@ class SimpleSlip
     tax_amount_increase.to_i > 0 ? tax_amount_increase.to_i : tax_amount_decrease.to_i
   end
 
+  def tax_type_name
+    TAX_TYPES[tax_type]
+  end
+  
+  def nontaxable?
+    tax_type == TAX_TYPE_NONTAXABLE
+  end
+
   def auto_journal_type
     @auto_journal_type.to_i
   end

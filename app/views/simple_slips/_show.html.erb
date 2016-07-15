@@ -1,0 +1,97 @@
+<script>
+  var simple_slip;
+
+  $(document).ready(function() {
+    simple_slip = new hyacc.SimpleSlip('#show_simple_slip', {
+      branch_mode: <%= branch_mode %>,
+      readonly: true
+    });
+  });
+</script>
+
+<div class="target_account_info">
+  <%# 補助科目が存在する科目の場合は補助科目名を表示する %>
+  <% if @account.sub_accounts_all.present? %>
+    <%= get_sub_account_title(@account) %>：
+    <b><%= @account.get_sub_account_by_id(@simple_slip.my_sub_account_id).name if @simple_slip.my_sub_account_id.present? %></b>
+  <% else %>
+    &nbsp;
+  <% end %>
+</div>
+
+<%= form_for @simple_slip, :html => {:id => 'show_simple_slip', :remote => true} do |f| %>
+  <table>
+    <tr>
+      <th class="yearMonth">年　月</th>
+      <th class="day">日</th>
+      <th class="remarks">摘　　要</th>
+      <th class="accountName">勘定科目</th>
+      <th class="subAccountName">補助科目</th>
+      <% if branch_mode %><th class="branchName">計上部門</th><% end %>
+      <th>増　加</th>
+      <th>減　少</th>
+    </tr>
+    <tr>
+      <td class="yearMonth"><%= @simple_slip.ym %></td>
+      <td class="day"><%= @simple_slip.day %></td>
+      <td class="remarks"><%= @simple_slip.remarks %></td>
+      <td class="accountName"><%= @simple_slip.account.code_and_name %></td>
+      <td class="subAccountName"><%= @simple_slip.sub_account.name if @simple_slip.sub_account.present? %></td>
+    
+      <% if branch_mode %>
+        <td class="branchName"><%= @simple_slip.branch.name %></td>
+      <% end %>
+    
+      <td class="amount"><%= @simple_slip.amount_increase %></td>
+      <td class="amount"><%= @simple_slip.amount_decrease %></td>
+    </tr>
+    <tr>
+      <td rowspan="3" valign="middle" align="center">計上日<br>振替</td>
+      <td align="center" style="border-right-style: none;">
+        <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>
+      </td>
+      <td style="border-left-style: none;">&nbsp;翌月</td>
+      <td rowspan="2" colspan="<%= branch_mode ? 2 : 1 %>">
+        <%# 勘定科目ごとの入力項目 %>
+        <div id="account_detail" class="account_detail" style="valign: middle; margin: 5px;">
+          <%= render_account_details @simple_slip.account_id %>
+        </div>
+      </td>
+      <td nowrap align="center">
+        <%= @simple_slip.tax_type_name %>
+        <% unless @simple_slip.nontaxable? %>
+          <%= @simple_slip.tax_rate_percent %>
+          <span>%</span>
+        <% end %>
+      </td>
+      <td class="amount"><%= @simple_slip.tax_amount_increase %></td>
+      <td class="amount"><%= @simple_slip.tax_amount_decrease %></td>
+    </tr>
+    <tr>
+      <td align="center" style="border-right-style: none;">
+        <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>
+      </td>
+      <td style="border-left-style: none;">&nbsp;前月</td>
+      <td align="right"><b>合計</b></td>
+      <td class="amount" style="font-weight:bold;">
+        <div class="sum_amount_increase"><%= to_amount(@simple_slip.slip_amount_increase) %></div>
+      </td>
+      <td class="amount" style="font-weight:bold;">
+        <div class="sum_amount_decrease"><%= to_amount(@simple_slip.slip_amount_decrease) %></div>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" style="border-right-style: none;">
+        <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
+      </td>
+      <td nowrap style="border-left-style: none;">
+        &nbsp;<%= @simple_slip.auto_journal_year || '----' %> 年
+        <%= @simple_slip.auto_journal_month || '--' %> 月
+        <%= @simple_slip.auto_journal_day || '--' %> 日
+      </td>
+
+      <%# 一覧画面の表示かどうかで列数を調整 %>
+      <td colspan="<%= define_colspan_of_receipt %>"></td>
+    </tr>
+  </table>
+<% end %>

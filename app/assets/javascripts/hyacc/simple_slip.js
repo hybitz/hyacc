@@ -6,6 +6,7 @@ hyacc.SimpleSlip = function(selector, options) {
 
 hyacc.SimpleSlip.prototype._init = function() {
   if (this.options.readonly) {
+    $(this.selector).find(':input').attr('disabled', true);
   } else {
     if (this.options.my_sub_account_id) {
       this.set_my_sub_account_id(this.options.my_sub_account_id);
@@ -142,8 +143,8 @@ hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAm
 
 hyacc.SimpleSlip.prototype.validate_amount_on_one_side = function(showAlert) {
   var form = $(this.selector);
-  var increase = form.find('[name*=\\[amount_increase\\]]').val().toInt();
-  var decrease = form.find('[name*=\\[amount_decrease\\]]').val().toInt();
+  var increase = (form.find('[name*=\\[amount_increase\\]]').val() || '').toInt();
+  var decrease = (form.find('[name*=\\[amount_decrease\\]]').val() || '').toInt();
 
   if (increase == 0 && decrease == 0) {
     if ( showAlert ) {

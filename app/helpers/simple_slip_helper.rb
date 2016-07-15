@@ -15,14 +15,14 @@ module SimpleSlipHelper
   end
   
   def define_colspan_of_receipt
-    if ['index', 'create'].include? controller.action_name
-      colspan = 7
+    if @simple_slip.new_record?
+      ret = 7
     else
-      colspan = 4
+      ret = 4
     end
 
-    colspan += 1 if branch_mode
-    colspan
+    ret += 1 if branch_mode
+    ret
   end
   
   # 検索条件の補助科目のセレクトボックス名を取得する

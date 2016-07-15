@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
 
   devise_for :users
@@ -160,7 +162,11 @@ Rails.application.routes.draw do
   get 'mm', :to => 'mm#index'
   get 'mv', :to => 'mv#index'
   get 'report', :to => 'report#index'
-
+  
+  authenticate :user do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+  
   root 'welcome#index'
 
 end

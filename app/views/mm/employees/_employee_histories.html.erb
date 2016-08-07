@@ -1,29 +1,24 @@
-<script>
-  function add_employee_history() {
-    var table = $('#employee_histories_table');
-    var index = table.find('tr').length - 3; // ヘッダと追加の行を引く
-    $.get('<%= url_for :action => 'add_employee_history' %>',
-      {index: index}
-    );
-  }
-</script>
-<table id="employee_histories_table" style="margin-top: 10px;">
-  <tr>
-    <th colspan="4">時系列情報</th>
-  </tr>
-  <tr>
-    <th>扶養親族の数</th>
-    <th>有効開始日</th>
-    <th>削除</th>
-  </tr>
-
-  <% @e.employee_histories.each_with_index do |eh, i| %>
-    <%= render 'employee_history_fields', :eh => eh, :index => i %>
-  <% end %>
-
-  <tr>
-    <td colspan="4" align="right">
-      <a href="javascript:add_employee_history();">追加</a>
-    </td>
-  </tr>
+<table style="margin-top: 10px;">
+  <thead>
+    <tr>
+      <th colspan="4">扶養親族</th>
+    </tr>
+    <tr>
+      <th>有効開始日</th>
+      <th>扶養親族の数</th>
+      <th>削除</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @e.employee_histories.each_with_index do |eh, i| %>
+      <%= render 'employee_history_fields', :eh => eh, :index => i %>
+    <% end %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4" align="right">
+        <%= link_to '追加', {:action => 'add_employee_history'}, :onclick => 'employee.add_num_of_dependant(this); return false;' %>
+      </td>
+    </tr>
+  </tfoot>
 </table>

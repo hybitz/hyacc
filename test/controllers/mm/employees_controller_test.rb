@@ -18,9 +18,9 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
 
   def test_履歴の追加
     sign_in user
-    xhr :get, :add_employee_history
+    xhr :get, :add_employee_history, :format => 'html'
     assert_response :success
-    assert_template :add_employee_history
+    assert_template '_employee_history_fields'
   end
 
   def test_所属部門の追加

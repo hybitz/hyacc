@@ -1,4 +1,14 @@
-<%= form_for [:mm, @e], :remote => true do |f| %>
+<script>
+  var employee;
+
+  $(document).ready(function() {
+    employee = new hyacc.Employee({
+      selector: 'form.employee'
+    });
+  });
+</script>
+
+<%= form_for [:mm, @e], :html => {:class => 'employee'}, :remote => true do |f| %>
   <%= flash_notice %>
 
   <div>
@@ -42,11 +52,11 @@
         </tr>
       </table>
     </div>
-    
+
     <div style="margin-left: 5px; float: left;">
       <%= render 'branch_employees' %>
     </div>
-  
+
     <div style="clear: left;"></div>
   </div>
 

@@ -1,2 +1,0 @@
-var tr = $('#employee_histories_table tr').last();
-tr.before('<%=j render('employee_history_fields', :eh => @employee_history, :index => params[:index]) %>');

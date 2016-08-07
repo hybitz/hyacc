@@ -10,6 +10,7 @@ class Mm::EmployeesController < Base::HyaccController
 
   def add_employee_history
     @employee_history = EmployeeHistory.new
+    render :partial => 'employee_history_fields', :locals => {:eh => @employee_history, :index => params[:index]}
   end
 
   def add_branch

@@ -74,5 +74,4 @@ group :test do
   gem 'database_cleaner'
   gem 'minitest'
   gem 'minitest-reporters'
-  gem 'simplecov', '0.11.2'
 end

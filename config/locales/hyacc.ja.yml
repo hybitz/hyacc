@@ -127,6 +127,7 @@ ja:
         first_name: 名
         last_name: 姓
         my_number: マイナンバー
+        num_of_dependent: 扶養親族の数
         sex: 性別
         zip_code: 郵便番号
         birth: 生年月日

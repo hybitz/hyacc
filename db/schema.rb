@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160712220712) do
+ActiveRecord::Schema.define(version: 20160807155331) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -232,20 +232,21 @@ ActiveRecord::Schema.define(version: 20160712220712) do
   end
 
   create_table "employees", force: :cascade do |t|
-    t.integer  "company_id",      limit: 4,                   null: false
-    t.string   "first_name",      limit: 255,                 null: false
-    t.string   "last_name",       limit: 255,                 null: false
-    t.date     "employment_date",                             null: false
-    t.string   "zip_code",        limit: 255
-    t.string   "address",         limit: 255
-    t.string   "sex",             limit: 1,                   null: false
-    t.boolean  "deleted",                     default: false, null: false
+    t.integer  "company_id",       limit: 4,                   null: false
+    t.string   "first_name",       limit: 255,                 null: false
+    t.string   "last_name",        limit: 255,                 null: false
+    t.date     "employment_date",                              null: false
+    t.string   "zip_code",         limit: 255
+    t.string   "address",          limit: 255
+    t.string   "sex",              limit: 1,                   null: false
+    t.boolean  "deleted",                      default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.date     "birth",                                       null: false
-    t.integer  "user_id",         limit: 4
-    t.string   "my_number",       limit: 12
-    t.boolean  "executive",                   default: false, null: false
+    t.date     "birth",                                        null: false
+    t.integer  "user_id",          limit: 4
+    t.string   "my_number",        limit: 12
+    t.boolean  "executive",                    default: false, null: false
+    t.integer  "num_of_dependent", limit: 4,   default: 0,     null: false
   end
 
   create_table "exemptions", force: :cascade do |t|
@@ -396,6 +397,16 @@ ActiveRecord::Schema.define(version: 20160712220712) do
   add_index "journal_headers", ["company_id", "ym", "day"], name: "index_journal_headers_on_company_id_and_date", using: :btree
   add_index "journal_headers", ["transfer_from_detail_id"], name: "index_journal_headers_transfer_from_detail_id", using: :btree
   add_index "journal_headers", ["ym"], name: "index_journal_headers_on_ym", using: :btree
+
+  create_table "nostalgic_attrs", force: :cascade do |t|
+    t.string   "model_type",   limit: 255, null: false
+    t.integer  "model_id",     limit: 4,   null: false
+    t.string   "name",         limit: 255, null: false
+    t.string   "value",        limit: 255
+    t.date     "effective_at",             null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "payrolls", force: :cascade do |t|
     t.integer  "ym",                                    limit: 4,                 null: false

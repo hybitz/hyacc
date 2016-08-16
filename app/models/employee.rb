@@ -5,6 +5,10 @@ class Employee < ActiveRecord::Base
   belongs_to :user
   belongs_to :company
 
+  nostalgic_for :num_of_dependent
+
+  validates_presence_of :last_name, :first_name, :birth
+
   has_many :employee_histories, :dependent => :destroy
   accepts_nested_attributes_for :employee_histories, :allow_destroy => true
 
@@ -15,8 +19,6 @@ class Employee < ActiveRecord::Base
   has_many :careers, -> { order('start_from, end_to') }, :dependent => :destroy
 
   has_many :exemptions, :dependent => :destroy
-
-  validates_presence_of :last_name, :first_name, :birth
 
   after_save :reset_account_cache
 
@@ -61,18 +63,6 @@ class Employee < ActiveRecord::Base
     fullname
   end
   
-  # 扶養家族の人数
-  def num_of_dependent(date = nil)
-    eh = nil
-    if date
-      eh = EmployeeHistory.get_at(id, date)
-    else
-      eh = EmployeeHistory.get_current(id)
-    end
-  
-    eh ? eh.num_of_dependent : 0
-  end
-
   def has_careers?
     careers.size > 0
   end

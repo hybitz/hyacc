@@ -102,7 +102,7 @@ module PayrollHelper
 
       # 対象月の末日の扶養家族の人数から源泉徴収税額を取得
       day = Date.new(ym.to_i/100, ym.to_i%100, -1)
-      payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(day, payroll.after_insurance_deduction, e.num_of_dependent(day))
+      payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(day, payroll.after_insurance_deduction, e.num_of_dependent_on(day))
     end
 
     payroll

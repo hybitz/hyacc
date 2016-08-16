@@ -3,6 +3,7 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
 
   devise_for :users
+  mount Nostalgic::Engine => '/nostalgic', :as => 'nostalgic'
 
   namespace :mm do
     resources :accounts do
@@ -34,7 +35,9 @@ Rails.application.routes.draw do
     resources :employees do
       collection do
         get 'add_branch'
-        get 'add_employee_history'
+      end
+      member do
+        get 'new_num_of_dependent'
       end
     end
 

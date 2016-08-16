@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7'
+gem 'rails', '4.2.7.1'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
@@ -22,6 +22,7 @@ gem 'mimemagic'
 gem 'momentjs-rails'
 gem 'mousetrap-rails'
 gem 'mysql2', '>= 0.3.13', '< 0.5'
+gem 'nostalgic'
 gem 'rails-csv-fixtures', :path => 'vendor/gems/rails-csv-fixtures'
 gem 'rails-i18n'
 gem 'remotipart'

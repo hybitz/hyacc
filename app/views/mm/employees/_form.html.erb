@@ -36,7 +36,7 @@
         </tr>
         <tr>
           <th><%= f.label :address %></th>
-          <td><%= f.text_field :address %></td>
+          <td><%= f.text_field :address, :class => 'address' %></td>
         </tr>
         <tr>
           <th><%= f.label :employment_date %></th>
@@ -50,6 +50,10 @@
           <th><%= f.label :executive %></th>
           <td><label><%= f.check_box :executive %> <%= Employee.human_attribute_name :executive_true %></label></td>
         </tr>
+        <tr>
+          <th><%= f.label :num_of_dependent %></th>
+          <td><%= link_to "#{f.object.num_of_dependent_on(Date.today)} 人", '#', :onclick => 'employee.edit_num_of_dependents(this); return false;' %></td>
+        </tr>
       </table>
     </div>
 
@@ -60,5 +64,5 @@
     <div style="clear: left;"></div>
   </div>
 
-  <%= render 'employee_histories' %>
+  <%= render 'num_of_dependents' %>
 <% end %>

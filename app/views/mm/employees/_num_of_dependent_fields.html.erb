@@ -1,0 +1,13 @@
+<%= fields_for "employee[num_of_dependents_attributes]", nod, :index => index do |f| %>
+  <tr>
+    <td>
+      <%= f.hidden_field :id %>
+      <%= f.hidden_field :_destroy %>
+      <%= f.text_field :effective_at, :class => 'datepicker' %>
+    </td>
+    <td align="center">
+      <%= f.number_field :value, :maxlength => 2, :style => 'width: 3em; text-align: center' %>人
+    </td>
+    <td><%= link_to '削除', '#', :onclick => 'employee.remove_num_of_dependent(this); return false;' %></td>
+  </tr>
+<% end %>

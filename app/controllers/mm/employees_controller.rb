@@ -8,9 +8,9 @@ class Mm::EmployeesController < Base::HyaccController
     @employees = finder.list
   end
 
-  def add_employee_history
-    @employee_history = EmployeeHistory.new
-    render :partial => 'employee_history_fields', :locals => {:eh => @employee_history, :index => params[:index]}
+  def new_num_of_dependent
+    @employee = Employee.find(params[:id])
+    render :partial => 'num_of_dependent_fields', :locals => {:nod => @employee.num_of_dependents.build, :index => params[:index]}
   end
 
   def add_branch
@@ -65,12 +65,12 @@ class Mm::EmployeesController < Base::HyaccController
       :company_id, :first_name, :last_name, :employment_date,
       :zip_code, :address, :sex, :business_office_id, :birth, :my_number, :executive
     ]
-    employee_histories_attributes = [:id, :_destroy, :num_of_dependent, :start_date]
+    num_of_dependents_attributes = [:id, :_destroy, :value, :effective_at]
     branch_employees_attributes = [:id, :_destroy, :branch_id, :cost_ratio, :default_branch]
 
     params.require(:employee).permit(
       employee_attributes,
-      :employee_histories_attributes => employee_histories_attributes,
+      :num_of_dependents_attributes => num_of_dependents_attributes,
       :branch_employees_attributes => branch_employees_attributes)
   end
 

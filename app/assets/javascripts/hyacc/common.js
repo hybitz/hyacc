@@ -147,7 +147,7 @@ hyacc.edit_nostalgic_attr = function(trigger) {
   table.find('tbody').toggle();
   if (table.find('tbody').is(':visible')) {
     $(trigger).siblings().show();
-    hyacc.init_datepicker();
+    hyacc.init_datepicker_within(table);
   } else {
     $(trigger).siblings().hide();
   }

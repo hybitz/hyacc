@@ -11,7 +11,7 @@
     </tr>
   </thead>
   <tbody style="display: none;">
-    <% f.object.__send__(attr.to_s.pluralize).each_with_index do |nostalgic_attr, i| %>
+    <% f.object.public_send(attr.to_s.pluralize).each_with_index do |nostalgic_attr, i| %>
       <%= f.fields_for "#{attr.to_s.pluralize}_attributes][#{i}]", nostalgic_attr do |f| %>
         <tr>
           <td>

@@ -1,5 +1,7 @@
-hyacc.init_datepicker = function() {
-  $('.datepicker').each(function() {
+hyacc.init_datepicker_within = function(parent) {
+  parent = parent || 'body';
+
+  $(parent).find('.datepicker').each(function() {
     $(this).datepicker({
       dateFormat: 'yy-mm-dd',
       changeYear: true,
@@ -14,7 +16,7 @@ hyacc.init_datepicker = function() {
     });
   });
 
-  $('.ympicker').each(function() {
+  $(parent).find('.ympicker').each(function() {
     $(this).ympicker({
       dateFormat: 'yy-mm',
       changeYear: true,
@@ -28,3 +30,8 @@ hyacc.init_datepicker = function() {
     });
   });
 };
+
+hyacc.init_datepicker = function() {
+  hyacc.init_datepicker_within(null);
+};
+

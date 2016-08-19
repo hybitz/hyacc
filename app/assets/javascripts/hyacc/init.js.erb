@@ -12,8 +12,6 @@ hyacc.init_datepicker = function() {
         if ($(this).attr('readonly')) { return false; }
       }
     });
-
-    hyacc._init_datepicker_button(this);
   });
 
   $('.ympicker').each(function() {
@@ -28,17 +26,5 @@ hyacc.init_datepicker = function() {
         if ($(this).attr('readonly')) { return false; }
       }
     });
-
-    hyacc._init_datepicker_button(this);
   });
-};
-
-hyacc._init_datepicker_button = function(text_field) {
-  var button = $(text_field).next('.ui-datepicker-trigger');
-
-  if ($(text_field).is(':visible')) {
-    button.show();
-  } else {
-    button.hide();
-  }
 };

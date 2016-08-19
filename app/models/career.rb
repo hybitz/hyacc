@@ -8,7 +8,7 @@ class Career < ActiveRecord::Base
 
   # マスタの名称を明細自身に設定する
   def update_names
-    self.customer_name = CustomerName.get_at(customer_id, end_to).formal_name
+    self.customer_name = customer.formal_name_on(end_to)
   end
   
   def duration_ym

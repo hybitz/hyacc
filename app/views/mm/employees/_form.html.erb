@@ -1,13 +1,3 @@
-<script>
-  var employee;
-
-  $(document).ready(function() {
-    employee = new hyacc.Employee({
-      selector: 'form.employee'
-    });
-  });
-</script>
-
 <%= form_for [:mm, @e], :html => {:class => 'employee'}, :remote => true do |f| %>
   <%= flash_notice %>
 
@@ -52,7 +42,7 @@
         </tr>
         <tr>
           <th><%= f.label :num_of_dependent %></th>
-          <td><%= link_to "#{f.object.num_of_dependent_on(Date.today)} 人", '#', :onclick => 'employee.edit_num_of_dependents(this); return false;' %></td>
+          <td><%= render 'common/nostalgic_attr', :f => f, :attr => :num_of_dependent %></td>
         </tr>
       </table>
     </div>
@@ -63,6 +53,4 @@
 
     <div style="clear: left;"></div>
   </div>
-
-  <%= render 'num_of_dependents' %>
 <% end %>

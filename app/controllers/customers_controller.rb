@@ -13,12 +13,6 @@ class CustomersController < Base::HyaccController
 
   def new
     @customer = Customer.new
-    @customer.customer_names << CustomerName.new
-  end
-
-  def add_customer_name
-    cn = CustomerName.new
-    render :partial => 'customer_name_fields', :locals => {:cn => cn, :index => params[:index]}
   end
 
   def edit
@@ -28,7 +22,6 @@ class CustomersController < Base::HyaccController
   def create
     begin
       @customer = Customer.new(customer_params)
-      @customer.customer_names.first.start_date = current_user.company.founded_date
 
       @customer.transaction do
         @customer.save!
@@ -84,8 +77,10 @@ class CustomersController < Base::HyaccController
 
   def customer_params
     permitted = [
+      :name, :name_effective_at, :formal_name, :formal_name_effective_at,
       :is_order_entry, :is_order_placement, :is_investment, :address, :disabled,
-      :customer_names_attributes => [:id, :_destroy, :name, :formal_name, :start_date]
+      :names_attributes => [:id, :_destroy],
+      :formal_names_attributes => [:id, :_destroy]
     ]
 
     ret = params.require(:customer)

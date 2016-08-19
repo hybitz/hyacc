@@ -9,9 +9,6 @@ class Employee < ActiveRecord::Base
 
   validates_presence_of :last_name, :first_name, :birth
 
-  has_many :employee_histories, :dependent => :destroy
-  accepts_nested_attributes_for :employee_histories, :allow_destroy => true
-
   has_many :branch_employees, :dependent => :destroy
   accepts_nested_attributes_for :branch_employees, :allow_destroy => true
 
@@ -67,10 +64,6 @@ class Employee < ActiveRecord::Base
     careers.size > 0
   end
   
-  def reset_account_cache
-    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_EMPLOYEE)
-  end
-
   def sex_name
     SEX_TYPES[sex]
   end
@@ -87,4 +80,11 @@ class Employee < ActiveRecord::Base
       0
     end
   end
+
+  private
+
+  def reset_account_cache
+    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_EMPLOYEE)
+  end
+
 end

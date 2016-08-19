@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807155331) do
+ActiveRecord::Schema.define(version: 20160816081138) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -211,6 +211,8 @@ ActiveRecord::Schema.define(version: 20160807155331) do
     t.datetime "updated_at"
     t.boolean  "disabled",                       default: false, null: false
     t.boolean  "is_investment",                  default: false, null: false
+    t.string   "formal_name",        limit: 255
+    t.string   "name",               limit: 255
   end
 
   create_table "depreciations", force: :cascade do |t|
@@ -219,14 +221,6 @@ ActiveRecord::Schema.define(version: 20160807155331) do
     t.integer  "amount_at_start", limit: 4,                 null: false
     t.integer  "amount_at_end",   limit: 4,                 null: false
     t.boolean  "depreciated",               default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "employee_histories", force: :cascade do |t|
-    t.integer  "employee_id",      limit: 4,             null: false
-    t.integer  "num_of_dependent", limit: 4, default: 0, null: false
-    t.date     "start_date",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -404,8 +398,8 @@ ActiveRecord::Schema.define(version: 20160807155331) do
     t.string   "name",         limit: 255, null: false
     t.string   "value",        limit: 255
     t.date     "effective_at",             null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "payrolls", force: :cascade do |t|

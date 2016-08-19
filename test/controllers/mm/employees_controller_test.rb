@@ -16,13 +16,6 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_template :edit
   end
 
-  def test_扶養親族の履歴の追加
-    sign_in user
-    xhr :get, :new_num_of_dependent, :id => employee.id, :format => 'html'
-    assert_response :success
-    assert_template '_num_of_dependent_fields'
-  end
-
   def test_所属部門の追加
     sign_in user
     xhr :get, :add_branch

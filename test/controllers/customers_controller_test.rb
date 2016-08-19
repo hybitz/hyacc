@@ -16,13 +16,6 @@ class CustomersControllerTest < ActionController::TestCase
     assert_template :show
   end
 
-  def test_名称追加
-    sign_in user
-    get :add_customer_name
-    assert_response :success
-    assert_template 'customers/_customer_name_fields'
-  end
-
   def test_追加
     sign_in user
     xhr :get, :new

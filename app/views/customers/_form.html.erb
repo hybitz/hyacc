@@ -1,4 +1,4 @@
-<%= form_for @customer, :remote => true do |f| %>
+<%= form_for @customer, :html => {:class => 'customer'}, :remote => true do |f| %>
   <%= flash_notice %>
   <table>
     <% if @customer.new_record? %>
@@ -6,17 +6,14 @@
         <th><%= f.label :code %></th>
         <td><%= f.text_field :code %></td>
       </tr>
-
-      <%= f.fields_for "customer_names_attributes[0]", @customer.customer_names.first do |f| %>
-        <tr>
-          <th><%= f.label :formal_name %></th>
-          <td><%= f.text_field :formal_name %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :name %></th>
-          <td><%= f.text_field :name %></td>
-        </tr>
-      <% end %>
+      <tr>
+        <th><%= f.label :formal_name %></th>
+        <td><%= f.text_field :formal_name %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :name %></th>
+        <td><%= f.text_field :name %></td>
+      </tr>
     <% else %>
       <tr>
         <th><%= f.label :code %></th>
@@ -24,17 +21,17 @@
       </tr>
       <tr>
         <th>取引先名（正式名）</th>
-        <td><%= @customer.formal_name %></td>
+        <td><%= render 'common/nostalgic_attr', :f => f, :attr => :formal_name %></td>
       </tr>
       <tr>
         <th>取引先名（略称）</th>
-        <td><%= @customer.name %></td>
+        <td><%= render 'common/nostalgic_attr', :f => f, :attr => :name %></td>
       </tr>
     <% end %>
 
     <tr>
       <th><%= f.label :address %></th>
-      <td><%= f.text_field :address, :size=>80 %></td>
+      <td><%= f.text_field :address, :class => 'address' %></td>
     </tr>
     <tr>
       <th><%= f.label :is_order_entry %></th>
@@ -53,9 +50,5 @@
       <td><%= f.select :disabled, HyaccConstants::DISABLE_TYPES.invert %></td>
     </tr>
   </table>
-  
-  <% unless @customer.new_record? %>
-    <div>時系列名称</div>
-    <%= render 'customer_names', :customer => @customer %>
-  <% end %>
 <% end %>
+

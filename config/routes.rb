@@ -36,9 +36,6 @@ Rails.application.routes.draw do
       collection do
         get 'add_branch'
       end
-      member do
-        get 'new_num_of_dependent'
-      end
     end
 
     resources :rents
@@ -61,11 +58,7 @@ Rails.application.routes.draw do
 
   resources :careers
   resources :career_statements, :only => ['index', 'show']
-  resources :customers do
-    collection do
-      get 'add_customer_name'
-    end
-  end
+  resources :customers
   resources :deemed_taxes
   resources :debts
   resources :exemptions

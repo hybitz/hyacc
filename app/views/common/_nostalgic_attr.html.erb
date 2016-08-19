@@ -1,0 +1,30 @@
+<table class="nostalgic">
+  <thead>
+    <tr>
+      <td>
+        <%= f.text_field attr %>
+      </td>
+      <td>
+        <%= f.text_field "#{attr}_effective_at", :class => 'datepicker', :style => 'display: none;' %>
+        <%= image_tag 'list.png', :onclick => 'hyacc.edit_nostalgic_attr(this); return false;' %>
+      </td>
+    </tr>
+  </thead>
+  <tbody style="display: none;">
+    <% f.object.__send__(attr.to_s.pluralize).each_with_index do |nostalgic_attr, i| %>
+      <%= f.fields_for "#{attr.to_s.pluralize}_attributes][#{i}]", nostalgic_attr do |f| %>
+        <tr>
+          <td>
+            <%= f.hidden_field :id %>
+            <%= f.hidden_field :_destroy %>
+            <%= f.text_field :value, :disabled => true, :readonly => true %>
+          </td>
+          <td>
+            <%= f.text_field :effective_at, :class => 'datepicker', :disabled => true, :readonly => true %>
+            <%= image_tag 'minus.png', :onclick => 'hyacc.remove_row(this); return false;' %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

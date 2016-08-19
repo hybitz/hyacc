@@ -22,7 +22,7 @@ module Auto::Journal
       jh.ym = ym
       jh.day = day
       jh.slip_type = SLIP_TYPE_INVESTMENT
-      jh.remarks = Customer.find(@investment.customer_id).formal_name + '株の' + action
+      jh.remarks = Customer.find(@investment.customer_id).formal_name_on(@investment.yyyymmdd) + '株の' + action
       jh.create_user_id = @user.id
       jh.update_user_id = @user.id
       # 明細の作成

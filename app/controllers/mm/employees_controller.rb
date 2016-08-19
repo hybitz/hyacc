@@ -8,11 +8,6 @@ class Mm::EmployeesController < Base::HyaccController
     @employees = finder.list
   end
 
-  def new_num_of_dependent
-    @employee = Employee.find(params[:id])
-    render :partial => 'num_of_dependent_fields', :locals => {:nod => @employee.num_of_dependents.build, :index => params[:index]}
-  end
-
   def add_branch
     @be = BranchEmployee.new
     render :partial => 'branch_employee_fields', :locals => {:be => @be, :index => params[:index]}
@@ -62,10 +57,10 @@ class Mm::EmployeesController < Base::HyaccController
 
   def employee_params
     employee_attributes = [
-      :company_id, :first_name, :last_name, :employment_date,
+      :company_id, :first_name, :last_name, :employment_date, :num_of_dependent, :num_of_dependent_effective_at,
       :zip_code, :address, :sex, :business_office_id, :birth, :my_number, :executive
     ]
-    num_of_dependents_attributes = [:id, :_destroy, :value, :effective_at]
+    num_of_dependents_attributes = [:id, :_destroy]
     branch_employees_attributes = [:id, :_destroy, :branch_id, :cost_ratio, :default_branch]
 
     params.require(:employee).permit(

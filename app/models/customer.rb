@@ -1,18 +1,13 @@
 class Customer < ActiveRecord::Base
-  has_many :customer_names
-  accepts_nested_attributes_for :customer_names, :allow_destroy => true
+  nostalgic_for :name, :formal_name
+
+  validates :name, :presence => true
+  validates :formal_name, :presence => true
+
   after_save :reset_account_cache
 
-  def name
-    current = CustomerName.get_current(id)
-    current.name if current
-  end
+  private
 
-  def formal_name
-    current = CustomerName.get_current(id)
-    current.formal_name if current
-  end
-  
   def reset_account_cache
     Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_CUSTOMER)
     Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_ORDER_ENTRY)

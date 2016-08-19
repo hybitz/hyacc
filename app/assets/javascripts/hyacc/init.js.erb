@@ -1,0 +1,44 @@
+hyacc.init_datepicker = function() {
+  $('.datepicker').each(function() {
+    $(this).datepicker({
+      dateFormat: 'yy-mm-dd',
+      changeYear: true,
+      changeMonth: true,
+      buttonImage: '<%= image_path('calendar.gif') %>',
+      buttonText: '',
+      buttonImageOnly: true,
+      showOn: 'button',
+      beforeShow: function() {
+        if ($(this).attr('readonly')) { return false; }
+      }
+    });
+
+    hyacc._init_datepicker_button(this);
+  });
+
+  $('.ympicker').each(function() {
+    $(this).ympicker({
+      dateFormat: 'yy-mm',
+      changeYear: true,
+      buttonImage: '<%= image_path('calendar.gif') %>',
+      buttonText: '',
+      buttonImageOnly: true,
+      showOn: 'button',
+      beforeShow: function() {
+        if ($(this).attr('readonly')) { return false; }
+      }
+    });
+
+    hyacc._init_datepicker_button(this);
+  });
+};
+
+hyacc._init_datepicker_button = function(text_field) {
+  var button = $(text_field).next('.ui-datepicker-trigger');
+
+  if ($(text_field).is(':visible')) {
+    button.show();
+  } else {
+    button.hide();
+  }
+};

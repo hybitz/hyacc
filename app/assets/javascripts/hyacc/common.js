@@ -120,3 +120,36 @@ function checkDate(year, month, day){
   return (date.getFullYear() == year && date.getMonth()== month - 1 && date.getDate() == day);
 };
 
+hyacc.add_row = function(trigger) {
+  options = options || {};
+
+  var table = $(trigger).closest('table');
+  var params = {
+    index: table.find('tbody tr').length,
+    format: 'html'
+  };
+  
+  $.get($(trigger).attr('href'), params, function(html) {
+    table.find('tbody').append(html);
+    hyacc.init_datepicker();
+  });
+};
+
+hyacc.remove_row = function(trigger) {
+  var tr = $(trigger).closest('tr');
+  tr.find('input[name*="\[_destroy\]"]').val(true);
+  tr.hide();
+};
+
+hyacc.edit_nostalgic_attr = function(trigger) {
+  var table = $(trigger).closest('table');
+
+  table.find('tbody').toggle();
+  if (table.find('tbody').is(':visible')) {
+    $(trigger).siblings().show();
+    hyacc.init_datepicker();
+  } else {
+    $(trigger).siblings().hide();
+  }
+};
+

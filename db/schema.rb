@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160816081138) do
+ActiveRecord::Schema.define(version: 20160820012507) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -189,17 +189,6 @@ ActiveRecord::Schema.define(version: 20160816081138) do
     t.integer  "lock_version",               limit: 4,   default: 0,      null: false
     t.string   "payday",                     limit: 255, default: "0,25", null: false
   end
-
-  create_table "customer_names", force: :cascade do |t|
-    t.integer  "customer_id", limit: 4,   null: false
-    t.string   "name",        limit: 255, null: false
-    t.string   "formal_name", limit: 255, null: false
-    t.date     "start_date",              null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "customer_names", ["customer_id"], name: "index_customer_names_on_customer_id", using: :btree
 
   create_table "customers", force: :cascade do |t|
     t.string   "code",               limit: 255, default: "",    null: false

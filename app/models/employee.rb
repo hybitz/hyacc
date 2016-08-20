@@ -7,7 +7,7 @@ class Employee < ActiveRecord::Base
 
   nostalgic_for :num_of_dependent
 
-  validates_presence_of :last_name, :first_name, :birth
+  validates_presence_of :last_name, :first_name, :birth, :employment_date, :sex
 
   has_many :branch_employees, :dependent => :destroy
   accepts_nested_attributes_for :branch_employees, :allow_destroy => true
@@ -17,6 +17,7 @@ class Employee < ActiveRecord::Base
 
   has_many :exemptions, :dependent => :destroy
 
+  before_save :set_company_id
   after_save :reset_account_cache
 
   # フィールド
@@ -85,6 +86,12 @@ class Employee < ActiveRecord::Base
 
   def reset_account_cache
     Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_EMPLOYEE)
+  end
+
+  def set_company_id
+    if self.company_id.blank?
+      self.company_id = user.company_id
+    end
   end
 
 end

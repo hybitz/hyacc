@@ -19,7 +19,6 @@ class Mm::UsersController < Base::HyaccController
 
     begin
       @user.transaction do
-        @user.company_id = @user.employee.company_id = current_user.company_id
         @user.save!
       end
 
@@ -70,16 +69,18 @@ class Mm::UsersController < Base::HyaccController
   private
 
   def user_params
-    user_attributes = [
-      :login_id, :company_id, :email, :slips_per_page, :password,
+    permitted = [
+      :login_id, :email, :slips_per_page, :password,
       :google_account, :google_password, :employee_id, :account_count_of_frequencies,
-      :yahoo_api_app_id, :show_details
-    ]
-    employee_attributes = [
-      :id, :company_id, :first_name, :last_name, :employment_date,
-      :zip_code, :address, :sex, :business_office_id, :birth, :my_number
+      :yahoo_api_app_id, :show_details,
+      :employee_attributes => [
+        :id, :company_id, :first_name, :last_name, :employment_date,
+        :zip_code, :address, :sex, :business_office_id, :birth, :my_number
+      ]
     ]
 
-    params.require(:user).permit(user_attributes, :employee_attributes => employee_attributes)
+    ret = params.require(:user).permit(permitted)
+    ret = ret.merge(:company_id => current_user.company_id)
+    ret
   end
 end

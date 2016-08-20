@@ -298,27 +298,14 @@ th.accountName {
   margin: 0;
 }
 
-table.nostalgic {
-  img {
-    width: 16px;
-    height: 16px;
-    vertical-align: middle;
-    margin-left: 2px;
-  }
-
-  a:hover {
-    background: none;
-  }
-}
-
 input[name*="\[account_count_of_frequencies\]"],
 input[name*="\[slips_per_page\]"] {
   text-align: center;
   width: 4em;
 }
 
-input[name*="\[address\]"] {
-  width: 20em;
+.address {
+  width: 30em;
 }
 
 .dcTypeSelect {

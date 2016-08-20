@@ -56,17 +56,19 @@ class Mm::EmployeesController < Base::HyaccController
   private
 
   def employee_params
-    employee_attributes = [
-      :company_id, :first_name, :last_name, :employment_date, :num_of_dependent, :num_of_dependent_effective_at,
-      :zip_code, :address, :sex, :business_office_id, :birth, :my_number, :executive
+    permitted = [
+      :first_name, :last_name, :employment_date,
+      :sex, :business_office_id, :birth, :my_number, :executive,
+      :num_of_dependent, :num_of_dependent_effective_at,
+      :zip_code, :zip_code_effective_at,
+      :address, :address_effective_at,
+      :num_of_dependents_attributes => [:id, :_destroy],
+      :zip_codes_attributes => [:id, :_destroy],
+      :addresses_attributes => [:id, :_destroy],
+      :branch_employees_attributes => [:id, :_destroy, :branch_id, :cost_ratio, :default_branch]
     ]
-    num_of_dependents_attributes = [:id, :_destroy]
-    branch_employees_attributes = [:id, :_destroy, :branch_id, :cost_ratio, :default_branch]
 
-    params.require(:employee).permit(
-      employee_attributes,
-      :num_of_dependents_attributes => num_of_dependents_attributes,
-      :branch_employees_attributes => branch_employees_attributes)
+    params.require(:employee).permit(permitted)
   end
 
   def finder

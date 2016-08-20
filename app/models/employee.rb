@@ -5,7 +5,7 @@ class Employee < ActiveRecord::Base
   belongs_to :user
   belongs_to :company
 
-  nostalgic_for :num_of_dependent
+  nostalgic_for :num_of_dependent, :zip_code, :address
 
   validates_presence_of :last_name, :first_name, :birth, :employment_date, :sex
 

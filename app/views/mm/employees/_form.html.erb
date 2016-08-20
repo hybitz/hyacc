@@ -22,11 +22,11 @@
         </tr>
         <tr>
           <th><%= f.label :zip_code %></th>
-          <td><%= f.text_field :zip_code, :class => 'zip_code' %></td>
+          <td><%= render 'common/nostalgic_attr', :f => f, :attr => :zip_code, :css_class => 'zip_code' %></td>
         </tr>
         <tr>
           <th><%= f.label :address %></th>
-          <td><%= f.text_field :address, :class => 'address' %></td>
+          <td><%= render 'common/nostalgic_attr', :f => f, :attr => :address, :css_class => 'address' %></td>
         </tr>
         <tr>
           <th><%= f.label :employment_date %></th>

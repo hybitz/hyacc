@@ -24,7 +24,7 @@ module SimpleSlips
         fill_in 'simple_slip_ym', :with => simple_slip.ym
         fill_in 'simple_slip_day', :with => simple_slip.day
         fill_in 'simple_slip_remarks', :with => simple_slip.remarks
-        find(:select, 'simple_slip_account_id').first(:option, simple_slip.account.code_and_name).select_option
+        select simple_slip.account.code_and_name, :from => 'simple_slip_account_id', :match => :first
       end
 
       if simple_slip.account.has_sub_accounts

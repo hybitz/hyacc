@@ -259,10 +259,10 @@ class SimpleSlipsController < Base::HyaccController
   def setup_new_slip
     ymd = session[:ymd_input_state]
     if ymd.nil?
-      now = Time.now
+      today = Date.today
       ymd = Slips::YmdInputState.new
-      ymd.ym = now.strftime("%Y%m")
-      ymd.day = now.strftime("%d")
+      ymd.ym = today.strftime("%Y%m")
+      ymd.day = today.strftime("%d")
       session[:ymd_input_state] = ymd
     end
 

@@ -32,6 +32,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :customers
+
     resources :employees do
       collection do
         get 'add_branch'
@@ -58,7 +60,6 @@ Rails.application.routes.draw do
 
   resources :careers
   resources :career_statements, :only => ['index', 'show']
-  resources :customers
   resources :deemed_taxes
   resources :debts
   resources :exemptions

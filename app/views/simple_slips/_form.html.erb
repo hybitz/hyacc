@@ -20,8 +20,7 @@
           form.removeClass('sub_account_ready');
           form.removeClass('tax_type_ready');
 
-          $.get('<%= url_for :controller => 'sub_accounts', :format => 'json' %>',
-            {order: 'code', account_id: $(this).val()},
+          $.get('<%= url_for :controller => 'sub_accounts', :format => 'json' %>', {order: 'code', account_id: $(this).val()},
             function(data) {
               replace_options(form.find('.subAccountSelect'), data);
               form.addClass('sub_account_ready');
@@ -35,8 +34,7 @@
               form.addClass('tax_type_ready');
           });
 
-          $.get('<%= url_for :action => 'get_account_details', :account_code => params[:account_code] %>',
-            {account_id: $(this).val()},
+          $.get('<%= url_for :action => 'get_account_details', :account_code => params[:account_code] %>', {account_id: $(this).val()},
             function(html) {
               form.find('.account_detail').html(html);
             }

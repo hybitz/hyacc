@@ -11,37 +11,14 @@
   <td><%= render 'form_remarks', :f => f %></td>
   <td>
     <%= collection_select_code_and_name(:simple_slip, :account_id, @accounts, :id, :name,
-          {:selected => @simple_slip.account_id, :frequencies => @frequencies}, :class => 'accountSelect') %>
-    <script>
-      $(document).ready(function() {
-        var form = $('#<%= @simple_slip.new_record? ? 'new_simple_slip' : 'edit_simple_slip' %>');
-
-        form.find('.accountSelect').change(function() {
-          form.removeClass('sub_account_ready');
-          form.removeClass('tax_type_ready');
-
-          $.get('<%= url_for :controller => 'sub_accounts', :format => 'json' %>', {order: 'code', account_id: $(this).val()},
-            function(data) {
-              replace_options(form.find('.subAccountSelect'), data);
-              form.addClass('sub_account_ready');
-            }
-          );
-
-          $.get('<%= url_for :controller => '/mm/accounts', :action => 'get_tax_type' %>', {account_id: $(this).val()},
-            function(tax_type) {
-              form.find('.taxTypeSelect').val(tax_type);
-              simple_slip.update_tax_amount();
-              form.addClass('tax_type_ready');
-          });
-
-          $.get('<%= url_for :action => 'get_account_details', :account_code => params[:account_code] %>', {account_id: $(this).val()},
-            function(html) {
-              form.find('.account_detail').html(html);
-            }
-          );
-        });
-      });
-    </script>
+          {
+            :selected => @simple_slip.account_id,
+            :frequencies => @frequencies},
+            :class => 'accountSelect',
+            :sub_accounts_path => sub_accounts_path,
+            :tax_type_path => url_for(:controller => '/mm/accounts', :action => 'get_tax_type'),
+            :account_details_path => url_for(:action => 'get_account_details', :account_code => params[:account_code])
+          ) %>
   </td>
   <td>
     <%= f.select :sub_account_id, f.object.sub_accounts, {}, :class => 'subAccountSelect', :style => 'width: 100%;' %>
@@ -79,7 +56,7 @@
     </div>
   </td>
   <td nowrap align="right">
-    <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect', :onchange => 'simple_slip.update_tax_amount();' %>
+    <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect' %>
     <%= f.text_field :tax_rate_percent, :class => 'taxRatePercentText', :onchange => 'simple_slip.update_tax_amount();' %>
     <span>%</span>
   </td>

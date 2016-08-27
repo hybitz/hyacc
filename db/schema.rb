@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160820012507) do
+ActiveRecord::Schema.define(version: 20160827015044) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -141,6 +141,7 @@ ActiveRecord::Schema.define(version: 20160820012507) do
     t.string   "tel",             limit: 13
     t.boolean  "is_head",                     default: false, null: false
     t.string   "prefecture_code", limit: 2,                   null: false
+    t.string   "zip_code",        limit: 8
   end
 
   create_table "business_types", force: :cascade do |t|
@@ -219,7 +220,7 @@ ActiveRecord::Schema.define(version: 20160820012507) do
     t.string   "first_name",       limit: 255,                 null: false
     t.string   "last_name",        limit: 255,                 null: false
     t.date     "employment_date",                              null: false
-    t.string   "zip_code",         limit: 255
+    t.string   "zip_code",         limit: 8
     t.string   "address",          limit: 255
     t.string   "sex",              limit: 1,                   null: false
     t.boolean  "deleted",                      default: false, null: false

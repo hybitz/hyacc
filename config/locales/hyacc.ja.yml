@@ -3,6 +3,7 @@ ja:
     description: 説明
     short_description: 概要
     trade_type: 取引区分
+    zip_code: 郵便番号
 
   activerecord:
     models:
@@ -129,7 +130,6 @@ ja:
         my_number: マイナンバー
         num_of_dependent: 扶養親族の数
         sex: 性別
-        zip_code: 郵便番号
         birth: 生年月日
 
       fiscal_year:
@@ -205,7 +205,6 @@ ja:
       rent:
         rent_type: "家賃のタイプ"
         usage_type: "使い方タイプ"
-        zip_code: "郵便番号"
         address: "住所"
         name: "名前"
         status: "地位"

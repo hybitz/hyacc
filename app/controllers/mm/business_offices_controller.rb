@@ -63,9 +63,16 @@ class Mm::BusinessOfficesController < Base::HyaccController
   private
 
   def business_office_params
-    params.require(:business_office).permit(
-        :company_id, :name, :prefecture_code, :prefecture_name, 
-        :address1, :address2, :lock_version, :tel, :is_head)
+    ret = params.require(:business_office).permit(
+        :name, :prefecture_code, :prefecture_name, :zip_code,
+        :address1, :address2, :tel, :is_head, :lock_version)
+
+    case action_name
+    when 'create'
+      ret = ret.merge(:company_id => current_company.id)
+    end
+
+    ret
   end
 
   def setup_view_attributes

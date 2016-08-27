@@ -14,6 +14,8 @@ class Mm::BusinessOfficesControllerTest < ActionController::TestCase
     xhr :post, :create, :business_office => valid_business_office_params
     assert_response :success
     assert_template 'common/reload'
+    assert @bo = assigns(:bo)
+    assert_equal user.company_id, @bo.company_id
   end
 
   def test_登録_入力エラー

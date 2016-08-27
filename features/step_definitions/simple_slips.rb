@@ -49,7 +49,7 @@ end
       fill_in 'simple_slip_ym', :with => @slip.ym
       fill_in 'simple_slip_day', :with => @slip.day
       fill_in 'simple_slip_remarks', :with => @slip.remarks
-      find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+      select account.code_and_name, :from => 'simple_slip_account_id', :match => :first
     end
 
     if account.has_sub_accounts

@@ -23,7 +23,7 @@ class Mm::CompaniesController < Base::HyaccController
       send_file(File.join('app', 'assets', 'images', 'rails.png'))
     end
   end
-  
+
   def edit
     @company = Company.find(current_user.company_id)
     render "edit_#{params[:field]}", :layout => false

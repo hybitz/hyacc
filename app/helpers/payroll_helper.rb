@@ -75,7 +75,7 @@ module PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym = nil, employee_id = nil, base_salary = 0)
+  def get_tax(ym, employee_id, base_salary)
     payroll = Payroll.new.init
 
     if ym && employee_id

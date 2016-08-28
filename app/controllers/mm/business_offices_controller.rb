@@ -10,7 +10,6 @@ class Mm::BusinessOfficesController < Base::HyaccController
     begin
       @bo = BusinessOffice.new(business_office_params)
       @bo.transaction do
-        @bo.prefecture_name = TaxJp::Prefecture.find_by_code(@bo.prefecture_code).name
         @bo.save!
       end
 
@@ -32,7 +31,6 @@ class Mm::BusinessOfficesController < Base::HyaccController
       @bo = BusinessOffice.find(params[:id])
       @bo.transaction do
         @bo.attributes = business_office_params
-        @bo.prefecture_name = TaxJp::Prefecture.find_by_code(@bo.prefecture_code).name
         @bo.save!
       end
 
@@ -64,7 +62,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
 
   def business_office_params
     ret = params.require(:business_office).permit(
-        :name, :prefecture_code, :prefecture_name, :zip_code,
+        :name, :prefecture_code, :zip_code,
         :address1, :address2, :tel, :is_head, :lock_version)
 
     case action_name

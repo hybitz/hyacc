@@ -14,6 +14,6 @@ class BusinessOffice < ActiveRecord::Base
 
   def set_prefecture_name
     p = TaxJp::Prefecture.find_by_code(self.prefecture_code)
-    self.prefecture_name = p.name if p
+    self.prefecture_name = p ? p.name : ''
   end
 end

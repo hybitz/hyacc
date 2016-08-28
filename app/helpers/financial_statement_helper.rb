@@ -19,12 +19,12 @@ module FinancialStatementHelper
   
       # 本店の場合は本店勘定を表示しない
       if account.code == ACCOUNT_CODE_HEAD_OFFICE
-        return false if branch.is_head_office
+        return false if branch.head_office?
       end
       
       # 支店の場合は支店勘定を表示しない
       if account.code == ACCOUNT_CODE_BRANCH_OFFICE
-        return false unless branch.is_head_office
+        return false unless branch.head_office?
       end
     end
     
@@ -43,7 +43,7 @@ module FinancialStatementHelper
     else
       branch = Branch.find( branch_id )
       
-      if branch.is_head_office
+      if branch.head_office?
         # 本店の場合に表示しない
         return false if [ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE,
                          ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE].include? account.code

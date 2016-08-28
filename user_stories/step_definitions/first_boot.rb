@@ -9,11 +9,17 @@ end
   normalize_table(ast_table).each do |row|
     case row[0]
     when '会社名'
-      fill_in 'c_name', :with => row[1]
+      fill_in 'company_name', :with => row[1]
+    when '都道府県'
+      select row[1], :from => 'company_business_offices_attributes_0_prefecture_code'
+    when '住所1'
+      fill_in 'company_business_offices_attributes_0_address1', :with => row[1]
+    when '住所2'
+      fill_in 'company_business_offices_attributes_0_address2', :with => row[1]
     when '事業開始年月日'
-      fill_in 'c_founded_date', :with => row[1]
+      fill_in 'company_founded_date', :with => row[1]
     when '事業形態'
-      select row[1], :from => 'c_type_of'
+      select row[1], :from => 'company_type_of'
     when '消費税'
       select row[1], :from => 'fy_tax_management_type'
     when '代表者　姓'

@@ -78,12 +78,9 @@
       <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
     </td>
   </tr>
-
 </table>
 
-<% unless @company.personal? %>
-  <div style="margin-top: 10px">
-    <span style="font-weight: bold;">事業所</span>
-    <%= render 'show_business_offices' %>
-  </div>
-<% end %>
+<div style="margin-top: 10px">
+  <span style="font-weight: bold;">事業所</span>
+  <%= render 'show_business_offices' %>
+</div>

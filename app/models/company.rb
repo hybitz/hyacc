@@ -1,7 +1,10 @@
 class Company < ActiveRecord::Base
   belongs_to :business_type
   has_many :branches
-  has_many :business_offices
+
+  has_many :business_offices, :inverse_of => 'company'
+  accepts_nested_attributes_for :business_offices
+
   has_many :users
   has_many :employees
   has_many :fiscal_years
@@ -93,11 +96,9 @@ class Company < ActiveRecord::Base
     branches.where(:deleted => false).size > 1
   end
 
-  # 本部を取得する
+  # 本店部門を取得する
   def get_head_office
-    ret = branches.where(:is_head_office => true).first
-    raise HyaccException.new(HyaccErrors::ERR_ILLEGAL_STATE) unless ret
-    ret
+    branches.where('parent_id is null').first!
   end
 
   # 本社を取得する

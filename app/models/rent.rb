@@ -15,6 +15,12 @@ class Rent < ActiveRecord::Base
   attr_accessor :total_amount
   attr_accessor :remarks
 
+  def code
+    name
+  end
+
+  private
+
   def reset_account_cache
     Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_RENT)
   end

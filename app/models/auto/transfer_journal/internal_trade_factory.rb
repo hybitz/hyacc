@@ -32,7 +32,7 @@ module Auto::TransferJournal
     def make_transfer_journal(parent_jh, branch_id, amount)
       # 部門が本店の場合は振替不要
       branch = Branch.get(branch_id)
-      return if branch.is_head_office
+      return if branch.head_office?
 
       # 支店の場合は本店との振替仕訳を作成する
       jh = parent_jh.transfer_journals.build

@@ -36,12 +36,12 @@ module Auto::TransferJournal
       
       # 部門情報取得
       src_branch = Branch.get(src_jd.branch_id)
-      parent = src_branch.is_head_office == true ? src_branch : src_branch.parent
+      parent = src_branch.head_office? ? src_branch : src_branch.parent
 
       # 資産明細の作成
       JournalUtil.make_allocated_cost(parent.id, src_jd.amount).each do |branch_id, cost|
         # サブ部門の場合は自身の仮負債を作成しない
-        next if not src_branch.is_head_office and branch_id == src_jd.branch_id
+        next if not src_branch.head_office? and branch_id == src_jd.branch_id
 
         # 仮資産（借方）
         jd = jh.journal_details.build

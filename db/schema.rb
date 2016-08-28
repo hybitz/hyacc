@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160827015044) do
+ActiveRecord::Schema.define(version: 20160828031938) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -119,7 +119,6 @@ ActiveRecord::Schema.define(version: 20160827015044) do
     t.string   "name",               limit: 255, default: "",    null: false
     t.integer  "company_id",         limit: 4,                   null: false
     t.integer  "sub_account_id",     limit: 4
-    t.boolean  "is_head_office",                 default: false, null: false
     t.integer  "parent_id",          limit: 4
     t.string   "path",               limit: 255, default: "/",   null: false
     t.integer  "cost_ratio",         limit: 4,   default: 100,   null: false

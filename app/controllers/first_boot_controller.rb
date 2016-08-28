@@ -1,5 +1,3 @@
-require 'active_record/fixtures'
-
 class FirstBootController < ApplicationController
   include HyaccConstants
   include Base::ExceptionHandler
@@ -9,6 +7,7 @@ class FirstBootController < ApplicationController
 
   def index
     @c = Company.new(:founded_date => Date.today, :type_of => COMPANY_TYPE_PERSONAL)
+    @c.business_offices.build
     @fy = FiscalYear.new
     @u = User.new
   end
@@ -20,6 +19,8 @@ class FirstBootController < ApplicationController
     @u = User.new(user_params)
 
     unless @c.valid? && @u.valid?
+      Rails.logger.info @c.errors.full_messages.join("\n")
+      Rails.logger.info @u.errors.full_messages.join("\n")
       render :index and return
     end
 
@@ -38,15 +39,6 @@ class FirstBootController < ApplicationController
 
     @e.employment_date = @c.founded_date
 
-    @b = Branch.new
-    @b.code = '100'
-    @b.name = '本店'
-    @b.is_head_office = true
-
-    @be = BranchEmployee.new
-    @be.cost_ratio = 100
-    @be.default_branch = true
-
     @c.transaction do
       # マスタデータをロード
       load_fixtures
@@ -56,7 +48,9 @@ class FirstBootController < ApplicationController
       @fy.company_id = @c.id
       @fy.save!
 
-      @b.company_id = @c.id
+      @b = @c.branches.build(:business_office => @c.business_offices.first)
+      @b.code = '100'
+      @b.name = '本店'
       @b.save!
 
       @e.company_id = @c.id
@@ -64,8 +58,9 @@ class FirstBootController < ApplicationController
       @u.employee = @e
       @u.save!
 
-      @be.branch_id = @b.id
-      @be.employee_id = @e.id
+      @be = BranchEmployee.new(:branch => @b, :employee => @e)
+      @be.default_branch = true
+      @be.cost_ratio = 100
       @be.save!
     end
 
@@ -75,7 +70,14 @@ class FirstBootController < ApplicationController
   private
 
   def company_params
-    params.require(:c).permit(:name, :founded_date, :type_of)
+    permitted = [
+      :name, :founded_date, :type_of,
+      :business_offices_attributes => [:prefecture_code, :address1, :address2]
+    ]
+
+    ret = params.require(:company).permit(permitted)
+    ret[:business_offices_attributes]['0'].merge!(:name => '本社', :is_head => true)
+    ret
   end
 
   def fiscal_year_params
@@ -90,35 +92,25 @@ class FirstBootController < ApplicationController
     params.require(:u).permit(:login_id, :password, :email)
   end
 
+  # 初期データロード
   def load_fixtures
-    now = Time.now
-    dir = File.join(Rails.root, 'config', 'first_boot')
+    ['accounts.csv', 'sub_accounts.csv', 'simple_slip_templates.csv', 'business_types.csv'].each do |fixture|
+      csv = ERB.new(File.read(File.join(Rails.root, 'config', 'first_boot', fixture))).result
+      klass = File.basename(fixture, File.extname(fixture)).singularize.camelize.constantize
 
-    # 勘定科目、勘定科目制御の初期データロード
-    ActiveRecord::FixtureSet.create_fixtures(dir, "accounts")
+      CSV.parse(csv, :headers => true).each do |row|
+        klass.create!(row.to_hash)
+      end
+    end
+
     if @c.personal?
-      Account.delete_all(['company_only = ?', true])
+      Account.where(:company_only => true).delete_all
       Account.where('depreciable = ?', true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_AMOUNT])
+      SubAccount.update_all(['social_expense_number_of_people_required = ?', false])
     else
-      Account.delete_all(['personal_only = ?', true])
+      Account.where(:personal_only => true).delete_all
       Account.where('depreciable = ?', true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_RATE])
     end
-    Account.update_all(['created_at = ?, updated_at = ?', now, now])
-
-    # 補助科目の初期データロード
-    ActiveRecord::FixtureSet.create_fixtures(dir, "sub_accounts")
-    if @c.personal?
-      SubAccount.update_all(['social_expense_number_of_people_required = ?', false])
-    end
-    SubAccount.update_all(['created_at = ?, updated_at = ?', now, now])
-
-    # 簡易入力テンプレートの初期データロード
-    ActiveRecord::FixtureSet.create_fixtures(dir, "simple_slip_templates")
-    SimpleSlipTemplate.update_all(['created_at = ?, updated_at = ?', now, now])
-
-    # 事業区分の初期データロード
-    ActiveRecord::FixtureSet.create_fixtures(dir, "business_types")
-    BusinessType.update_all(['created_at = ?, updated_at = ?', now, now])
   end
 
   def current_company

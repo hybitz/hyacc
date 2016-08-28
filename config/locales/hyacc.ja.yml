@@ -76,7 +76,6 @@ ja:
         business_office_id: 事業所
         code: 部門コード
         name: 部門名
-        is_head_office: 本社
         parent_id: 親部門
 
       branches_employee:

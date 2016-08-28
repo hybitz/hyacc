@@ -36,16 +36,15 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal CLOSING_STATUS_OPEN, fy.closing_status
   end
 
-  def test_本部が取得できること
-    c = Company.find(1)
-    assert_not_nil(c)
+  def test_本店が取得できること
+    assert c = Company.find(1)
     
-    assert_nothing_raised "本部を取得できること" do
-      c.get_head_office
+    assert_nothing_raised '本店を取得できること' do
+      assert ho = c.get_head_office
+      assert ho.head_office?
     end
-    assert_equal( true, c.get_head_office.is_head_office, "本部フラグがセットされていること")
   end
-  
+
   def test_本社が取得できること
     c = Company.find(1)
     assert_not_nil(c)

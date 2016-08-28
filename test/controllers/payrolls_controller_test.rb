@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PayrollsControllerTest < ActionController::TestCase
 
-  setup do
+  def setup
     sign_in user
   end
 
@@ -13,6 +13,7 @@ class PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_一覧
+    sign_in user
     get :index
     assert_response :success
     assert_template 'index'
@@ -22,6 +23,8 @@ class PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_追加
+    sign_in user
+
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2

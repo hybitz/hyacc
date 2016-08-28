@@ -1,3 +1,8 @@
+<script>
+  $(document).ready(function() {
+    hyacc.init_datepicker();
+  });
+</script>
 <div style="text-align: center; margin:20px;">
   <div>
     Hyaccをご利用いただき、まことにありがとうございます。
@@ -9,19 +14,43 @@
     <div style="margin:20px;">
       <%= flash_notice_in_span %>
     </div>
+
+    <%= fields_for @c do |f| %>
+      <table align="center">
+        <caption>会社情報</caption>
+        <tr>
+          <th>会社名（屋号）</th><td><%= f.text_field :name %></td>
+        </tr>
+
+        <%= f.fields_for :business_offices_attributes, f.object.business_offices.first, :index => 0 do |f| %>
+          <tr>
+            <th>都道府県</th>
+            <td><%= f.collection_select :prefecture_code, TaxJp::Prefecture.all, :code, :name %></td>
+          </tr>
+          <tr>
+            <th>住所1</th>
+            <td><%= f.text_field :address1 %></td>
+          </tr>
+          <tr>
+            <th>住所2</th>
+            <td><%= f.text_field :address2 %></td>
+          </tr>
+        <% end %>
+
+        <tr>
+          <th>事業開始年月日</th><td><%= f.text_field :founded_date, :class => 'datepicker' %></td>
+        </tr>
+        <tr>
+          <th>事業形態</th><td><%= f.select :type_of, company_types %></td>
+        </tr>
+        <tr>
+          <th>消費税</th><td><%= select(:fy, :tax_management_type, tax_management_types ) %></td>
+        </tr>
+      </table>
+    <% end %>
+
     <table align="center">
-      <tr>
-        <th>会社名（屋号）</th><td><%= text_field :c, :name %></td>
-      </tr>
-      <tr>
-        <th>事業開始年月日</th><td><%= text_field :c, :founded_date, :class => 'datepicker' %></td>
-      </tr>
-      <tr>
-        <th>事業形態</th><td><%= select(:c, :type_of, company_types) %></td>
-      </tr>
-      <tr>
-        <th>消費税</th><td><%= select(:fy, :tax_management_type, tax_management_types ) %></td>
-      </tr>
+      <caption>代表者</caption>
       <tr>
         <th>代表者　姓</th><td><%= text_field :e, :last_name %></td>
       </tr>

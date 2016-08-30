@@ -1,6 +1,6 @@
 <div class="branch">
   <%= form_for [:mm, @branch], :remote => true do |f| %>
-    <%= f.hidden_field :parent_id %>
+    <%= f.hidden_field :parent_id if @branch.new_record? %>
 
     <table>
       <tbody>

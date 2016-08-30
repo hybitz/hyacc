@@ -3,7 +3,7 @@ class WithheldTax < TaxJp::WithheldTax
   def self.find_by_date_and_pay_and_dependent(date, pay, dependent)
     ret = 0
 
-    case dependent
+    case dependent.to_i
     when 0, 1, 2, 3, 4, 5, 6, 7
       withheld_tax = find_by_date_and_salary(date, pay)
       if withheld_tax

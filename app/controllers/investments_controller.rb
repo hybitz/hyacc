@@ -34,12 +34,13 @@ class InvestmentsController < Base::HyaccController
   end
   
   def update
-    @investment = Investment.find(params[:journal_header_id])
+    @investment = Investment.find(params[:id])
 
     begin
       @investment.transaction do
-        @investment.destroy
+        destroy_investment!
         @investment = Investment.new(investment_params)
+        @investment.journal_detail_id = nil
         save_investment!
       end
       
@@ -115,9 +116,13 @@ class InvestmentsController < Base::HyaccController
   
   def destroy_investment!
     @investment.transaction do
-      # 有価証券の登録で追加した自動仕訳伝票の場合のみ関連伝票を削除
-      jh = @investment.journal_detail.journal_header
-      SLIP_TYPE_INVESTMENT == jh.slip_type ? jh.destroy : @investment.destroy
+      if @investment.journal_detail.nil?
+        @investment.destroy
+      else
+         # 有価証券の登録で追加した自動仕訳伝票の場合のみ関連伝票を削除
+        jh = @investment.journal_detail.journal_header
+        SLIP_TYPE_INVESTMENT == jh.slip_type ? jh.destroy : @investment.destroy
+      end
     end
   end
   

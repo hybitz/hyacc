@@ -61,9 +61,13 @@ class Mm::BusinessOfficesController < Base::HyaccController
   private
 
   def business_office_params
-    ret = params.require(:business_office).permit(
-        :name, :prefecture_code, :zip_code,
-        :address1, :address2, :tel, :is_head, :lock_version)
+    permitted = [
+      :name, :name_effective_at, :prefecture_code, :zip_code,
+      :address1, :address2, :tel, :is_head, :lock_version,
+      :names_attributes => [:id, :_destroy],
+    ]
+
+    ret = params.require(:business_office).permit(permitted)
 
     case action_name
     when 'create'

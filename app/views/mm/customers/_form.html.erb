@@ -21,11 +21,11 @@
       </tr>
       <tr>
         <th>取引先名（正式名）</th>
-        <td><%= render 'common/nostalgic_attr', :f => f, :attr => :formal_name %></td>
+        <td><%= f.nostalgic_text_field :formal_name %></td>
       </tr>
       <tr>
         <th>取引先名（略称）</th>
-        <td><%= render 'common/nostalgic_attr', :f => f, :attr => :name %></td>
+        <td><%= f.nostalgic_text_field :name %></td>
       </tr>
     <% end %>
 

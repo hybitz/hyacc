@@ -22,11 +22,11 @@
         </tr>
         <tr>
           <th><%= f.label :zip_code %></th>
-          <td><%= render 'common/nostalgic_attr', :f => f, :attr => :zip_code, :css_class => 'zip_code' %></td>
+          <td><%= f.nostalgic_text_field :zip_code, :class => 'zip_code' %></td>
         </tr>
         <tr>
           <th><%= f.label :address %></th>
-          <td><%= render 'common/nostalgic_attr', :f => f, :attr => :address, :css_class => 'address' %></td>
+          <td><%= f.nostalgic_text_field :address, :class => 'address' %></td>
         </tr>
         <tr>
           <th><%= f.label :employment_date %></th>
@@ -42,7 +42,7 @@
         </tr>
         <tr>
           <th><%= f.label :num_of_dependent %></th>
-          <td><%= render 'common/nostalgic_attr', :f => f, :attr => :num_of_dependent %></td>
+          <td><%= f.nostalgic_text_field :num_of_dependent %></td>
         </tr>
       </table>
     </div>

@@ -15,7 +15,7 @@ set :deploy_to, "/var/apps/#{fetch(:application)}"
 # Default value for :scm is :git
 # set :scm, :git
 set :scm, :git
-set :git_strategy, MyGitStrategy
+#set :git_strategy, MyGitStrategy
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh

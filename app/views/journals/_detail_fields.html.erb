@@ -74,9 +74,9 @@
   <tr style="<%= style_for_detail(jd) %>">
     <td colspan="2" nowrap>
       <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
-      <%= f.text_field :auto_journal_year, :size => 4, :maxlength => 4 %> 年
-      <%= f.text_field :auto_journal_month, :size => 1, :maxlength => 2 %> 月
-      <%= f.text_field :auto_journal_day, :size => 1, :maxlength => 2 %> 日
+      <%= f.text_field :auto_journal_year, :maxlength => 4, :class => 'year' %> 年
+      <%= f.text_field :auto_journal_month, :maxlength => 2, :class => 'month' %> 月
+      <%= f.text_field :auto_journal_day, :maxlength => 2, :class => 'day' %> 日
     </td>
     <td></td>
   </tr>

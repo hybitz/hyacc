@@ -18,13 +18,18 @@ class Investment < ActiveRecord::Base
   before_save :set_ym_and_day
   before_save :set_trading_value
   after_find :set_buying_or_sellng
+  after_find :set_yyyymmdd
   
   def set_ym_and_day
     split = self.yyyymmdd.split("-")
     self.ym = split[0..1].join
     self.day = split[2]
   end
-  
+
+  def set_yyyymmdd
+    self.yyyymmdd = self.ym.to_s[0,4] + '-' + self.ym.to_s[4,2] + '-' + self.day.to_s
+  end
+
   def set_trading_value
     if buying_or_selling == "0"
       self.shares = self.shares * -1

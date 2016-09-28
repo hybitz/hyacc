@@ -5,7 +5,6 @@ module Reports
       model = WithholdingSummary.new
       model.calendar_year = @finder.calendar_year
       model.company = Company.find(@finder.company_id)
-      model.head_business_office = model.company.get_head_business_office
       model.total_salary = get_total_salary                               # 支払金額
       model.withholding_tax = get_withholding_tax                         # 源泉徴収税額
       model

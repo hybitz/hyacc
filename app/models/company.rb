@@ -101,13 +101,6 @@ class Company < ActiveRecord::Base
     branches.where('parent_id is null').first!
   end
 
-  # 本社を取得する
-  def get_head_business_office
-    head_business_office = BusinessOffice.where(:company_id => id, :is_head => true)
-    raise HyaccException.new(HyaccErrors::ERR_ILLEGAL_STATE) unless head_business_office.count == 1
-    head_business_office.first
-  end
-
   # 個人事業主かどうか
   def personal?
     type_of == COMPANY_TYPE_PERSONAL

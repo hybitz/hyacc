@@ -45,16 +45,6 @@ class CompanyTest < ActiveSupport::TestCase
     end
   end
 
-  def test_本社が取得できること
-    c = Company.find(1)
-    assert_not_nil(c)
-    
-    assert_nothing_raised "本社を取得できること" do
-      c.get_head_business_office
-    end
-    assert_equal( true, c.get_head_business_office.is_head, "本部フラグがセットされていること")
-  end
-
   def test_payday
     c = Company.new(:payday => nil)
     assert_equal '当月25日', c.payday_jp

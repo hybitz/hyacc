@@ -63,7 +63,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
   def business_office_params
     permitted = [
       :name, :name_effective_at, :prefecture_code, :zip_code,
-      :address1, :address2, :tel, :is_head, :lock_version,
+      :address1, :address2, :tel, :lock_version,
       :names_attributes => [:id, :_destroy],
     ]
 

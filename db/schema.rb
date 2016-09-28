@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160828141301) do
+ActiveRecord::Schema.define(version: 20160928132707) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -129,17 +129,16 @@ ActiveRecord::Schema.define(version: 20160828141301) do
   end
 
   create_table "business_offices", force: :cascade do |t|
-    t.integer  "company_id",      limit: 4,                   null: false
-    t.string   "name",            limit: 255,                 null: false
-    t.string   "prefecture_name", limit: 16,                  null: false
+    t.integer  "company_id",      limit: 4,               null: false
+    t.string   "name",            limit: 255,             null: false
+    t.string   "prefecture_name", limit: 16,              null: false
     t.string   "address1",        limit: 255
     t.string   "address2",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "lock_version",    limit: 4,   default: 0,     null: false
+    t.integer  "lock_version",    limit: 4,   default: 0, null: false
     t.string   "tel",             limit: 13
-    t.boolean  "is_head",                     default: false, null: false
-    t.string   "prefecture_code", limit: 2,                   null: false
+    t.string   "prefecture_code", limit: 2,               null: false
     t.string   "zip_code",        limit: 8
   end
 

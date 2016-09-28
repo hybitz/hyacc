@@ -88,7 +88,6 @@ ja:
         address1: 住所１
         address2: 住所２
         tel: 電話番号
-        is_head: 本社フラグ
 
       company:
         admin_email: 管理者メールアドレス

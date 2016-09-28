@@ -76,7 +76,7 @@ class FirstBootController < ApplicationController
     ]
 
     ret = params.require(:company).permit(permitted)
-    ret[:business_offices_attributes]['0'].merge!(:name => '本社', :is_head => true)
+    ret[:business_offices_attributes]['0'].merge!(:name => '本社')
     ret
   end
 

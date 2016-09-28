@@ -6,7 +6,6 @@
       <th>都道府県</th>
       <th>所在地</th>
       <th>電話番号</th>
-      <th>本社フラグ</th>
       <th></th>
     </tr>
   </thead>
@@ -18,7 +17,6 @@
         <td><%= bo.prefecture_name %></td>
         <td><%= bo.address1 %><%= bo.address2 %></td>
         <td><%= bo.tel %></td>
-        <td class="center"><%= '★' if bo.is_head? %></td>
         <td>
           <%= link_to '編集', edit_mm_business_office_path(bo), :remote => true %>
           <%= link_to '削除', mm_business_office_path(bo), data: {confirm: '削除します。よろしいですか？'}, :method => 'delete' %>
@@ -28,7 +26,7 @@
   </tbody>	
   <tfoot>
     <tr>
-      <td colspan="7" align="right">
+      <td colspan="6" align="right">
         <%= link_to '追加', new_mm_business_office_path(:company_id => @company.id), :remote => true %>
       </td>
     </tr>

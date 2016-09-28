@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class CompanyTest < ActiveSupport::TestCase
-  fixtures :companies, :fiscal_years
 
   def test_get_fiscal_year_int
     assert_equal( 2007, companies(:a).get_fiscal_year_int( 200612 ) )

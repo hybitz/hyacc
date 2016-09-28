@@ -12,7 +12,7 @@ module Auto::Journal
       ret = []
       action = @investment.shares.to_i > 0 ? '取得' : '売却'
       account_code = @investment.for_what == SECURITIES_TYPE_FOR_TRADING ? ACCOUNT_CODE_TRADING_SECURITIES : ACCOUNT_CODE_INVESTMENT_SECURITIES
-      branch_id = @user.company.get_head_branch.id
+      branch_id = @user.company.head_branch.id
       split = @investment.yyyymmdd.split("-")
       ym = split[0..1].join
       day = split[2]

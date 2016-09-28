@@ -40,8 +40,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert c = Company.find(1)
     
     assert_nothing_raised '本店を取得できること' do
-      assert ho = c.get_head_office
-      assert ho.head_office?
+      assert c.get_head_branch.head_office?
     end
   end
 

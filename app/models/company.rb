@@ -97,7 +97,7 @@ class Company < ActiveRecord::Base
   end
 
   # 本店部門を取得する
-  def get_head_office
+  def get_head_branch
     branches.where('parent_id is null').first!
   end
 

@@ -75,10 +75,7 @@ module JournalUtil
     elsif account.kind_of? Fixnum
       account = Account.get(account)
     end
-
-    unless account.kind_of? Account
-      return 0
-    end
+    return 0 unless account.kind_of? Account
 
     pre_sum_amount_increase = get_sum_until(slip, account.id, account.dc_type, branch_id, sub_account_id)
     pre_sum_amount_decrease = get_sum_until(slip, account.id, account.opposite_dc_type, branch_id, sub_account_id)

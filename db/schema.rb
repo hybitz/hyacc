@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928132707) do
+ActiveRecord::Schema.define(version: 20161002081931) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -378,6 +378,7 @@ ActiveRecord::Schema.define(version: 20160928132707) do
 
   add_index "journal_headers", ["company_id", "ym", "day"], name: "index_journal_headers_on_company_id_and_date", using: :btree
   add_index "journal_headers", ["transfer_from_detail_id"], name: "index_journal_headers_transfer_from_detail_id", using: :btree
+  add_index "journal_headers", ["transfer_from_id"], name: "index_journal_headers_on_transfer_from_id", using: :btree
   add_index "journal_headers", ["ym"], name: "index_journal_headers_on_ym", using: :btree
 
   create_table "nostalgic_attrs", force: :cascade do |t|

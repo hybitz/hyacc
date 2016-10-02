@@ -4,15 +4,16 @@
   </div>
   
   <script>
-    function setSubAccountsVisible() {
-      var value = $('#account_sub_account_type').val();
-      if (value == SUB_ACCOUNT_TYPE_NORMAL || value == SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE) {
-        $('#form_sub_accounts').show();
-      }
-      else {
-        $('#form_sub_accounts').hide();
-      }
-    }  
+    $(document).ready(function() {
+      $('#account_sub_account_type').change(function() {
+        if ($(this).val() == SUB_ACCOUNT_TYPE_NORMAL || $(this).val() == SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE) {
+          $('#form_sub_accounts').show();
+        }
+        else {
+          $('#form_sub_accounts').hide();
+        }
+      }).change();
+    });
   </script>
 
   <table>
@@ -63,7 +64,7 @@
     </tr>
     <tr>
       <th><%= f.label :depreciation_method %></th>
-      <td><%= f.select :depreciation_method, depreciation_methods, :include_blank=>true %></td>
+      <td><%= f.select :depreciation_method, depreciation_methods, :include_blank => true %></td>
     </tr>
     <% end %>
 
@@ -91,7 +92,7 @@
       <th><%= f.label :sub_account_type %></th>
       <td>
         <% if @account.sub_account_editable? %>
-          <%= f.select :sub_account_type, sub_account_types, {}, :onchange=>"setSubAccountsVisible();" %>
+          <%= f.select :sub_account_type, sub_account_types, {} %>
           <div id="form_sub_accounts">
             <%= render 'sub_accounts_fields' %>
           </div>

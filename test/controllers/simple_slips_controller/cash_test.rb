@@ -104,6 +104,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
           "account_id"=>21,
           "amount_increase"=>1130,
           :tax_type => TAX_TYPE_NONTAXABLE,
+          :tax_rate_percent => 0,
           "lock_version"=>jh.lock_version
         }
     end
@@ -127,6 +128,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
         "branch_id"=>2,
         "account_id"=>21,
         "tax_type"=>TAX_TYPE_NONTAXABLE,
+        :tax_rate_percent => 0,
         "amount_increase"=>1130,
         "lock_version"=>0
       }

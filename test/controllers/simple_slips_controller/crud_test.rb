@@ -81,17 +81,18 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
       :simple_slip => {
         :ym => slip.ym,
         "day" => slip.day,
-        "remarks"=>"更新時に登録ユーザが更新されていないこと",
-        "branch_id"=>slip.branch_id,
-        "account_id"=>slip.account_id,
-        "sub_account_id"=>slip.sub_account_id,
-        "amount_increase"=>slip.amount_increase,
-        "amount_decrease"=>slip.amount_decrease,
+        "remarks" => "更新時に登録ユーザが更新されていないこと",
+        "branch_id" => slip.branch_id,
+        "account_id" => slip.account_id,
+        "sub_account_id" => slip.sub_account_id,
+        "amount_increase" => slip.amount_increase,
+        "amount_decrease" => slip.amount_decrease,
         :tax_type => TAX_TYPE_NONTAXABLE,
-        "lock_version"=>slip.lock_version,
-        "auto_journal_type"=>0,
-        "asset_id"=>slip.asset_id,
-        "asset_lock_version"=>slip.asset_lock_version,
+        :tax_rate_percent => 0,
+        "lock_version" => slip.lock_version,
+        "auto_journal_type" => 0,
+        "asset_id" => slip.asset_id,
+        "asset_lock_version" => slip.asset_lock_version,
       }
 
     assert_response :success

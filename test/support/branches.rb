@@ -1,4 +1,5 @@
 module Branches
+
   def branch
     @_branch ||= Branch.where(:deleted => false).first
   end

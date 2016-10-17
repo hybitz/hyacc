@@ -28,7 +28,7 @@
     </tr>
     <% @list.each do |data| %>
       <tr class="hover">
-        <td class="grade"><%= data.grade %><%= "(#{data.pension_grade})" if data.pension_grade >= 1 and data.pension_grade <= 30 %></td>
+        <td class="grade"><%= data.grade %><%= "(#{data.pension_grade})" if data.welfare_pension_insurance_all > 0 %></td>
         <td><%= to_amount(data.monthly_earnings) %></td>
         <td><%= to_amount(data.daily_earnings) %></td>
         <td><%= to_amount(data.pay_range_above) %></td>

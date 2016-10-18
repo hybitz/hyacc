@@ -34,7 +34,7 @@ class PayrollsController < Base::HyaccController
       @payroll = get_tax(ym, finder.employee_id, base_salary)
 
       # 初期値の設定
-      @payroll.days_of_work = Date.new(ym.to_i/100, ym.to_i%100, -1).day
+      @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
       @payroll.hours_of_work = @payroll.days_of_work * 8
 
       # 住民税マスタより住民税額を取得

@@ -142,4 +142,13 @@ module HyaccDateUtil
   def self.get_remaining_months(start_month_of_fiscal_year, ym)
     12 - HyaccDateUtil.get_ym_index(start_month_of_fiscal_year, ym)
   end
+
+  def self.weekday_of_month(yyyy, mm)
+    date_range = (Date.new(yyyy, mm, 1)..Date.new(yyyy, mm, -1))
+    date_range.select(&method(:weekday?)).count
+  end
+  
+  def self.weekday?(date)
+    !(date.saturday? || date.sunday?)
+  end
 end

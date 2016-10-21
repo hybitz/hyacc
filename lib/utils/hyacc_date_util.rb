@@ -149,6 +149,6 @@ module HyaccDateUtil
   end
   
   def self.weekday?(date)
-    !(date.saturday? || date.sunday?)
+    !(date.saturday? || date.sunday? || HolidayJp.holiday?(date))
   end
 end

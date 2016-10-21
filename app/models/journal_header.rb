@@ -30,6 +30,16 @@ class JournalHeader < ActiveRecord::Base
     where(:company_id => fiscal_year.company_id, :fiscal_year_id => fiscal_year.id, :slip_type => slip_type)
   end
 
+  def create_user_name
+    @create_user ||= User.find_by_id(create_user_id)
+    @create_user && @create_user.name
+  end
+
+  def update_user_name
+    @update_user ||= User.find_by_id(update_user_id)
+    @update_user && @update_user.name
+  end
+
   # 伝票の年月日を取得
   def date
     Date.new( year, month, day )

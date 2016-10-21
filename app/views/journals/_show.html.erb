@@ -10,48 +10,51 @@
 </script>
 
 <form id="journal_show_form">
-  <div style="margin: 5px;">
-    <table>
-      <tr>
-        <th>年月</th>
-        <th>日</th>
-        <th>伝票区分</th>
-        <th>摘要</th>
-        <th>借方金額</th>
-        <th>貸方金額</th>
-      </tr>
-    
-      <tr>
-        <td><%= @journal.ym %></td>
-        <td><%= @journal.day %></td>
-        <td class="slipType"><%= @journal.slip_type_name %></td>
-        <td class="remarks"><%= @journal.remarks %></td>
-        <td class="amount"><%= to_amount(@journal.amount) %></td>
-        <td class="amount"><%= to_amount(@journal.amount) %></td>
-      </tr>
-    </table>
-
-    <%= render 'receipt' %>
+  <table>
+    <tr>
+      <th>年月</th>
+      <th>日</th>
+      <th>伝票区分</th>
+      <th>摘要</th>
+      <th>借方金額</th>
+      <th>貸方金額</th>
+    </tr>
   
-    <table class="journal_details">
-      <tr>
-        <th>貸借</th>
-        <th>勘定科目</th>
-        <th>補助科目</th>
-        <% if branch_mode %><th>計上部門</th><% end %>
-        <th>金額</th>
-        <th colspan="2">消費税</th>
-        <th>合計</th>
-        <th>
-          <a href="#" onclick="journal.flip_details(true); return false;">表示</a>
-          <span>／</span>
-          <a href="#" onclick="journal.flip_details(false); return false;">隠す</a>
-        </th>
-      </tr>
-      
-      <% @journal.normal_details.each_with_index do |jd, i| %>
-        <%= render 'show_detail', :jd => jd, :index => i %>
-      <% end %>
-    </table>
-  </div>
+    <tr>
+      <td><%= @journal.ym %></td>
+      <td><%= @journal.day %></td>
+      <td class="slipType"><%= @journal.slip_type_name %></td>
+      <td class="remarks"><%= @journal.remarks %></td>
+      <td class="amount"><%= to_amount(@journal.amount) %></td>
+      <td class="amount"><%= to_amount(@journal.amount) %></td>
+    </tr>
+  </table>
+
+  <%= render 'receipt' %>
+
+  <table class="journal_details">
+    <tr>
+      <th>貸借</th>
+      <th>勘定科目</th>
+      <th>補助科目</th>
+      <% if branch_mode %><th>計上部門</th><% end %>
+      <th>金額</th>
+      <th colspan="2">消費税</th>
+      <th>合計</th>
+      <th>
+        <a href="#" onclick="journal.flip_details(true); return false;">表示</a>
+        <span>／</span>
+        <a href="#" onclick="journal.flip_details(false); return false;">隠す</a>
+      </th>
+    </tr>
+    
+    <% @journal.normal_details.each_with_index do |jd, i| %>
+      <%= render 'show_detail', :jd => jd, :index => i %>
+    <% end %>
+  </table>
 </form>
+<div style="float: right; margin: 5px 10px 0 10px;">
+  <span title="<%= @journal.create_user_name %> が <%= @journal.created_at.to_s(:ymd) %> に登録">登録者: <%= @journal.create_user_name %></span>
+  /
+  <span title="<%= @journal.update_user_name %> が <%= @journal.updated_at.to_s(:ymd) %> に更新">更新者: <%= @journal.update_user_name %></span>
+</div>

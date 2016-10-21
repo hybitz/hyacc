@@ -13,14 +13,6 @@ class TaxRateValidatorTest < ActiveSupport::TestCase
       assert jd.valid?, jd.errors.full_messages.join("\n")
       assert jd.errors[:tax_rate].empty?
     end
-
-    bad = [0.03, 0.05, 0.08]
-    bad.each do |rate|
-      jd.tax_rate = rate
-      
-      assert jd.invalid?, "#{rate} は不正であること"
-      assert jd.errors[:tax_rate].any?
-    end
   end
 
   def test_内税

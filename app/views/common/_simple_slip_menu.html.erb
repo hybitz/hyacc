@@ -1,6 +1,6 @@
 <% current_user.simple_slip_settings.each do |sss| %>
   <%= link_to "#{sss.shortcut_key[5]}.#{sss.account.name}", {:controller => '/simple_slips', :account_code => sss.account.code},
-        :style => style_for_menu(sss.account.code), :title => "#{sss.account.name}　　#{sss.shortcut_key}" %>
+        :class => style_for_menu(sss.account.code), :title => "#{sss.account.name}　　#{sss.shortcut_key}" %>
   |
 <% end %>
 

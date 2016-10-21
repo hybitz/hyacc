@@ -1,6 +1,6 @@
 <div style="margin: 10px;">
   <% actions.each_with_index do |action, index| %>
     <%= ' | ' if index > 0 %>
-    <%= link_to titles[index], {:action => action}, :style => style_for_action(action) %>
+    <%= link_to titles[index], {:action => action}, :class => style_for_action(action) %>
   <% end %>
 </div>

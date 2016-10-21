@@ -9,7 +9,7 @@
       |
       <% end %>
 
-      <%= link_to c[:title], {:controller => c[:name]}, :style => style_for_menu(c[:name]) %>
+      <%= link_to c[:title], {:controller => c[:name]}, :class => style_for_menu(c[:name]) %>
       <% show_separator = true %>
     <% } %>
   </div>

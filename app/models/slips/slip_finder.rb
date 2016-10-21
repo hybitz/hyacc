@@ -115,8 +115,8 @@ module Slips
     def get_conditions
       sql = SqlBuilder.new
        # 伝票区分の指定
-      sql.append('slip_type in ( ?, ?, ?, ? )', SLIP_TYPE_SIMPLIFIED, SLIP_TYPE_TRANSFER, SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION, SLIP_TYPE_TEMPORARY_DEBT) if branch_id > 0
-      sql.append('slip_type in ( ?, ?, ? )', SLIP_TYPE_SIMPLIFIED, SLIP_TYPE_TRANSFER, SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION) if branch_id == 0
+      sql.append('slip_type in ( ? )', EXTERNAL_SLIP_TYPES.merge(BRANCH_SLIP_TYPES).keys) if branch_id > 0
+      sql.append('slip_type in ( ? )', EXTERNAL_SLIP_TYPES.keys) if branch_id == 0
       sql.append('and finder_key rlike ?', JournalUtil.build_rlike_condition(account_code, sub_account_id, branch_id))
 
       # 年月は任意

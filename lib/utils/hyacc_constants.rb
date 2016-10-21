@@ -211,25 +211,36 @@ module HyaccConstants
     SEX_TYPE_F = 'F' => '女',
   }
 
-  # 伝票区分
-  SLIP_TYPES = {
+  # 内部伝票区分
+  INTERNAL_SLIP_TYPES = {
+    SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE = 5 => '内部取引',
+    SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST = 8 => '費用配賦',
+    SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS = 9 => '資産配賦'
+  }
+  
+  # 部門間伝票区分
+  BRANCH_SLIP_TYPES = {
+    SLIP_TYPE_TEMPORARY_DEBT = 10 => '負債清算',
+  }
+    
+  # 外部伝票区分
+  EXTERNAL_SLIP_TYPES = {
     SLIP_TYPE_SIMPLIFIED = 0 => '簡易入力',
     SLIP_TYPE_TRANSFER = 1 => '一般振替',
     SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE = 2 => '前払振替',
     SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE = 3 => '未払振替',
     SLIP_TYPE_AUTO_TRANSFER_EXPENSE = 4 => '計上日振替',
-    SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE = 5 => '内部取引',
     SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION = 6 => '給与',
     SLIP_TYPE_DEPRECIATION = 7 => '減価償却',
-    SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST = 8 => '費用配賦',
-    SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS = 9 => '資産配賦',
-    SLIP_TYPE_TEMPORARY_DEBT = 10 => '負債清算',
     SLIP_TYPE_HOUSEWORK = 11 => '家事按分',
     SLIP_TYPE_CARRY_FORWARD = 12 => '年次繰越',
     SLIP_TYPE_DEEMED_TAX = 13 => 'みなし消費税',
-    SLIP_TYPE_INVESTMENT = 14 => '有価証券',
+    SLIP_TYPE_INVESTMENT = 14 => '有価証券'
   }
 
+  # 伝票区分
+  SLIP_TYPES = HyaccConstants::INTERNAL_SLIP_TYPES.merge(HyaccConstants::BRANCH_SLIP_TYPES.merge(HyaccConstants::EXTERNAL_SLIP_TYPES))
+  
   # 状態区分
   STATUS_TYPES = {
     STATUS_TYPE_ON = true => '有効',

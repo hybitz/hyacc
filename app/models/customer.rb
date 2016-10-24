@@ -1,6 +1,7 @@
 class Customer < ActiveRecord::Base
   nostalgic_for :name, :formal_name
 
+  validates :code, :uniqueness => true
   validates :name, :presence => true
   validates :formal_name, :presence => true
 

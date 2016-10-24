@@ -5,7 +5,7 @@ module Customers
   
   def valid_customer_params(attrs = {})
     {
-      :code => '1234567',
+      :code => attrs.fetch(:code, '1234567'),
       :name => '取引先名',
       :formal_name => '正式取引先名',
       :disabled => false

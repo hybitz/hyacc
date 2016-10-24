@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161021074615) do
+ActiveRecord::Schema.define(version: 20161024112101) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -202,6 +202,8 @@ ActiveRecord::Schema.define(version: 20161021074615) do
     t.string   "formal_name",        limit: 255
     t.string   "name",               limit: 255
   end
+
+  add_index "customers", ["code"], name: "index_customers_on_code", unique: true, using: :btree
 
   create_table "depreciations", force: :cascade do |t|
     t.integer  "asset_id",        limit: 4,                 null: false

@@ -3,6 +3,5 @@ class ClosingAccountJob < ActiveJob::Base
 
   def perform(*args)
     # Do something later
-   end
+  end
 end
-

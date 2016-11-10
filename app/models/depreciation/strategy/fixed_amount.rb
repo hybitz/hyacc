@@ -11,7 +11,7 @@ module Depreciation::Strategy
       num_of_months = HyaccDateUtil.get_remaining_months(c.start_month_of_fiscal_year, asset.ym)
       # 償却額
       depreciation_amount = round_depreciation_amount(asset.amount * dr.fixed_amount_rate, c)
-      
+
       if HyaccLogger.debug?
         HyaccLogger.debug "初年度償却対象月数：#{num_of_months}ヶ月、償却額：#{depreciation_amount}"
       end

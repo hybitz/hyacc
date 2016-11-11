@@ -274,7 +274,7 @@ class SimpleSlipsController < Base::HyaccController
     ret.account_id = account.id
     ret.tax_type = current_user.company.get_tax_type_for(account)
 
-    ret.branch_id = @finder.branch_id
+    ret.branch_id = current_user.employee.default_branch.id
     ret
   end
 
@@ -289,8 +289,7 @@ class SimpleSlipsController < Base::HyaccController
     @accounts = Account.get_journalizable_accounts.select{|a| a.id != @account.id }
 
     # 勘定科目の利用頻度
-    @frequencies = InputFrequency.where(:user_id => current_user.id, :input_type => INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID)
-        .order('frequency desc').limit(current_user.account_count_of_frequencies)
+    @frequencies = InputFrequency.latest(current_user.id, INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID).limit(current_user.account_count_of_frequencies)
 
     # 部門選択用リスト
     @branches = get_branches

@@ -8,13 +8,13 @@
   </tr>
 
   <%# 資産の部 %>
-  <%= render 'line_bs_monthly', :account_code => HyaccConstants::ACCOUNT_CODE_ASSETS %>
+  <%= render 'line_bs_monthly', :account_code => ACCOUNT_CODE_ASSETS %>
 
   <%# 負債の部 %>
-  <%= render 'line_bs_monthly', :account_code => HyaccConstants::ACCOUNT_CODE_DEBT %>
+  <%= render 'line_bs_monthly', :account_code => ACCOUNT_CODE_DEBT %>
 
   <%# 純資産の部 %>
-  <%= render 'line_bs_monthly', :account_code => HyaccConstants::ACCOUNT_CODE_CAPITAL %>
+  <%= render 'line_bs_monthly', :account_code => ACCOUNT_CODE_CAPITAL %>
 
   <%# 負債および純資産合計 %>
   <tr id="credit_sum" style="font-weight: bold;">

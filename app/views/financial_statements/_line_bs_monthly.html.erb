@@ -56,7 +56,7 @@
     <% end %>
     
     <td colspan="<%= colspan( account.node_level ) %>">
-      <span><%= account.name %>合計</span>
+      <%= account.name %>合計
       <script>
         $(document).ready(function() {
           <% @finder.get_ym_range.each do |ym| %>

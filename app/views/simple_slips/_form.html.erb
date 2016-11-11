@@ -15,8 +15,8 @@
             :selected => @simple_slip.account_id,
             :frequencies => @frequencies},
             :class => 'accountSelect',
-            :sub_accounts_path => sub_accounts_path,
-            :tax_type_path => url_for(:controller => '/mm/accounts', :action => 'get_tax_type'),
+            :accounts_path => accounts_path(purified_params),
+            :sub_accounts_path => sub_accounts_path(purified_params),
             :account_details_path => url_for(:action => 'get_account_details', :account_code => params[:account_code])
           ) %>
   </td>

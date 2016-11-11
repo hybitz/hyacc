@@ -1,6 +1,10 @@
 module Accounts
   include HyaccConstants
 
+  def account
+    @_account ||= Account.not_deleted.first
+  end
+  
   def expense_account
     @_expense_account ||= Account.expenses.where(:sub_account_type => SUB_ACCOUNT_TYPE_NORMAL, :journalizable => true).not_deleted.first
   end

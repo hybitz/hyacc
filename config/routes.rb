@@ -9,7 +9,6 @@ Rails.application.routes.draw do
     resources :accounts do
       collection do
         get 'add_sub_account'
-        get 'get_tax_type'
         get 'list_tree'
         post 'update_tree'
       end
@@ -50,6 +49,8 @@ Rails.application.routes.draw do
     resources :withheld_taxes, :only => 'index'
   end
 
+  resources :accounts
+
   resources :account_transfers, :only => 'index' do
     collection do
       post 'update_details'
@@ -57,7 +58,6 @@ Rails.application.routes.draw do
   end
 
   resources :bank_offices, :only => 'index'
-
   resources :careers
   resources :career_statements, :only => ['index', 'show']
   resources :deemed_taxes

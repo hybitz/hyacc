@@ -28,9 +28,8 @@ hyacc.SimpleSlip.prototype._init = function() {
       );
 
       $(that.selector).removeClass('tax_type_ready');
-      $.get($(this).attr('tax_type_path'), {account_id: $(this).val()},
-        function(tax_type) {
-          $(that.selector).find('.taxTypeSelect').val(tax_type);
+      $.get($(this).attr('accounts_path') + '/'+ $(this).val(), function(account) {
+          $(that.selector).find('.taxTypeSelect').val(account.tax_type);
           $(that.selector).addClass('tax_type_ready');
       });
 

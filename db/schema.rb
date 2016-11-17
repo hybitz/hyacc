@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161024112101) do
+ActiveRecord::Schema.define(version: 20161117133231) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -249,13 +249,13 @@ ActiveRecord::Schema.define(version: 20161024112101) do
   end
 
   create_table "financial_statements", force: :cascade do |t|
-    t.integer  "company_id",    limit: 4,   null: false
-    t.integer  "branch_id",     limit: 4,   null: false
-    t.integer  "report_type",   limit: 4,   null: false
-    t.integer  "ym",            limit: 4,   null: false
-    t.integer  "account_id",    limit: 4,   null: false
-    t.string   "acccount_name", limit: 255, null: false
-    t.integer  "amount",        limit: 4,   null: false
+    t.integer  "company_id",   limit: 4,   null: false
+    t.integer  "branch_id",    limit: 4,   null: false
+    t.integer  "report_type",  limit: 4,   null: false
+    t.integer  "ym",           limit: 4,   null: false
+    t.integer  "account_id",   limit: 4,   null: false
+    t.string   "account_name", limit: 255, null: false
+    t.integer  "amount",       limit: 4,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

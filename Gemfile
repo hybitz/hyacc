@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.7.1'
 
 gem 'activerecord-session_store'
+gem 'activerecord-import'
 gem 'acts_as_tree'
 gem 'carrierwave'
 gem 'coffee-rails', '~> 4.1.0'

@@ -36,6 +36,8 @@ GEM
       activemodel (= 4.2.7.1)
       activesupport (= 4.2.7.1)
       arel (~> 6.0)
+    activerecord-import (0.16.1)
+      activerecord (>= 3.2)
     activerecord-session_store (1.0.0)
       actionpack (>= 4.0, < 5.1)
       activerecord (>= 4.0, < 5.1)
@@ -422,6 +424,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-import
   activerecord-session_store
   acts_as_tree
   byebug

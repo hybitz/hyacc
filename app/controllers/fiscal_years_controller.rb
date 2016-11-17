@@ -31,7 +31,7 @@ class FiscalYearsController < Base::HyaccController
 
   def update
     @fiscal_year = FiscalYear.find(params[:id])
-    cjm = ClosingJobManager.new(@fiscal_year.closing_status)
+    cjm = ClosingJobManager.new(@fiscal_year)
 
     begin
       @fiscal_year.transaction do

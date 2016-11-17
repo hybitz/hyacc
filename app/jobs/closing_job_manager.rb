@@ -1,13 +1,14 @@
 class ClosingJobManager
   include HyaccConstants
   
-  def initialize(closing_status_was)
-    @closing_status_was = closing_status_was
+  def initialize(fiscal_year)
+    @fiscal_year = fiscal_year
+    @closing_status_was = fiscal_year.closing_status
   end
   
   def perform(closing_status)
     if changed?(closing_status) && closed?(closing_status)
-      ClosingJob.perform_later
+      #ClosingAccountJob.perform_later(@fiscal_year)
     end
   end
   

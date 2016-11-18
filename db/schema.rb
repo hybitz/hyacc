@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161117133231) do
+ActiveRecord::Schema.define(version: 20161118036105) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -248,16 +248,24 @@ ActiveRecord::Schema.define(version: 20161117133231) do
     t.integer  "basic",                        limit: 4,   default: 0, null: false
   end
 
+  create_table "financial_statement_headers", force: :cascade do |t|
+    t.integer  "company_id",     limit: 4, null: false
+    t.integer  "branch_id",      limit: 4, null: false
+    t.integer  "report_type",    limit: 4, null: false
+    t.integer  "fiscal_year",    limit: 4, null: false
+    t.integer  "max_node_level", limit: 4, null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "financial_statements", force: :cascade do |t|
-    t.integer  "company_id",   limit: 4,   null: false
-    t.integer  "branch_id",    limit: 4,   null: false
-    t.integer  "report_type",  limit: 4,   null: false
-    t.integer  "ym",           limit: 4,   null: false
-    t.integer  "account_id",   limit: 4,   null: false
-    t.string   "account_name", limit: 255, null: false
-    t.integer  "amount",       limit: 4,   null: false
+    t.integer  "ym",                            limit: 4,   null: false
+    t.integer  "account_id",                    limit: 4,   null: false
+    t.string   "account_name",                  limit: 255, null: false
+    t.integer  "amount",                        limit: 4,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "financial_statement_header_id", limit: 4
   end
 
   create_table "fiscal_years", force: :cascade do |t|

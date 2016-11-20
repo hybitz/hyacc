@@ -4,3 +4,10 @@
 require File.expand_path('../config/application', __FILE__)
 
 Rails.application.load_tasks
+
+Rake::Task['db:migrate'].enhance do
+  ENV['filename'] = 'doc/db_layout'
+  ENV['attributes'] = 'foreign_keys,content,primary_keys,timestamp'
+  ENV['exclude'] = 'ActiveRecord::SessionStore::Session, ActiveRecord::SchemaMigration'
+  Rake::Task['erd'].invoke()
+end

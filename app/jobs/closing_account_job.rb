@@ -12,15 +12,16 @@ class ClosingAccountJob < ActiveJob::Base
     ActiveRecord::Base.transaction do
       branch_ids.each do |branch_id|
         pl_data = pl_monthly(fiscal_year, branch_id)
-        header = FinancialStatementHeader.new(:company_id => fiscal_year.company.id, :branch_id=> branch_id,
-                                              :report_type=>1, :fiscal_year => fiscal_year.fiscal_year)
+        header = FinancialStatementHeader.new(:company_id => fiscal_year.company.id, :branch_id => branch_id,
+                                              :report_type => REPORT_TYPE_PL, :report_style => REPORT_STYLE_MONTHLY,
+                                              :fiscal_year => fiscal_year.fiscal_year)
         header.max_node_level = max_node_level = calc_max_node_level(pl_data)
         header.save!
         
         pl_data.each do |account, summary|
           summary.each do |sum|
-            financial_statements << FinancialStatement.new(:ym=> sum[:ym], :account_id => account.id,
-                                                           :account_name=>account.name, :amount=> sum[:amount],
+            financial_statements << FinancialStatement.new(:ym => sum[:ym], :account_id => account.id,
+                                                           :account_name => account.name, :amount => sum[:amount],
                                                            :financial_statement_header_id => header.id)
           end
         end

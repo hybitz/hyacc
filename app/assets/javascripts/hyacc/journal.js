@@ -469,7 +469,7 @@ hyacc.Journal.prototype._validate_amount_balance = function() {
   var credit = $(this.selector).find('.credit_amount_sum').text();
 
   if (debit != credit) {
-    alert('貸借の金額が一致しません。');
+    alert('貸借の金額が一致しません。\n借方: ' + debit + ' != 貸方: ' + credit);
     return false;
   }
 

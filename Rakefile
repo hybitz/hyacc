@@ -7,7 +7,7 @@ Rails.application.load_tasks
 
 Rake::Task['db:migrate'].enhance do
   ENV['filename'] = 'doc/db_layout'
-  ENV['attributes'] = 'foreign_keys,content,primary_keys,timestamp'
+  ENV['attributes'] = 'foreign_keys, content, primary_keys, timestamp'
   ENV['exclude'] = 'ActiveRecord::SessionStore::Session, ActiveRecord::SchemaMigration'
-  Rake::Task['erd'].invoke()
-end
+  Rake::Task['erd'].invoke
+end unless Rails.env.production?

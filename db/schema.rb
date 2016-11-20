@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120125029) do
+ActiveRecord::Schema.define(version: 20161118036105) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -256,7 +256,6 @@ ActiveRecord::Schema.define(version: 20161120125029) do
     t.integer  "max_node_level", limit: 4, null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-    t.integer  "report_style",   limit: 4
   end
 
   create_table "financial_statements", force: :cascade do |t|

@@ -74,7 +74,7 @@ end
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
       end
-      assert has_selector?('.sub_account_ready')
+      assert has_selector?('.tax_type_ready')
       within '#new_simple_slip' do
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'

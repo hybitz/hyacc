@@ -13,22 +13,14 @@ hyacc.SimpleSlip.prototype._init = function() {
     }
 
     this.update_tax_amount($('#simple_slip_tax_amount_increase').val(), $('#simple_slip_tax_amount_decrease').val());
-    $(this.selector).addClass('sub_account_ready');
     $(this.selector).addClass('tax_type_ready');
 
     var that = this;
 
     $(this.selector).find('.accountSelect').change(function() {
-      $(that.selector).removeClass('sub_account_ready');
-      $.get($(this).attr('sub_accounts_path'), {format: 'json', order: 'code', account_id: $(this).val()},
-        function(data) {
-          replace_options($(that.selector).find('.subAccountSelect'), data);
-          $(that.selector).addClass('sub_account_ready');
-        }
-      );
-
       $(that.selector).removeClass('tax_type_ready');
-      $.get($(this).attr('accounts_path') + '/'+ $(this).val(), function(account) {
+      $.getJSON($(this).attr('accounts_path') + '/'+ $(this).val(), {order: 'code'}, function(account) {
+          replace_options($(that.selector).find('.subAccountSelect'), account.sub_accounts);
           $(that.selector).find('.taxTypeSelect').val(account.tax_type);
           $(that.selector).addClass('tax_type_ready');
       });

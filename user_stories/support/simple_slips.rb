@@ -29,7 +29,6 @@ module SimpleSlips
 
       assert has_selector?('.tax_type_ready')
       if simple_slip.account.has_sub_accounts
-        assert has_selector?('.sub_account_ready')
         assert has_selector?('#simple_slip_sub_account_id')
       end
 

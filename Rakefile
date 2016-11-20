@@ -10,4 +10,4 @@ Rake::Task['db:migrate'].enhance do
   ENV['attributes'] = 'foreign_keys, content, primary_keys, timestamp'
   ENV['exclude'] = 'ActiveRecord::SessionStore::Session, ActiveRecord::SchemaMigration'
   Rake::Task['erd'].invoke
-end unless Rails.env.production?
+end if Rails.env.development?

@@ -5,7 +5,7 @@
     click_on account_name
   end
   assert has_title?(account_name)
-  assert has_selector?('.tax_type_ready')
+  assert has_selector?('.account_ready')
 end
 
 もし /^以下の簡易入力伝票(を|に)(登録|更新)する$/ do |prefix, action, ast_table|
@@ -52,7 +52,7 @@ end
       select account.code_and_name, :from => 'simple_slip_account_id', :match => :first
     end
 
-    assert has_selector?('.tax_type_ready')
+    assert has_selector?('.account_ready')
     if account.has_sub_accounts
       assert has_selector?('#simple_slip_sub_account_id')
     end
@@ -93,7 +93,7 @@ end
 
   with_capture do
     assert has_title?(account.name)
-    assert has_selector?('.tax_type_ready');
+    assert has_selector?('.account_ready');
   end
 end
 

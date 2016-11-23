@@ -37,7 +37,7 @@ end
         assert has_no_selector?('.reload_dialog')
       end
       assert has_selector?('#new_simple_slip')
-      assert has_selector? '.tax_type_ready'
+      assert has_selector?('.account_ready')
     else
       case action
       when '登録', '更新'

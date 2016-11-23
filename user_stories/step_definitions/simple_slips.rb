@@ -34,7 +34,7 @@ end
     click_on simple_slip
     assert has_title? simple_slip
     assert has_no_selector? 'span.notice'
-    assert has_selector? '.tax_type_ready'
+    assert has_selector?('.account_ready')
 
     begin
       count = all('#slipTable tbody tr').count
@@ -74,7 +74,7 @@ end
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
       end
-      assert has_selector?('.tax_type_ready')
+      assert has_selector?('.account_ready')
       within '#new_simple_slip' do
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'
@@ -129,7 +129,7 @@ end
       fill_in 'simple_slip_day', :with => i + 1
       fill_in 'simple_slip_remarks', :with => "ATM手数料（科目間違い #{i+1} 回目）"
       find(:select, 'simple_slip_account_id').first(:option, @account.code_and_name).select_option
-      assert has_selector?('.tax_type_ready')
+      assert has_selector?('.account_ready')
       select tax_type_name, :from => 'simple_slip_tax_type'
       fill_in 'simple_slip_amount_decrease', :with => amount
       click_on '登録'

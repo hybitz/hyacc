@@ -133,7 +133,7 @@ GEM
       nokogiri (~> 1.5)
       railties (>= 3, < 5.1)
     cucumber-wire (0.0.1)
-    daddy (0.5.15)
+    daddy (0.5.16)
       capybara (~> 2.7)
       ci_reporter (~> 2.0)
       closer (~> 0.3)
@@ -147,8 +147,6 @@ GEM
       resque (~> 1.25)
       resque-scheduler (~> 4.0)
       selenium-webdriver (~> 2.51)
-      simplecov (~> 0.11)
-      simplecov-rcov (~> 0.2)
     dalli (2.7.6)
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
@@ -472,6 +470,8 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sidekiq
+  simplecov
+  simplecov-rcov
   sinatra
   spring
   strong_actions

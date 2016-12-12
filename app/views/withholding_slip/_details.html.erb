@@ -10,7 +10,7 @@
     	<tr>
     		<td colspan="2" rowspan="3" style="background-color: lightgrey;">支払いを受ける者</td>
     		<td colspan="2" rowspan="3" style="background-color: lightgrey;">住所</td>
-    		<td colspan="10" rowspan="3"><%= @data.employee.address %></td>
+    		<td colspan="10" rowspan="3"><%= @data.employee.address_at(year_end(@data.calendar_year)) %></td>
     		<td colspan="1" rowspan="3" style="background-color: lightgrey;">氏名</td>
     		<td colspan="10">（受給者番号）</td>
   		</tr>

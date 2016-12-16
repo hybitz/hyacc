@@ -44,7 +44,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
     assert_equal( DC_TYPE_DEBIT, jh.journal_details[1].dc_type )
     assert_equal( 2, jh.journal_details[1].branch_id )
     assert_equal( 22, jh.journal_details[1].account_id )
-    assert_equal( nil, jh.journal_details[1].sub_account_id )
+    assert_nil jh.journal_details[1].sub_account_id
 
     # 自動振替伝票のチェック（前月の伝票）
     auto1 = jh.journal_details[1].transfer_journals.first
@@ -128,7 +128,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
     assert_equal( DC_TYPE_DEBIT, jh.journal_details[1].dc_type )
     assert_equal( 2, jh.journal_details[1].branch_id )
     assert_equal( 21, jh.journal_details[1].account_id )
-    assert_equal( nil, jh.journal_details[1].sub_account_id )
+    assert_nil jh.journal_details[1].sub_account_id
 
     # 自動振替伝票のチェック（今月の伝票）
     jh = jh.journal_details[1].transfer_journals.first
@@ -144,12 +144,12 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
     assert_equal( 15000, jh.journal_details[0].amount )
     assert_equal( 2, jh.journal_details[0].branch_id )
     assert_equal( 21, jh.journal_details[0].account_id )
-    assert_equal( nil, jh.journal_details[0].sub_account_id )
+    assert_nil jh.journal_details[0].sub_account_id
     assert_equal( DC_TYPE_DEBIT, jh.journal_details[1].dc_type )
     assert_equal( 15000, jh.journal_details[1].amount )
     assert_equal( 2, jh.journal_details[1].branch_id )
     assert_equal( Account.find_by_code(ACCOUNT_CODE_PREPAID_EXPENSE).id, jh.journal_details[1].account_id )
-    assert_equal( nil, jh.journal_details[1].sub_account_id )
+    assert_nil jh.journal_details[1].sub_account_id
 
     # 自動振替伝票のチェック（翌月の伝票）
     jh = jh.transfer_journals.first
@@ -164,12 +164,12 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
     assert_equal( 15000, jh.journal_details[0].amount )
     assert_equal( 2, jh.journal_details[0].branch_id )
     assert_equal( 21, jh.journal_details[0].account_id )
-    assert_equal( nil, jh.journal_details[0].sub_account_id )
+    assert_nil jh.journal_details[0].sub_account_id
     assert_equal( DC_TYPE_CREDIT, jh.journal_details[1].dc_type )
     assert_equal( 15000, jh.journal_details[1].amount )
     assert_equal( 2, jh.journal_details[1].branch_id )
     assert_equal( Account.find_by_code(ACCOUNT_CODE_PREPAID_EXPENSE).id, jh.journal_details[1].account_id )
-    assert_equal( nil, jh.journal_details[1].sub_account_id )
+    assert_nil jh.journal_details[1].sub_account_id
   end
 
   def test_一覧

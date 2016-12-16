@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class JournalHeaderTest < ActiveSupport::TestCase
-  include HyaccConstants
 
   def setup
     # fixtureで検索キーを設定していないので、ARを一旦保存
@@ -128,18 +127,36 @@ class JournalHeaderTest < ActiveSupport::TestCase
         assert_equal jd.detail_no, copy_jd.detail_no
         assert_equal jd.dc_type, copy_jd.dc_type
         assert_equal jd.account_id, copy_jd.account_id
-        assert_equal jd.sub_account_id, copy_jd.sub_account_id
+        assert_equal jd.account_name, copy_jd.account_name
+
+        if jd.sub_account_id
+          assert_equal jd.sub_account_id, copy_jd.sub_account_id
+          assert_equal jd.sub_account_name, copy_jd.sub_account_name
+        else
+          assert_nil copy_jd.sub_account_id
+          assert_nil copy_jd.sub_account_name
+        end
+
+        if jd.social_expense_number_of_people
+          assert_equal jd.social_expense_number_of_people, copy_jd.social_expense_number_of_people
+        else
+          assert_nil copy_jd.social_expense_number_of_people
+        end
+
         assert_equal jd.branch_id, copy_jd.branch_id
         assert_equal jd.amount, copy_jd.amount
         assert_equal jd.detail_type, copy_jd.detail_type
         assert_equal jd.tax_type, copy_jd.tax_type
-        assert_equal jd.main_detail_id, copy_jd.main_detail_id
+
+        if jd.main_detail_id
+          assert_equal jd.main_detail_id, copy_jd.main_detail_id
+        else
+          assert_nil copy_jd.main_detail_id
+        end
+
         assert_equal jd.is_allocated_cost, copy_jd.is_allocated_cost
         assert_equal jd.is_allocated_assets, copy_jd.is_allocated_assets
-        assert_equal jd.account_name, copy_jd.account_name
-        assert_equal jd.sub_account_name, copy_jd.sub_account_name
         assert_equal jd.branch_name, copy_jd.branch_name
-        assert_equal jd.social_expense_number_of_people, copy_jd.social_expense_number_of_people
         assert_equal jd.note, copy_jd.note
         assert_nil copy_jd.created_at
         assert_nil copy_jd.updated_at

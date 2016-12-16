@@ -39,8 +39,23 @@ hyacc.SimpleSlip.prototype._init = function() {
     $(this.selector).submit(function() {
       return that.validate_slip();
     });
-    $(this.selector).find('input[name*="\\[day\\]"]').select().focus();
+
+    this._init_shortcuts();
+    this.get_day().focus().select();
   }
+};
+
+hyacc.SimpleSlip.prototype._init_shortcuts = function() {
+  var that = this;
+  Mousetrap.bindGlobal('ctrl+y', function(e) {
+    e.preventDefault();
+    that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();
+  });
+
+  Mousetrap.bindGlobal('ctrl+d', function(e) {
+    e.preventDefault();
+    that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
+  });
 };
 
 // 全明細の自動振替の単一選択チェック
@@ -72,6 +87,14 @@ hyacc.SimpleSlip.prototype.check_auto_transfer_date = function() {
   }
 
   return true;
+};
+
+hyacc.SimpleSlip.prototype.get_day = function() {
+  return $(this.selector).find('input[name*=\\[day\\]]');
+};
+
+hyacc.SimpleSlip.prototype.get_ym = function() {
+  return $(this.selector).find('input[name*=\\[ym\\]]');
 };
 
 hyacc.SimpleSlip.prototype.set_my_sub_account_id = function(my_sub_account_id) {

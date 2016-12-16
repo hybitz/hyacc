@@ -1,5 +1,6 @@
 module Reports
   class TradeAccountReceivableLogic
+    include HyaccConstants
 
     def get_trade_account_receivable_model(finder)
       res = []
@@ -15,13 +16,13 @@ module Reports
         sum = 0
         sum = value - credits[key] unless credits[key].nil?
         if sum > 0
-          c = Customer.find(key).customer_names.where('start_date < ?', ymd.to_date).order('start_date DESC').first
+          c = Customer.find(key)
           raise HyaccException.new("取引先情報の取得に失敗") if c.nil?
           t = Reports::TradeAccountReceivableModel.new
           t.customer_id = key
-          t.customer_name = c.formal_name
+          t.customer_name = c.formal_name_on(ymd.to_date)
           t.account_receivable = sum
-          t.address = Customer.find(key).address
+          t.address = c.address
           res.push(t)
         end
       end

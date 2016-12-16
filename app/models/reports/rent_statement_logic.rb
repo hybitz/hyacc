@@ -10,7 +10,7 @@ module Reports
       ymd_start = (@start_ym.to_s + '01').to_i
       ymd_end = (@end_ym.to_s + HyaccDateUtil.get_days_of_month(@end_ym/100, @end_ym%100).to_s).to_i
 
-      Rent.order('status desc, ymd_start, ymd_end').each{|rent|
+      Rent.order('status desc, ymd_end, ymd_start').each{|rent|
         rent.total_amount = 0
         rent.ymd_start = ymd_start if rent.ymd_start < ymd_start
         rent.ymd_end = ymd_end if rent.ymd_end.nil? || rent.ymd_end > ymd_end

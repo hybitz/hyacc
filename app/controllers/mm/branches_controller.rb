@@ -51,13 +51,19 @@ class Mm::BranchesController < Base::HyaccController
   private
 
   def branch_params
+    permitted = [
+      :name,
+      :business_office_id, :business_office_id_effective_at,
+      :business_office_ids_attributes => [:id, :_destroy]
+    ]
+
     ret = params.require(:branch)
 
     case action_name
     when 'create'
-      ret = ret.permit(:code, :name, :parent_id, :business_office_id)
+      ret = ret.permit(permitted, :code, :parent_id)
     when 'update'
-      ret = ret.permit(:name, :business_office_id)
+      ret = ret.permit(permitted)
     end
 
     ret = ret.merge(:company_id => current_company.id)

@@ -3,7 +3,7 @@ class Branch < ActiveRecord::Base
   acts_as_tree :order => 'code'
 
   belongs_to :company
-  belongs_to :business_office
+  belongs_to :business_office, :nostalgic => true
   has_many :branch_employees
   has_many :employees, :through => :branch_employees
 

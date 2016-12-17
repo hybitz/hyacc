@@ -9,10 +9,11 @@ class Company < ActiveRecord::Base
   has_many :employees
   has_many :fiscal_years
 
-  mount_uploader :logo, LogoUploader
+  validates :name, :presence => true
+  validates :founded_date, :presence => true
+  validates :admin_email, :email => {:allow_blank => true}
 
-  validates_presence_of :name, :founded_date
-  validates_format_of :admin_email, :allow_nil => true, :allow_blank => true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
+  mount_uploader :logo, LogoUploader
 
   attr_accessor :day_of_payday
   attr_accessor :month_of_payday

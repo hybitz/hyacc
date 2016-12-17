@@ -7,12 +7,12 @@
       <td><%= f.nostalgic_text_field :name %></td>
     </tr>
     <tr>
-      <th><%= f.label :prefecture_code %></th>
-      <td><%= f.collection_select :prefecture_code, @prefectures, 'code', 'name' %></td>
-    </tr>
-    <tr>
       <th><%= f.label :zip_code %></th>
       <td><%= f.text_field :zip_code, :class => 'zip_code' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :prefecture_code %></th>
+      <td><%= f.collection_select :prefecture_code, @prefectures, 'code', 'name' %></td>
     </tr>
     <tr>
       <th><%= f.label :address1 %></th>
@@ -24,7 +24,7 @@
     </tr>
     <tr>
       <th><%= f.label :tel %></th>
-      <td><%= f.text_field :tel %></td>
+      <td><%= f.text_field :tel, :class => 'tel' %></td>
     </tr>
   </table>
 <% end %>

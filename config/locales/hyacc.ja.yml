@@ -1,8 +1,11 @@
 ja:
   attributes:
+    created_at: 登録日時
     description: 説明
+    remarks: 摘要
     short_description: 概要
     trade_type: 取引区分
+    updated_at: 更新日時
     zip_code: 郵便番号
 
   activerecord:
@@ -155,8 +158,6 @@ ja:
         detail_no: "明細番号"
         dc_type: "貸借区分"
         amount: "金額"
-        created_at: 登録日時
-        updated_at: 更新日時
         note: "備考"
         social_expense_number_of_people: "接待交際の参加人数"
         detail_type: "明細区分"
@@ -167,16 +168,13 @@ ja:
       journal_details:
         <<: *journal_detail
 
-      journal_header:
-        day: "日"
-        remarks: "摘要"
-        amount: "伝票金額"
-        created_at: 登録日時
-        updated_at: 更新日時
+      journal_header: &journal_header
+        amount: 伝票金額
+        day: 日
         slip_type: 伝票区分
         ym: 年月
         journal_details:
-          social_expense_number_of_people: 接待交際の参加人数
+          <<: *journal_detail
 
       payroll:
         ym: 年月
@@ -213,7 +211,6 @@ ja:
         shortcut_key: ショートカットキー
 
       simple_slip_template:
-        remarks: "摘要"
         keywords: "キーワード"
 
       sub_account:

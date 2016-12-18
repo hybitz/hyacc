@@ -2,14 +2,14 @@ class BusinessOffice < ActiveRecord::Base
   belongs_to :company, :inverse_of => 'business_offices'
 
   nostalgic_for :name
+  validates :name, :presence => true, :uniqueness => {:scope  => :company_id}
 
-  validates :name, :presence => true
   validates :prefecture_code, :presence => true
 
   before_save :set_prefecture_name
-  
+
   def address
-    [address1, address2].join
+    [address1, address2].compact.join
   end
 
   private

@@ -6,7 +6,7 @@ module Reports
       model = WithholdingDetail.new
       model.calendar_year = @finder.calendar_year
       model.company = Company.find(@finder.company_id)
-      model.head_business_office = model.company.head_branch.business_office
+      model.head_business_office = model.company.head_branch.business_office_on("#{model.calendar_year}-12-31")
       model.employee = Employee.find(@finder.employee_id)
       model.total_salary = get_total_salary                               # 支払金額
       model.exemption = get_total_exemption                               # 所得控除の額の合計

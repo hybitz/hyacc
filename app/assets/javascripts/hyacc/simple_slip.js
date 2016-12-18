@@ -40,21 +40,64 @@ hyacc.SimpleSlip.prototype._init = function() {
       return that.validate_slip();
     });
 
-    this._init_shortcuts();
+    this._init_ym();
+    this._init_day();
     this.get_day().focus().select();
   }
 };
 
-hyacc.SimpleSlip.prototype._init_shortcuts = function() {
+hyacc.SimpleSlip.prototype._init_day = function() {
+  var that = this;
+  Mousetrap.bindGlobal('ctrl+d', function(e) {
+    e.preventDefault();
+    that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
+  });
+};
+
+hyacc.SimpleSlip.prototype._init_ym = function() {
   var that = this;
   Mousetrap.bindGlobal('ctrl+y', function(e) {
     e.preventDefault();
     that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();
   });
+  
+  that.get_ym().blur(function() {
+    var ym = toInt($(this).val());
+    if (ym >= 1 && ym <= 12) {
+      var now = new Date();
+      var m = now.getMonth() + 1;
+      var diff = Math.abs(m - ym);
 
-  Mousetrap.bindGlobal('ctrl+d', function(e) {
-    e.preventDefault();
-    that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
+      if (diff == 0) {
+        $(this).val(now.getFullYear() * 100 + now.getMonth() + 1);
+      } else {
+        var last_year = new Date(now.getFullYear() - 1, ym - 1, now.getDate());
+        var current_year = new Date(now.getFullYear(), ym - 1, now.getDate());
+        var next_year = new Date(now.getFullYear() + 1, ym - 1, now.getDate());
+
+        var diff = Math.abs(last_year - now);
+        var diff2 = Math.abs(current_year - now);
+        var diff3 = Math.abs(next_year - now);
+
+        var closest = diff;
+        if (diff2 < closest) {
+          closest = diff2;
+        }
+        if (diff3 < closest) {
+          closest = diff3;
+        }
+        
+        if (closest == diff) {
+          ym = last_year.getFullYear() * 100 + last_year.getMonth() + 1;
+        } else if (closest == diff2) {
+          ym = current_year.getFullYear() * 100 + current_year.getMonth() + 1;
+        } else if (closest == diff3) {
+          ym = next_year.getFullYear() * 100 + next_year.getMonth() + 1;
+        }
+
+        $(this).val(ym.toString());
+      }
+    }
   });
 };
 

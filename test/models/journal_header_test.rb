@@ -112,7 +112,13 @@ class JournalHeaderTest < ActiveSupport::TestCase
       assert_equal jh.remarks, copy.remarks
       assert_equal jh.slip_type, copy.slip_type
       assert_equal jh.finder_key, copy.finder_key
-      assert_equal jh.transfer_from_id, copy.transfer_from_id
+
+      if jh.transfer_from_id
+        assert_equal jh.transfer_from_id, copy.transfer_from_id
+      else
+        assert_nil copy.transfer_from_id
+      end
+      
       assert_equal jh.create_user_id, copy.create_user_id
       assert_equal jh.created_at, copy.created_at
       assert_equal jh.update_user_id, copy.update_user_id

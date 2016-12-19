@@ -1,0 +1,325 @@
+<br />
+<div  style="margin: 10px;">
+    <table class="none_border" width="900">
+      <tr>
+        <td class="none_border" align="center"><b><%= to_wareki(@data.calendar_year) %>年分　給与所得の源泉徴収</b></td>
+      </tr>
+    </table>
+    <br/>
+
+    <table width="">
+    	<tr>
+    		<td colspan="2" rowspan="5" class="item">支払<br/>を受け<br/>る者</td>
+    		<td colspan="1" rowspan="5" class="item">住<br/>所<br/>又<br/>は<br/>居<br/>所</td>
+    		<td colspan="11" rowspan="5"><%= @data.employee.address_at(year_end(@data.calendar_year)) %></td>
+    		<td colspan="9">（受給者番号）</td>
+  		</tr>
+  		<tr>
+  			<td colspan="9">（個人番号）<%=  %></td>
+  		</tr>
+  		<tr>
+  			<td colspan="9">（役職名）<%=  %></td>
+  		</tr>
+  		<tr>
+  			<td colspan="1" rowspan="2">氏<br/>名</td>
+  			<td colspan="8">（フリガナ）<%=  %></td>
+  		</tr>
+  		<tr>
+  			<td colspan="8"><%= @data.employee.fullname('　') %></td>
+  		</tr>
+    	<tr class="item">
+    		<td colspan="3">種別</td>
+    		<td colspan="5">支払金額</td>
+    		<td colspan="5">給与所得控除後の金額</td>
+    		<td colspan="5">所得控除の額の合計</td>
+    		<td colspan="5">源泉徴収税額</td>
+  		</tr>
+    	<tr>
+    		<td colspan="3">給与</td>
+    		<td colspan="5"><%= number_to_currency(@data.total_salary, :format=>"%n") %></td>
+    		<td colspan="5"><%= number_to_currency(@data.after_deduction, :format=>"%n") %></td>
+    		<td colspan="5"><%= number_to_currency(@data.exemption, :format=>"%n") %></td>
+    		<td colspan="5"><%= number_to_currency(@data.withholding_tax, :format=>"%n") %></td>
+  		</tr>
+    	<tr class="item">
+    		<td colspan="6">控除対象配偶者<br/>の有無等</td>
+    		<td colspan="4" rowspan="2">配偶者特別<br/>控除の額</td>
+    		<td colspan="6">控除対象扶養親族の数<br/>（配偶者を除く。）</td>
+    		<td colspan="2" rowspan="2">16歳未満<br/>扶養家族<br/>の数</td>
+    		<td colspan="3">障害者の数<br/>（本人を除く。）</td>
+    		<td colspan="2" rowspan="2">非居住者<br/>である<br/>親族の数</td>
+  		</tr>
+    	<tr class="item">
+    		<td colspan="2">有</td>
+    		<td colspan="2">従有</td>
+    		<td colspan="2">老人</td>
+    		<td colspan="2">特定</td>
+    		<td colspan="2">老人</td>
+    		<td colspan="2">その他</td>
+    		<td colspan="2">特別</td>
+    		<td colspan="1">その他</td>
+  		</tr>
+    	<tr>
+    		<td colspan="2"><%= "★" if @data.exemption_for_spouse > 0 %></td>
+    		<td colspan="2"><br></td>
+    		<td colspan="2"><br></td>
+    		<td colspan="4"><%= number_to_currency(@data.special_exemption_for_spouse, :format=>"%n") %></td>
+    		<td colspan="1"><br></td>
+    		<td><br></td>
+    		<td colspan="1"><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td><br></td>
+    		<td colspan="2"><br></td>
+    		<td colspan="2"><br></td>
+    		<td><br></td>
+    		<td colspan="2"><br></td>
+  		</tr>
+       <tr class="item">
+    		<td colspan="6">社会保険料等の金額</td>
+    		<td colspan="6">生命保険料の控除額</td>
+    		<td colspan="6">地震保険料の控除額</td>
+    		<td colspan="5">住宅借入金等特別控除の額</td>
+  		</tr>
+       <tr>
+    		<td colspan="6"><%= number_to_currency(@data.social_insurance, :format=>"%n") %></td>
+    		<td colspan="6"><%= number_to_currency(@data.life_insurance_deduction, :format=>"%n") %></td>
+    		<td colspan="6">0</td>
+    		<td colspan="5">0</td>
+  		</tr>
+    	<tr>
+    		<td colspan="23" class="item">摘要</td>
+  		</tr>
+    	<tr>
+    		<td colspan="23"></td>
+  		</tr>
+       <tr>
+    		<td colspan="2" class="item">生命保険料<br>の金額の<br>内訳</td>
+    		<td colspan="2" class="item">新生命保険料<br>の金額</td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">旧生命保険料<br>の金額</td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">介護医療保<br>険料の金額</td>
+    		<td colspan="3"></td>
+    		<td colspan="2" class="item">新個人年金<br>保険料の金額</td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">旧個人年金<br>保険料の金額</td>
+    		<td colspan="2"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" rowspan="2" class="item">住宅借入金<br>等特別控除<br>の額の内訳</td>
+    		<td colspan="2" class="item">住宅借入金等<br>特別控除適用数</td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">居住開始年月<br>日（1回目）</td>
+    		<td colspan="2"></td>
+    		<td colspan="2"></td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（1回目）</td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">住宅借入金等<br>年末残高（1回目）</td>
+    		<td colspan="3"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">住宅借入金等<br>特別控除可能額</td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">居住開始年月<br>日（2回目）</td>
+    		<td colspan="2"></td>
+    		<td colspan="2"></td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（2回目）</td>
+    		<td colspan="2"></td>
+    		<td colspan="2" class="item">住宅借入金等<br>年末残高（2回目）</td>
+    		<td colspan="3"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" rowspan="3" class="item">控除対象<br/>配偶者</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+    		<td colspan="2" rowspan="3" class="item">配偶者の<br/>合計所得</td>
+    		<td colspan="3" rowspan="3"></td>
+    		<td colspan="2" rowspan="3" class="item">国民年金保険<br/>料等の金額</td>
+    		<td colspan="2" rowspan="3"></td>
+    		<td colspan="2" rowspan="3" class="item">旧長期損害<br/>保険料の金額</td>
+    		<td colspan="2" rowspan="3"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="4"></td>
+       </tr>
+       <tr>
+    		<td colspan="1" rowspan="12" class="item">控<br/>除<br/>対<br/>象<br/>不<br/>要<br/>親<br/>族</td>
+    		<td colspan="1" rowspan="3" class="item">1</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+    		<td colspan="1" rowspan="12" class="item">16<br/>歳<br/>未<br/>満<br/>の<br/>扶<br/>養<br/>親<br/>族</td>
+    		<td colspan="1" rowspan="3" class="item">1</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+    		<td colspan="3" class="item">（備考）</td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+    		<td colspan="3" rowspan="6"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="6"></td>
+    		<td colspan="8" class="item"></td>
+       </tr>
+       <tr>
+    		<td colspan="1" rowspan="3" class="item">2</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+    		<td colspan="1" rowspan="3" class="item">2</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="6"></td>
+    		<td colspan="8" class="item"></td>
+       </tr>
+       <tr>
+    		<td colspan="1" rowspan="3" class="item">3</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+    		<td colspan="1" rowspan="3" class="item">3</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+    		<td colspan="3" rowspan="5" class="item"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="6"></td>
+    		<td colspan="8" class="item"></td>
+       </tr>
+       <tr>
+    		<td colspan="1" rowspan="3" class="item">4</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+    		<td colspan="1" rowspan="3" class="item">4</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"></td>
+    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
+    		<td colspan="1" rowspan="2"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"></td>
+       </tr>
+       <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="6"></td>
+    		<td colspan="8" class="item"></td>
+       </tr>
+       <tr>
+    		<td colspan="1" rowspan="2" class="item" width="27">未<br/>成<br/>年<br/>者</td>
+    		<td colspan="1" rowspan="2" class="item" width="27">外<br/>国<br/>人</td>
+    		<td colspan="1" rowspan="2" class="item" width="27">死<br/>亡<br/>退<br/>職</td>
+    		<td colspan="1" rowspan="2" class="item" width="27">災<br/>害<br/>者</td>
+    		<td colspan="1" rowspan="2" class="item" width="27">乙<br/>欄</td>
+    		<td colspan="2" class="item">本人が障害者</td>
+    		<td colspan="2" class="item">募婦</td>
+    		<td colspan="1" rowspan="2" class="item" width="27">募<br/>夫</td>
+    		<td colspan="1" rowspan="2" class="item" width="27">勤<br/>労<br/>学<br/>生</td>
+    		<td colspan="5" class="item">中途就・退職</td>
+    		<td colspan="7" class="item">受給者生年月日</td>
+       </tr>
+       <tr>
+    		<td colspan="1" class="item" width="27">特<br/>別</td>
+    		<td colspan="1" class="item" width="27">そ<br/>の<br/>他</td>
+    		<td colspan="1" class="item" width="27">一<br/>般</td>
+    		<td colspan="1" class="item" width="27">特<br/>別</td>
+    		<td colspan="1" class="item" width="27">就職</td>
+    		<td colspan="1" class="item" width="27">退職</td>
+    		<td colspan="1" class="item" width="27">年</td>
+    		<td colspan="1" class="item" width="27">月</td>
+    		<td colspan="1" class="item" width="27">日</td>
+    		<td colspan="1" class="item" width="27">明</td>
+    		<td colspan="1" class="item" width="27">大</td>
+    		<td colspan="1" class="item" width="27">昭</td>
+    		<td colspan="1" class="item" width="27">平</td>
+    		<td colspan="1" class="item" width="27">年</td>
+    		<td colspan="1" class="item" width="27">月</td>
+    		<td colspan="1" class="item" width="27">日</td>
+       </tr>
+       <tr>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"></td>
+    		<td colspan="1"><%= to_wareki(@data.employee.birth.year) %></td>
+    		<td colspan="1"><%= @data.employee.birth.month %></td>
+    		<td colspan="1"><%= @data.employee.birth.day %></td>
+       </tr>
+       <tr>
+    		<td colspan="1" rowspan="3" class="item">支<br/>払<br/>者</td>
+    		<td colspan="3" class="item">個人番号又は<br/>法人番号</td>
+    		<td colspan="8"></td>
+    		<td colspan="11" class="item"></td>
+       </tr>
+       <tr>
+    		<td colspan="3" class="item">住所（居所）<br/>又は所在地</td>
+    		<td colspan="19"><%= @data.head_business_office.address %></td>
+       </tr>
+       <tr>
+    		<td colspan="3" class="item">氏名<br/>又は名称</td>
+    		<td colspan="12"><%= @data.company.name %></td>
+    		<td colspan="2" class="item">（電話）</td>
+    		<td colspan="5"><%= @data.head_business_office.tel %></td>
+       </tr>
+</table>
+</div>

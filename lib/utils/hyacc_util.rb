@@ -44,4 +44,9 @@ module HyaccUtil
 
     records.sort{|x, y| x.__send__(column_name) <=> y.__send__(column_name)}
   end
+  
+  def self.view_dir
+    top_dir = File.expand_path('../../..', __FILE__)
+    File.join(top_dir, 'app', 'views')
+  end
 end

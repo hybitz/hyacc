@@ -33,7 +33,7 @@ class SimpleSlipsController::CorporateTaxTest < ActionController::TestCase
     assert jh = JournalHeader.find_by_remarks(remarks)
 
     jd = jh.journal_details[0]
-    assert_equal nil, jd.settlement_type
+    assert_nil jd.settlement_type
 
     jd = jh.journal_details[1]
     assert_equal SETTLEMENT_TYPE_FULL, jd.settlement_type

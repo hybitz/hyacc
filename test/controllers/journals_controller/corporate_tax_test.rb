@@ -85,9 +85,9 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     assert_not_nil auto1.journal_details.find_by_account_id(87), "法人税負担の明細がある"
     
     jd = auto1.journal_details[0]
-    assert_equal nil, jd.settlement_type
+    assert_nil jd.settlement_type
     
     jd = auto1.journal_details[1]
-    assert_equal nil, jd.settlement_type
+    assert_nil jd.settlement_type
   end  
 end

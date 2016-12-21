@@ -102,6 +102,7 @@ ja:
         founded_date: "設立日"
         users: ユーザ
         fiscal_years: 事業年度
+        enterprise_number: 法人番号
 
       customer:
         address: 住所
@@ -132,6 +133,7 @@ ja:
         num_of_dependent: 扶養親族の数
         sex: 性別
         birth: 生年月日
+        position: 役職
 
       fiscal_year:
         fiscal_year: "会計年度"

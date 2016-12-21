@@ -37,12 +37,18 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
     assert_template :edit_admin
   end
 
+  def test_法人番号の編集
+    xhr :get, :edit, :id => current_user.company_id, :field => 'enterprise_number'
+    assert_response :success
+    assert_template :edit_enterprise_number
+  end
+  
   def test_給与支払日の編集
     xhr :get, :edit, :id => current_user.company_id, :field => 'payday'
     assert_response :success
     assert_template :edit_payday
   end
-
+  
   def test_更新
     xhr :patch, :update, :id => current_user.company_id, :company => valid_company_params
     assert_response :success

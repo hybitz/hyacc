@@ -41,6 +41,10 @@
           <td><label><%= f.check_box :executive %> <%= Employee.human_attribute_name :executive_true %></label></td>
         </tr>
         <tr>
+          <th><%= f.label :position %></th>
+          <td><%= f.text_field :position %></td>
+        </tr>
+        <tr>
           <th><%= f.label :num_of_dependent %></th>
           <td><%= f.nostalgic_text_field :num_of_dependent %></td>
         </tr>

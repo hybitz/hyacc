@@ -8,6 +8,7 @@ class Employee < ActiveRecord::Base
   nostalgic_for :num_of_dependent, :zip_code, :address
 
   validates_presence_of :last_name, :first_name, :birth, :employment_date, :sex
+  validates :my_number, :numericality => {:allow_blank => true}
 
   has_many :branch_employees, :dependent => :destroy
   accepts_nested_attributes_for :branch_employees, :allow_destroy => true

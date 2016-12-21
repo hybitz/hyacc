@@ -12,7 +12,9 @@ class Company < ActiveRecord::Base
   validates :name, :presence => true
   validates :founded_date, :presence => true
   validates :admin_email, :email => {:allow_blank => true}
+  validates :enterprise_number, :numericality => {:allow_blank => true}
 
+  
   mount_uploader :logo, LogoUploader
 
   attr_accessor :day_of_payday

@@ -16,7 +16,8 @@ module Employees
       :zip_code => '0600042',
       :zip_code_effective_at => Date.today - 3.years,
       :address => '北海道札幌市',
-      :address_effective_at => Date.today - 3.years
+      :address_effective_at => Date.today - 3.years,
+      :position => '代表取締役'
     }
   end
   

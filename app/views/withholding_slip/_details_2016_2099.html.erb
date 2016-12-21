@@ -15,10 +15,10 @@
     		<td colspan="9">（受給者番号）</td>
   		</tr>
   		<tr>
-  			<td colspan="9">（個人番号）<%=  %></td>
+  			<td colspan="9">（個人番号）<%= @data.employee.my_number %></td>
   		</tr>
   		<tr>
-  			<td colspan="9">（役職名）<%=  %></td>
+  			<td colspan="9">（役職名）<%= @data.employee.position %></td>
   		</tr>
   		<tr>
   			<td colspan="1" rowspan="2">氏<br/>名</td>
@@ -308,7 +308,7 @@
        <tr>
     		<td colspan="1" rowspan="3" class="item">支<br/>払<br/>者</td>
     		<td colspan="3" class="item">個人番号又は<br/>法人番号</td>
-    		<td colspan="8"></td>
+    		<td colspan="8"><%= @data.company.enterprise_number %></td>
     		<td colspan="11" class="item"></td>
        </tr>
        <tr>

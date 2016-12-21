@@ -45,6 +45,15 @@
 
   <% unless current_user.company.personal? %>
     <tr>
+      <th>法人番号</th>
+      <td><%= @company.enterprise_number %></td>
+      <td>
+      <%= link_to '変更', edit_mm_company_path(@company, :field => 'enterprise_number'), :onclick => 'company.edit(this); return false;' %>
+      <%= button_tag '更新', :onclick => 'company.update(this);' %>
+      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+      </td>
+    </tr>
+    <tr>
       <th>資本金</th>
       <td>
         <% if @capital.to_i > 0 %>

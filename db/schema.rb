@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161120125029) do
+ActiveRecord::Schema.define(version: 20161221010607) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -187,6 +187,7 @@ ActiveRecord::Schema.define(version: 20161120125029) do
     t.integer  "business_type_id",           limit: 4
     t.integer  "lock_version",               limit: 4,   default: 0,      null: false
     t.string   "payday",                     limit: 255, default: "0,25", null: false
+    t.string   "enterprise_number",          limit: 13
   end
 
   create_table "customers", force: :cascade do |t|
@@ -231,6 +232,7 @@ ActiveRecord::Schema.define(version: 20161120125029) do
     t.string   "my_number",        limit: 12
     t.boolean  "executive",                    default: false, null: false
     t.integer  "num_of_dependent", limit: 4,   default: 0,     null: false
+    t.string   "position",         limit: 255
   end
 
   create_table "exemptions", force: :cascade do |t|

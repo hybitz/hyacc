@@ -345,7 +345,7 @@ class Payroll < ActiveRecord::Base
   end
 
 
-  # 仕分明細から年末調整額を取得する
+  # 仕訳明細から年末調整額を取得する
   def get_year_end_adjustment_liability_from_jd
     amount = 0
     # 預り金

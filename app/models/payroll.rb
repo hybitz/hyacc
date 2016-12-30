@@ -193,7 +193,7 @@ class Payroll < ActiveRecord::Base
     return payroll
   end
 
-  # 仕分明細から源泉所得税金額を取得する
+  # 仕訳明細から源泉所得税金額を取得する
   def get_income_tax_from_jd
     amount = 0
     # 預り金
@@ -222,7 +222,7 @@ class Payroll < ActiveRecord::Base
     return amount
   end
 
-  # 仕分明細から健康保険料を取得する
+  # 仕訳明細から健康保険料を取得する
   def get_insurance_from_jd
     amount = 0
     # 預り金
@@ -251,7 +251,7 @@ class Payroll < ActiveRecord::Base
     return amount
   end
 
-  # 仕分明細から厚生年金を取得する
+  # 仕訳明細から厚生年金を取得する
   def get_pension_from_jd
     amount = 0
     # 預り金
@@ -280,7 +280,7 @@ class Payroll < ActiveRecord::Base
     return amount
   end
 
-  # 仕分明細から住民税を取得する
+  # 仕訳明細から住民税を取得する
   def get_inhabitant_tax_from_jd
     amount = 0
     # 預り金
@@ -310,7 +310,7 @@ class Payroll < ActiveRecord::Base
   end
 
 
-  # 仕分明細から給与を取得する
+  # 仕訳明細から給与を取得する
   def get_base_salary_from_jd
     amount = 0
 
@@ -331,7 +331,7 @@ class Payroll < ActiveRecord::Base
     amount
   end
 
-  # 仕分明細から未払費用を取得する
+  # 仕訳明細から未払費用を取得する
   def get_accrued_liability_from_jd
     amount = 0
     unpaid_id = Account.get_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE).id
@@ -367,7 +367,7 @@ class Payroll < ActiveRecord::Base
   end
 
 
-  # 仕分明細から未払役員賞与を取得する
+  # 仕訳明細から未払役員賞与を取得する
   def get_base_bonus_from_jd
     amount = 0
     salary_id = Account.get_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id

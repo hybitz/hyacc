@@ -68,7 +68,7 @@ class UpdateAllocatedDataOnJournalHeaders < ActiveRecord::Migration
 
         next
       end
-      # 配賦対象の仕分けを検索
+      # 配賦対象の仕訳を検索
       jh.journal_details.each do |jd|
         if journal_helper.is_real_cost(jd.account_id) and jd.branch_id == 1
           # 費用
@@ -97,7 +97,7 @@ class UpdateAllocatedDataOnJournalHeaders < ActiveRecord::Migration
     jhs = JournalHeader.find(:all, :conditions=>["finder_key like ? ","-%8___,_,1%"])
     puts "Hybitz cost #{jhs.size.to_s} match."
     jhs.each do |jh|
-      # 配賦対象の仕分けを検索
+      # 配賦対象の仕訳を検索
       jh.journal_details.each do |jd|
         if journal_helper.is_real_cost(jd.account_id) and jd.branch_id == 1
           jd.is_allocated_cost = JournalDetail::ALLOCATE_TYPE_ON
@@ -118,7 +118,7 @@ class UpdateAllocatedDataOnJournalHeaders < ActiveRecord::Migration
   def self.allocate(jh)
     # 通常配賦
     puts "OK-" + jh.id.to_s
-    # 自動仕分をクリア
+    # 自動仕訳をクリア
     jh.transfer_journals.clear
     # 費用配賦
     param = Auto::TransferJournal::AllocatedCostParam.new( jh )

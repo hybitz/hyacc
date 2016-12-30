@@ -31,7 +31,7 @@ module Accounts::SubAccountsSupport
       end
     when SUB_ACCOUNT_TYPE_CUSTOMER
       Customer.all.each do |c|
-        @sub_accounts_cache << c unless c.deleted?
+        @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_SAVING_ACCOUNT
@@ -51,17 +51,17 @@ module Accounts::SubAccountsSupport
       end
     when SUB_ACCOUNT_TYPE_ORDER_ENTRY
       Customer.where(:is_order_entry => true).each do |c|
-        @sub_accounts_cache << c unless c.deleted?
+        @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
       Customer.where(:is_order_placement => true).each do |c|
-        @sub_accounts_cache << c unless c.deleted?
+        @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_INVESTMENT
       Customer.where(:is_investment => true).each do |c|
-        @sub_accounts_cache << c unless c.deleted?
+        @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE

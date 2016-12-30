@@ -256,18 +256,9 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def setup_new_slip
-    ymd = session[:ymd_input_state]
-    if ymd.nil?
-      today = Date.today
-      ymd = Slips::YmdInputState.new
-      ymd.ym = today.strftime("%Y%m")
-      ymd.day = today.strftime("%d")
-      session[:ymd_input_state] = ymd
-    end
-
     ret = new_slip
-    ret.ym = ymd.ym
-    ret.day = ymd.day
+    ret.ym = ymd_input_state.ym
+    ret.day = ymd_input_state.day
 
     account = @frequencies.present? ? Account.get(@frequencies.first.input_value) : @accounts.first
     ret.account_id = account.id

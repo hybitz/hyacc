@@ -8,8 +8,8 @@
       年度：<%= select('finder', 'fiscal_year', @finder.fiscal_years) %>
     <% end %>
 
-    <% if @cy_list %>
-      暦年：<%= select('finder', 'calendar_year', @cy_list ) %>
+    <% if @finder.respond_to?(:calendar_year) %>
+      暦年：<%= select('finder', 'calendar_year', calendar_years) %>
     <% end %>
     
     <% if @prefectures %>

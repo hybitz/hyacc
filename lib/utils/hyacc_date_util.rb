@@ -77,7 +77,7 @@ module HyaccDateUtil
   # @param ym 年
   # @param before 前何年分かを指定
   # @param after 後何年分かを指定
-  def self.get_ym_list( ym, before, after )
+  def self.get_ym_list(ym, before, after)
     ym - before .. ym + after
   end
  

@@ -9,7 +9,7 @@
       <th>従業員</th><td><%= f.collection_select :employee_id, @employees, 'id', 'fullname' %></td>
     </tr>
     <tr>
-      <th>暦年</th><td><%= f.select :yyyy, @cy_list %></td>
+      <th>暦年</th><td><%= f.select :yyyy, calendar_years %></td>
     </tr>
     <tr>
       <th>小規模共済掛金</th><td><%= f.text_field :small_scale_mutual_aid %></td>

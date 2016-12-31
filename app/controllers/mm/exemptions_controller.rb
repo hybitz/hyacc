@@ -8,7 +8,6 @@ class Mm::ExemptionsController < Base::HyaccController
   end
 
   def new
-    setup_view_attributes
     @c = Exemption.new(exempiton_params)
     @c.yyyy = Date.today.year if @c.yyyy.blank?
   end
@@ -30,7 +29,6 @@ class Mm::ExemptionsController < Base::HyaccController
   end
 
   def edit
-    setup_view_attributes
     @c = Exemption.find(params[:id])
   end
 
@@ -45,7 +43,6 @@ class Mm::ExemptionsController < Base::HyaccController
       flash[:notice] = '所得税控除情報を更新しました。'
       render 'common/reload'
     rescue => e
-      setup_view_attributes
       handle(e)
       render 'edit'
     end
@@ -67,10 +64,6 @@ class Mm::ExemptionsController < Base::HyaccController
     @finder
   end
 
-  def setup_view_attributes
-    @cy_list = get_cy_select
-  end
-  
   def exempiton_params
     params.require(:exemption).permit(
         :employee_id, :yyyy, :small_scale_mutual_aid, :life_insurance_premium, :earthquake_insurance_premium,

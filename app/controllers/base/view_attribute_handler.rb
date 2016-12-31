@@ -13,8 +13,6 @@ module Base::ViewAttributeHandler
           @finder = get_finder(options)
         elsif name == :ym_list
           @ym_list = get_ym_select
-        elsif name == :cy_list
-          @cy_list = get_cy_select
         elsif name == :branches
           @branches = get_branches(options)
         elsif name == :accounts
@@ -193,13 +191,6 @@ module Base::ViewAttributeHandler
     HyaccDateUtil.get_ym_list( first, 0, last - first )
   end
   
-  # 暦年選択リストを取得する
-  def get_cy_select
-    first = current_user.company.founded_fiscal_year.fiscal_year
-    last = Date.today.year
-    HyaccDateUtil.get_ym_list( first, 0, last - first )
-  end
-
   # 従業員一覧を取得する
   def get_employees(finder, options = {})
     employees = []

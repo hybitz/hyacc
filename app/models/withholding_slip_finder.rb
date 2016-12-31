@@ -1,23 +1,23 @@
-class WithholdingSlipFinder < Base::Finder
-  attr_reader :company_id
-  attr_reader :report_type
-  attr_reader :report_style
-  attr_reader :calendar_year
-  attr_reader :employee_id
-  
-  def initialize(user)
-    super(user)
-    @company_id = user.company.id
-  end
-  
-  def setup_from_params( params )
-    super(params)
-    if params
-      @report_type = params[:report_type].to_i
-      @report_style = params[:report_style].to_i
-      @fiscal_year = params[:calendar_year].to_i
-      @employee_id = params[:employee_id].to_i
-    end
+class WithholdingSlipFinder
+  include ActiveModel::Model
+  include HyaccConstants
+
+  attr_accessor :report_type
+  attr_accessor :company_id
+  attr_accessor :calendar_year
+  attr_accessor :employee_id
+
+  def employee_id_enabled?
+    true
   end
 
+  def report_types
+    types = [
+      REPORT_TYPE_WITHHOLDING_SUMMARY,
+      REPORT_TYPE_WITHHOLDING_DETAILS,
+      REPORT_TYPE_WITHHOLDING_CALC,
+    ]
+
+    types.map{|t| NameAndValue.new(REPORT_TYPES[t], t) }
+  end
 end

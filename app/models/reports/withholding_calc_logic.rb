@@ -1,5 +1,10 @@
 module Reports
-  class WithholdingCalcLogic < BaseLogic
+  class WithholdingCalcLogic
+
+    def initialize(finder)
+      @finder = finder
+    end
+
     def get_withholding_info
       model = WithholdingCalc.new
       model.calendar_year = @finder.calendar_year
@@ -46,24 +51,24 @@ module Reports
 
     # 支払金額
     def get_total_salarys
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_base_salaries
     end
     
     # 支払金額(賞与)
     def get_total_bonuses
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_base_bonuses
     end
     
     # 源泉徴収税額
     def get_withholding_taxes
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_withholding_taxes_salary
     end
     
     def get_withholding_taxes_of_bonus
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_withholding_taxes_of_bonus
     end
     
@@ -72,7 +77,7 @@ module Reports
       c = Company.find(@finder.company_id)
       c.employees.each do |emp|
         @finder.employee_id = emp.id
-        logic = PayrollInfo::PayrollLogic.new(@finder)
+        logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         w = logic.get_withholding_tax
         t = w + t
       end

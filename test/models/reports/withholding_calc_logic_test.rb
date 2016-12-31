@@ -3,7 +3,7 @@ require 'test_helper'
 class Reports::WithholdingCalcLogicTest < ActiveSupport::TestCase
 
   def test_get_annual_tax
-    finder = WithholdingSlipFinder.new(users(:first))
+    finder = WithholdingSlipFinder.new
     finder.calendar_year = 2012
     finder.company_id = Company.first.id
     logic = Reports::WithholdingCalcLogic.new(finder)

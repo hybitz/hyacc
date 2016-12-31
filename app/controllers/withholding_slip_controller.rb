@@ -1,23 +1,23 @@
 class WithholdingSlipController < Base::HyaccController
   view_attribute :title => '源泉徴収'
-  view_attribute :finder, :class => WithholdingSlipFinder
-  view_attribute :report_types
   view_attribute :employees
+  helper_method :finder
 
   def index
-    return unless finder.commit
     begin
-      case finder.report_type
+      case finder.report_type.to_i
       when REPORT_TYPE_WITHHOLDING_SUMMARY
         render_withholding_summary
       when REPORT_TYPE_WITHHOLDING_DETAILS
-         if validate_params_details
-           render_withholding_details
-         else
-           render :index
-         end
+        if validate_params_details
+          render_withholding_details
+        else
+          render :index
+        end
       when REPORT_TYPE_WITHHOLDING_CALC
         render_withholding_calc
+      else
+        render :index
       end
     rescue => e
       handle(e)
@@ -26,6 +26,17 @@ class WithholdingSlipController < Base::HyaccController
   end
 
   private
+
+  def finder
+    if @finder.nil?
+      @finder = WithholdingSlipFinder.new(params[:finder])
+      @finder.company_id = current_company.id
+      @finder.calendar_year ||= Date.today.year
+      @finder.employee_id ||= current_user.employee.id
+    end
+
+    @finder
+  end
 
   def validate_params_details
     if @finder.employee_id == 0

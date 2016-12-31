@@ -1,5 +1,9 @@
 module Reports
-  class WithholdingSummaryLogic < BaseLogic
+  class WithholdingSummaryLogic
+
+    def initialize(finder)
+      @finder = finder
+    end
 
     def get_withholding_info
       model = WithholdingSummary.new
@@ -16,11 +20,11 @@ module Reports
       c = Company.find(@finder.company_id)
       c.employees.each do |emp|
         @finder.employee_id = emp.id
-        logic = PayrollInfo::PayrollLogic.new(@finder)
+        logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         total_base_salary = total_base_salary + logic.get_total_base_salary
       end
       
-      return total_base_salary
+      total_base_salary
     end
     
     # 源泉徴収税額
@@ -29,11 +33,11 @@ module Reports
       c = Company.find(@finder.company_id)
       c.employees.each do |emp|
         @finder.employee_id = emp.id
-        logic = PayrollInfo::PayrollLogic.new(@finder)
+        logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         total_withholding_tax = total_withholding_tax + logic.get_withholding_tax
       end
       
-      return total_withholding_tax
+      total_withholding_tax
     end
   end
 end

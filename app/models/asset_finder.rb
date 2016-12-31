@@ -11,11 +11,6 @@ class AssetFinder
         .paginate(:page => page, :per_page => per_page)
   end
 
-  def fiscal_years
-    c = Company.find(company_id)
-    c.fiscal_years.map{|fy| fy.fiscal_year }.sort
-  end
-
   private
 
   def conditions

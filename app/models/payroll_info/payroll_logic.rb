@@ -2,9 +2,9 @@ module PayrollInfo
   class PayrollLogic
     include HyaccConstants
 
-    def initialize(finder=nil)
-      @calendar_year = finder.calendar_year
-      @employee_id = finder.employee_id
+    def initialize(calendar_year, employee_id)
+      @calendar_year = calendar_year.to_i
+      @employee_id = employee_id.to_i
       @total_base_salary = get_total_base_salary
     end
 

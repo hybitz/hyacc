@@ -1,11 +1,7 @@
 <div id="search" style="margin: 15px;">
   <%= form_tag({:action => action_name}, :method => 'get', :id => 'finders') do %>
-    <% if @ym_list %>
-      年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
-    <% end %>
-    
-    <% if @finder.respond_to?(:fiscal_years) %>
-      年度：<%= select('finder', 'fiscal_year', @finder.fiscal_years) %>
+    <% if @finder.respond_to?(:fiscal_year) %>
+      年度：<%= select('finder', 'fiscal_year', fiscal_years) %>
     <% end %>
 
     <% if @finder.respond_to?(:calendar_year) %>
@@ -69,12 +65,14 @@
       状態：<%= select('finder', 'disabled', @finder.disable_types, :include_blank => true) %>
     <% end %>
 
-    <% if @finder.employee_id_enabled? and @employees %>
+    <% if @finder.respond_to?(:employee_id_enabled?) and @finder.employee_id_enabled? and @employees %>
       従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'fullname', :include_blank => true) %>
     <% end %>
     
     <% if @report_types %>
       帳票様式：<%= collection_select("finder", "report_type", @report_types, "value", "name") %>
+    <% elsif @finder.respond_to?(:report_type) %>
+      帳票様式：<%= collection_select('finder', 'report_type', @finder.report_types, 'value', 'name') %>
     <% end %>
      
     <% if @report_styles %>

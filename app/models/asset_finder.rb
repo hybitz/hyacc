@@ -1,5 +1,11 @@
-class AssetFinder < Daddy::Model
-  
+class AssetFinder
+  include ActiveModel::Model
+  include Pagination
+
+  attr_accessor :fiscal_year
+  attr_accessor :branch_id
+  attr_accessor :account_id
+
   def list
     Asset.where(conditions).order('code').includes([:account, :branch])
         .paginate(:page => page, :per_page => per_page)

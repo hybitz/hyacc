@@ -1,7 +1,7 @@
 class Bs::AssetsController < Base::HyaccController
   view_attribute :title => '資産管理'
   view_attribute :branches, :only => :index
-  before_filter :load_accounts, :only => 'index'
+  before_filter :preload_accounts, :only => 'index'
 
   helper_method :finder
 
@@ -63,10 +63,9 @@ class Bs::AssetsController < Base::HyaccController
   def finder
     unless @finder
       @finder = AssetFinder.new(params[:finder])
-      @finder.company_id = current_company.id
       @finder.fiscal_year ||= current_company.fiscal_year
       @finder.branch_id ||= current_user.employee.default_branch.id
-      @finder.page = params[:page] || 1
+      @finder.page = params[:page]
       @finder.per_page = current_user.slips_per_page
     end
     
@@ -79,7 +78,7 @@ class Bs::AssetsController < Base::HyaccController
         :amount, :depreciation_method, :depreciation_limit, :remarks, :business_use_ratio, :lock_version)
   end
 
-  def load_accounts
+  def preload_accounts
     sql = SqlBuilder.new
     sql.append('account_type = ?', ACCOUNT_TYPE_ASSET)
     sql.append('and trade_type = ?', TRADE_TYPE_EXTERNAL)
@@ -91,7 +90,6 @@ class Bs::AssetsController < Base::HyaccController
     unless @accounts.present?
       render :no_account and return
     end
-    @sub_accounts = []
   end
 
 end

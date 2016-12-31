@@ -1,6 +1,5 @@
 class InhabitantTaxesController < Base::BasicMasterController
   view_attribute :title => '住民税'
-  view_attribute :ym_list, :only => :index
 
   def create
     InhabitantCsv.create_csv(params)

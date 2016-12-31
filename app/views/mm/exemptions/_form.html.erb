@@ -1,6 +1,6 @@
 <%= flash_notice %>
 
-<%= form_for @c, :remote => true do |f| %>
+<%= form_for [:mm, @c], :remote => true do |f| %>
   <div style="margin:0px 10px 5px 0px; text-align: right;">
     <%= f.submit %>
   </div>

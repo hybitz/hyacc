@@ -29,8 +29,8 @@
         <td><%= c.dependents %></td>
         <td><%= c.disabled_persons %></td>
         <td><%= c.basic %></td>
-        <td><%= link_to '編集', edit_exemption_path(c), :remote => true %></td>
-        <td><%= link_to '削除', exemption_path(c), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
+        <td><%= link_to '編集', edit_mm_exemption_path(c), :remote => true %></td>
+        <td><%= link_to '削除', mm_exemption_path(c), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
       </tr>
     <% end %>
   </table>

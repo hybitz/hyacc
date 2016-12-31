@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :exemptions
     resources :rents
     resources :users
   end
@@ -62,7 +63,6 @@ Rails.application.routes.draw do
   resources :career_statements, :only => ['index', 'show']
   resources :deemed_taxes
   resources :debts
-  resources :exemptions
   resources :financial_return_statements, :only => 'index'
   resources :financial_statements, :only => 'index'
   resources :first_boot, :only => ['index', 'create']

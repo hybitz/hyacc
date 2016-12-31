@@ -1,6 +1,7 @@
 require 'test_helper'
 
-class ExemptionsControllerTest < ActionController::TestCase
+class Mm::ExemptionsControllerTest < ActionController::TestCase
+
   def test_初期表示
     sign_in user
     get :index

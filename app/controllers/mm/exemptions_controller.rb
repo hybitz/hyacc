@@ -1,7 +1,8 @@
-class ExemptionsController < Base::HyaccController
+class Mm::ExemptionsController < Base::HyaccController
   view_attribute :title => '所得税控除'
   view_attribute :employees
   helper_method :finder
+
   def index
     @exemptions = finder.list
   end

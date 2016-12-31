@@ -1,6 +1,8 @@
 class LedgerFinder < Daddy::Model
   include HyaccConstants
 
+  attr_accessor :fiscal_year
+
   def conditions_for_journals(ym = 0)
     sql = SqlBuilder.new
     sql.append('account_id = ?', account_id)

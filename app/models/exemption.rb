@@ -7,4 +7,9 @@ class Exemption < ActiveRecord::Base
   def self.get(employee_id, calendar_year)
     Exemption.where(:employee_id => employee_id, :yyyy => calendar_year).first
   end
+
+  def life_insurance_premium
+    life_insurance_premium_old + life_insurance_premium_new
+  end
+
 end

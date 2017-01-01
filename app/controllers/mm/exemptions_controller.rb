@@ -7,8 +7,8 @@ class Mm::ExemptionsController < Base::HyaccController
   end
 
   def new
-    @c = Exemption.new(exempiton_params)
-    @c.yyyy = Date.today.year if @c.yyyy.blank?
+    @c = Exemption.new(:basic => 380_000)
+    @c.yyyy ||= Date.today.year
   end
 
   def create
@@ -65,8 +65,11 @@ class Mm::ExemptionsController < Base::HyaccController
   end
 
   def exempiton_params
-    permitted = [:employee_id, :yyyy, :small_scale_mutual_aid, :life_insurance_premium_old, :earthquake_insurance_premium,
-      :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic]
+    permitted = [:employee_id, :yyyy, :small_scale_mutual_aid,
+      :life_insurance_premium_old, :life_insurance_premium_new,
+      :earthquake_insurance_premium, :special_tax_for_spouse, :spouse,
+      :dependents, :disabled_persons, :basic
+    ]
 
     ret = params.require(:exemption).permit(permitted)
     ret.merge!(:company_id => current_company.id)

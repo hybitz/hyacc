@@ -22,7 +22,7 @@
         <td><%= c.yyyy %></td>
         <td><%= c.employee.fullname %></td>
         <td><%= c.small_scale_mutual_aid %></td>
-        <td><%= c.life_insurance_premium_old %></td>
+        <td><%= c.life_insurance_premium %></td>
         <td><%= c.earthquake_insurance_premium %></td>
         <td><%= c.special_tax_for_spouse %></td>
         <td><%= c.spouse %></td>
@@ -35,7 +35,7 @@
     <% end %>
   </table>
   <%= will_paginate @exemptions %>
-  <%= link_to '追加', {:action => 'new', :exemption => {:employee_id => finder.employee_id, :calendar_year => @finder.calendar_year}}, :class => 'add', :remote => true %>
+  <%= link_to '追加', {:action => 'new', :exemption => {:employee_id => finder.employee_id, :yyyy => @finder.calendar_year}}, :class => 'add', :remote => true %>
 <% elsif @exemptions %>
   <div>該当するデータが見つかりませんでした。</div>
 <% end %>

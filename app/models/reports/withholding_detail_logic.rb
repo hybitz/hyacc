@@ -71,7 +71,7 @@ module Reports
     def get_life_insurance_deduction
       life_insurance_deduction = 0
       e = Exemption.get(@finder.employee_id, @finder.calendar_year)
-      life_insurance_deduction = e.life_insurance_premium if e.present?
+      life_insurance_deduction = e.life_insurance_premium_old if e.present?
       return life_insurance_deduction
     end
       

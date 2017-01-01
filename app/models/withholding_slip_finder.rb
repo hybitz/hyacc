@@ -11,6 +11,10 @@ class WithholdingSlipFinder
     true
   end
 
+  def calendar_year_options
+    {}
+  end
+
   def report_types
     types = [
       REPORT_TYPE_WITHHOLDING_SUMMARY,

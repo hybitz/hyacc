@@ -264,16 +264,16 @@ ja:
         charges: "手数料"
 
       exemption:
-        employee_id: "従業員"
-        yyyy: "年"
-        small_scale_mutual_aid: "小規模共済掛金"
-        life_insurance_premium: "生命保険料"
-        earthquake_insurance_premium: "地震保険料"
-        special_tax_for_spouse: "配偶者特別控除"
-        dependents: "扶養家族"
-        spouse: "配偶者控除"
-        disabled_persons: "障害者控除"
-        basic: "基礎控除"
+        employee_id: 従業員
+        yyyy: 暦年
+        small_scale_mutual_aid: 小規模共済掛金
+        life_insurance_premium_old: 生命保険料
+        earthquake_insurance_premium: 地震保険料
+        special_tax_for_spouse: 配偶者特別控除
+        dependents: 扶養家族
+        spouse: 配偶者控除
+        disabled_persons: 障害者控除
+        basic: 基礎控除
 
   errors:
     messages:

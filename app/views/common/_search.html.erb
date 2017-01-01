@@ -1,11 +1,11 @@
 <div id="search" style="margin: 15px;">
   <%= form_tag({:action => action_name}, :method => 'get', :id => 'finders') do %>
     <% if @finder.respond_to?(:fiscal_year) %>
-      年度：<%= select('finder', 'fiscal_year', fiscal_years) %>
+      年度：<%= select 'finder', 'fiscal_year', fiscal_years %>
     <% end %>
 
     <% if @finder.respond_to?(:calendar_year) %>
-      暦年：<%= select('finder', 'calendar_year', calendar_years) %>
+      暦年：<%= select 'finder', 'calendar_year', calendar_years, finder.calendar_year_options %>
     <% end %>
     
     <% if @prefectures %>

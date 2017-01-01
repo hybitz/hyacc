@@ -65,7 +65,7 @@ class Mm::ExemptionsController < Base::HyaccController
   end
 
   def exempiton_params
-    permitted = [:employee_id, :yyyy, :small_scale_mutual_aid, :life_insurance_premium, :earthquake_insurance_premium,
+    permitted = [:employee_id, :yyyy, :small_scale_mutual_aid, :life_insurance_premium_old, :earthquake_insurance_premium,
       :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic]
 
     ret = params.require(:exemption).permit(permitted)

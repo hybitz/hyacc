@@ -1,6 +1,5 @@
 class Mm::ExemptionsController < Base::HyaccController
   view_attribute :title => '所得税控除'
-  view_attribute :employees
   helper_method :finder
 
   def index
@@ -59,15 +58,18 @@ class Mm::ExemptionsController < Base::HyaccController
 
   def finder
     @finder ||= ExemptionFinder.new(params[:finder])
+    @finder.company_id = current_company.id
     @finder.page = params[:page] || 1
     @finder.per_page = current_user.slips_per_page
     @finder
   end
 
   def exempiton_params
-    params.require(:exemption).permit(
-        :employee_id, :yyyy, :small_scale_mutual_aid, :life_insurance_premium, :earthquake_insurance_premium,
-        :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic)
+    permitted = [:employee_id, :yyyy, :small_scale_mutual_aid, :life_insurance_premium, :earthquake_insurance_premium,
+      :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic]
+
+    ret = params.require(:exemption).permit(permitted)
+    ret.merge!(:company_id => current_company.id)
   end
 
 end

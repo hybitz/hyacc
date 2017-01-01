@@ -67,6 +67,8 @@
 
     <% if @finder.respond_to?(:employee_id_enabled?) and @finder.employee_id_enabled? and @employees %>
       従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'fullname', :include_blank => true) %>
+    <% elsif @finder.respond_to?(:employees) %>
+      従業員：<%= collection_select('finder', 'employee_id', @finder.employees, 'id', 'fullname', :include_blank => true) %>
     <% end %>
     
     <% if @report_types %>

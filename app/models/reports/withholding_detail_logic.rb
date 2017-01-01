@@ -69,11 +69,13 @@ module Reports
     
     # 生命保険料の控除額
     def get_life_insurance_deduction
-      life_insurance_deduction = 0
+      ret = 0
+
       e = Exemption.get(@finder.employee_id, @finder.calendar_year)
-      life_insurance_deduction = e.life_insurance_premium_old if e.present?
-      return life_insurance_deduction
+      ret += e.life_insurance_premium if e.present?
+
+      ret
     end
-      
+
   end
 end

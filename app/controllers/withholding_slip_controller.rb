@@ -1,6 +1,5 @@
 class WithholdingSlipController < Base::HyaccController
   view_attribute :title => '源泉徴収'
-  view_attribute :employees
   helper_method :finder
 
   def index

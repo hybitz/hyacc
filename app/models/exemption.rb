@@ -9,7 +9,18 @@ class Exemption < ActiveRecord::Base
   end
 
   def life_insurance_premium
-    life_insurance_premium_old + life_insurance_premium_new
+    ret = 0
+
+    # 旧契約のみで4万円を越える場合は、旧契約の限度額5万円の範囲を控除額とする
+    if life_insurance_premium_old > 40_000
+      ret = life_insurance_premium_old
+      ret = [ret, 50_000].min
+    else
+      ret = life_insurance_premium_old + life_insurance_premium_new
+      ret = [ret, 40_000].min
+    end
+    
+    ret
   end
 
 end

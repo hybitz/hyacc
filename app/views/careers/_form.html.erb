@@ -3,7 +3,7 @@
 
   <table>
     <tr>
-      <th>従業員</th><td><%= f.collection_select :employee_id, @employees, 'id', 'fullname' %></td>
+      <th>従業員</th><td><%= f.collection_select :employee_id, finder.employees, 'id', 'fullname' %></td>
     </tr>
     <tr>
       <th>取引先</th><td><%= f.collection_select :customer_id, @customers, 'id', 'name' %></td>

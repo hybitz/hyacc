@@ -1,6 +1,5 @@
 class CareersController < Base::HyaccController
   view_attribute :title => '業務経歴'
-  view_attribute :employees
   view_attribute :customers, :conditions => ['is_order_entry=?', true]
 
   helper_method :finder
@@ -59,7 +58,8 @@ class CareersController < Base::HyaccController
 
   def finder
     @finder ||= CareerFinder.new(params[:finder])
-    @finder.page = params[:page] || 1
+    @finder.company_id = current_company.id
+    @finder.page = params[:page]
     @finder.per_page = current_user.slips_per_page
     @finder
   end

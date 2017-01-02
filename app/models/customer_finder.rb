@@ -1,6 +1,10 @@
-class CustomerFinder < Daddy::Model
+class CustomerFinder
+  include ActiveModel::Model
   include HyaccConstants
-  
+  include Pagination
+
+  attr_accessor :disabled
+
   def disable_types
     DISABLE_TYPES.invert
   end

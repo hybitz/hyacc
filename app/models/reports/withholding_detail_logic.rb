@@ -1,5 +1,9 @@
 module Reports
-  class WithholdingDetailLogic < BaseLogic
+  class WithholdingDetailLogic
+
+    def initialize(finder)
+      @finder = finder
+    end
 
     def get_withholding_info
       e = get_exemptions
@@ -28,48 +32,50 @@ module Reports
 
     # 支払金額
     def get_total_salary
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_total_base_salary
     end
     
     # 控除額
     def get_exemptions
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_exemptions
     end
     
     # 所得控除の額の合計
     def get_total_exemption
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_exemption
     end
     
     # 給与所得控除後の金額
     def get_after_deduction
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_after_deduction
     end
     
     # 源泉徴収税額
     def get_withholding_tax
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       return logic.get_withholding_tax
     end
     
     # 社会保険料等の金額(健康保険料＋社会保険料＋小規模共済)
     def get_social_insurance
-      logic = PayrollInfo::PayrollLogic.new(@finder)
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions
       return logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid
     end
     
     # 生命保険料の控除額
     def get_life_insurance_deduction
-      life_insurance_deduction = 0
+      ret = 0
+
       e = Exemption.get(@finder.employee_id, @finder.calendar_year)
-      life_insurance_deduction = e.life_insurance_premium if e.present?
-      return life_insurance_deduction
+      ret += e.life_insurance_premium if e.present?
+
+      ret
     end
-      
+
   end
 end

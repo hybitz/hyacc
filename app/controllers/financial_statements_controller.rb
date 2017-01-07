@@ -1,7 +1,6 @@
 class FinancialStatementsController < Base::HyaccController
   view_attribute :title => '決算書'
   view_attribute :finder, :class => ReportFinder
-  view_attribute :ym_list
   view_attribute :branches
   view_attribute :report_types
   view_attribute :report_styles
@@ -147,21 +146,7 @@ class FinancialStatementsController < Base::HyaccController
   end
 
   def render_pl_monthly
-    # 収益と費用の勘定科目ツリーを取得
-    trees = [
-      Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_PROFIT).first,
-      Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_EXPENSE).first
-    ]
-
-    # 各科目の月別累計を取得
-    @sum = {}
-    trees.each do |account|
-      @sum.update(list_monthly_sum(account))
-    end
-
-    # 最大ノードレベルを算出
-    calc_max_node_level(@sum)
-
+    @sum, @max_node_level = finder.list_monthly
     render :pl_monthly
   end
 
@@ -182,23 +167,6 @@ class FinancialStatementsController < Base::HyaccController
     calc_max_node_level(@sum)
 
     render :pl_yearly
-  end
-
-  def list_monthly_sum(account)
-    ret = {}
-
-    # 自身の累計を取得
-    sum = {}
-    sum[:account] = account
-    sum[:ym] = finder.list_monthly_sum(account)
-    ret[account.code] = sum
-
-    # 子ノードの累計を取得
-    account.children.each do |child|
-      ret.update(list_monthly_sum(child))
-    end
-
-    ret
   end
 
   def list_yearly_sum( account )

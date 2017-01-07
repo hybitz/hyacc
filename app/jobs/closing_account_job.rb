@@ -15,10 +15,12 @@ class ClosingAccountJob < ActiveJob::Base
         header = FinancialStatementHeader.new(:company_id => fiscal_year.company.id, :branch_id => branch_id,
                                               :report_type => REPORT_TYPE_PL, :report_style => REPORT_STYLE_MONTHLY,
                                               :fiscal_year => fiscal_year.fiscal_year)
-        header.max_node_level = max_node_level = calc_max_node_level(pl_data)
+        header.max_node_level = calc_max_node_level(pl_data)
         header.save!
         
-        pl_data.each do |account, summary|
+        pl_data.each do |account_code, sum|
+          account = sum[:account]
+          summary = sum[:ym]
           summary.each do |sum|
             financial_statements << FinancialStatement.new(:ym => sum[:ym], :account_id => account.id,
                                                            :account_name => account.name, :amount => sum[:amount],
@@ -55,13 +57,14 @@ class ClosingAccountJob < ActiveJob::Base
 
     # 自身の累計を取得
     sum = {}
-    sum[account] = monthly_sum(account)
-
+    sum[:account] = account
+    sum[:ym] = monthly_sum(account)
+    ret[account.code] = sum
     # 子ノードの累計を取得
     account.children.each do |child|
-      sum.update(list_monthly_sum(child))
+      ret.update(list_monthly_sum(child))
     end
-    sum
+    ret
   end
   
   # 月別累計の配列を取得する
@@ -110,7 +113,8 @@ class ClosingAccountJob < ActiveJob::Base
   def calc_max_node_level(sum)
     max_node_level = 1
 
-    sum.each do |account, summary|
+    sum.each do |account_code, summary|
+      account = summary[:account]
       if account.node_level > max_node_level
         max_node_level = account.node_level
       end

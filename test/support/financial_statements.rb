@@ -3,6 +3,7 @@ module FinancialStatements
 
   def bs_monthly_finder
     {
+      :fiscal_year => 2007,
       :report_type => REPORT_TYPE_BS,
       :report_style => REPORT_STYLE_MONTHLY
     }
@@ -10,6 +11,7 @@ module FinancialStatements
   
   def bs_yearly_finder
     {
+      :fiscal_year => 2007,
       :report_type => REPORT_TYPE_BS,
       :report_style => REPORT_STYLE_YEARLY
     }
@@ -17,6 +19,7 @@ module FinancialStatements
   
   def pl_monthly_finder
     {
+      :fiscal_year => 2007,
       :report_type => REPORT_TYPE_PL,
       :report_style => REPORT_STYLE_MONTHLY
     }
@@ -24,6 +27,7 @@ module FinancialStatements
   
   def pl_yearly_finder
     {
+      :fiscal_year => 2007,
       :report_type => REPORT_TYPE_PL,
       :report_style => REPORT_STYLE_YEARLY
     }

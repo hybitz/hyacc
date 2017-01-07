@@ -31,8 +31,8 @@ class JournalsController < Base::HyaccController
   def new
     if params[:copy_id].present?
       @journal = Journal.find(params[:copy_id]).copy
-      @journal.ym = @ym
-      @journal.day = @day
+      @journal.ym = ymd_input_state.ym
+      @journal.day = ymd_input_state.day
       AssetUtil.clear_asset_from_details(@journal)
     else
       @journal = new_journal
@@ -178,8 +178,8 @@ class JournalsController < Base::HyaccController
     default_account = @frequencies.size > 0 ? Account.get(@frequencies.first.input_value.to_i) : @accounts.first
 
     ret = Journal.new
-    ret.ym = @ym
-    ret.day = @day
+    ret.ym = ymd_input_state.ym
+    ret.day = ymd_input_state.day
     ret.journal_details.build(:dc_type => DC_TYPE_DEBIT, :account_id => default_account.id)
     ret.journal_details.build(:dc_type => DC_TYPE_CREDIT, :account_id => default_account.id)
     ret
@@ -208,11 +208,6 @@ class JournalsController < Base::HyaccController
   end
 
   def setup_view_attributes
-    # 今月の取得
-    now = Time.now
-    @ym = now.strftime("%Y%m")
-    @day = now.strftime("%d")
-
     # 勘定科目選択用リスト
     @accounts = Account.get_journalizable_accounts
 

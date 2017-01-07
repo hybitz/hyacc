@@ -2,13 +2,6 @@ require 'test_helper'
 
 class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
   
-  def logic_builder(calendar_year)
-    finder = PayrollFinder.new(users(:first))
-    finder.calendar_year = calendar_year
-    finder.employee_id = user.employee.id
-    return PayrollInfo::PayrollLogic.new(finder)
-  end
-  
   def test_get_total_base_salary
     logic = logic_builder(2008)
     assert_equal 2_653_000, logic.get_total_base_salary
@@ -73,4 +66,11 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     withholding_taxes = logic.get_withholding_taxes(false)
     assert_equal 18610, withholding_taxes["20120106"]
   end
+
+  private
+
+  def logic_builder(calendar_year)
+    PayrollInfo::PayrollLogic.new(calendar_year, user.employee.id)
+  end
+  
 end

@@ -1,5 +1,5 @@
 <div id="search" style="margin: 15px;">
-  <%= form_tag( {:action=>controller.action_name}, {:method=>"get"} ) do %>
+  <%= form_tag( {:action=>controller.action_name}, :method=>'get') do %>
     摘要：<%= text_field 'finder', 'remarks', :size=>25, :maxlength=>250 %>
 
     勘定科目：<%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", :include_blank => true) %>

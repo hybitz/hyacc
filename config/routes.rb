@@ -39,7 +39,16 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :exemptions
     resources :rents
+
+    resources :simple_slip_templates do
+      collection do
+        get 'get_keywords'
+        get 'get_sub_accounts'
+      end
+    end
+
     resources :users
   end
 
@@ -62,7 +71,6 @@ Rails.application.routes.draw do
   resources :career_statements, :only => ['index', 'show']
   resources :deemed_taxes
   resources :debts
-  resources :exemptions
   resources :financial_return_statements, :only => 'index'
   resources :financial_statements, :only => 'index'
   resources :first_boot, :only => ['index', 'create']
@@ -135,13 +143,6 @@ Rails.application.routes.draw do
     end
   end
   get 'simple/:account_code', :to => 'simple_slips#index'
-
-  resources :simple_slip_templates do
-    collection do
-      get 'get_keywords'
-      get 'get_sub_accounts'
-    end
-  end
 
   resources :social_expenses, :only => 'index'
   resources :sub_accounts, :only => 'index'

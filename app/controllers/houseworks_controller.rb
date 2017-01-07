@@ -1,7 +1,6 @@
 class HouseworksController < Base::HyaccController
   view_attribute :title => '家事按分'
   view_attribute :finder, :class => HouseworkFinder
-  view_attribute :ym_list
 
   def index
     @hw = finder.list

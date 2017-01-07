@@ -1,0 +1,44 @@
+<%= flash_notice %>
+
+<%= form_for [:mm, @c], :remote => true do |f| %>
+  <div style="margin:0px 10px 5px 0px; text-align: right;">
+    <%= f.submit %>
+  </div>
+  <table>
+    <tr>
+      <th colspan="2">暦年</th><td><%= f.select :yyyy, calendar_years %></td>
+    </tr>
+    <tr>
+      <th colspan="2">従業員</th><td><%= f.collection_select :employee_id, finder.employees, 'id', 'fullname' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">小規模共済掛金</th><td><%= f.text_field :small_scale_mutual_aid, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th rowspan="2"><%= Exemption.human_attribute_name :life_insurance_premium %></th>
+      <th><%= f.label :life_insurance_premium_old %></th>
+      <td><%= f.text_field :life_insurance_premium_old, :class => 'amount' %></td>
+    </tr>
+      <th><%= f.label :life_insurance_premium_new %></th>
+      <td><%= f.text_field :life_insurance_premium_new, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">地震保険料</th><td><%= f.text_field :earthquake_insurance_premium, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">配偶者特別控除</th><td><%= f.text_field :special_tax_for_spouse, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">配偶者控除</th><td><%= f.text_field :spouse, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">扶養控除</th><td><%= f.text_field :dependents, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">障害者控除</th><td><%= f.text_field :disabled_persons, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">基礎控除</th><td><%= f.text_field :basic, :value => 380000, :class => 'amount' %></td>
+    </tr>
+  </table>
+<% end %>

@@ -1,15 +1,14 @@
-class ExemptionsController < Base::HyaccController
+class Mm::ExemptionsController < Base::HyaccController
   view_attribute :title => '所得税控除'
-  view_attribute :employees
   helper_method :finder
+
   def index
     @exemptions = finder.list
   end
 
   def new
-    setup_view_attributes
-    @c = Exemption.new(exempiton_params)
-    @c.yyyy = Date.today.year if @c.yyyy.blank?
+    @c = Exemption.new(:basic => 380_000)
+    @c.yyyy ||= Date.today.year
   end
 
   def create
@@ -29,7 +28,6 @@ class ExemptionsController < Base::HyaccController
   end
 
   def edit
-    setup_view_attributes
     @c = Exemption.find(params[:id])
   end
 
@@ -44,7 +42,6 @@ class ExemptionsController < Base::HyaccController
       flash[:notice] = '所得税控除情報を更新しました。'
       render 'common/reload'
     rescue => e
-      setup_view_attributes
       handle(e)
       render 'edit'
     end
@@ -61,19 +58,21 @@ class ExemptionsController < Base::HyaccController
 
   def finder
     @finder ||= ExemptionFinder.new(params[:finder])
+    @finder.company_id = current_company.id
     @finder.page = params[:page] || 1
     @finder.per_page = current_user.slips_per_page
     @finder
   end
 
-  def setup_view_attributes
-    @cy_list = get_cy_select
-  end
-  
   def exempiton_params
-    params.require(:exemption).permit(
-        :employee_id, :yyyy, :small_scale_mutual_aid, :life_insurance_premium, :earthquake_insurance_premium,
-        :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic)
+    permitted = [:employee_id, :yyyy, :small_scale_mutual_aid,
+      :life_insurance_premium_old, :life_insurance_premium_new,
+      :earthquake_insurance_premium, :special_tax_for_spouse, :spouse,
+      :dependents, :disabled_persons, :basic
+    ]
+
+    ret = params.require(:exemption).permit(permitted)
+    ret.merge!(:company_id => current_company.id)
   end
 
 end

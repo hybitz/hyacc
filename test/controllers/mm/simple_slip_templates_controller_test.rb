@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class SimpleSlipTemplatesControllerTest < ActionController::TestCase
+class Mm::SimpleSlipTemplatesControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in user

@@ -1,7 +1,7 @@
 require 'net/http'
 require "rexml/document"
 
-class SimpleSlipTemplatesController < Base::HyaccController
+class Mm::SimpleSlipTemplatesController < Base::HyaccController
   view_attribute :title => '簡易入力テンプレート'
   view_attribute :branches
   view_attribute :accounts

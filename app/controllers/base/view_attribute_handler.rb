@@ -11,10 +11,6 @@ module Base::ViewAttributeHandler
           @banks = get_banks(options)
         elsif name == :finder
           @finder = get_finder(options)
-        elsif name == :ym_list
-          @ym_list = get_ym_select
-        elsif name == :cy_list
-          @cy_list = get_cy_select
         elsif name == :branches
           @branches = get_branches(options)
         elsif name == :accounts
@@ -156,12 +152,6 @@ module Base::ViewAttributeHandler
         REPORT_TYPE_TRADE_ACCOUNT_PAYABLE,
         REPORT_TYPE_RENT,
       ]
-    elsif controller_name == 'withholding_slip'
-      types = [
-        REPORT_TYPE_WITHHOLDING_SUMMARY,
-        REPORT_TYPE_WITHHOLDING_DETAILS,
-        REPORT_TYPE_WITHHOLDING_CALC,
-      ]
     else
       raise HyaccException.new(ERR_INVALID_ACTION)
     end
@@ -183,21 +173,6 @@ module Base::ViewAttributeHandler
     else
       BankAccount.all
     end
-  end
-
-  # 年度選択リストを取得する
-  # 取得する年度は、創業年度から翌年度まで
-  def get_ym_select
-    first = current_user.company.founded_fiscal_year.fiscal_year
-    last = current_user.company.fiscal_years.last.fiscal_year
-    HyaccDateUtil.get_ym_list( first, 0, last - first )
-  end
-  
-  # 暦年選択リストを取得する
-  def get_cy_select
-    first = current_user.company.founded_fiscal_year.fiscal_year
-    last = Date.today.year
-    HyaccDateUtil.get_ym_list( first, 0, last - first )
   end
 
   # 従業員一覧を取得する

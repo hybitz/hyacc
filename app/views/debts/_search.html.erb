@@ -1,6 +1,6 @@
 <div style="margin: 20px;">
   <%= form_tag({:action => 'index'}, :method => 'get') do %>
-    年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
+    年度：<%= select('finder', 'fiscal_year', fiscal_years ) %>
     計上部門：<%= select('finder', 'branch_id', to_options( @branches ) ) %>
     <%= submit_tag "表示" %>
   <% end %>

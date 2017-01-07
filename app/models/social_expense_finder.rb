@@ -1,4 +1,5 @@
 class SocialExpenseFinder < Base::Finder
+  include HyaccConstants
 
   def list
     return nil unless commit

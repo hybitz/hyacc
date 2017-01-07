@@ -1,7 +1,7 @@
 <div style="margin: 10px;">
   <%= form_tag( {:action=>'index'}, {:method=>'get'} ) do %>
     <div>
-      <%= select('finder', 'fiscal_year', @ym_list ) %>年度
+      年度：<%= select('finder', 'fiscal_year', fiscal_years) %>
       
       <% if branch_mode %>
       部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank => true ) %>

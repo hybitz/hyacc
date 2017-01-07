@@ -25,7 +25,7 @@
   </script>
 
 
-  <%= form_for @simple_slip_template, :remote => true do |f| %>
+  <%= form_for [:mm, @simple_slip_template], :remote => true do |f| %>
     <%= flash_notice %>
 
     <%= f.hidden_field :owner_type %>

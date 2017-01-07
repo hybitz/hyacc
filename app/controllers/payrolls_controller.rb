@@ -3,7 +3,6 @@ class PayrollsController < Base::HyaccController
 
   view_attribute :title => '賃金台帳'
   view_attribute :finder, :class => PayrollFinder, :only => :index
-  view_attribute :ym_list, :only => :index
   view_attribute :branches, :only => :index, :include => :deleted
   view_attribute :employees, :only => :index, :scope => :branch
 

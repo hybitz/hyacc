@@ -4,8 +4,8 @@ module Reports
 
     def initialize(finder)
       @finder = finder
-      @start_ym = HyaccDateUtil.get_start_year_month_of_fiscal_year( @finder.fiscal_year, @finder.start_month_of_fiscal_year )
-      @end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year( @finder.fiscal_year, @finder.start_month_of_fiscal_year )
+      @start_ym = HyaccDateUtil.get_start_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)
+      @end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)
     end
 
     # 期首時点での累計金額を取得する

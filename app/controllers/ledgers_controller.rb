@@ -1,6 +1,5 @@
 class LedgersController < Base::HyaccController
   view_attribute :title => '元帳'
-  view_attribute :ym_list, :only => :index
   view_attribute :accounts, :only => :index
   view_attribute :branches, :only => :index
 
@@ -34,8 +33,8 @@ class LedgersController < Base::HyaccController
   def finder
     unless @finder
       @finder = LedgerFinder.new(params[:finder])
-      @finder.start_month_of_fiscal_year = current_user.company.start_month_of_fiscal_year
-      @finder.fiscal_year ||= current_user.company.current_fiscal_year.fiscal_year
+      @finder.start_month_of_fiscal_year = current_company.start_month_of_fiscal_year
+      @finder.fiscal_year ||= current_company.current_fiscal_year.fiscal_year
     end
     @finder
   end

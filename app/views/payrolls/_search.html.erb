@@ -11,7 +11,7 @@
 </script>
 <div id="search" style="margin: 15px;">
   <%= form_tag({:action => 'index'}, :method => 'get') do %>
-    年度：<%= select('finder', 'fiscal_year', @ym_list ) %>
+    年度：<%= select('finder', 'fiscal_year', fiscal_years) %>
 
     <% if branch_mode %>
       部門：<%= collection_select('finder', 'branch_id', @branches, 'id', 'name') %>

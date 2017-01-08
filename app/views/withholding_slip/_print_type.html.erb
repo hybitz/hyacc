@@ -1,0 +1,17 @@
+<script>
+$(function () {
+  $("input:radio[name=print\\[type\\]]").change(function() {
+    if($(this).val() == '0'){
+      $('.secret').hide();
+      $('.secret').parent('td').css('background-color','lightgrey');
+    }else{
+      $('.secret').show();
+      $('.secret').parent('td').css('background-color','transparent');
+    }
+  });
+});
+</script>
+<div id='print_type'>
+  <%= radio_button 'print', 'type', 1, {:checked => true} %>税務署提出用
+  <%= radio_button 'print', 'type', 0, {} %>受給者用
+</div>

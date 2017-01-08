@@ -3,3 +3,8 @@ tr.item, td.item {
   font-size: x-small;
 }
 
+@media print{
+  #print_type {
+	display:none;
+  }
+}

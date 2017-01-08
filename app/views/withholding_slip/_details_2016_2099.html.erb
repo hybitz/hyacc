@@ -1,3 +1,4 @@
+<%= render 'print_type' %>
 <br />
 <div  style="margin: 10px;">
     <table class="none_border" width="900">
@@ -15,7 +16,7 @@
     		<td colspan="9">（受給者番号）</td>
   		</tr>
   		<tr>
-  			<td colspan="9">（個人番号）<%= @data.employee.my_number %></td>
+  			<td colspan="9"><div class="secret">（個人番号）<%= @data.employee.my_number %></div></td>
   		</tr>
   		<tr>
   			<td colspan="9">（役職名）<%= @data.employee.position %></td>
@@ -150,7 +151,7 @@
        </tr>
        <tr>
     		<td colspan="2" class="item">個人番号</td>
-    		<td colspan="4"></td>
+    		<td colspan="4"><div class="secret"></div></td>
        </tr>
        <tr>
     		<td colspan="1" rowspan="12" class="item">控<br/>除<br/>対<br/>象<br/>不<br/>要<br/>親<br/>族</td>
@@ -176,7 +177,7 @@
        </tr>
        <tr>
     		<td colspan="2" class="item">個人番号</td>
-    		<td colspan="6"></td>
+    		<td colspan="6"><div class="secret"></div></td>
     		<td colspan="8" class="item"></td>
        </tr>
        <tr>
@@ -199,7 +200,7 @@
        </tr>
        <tr>
     		<td colspan="2" class="item">個人番号</td>
-    		<td colspan="6"></td>
+    		<td colspan="6"><div class="secret"></div></td>
     		<td colspan="8" class="item"></td>
        </tr>
        <tr>
@@ -223,7 +224,7 @@
        </tr>
        <tr>
     		<td colspan="2" class="item">個人番号</td>
-    		<td colspan="6"></td>
+    		<td colspan="6"><div class="secret"></div></td>
     		<td colspan="8" class="item"></td>
        </tr>
        <tr>
@@ -246,7 +247,7 @@
        </tr>
        <tr>
     		<td colspan="2" class="item">個人番号</td>
-    		<td colspan="6"></td>
+    		<td colspan="6"><div class="secret"></div></td>
     		<td colspan="8" class="item"></td>
        </tr>
        <tr>
@@ -308,7 +309,7 @@
        <tr>
     		<td colspan="1" rowspan="3" class="item">支<br/>払<br/>者</td>
     		<td colspan="3" class="item">個人番号又は<br/>法人番号</td>
-    		<td colspan="8"><%= @data.company.enterprise_number %></td>
+    		<td colspan="8"><div class="secret"><%= @data.company.enterprise_number %></div></td>
     		<td colspan="11" class="item"></td>
        </tr>
        <tr>

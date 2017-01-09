@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170101134822) do
+ActiveRecord::Schema.define(version: 20170108153721) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -205,6 +205,17 @@ ActiveRecord::Schema.define(version: 20170101134822) do
   end
 
   add_index "customers", ["code"], name: "index_customers_on_code", unique: true, using: :btree
+
+  create_table "dependent_family_members", force: :cascade do |t|
+    t.integer  "exemption_id",   limit: 4,                  null: false
+    t.integer  "exemption_type", limit: 4,                  null: false
+    t.string   "name",           limit: 255,                null: false
+    t.string   "kana",           limit: 255,                null: false
+    t.string   "my_number",      limit: 255
+    t.boolean  "live_in",                    default: true, null: false
+    t.datetime "created_at",                                null: false
+    t.datetime "updated_at",                                null: false
+  end
 
   create_table "depreciations", force: :cascade do |t|
     t.integer  "asset_id",        limit: 4,                 null: false

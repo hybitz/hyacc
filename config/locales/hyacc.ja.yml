@@ -276,7 +276,14 @@ ja:
         spouse: 配偶者控除
         disabled_persons: 障害者控除
         basic: 基礎控除
+        
+      dependent_family_member: &dependent_family_member
+        name: 氏名
+        kana: カナ氏名
 
+      dependent_family_members:
+        <<: *dependent_family_member
+        
   errors:
     messages:
       accounts_duplicated: 勘定科目が重複しています。

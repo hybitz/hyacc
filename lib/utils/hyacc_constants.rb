@@ -117,6 +117,13 @@ module HyaccConstants
     DISABLED = true => '無効',
   }
 
+  # 控除対象区分
+  EXEMPTION_TYPES = {
+    EXEMPTION_TYPE_SPOUSE = 1 => '控除対象配偶者',
+    EXEMPTION_TYPE_FAMILY = 2 => '控除対象扶養親族',
+    EXEMPTION_TYPE_UNDER_16 = 3 => '16歳未満扶養親族',
+  }
+
   # 金融口座区分
   FINANCIAL_ACCOUNT_TYPES = {
     FINANCIAL_ACCOUNT_TYPE_SAVING = 1 => '普通預金', # 銀行口座

@@ -39,7 +39,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :exemptions
+    resources :exemptions do
+      collection do
+        get 'add_dependent_family_member'
+      end
+    end
+
     resources :rents
 
     resources :simple_slip_templates do

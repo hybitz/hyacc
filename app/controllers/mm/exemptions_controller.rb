@@ -53,6 +53,11 @@ class Mm::ExemptionsController < Base::HyaccController
     flash[:notice] = '所得税控除情報を削除しました。'
     redirect_to :action => 'index'
   end
+  
+  def add_dependent_family_member
+    @dfm = DependentFamilyMember.new
+    render :partial => 'dependent_fields', :locals => {:dfm => @dfm, :index => params[:index]}
+  end
 
   private
 
@@ -68,7 +73,8 @@ class Mm::ExemptionsController < Base::HyaccController
     permitted = [:employee_id, :yyyy, :small_scale_mutual_aid,
       :life_insurance_premium_old, :life_insurance_premium_new,
       :earthquake_insurance_premium, :special_tax_for_spouse, :spouse,
-      :dependents, :disabled_persons, :basic
+      :dependents, :disabled_persons, :basic,
+      :dependent_family_members_attributes => [:id, :exemption_type, :name, :kana, :live_in, :_destroy]
     ]
 
     ret = params.require(:exemption).permit(permitted)

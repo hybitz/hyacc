@@ -54,6 +54,10 @@ module HyaccViewHelper
   def depreciation_methods
     revert_and_sort( DEPRECIATION_METHODS )
   end
+    
+  def exemption_types
+    revert_and_sort( EXEMPTION_TYPES )
+  end
   
   def financial_account_types
     revert_and_sort( FINANCIAL_ACCOUNT_TYPES )

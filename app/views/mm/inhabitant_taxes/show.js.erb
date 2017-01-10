@@ -1,7 +1,2 @@
-<%#
-# Product: hyacc
-# Copyright 2012-2014 by Hybitz.co.ltd
-# ALL Rights Reserved.
-%>
 var div = $('#data_<%= @data.id %>');
 div.replaceWith('<%=j render('line', :data => @data) %>');

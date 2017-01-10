@@ -7,15 +7,15 @@ current_company:
   financial_return_statements: '!personal?'
   houseworks: personal?
   housework_details: personal?
-  inhabitant_taxes: '!personal?'
   payrolls: '!personal?'
   social_expenses: '!personal?'
   taxes: tax_exclusive?
-  mm/users:
-    index: personal?
   withholding_slip: '!personal?'
 
   mm/employees: '!personal?'
+  mm/inhabitant_taxes: '!personal?'
+  mm/users:
+    index: personal?
 
   mv/social_insurances: '!personal?'
   mv/withheld_taxes: '!personal?'

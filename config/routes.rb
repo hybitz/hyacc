@@ -45,6 +45,12 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :inhabitant_taxes do
+      collection do
+        post 'confirm'
+      end
+    end
+   
     resources :rents
 
     resources :simple_slip_templates do
@@ -99,12 +105,6 @@ Rails.application.routes.draw do
     resources :housework_details, :except => 'index'
   end
 
-  resources :inhabitant_taxes do
-    collection do
-      post 'confirm'
-    end
-  end
- 
   resources :investments do
     collection do
       get 'not_related'

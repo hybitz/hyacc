@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class InhabitantTaxesControllerTest < ActionController::TestCase
+class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
   def test_個人事業主は利用不可
     sign_in freelancer

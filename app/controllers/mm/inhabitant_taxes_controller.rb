@@ -1,4 +1,4 @@
-class InhabitantTaxesController < Base::BasicMasterController
+class Mm::InhabitantTaxesController < Base::BasicMasterController
   view_attribute :title => '住民税'
 
   def create

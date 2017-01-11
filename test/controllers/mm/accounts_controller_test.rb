@@ -4,7 +4,7 @@ class Mm::AccountsControllerTest < ActionController::TestCase
 
   def setup
     @first_id = Account.find(28).id
-    sign_in user
+    sign_in admin
   end
 
   def test_一覧

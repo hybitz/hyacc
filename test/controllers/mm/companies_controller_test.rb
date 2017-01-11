@@ -3,7 +3,7 @@ require 'test_helper'
 class Mm::CompaniesControllerTest < ActionController::TestCase
 
   def setup
-    sign_in user
+    sign_in admin
   end
 
   def test_index

@@ -3,7 +3,7 @@ require 'test_helper'
 class Mm::RentsControllerTest < ActionController::TestCase
 
   def setup
-    sign_in user
+    sign_in admin
   end
   
   def test_should_get_index

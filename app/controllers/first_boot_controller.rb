@@ -89,7 +89,7 @@ class FirstBootController < ApplicationController
   end
 
   def user_params
-    params.require(:u).permit(:login_id, :password, :email)
+    params.require(:u).permit(:login_id, :password, :email).merge(:admin => true)
   end
 
   # 初期データロード

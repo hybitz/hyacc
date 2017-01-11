@@ -20,8 +20,8 @@ end
   end
 end
 
-もし /^マスタメンテを表示する$/ do
-  sign_in user unless current_user
+もし /^マスタメンテを表示している$/ do
+  sign_in admin unless current_user
   click_on 'マスタメンテ'
   assert has_title?('マスタメンテ')
   capture

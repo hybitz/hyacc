@@ -9,28 +9,28 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
   end
 
   def test_一覧
-    sign_in user
+    sign_in admin
     get :index, :commit=>'表示', :finder=>{:year=>'2009'}
     assert_response :success
     assert_not_nil assigns(:list)
   end
 
   def test_新規
-    sign_in user
+    sign_in admin
     get :new
     assert_response :success
     assert_template :new
   end
 
   def test_アップロード
-    sign_in user
+    sign_in admin
     post :confirm, :file => upload_file('inhabitant_tax.csv')
     assert_template :confirm
     assert_equal 2, assigns(:list).size
   end
   
   def test_登録
-    sign_in user
+    sign_in admin
     file = upload_file('inhabitant_tax.csv')
     finder = {:year => '2016'}
     list, linked = InhabitantCsv.load(file.tempfile, user.company)
@@ -45,21 +45,21 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
   end
   
   def test_参照
-    sign_in user
+    sign_in admin
     xhr :get, :show, :id => InhabitantTax.first.id
     assert_response :success
     assert_template :show
   end
 
   def test_編集
-    sign_in user
+    sign_in admin
     xhr :get, :edit, :id => InhabitantTax.first.id
     assert_response :success
     assert_template :edit
   end
 
   def test_更新
-    sign_in user
+    sign_in admin
     xhr :patch, :update, :id => InhabitantTax.first.id,
         :inhabitant_tax => {:employee_id => 2, :amount => 10000}
     assert_response :success
@@ -67,7 +67,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
   end
 
   def test_削除
-    sign_in user
+    sign_in admin
     assert_difference('InhabitantTax.count', -1) do
       delete :destroy, :id => InhabitantTax.first.id
     end

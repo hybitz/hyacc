@@ -1,6 +1,9 @@
 self:
   first_boot: true
 
+current_user:
+  mm/: admin?
+
 current_company:
   debts: branch_mode
   deemed_taxes: tax_simplified?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170108153721) do
+ActiveRecord::Schema.define(version: 20170111000944) do
 
   create_table "accounts", force: :cascade do |t|
     t.string   "code",                         limit: 255, default: "",    null: false
@@ -558,6 +558,7 @@ ActiveRecord::Schema.define(version: 20170108153721) do
     t.string   "otp_secret_key",                limit: 255
     t.integer  "second_factor_attempts_count",  limit: 4,   default: 0
     t.boolean  "use_two_factor_authentication",             default: false, null: false
+    t.boolean  "admin",                                     default: false, null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

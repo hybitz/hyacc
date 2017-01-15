@@ -18,7 +18,9 @@
   			<td colspan="10">（フリガナ）<%=  %></td>
   		</tr>
   		<tr>
-  			<td colspan="10">（役職名）<%=  %><br /><%= @data.employee.fullname('　') %></td>
+  			<td colspan="10">（役職名）
+  			
+  			<%= @data.employee.position %><br /><%= @data.employee.fullname('　') %></td>
   		</tr>
     	<tr style="background-color: lightgrey;">
     		<td colspan="5">種別</td>
@@ -121,26 +123,26 @@
     		<td colspan="1">日</td>
   		</tr>
     	<tr>
-    		<td colspan="2"><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td colspan="2"><br></td>
-    		<td><br></td>
-    		<td><br></td>
-    		<td colspan="4"><%= to_wareki(@data.employee.birth.year) %></td>
-    		<td><%= @data.employee.birth.month %></td>
-    		<td><%= @data.employee.birth.day %></td>
+    		<td colspan="2" width="54"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td colspan="2" width="54"><br></td>
+    		<td width="27"><br></td>
+    		<td width="27"><br></td>
+    		<td colspan="4" width="100"><%= to_wareki(@data.employee.birth.year) %></td>
+    		<td width="27"><%= @data.employee.birth.month %></td>
+    		<td width="27"><%= @data.employee.birth.day %></td>
   		</tr>
     	<tr>
     		<td rowspan="2" colspan="2" style="background-color: lightgrey;">支払者</td>

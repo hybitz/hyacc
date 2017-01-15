@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require jquery-ui
-//= require jquery-ui/datepicker-ja
+//= require jquery-ui/i18n/datepicker-ja
 //= require jquery.remotipart
 //= require moment
 //= require fullcalendar

@@ -79,6 +79,7 @@ group :test do
   gem 'database_cleaner'
   gem 'minitest'
   gem 'minitest-reporters'
+  gem 'selenium-webdriver', '~> 2.53'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
 end

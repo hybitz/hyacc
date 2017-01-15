@@ -81,15 +81,27 @@
     		<td colspan="2">0</td>
   		</tr>
     	<tr>
-    		<td colspan="19" rowspan="3">摘要</td>
-    		<td colspan="3" style="background-color: lightgrey;">配偶者の合計</td>
+    		<td colspan="13" rowspan="4" valign="top">摘要</td>
+    		<td colspan="3" style="background-color: lightgrey;">国民年金保険料等の金額</td>
+    		<td colspan="3"></td>
+    		<td colspan="3" style="background-color: lightgrey;">介護医療保険料の金額</td>
     		<td colspan="3"></td>
   		</tr>
     	<tr>
-    		<td colspan="3" style="background-color: lightgrey;">個人年金保険料の金額</td>
+    		<td colspan="3" style="background-color: lightgrey;">配偶者の合計所得</td>
+    		<td colspan="3"></td>
+    		<td colspan="3" style="background-color: lightgrey;">新個人年金保険料の金額</td>
     		<td colspan="3"></td>
   		</tr>
     	<tr>
+    		<td colspan="3" style="background-color: lightgrey;">新生命保険料の金額</td>
+    		<td colspan="3"><%= number_to_currency(@data.exemption.life_insurance_premium_new, :format=>"%n") %></td>
+    		<td colspan="3" style="background-color: lightgrey;">旧個人年金保険料の金額</td>
+    		<td colspan="3"></td>
+  		</tr>
+    	<tr>
+    		<td colspan="3" style="background-color: lightgrey;">旧生命保険料の金額</td>
+    		<td colspan="3"><%= number_to_currency(@data.exemption.life_insurance_premium_old, :format=>"%n") %></td>
     		<td colspan="3" style="background-color: lightgrey;">旧長期損害保険料の金額</td>
     		<td colspan="3"></td>
   		</tr>

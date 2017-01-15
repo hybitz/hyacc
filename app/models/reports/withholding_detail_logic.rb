@@ -16,7 +16,7 @@ module Reports
       model.after_deduction = get_after_deduction                         # 給与所得控除後の金額
       model.withholding_tax = get_withholding_tax                         # 源泉徴収税額
       model.social_insurance = get_social_insurance                       # 社会保険料等の金額
-      model.life_insurance_deduction = get_life_insurance_deduction       # 住宅借入金等特別控除の額
+      model.life_insurance_deduction = get_life_insurance_deduction       # 生命保険料の控除額
       model.exemption = get_exemptions                             # 配偶者控除額
       model
     end

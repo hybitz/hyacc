@@ -1,5 +1,8 @@
 class Exemption < ActiveRecord::Base
   has_many :dependent_family_members, :dependent => :destroy
+  has_many :spouse_family_members, -> { where exemption_type: EXEMPTION_TYPE_SPOUSE }, class_name: "DependentFamilyMember"
+  has_many :family_members, -> { where exemption_type: EXEMPTION_TYPE_FAMILY }, class_name: "DependentFamilyMember"
+  has_many :under16_family_members, -> { where exemption_type: EXEMPTION_TYPE_UNDER_16 }, class_name: "DependentFamilyMember"
   belongs_to :employee
   validates :employee_id, uniqueness: {scope: [:yyyy]}
   validates_presence_of :small_scale_mutual_aid, :life_insurance_premium_old, :earthquake_insurance_premium,
@@ -25,5 +28,4 @@ class Exemption < ActiveRecord::Base
     
     ret
   end
-
 end

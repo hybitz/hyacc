@@ -74,7 +74,7 @@ class Mm::ExemptionsController < Base::HyaccController
       :life_insurance_premium_old, :life_insurance_premium_new,
       :earthquake_insurance_premium, :special_tax_for_spouse, :spouse,
       :dependents, :disabled_persons, :basic,
-      :dependent_family_members_attributes => [:id, :exemption_type, :name, :kana, :live_in, :_destroy]
+      :dependent_family_members_attributes => [:id, :exemption_type, :name, :kana, :my_number, :live_in, :_destroy]
     ]
 
     ret = params.require(:exemption).permit(permitted)

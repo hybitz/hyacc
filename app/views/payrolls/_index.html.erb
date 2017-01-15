@@ -10,7 +10,7 @@
   <tr>
     <td rowspan="2" align="center"><%= @employee.employment_date.strftime("%Y年　　%m月　　　%d日") %>　雇入</td>
     <td rowspan="2"></td>
-    <td rowspan="2"></td>
+    <td rowspan="2"><%= @employee.position %></td>
     <td rowspan="1">健 <%= to_amount(@employee.standard_remuneration) %>円</td>
     <td rowspan="2"><%= @employee.fullname %></td>
     <td rowspan="2" align="center"><%= @employee.sex_name %></td>

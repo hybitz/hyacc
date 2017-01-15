@@ -280,6 +280,7 @@ ja:
       dependent_family_member: &dependent_family_member
         name: 氏名
         kana: カナ氏名
+        my_number: マイナンバー
 
       dependent_family_members:
         <<: *dependent_family_member

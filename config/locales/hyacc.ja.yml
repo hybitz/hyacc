@@ -94,14 +94,12 @@ ja:
 
       company:
         admin_email: 管理者メールアドレス
-        name: "名前"
-        fiscal_year: "年度"
-        start_month_of_fiscal_year: "2002年度のスタート月"
-        deleted: "を削除"
-        logo_path: "ロゴ経路"
-        founded_date: "設立日"
+        fiscal_year: 会計年度
+        fiscal_years: 会計年度
+        founded_date: 設立日
+        logo: ロゴ
+        name: 会社名
         users: ユーザ
-        fiscal_years: 事業年度
         enterprise_number: 法人番号
 
       customer:

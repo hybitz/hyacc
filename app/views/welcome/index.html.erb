@@ -34,28 +34,32 @@
         center: 'title',
         right: 'month,basicWeek,basicDay'
       },
-      titleFormat: {
-           month: 'YYYY年M月',
-           week: 'YYYY年M月 D日',
-           day: 'YYYY年M月D日'
-       },
-      columnFormat: {
-           month: 'ddd',
-           week: 'M/D（ddd）',
-           day: 'M/D（ddd）'
-       },
+      views: {
+        month: {
+         titleFormat: 'YYYY年M月',
+         columnFormat: 'ddd'
+        },
+        week: {
+         titleFormat: 'YYYY年M月 D日',
+         columnFormat: 'M/D（ddd）',
+        },
+        day: {
+         titleFormat: 'YYYY年M月D日',
+         columnFormat: 'M/D（ddd）'
+        }
+      },
       timeFormat: 'H:mm',
       dayNames: ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'],
       dayNamesShort: ['日','月','火','水','木','金','土'],
       buttonText: {
-            prev: ' < ',
-            next: ' > ',
-            prevYear: ' << ',
-            nextYear: ' >> ',
-            today: '今日',
-            month: '月',
-            week: '週',
-            day: '日'
+        prev: ' < ',
+        next: ' > ',
+        prevYear: ' << ',
+        nextYear: ' >> ',
+        today: '今日',
+        month: '月',
+        week: '週',
+        day: '日'
        },
        eventLimit: 1,
        events: '<%= notifications_path(:format => 'json') %>',

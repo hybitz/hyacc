@@ -169,10 +169,6 @@ module JournalUtil
   def self.validate_journal(new_journal, old_journal = nil)
     # 部門別貸借の確認
     unless is_balanced_by_branch(new_journal.get_all_related_journals)
-      if Rails.env.test?
-        puts new_journal.to_yaml
-        puts new_journal.journal_details.to_yaml
-      end
       raise HyaccException.new(ERR_AMOUNT_UNBALANCED_BY_BRANCH)
     end
 

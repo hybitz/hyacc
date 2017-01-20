@@ -1,8 +1,62 @@
-class LedgerFinder < Daddy::Model
+class LedgerFinder
   include ActiveModel::Model
   include HyaccConstants
 
+  attr_accessor :account_id
+  attr_accessor :branch_id
   attr_accessor :fiscal_year
+  attr_accessor :start_month_of_fiscal_year
+  attr_accessor :sub_account_id
+
+  def list
+    # 科目の指定なしでは検索しない
+    return [] unless account_id.to_i > 0
+
+    ym_from = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+    ym_to = (ym_from / 100 + 1) * 100 + (ym_from % 100)
+
+    ret = {}
+    12.times do |i|
+      ym = HyaccDateUtil.add_months(ym_from, i)
+
+      ml = MonthlyLedger.new
+      ml.ym = ym
+      ml.amount_debit = 0
+      ml.amount_credit = 0
+      ret[ym] = ml
+    end
+    
+    # 年度内の月別累計を取得する
+    conditions = conditions_for_monthly_summary(ym_from, ym_to)
+    VMonthlyLedger.find_by_sql(["select ym, dc_type, sum(amount) as amount from (#{VMonthlyLedger::VIEW}) as ml " +
+      "where " + conditions.shift + " group by ym, dc_type"] + conditions).each do |hash|
+        
+      ml = ret[hash[:ym]]
+
+      if hash[:dc_type] == DC_TYPE_DEBIT
+        ml.amount_debit += hash[:amount]
+      elsif hash[:dc_type] == DC_TYPE_CREDIT
+        ml.amount_credit += hash[:amount]
+      else
+        raise "不正な貸借区分です。dc_type=#{hash[:dc_type]}"
+      end
+    end
+    
+    ret.values
+  end
+
+  def list_journals(ym)
+    raise ArgumentError.new("勘定科目の指定がありません。") unless account_id.to_i > 0
+    
+    ret = []
+    details = JournalDetail.includes(:journal_header).references(:journal_header).select(:journal_header_id).where(conditions_for_journals(ym))
+    ids = details.map(&:journal_header_id).uniq
+    JournalHeader.where(:id => ids).order('ym, day, created_at').includes(:journal_details).each do |jh|
+      ret << Ledger.new(jh, self)
+    end
+
+    ret
+  end
 
   def conditions_for_journals(ym = 0)
     sql = SqlBuilder.new
@@ -64,56 +118,6 @@ class LedgerFinder < Daddy::Model
     else
       debit - credit
     end
-  end
-  
-  def list
-    # 科目の指定なしでは検索しない
-    return [] unless account_id.to_i > 0
-
-    ym_from = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
-    ym_to = (ym_from / 100 + 1) * 100 + (ym_from % 100)
-
-    ret = {}
-    12.times do |i|
-      ym = HyaccDateUtil.add_months(ym_from, i)
-
-      ml = MonthlyLedger.new
-      ml.ym = ym
-      ml.amount_debit = 0
-      ml.amount_credit = 0
-      ret[ym] = ml
-    end
-    
-    # 年度内の月別累計を取得する
-    conditions = conditions_for_monthly_summary(ym_from, ym_to)
-    VMonthlyLedger.find_by_sql(["select ym, dc_type, sum(amount) as amount from (#{VMonthlyLedger::VIEW}) as ml " +
-      "where " + conditions.shift + " group by ym, dc_type"] + conditions).each do |hash|
-        
-      ml = ret[hash[:ym]]
-
-      if hash[:dc_type] == DC_TYPE_DEBIT
-        ml.amount_debit += hash[:amount]
-      elsif hash[:dc_type] == DC_TYPE_CREDIT
-        ml.amount_credit += hash[:amount]
-      else
-        raise "不正な貸借区分です。dc_type=#{hash[:dc_type]}"
-      end
-    end
-    
-    ret.values
-  end
-
-  def list_journals( ym )
-    raise ArgumentError.new("勘定科目の指定がありません。") unless account_id.to_i > 0
-    
-    ret = []
-    details = JournalDetail.includes(:journal_header).references(:journal_header).select(:journal_header_id).where(conditions_for_journals(ym))
-    ids = details.map(&:journal_header_id).uniq
-    JournalHeader.where(:id => ids).order('ym, day, created_at').includes(:journal_details).each do |jh|
-      ret << Ledger.new(jh, self)
-    end
-
-    ret
   end
 
 end

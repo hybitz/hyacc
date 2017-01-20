@@ -100,7 +100,7 @@
   </tr>
   
   <%# 営業外収益に関する科目 %>
-  <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:account].children.each do |child| %>
+  <% @sum[ACCOUNT_CODE_NON_OPERATING_PROFIT][:account].children.each do |child| %>
     <%= render 'line_pl_monthly', :account_code => child.code %>
   <% end %>
 
@@ -108,7 +108,7 @@
   <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_NON_OPERATING_PROFIT %>
 
   <%# 営業外費用に関する科目 %>
-  <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE][:account].children.each do |child| %>
+  <% @sum[ACCOUNT_CODE_NON_OPERATING_EXPENSE][:account].children.each do |child| %>
     <%= render 'line_pl_monthly', :account_code => child.code %>
   <% end %>
 

@@ -60,20 +60,20 @@
   </tr>
   
   <%# 営業外収益に関する科目 %>
-  <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:account].children.each do |child| %>
-    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:amount], :account_code=>child.code %>
+  <% @sum[ACCOUNT_CODE_NON_OPERATING_PROFIT][:account].children.each do |child| %>
+    <%= render 'line_pl_yearly', :total_amount => @sum[ACCOUNT_CODE_NON_OPERATING_PROFIT][:amount], :account_code => child.code %>
   <% end %>
 
   <%# 営業外収益 %>
-  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT %>
+  <%= render 'line_pl_yearly', :account_code => ACCOUNT_CODE_NON_OPERATING_PROFIT %>
 
   <%# 営業外費用に関する科目 %>
-  <% @sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE][:account].children.each do |child| %>
-    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_NON_OPERATING_PROFIT][:amount], :account_code=>child.code %>
+  <% @sum[ACCOUNT_CODE_NON_OPERATING_EXPENSE][:account].children.each do |child| %>
+    <%= render 'line_pl_yearly', :total_amount => @sum[ACCOUNT_CODE_NON_OPERATING_EXPENSE][:amount], :account_code => child.code %>
   <% end %>
 
   <%# 営業外費用 %>
-  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_NON_OPERATING_EXPENSE %>
+  <%= render 'line_pl_yearly', :account_code => ACCOUNT_CODE_NON_OPERATING_EXPENSE %>
 
   <%# 経常利益 %>
   <tr id="ordinaryIncome" style="font-weight: bold;">
@@ -91,7 +91,7 @@
 
   <%# 特別利益に関する科目 %>
   <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:account].children.each do |child| %>
-    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:amount], :account_code=>child.code %>
+    <%= render 'line_pl_yearly', :total_amount=>@sum[ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:amount], :account_code => child.code %>
   <% end %>
 
   <%# 特別利益 %>

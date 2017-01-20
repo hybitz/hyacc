@@ -24,7 +24,7 @@
   <tr>
     <td width="220">支出接待飲食費損金算入基準額<br/>（９の計） x 50/100</td>
     <td align="center" width="20">2</td>
-    <td colspan="3" align="right"><%= to_amount( @model.get_total_differential_amount.quo(2).ceil ) %></td>
+    <td colspan="3" align="right"><%= to_amount( @model.get_total_differential_amount.quo(2).floor ) %></td>
     <td colspan="2">損金不算入額<br/>(1) － (3)</td>
     <td align="center">5</td>
     <td align="right"><%= to_amount( @model.get_not_loss, :show_zero=>true ) %></td>

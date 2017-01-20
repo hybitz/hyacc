@@ -1,4 +1,5 @@
 class LedgerFinder < Daddy::Model
+  include ActiveModel::Model
   include HyaccConstants
 
   attr_accessor :fiscal_year

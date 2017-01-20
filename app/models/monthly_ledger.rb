@@ -1,10 +1,3 @@
-# coding: UTF-8
-#
-# $Id: monthly_ledger.rb 2966 2012-12-21 05:52:07Z ichy $
-# Product: hyacc
-# Copyright 2009-2012 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 class MonthlyLedger
     include HyaccConstants
 

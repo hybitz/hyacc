@@ -16,14 +16,16 @@
       <th>扶養親族<br/>５人</th>
       <th>扶養親族<br/>６人</th>
       <th>扶養親族<br/>７人</th>
+      <th>乙</th>
     </tr>
     <% @list.each do |data| %>
       <tr class="hover">
-        <td><%= to_amount(data.salary_range_from, :show_zero=>true) %></td>
-        <td><%= to_amount(data.salary_range_to, :show_zero=>true) %></td>
+        <td><%= to_amount(data.salary_range_from, :show_zero => true) %></td>
+        <td><%= to_amount(data.salary_range_to, :show_zero => true) %></td>
         <% 8.times do |i| %>
-          <td><%= to_amount(data.__send__("dependent_#{i}"), :show_zero=>true) %></td>
+          <td><%= to_amount(data.__send__("dependent_#{i}"), :show_zero => true) %></td>
         <% end %>
+        <td><%= to_amount(data.sub_salary, :show_zero => true) %></td>
       </tr>
     <% end %>
   </table>

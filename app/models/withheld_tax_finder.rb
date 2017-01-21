@@ -13,6 +13,6 @@ class WithheldTaxFinder < Daddy::Model
   end
 
   def list
-    TaxJp::WithheldTax.find_by_date(date)
+    TaxJp::WithheldTax.find_all_by_date(date)
   end
 end

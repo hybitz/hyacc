@@ -1,5 +1,14 @@
 <%= render 'search' %>
 
-<div class="basic_master">
-  <%= render 'index' if @list %>
-</div>
+<% unless @list.present? %>
+  <% if params[:commit] %>
+    <div class="error">
+      <span>源泉徴収税額表が登録されていません。</span>
+    </div>
+  <% end %>
+<% else %>
+  <div class="basic_master">
+    <%= render 'index' %>
+  </div>
+<% end %>
+

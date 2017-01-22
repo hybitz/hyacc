@@ -137,7 +137,7 @@
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.spouse_family_members[0].kana if @data.exemption.spouse_family_members[0] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.spouse_family_members[0] && @data.exemption.spouse_family_members[0].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.spouse_family_members[0] && ! @data.exemption.spouse_family_members[0].live_in %></td>
     		<td colspan="2" rowspan="3" class="item">配偶者の<br/>合計所得</td>
     		<td colspan="3" rowspan="3"></td>
     		<td colspan="2" rowspan="3" class="item">国民年金保険<br/>料等の金額</td>
@@ -159,13 +159,13 @@
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[0].kana if @data.exemption.family_members[0] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[0] && @data.exemption.family_members[0].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[0] && ! @data.exemption.family_members[0].live_in %></td>
     		<td colspan="1" rowspan="12" class="item">16<br/>歳<br/>未<br/>満<br/>の<br/>扶<br/>養<br/>親<br/>族</td>
     		<td colspan="1" rowspan="3" class="item">1</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[0].kana if @data.exemption.under16_family_members[0] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[0] && @data.exemption.under16_family_members[0].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[0] && ! @data.exemption.under16_family_members[0].live_in %></td>
     		<td colspan="3" class="item">（備考）</td>
        </tr>
        <tr>
@@ -185,12 +185,12 @@
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[1].kana if @data.exemption.family_members[1] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[1] && @data.exemption.family_members[1].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[1] && ! @data.exemption.family_members[1].live_in %></td>
     		<td colspan="1" rowspan="3" class="item">2</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[1].kana if @data.exemption.under16_family_members[1] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[1] && @data.exemption.under16_family_members[1].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[1] && ! @data.exemption.under16_family_members[1].live_in %></td>
        </tr>
        <tr>
     		<td colspan="2" class="item">氏名</td>
@@ -208,12 +208,12 @@
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[2].kana if @data.exemption.family_members[2] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[2] && @data.exemption.family_members[2].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[2] && ! @data.exemption.family_members[2].live_in %></td>
     		<td colspan="1" rowspan="3" class="item">3</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[2].kana if @data.exemption.under16_family_members[2] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[2] && @data.exemption.under16_family_members[2].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[2] && ! @data.exemption.under16_family_members[2].live_in %></td>
        </tr>
        <tr>
     		<td colspan="2" class="item">氏名</td>
@@ -232,12 +232,12 @@
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[3].kana if @data.exemption.family_members[3] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[3] && @data.exemption.family_members[3].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[3] && ! data.exemption.family_members[3].live_in %></td>
     		<td colspan="1" rowspan="3" class="item">4</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[3].kana if @data.exemption.under16_family_members[3] %></td>
     		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[3] && @data.exemption.under16_family_members[3].live_in %></td>
+    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[3] && ! @data.exemption.under16_family_members[3].live_in %></td>
        </tr>
        <tr>
     		<td colspan="2" class="item">氏名</td>

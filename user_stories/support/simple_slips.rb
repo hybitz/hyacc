@@ -51,7 +51,6 @@ module SimpleSlips
       assert has_selector?('.notice')
     end
   end
-
 end
 
 World(SimpleSlips)

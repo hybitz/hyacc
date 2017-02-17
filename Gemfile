@@ -34,7 +34,6 @@ gem 'mysql2', '>= 0.3.18', '< 0.5'
 gem 'nostalgic'
 gem 'puma', '~> 3.0'
 gem 'rails-controller-testing'
-gem 'rails-csv-fixtures', :github => 'hybitz/rails-csv-fixtures'
 gem 'rails-i18n'
 gem 'remotipart'
 gem 'sass-rails', '~> 5.0'
@@ -65,7 +64,7 @@ end
 
 group :test do
   gem 'cucumber-rails', :require => false
-  gem 'database_cleaner'
+  gem 'database_cleaner', :require => false
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'selenium-webdriver', '~> 2.53'

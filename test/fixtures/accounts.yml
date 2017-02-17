@@ -1,0 +1,26 @@
+<% require 'csv' %>
+<% CSV.foreach('test/data/accounts.csv', headers: true) do |line| %>
+<%= line['id'] %>:
+  id: <%= line['id'] %>
+  code: <%= line['code'] %>
+  name: <%= line['name'] %>
+  parent_id: <%= line['parent_id'] %>
+  dc_type: <%= line['dc_type'] %>
+  account_type: <%= line['account_type'] %>
+  sub_account_type: <%= line['sub_account_type'] %>
+  tax_type: <%= line['tax_type'] %>
+  sub_account_editable: <%= line['sub_account_editable'] %>
+  description: <%= line['description'] %>
+  short_description: <%= line['short_description'] %>
+  display_order: <%= line['display_order'] %>
+  path: <%= line['path'] %>
+  trade_type: <%= line['trade_type'] %>
+  depreciation_method: <%= line['depreciation_method'] %>
+  journalizable: <%= line['journalizable'] %>
+  is_settlement_report_account: <%= line['is_settlement_report_account'] %>
+  is_trade_account_payable: <%= line['is_trade_account_payable'] %>
+  is_revenue_reserve_account: <%= line['is_revenue_reserve_account'] %>
+  deleted: <%= line['deleted'] %>
+  depreciable: <%= line['depreciable'] %>
+  system_required: <%= line['system_required'] %>
+<% end %>

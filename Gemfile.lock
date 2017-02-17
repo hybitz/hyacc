@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/hybitz/rails-csv-fixtures.git
-  revision: 956caebc30bf60f474c3ca4ec68e1f8e3712297c
-  specs:
-    rails-csv-fixtures (0.0.3)
-      rails (>= 4.0, < 5.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -440,7 +433,6 @@ DEPENDENCIES
   puma (~> 3.0)
   rails (~> 5.0.1)
   rails-controller-testing
-  rails-csv-fixtures!
   rails-erd
   rails-i18n
   remotipart

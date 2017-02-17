@@ -1,0 +1,10 @@
+<% require 'csv' %>
+<% CSV.foreach('test/data/fiscal_years.csv', headers: true) do |line| %>
+<%= line['id'] %>:
+  id: <%= line['id'] %>
+  company_id: <%= line['company_id'] %>
+  fiscal_year: <%= line['fiscal_year'] %>
+  closing_status: <%= line['closing_status'] %>
+  tax_management_type: <%= line['tax_management_type'] %>
+  consumption_entry_type: <%= line['consumption_entry_type'] %>
+<% end %>

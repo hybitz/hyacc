@@ -1,3 +1,0 @@
-id,code,name,account_id,branch_id,sub_account_id,durable_years,ym,day,amount,depreciation_method,depreciation_limit,remarks,business_use_ratio,deleted,created_at,updated_at,journal_detail_id,status,lock_version,start_fiscal_year,end_fiscal_year
-1,100,パソコン,10,1,,5,200812,7,100000,2,1,定率法テスト用資産,0,0,2009-08-07 13:06:47,2009-08-07 20:41:58,23,1,0,2009,2009
-2,101,モニター,10,2,,3,200908,27,96,2,1,償却待ち資産,0,0,2009-08-27 11:57:28,2009-08-27 11:57:28,19025,2,0,2009,2009

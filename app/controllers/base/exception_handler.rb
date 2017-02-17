@@ -10,10 +10,6 @@ module Base::ExceptionHandler
       HyaccLogger.info e.record.errors.full_messages
       message = e.record.errors.full_messages.join('<br/>'.html_safe)
       store_error_message(message)
-    elsif e.is_a? GoogleCalendar::AuthenticationFailed
-      message = 'Googleカレンダーにアクセスできません。認証に失敗しました。'
-      HyaccLogger.warn message, e
-      store_error_message(message)
     elsif e.is_a? HyaccException
       message = e.message
       HyaccLogger.warn message, e

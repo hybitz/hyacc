@@ -1,6 +1,5 @@
 前提 /^(.*?)がログインしている$/ do |name|
   sign_in :name => name
-  capture
 end
 
 前提 /^(.*?)が(.*?)を表示している$/ do |name, page|

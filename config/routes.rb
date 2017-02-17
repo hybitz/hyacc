@@ -70,13 +70,6 @@ Rails.application.routes.draw do
   end
 
   resources :accounts
-
-  resources :account_transfers, :only => 'index' do
-    collection do
-      post 'update_details'
-    end
-  end
-
   resources :bank_offices, :only => 'index'
   resources :careers
   resources :career_statements, :only => ['index', 'show']

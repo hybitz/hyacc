@@ -8,8 +8,8 @@ module Base
     include YmdInputState
     include Years
 
-    before_filter :check_first_boot
-    before_filter :load_view_attributes
+    before_action :check_first_boot
+    before_action :load_view_attributes
 
     protected
 

@@ -1,8 +1,3 @@
-require 'uri'
-require 'gcalapi'
-require 'googlecalendar/auth_sub_util'
-require 'googlecalendar/service_auth_sub'
-require 'googlecalendar/calendar'
 require "colorable"
 
 class NotificationsController < Base::HyaccController
@@ -71,10 +66,12 @@ class NotificationsController < Base::HyaccController
   end
 
   def get_calendars
-    GoogleCalendar::Calendar.calendars(google_service)
+    # TODO
+    #GoogleCalendar::Calendar.calendars(google_service)
   end
 
   def google_service
-    session[:google_service] ||= GoogleCalendar::Service.new(current_user.google_account, current_user.google_password)
+    # TODO
+    #session[:google_service] ||= GoogleCalendar::Service.new(current_user.google_account, current_user.google_password)
   end
 end

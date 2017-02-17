@@ -9,15 +9,6 @@ module VisitPage
     assert has_title?('勘定科目')
   end
 
-  def visit_account_transfers(options = {})
-    assert current_user || sign_in(User.first)
-
-    visit '/'
-    click_on '伝票管理'
-    click_on '科目振替'
-    assert has_title?('科目振替')
-  end
-
   def visit_assets(options = {})
     assert current_user || sign_in(User.first)
 
@@ -40,6 +31,7 @@ module VisitPage
     click_on 'マスタメンテ'
     click_on '部門'
     assert has_title?('部門')
+    assert has_selector?('#branch_tree')
   end
 
   def visit_companies

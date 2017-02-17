@@ -32,11 +32,18 @@ class LedgersController < Base::HyaccController
 
   def finder
     unless @finder
-      @finder = LedgerFinder.new(params[:finder])
+      @finder = LedgerFinder.new(finder_params)
       @finder.start_month_of_fiscal_year = current_company.start_month_of_fiscal_year
       @finder.fiscal_year ||= current_company.current_fiscal_year.fiscal_year
     end
     @finder
+  end
+
+  def finder_params
+    return {} unless params[:finder].present?
+
+    permitted = [:fiscal_year, :branch_id, :account_id, :sub_account_id]
+    params.require(:finder).permit(permitted)
   end
 
   def setup_view_attributes

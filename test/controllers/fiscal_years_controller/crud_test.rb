@@ -2,7 +2,7 @@ require 'test_helper'
 
 class FiscalYearsController::CrudTest < ActionController::TestCase
 
-  setup do
+  def setup
     sign_in user
   end
 
@@ -14,21 +14,21 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
   end
 
   def test_登録_エラー
-    xhr :post, :create, :fiscal_year => invalid_fiscal_year_params
+    xhr :post, :create, :params => {:fiscal_year => invalid_fiscal_year_params}
     assert_response :success
     assert_template :new
   end
 
   def test_編集
-    xhr :get, :edit, :id => user.company.current_fiscal_year.id
+    xhr :get, :edit, :params => {:id => user.company.current_fiscal_year.id}
     assert_not_nil assigns(:fiscal_year)
     assert_response :success
     assert_template :edit
   end
 
   def test_更新
-    xhr :put, :update, :id => user.company.current_fiscal_year.id,
-        :fiscal_year => valid_fiscal_year_params(:user => user)
+    xhr :put, :update, :params => {:id => user.company.current_fiscal_year.id,
+        :fiscal_year => valid_fiscal_year_params(:user => user)}
     assert_response :success
     assert_template 'common/reload'
   end
@@ -39,18 +39,20 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     
     lv = c.lock_version
 
-    xhr :post, :update_current_fiscal_year,
+    xhr :post, :update_current_fiscal_year, :params => {
       :company_id => c.id,
       :c => {:fiscal_year => 2008, :lock_version => lv}
+    }
     assert_response :success
     assert_template 'common/reload'
         
     c = Company.find(1)
     assert_equal 2008, c.fiscal_year
     
-    xhr :post, :update_current_fiscal_year,
+    xhr :post, :update_current_fiscal_year, :params => {
       :company_id => c.id,
       :c => {:fiscal_year => 2009, :lock_version => lv}
+    }
     assert_response :success
     assert_template :edit_current_fiscal_year
     

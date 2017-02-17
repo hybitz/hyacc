@@ -4,7 +4,7 @@
 <% unless @linked %>
 <div style="margin-bottom:10px; color: red;">従業員マスタと紐づけできませんでした。従業員マスタに登録してください。</div>
 <% end %>
-<%= hidden_field 'finder', 'year', :value => @finder_year %>
+<%= hidden_field 'finder', 'year', :value => finder.year %>
 <%= hidden_field 'commit', 'something' %>
 <table>
     <tr>

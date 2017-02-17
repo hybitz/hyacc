@@ -6,7 +6,11 @@ class CareerFinder
   attr_accessor :employee_id
 
   def list
-    Career.where(conditions).order('start_from').paginate(:page => page, :per_page => per_page)
+    if conditions.first.present?
+      Career.where(conditions).order('start_from').paginate(:page => page, :per_page => per_page)
+    else
+      Career.order('start_from').paginate(:page => page, :per_page => per_page)
+    end
   end
 
   def employees

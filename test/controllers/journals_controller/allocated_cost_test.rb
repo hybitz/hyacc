@@ -31,7 +31,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].detail_no = 2
 
     assert_difference 'JournalHeader.count', 4 do
-      xhr :post, :create,
+      xhr :post, :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -56,6 +56,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -126,7 +127,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
-      xhr :post, :create,
+      xhr :post, :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -152,6 +153,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -193,7 +195,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
-      xhr :post, :create,
+      xhr :post, :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -219,6 +221,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'

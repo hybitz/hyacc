@@ -10,7 +10,7 @@ class InhabitantCsv
   def self.load(file, current_company)
     list = []
     linked = true
-    file.each do |row|
+    file.read.lines.each do |row|
       csv_array = CSV.parse(NKF.nkf('-S -w', row))[0]
       model_array = []
       model_array << csv_array[5]  # 漢字氏名

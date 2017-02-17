@@ -3,7 +3,7 @@
     $('#inhabitant_upload').submit(function() {
       var input = document.createElement('input');
       input.setAttribute('type', 'hidden');
-      input.setAttribute('name', 'finder_year');
+      input.setAttribute('name', 'finder[year]');
       input.setAttribute('value', $('#finder_year').val());
       this.appendChild(input);
     });

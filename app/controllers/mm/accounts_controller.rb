@@ -29,7 +29,7 @@ class Mm::AccountsController < Base::HyaccController
       end
     end
 
-    render :nothing => true
+    head :ok
   end
 
   def show

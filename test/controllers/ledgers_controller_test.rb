@@ -9,7 +9,7 @@ class LedgersControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in user
-    get :index, :finder => {:fiscal_year => 2007, :account_id => 5}
+    get :index, :params => {:finder => {:fiscal_year => 2007, :account_id => 5}}
     assert_equal 12, assigns(:ledgers).length, '12ヶ月分のデータを取得していること'
   end
 
@@ -17,7 +17,7 @@ class LedgersControllerTest < ActionController::TestCase
     num_journal_headers = JournalHeader.where('finder_key rlike ? and ym = ?', '.*-1311,[0-9]*,[0-9]*-.*', 200705).count
 
     sign_in user
-    xhr :get, :show, :id => 200705, :finder => {:fiscal_year => 2007, :account_id => 5}
+    xhr :get, :show, :params => {:id => 200705, :finder => {:fiscal_year => 2007, :account_id => 5}}
     assert_equal num_journal_headers, assigns(:ledgers).length
   end
 

@@ -35,12 +35,7 @@ class ActionController::TestCase
 
   def upload_file(filename)
     path = File.join('test', 'upload_files', filename)
-
-    ActionDispatch::Http::UploadedFile.new(
-      :filename => filename,
-      :content_type => MimeMagic.by_path(path).to_s,
-      :tempfile => File.new(path)
-    )
+    Rack::Test::UploadedFile.new(path, MimeMagic.by_path(path).to_s)
   end
 
 end

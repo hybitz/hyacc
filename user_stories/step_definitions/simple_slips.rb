@@ -116,24 +116,57 @@ end
 
 もし /^数回にわたり、ATM手数料を間違って支払利息として登録してしまった$/ do |ast_table|
   table = normalize_table(ast_table)
-  assert @account = Account.find_by_name(table[1][0])
+  assert account = Account.find_by_name(table[1][0])
   assert tax_type_name = table[1][2]
   assert amount = table[1][3].gsub(',', '').to_i
 
+  @remarks = []
   4.times do |i|
-    with_capture do
-      visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
+    @remarks << "ATM手数料（科目間違い #{i+1} 回目）"
+  end
 
+  visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
+
+  @remarks.each_with_index do |remark, i|
+    with_capture do
       count = all('#slipTable tbody tr').count
       fill_in 'simple_slip_ym', :with => '201308'
       fill_in 'simple_slip_day', :with => i + 1
-      fill_in 'simple_slip_remarks', :with => "ATM手数料（科目間違い #{i+1} 回目）"
-      find(:select, 'simple_slip_account_id').first(:option, @account.code_and_name).select_option
+      fill_in 'simple_slip_remarks', :with => remark
+      find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
       assert has_selector?('.account_ready')
       select tax_type_name, :from => 'simple_slip_tax_type'
       fill_in 'simple_slip_amount_decrease', :with => amount
       click_on '登録'
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
+    end
+  end
+end
+
+もし /^正しくは支払手数料なので、訂正$/ do |ast_table|
+  assert @remarks.present?
+
+  table = normalize_table(ast_table)
+  assert account = Account.find_by_name(table[1][0])
+  assert sub_account = account.sub_accounts.find{|sa| sa.name == table[1][1] }
+  assert tax_type_name = table[1][2]
+  assert amount = table[1][3].to_ai
+
+  visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
+
+  @remarks.each do |remark|
+    with_capture do
+      fill_in 'finder_ym', :with => '2013-08'
+      fill_in 'finder_remarks', :with => remark
+      click_on '表示'
+      
+      click_on '編集'
+      within_dialog do
+        find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+        assert has_selector?('.account_ready')
+        click_on '更新'
+      end
+      assert has_no_dialog?
     end
   end
 end

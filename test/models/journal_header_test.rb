@@ -125,8 +125,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
       assert_equal jh.updated_at, copy.updated_at
       assert_equal jh.lock_version, copy.lock_version
 
-      jh.journal_details.each_index do |i|
-        jd = jh.journal_details[i]
+      jh.journal_details.each_with_index do |jd, i|
         copy_jd = copy.journal_details[i]
         assert copy_jd.new_record?
         assert_nil copy_jd.journal_header_id

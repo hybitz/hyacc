@@ -16,7 +16,7 @@ class JournalsController < Base::HyaccController
     if renderer
       render :partial => renderer.get_template(controller_name), :locals => {:jd => jd, :index => params[:index]}
     else
-      render :nothing => true
+      head :ok
     end
   end
 

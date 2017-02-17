@@ -10,7 +10,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in admin
-    get :index, :commit=>'表示', :finder=>{:year=>'2009'}
+    get :index, :params => {:commit => '表示', :finder => {:year=>'2009'}}
     assert_response :success
     assert_not_nil assigns(:list)
   end
@@ -24,7 +24,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
   def test_アップロード
     sign_in admin
-    post :confirm, :file => upload_file('inhabitant_tax.csv')
+    post :confirm, :params => {:file => upload_file('inhabitant_tax.csv')}
     assert_template :confirm
     assert_equal 2, assigns(:list).size
   end
@@ -38,7 +38,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     list.each_with_index do |ic, index|
       inhabitant[index] = {:employee_id => ic.employee_id, :amounts => ic.amounts}
     end
-    post :create, :inhabitant_csv => inhabitant, :finder => finder
+    post :create, :params => {:inhabitant_csv => inhabitant, :finder => finder}
     assert_redirected_to :action => 'index',  :finder => finder, :commit => ''
     assert_equal 14, InhabitantTax.where("ym like ?", "2016%").size
     assert_equal 10, InhabitantTax.where("ym like ?", "2017%").size
@@ -46,22 +46,23 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
   
   def test_参照
     sign_in admin
-    xhr :get, :show, :id => InhabitantTax.first.id
+    get :show, :params => {:id => InhabitantTax.first.id}, :xhr => true
     assert_response :success
     assert_template :show
   end
 
   def test_編集
     sign_in admin
-    xhr :get, :edit, :id => InhabitantTax.first.id
+    get :edit, :params => {:id => InhabitantTax.first.id}, :xhr => true
     assert_response :success
     assert_template :edit
   end
 
   def test_更新
     sign_in admin
-    xhr :patch, :update, :id => InhabitantTax.first.id,
-        :inhabitant_tax => {:employee_id => 2, :amount => 10000}
+    patch :update, :xhr => true, :params => {:id => InhabitantTax.first.id,
+      :inhabitant_tax => {:employee_id => 2, :amount => 10000}
+    }
     assert_response :success
     assert_template :show
   end
@@ -69,9 +70,9 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
   def test_削除
     sign_in admin
     assert_difference('InhabitantTax.count', -1) do
-      delete :destroy, :id => InhabitantTax.first.id
+      delete :destroy, :params => {:id => InhabitantTax.first.id}
     end
-    assert_redirected_to :action=>'index'
+    assert_redirected_to :action => 'index'
   end
   
 end

@@ -15,7 +15,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
     post_jh = JournalHeader.find(12)
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :post, :create,
+      xhr :post, :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -43,6 +43,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'new'
@@ -56,7 +57,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
     assert post_jh.fiscal_year.open?
     assert post_jh.journal_details[0].transfer_journals[0].fiscal_year.closed?
 
-    xhr :patch, :update, :id => post_jh.id,
+    xhr :patch, :update, :params => {:id => post_jh.id,
       :journal => {
         :ym => 201003, # 前月も今期中で締め状態は通常
         :day => 9,
@@ -87,6 +88,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'edit'
@@ -99,7 +101,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
     assert post_jh.fiscal_year.open?
     assert post_jh.journal_details[0].transfer_journals[0].fiscal_year.open? # もともとは通常の年度に登録されている自動仕訳
 
-    xhr :patch, :update, :id => post_jh.id,
+    xhr :patch, :update, :params => {:id => post_jh.id,
       :journal => {
         :ym => 201001,
         :day => 9,
@@ -130,6 +132,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'edit'
@@ -141,7 +144,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(12)
 
     assert_no_difference 'JournalHeader.count' do
-      delete :destroy, :id => jh.id, :lock_version => jh.lock_version
+      delete :destroy, :params => {:id => jh.id, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect
@@ -155,7 +158,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
 
     post_jh = JournalHeader.find(12)
 
-    xhr :post, :create,
+    xhr :post, :create, :params => {
       :journal => {
         :ym => 201002,
         :day => 14,
@@ -194,6 +197,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
           },
         }
       }
+    }
 
     assert_response :success
     assert_template 'common/reload'
@@ -282,7 +286,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
     post_jh = JournalHeader.find(15)
     lock_version = post_jh.lock_version
 
-    xhr :patch, :update, :id => post_jh.id,
+    xhr :patch, :update, :params => {:id => post_jh.id,
       :journal => {
         :ym => 201002,
         :day => 10,
@@ -324,6 +328,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'common/reload'
@@ -410,7 +415,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(15)
 
     assert_difference 'JournalHeader.count', -3 do
-      delete :destroy, :id => jh.id, :lock_version => jh.lock_version
+      delete :destroy, :params => {:id => jh.id, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect

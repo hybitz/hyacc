@@ -1,5 +1,5 @@
 <script>
-  $(document).ready(function() {
+  $(document).on('turbolinks:load', function() {
     $('#finder_branch_id').change(function() {
       var url = '<%= url_for :action=>'get_branch_employees' %>';
       var params = {branch_id: $(this).val(), format: 'html'};

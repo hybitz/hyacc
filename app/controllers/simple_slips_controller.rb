@@ -11,7 +11,7 @@ class SimpleSlipsController < Base::HyaccController
     if renderer
       render :partial => renderer.get_template(controller_name)
     else
-      render :nothing => true
+      head :ok
     end
   end
 

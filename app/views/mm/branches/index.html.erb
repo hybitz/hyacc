@@ -6,7 +6,7 @@
     <% end %>
   ];
 
-  $(document).ready(function() {
+  $(document).on('turbolinks:load', function() {
     $('#branch_tree').tree({
       data: data,
       selectable: false,

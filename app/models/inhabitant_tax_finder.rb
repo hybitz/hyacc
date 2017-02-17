@@ -1,7 +1,9 @@
-class InhabitantTaxFinder < Daddy::Model
+class InhabitantTaxFinder
+  include ActiveModel::Model
+
+  attr_accessor :year
 
   def year
-    @year = self['year']
     unless @year.present?
       today = Date.today
       yyyy = today.year

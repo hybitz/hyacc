@@ -1,7 +1,7 @@
 <script>
   var simple_slip;
 
-  $(document).ready(function() {
+  $(document).on('turbolinks:load', function() {
     simple_slips.calc_sum();
 
     simple_slip = new hyacc.SimpleSlip('#new_simple_slip', {
@@ -51,7 +51,7 @@
 
     <tbody>
       <% @slips.each do |slip| %>
-        <tr class="cashRow hover" slip_id="<%= slip.id %>">
+        <tr class="cashRow hover" slip_id="<%= slip.id %>" data-turbolinks="false">
           <%= render 'show_line', :slip => slip %>
         </tr>
       <% end %>

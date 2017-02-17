@@ -9,7 +9,7 @@ class JournalsController::AutoTest < ActionController::TestCase
 
   def test_create_head_and_branch
     assert_difference 'JournalHeader.count', 2 do
-      xhr :post, :create,
+      xhr :post, :create, :params => {
         :journal => {
           :ym => 200812,
           :day => 2,
@@ -29,6 +29,7 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -63,7 +64,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     remarks = "支店間取引の自動仕訳テスト #{Time.now}"
 
     assert_difference 'JournalHeader.count', 3 do
-      xhr :post, :create,
+      xhr :post, :create, :params => {
         :journal => {
           :ym =>200812,
           :day=>02,
@@ -83,6 +84,7 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -138,7 +140,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].is_allocated_assets = true
 
     assert_difference 'JournalHeader.count', 4 do
-      xhr :post, :create,
+      xhr :post, :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -163,6 +165,7 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -230,7 +233,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     jd.is_allocated_assets = true
 
     assert_difference 'JournalHeader.count', 7 do
-      xhr :post, :create,
+      xhr :post, :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -256,6 +259,7 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'

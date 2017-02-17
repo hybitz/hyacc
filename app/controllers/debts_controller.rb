@@ -20,7 +20,7 @@ class DebtsController < Base::HyaccController
       render :partial => 'closed_link', :locals => {:closed_id => closed_id}
     rescue => e
       handle(e)
-      render :nothing => true, :status => :internal_server_error
+      head :internal_server_error
     end
   end
 

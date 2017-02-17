@@ -28,13 +28,20 @@ class WithholdingSlipController < Base::HyaccController
 
   def finder
     if @finder.nil?
-      @finder = WithholdingSlipFinder.new(params[:finder])
+      @finder = WithholdingSlipFinder.new(finder_params)
       @finder.company_id = current_company.id
       @finder.calendar_year ||= Date.today.year
       @finder.employee_id ||= current_user.employee.id
     end
 
     @finder
+  end
+
+  def finder_params
+    return {} unless params.include?(:finder)
+
+    permitted = [:report_type, :employee_id, :calendar_year]
+    params.require(:finder).permit(permitted)
   end
 
   def validate_params_details

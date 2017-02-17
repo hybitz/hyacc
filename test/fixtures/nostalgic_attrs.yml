@@ -1,0 +1,24 @@
+1:
+  model_type: Customer
+  model_id: 1
+  name: formal_name
+  value: 有限会社かんとか企画
+  effective_at: 1990-01-01
+2:
+  model_type: Customer
+  model_id: 1
+  name: name
+  value: かんとか企画
+  effective_at: 1990-01-01
+3:
+  model_type: Customer
+  model_id: 7
+  name: formal_name
+  value: なんとか商事株式会社
+  effective_at: 2008-01-01
+4:
+  model_type: Customer
+  model_id: 7
+  name: name
+  value: なんとか商事
+  effective_at: 2008-01-01

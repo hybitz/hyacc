@@ -1,0 +1,11 @@
+<% require 'csv' %>
+<% CSV.foreach('test/data/inhabitant_taxes.csv', headers: true) do |line| %>
+<%= line['id'] %>:
+<% %w{
+  ym
+  employee_id
+  amount
+}.each do |column| %>
+  <%= column %>: <%= line[column] %>
+<% end %>
+<% end %>

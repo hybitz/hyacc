@@ -11,14 +11,14 @@ class Mm::CustomersControllerTest < ActionController::TestCase
 
   def test_参照
     sign_in admin
-    xhr :get, :show, :id => customer.id
+    get :show, :params => {:id => customer.id}, :xhr => true
     assert_response :success
     assert_template :show
   end
 
   def test_追加
     sign_in admin
-    xhr :get, :new
+    get :new, :xhr => true
     assert_response :success
     assert_template :new
   end
@@ -27,7 +27,7 @@ class Mm::CustomersControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_difference 'Customer.count', 1 do
-      xhr :post, :create, :customer => valid_customer_params
+      post :create, :params => {:customer => valid_customer_params}, :xhr => true
       assert_response :success
       assert_template 'common/reload'
     end
@@ -37,7 +37,7 @@ class Mm::CustomersControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_no_difference 'Customer.count' do
-      xhr :post, :create, :customer => invalid_customer_params
+      post :create, :params => {:customer => invalid_customer_params}, :xhr => true
       assert_response :success
       assert_template :new
     end
@@ -45,21 +45,21 @@ class Mm::CustomersControllerTest < ActionController::TestCase
 
   def test_編集
     sign_in admin
-    xhr :get, :edit, :id => customer.id
+    get :edit, :params => {:id => customer.id}, :xhr => true
     assert_response :success
     assert_template :edit
   end
 
   def test_更新
     sign_in admin
-    xhr :patch, :update, :id => customer.id, :customer => valid_customer_params.except(:code)
+    patch :update, :params => {:id => customer.id, :customer => valid_customer_params.except(:code)}, :xhr => true
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_更新_入力エラー
     sign_in admin
-    xhr :patch, :update, :id => customer.id, :customer => invalid_customer_params.except(:code)
+    patch :update, :params => {:id => customer.id, :customer => invalid_customer_params.except(:code)}, :xhr => true
     assert_response :success
     assert_template :edit
   end
@@ -68,7 +68,7 @@ class Mm::CustomersControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_no_difference 'Customer.count' do
-      delete :destroy, :id => customer.id
+      delete :destroy, :params => {:id => customer.id}
       assert_response :redirect
       assert_redirected_to :action => 'index'
     end

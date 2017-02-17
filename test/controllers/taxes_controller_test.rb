@@ -18,7 +18,7 @@ class TaxesControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in user
-    xhr :patch, :update, :id => journal.id
+    patch :update, :xhr => true, :params => {:id => journal.id}
     assert_response :success
     assert_template :update
   end

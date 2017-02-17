@@ -23,7 +23,7 @@ module Depreciation::Strategy
       asset.depreciation_limit = 0
       asset.ym = 200906
       Depreciation::DepreciationUtil.create_depreciations(asset)
-      assert_nothing_raised{ asset.save! }
+      assert asset.save
       
       assert_equal 2009, asset.start_fiscal_year
       assert_equal 2009, asset.end_fiscal_year

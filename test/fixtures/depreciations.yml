@@ -1,0 +1,24 @@
+1:
+  id: 1
+  asset_id: 2
+  fiscal_year: 2009
+  amount_at_start: 96
+  amount_at_end: 70
+2:
+  id: 2
+  asset_id: 2
+  fiscal_year: 2010
+  amount_at_start: 70
+  amount_at_end: 12
+3:
+  id: 3
+  asset_id: 2
+  fiscal_year: 2011
+  amount_at_start: 12
+  amount_at_end: 3
+4:
+  id: 4
+  asset_id: 2
+  fiscal_year: 2012
+  amount_at_start: 3
+  amount_at_end: 1

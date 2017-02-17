@@ -1,0 +1,20 @@
+<% require 'csv' %>
+<% CSV.foreach('test/data/exemptions.csv', headers: true) do |line| %>
+<%= line['id'] %>:
+<% %w{
+  id
+  company_id
+  employee_id
+  yyyy
+  small_scale_mutual_aid
+  life_insurance_premium_old
+  earthquake_insurance_premium
+  special_tax_for_spouse
+  spouse
+  dependents
+  disabled_persons
+  basic
+}.each do |column| %>
+  <%= column %>: <%= line[column] %>
+<% end %>
+<% end %>

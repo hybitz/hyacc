@@ -25,8 +25,11 @@ module Auto::Journal
       jh.remarks = Customer.find(@investment.customer_id).formal_name_on(@investment.yyyymmdd) + '株の' + action
       jh.create_user_id = @user.id
       jh.update_user_id = @user.id
-      # 明細の作成
-      ## 借方有価証券
+
+      tax_rate = TaxJp.rate_on(jh.date)
+      
+       # 明細の作成
+       ## 借方有価証券
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_DEBIT
@@ -36,18 +39,30 @@ module Auto::Journal
       jd.amount = @investment.trading_value.to_i
       @investment.journal_detail = jd
       
-      ## 借方支払手数料
+       # 仮払消費税
+      jd = jh.journal_details.build
+      jd.detail_no = jh.journal_details.size
+      jd.dc_type = DC_TYPE_DEBIT
+      jd.account_id = Account.get_by_code(ACCOUNT_CODE_TEMP_PAY_TAX).id
+      jd.branch_id = branch_id
+      jd.detail_type = DETAIL_TYPE_TAX
+      jd.amount = @investment.charges.to_i - (@investment.charges.to_i / 1 + tax_rate).ceil
+      jd.tax_type = TAX_TYPE_NONTAXABLE
+      tax_detail = jd
+       
+       ## 借方支払手数料
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_DEBIT
       jd.account_id = Account.get_by_code(ACCOUNT_CODE_PAID_FEE).id
       jd.branch_id = branch_id
-      jd.amount = @investment.charges.to_i
+      jd.amount = (@investment.charges.to_i / 1 + tax_rate).ceil
       jd.tax_type = TAX_TYPE_INCLUSIVE
-      jd.tax_rate_percent = 8
+      jd.tax_rate_percent = tax_rate * 100
       jd.is_allocated_cost = true
+      jd.tax_detail = tax_detail
       
-      ## 貸方預け金明細
+       ## 貸方預け金明細
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_CREDIT

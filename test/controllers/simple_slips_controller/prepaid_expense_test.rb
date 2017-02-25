@@ -1,7 +1,7 @@
 require 'test_helper'
 
 # 未払費用の計上日振替のテスト
-class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
+class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTest
 
   def setup
     assert freelancer.company.get_fiscal_year(2010).open?
@@ -11,7 +11,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
 
   def test_本締の年度への費用振替の登録がエラーになること
 
-    post :create, :params => {
+    post simple_slips_path, :params => {
       :account_code => ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym"=>201012,
@@ -37,8 +37,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     jd = jh.normal_details[0]
     assert_equal 201101, jd.transfer_journals[0].transfer_journals[0].ym
 
-    patch :update, :params => {
-      :id => jh.id,
+    patch simple_slip_path(jh), :params => {
       :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
       :simple_slip => {
         "ym" => 201011,
@@ -67,8 +66,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(21)
     slip = SimpleSlip.build_from_journal(account.id, jh.id)
 
-    patch :update, :params => {
-      :id => slip.id,
+    patch simple_slip_path(jh), :params => {
       :account_code => account.code,
       :simple_slip => {
         "ym" => 201012,
@@ -96,7 +94,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(18)
 
     assert_no_difference 'JournalHeader.count' do
-      delete :destroy, :params => {:account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :id => jh.id, :lock_version => jh.lock_version}
+      delete simple_slip_path(jh), :params => {:account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect
@@ -108,15 +106,15 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     remarks = "通常の年度への費用振替の登録が正常終了すること #{Time.new}"
     assert_nil JournalHeader.find_by_remarks(remarks)
 
-    post :create, :params => {
+    post simple_slips_path, :params => {
       :account_code => ACCOUNT_CODE_CASH,
       :simple_slip => {
-        "ym"=>201005,
-        "day"=>10,
-        "remarks"=>remarks,
-        "branch_id"=>5,
-        "account_id"=>28,
-        "amount_increase"=>1500,
+        "ym" => 201005,
+        "day" => 10,
+        "remarks" => remarks,
+        "branch_id" => 5,
+        "account_id" => 28,
+        "amount_increase" => 1500,
         :tax_type => TAX_TYPE_NONTAXABLE,
         "auto_journal_type" => AUTO_JOURNAL_TYPE_PREPAID_EXPENSE,
       }
@@ -176,8 +174,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(21)
     lock_version = jh.lock_version
 
-    patch :update, :params => {
-      :id => jh.id,
+    patch simple_slip_path(jh), :params => {
       :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
       :simple_slip => {
         "ym" => 201011,
@@ -250,7 +247,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(21)
 
     assert_difference 'JournalHeader.count', -3 do
-      delete :destroy, :params => {:account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :id => jh.id, :lock_version => jh.lock_version}
+      delete simple_slip_path(jh), :params => {:account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect

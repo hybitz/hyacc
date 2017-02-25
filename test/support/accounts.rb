@@ -5,6 +5,10 @@ module Accounts
     @_account ||= Account.not_deleted.first
   end
   
+  def deleted_account
+    @_deleted_account ||= Account.where(:deleted => true).first
+  end
+
   def expense_account
     @_expense_account ||= Account.expenses.where(:sub_account_type => SUB_ACCOUNT_TYPE_NORMAL, :journalizable => true).not_deleted.first
   end
@@ -16,7 +20,7 @@ module Accounts
   def valid_account_params
     {
       :code => '9999',
-      :name => 'test',
+      :name => time_string,
       :dc_type => DC_TYPE_DEBIT,
       :account_type => ACCOUNT_TYPE_ASSET,
       :tax_type => TAX_TYPE_NONTAXABLE

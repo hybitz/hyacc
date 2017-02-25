@@ -9,10 +9,10 @@ class JournalsController::AutoTest < ActionController::TestCase
 
   def test_create_head_and_branch
     assert_difference 'JournalHeader.count', 2 do
-      xhr :post, :create, :params => {
+      post :create, :params => {
         :journal => {
           :ym => 200812,
-          :day => 2,
+          :day => 4,
           :remarks => '本支店間取引の自動仕訳テスト',
           :journal_details_attributes => {
             '1' => {
@@ -29,18 +29,19 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
-      }
+      },
+      :xhr => true
 
       assert_response :success
       assert_template 'common/reload'
     end
 
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => 200812, :day => 2)
+    list = JournalHeader.where(:ym => 200812, :day => 4)
     assert_equal 2, list.length, "自動仕訳が１つ作成されるので合計２仕訳"
     jh = list[0]
     assert_equal 200812, jh.ym
-    assert_equal 2, jh.day
+    assert_equal 4, jh.day
     assert_equal SLIP_TYPE_TRANSFER, jh.slip_type
     assert_equal 1000, jh.amount
     assert_nil jh.transfer_from_id
@@ -51,7 +52,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     # 自動仕訳（支店）
     auto = jh.transfer_journals[0]
     assert_equal 200812, auto.ym
-    assert_equal 2, auto.day
+    assert_equal 4, auto.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE, auto.slip_type
     assert_equal 1000, auto.amount
     assert_equal jh.id, auto.transfer_from_id
@@ -64,11 +65,11 @@ class JournalsController::AutoTest < ActionController::TestCase
     remarks = "支店間取引の自動仕訳テスト #{Time.now}"
 
     assert_difference 'JournalHeader.count', 3 do
-      xhr :post, :create, :params => {
+      post :create, :params => {
         :journal => {
-          :ym =>200812,
-          :day=>02,
-          :remarks=>remarks,
+          :ym => 200812,
+          :day => 2,
+          :remarks => remarks,
           :journal_details_attributes => {
             '1' => {
               :dc_type => '1',
@@ -84,7 +85,8 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
-      }
+      },
+      :xhr => true
 
       assert_response :success
       assert_template 'common/reload'
@@ -120,7 +122,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh = JournalHeader.new
     post_jh.remarks = '資産配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
-    post_jh.day = 15
+    post_jh.day = 17
     post_jh.lock_version = 0
     post_jh.journal_details << JournalDetail.new
     post_jh.journal_details[0].branch_id = 1
@@ -140,7 +142,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].is_allocated_assets = true
 
     assert_difference 'JournalHeader.count', 4 do
-      xhr :post, :create, :params => {
+      post :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -165,7 +167,8 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
-      }
+      },
+      :xhr => true
 
       assert_response :success
       assert_template 'common/reload'
@@ -233,7 +236,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     jd.is_allocated_assets = true
 
     assert_difference 'JournalHeader.count', 7 do
-      xhr :post, :create, :params => {
+      post :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -259,7 +262,8 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
-      }
+      },
+      :xhr => true
 
       assert_response :success
       assert_template 'common/reload'
@@ -337,7 +341,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].is_allocated_assets = false
 
     assert_difference 'JournalHeader.count', 1 do
-      xhr :post, :create,
+      post :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -362,6 +366,8 @@ class JournalsController::AutoTest < ActionController::TestCase
             }
           }
         }
+      },
+      :xhr => true
 
       assert_response :success
       assert_template 'common/reload'

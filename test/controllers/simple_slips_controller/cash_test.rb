@@ -8,7 +8,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
 
   # 子を持つ勘定科目が指定できないことを確認
   def test_create_fail_by_node_account
-    post :create,
+    post :create, :params => {
       :account_code=>ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym"=>"200712",
@@ -17,6 +17,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
         "account_id"=>Account.find_by_code(ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE).id,
         "amount_decrease"=>"1000",
         "day"=>"25"}
+    }
 
     assert_response :success
     assert_template :index
@@ -28,7 +29,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
 
   # 摘要の入力がない場合はエラー
   def test_create_fail_by_remarks
-    post :create,
+    post :create, :params => {
       :account_code=>ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym"=>"200712",
@@ -37,6 +38,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
         "account_id"=>Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id,
         "amount_decrease"=>"1000",
         "day"=>"01"}
+    }
 
     assert_response :success
     assert_template :index
@@ -47,7 +49,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
   # 通常の画面上からは入力できないがサーバサイドでチェックする
   def test_edit_fail_by_same_account
     assert_no_difference 'JournalHeader.count' do
-      post :create,
+      post :create, :params => {
         :account_code => ACCOUNT_CODE_CASH,
         :simple_slip => {
           "ym" => "200905",
@@ -58,6 +60,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
           "amount_decrease" => "1000",
           :tax_type => TAX_TYPE_NONTAXABLE
          }
+      }
     end
 
     assert_response :success
@@ -71,7 +74,8 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
     jh = JournalHeader.find(10)
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :patch, :update, :id => jh.id,
+      patch :update, :params => {
+        :id => jh.id,
         :account_code => ACCOUNT_CODE_SMALL_CASH,
         :simple_slip => {
           "my_sub_account_id"=>"",
@@ -86,6 +90,8 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
           :tax_amount_decrease => 50,
           :lock_version => jh.lock_version
         }
+      },
+      :xhr => true
     end
 
     assert_response :success
@@ -93,7 +99,8 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
     assert assigns(:simple_slip)
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :patch, :update, :id => jh.id,
+      patch :update, :params => {
+        :id => jh.id,
         :account_code => ACCOUNT_CODE_SMALL_CASH,
         :simple_slip => {
           "my_sub_account_id"=>"",
@@ -107,6 +114,8 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
           :tax_rate_percent => 0,
           "lock_version"=>jh.lock_version
         }
+      },
+      :xhr => true
     end
 
     assert_response :success
@@ -118,7 +127,8 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
 
   # 楽観的ロックによる削除エラー
   def test_destroy_fail_by_lock
-    xhr :patch, :update, :id => 10,
+    patch :update, :params => {
+      :id => 10,
       :account_code => ACCOUNT_CODE_SMALL_CASH,
       :simple_slip => {
         "my_sub_account_id"=>"",
@@ -132,15 +142,19 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
         "amount_increase"=>1130,
         "lock_version"=>0
       }
+    },
+    :xhr => true
 
     assert_response :success
     assert_template 'common/reload'
     assert assigns(:simple_slip)
 
     assert_no_difference 'JournalHeader.count' do
-      post :destroy, :id => 10,
+      post :destroy, :params => {
+        :id => 10,
         :account_code => ACCOUNT_CODE_SMALL_CASH,
         :lock_version => 0
+      }
     end
 
     assert_response :redirect

@@ -1,5 +1,5 @@
 class Mm::BankAccountsController < Base::HyaccController
-  before_filter :check_banks
+  before_action :check_banks
   view_attribute :title => '金融口座'
   view_attribute :banks, :except => :index
   

@@ -38,7 +38,7 @@ class CompanyTest < ActiveSupport::TestCase
   def test_本店が取得できること
     assert c = Company.find(1)
     
-    assert_nothing_raised '本店を取得できること' do
+    assert_nothing_raised do
       assert c.head_branch.head_office?
     end
   end

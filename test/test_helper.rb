@@ -46,6 +46,14 @@ class ActionDispatch::IntegrationTest
     post user_session_path, :params => {:user => {:login_id => user.login_id, :password => 'testtest'}}
     assert_response :redirect
     assert_redirected_to root_path
+
+    if user.use_two_factor_authentication?
+      get root_path
+      assert_redirected_to user_two_factor_authentication_path
+      patch user_two_factor_authentication_path, :params => {:code => user.otp_code}
+    end
+
+    assert_redirected_to root_path
   end
 
 end

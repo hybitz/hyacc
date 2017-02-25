@@ -1,6 +1,6 @@
 class DeemedTaxesController < Base::HyaccController
   view_attribute :title => 'みなし消費税'
-  before_filter :check_business_type
+  before_action :check_business_type
   
   def index
     fy = current_user.company.current_fiscal_year

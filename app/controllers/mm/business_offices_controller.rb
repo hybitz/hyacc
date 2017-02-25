@@ -1,6 +1,6 @@
 class Mm::BusinessOfficesController < Base::HyaccController
   view_attribute :title => '事業所'
-  before_filter :setup_view_attributes
+  before_action :setup_view_attributes
 
   def new
     @bo = BusinessOffice.new(:company_id => params[:company_id])

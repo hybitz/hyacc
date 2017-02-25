@@ -1,7 +1,7 @@
 class Bs::AssetsController < Base::HyaccController
   view_attribute :title => '資産管理'
   view_attribute :branches, :only => :index
-  before_filter :preload_accounts, :only => 'index'
+  before_action :preload_accounts, :only => 'index'
 
   helper_method :finder
 

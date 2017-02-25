@@ -1,5 +1,5 @@
 class ProfilesController < Base::HyaccController
-  before_filter :check_current_user
+  before_action :check_current_user
 
   view_attribute :title => '個人設定'
   view_attribute :accounts, :conditions => ['account_type in (?, ?) and journalizable=? and tax_type=? and deleted=?',

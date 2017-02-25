@@ -4,14 +4,14 @@ require 'test_helper'
 class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
 
   def setup
+    assert freelancer.company.get_fiscal_year(2010).open?
+    assert freelancer.company.get_fiscal_year(2011).closed?
     sign_in freelancer
   end
 
   def test_本締の年度への費用振替の登録がエラーになること
-    assert current_user.company.get_fiscal_year(2010).open?
-    assert current_user.company.get_fiscal_year(2011).closed?
 
-    post :create,
+    post :create, :params => {
       :account_code => ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym"=>201012,
@@ -23,6 +23,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
         :tax_type => TAX_TYPE_NONTAXABLE,
         "auto_journal_type"=>AUTO_JOURNAL_TYPE_PREPAID_EXPENSE,
       }
+    }
 
     assert_response :success
     assert_template :index
@@ -31,15 +32,13 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度に費用振替が存在する伝票の更新がエラーになること
-    assert freelancer.company.get_fiscal_year(2010).open?
-    assert freelancer.company.get_fiscal_year(2011).closed?
-
     jh = JournalHeader.find(18)
     assert_equal 201012, jh.ym
     jd = jh.normal_details[0]
     assert_equal 201101, jd.transfer_journals[0].transfer_journals[0].ym
 
-    xhr :patch, :update, :id => jh.id,
+    patch :update, :params => {
+      :id => jh.id,
       :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
       :simple_slip => {
         "ym" => 201011,
@@ -54,6 +53,8 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
         :lock_version => jh.lock_version,
         :auto_journal_type => AUTO_JOURNAL_TYPE_PREPAID_EXPENSE,
       }
+    },
+    :xhr => true
 
     assert_response :success
     assert_template :edit
@@ -62,28 +63,28 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替の更新がエラーになること
-    assert current_user.company.get_fiscal_year(2010).open?
-    assert current_user.company.get_fiscal_year(2011).closed?
+    account = Account.get(5)
+    jh = JournalHeader.find(21)
+    slip = SimpleSlip.build_from_journal(account.id, jh.id)
 
-    finder = Slips::SlipFinder.new(current_user)
-    finder.account_code = Account.get(5).code
-    slip = finder.find(21)
-
-    xhr :patch, :update, :id => slip.id,
-      :account_code => finder.account_code,
+    patch :update, :params => {
+      :id => slip.id,
+      :account_code => account.code,
       :simple_slip => {
-        "ym"=>201012,
-        "day"=>7,
-        "remarks"=>"本締の年度への費用振替の更新がエラーになること",
-        "branch_id"=>slip.branch_id,
-        "account_id"=>slip.account_id,
-        "sub_account_id"=>slip.sub_account_id,
-        "amount_increase"=>slip.amount_increase,
-        "amount_decrease"=>slip.amount_decrease,
+        "ym" => 201012,
+        "day" => 7,
+        "remarks" => '本締の年度への費用振替の更新がエラーになること',
+        "branch_id" => slip.branch_id,
+        "account_id" => slip.account_id,
+        "sub_account_id" => slip.sub_account_id,
+        "amount_increase" => slip.amount_increase,
+        "amount_decrease" => slip.amount_decrease,
         :tax_type => TAX_TYPE_NONTAXABLE,
-        "lock_version"=>slip.lock_version,
-        "auto_journal_type"=>AUTO_JOURNAL_TYPE_PREPAID_EXPENSE,
+        :lock_version => slip.lock_version,
+        :auto_journal_type  => AUTO_JOURNAL_TYPE_PREPAID_EXPENSE,
       }
+    },
+    :xhr => true
 
     assert_response :success
     assert_template 'edit'
@@ -92,13 +93,10 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度の費用振替の削除がエラーになること
-    assert current_user.company.get_fiscal_year(2010).open?
-    assert current_user.company.get_fiscal_year(2011).closed?
-
     jh = JournalHeader.find(18)
 
     assert_no_difference 'JournalHeader.count' do
-      delete :destroy, :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :id => jh.id, :lock_version => jh.lock_version
+      delete :destroy, :params => {:account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :id => jh.id, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect
@@ -107,12 +105,10 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度への費用振替の登録が正常終了すること
-    assert current_user.company.get_fiscal_year(2010).open?
-
     remarks = "通常の年度への費用振替の登録が正常終了すること #{Time.new}"
     assert_nil JournalHeader.find_by_remarks(remarks)
 
-    post :create,
+    post :create, :params => {
       :account_code => ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym"=>201005,
@@ -124,6 +120,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
         :tax_type => TAX_TYPE_NONTAXABLE,
         "auto_journal_type" => AUTO_JOURNAL_TYPE_PREPAID_EXPENSE,
       }
+    }
 
     assert_response :redirect
     assert_redirected_to :action => :index
@@ -175,13 +172,12 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度への費用振替の更新が正常終了すること
-    assert current_user.company.get_fiscal_year(2010).open?
-
     remarks = "通常の年度への費用振替の更新が正常終了すること #{Time.new}"
     jh = JournalHeader.find(21)
     lock_version = jh.lock_version
 
-    xhr :patch, :update, :id => jh.id,
+    patch :update, :params => {
+      :id => jh.id,
       :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
       :simple_slip => {
         "ym" => 201011,
@@ -197,6 +193,8 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
         "auto_journal_month" => 11, # ゴミデータ
         "auto_journal_day" => 15, # ゴミデータ
       }
+    },
+    :xhr => true
 
     assert_response :success
     assert_template 'common/reload'
@@ -249,12 +247,10 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度の費用振替の削除が正常終了すること
-    assert freelancer.company.get_fiscal_year(2010).open?
-
     jh = JournalHeader.find(21)
 
     assert_difference 'JournalHeader.count', -3 do
-      delete :destroy, :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :id => jh.id, :lock_version => jh.lock_version
+      delete :destroy, :params => {:account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :id => jh.id, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect

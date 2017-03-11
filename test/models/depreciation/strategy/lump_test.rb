@@ -20,7 +20,6 @@ class Depreciation::Strategy::LumpTest < ActiveSupport::TestCase
     asset.depreciation_method = DEPRECIATION_METHOD_LUMP
     asset.depreciation_limit = 0
     asset.ym = 200906
-    
 
     Depreciation::DepreciationUtil.create_depreciations(asset)
     assert asset.save

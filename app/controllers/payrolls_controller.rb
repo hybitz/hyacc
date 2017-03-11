@@ -59,7 +59,7 @@ class PayrollsController < Base::HyaccController
         @payroll.save!
       end
 
-      flash[:notice] = '賃金台帳情報を登録しました。'
+      flash[:notice] = "#{@payroll.employee.fullname}さんの賃金台帳情報を登録しました。"
       render 'common/reload'
 
     rescue => e
@@ -113,7 +113,7 @@ class PayrollsController < Base::HyaccController
         JournalHeader.find(commission_journal_header_on_db.id).destroy if commission_journal_header_on_db
       end
 
-      flash[:notice] = '賃金台帳情報を更新しました。'
+      flash[:notice] = "#{@payroll.employee.fullname}さんの賃金台帳情報を更新しました。"
       render 'common/reload'
 
     rescue => e

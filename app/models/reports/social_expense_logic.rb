@@ -15,7 +15,7 @@ module Reports
 
     def get_social_expense_detail_model
       ret = SocialExpenseDetailModel.new
-      ret.account = Account.get_by_code( ACCOUNT_CODE_SOCIAL_EXPENSE )
+      ret.account = Account.find_by_code( ACCOUNT_CODE_SOCIAL_EXPENSE )
 
       JournalHeader.where(conditions).includes(:journal_details).each do |jh|
         jh.journal_details.each do |jd|

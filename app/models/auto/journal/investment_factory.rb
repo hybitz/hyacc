@@ -33,7 +33,7 @@ module Auto::Journal
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_DEBIT
-      jd.account_id = Account.get_by_code(account_code).id
+      jd.account_id = Account.find_by_code(account_code).id
       jd.branch_id = branch_id
       jd.tax_type = TAX_TYPE_NONTAXABLE
       jd.amount = @investment.trading_value.to_i
@@ -43,7 +43,7 @@ module Auto::Journal
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_DEBIT
-      jd.account_id = Account.get_by_code(ACCOUNT_CODE_TEMP_PAY_TAX).id
+      jd.account_id = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX).id
       jd.branch_id = branch_id
       jd.detail_type = DETAIL_TYPE_TAX
       jd.amount = @investment.charges.to_i - (@investment.charges.to_i / 1 + tax_rate).ceil
@@ -54,7 +54,7 @@ module Auto::Journal
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_DEBIT
-      jd.account_id = Account.get_by_code(ACCOUNT_CODE_PAID_FEE).id
+      jd.account_id = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id
       jd.branch_id = branch_id
       jd.amount = (@investment.charges.to_i / 1 + tax_rate).ceil
       jd.tax_type = TAX_TYPE_INCLUSIVE
@@ -66,7 +66,7 @@ module Auto::Journal
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_CREDIT
-      jd.account_id = Account.get_by_code(ACCOUNT_CODE_DEPOSITS_PAID).id
+      jd.account_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_PAID).id
       jd.sub_account_id = @investment.bank_account_id
       jd.branch_id = branch_id
       jd.amount = @investment.trading_value.to_i + @investment.charges.to_i

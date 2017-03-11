@@ -16,8 +16,9 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_list_by_ym_like
-    get :index, :commit => '検索',
+    get :index, :params => {:commit => '検索',
         :finder => {:slip_type_selection=>1, :ym=>2007, :account_id=>'', :branch_id=>'', :remarks=>''}
+    }
 
     assert_response :success
     assert_template 'index'
@@ -26,7 +27,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_追加
-    xhr :get, :new
+    get :new, :xhr => true
     assert_response :success
     assert_template 'new'
     assert_not_nil assigns(:journal)
@@ -39,7 +40,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     ym = Date.today.strftime('%Y%m')
     assert_not_equal ym, copy_from.ym
 
-    xhr :get, :new, :copy_id => 1
+    get :new, :params => {:copy_id => 1}
     assert_response :success
     assert_template 'new'
 
@@ -53,7 +54,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     remarks = '振替伝票テスト' + Time.now.to_s
 
     assert_difference 'JournalHeader.count', 1 do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => '200803',
           :day => '04',
@@ -76,6 +77,7 @@ class JournalsController::CrudTest < ActionController::TestCase
             :file => upload_file('inhabitant_tax.csv')
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -107,7 +109,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   def test_登録_入力エラー
     assert_no_difference 'JournalHeader.count' do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => '200803',
           :day => '04',
@@ -132,6 +134,7 @@ class JournalsController::CrudTest < ActionController::TestCase
             :input_amount => '1030',
           }
         }
+      }
 
       assert_response :success
       assert_template 'new'
@@ -144,11 +147,11 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   # 子を持つ勘定科目が指定できないことを確認
   def test_create_fail_by_node_account
-    a = Account.get_by_code(ACCOUNT_CODE_DEBT)
+    a = Account.find_by_code(ACCOUNT_CODE_DEBT)
     assert_equal false, a.journalizable
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => '200907',
           :day => '11',
@@ -170,6 +173,7 @@ class JournalsController::CrudTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template :new
@@ -184,7 +188,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   def test_接待交際費で交際費人数なしでの登録がエラーになること
     assert_no_difference 'JournalHeader.count' do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :remarks => "接待交際費テスト",
           :lock_version => "0",
@@ -212,6 +216,7 @@ class JournalsController::CrudTest < ActionController::TestCase
             }
           }
         }
+      }
       assert_response :success
       assert_template 'new'
     end
@@ -224,7 +229,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   def test_接待交際費で交際費人数ありでの登録が正常終了すること
     assert_difference 'JournalHeader.count', 1 do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :remarks=>"接待交際費テスト",
           :lock_version=>"0",
@@ -253,6 +258,7 @@ class JournalsController::CrudTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -260,7 +266,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_編集
-    xhr :get, :edit, :id => JournalHeader.first
+    get :edit, :xhr => true, :params => {:id => JournalHeader.first}
 
     assert_response :success
     assert_template 'edit'
@@ -273,7 +279,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   # 【費用配賦】は編集画面表示不可
   def test_edit_redirect_by_auto_slip_allocated_cost
-    xhr :get, :edit, :id => 6465
+    get :edit, :xhr => true, :params => {:id => 6465}
 
     assert_response :redirect
     assert_redirected_to :action => 'index'
@@ -281,7 +287,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   # 【資産配賦】は編集画面表示不可
   def test_edit_redirect_by_auto_slip_allocated_assets
-    xhr :get, :edit, :id => 6466
+    get :edit, :xhr => true, :params => {:id => 6466}
 
     assert_response :redirect
     assert_redirected_to :action => 'index'
@@ -293,7 +299,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_not_equal user.id, jh.create_user_id
     sign_in user
 
-    xhr :patch, :update, :id => jh.id,
+    patch :update, :xhr => true, :params => {:id => jh.id,
       :journal => {
         :ym=>200703,
         :day=>4,
@@ -317,6 +323,7 @@ class JournalsController::CrudTest < ActionController::TestCase
           :file => upload_file('inhabitant_tax.csv')
         }
       }
+    }
 
     assert_response :success
     assert_template 'common/reload'
@@ -331,7 +338,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     jh = Journal.find(11)
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :patch, :update, :id => jh.id,
+      patch :update, :xhr => true, :params => {:id => jh.id,
         :journal => {
           :ym=>200907,
           :day=>nil,
@@ -357,6 +364,7 @@ class JournalsController::CrudTest < ActionController::TestCase
             }
           }
         }
+      }
     end
 
     assert_response :success
@@ -374,7 +382,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     jh = JournalHeader.find(4453)
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :patch, :update, :id => jh.id,
+      patch :update, :xhr => true, :params => {:id => jh.id,
         :journal => {
           :ym => jh.ym,
           :day => jh.day,
@@ -397,6 +405,7 @@ class JournalsController::CrudTest < ActionController::TestCase
             }
           }
         }
+      }
     end
 
     assert_response :success
@@ -410,7 +419,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   def test_更新_楽観的ロックエラー
     jh = JournalHeader.find(1)
 
-    xhr :patch, :update, :id => jh.id,
+    patch :update, :xhr => true, :params => {:id => jh.id,
       :journal => {
         :ym => 200703,
         :day => 8,
@@ -433,6 +442,7 @@ class JournalsController::CrudTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'edit'
@@ -447,7 +457,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     # 意図的にロックバージョンを上げる
     assert jh.save
 
-    delete :destroy, :id => jh, :lock_version => lock_version
+    delete :destroy, :params => {:id => jh.id, :lock_version => lock_version}
     assert_redirected_to :action => 'index'
 
     # 伝票が元のままであるか
@@ -459,7 +469,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   def test_destroy
     jh = JournalHeader.find(10)
 
-    delete :destroy, :id => jh, :lock_version => jh.lock_version
+    delete :destroy, :params => {:id => jh.id, :lock_version => jh.lock_version}
     assert_response :redirect
     assert_redirected_to :action => 'index'
 
@@ -470,7 +480,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   def test_前払振替の伝票は削除できない
     assert_no_difference 'JournalHeader.count' do
-      delete :destroy, :id => '5695'
+      delete :destroy, :params => {:id => '5695'}
       assert_response :redirect
       assert_redirected_to :action => 'index'
     end
@@ -478,14 +488,14 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   def test_台帳登録の伝票は削除できない
     assert_no_difference 'JournalHeader.count' do
-      delete :destroy, :id => '5697'
+      delete :destroy, :params => {:id => '5697'}
       assert_response :redirect
       assert_redirected_to :action => 'index'
     end
   end
 
   def test_編集_不正な伝票区分の場合は編集画面に遷移できないこと
-    xhr :get, :edit, :id => 5
+    get :edit, :xhr => true, :params => {:id => 5}
     assert_response :redirect
     assert_redirected_to :action => 'index'
   end
@@ -498,7 +508,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_not_nil slip
     assert slip.has_auto_transfers
 
-    xhr :get, :edit, :id => slip.id
+    get :edit, :xhr => true, :params => {:id => slip.id}
     assert_response :success
     assert_template 'edit'
     assert_not_nil assigns(:journal)

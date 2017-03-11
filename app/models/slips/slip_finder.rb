@@ -39,7 +39,7 @@ module Slips
       end
 
       # 補助科目の指定がない場合は、先頭の補助科目を検索条件にする
-      account = Account.get_by_code( @account_code )
+      account = Account.find_by_code( @account_code )
       if account.sub_accounts.empty?
         put_sub_account_id(0)
       else
@@ -54,7 +54,7 @@ module Slips
     end
 
     def find(id)
-      SimpleSlip.build_from_journal(Account.get_by_code(@account_code).id, id)
+      SimpleSlip.build_from_journal(Account.find_by_code(@account_code).id, id)
     end
 
     def get_net_sum

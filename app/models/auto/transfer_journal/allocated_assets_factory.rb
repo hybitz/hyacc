@@ -30,9 +30,9 @@ module Auto::TransferJournal
       
       # 明細作成準備
       # 仮資産
-      temp_assets = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_ASSETS)
+      temp_assets = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_ASSETS)
       # 仮負債
-      temp_debt = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
+      temp_debt = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
       
       # 部門情報取得
       src_branch = Branch.get(src_jd.branch_id)

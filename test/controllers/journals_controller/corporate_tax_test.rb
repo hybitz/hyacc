@@ -8,7 +8,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
   end
   
   def test_create_allocated_tax_cost
-    assert a = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
+    assert a = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
     post_jh = JournalHeader.new

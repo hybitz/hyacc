@@ -16,7 +16,7 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def get_templates
-    my_account = Account.get_by_code(finder.account_code)
+    my_account = Account.find_by_code(finder.account_code)
     @simple_slip = SimpleSlip.new(:my_account_id => my_account.id)
 
     like = '%' + JournalUtil.escape_search(params[:query]) + '%'
@@ -270,7 +270,7 @@ class SimpleSlipsController < Base::HyaccController
 
   # この簡易入力が対象としている科目
   def preload_account
-    @account = Account.get_by_code(params[:account_code])
+    @account = Account.find_by_code(params[:account_code])
   end
 
   def setup_view_attributes

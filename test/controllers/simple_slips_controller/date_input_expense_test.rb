@@ -8,10 +8,10 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替_日付指定_の登録がエラーになること
-    assert_equal CLOSING_STATUS_CLOSED, users(:first).company.get_fiscal_year(200610).closing_status
+    assert_equal CLOSING_STATUS_CLOSED, user.company.get_fiscal_year(200610).closing_status
 
     assert_no_difference 'JournalHeader.count' do
-      post :create,
+      post :create, :params => {
         :account_code=>ACCOUNT_CODE_CASH,
         :simple_slip => {
           "ym"=>200805,
@@ -26,6 +26,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
           "auto_journal_month"=>10,
           "auto_journal_day"=>12,
         }
+      }
     end
 
     assert_response :success
@@ -40,7 +41,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(10)
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :patch, :update, :id => jh.id,
+      patch :update, :xhr => true, :params => {:id => jh.id,
         :account_code => ACCOUNT_CODE_SMALL_CASH,
         :simple_slip => {
           "ym"=>200905,
@@ -57,6 +58,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
           "auto_journal_month"=>10,
           "auto_journal_day"=>12,
         }
+      }
     end
 
     assert_response :success
@@ -67,10 +69,10 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
   def test_仮締の年度への費用振替_日付指定_の登録が正常終了すること
     remarks = "仮締の年度への費用振替（日付指定）の登録が正常終了すること"
     assert_nil JournalHeader.find_by_remarks(remarks)
-    assert_equal CLOSING_STATUS_CLOSING, users(:first).company.get_fiscal_year(200711).closing_status
+    assert_equal CLOSING_STATUS_CLOSING, user.company.get_fiscal_year(200711).closing_status
 
-    post :create,
-      :account_code=>ACCOUNT_CODE_CASH,
+    post :create, :params => {
+      :account_code => ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym"=>200805,
         "day"=>17,
@@ -84,6 +86,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
         "auto_journal_month"=>11,
         "auto_journal_day"=>15,
       }
+    }
 
     assert_response :redirect
     assert_redirected_to :action=>:index
@@ -97,7 +100,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
 
     assert_equal CLOSING_STATUS_CLOSING, users(:first).company.get_fiscal_year(200711).closing_status
 
-    xhr :post, :update, :id => jh.id,
+    patch :update, :xhr => true, :params => {:id => jh.id,
       :account_code => ACCOUNT_CODE_SMALL_CASH,
       :simple_slip => {
         "ym" => 200905,
@@ -114,6 +117,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
         "auto_journal_month" => 11,
         "auto_journal_day" => 15,
       }
+    }
 
     assert_response :success
     assert_template 'common/reload'

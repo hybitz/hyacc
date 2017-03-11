@@ -2,7 +2,7 @@ module FiscalYearsHelper
   include HyaccConstants
   
   def calc_carry_forward_revenue_amount(jh)
-    a = Account.get_by_code(ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD)
+    a = Account.find_by_code(ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD)
 
     jh.journal_details.each do |jd|
       next if jd.account_id != a.id

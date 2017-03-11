@@ -52,7 +52,7 @@ module Auto::Journal
       jd.tax_type = TAX_TYPE_NONTAXABLE
       
       ## 仮資産明細
-      assets = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_ASSETS)
+      assets = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_ASSETS)
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_CREDIT

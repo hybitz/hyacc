@@ -4,7 +4,7 @@ module Reports
     
     def initialize(finder)
       super(finder)
-      @corporate_tax_payable = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE)
+      @corporate_tax_payable = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE)
       @corporate_taxes = Account.where(:is_tax_account => true, :dc_type => DC_TYPE_DEBIT)
     end
     

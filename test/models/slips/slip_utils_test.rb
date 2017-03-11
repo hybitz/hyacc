@@ -3,7 +3,7 @@ require 'test_helper'
 class Slips::SlipUtilsTest < ActiveSupport::TestCase
 
   setup do
-    @account = Account.get_by_code(ACCOUNT_CODE_CASH)
+    @account = Account.find_by_code(ACCOUNT_CODE_CASH)
   end
   
   test '配賦のチェックがついている伝票は簡易伝票で編集できないこと' do

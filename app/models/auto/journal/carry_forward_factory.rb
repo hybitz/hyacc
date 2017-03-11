@@ -11,7 +11,7 @@ module Auto::Journal
 
     def make_journals
       # 今期の元入金
-      personal_capital_account = Account.get_by_code(ACCOUNT_CODE_PERSONAL_CAPITAL)
+      personal_capital_account = Account.find_by_code(ACCOUNT_CODE_PERSONAL_CAPITAL)
       personal_capital = VMonthlyLedger.get_net_sum_amount(nil, @fiscal_year.end_year_month, personal_capital_account.id)
       HyaccLogger.debug "今期末の元入金：#{personal_capital}"
 
@@ -24,12 +24,12 @@ module Auto::Journal
       HyaccLogger.debug "今期末の利益：#{revenue}"
       
       # 今期の事業主借
-      debt_account = Account.get_by_code(ACCOUNT_CODE_DEBT_TO_OWNER)
+      debt_account = Account.find_by_code(ACCOUNT_CODE_DEBT_TO_OWNER)
       debt_amount = VMonthlyLedger.get_net_sum_amount( nil, @fiscal_year.end_year_month, debt_account.id )
       HyaccLogger.debug "今期末の事業主借：#{debt_amount}"
 
       # 今期の事業主貸
-      credit_account = Account.get_by_code(ACCOUNT_CODE_CREDIT_BY_OWNER)
+      credit_account = Account.find_by_code(ACCOUNT_CODE_CREDIT_BY_OWNER)
       credit_amount = VMonthlyLedger.get_net_sum_amount( nil, @fiscal_year.end_year_month, credit_account.id )
       HyaccLogger.debug "今期末の事業主貸：#{credit_amount}"
 
@@ -71,7 +71,7 @@ module Auto::Journal
       jd.detail_no = jh.journal_details.size
       jd.detail_type = DETAIL_TYPE_NORMAL
       jd.dc_type = DC_TYPE_DEBIT
-      jd.account_id = Account.get_by_code(ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD).id
+      jd.account_id = Account.find_by_code(ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD).id
       jd.branch_id = @user.employee.default_branch.id
       jd.tax_type = TAX_TYPE_NONTAXABLE
       jd.amount = revenue

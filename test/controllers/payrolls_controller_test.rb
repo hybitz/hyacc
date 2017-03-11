@@ -2,10 +2,6 @@ require 'test_helper'
 
 class PayrollsControllerTest < ActionController::TestCase
 
-  def setup
-    sign_in user
-  end
-
   def test_個人事業主は利用不可
     sign_in freelancer
     get :index
@@ -17,7 +13,8 @@ class PayrollsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template 'index'
-    get :index, :commit => "表示", :finder => {:fiscal_year => 2009, :branch_id => 2, :employee_id => 2}
+
+    get :index, :params =>  {:commit => "表示", :finder => {:fiscal_year => 2009, :branch_id => 2, :employee_id => 2}}
     assert_response :success
     assert_template 'index'
   end
@@ -30,20 +27,24 @@ class PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    xhr :get, :new, :ym => 200904
+    get :new, :params => {:ym => 200904}, :xhr => true
+ 
     assert_response :success
     assert_template 'new'
   end
 
   def test_編集
+    sign_in user
+
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    xhr :get, :edit, :id => 45
+    get :edit, :params => {:id => 45}, :xhr => true
     assert_response :success
     assert_template 'edit'
+
     # 基本給
     assert_equal JournalDetail.find(11578).amount, assigns(:payroll).base_salary
     # 健康保険料
@@ -60,12 +61,15 @@ class PayrollsControllerTest < ActionController::TestCase
 
   # 前月の情報取得
   def test_should_get_new_pre_month
+    sign_in user
+
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2010
     finder.employee_id = 1
     @request.session[PayrollFinder] = finder
 
-    xhr :get, :new, :ym => 200811
+    get :new, :params => {:ym => 200811}, :xhr => true
+
     assert_response :success
     assert_template 'new'
     assert_equal JournalDetail.find(17735).amount, assigns(:payroll).base_salary
@@ -73,6 +77,8 @@ class PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_create_deposits_received
+    sign_in user
+
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
@@ -80,7 +86,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
     ym = 200902
     employee_id = 2
-    xhr :post, :create,
+    post :create, :xhr => true, :params => {
         :payroll => {:ym => ym, :employee_id => employee_id,
                       :days_of_work => 28, :hours_of_work => 224,
                       :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
@@ -92,6 +98,7 @@ class PayrollsControllerTest < ActionController::TestCase
                       :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
                       :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
                       :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED}
+                      }
     assert_response :success
     assert assigns(:payroll).errors.empty?
     assert_template 'common/reload'
@@ -102,7 +109,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_insurance
     assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_pension
     assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_inhabitant_tax
-    deposits_received = Account.get_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
+    deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
     insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_DEPOSITS_RECEIVED)
     pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED)
@@ -118,14 +125,16 @@ class PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_create_advance_money
+    sign_in user
+
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    ym = 200902
+    ym = 200904
     employee_id = 2
-    xhr :post, :create, :payroll => valid_payroll_params(:ym => ym, :employee_id => employee_id)
+    post :create, :params => {:payroll => valid_payroll_params(:ym => ym, :employee_id => employee_id)}, :xhr => true
     assert_response :success
     assert assigns(:payroll).errors.empty?
     assert_template 'common/reload'
@@ -166,12 +175,14 @@ class PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_create_with_errors
+    sign_in user
+
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    xhr :post, :create,
+    post :create, :xhr => true, :params => {
         :payroll => {:ym => 200902, :employee_id => 2,
                      :days_of_work => 28, :hours_of_work => 224,
                      :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
@@ -183,18 +194,21 @@ class PayrollsControllerTest < ActionController::TestCase
                      :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
                      :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
+                     }
     assert_response :success
     assert assigns(:payroll).errors.size == 7
     assert_template 'new'
   end
 
   def test_should_get_create_with_errors2
+    sign_in user
+
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    xhr :post, :create,
+    post :create, :xhr => true, :params => {
         :payroll => {:ym => 200912, :employee_id => 2,
                      :days_of_work => 28, :hours_of_work => 224,
                      :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
@@ -207,33 +221,40 @@ class PayrollsControllerTest < ActionController::TestCase
                      :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
                      :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
+                     }
     assert_response :success
     assert_equal 8, assigns(:payroll).errors.size
     assert_template 'new'
   end
 
   def test_更新
-    xhr :patch, :update, :id => payroll.id, :payroll => valid_payroll_params
+    sign_in user
+    patch :update, :params => {:id => payroll.id, :payroll => valid_payroll_params}, :xhr => true
     assert assigns(:payroll).errors.empty?
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_get_branch_employees
+    sign_in user
     get :index
-    xhr :get, :get_branch_employees,
+    get :get_branch_employees, :xhr => true, :params => {
           :finder => {:branch_id => user.company.branches.first.id}
+          }
     assert_response :success
     assert_template 'payrolls/_get_branch_employees'
   end
 
   def test_should_get_auto_calc
+    sign_in user
+
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    xhr :post, :auto_calc, :payroll => {:ym => 200904, :employee_id => 2, :base_salary => 394000}
+    post :auto_calc, :params => {:payroll => {:ym => 200904, :employee_id => 2, :base_salary => 394000}}, :xhr => true
+
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
     assert json.has_key?('insurance')
@@ -242,6 +263,8 @@ class PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_auto_calc_insurance
+    sign_in user
+
     insurances = YAML.load_file(File.join('test', 'data', 'insurances.yml'))
 
     finder = PayrollFinder.new(current_user)
@@ -249,19 +272,22 @@ class PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 1
     @request.session[PayrollFinder] = finder
 
-    xhr :get, :auto_calc, :payroll => {:ym => 200811, :employee_id => 1, :base_salary => 424000 }
+    get :auto_calc, :params => {:payroll => {:ym => 200811, :employee_id => 1, :base_salary => 424000 }}, :xhr => true
+
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
     assert_equal insurances['insurance_00120']['health_insurance_half'], json['insurance']
   end
 
   def test_削除
+    sign_in user
+
     @payroll = payroll
     assert @payroll.payroll_journal_header.present?
     assert @payroll.pay_journal_header.present?
 
     assert_difference 'Payroll.count', -1 do
-      xhr :delete, :destroy, :id => payroll
+      delete :destroy, :params => {:id => payroll}, :xhr => true
       assert_response :success
       assert_template 'common/reload'
     end

@@ -5,7 +5,7 @@ module Reports
     def get_trade_account_receivable_model(finder)
       res = []
       ymd = finder.end_year_month_day_of_fiscal_year.to_s
-      a = Account.get_by_code(ACCOUNT_CODE_RECEIVABLE)
+      a = Account.find_by_code(ACCOUNT_CODE_RECEIVABLE)
       
       # 借方
       debits = JournalDetail.where(:account_id => a.id, :dc_type=>DC_TYPE_DEBIT).joins(:journal_header).where(JournalHeader.arel_table[:ym].lteq ymd[0, 6]).group(:sub_account_id).sum(:amount)

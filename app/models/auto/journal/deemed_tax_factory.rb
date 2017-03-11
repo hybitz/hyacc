@@ -30,7 +30,7 @@ module Auto::Journal
           jd = last_jh.journal_details.build
           jd.detail_no = last_jh.journal_details.size
           jd.dc_type = DC_TYPE_DEBIT
-          jd.account_id = Account.get_by_code(ACCOUNT_CODE_TAX_AND_DUES).id
+          jd.account_id = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES).id
           jd.branch_id = @fiscal_year.company.head_branch.id
           jd.amount = diff_amount
           jd.tax_type = TAX_TYPE_NONTAXABLE
@@ -40,7 +40,7 @@ module Auto::Journal
           jd = last_jh.journal_details.build
           jd.detail_no = last_jh.journal_details.size
           jd.dc_type = DC_TYPE_CREDIT
-          jd.account_id = Account.get_by_code(ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE).id
+          jd.account_id = Account.find_by_code(ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE).id
           jd.branch_id = @fiscal_year.company.head_branch.id
           jd.amount = diff_amount
           jd.tax_type = TAX_TYPE_NONTAXABLE
@@ -74,7 +74,7 @@ module Auto::Journal
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_DEBIT
-      jd.account_id = Account.get_by_code(ACCOUNT_CODE_TAX_AND_DUES).id
+      jd.account_id = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES).id
       jd.branch_id = @fiscal_year.company.head_branch.id
       jd.amount = dtm.total_tax_amount
       jd.tax_type = TAX_TYPE_NONTAXABLE
@@ -83,7 +83,7 @@ module Auto::Journal
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_CREDIT
-      jd.account_id = Account.get_by_code(ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE).id
+      jd.account_id = Account.find_by_code(ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE).id
       jd.branch_id = @fiscal_year.company.head_branch.id
       jd.amount = dtm.tax_amount
       jd.tax_type = TAX_TYPE_NONTAXABLE
@@ -95,7 +95,7 @@ module Auto::Journal
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_CREDIT
-        jd.account_id = Account.get_by_code(ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE).id
+        jd.account_id = Account.find_by_code(ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE).id
         jd.branch_id = @fiscal_year.company.head_branch.id
         jd.amount = dtm.local_tax_amount
         jd.tax_type = TAX_TYPE_NONTAXABLE

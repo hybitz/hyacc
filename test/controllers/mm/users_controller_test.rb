@@ -14,7 +14,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_show
     sign_in admin
-    xhr :get, :show, :id => user.id
+    get :show, :params => {:id => user.id}, :xhr => true
 
     assert_response :success
     assert_template 'show'
@@ -25,7 +25,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_new
     sign_in admin
-    xhr :get, :new
+    get :new, :xhr => true
 
     assert_response :success
     assert_template 'new'
@@ -36,7 +36,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_difference 'User.count' do
-      xhr :post, :create, :user => {
+      post :create, :xhr => true, :params => {:user => {
         :login_id => 'zero',
         :password => 'zerozero',
         :email => 'test@example.com',
@@ -48,6 +48,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
           :sex => 'M',
           :birth => '2000-01-01',
           :my_number => '123456789012'
+          }
         }
       }
     end
@@ -66,7 +67,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_編集
     sign_in admin
-    xhr :get, :edit, :id => user.id
+    get :edit, :params => {:id => user.id}
 
     assert_response :success
     assert_template 'edit'
@@ -77,14 +78,14 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    xhr :patch, :update, :id => user.id, :user => valid_user_params
+    patch :update, :xhr => true, :params => {:id => user.id, :user => valid_user_params}
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_他人を削除した場合_一覧に遷移すること
     sign_in admin
-    delete :destroy, :id => user.id
+    delete :destroy, :params => {:id => user.id}
     assert_response :redirect
     assert_redirected_to :action => 'index'
 
@@ -93,7 +94,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_本人を削除した場合_ログアウトすること
     sign_in admin
-    delete :destroy, :id => admin.id
+    delete :destroy, :params => {:id => admin.id}
 
     assert_response :redirect
     assert_redirected_to new_user_session_path

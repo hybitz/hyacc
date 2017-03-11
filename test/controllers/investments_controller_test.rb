@@ -6,17 +6,17 @@ class InvestmentsControllerTest < ActionController::TestCase
     sign_in user
   end
 
-  test "should show investment" do
+  def test_should_show_investment
     get :index
     assert_response :success
   end
 
-  test "should show investment list" do
+  def test_should_show_investment_list
     get :index, :params => {:finder => {:fiscal_year => 2016, :bank_account_id => 3}}
     assert_response :success
   end
   
-  test "should create investment" do
+  def test_should_create_investment
     assert_difference('Investment.count') do
       post :create, :xhr => true, :params => {
           investment: {yyyymmdd: '2016-03-27', bank_account_id: '3', customer_id: '1',

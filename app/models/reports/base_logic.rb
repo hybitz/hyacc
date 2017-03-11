@@ -22,11 +22,11 @@ module Reports
     # 売上総利益を取得する
     def get_gross_profit_amount
       # 売上高
-      sale = Account.get_by_code(ACCOUNT_CODE_SALE)
+      sale = Account.find_by_code(ACCOUNT_CODE_SALE)
       sale_amount = VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, sale.id, 0, @finder.branch_id)
       
       # 売上原価
-      cost_of_sales = Account.get_by_code(ACCOUNT_CODE_COST_OF_SALES)
+      cost_of_sales = Account.find_by_code(ACCOUNT_CODE_COST_OF_SALES)
       cost_of_sales_amount = VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, cost_of_sales.id, 0, @finder.branch_id)
       
       sale_amount - cost_of_sales_amount
@@ -38,7 +38,7 @@ module Reports
       gross_profit_amount = get_gross_profit_amount
       
       # 販売費および一般管理費
-      sales_and_general_administrative_expense = Account.get_by_code(ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE)
+      sales_and_general_administrative_expense = Account.find_by_code(ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE)
       sales_and_general_administrative_expense_amount = VMonthlyLedger.get_net_sum_amount(
           @start_ym, @end_ym, sales_and_general_administrative_expense.id, 0, @finder.branch_id)
           
@@ -51,11 +51,11 @@ module Reports
       operating_income_amount = get_operating_income_amount
       
       # 営業外収益
-      non_operating_profit = Account.get_by_code(ACCOUNT_CODE_NON_OPERATING_PROFIT)
+      non_operating_profit = Account.find_by_code(ACCOUNT_CODE_NON_OPERATING_PROFIT)
       non_operating_profit_amount = VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, non_operating_profit.id, 0, @finder.branch_id)
 
       # 営業外費用
-      non_operating_expense = Account.get_by_code(ACCOUNT_CODE_NON_OPERATING_EXPENSE)
+      non_operating_expense = Account.find_by_code(ACCOUNT_CODE_NON_OPERATING_EXPENSE)
       non_operating_expense_amount = VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, non_operating_expense.id, 0, @finder.branch_id)
       
       operating_income_amount + non_operating_profit_amount - non_operating_expense_amount
@@ -67,11 +67,11 @@ module Reports
       ordinary_income_amount = get_ordinary_income_amount
       
       # 特別収益
-      extraordinary_profit = Account.get_by_code(ACCOUNT_CODE_EXTRAORDINARY_PROFIT)
+      extraordinary_profit = Account.find_by_code(ACCOUNT_CODE_EXTRAORDINARY_PROFIT)
       extraordinary_profit_amount = VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, extraordinary_profit.id, 0, @finder.branch_id)
 
       # 特別費用
-      extraordinary_expense = Account.get_by_code(ACCOUNT_CODE_EXTRAORDINARY_EXPENSE)
+      extraordinary_expense = Account.find_by_code(ACCOUNT_CODE_EXTRAORDINARY_EXPENSE)
       extraordinary_expense_amount = VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, extraordinary_expense.id, 0, @finder.branch_id)
       
       ordinary_income_amount + extraordinary_profit_amount - extraordinary_expense_amount
@@ -79,7 +79,7 @@ module Reports
     
     # 資本金を取得する
     def get_capital_stock_amount
-      capital_stock = Account.get_by_code( ACCOUNT_CODE_CAPITAL_STOCK )
+      capital_stock = Account.find_by_code( ACCOUNT_CODE_CAPITAL_STOCK )
       VMonthlyLedger.get_net_sum_amount(nil, @end_ym, capital_stock.id, 0, @finder.branch_id)
     end
   end

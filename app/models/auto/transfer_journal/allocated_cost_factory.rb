@@ -31,16 +31,16 @@ module Auto::TransferJournal
       a = Account.get(src_jd.account_id)
       if a.path.index(ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE) != nil
         # 販売費および一般管理費
-        account_cost_share = Account.get_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE)
-        account_cost = Account.get_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST)
+        account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE)
+        account_cost = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST)
       elsif a.path.index(ACCOUNT_CODE_CORPORATE_TAXES) != nil
         # 法人税等
-        account_cost_share = Account.get_by_code(ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE)
-        account_cost = Account.get_by_code(ACCOUNT_CODE_HEAD_OFFICE_TAXES)
+        account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE)
+        account_cost = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_TAXES)
       else
         # その他
-        account_cost_share = Account.get_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE)
-        account_cost = Account.get_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST)
+        account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE)
+        account_cost = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST)
       end
       
       # 配賦明細の作成

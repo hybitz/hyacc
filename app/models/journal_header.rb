@@ -174,10 +174,10 @@ class JournalHeader < ActiveRecord::Base
         case detail.account.dc_type
         when DC_TYPE_DEBIT
           # 借方の場合は仮払消費税
-          tax_detail.account = Account.get_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
+          tax_detail.account = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
         when DC_TYPE_CREDIT
           # 貸方の場合は借受消費税
-          tax_detail.account = Account.get_by_code(ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED)
+          tax_detail.account = Account.find_by_code(ACCOUNT_CODE_SUSPENSE_TAX_RECEIVED)
         end
 
         tax_detail.branch = detail.branch

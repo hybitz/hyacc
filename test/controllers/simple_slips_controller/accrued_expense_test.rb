@@ -14,8 +14,8 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
   def test_本締の年度への費用振替の登録がエラーになること
 
     assert_no_difference 'JournalHeader.count' do
-      post :create,
-        :account_code=>ACCOUNT_CODE_CASH,
+      post :create, :params => {
+        :account_code => ACCOUNT_CODE_CASH,
         :simple_slip => {
           "ym"=>201001,
           "day"=>20,
@@ -26,6 +26,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
           :tax_type => TAX_TYPE_NONTAXABLE,
           "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
         }
+      }
     end
 
     assert_response :success
@@ -40,7 +41,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     slip = finder.find(12)
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :patch, :update, :id => slip.id,
+      patch :update, :xhr => true, :params => {:id => slip.id,
         :account_code => finder.account_code,
         :simple_slip => {
           "ym"=>201002,
@@ -55,6 +56,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
           "lock_version"=>slip.lock_version,
           "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
         }
+      }
     end
 
     assert_response :success
@@ -69,7 +71,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     slip = finder.find(15)
 
     assert_no_difference 'JournalHeader.count' do
-      xhr :post, :update, :id => slip.id,
+      patch :update, :xhr => true, :params => {:id => slip.id,
         :account_code => finder.account_code,
         :simple_slip => {
           "ym"=>201001,
@@ -84,6 +86,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
           "lock_version"=>slip.lock_version,
           "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
         }
+      }
     end
 
     assert_response :success
@@ -96,7 +99,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(12)
 
     assert_no_difference 'JournalHeader.count' do
-      post :destroy, :account_code => ACCOUNT_CODE_CASH, :id => jh.id, :lock_version => jh.lock_version
+      post :destroy, :params => {:account_code => ACCOUNT_CODE_CASH, :id => jh.id, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect
@@ -108,7 +111,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     remarks = "通常の年度への費用振替の登録が正常終了すること #{Time.new}"
     assert_nil JournalHeader.find_by_remarks(remarks)
 
-    post :create,
+    post :create, :params => {
       :account_code => ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym" => 201005,
@@ -120,6 +123,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
         :tax_type => TAX_TYPE_NONTAXABLE,
         :auto_journal_type => AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE,
       }
+    }
 
     assert_response :redirect
     assert_redirected_to :action => :index
@@ -176,7 +180,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(15)
     lock_version = jh.lock_version
 
-    xhr :post, :update, :id => jh.id,
+    patch :update, :xhr => true, :params => {:id => jh.id,
       :account_code => ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym"=>201012,
@@ -192,6 +196,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
         "auto_journal_month" => 11, # ゴミデータ
         "auto_journal_day" => 15, # ゴミデータ
       }
+    }
 
     assert_response :success
     assert_template 'common/reload'
@@ -249,8 +254,10 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     assert_accrued_expense(my_account, jh)
 
     assert_difference 'JournalHeader.count', -2 do
-      xhr :patch, :update, :account_code => my_account.code, :id => jh.id,
-          :simple_slip => {:lock_version => jh.lock_version}
+      patch :update, :xhr => true, :params => {
+        :account_code => my_account.code, :id => jh.id,
+        :simple_slip => {:lock_version => jh.lock_version}
+        }
     end
 
     assert_response :success
@@ -264,7 +271,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     assert_accrued_expense(my_account, jh)
 
     assert_difference 'JournalHeader.count', -3 do
-      post :destroy, :account_code => my_account.code, :id => jh.id, :lock_version => jh.lock_version
+      delete :destroy, :params => {:account_code => my_account.code, :id => jh.id, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect

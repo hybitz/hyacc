@@ -98,7 +98,7 @@ module Slips
     private
 
     def setup_from_journal( slip_finder )
-      my_account = Account.get_by_code(slip_finder.account_code)
+      my_account = Account.find_by_code(slip_finder.account_code)
       @my_account_id = my_account.id
 
       @id = @journal_header.id
@@ -161,7 +161,7 @@ module Slips
         end
 
       else
-        various = Account.get_by_code( ACCOUNT_CODE_VARIOUS )
+        various = Account.find_by_code( ACCOUNT_CODE_VARIOUS )
         @account_code = various.code
         @account_name = various.name
       end
@@ -184,7 +184,7 @@ module Slips
 
     def setup_from_params(hash = {})
       # 簡易入力が前提としている勘定科目、補助科目
-      my_account = Account.get_by_code(hash[:account_code])
+      my_account = Account.find_by_code(hash[:account_code])
       @my_account_id = my_account.id
       @my_sub_account_id = hash[:my_sub_account_id].to_i
 

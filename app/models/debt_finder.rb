@@ -7,7 +7,7 @@ class DebtFinder < Base::Finder
     jhs = JournalHeader.where(conditions).includes(:journal_details).order('ym desc, day desc, journal_headers.created_at desc').reverse
     
     # 仮負債の明細ごとにリスト化する
-    a = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
+    a = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
     key_branch_id = branch_id
     key_branch_id = "[0-9]*" if branch_id == 0
     jhs.each do |jh|
@@ -48,7 +48,7 @@ class DebtFinder < Base::Finder
 
   # 仮負債精算済みかを判定し、精算した伝票IDを取得
   def closed_id(jh, branch_id)
-    a = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
+    a = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
     jh.transfer_journals.each do |tjh|
       tjh.journal_details.each do |jd|
         if branch_id == jd.branch_id and

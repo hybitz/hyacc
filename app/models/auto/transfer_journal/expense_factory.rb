@@ -34,7 +34,7 @@ module Auto::TransferJournal
       auto_jd = auto.journal_details.build
       auto_jd.detail_no = auto.journal_details.size
       auto_jd.dc_type =  HyaccUtil.opposite_dc_type(@src_jd.dc_type)
-      auto_jd.account_id = Account.get_by_code( src_date <= @date ? ACCOUNT_CODE_PREPAID_EXPENSE : ACCOUNT_CODE_ACCRUED_EXPENSE ).id
+      auto_jd.account_id = Account.find_by_code( src_date <= @date ? ACCOUNT_CODE_PREPAID_EXPENSE : ACCOUNT_CODE_ACCRUED_EXPENSE ).id
       auto_jd.sub_account_id = nil
       auto_jd.branch_id = @src_jd.branch_id
       auto_jd.amount = @src_jd.amount

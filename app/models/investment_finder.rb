@@ -39,8 +39,8 @@ class InvestmentFinder < Base::Finder
   def set_investment_from_journal(journal_header_id)
     investment = Investment.new
     investment_ids = Account.where(Account.arel_table[:path].matches('%' + ACCOUNT_CODE_SECURITIES + '%')).pluck(:id)
-    paid_fee_id = Account.get_by_code(ACCOUNT_CODE_PAID_FEE).id
-    investment_securities_id = Account.get_by_code(ACCOUNT_CODE_INVESTMENT_SECURITIES).id
+    paid_fee_id = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id
+    investment_securities_id = Account.find_by_code(ACCOUNT_CODE_INVESTMENT_SECURITIES).id
     
     jh = JournalHeader.find(journal_header_id)
     investment.yyyymmdd = jh.ym.to_s.insert(4, '-') + '-' + "%02d" % jh.day.to_s

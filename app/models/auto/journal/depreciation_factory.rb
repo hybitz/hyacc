@@ -42,7 +42,7 @@ module Auto::Journal
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
-        jd.account_id = Account.get_by_code(ACCOUNT_CODE_DEPRECIATION).id
+        jd.account_id = Account.find_by_code(ACCOUNT_CODE_DEPRECIATION).id
         jd.branch_id = asset.branch_id
         jd.tax_type = TAX_TYPE_NONTAXABLE
         jd.amount = amount

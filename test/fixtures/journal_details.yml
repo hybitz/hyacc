@@ -1,27 +1,7 @@
 <% require 'csv' %>
-<% CSV.foreach('test/data/journal_details.csv', headers: true) do |line| %>
-<%= line['id'] %>:
-<% %w{
-  id
-  journal_header_id
-  detail_no
-  detail_type
-  dc_type
-  account_id
-  account_name
-  sub_account_id
-  sub_account_name
-  branch_id
-  branch_name
-  amount
-  note
-  tax_type
-  tax_rate
-  main_detail_id
-  social_expense_number_of_people
-  is_allocated_cost
-  is_allocated_assets
-}.each do |column| %>
-  <%= column %>: <%= line[column] %>
+<% CSV.foreach("test/data/#{File.basename(__FILE__).split('.').first}.csv", headers: true) do |row| %>
+<%= row['id'] %>:
+<% row.headers.each do |column| %>
+  <%= column %>: <%= row[column] %>
 <% end %>
 <% end %>

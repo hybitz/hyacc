@@ -17,15 +17,15 @@ module PayrollInfo
 
       list.each do |p|
         # 役員給与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
           total_base_salary += d.amount
         end
         # 給与手当
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
           total_base_salary += d.amount
         end
         # 賞与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
           total_base_salary += d.amount
         end
       end
@@ -42,12 +42,12 @@ module PayrollInfo
 
       list.each do |p|
         # 役員給与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
           yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
           salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
         end
         # 給与手当
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
           yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
           salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
         end
@@ -64,7 +64,7 @@ module PayrollInfo
 
       list.each do |p|
         # 賞与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
           yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
           bonuses[yyyymmdd] = bonuses.has_key?(yyyymmdd) ? bonuses[yyyymmdd] + d.amount : d.amount
         end
@@ -165,12 +165,12 @@ module PayrollInfo
 
       list.each do |p|
         # 健康保険料(預り金)
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_DEPOSITS_RECEIVED)).each do |d|
           total_expense = total_expense + d.amount
         end
         # 健康保険料(立替金)
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_ADVANCE_MONEY)).each do |d|
           total_expense = total_expense + d.amount
         end
@@ -187,12 +187,12 @@ module PayrollInfo
 
       list.each do |p|
         # 厚生年金保険料(預り金)
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED)).each do |d|
           total_expense = total_expense + d.amount
         end
         # 厚生年金保険料(立替金)
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_ADVANCE_MONEY)).each do |d|
           total_expense = total_expense + d.amount
         end
@@ -227,7 +227,7 @@ module PayrollInfo
       list = Payroll.joins(:pay_journal_header).where("journal_headers.ym like ?" + conditions,  @calendar_year.to_s + '%').order("journal_headers.ym, journal_headers.day")
       list.each do |p|
         # 賞与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.get_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
+        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED),
                                                         :dc_type => DC_TYPE_CREDIT).each do |d|
           yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)

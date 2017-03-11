@@ -8,7 +8,7 @@ module Validators
 
       if record.account.sub_accounts.present?
         if record.sub_account_id.to_i == 0
-          record.errors[:sub_account] = I18n.t('errors.messages.empty')
+          record.errors.add(:sub_account, I18n.t('errors.messages.empty'))
         end
       end
     end

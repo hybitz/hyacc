@@ -22,8 +22,8 @@ module Auto::Journal
     def make_payroll
       employee = Employee.find(@payroll.employee_id)
       salary_account = employee.executive? ?
-          Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
-          Account.get_by_code(ACCOUNT_CODE_SALARY)
+          Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
+          Account.find_by_code(ACCOUNT_CODE_SALARY)
 
       journal_header = JournalHeader.new
       journal_header.company_id = @user.company_id
@@ -45,8 +45,8 @@ module Auto::Journal
       # 保険料と所得税の取得
       tax = get_tax(@payroll.ym, employee.id, @payroll.base_salary)
       # 勘定科目の取得
-      deposits_received = Account.get_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
-      advance_money = Account.get_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
+      deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
+      advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
 
       ## 給与明細
       ### 役員給与・給与手当
@@ -62,7 +62,7 @@ module Auto::Journal
       ### 法定福利費.健康保険料
       insurance_half = tax.insurance_all.to_i - @payroll.insurance.to_i
       if insurance_half != 0
-        account = Account.get_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
+        account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
@@ -76,7 +76,7 @@ module Auto::Journal
       ### 法定福利費.厚生年金
       pension_half = tax.pension_all.to_i - @payroll.pension.to_i
       if pension_half != 0
-        account = Account.get_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
+        account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
@@ -139,7 +139,7 @@ module Auto::Journal
       detail = journal_header.journal_details.build
       detail.detail_no = journal_header.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
-      detail.account = Account.get_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
+      detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
       detail.branch_id = branch_id
       detail.amount = tax.insurance_all.to_i - @payroll.insurance.to_i + tax.pension_all.to_i - @payroll.pension.to_i
       detail.note = "会社負担保険料の未払分"
@@ -174,7 +174,7 @@ module Auto::Journal
       detail = journal_header.journal_details.build
       detail.detail_no = journal_header.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
-      detail.account = Account.get_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
+      detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
       detail.sub_account_id = employee.user_id
       detail.branch_id = branch_id
       detail.note = "振り込み予定額"
@@ -200,8 +200,8 @@ module Auto::Journal
     def make_pay
       employee = Employee.find(@payroll.employee_id)
       salary_account = employee.executive? ?
-          Account.get_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
-          Account.get_by_code(ACCOUNT_CODE_SALARY)
+          Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
+          Account.find_by_code(ACCOUNT_CODE_SALARY)
 
       journal_header = JournalHeader.new
       journal_header.company_id = @user.company.id
@@ -230,7 +230,7 @@ module Auto::Journal
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
-        detail.account = Account.get_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
+        detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
         detail.sub_account_id = employee.user_id
         detail.branch_id = branch_id
         detail.amount = @payroll.transfer_payment
@@ -238,7 +238,7 @@ module Auto::Journal
       end
       ### 未払金（従業員）.ユーザ
       if @payroll.accrued_liability.to_i != 0
-        account = Account.get_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE)
+        account = Account.find_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE)
 
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
@@ -250,7 +250,7 @@ module Auto::Journal
         detail.note = "立替費用の精算"
       end
       ### 普通預金
-      account = Account.get_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT)
+      account = Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT)
       detail = journal_header.journal_details.build
       detail.detail_no = journal_header.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
@@ -306,7 +306,7 @@ module Auto::Journal
       ### TODO 銀行口座マスタとの連携
       commission = 500
       ### 支払手数料
-      account = Account.get_by_code(ACCOUNT_CODE_COMMISSION_PAID)
+      account = Account.find_by_code(ACCOUNT_CODE_COMMISSION_PAID)
       sub_account = account.sub_accounts.find{|sa| sa.name == '振込手数料' }
       detail = journal_header.journal_details.build
       detail.detail_no = journal_header.journal_details.size
@@ -331,7 +331,7 @@ module Auto::Journal
         detail.dc_type = DC_TYPE_DEBIT
         detail.detail_type = DETAIL_TYPE_TAX
         detail.tax_type = TAX_TYPE_NONTAXABLE
-        detail.account = Account.get_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
+        detail.account = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
         detail.branch_id = branch_id
         detail.amount = (commission * tax_rate).to_i
         detail.note = "振込手数料の消費税"
@@ -339,7 +339,7 @@ module Auto::Journal
       end
 
       ### 普通預金
-      account = Account.get_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT)
+      account = Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT)
       detail = journal_header.journal_details.build
       detail.detail_no = journal_header.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT

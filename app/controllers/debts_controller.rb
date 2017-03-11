@@ -41,7 +41,7 @@ class DebtsController < Base::HyaccController
     old = JournalHeader.find(params[:journal_header_id])
 
     params[:jh] = jh
-    a = Account.get_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
+    a = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
     jh.journal_details.where(:account_id => a.id, :branch_id => params[:branch_id]).each do |jd|
       params[:jd] = jd
     end

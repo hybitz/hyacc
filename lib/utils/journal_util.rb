@@ -70,7 +70,7 @@ module JournalUtil
 
     # accountが勘定科目コードの場合はマスタを検索
     if account.kind_of? String
-      account = Account.get_by_code(account)
+      account = Account.find_by_code(account)
     # accountが勘定科目IDの場合はマスタ検索
     elsif account.kind_of? Fixnum
       account = Account.get(account)
@@ -101,7 +101,7 @@ module JournalUtil
   def self.get_net_sum(company_id, account, branch_id, sub_account_id)
     # accountが勘定科目コードの場合はマスタを検索
     if account.kind_of? String
-      account = Account.get_by_code( account )
+      account = Account.find_by_code( account )
     # accountが勘定科目IDの場合はマスタ検索
     elsif account.kind_of? Fixnum
       account = Account.get( account )

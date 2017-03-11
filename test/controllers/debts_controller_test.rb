@@ -38,15 +38,17 @@ class DebtsControllerTest < ActionController::TestCase
   def test_update_fail
     num_journal_headers = JournalHeader.count
     
-    post :create, :journal_header_id => '6466', :branch_id => '3',
+    post :create, :params => {
+      :journal_header_id => '6466', :branch_id => '3',
       :account_id=>'5', :sub_account_id => '',
       :ymd=>'2009-09-24'
+    }
     assert_response :internal_server_error
     assert_equal num_journal_headers, JournalHeader.count
   end
 
   def test_部門モードでない場合は利用不可
-    assert !freelancer.company.branch_mode
+    assert_not freelancer.company.branch_mode
     sign_in freelancer
     get :index
     assert_response :forbidden

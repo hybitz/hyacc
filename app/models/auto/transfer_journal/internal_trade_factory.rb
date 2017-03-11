@@ -48,8 +48,8 @@ module Auto::TransferJournal
 
       # 明細作成準備
       head_office = branch.company.head_branch
-      account_head_office = Account.get_by_code(ACCOUNT_CODE_HEAD_OFFICE)
-      account_branch_office = Account.get_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
+      account_head_office = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE)
+      account_branch_office = Account.find_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
       dc_type = amount < 0 ? DC_TYPE_DEBIT : DC_TYPE_CREDIT
       amount = amount.abs
 

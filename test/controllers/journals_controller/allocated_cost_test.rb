@@ -31,7 +31,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].detail_no = 2
 
     assert_difference 'JournalHeader.count', 4 do
-      xhr :post, :create, :params => {
+      post :create, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -56,7 +56,8 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
             }
           }
         }
-      }
+      },
+      :xhr => true
 
       assert_response :success
       assert_template 'common/reload'
@@ -127,7 +128,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
-      xhr :post, :create, :params => {
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -195,7 +196,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
-      xhr :post, :create, :params => {
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -266,7 +267,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -295,6 +296,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -312,7 +314,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   end
 
   def test_create_allocated_tax_cost
-    assert a = Account.get_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
+    assert a = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
     post_jh = JournalHeader.new
@@ -339,7 +341,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].detail_no = 2
 
     assert_difference 'JournalHeader.count', 7 do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -365,6 +367,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'
@@ -414,7 +417,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].detail_no = 2
 
     assert_difference 'JournalHeader.count', 1 do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -439,6 +442,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'

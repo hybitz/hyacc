@@ -62,7 +62,7 @@ class Ledger
       end
       
       # 相手勘定科目
-      self.account_name = Account.get_by_code( ACCOUNT_CODE_VARIOUS ).name
+      self.account_name = Account.find_by_code( ACCOUNT_CODE_VARIOUS ).name
     end
   end
 

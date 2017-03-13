@@ -155,7 +155,7 @@ GEM
     ffi (1.9.18)
     ffi-yajl (2.3.0)
       libyajl2 (~> 1.2)
-    fullcalendar-rails (3.1.0.0)
+    fullcalendar-rails (3.2.0.0)
       jquery-rails (>= 4.0.5, < 5.0.0)
       jquery-ui-rails (>= 5.0.2)
       momentjs-rails (>= 2.9.0)
@@ -166,10 +166,10 @@ GEM
     hashie (3.5.5)
     holiday_jp (0.5.1)
     i18n (0.8.1)
-    i18n-js (3.0.0.rc15)
+    i18n-js (3.0.0.rc16)
       i18n (~> 0.6, >= 0.6.6)
     ipaddress (0.8.3)
-    itamae (1.9.10)
+    itamae (1.9.11)
       ansi
       hashie
       schash (~> 0.1.0)
@@ -370,7 +370,7 @@ GEM
       rotp
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (3.1.6)
+    uglifier (3.1.7)
       execjs (>= 0.3.0, < 3)
     unicorn (5.2.0)
       kgio (~> 2.6)

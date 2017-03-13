@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 20170111000944) do
     t.index ["code"], name: "index_customers_on_code", unique: true, using: :btree
   end
 
-  create_table "dependent_family_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "dependent_family_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "exemption_id",                  null: false
     t.integer  "exemption_type",                null: false
     t.string   "name",                          null: false

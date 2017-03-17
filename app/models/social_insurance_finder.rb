@@ -1,5 +1,10 @@
-class SocialInsuranceFinder < Daddy::Model
+class SocialInsuranceFinder
+  include ActiveModel::Model
 
+  attr_accessor :ym
+  attr_accessor :prefecture_code
+  attr_accessor :base_salary
+  
   def list
     service = HyaccMaster::ServiceFactory.create_service(Rails.env)
     service.get_insurances(prefecture_code, ym.gsub('-', ''), base_salary)

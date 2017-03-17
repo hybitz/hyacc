@@ -32,7 +32,7 @@
         <td><%= to_amount(data.monthly_earnings) %></td>
         <td><%= to_amount(data.daily_earnings) %></td>
         <td><%= to_amount(data.pay_range_above) %></td>
-        <td><%= to_amount(data.pay_range_under) %></td>
+        <td><%= to_amount(data.pay_range_under) if data.pay_range_under < 2_147_483_647 %></td>
         <td><%= to_amount(data.health_insurance_all, :precision => 1) %></td>
         <td><%= to_amount(data.health_insurance_half, :precision => 1) %></td>
         <td><%= to_amount(data.health_insurance_all_care, :precision => 1) %></td>

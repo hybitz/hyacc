@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.6.1'
+lock '3.8.0'
 
 set :application, 'hyacc'
 set :repo_url, `git config --get remote.origin.url`
@@ -15,7 +15,6 @@ set :deploy_to, "/var/apps/#{fetch(:application)}"
 # Default value for :scm is :git
 # set :scm, :git
 set :scm, :git
-set :git_strategy, MyGitStrategy
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh

@@ -14,20 +14,20 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
   end
 
   def test_登録_エラー
-    xhr :post, :create, :params => {:fiscal_year => invalid_fiscal_year_params}
+    post :create, :xhr => true, :params => {:fiscal_year => invalid_fiscal_year_params}
     assert_response :success
     assert_template :new
   end
 
   def test_編集
-    xhr :get, :edit, :params => {:id => user.company.current_fiscal_year.id}
+    get :edit, :xhr => true, :params => {:id => user.company.current_fiscal_year.id}
     assert_not_nil assigns(:fiscal_year)
     assert_response :success
     assert_template :edit
   end
 
   def test_更新
-    xhr :put, :update, :params => {:id => user.company.current_fiscal_year.id,
+    patch :update, :xhr => true, :params => {:id => user.company.current_fiscal_year.id,
         :fiscal_year => valid_fiscal_year_params(:user => user)}
     assert_response :success
     assert_template 'common/reload'
@@ -39,7 +39,7 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     
     lv = c.lock_version
 
-    xhr :post, :update_current_fiscal_year, :params => {
+    patch :update_current_fiscal_year, :xhr => true, :params => {
       :company_id => c.id,
       :c => {:fiscal_year => 2008, :lock_version => lv}
     }

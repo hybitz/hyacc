@@ -62,7 +62,7 @@ class Bs::AssetsController < Base::HyaccController
 
   def finder
     unless @finder
-      @finder = AssetFinder.new(params[:finder])
+      @finder = AssetFinder.new(finder_params)
       @finder.fiscal_year ||= current_company.fiscal_year
       @finder.branch_id ||= current_user.employee.default_branch.id
       @finder.page = params[:page]
@@ -70,6 +70,14 @@ class Bs::AssetsController < Base::HyaccController
     end
     
     @finder
+  end
+
+  def finder_params
+    if params[:finder].present?
+      params.require(:finder).permit(:fiscal_year, :branch_id, :account_id)
+    else
+      {}
+    end
   end
 
   def asset_params

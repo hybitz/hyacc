@@ -25,7 +25,7 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
 
   def test_別表四_所得の金額の計算に関する明細書
     sign_in user
-    get :index, :commit => true, :finder => income_finder
+    get :index, :params => {:commit => true, :finder => income_finder}
     assert_response :success
     assert_template :income
   end

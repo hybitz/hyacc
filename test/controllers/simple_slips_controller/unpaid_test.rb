@@ -9,7 +9,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
   def test_前月自動振替
     remarks = "前月の費用に自動振替" + Time.now.to_i.to_s
 
-    post :create,
+    post :create, :params => {
       :account_code => ACCOUNT_CODE_UNPAID_EMPLOYEE,
       :simple_slip => {
         "ym"=>200801,
@@ -22,6 +22,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
         :tax_type => TAX_TYPE_NONTAXABLE,
         "auto_journal_type"=>AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
       }
+    }
 
     assert_response :redirect
     assert_redirected_to :action => 'index'
@@ -93,8 +94,8 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
   def test_翌月自動振替
     remarks = "翌月の費用に自動振替" + Time.now.to_i.to_s
 
-    post :create,
-      :account_code=>ACCOUNT_CODE_UNPAID_EMPLOYEE,
+    post :create, :params => {
+      :account_code => ACCOUNT_CODE_UNPAID_EMPLOYEE,
       :simple_slip => {
         "ym"=>200801,
         "day"=>7,
@@ -106,6 +107,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
         :tax_type => TAX_TYPE_NONTAXABLE,
         "auto_journal_type"=>AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
       }
+    }
 
     assert_response :redirect
     assert_redirected_to :action=>:index
@@ -173,7 +175,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
   end
 
   def test_一覧
-    get :index,
+    get :index, :params => {
       :account_code => ACCOUNT_CODE_UNPAID_EMPLOYEE,
       :finder => {
         "ym" => "",
@@ -181,6 +183,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
         "sub_account_id" => 1,
         "branch_id" => 2
       }
+    }
     assert_response :success
     assert_template :index
   end

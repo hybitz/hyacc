@@ -15,7 +15,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
 
     sa = Customer.find(3)
 
-    post :create,
+    post :create, :params => {
       :account_code => 1551,
       :simple_slip => {
         "my_sub_account_id"=>sa.id,
@@ -27,6 +27,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
         "sub_account_id"=>sa.id,
         "amount_increase" => 1000000,
         :tax_type => TAX_TYPE_NONTAXABLE}
+    }
 
     assert_response :redirect
     assert_redirected_to :action=>:index
@@ -51,7 +52,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
   # コピー元伝票のJSONフォーマットが正常に取得できること
   def test_copy
     base_id = 6471
-    xhr :get, :copy, :account_code => ACCOUNT_CODE_SMALL_CASH, :id => base_id
+    get :copy, :xhr => true, :params => {:account_code => ACCOUNT_CODE_SMALL_CASH, :id => base_id}
     assert_response :success
     assert assigns[:json]
 
@@ -76,7 +77,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
     assert_equal '100', slip.asset_code
     assert_equal 0, slip.asset_lock_version
 
-    xhr :patch, :update, :id => slip.id,
+    patch :update, :xhr => true, :params => {:id => slip.id,
       :account_code => finder.account_code,
       :simple_slip => {
         :ym => slip.ym,
@@ -94,6 +95,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
         "asset_id" => slip.asset_id,
         "asset_lock_version" => slip.asset_lock_version,
       }
+    }
 
     assert_response :success
     assert @slip = assigns(:simple_slip)
@@ -107,7 +109,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
   end
 
   def test_new
-    get :index, :account_code => ACCOUNT_CODE_SMALL_CASH
+    get :index, :params => {:account_code => ACCOUNT_CODE_SMALL_CASH}
     assert_response :success
     assert_template :index
     assert assigns(:simple_slip)
@@ -116,7 +118,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
   end
 
   def test_edit
-    xhr :get, :edit, :account_code => ACCOUNT_CODE_SMALL_CASH, :id => 10
+    get :edit, :xhr => true, :params => {:account_code => ACCOUNT_CODE_SMALL_CASH, :id => 10}
     assert_response :success
     assert_template :edit
     assert assigns(:simple_slip)

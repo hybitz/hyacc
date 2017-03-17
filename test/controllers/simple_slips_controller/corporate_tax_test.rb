@@ -2,16 +2,14 @@ require 'test_helper'
 
 class SimpleSlipsController::CorporateTaxTest < ActionController::TestCase
 
-  def setup
-    sign_in user
-  end
-
   def test_登録
+    sign_in user
+
     remarks = "法人税の決算区分が正しく登録されていること#{Time.new}"
     assert a = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
-    post :create,
+    post :create, :params => {
       :account_code => ACCOUNT_CODE_CASH,
       :simple_slip => {
         "ym"=>200911,
@@ -19,12 +17,13 @@ class SimpleSlipsController::CorporateTaxTest < ActionController::TestCase
         "remarks"=>remarks,
         "branch_id"=>1,
         "account_id"=>a.id,
-        "sub_account_id"=>sa.id,
-        "amount_increase"=>0,
-        "amount_decrease"=>25000,
+        "sub_account_id" => sa.id,
+        "amount_increase" => 0,
+        "amount_decrease" => 25000,
         :tax_type => TAX_TYPE_NONTAXABLE,
-        "settlement_type"=>SETTLEMENT_TYPE_FULL
+        "settlement_type" => SETTLEMENT_TYPE_FULL
       }
+    }
 
     assert_response :redirect
     assert_redirected_to :action => :index

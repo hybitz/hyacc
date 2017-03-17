@@ -151,8 +151,8 @@ module PayrollInfo
       end
       
       # 住宅借入金控除
-      e = get_exemptions
-      total_tax = (total_tax - e.house_loan) < 0 ? 0 : (total_tax - e.house_loan)
+      #e = get_exemptions
+      #total_tax = (total_tax - e.house_loan) < 0 ? 0 : (total_tax - e.house_loan)
 
       # 復興特別税（H25以降）
       total_tax = total_tax * 1.021 if @calendar_year >= 2013

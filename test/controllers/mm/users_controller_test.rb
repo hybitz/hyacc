@@ -67,7 +67,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_編集
     sign_in admin
-    get :edit, :params => {:id => user.id}
+    get :edit, :xhr => true, :params => {:id => user.id}
 
     assert_response :success
     assert_template 'edit'

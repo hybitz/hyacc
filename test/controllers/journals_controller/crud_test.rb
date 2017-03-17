@@ -40,7 +40,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     ym = Date.today.strftime('%Y%m')
     assert_not_equal ym, copy_from.ym
 
-    get :new, :params => {:copy_id => 1}
+    get :new, :xhr => true, :params => {:copy_id => 1}
     assert_response :success
     assert_template 'new'
 

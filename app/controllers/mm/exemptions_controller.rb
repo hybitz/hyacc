@@ -7,8 +7,9 @@ class Mm::ExemptionsController < Base::HyaccController
   end
 
   def new
-    @c = Exemption.new(:basic => 380_000)
-    @c.yyyy ||= Date.today.year
+    # 直近のデータを初期表示
+    @c = Exemption.where(employee_id: current_user.employee.id).order('yyyy desc').first
+    @c.yyyy = Date.today.year
   end
 
   def create

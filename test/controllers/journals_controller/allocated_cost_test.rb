@@ -172,28 +172,30 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   end
 
   def test_auto_journal_type_accrued_expense
-    remarks = '費用配賦テスト' + Time.now.to_s
+    remarks = 'test_auto_journal_type_accrued_expense' + Time.now.to_s
     
     post_jh = JournalHeader.new
     post_jh.remarks = remarks
     post_jh.ym = 200908
     post_jh.day = 15
-    post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[0].branch_id = 1
-    post_jh.journal_details[0].account_id = 20 # 福利厚生費
-    post_jh.journal_details[0].tax_amount = 4
-    post_jh.journal_details[0].input_amount = 100
-    post_jh.journal_details[0].tax_type = TAX_TYPE_INCLUSIVE
-    post_jh.journal_details[0].tax_rate_percent = 5
-    post_jh.journal_details[0].is_allocated_cost = true
-    post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
-    post_jh.journal_details[0].auto_journal_type = AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
-    post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[1].branch_id = 1
-    post_jh.journal_details[1].account_id = 2 # 現金
-    post_jh.journal_details[1].input_amount = 100
-    post_jh.journal_details[1].tax_type = 1
-    post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
+
+    jd = post_jh.journal_details.build
+    jd.branch_id = 1
+    jd.account_id = 20 # 福利厚生費
+    jd.tax_amount = 4
+    jd.input_amount = 100
+    jd.tax_type = TAX_TYPE_INCLUSIVE
+    jd.tax_rate_percent = 5
+    jd.is_allocated_cost = true
+    jd.dc_type = DC_TYPE_DEBIT # 借方
+    jd.auto_journal_type = AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
+
+    jd = post_jh.journal_details.build
+    jd.branch_id = 1
+    jd.account_id = 2 # 現金
+    jd.input_amount = 100
+    jd.tax_type = 1
+    jd.dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
       post :create, :xhr => true, :params => {
@@ -240,31 +242,33 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   end
 
   def test_auto_journal_type_date_input_expense
-    remarks = '費用配賦テスト' + Time.now.to_s
+    remarks = 'test_auto_journal_type_date_input_expense ' + Time.now.to_s
     
     post_jh = JournalHeader.new
     post_jh.remarks = remarks 
     post_jh.ym = 200908
     post_jh.day = 16
-    post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[0].branch_id = 1
-    post_jh.journal_details[0].account_id = 20 # 福利厚生費
-    post_jh.journal_details[0].tax_amount = 4
-    post_jh.journal_details[0].input_amount = 100
-    post_jh.journal_details[0].tax_type = TAX_TYPE_INCLUSIVE
-    post_jh.journal_details[0].tax_rate_percent = 5
-    post_jh.journal_details[0].is_allocated_cost = true
-    post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
-    post_jh.journal_details[0].auto_journal_type = AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
-    post_jh.journal_details[0].auto_journal_year = 2009
-    post_jh.journal_details[0].auto_journal_month = 11
-    post_jh.journal_details[0].auto_journal_day = 21
-    post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[1].branch_id = 1
-    post_jh.journal_details[1].account_id = 2 # 現金
-    post_jh.journal_details[1].input_amount = 100
-    post_jh.journal_details[1].tax_type = 1
-    post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
+
+    jd = post_jh.journal_details.build
+    jd.branch_id = 1
+    jd.account_id = 20 # 福利厚生費
+    jd.tax_amount = 4
+    jd.input_amount = 100
+    jd.tax_type = TAX_TYPE_INCLUSIVE
+    jd.tax_rate_percent = 5
+    jd.is_allocated_cost = true
+    jd.dc_type = DC_TYPE_DEBIT # 借方
+    jd.auto_journal_type = AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
+    jd.auto_journal_year = 2009
+    jd.auto_journal_month = 11
+    jd.auto_journal_day = 21
+
+    jd = post_jh.journal_details.build
+    jd.branch_id = 1
+    jd.account_id = 2 # 現金
+    jd.input_amount = 100
+    jd.tax_type = 1
+    jd.dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
       post :create, :xhr => true, :params => {
@@ -395,26 +399,26 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   
   def test_create_not_allocate_cost
     post_jh = JournalHeader.new
-    post_jh.remarks = '費用配賦テスト' + Time.now.to_s
+    post_jh.remarks = 'test_create_not_allocate_cost' + Time.now.to_s
     post_jh.ym = 200908
     post_jh.day = 14
-    post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[0].branch_id = 1
-    post_jh.journal_details[0].account_id = 20 # 福利厚生費
-    post_jh.journal_details[0].tax_amount = 4
-    post_jh.journal_details[0].input_amount = 100
-    post_jh.journal_details[0].tax_type = TAX_TYPE_INCLUSIVE
-    post_jh.journal_details[0].tax_rate_percent = 5
-    post_jh.journal_details[0].is_allocated_cost = '0'
-    post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
-    post_jh.journal_details[0].detail_no = 1
-    post_jh.journal_details << JournalDetail.new
-    post_jh.journal_details[1].branch_id = 1
-    post_jh.journal_details[1].account_id = 2 # 現金
-    post_jh.journal_details[1].input_amount = 100
-    post_jh.journal_details[1].tax_type = 1
-    post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
-    post_jh.journal_details[1].detail_no = 2
+
+    jd = post_jh.journal_details.build
+    jd.branch_id = 1
+    jd.account_id = 20 # 福利厚生費
+    jd.tax_amount = 4
+    jd.input_amount = 100
+    jd.tax_type = TAX_TYPE_INCLUSIVE
+    jd.tax_rate_percent = 5
+    jd.is_allocated_cost = '0'
+    jd.dc_type = DC_TYPE_DEBIT # 借方
+
+    jd = post_jh.journal_details.build
+    jd.branch_id = 1
+    jd.account_id = 2 # 現金
+    jd.input_amount = 100
+    jd.tax_type = 1
+    jd.dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 1 do
       post :create, :xhr => true, :params => {
@@ -449,13 +453,13 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
-    assert_equal 1, list.length, "自動仕訳が作成されない"
-    jh = list[0]
-    assert_equal post_jh.remarks, jh.remarks
+    list = JournalHeader.where(:remarks => post_jh.remarks)
+    assert_equal 1, list.length, '自動仕訳が作成されない'
+    jh = list.first
     assert_equal post_jh.journal_details[0].input_amount, jh.amount
-    assert_equal 3, jh.journal_details.length, "消費税明細を含めて３明細"
+    assert_equal 3, jh.journal_details.length, '消費税明細を含めて３明細'
     assert_equal 0, jh.transfer_journals.length
+    assert_nil jh.journal_details.find{|jd| jd.transfer_journals.present? }
   end
 
 end

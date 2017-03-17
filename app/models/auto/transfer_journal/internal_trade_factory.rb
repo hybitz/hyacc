@@ -31,7 +31,7 @@ module Auto::TransferJournal
 
     def make_transfer_journal(parent_jh, branch_id, amount)
       # 部門が本店の場合は振替不要
-      branch = Branch.get(branch_id)
+      branch = Branch.find(branch_id)
       return if branch.head_office?
 
       # 支店の場合は本店との振替仕訳を作成する
@@ -67,7 +67,7 @@ module Auto::TransferJournal
       # 本店分の明細を作成
       jd2 = jh.journal_details.build
       jd2.detail_no = jh.journal_details.size
-      jd2.dc_type =  HyaccUtil.opposite_dc_type( dc_type )
+      jd2.dc_type =  HyaccUtil.opposite_dc_type(dc_type)
       jd2.account_id = account_branch_office.id
       jd2.sub_account_id = account_branch_office.get_sub_account_by_code(branch.code).id
       jd2.branch_id = head_office.id

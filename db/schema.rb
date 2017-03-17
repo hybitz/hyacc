@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317062806) do
+ActiveRecord::Schema.define(version: 20170317075626) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "code",                                   default: "",    null: false
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20170317062806) do
     t.integer  "depreciation_limit"
     t.string   "remarks"
     t.decimal  "business_use_ratio",            precision: 5, scale: 2
-    t.integer  "journal_detail_id"
+    t.integer  "journal_detail_id",                                                     null: false
     t.boolean  "deleted",                                               default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"

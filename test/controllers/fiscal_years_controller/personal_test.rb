@@ -18,7 +18,7 @@ class FiscalYearsController::PersonalTest < ActionController::TestCase
     fy = FiscalYear.find(12)
     assert_equal CLOSING_STATUS_OPEN, fy.closing_status
 
-    xhr :get, :confirm_carry_forward, :params => {:id => fy.id}
+    get :confirm_carry_forward, :xhr => true, :params => {:id => fy.id}
 
     assert_response :success
     assert_template :confirm_carry_forward
@@ -29,7 +29,7 @@ class FiscalYearsController::PersonalTest < ActionController::TestCase
     fy = FiscalYear.find(10)
     assert_equal CLOSING_STATUS_OPEN, fy.closing_status
 
-    xhr :post, :carry_forward, :params => {:id => fy.id,
+    post :carry_forward, :xhr => true, :params => {:id => fy.id,
       :lock_version => fy.lock_version,
       :journalize_housework => 0}
 

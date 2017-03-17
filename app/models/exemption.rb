@@ -6,7 +6,7 @@ class Exemption < ActiveRecord::Base
   belongs_to :employee
   validates :employee_id, uniqueness: {scope: [:yyyy]}
   validates_presence_of :small_scale_mutual_aid, :life_insurance_premium_old, :earthquake_insurance_premium,
-        :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic
+        :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic, :house_loan
 
   accepts_nested_attributes_for :dependent_family_members, :allow_destroy => true
 

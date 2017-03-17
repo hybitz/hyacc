@@ -273,6 +273,7 @@ ja:
         dependents: 扶養家族
         spouse: 配偶者控除
         disabled_persons: 障害者控除
+        house_loan: 住宅借入金控除
         basic: 基礎控除
         
       dependent_family_member: &dependent_family_member

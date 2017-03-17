@@ -131,7 +131,7 @@ module PayrollInfo
       # 社会保険料等の控除額＋基礎控除等
       total = get_health_insurance + get_employee_pention +
                 e.small_scale_mutual_aid + e.life_insurance_premium + e.earthquake_insurance_premium +
-                e.special_tax_for_spouse + e.spouse + e.dependents + e.disabled_persons + e.basic
+                e.special_tax_for_spouse + e.spouse + e.dependents + e.disabled_persons + e.house_loan + e.basic
       return total
     end
 

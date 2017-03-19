@@ -15,7 +15,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
   test "本締の年度への費用振替の登録がエラーになること" do
     post_jh = JournalHeader.find(24)
 
-    xhr :post, :create,
+    post :create, :xhr => true, :params => {
       :journal => {
         :ym => post_jh.ym,
         :day => post_jh.day,
@@ -49,6 +49,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'new'
@@ -61,7 +62,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
     assert post_jh.fiscal_year.open?
     assert post_jh.journal_details[0].transfer_journals[0].fiscal_year.closed?
 
-    xhr :patch, :update, :id => post_jh.id,
+    patch :update, :xhr => true, :params => {:id => post_jh.id,
       :journal => {
         :ym => 201004,
         :day => 2,
@@ -98,6 +99,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'edit'
@@ -110,7 +112,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
     assert post_jh.fiscal_year.open?
     assert post_jh.journal_details[0].transfer_journals[0].fiscal_year.open? # もともとは通常の年度に登録されている自動仕訳
 
-    xhr :patch, :update, :id => post_jh.id,
+    patch :update, :xhr => true, :params => {:id => post_jh.id,
       :journal => {
         :ym => 201001,
         :day => 9,
@@ -147,6 +149,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'edit'
@@ -158,7 +161,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(24)
 
     assert_no_difference 'JournalHeader.count' do
-      delete :destroy, :id => jh, :lock_version => jh.lock_version
+      delete :destroy, :params => {:id => jh, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect
@@ -172,7 +175,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
 
     post_jh = JournalHeader.find(27)
 
-    xhr :post, :create,
+    post :create, :xhr => true, :params => {
       :journal => {
         :ym => 201002,
         :day => 14,
@@ -220,6 +223,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'common/reload'
@@ -307,7 +311,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
     post_jh = JournalHeader.find(27)
     lock_version = post_jh.lock_version
 
-    xhr :patch, :update, :id => post_jh.id,
+    patch :update, :xhr => true, :params => {:id => post_jh.id,
       :journal => {
         :ym => 201002,
         :day => 10,
@@ -357,6 +361,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
           }
         }
       }
+    }
 
     assert_response :success
     assert_template 'common/reload'
@@ -443,7 +448,7 @@ class JournalsController::DateInputExpenseTest < ActionController::TestCase
     jh = JournalHeader.find(27)
 
     assert_difference 'JournalHeader.count', -3 do
-      delete :destroy, :id => jh.id, :lock_version => jh.lock_version
+      delete :destroy, :params => {:id => jh.id, :lock_version => jh.lock_version}
     end
 
     assert_response :redirect

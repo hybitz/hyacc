@@ -39,7 +39,7 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     
     lv = c.lock_version
 
-    patch :update_current_fiscal_year, :xhr => true, :params => {
+    post :update_current_fiscal_year, :xhr => true, :params => {
       :company_id => c.id,
       :c => {:fiscal_year => 2008, :lock_version => lv}
     }
@@ -49,7 +49,7 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     c = Company.find(1)
     assert_equal 2008, c.fiscal_year
     
-    xhr :post, :update_current_fiscal_year, :params => {
+    post :update_current_fiscal_year, :xhr => true, :params => {
       :company_id => c.id,
       :c => {:fiscal_year => 2009, :lock_version => lv}
     }

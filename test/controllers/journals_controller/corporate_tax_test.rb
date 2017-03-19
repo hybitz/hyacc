@@ -35,7 +35,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     post_jh.journal_details[1].detail_no = 2
 
     assert_difference 'JournalHeader.count', 7 do
-      xhr :post, :create,
+      post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -61,6 +61,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
             }
           }
         }
+      }
 
       assert_response :success
       assert_template 'common/reload'

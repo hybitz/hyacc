@@ -109,10 +109,18 @@ class Mm::AccountsController < Base::HyaccController
 
   def finder
     unless @finder
-      @finder = AccountFinder.new(params[:finder])
+      @finder = AccountFinder.new(finder_params)
     end
 
     @finder
+  end
+
+  def finder_params
+    if params[:finder].present?
+      params.require(:finder).permit(:account_type, :leaf_only)
+    else
+      {}
+    end
   end
 
   def account_params

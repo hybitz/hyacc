@@ -1,6 +1,10 @@
-class AccountFinder < Daddy::Model
+class AccountFinder
+  include ActiveModel::Model
   include HyaccConstants
 
+  attr_accessor :account_type
+  attr_accessor :leaf_only
+  
   def leaf_only?
     self.leaf_only.to_i == 1
   end

@@ -72,10 +72,7 @@ module Accounts::SubAccountsSupport
     when SUB_ACCOUNT_TYPE_CORPORATE_TAX
       list = []
       CORPORATE_TAX_TYPES.each {|key, value|
-        tax = Daddy::Model.new
-        tax.id = key
-        tax.code = key
-        tax.name = value
+        tax = CorporateTax.new(:id => key, :code => key, :name => value)
         @sub_accounts_cache << tax
         @sub_accounts_all_cache << tax
       }

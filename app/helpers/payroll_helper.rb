@@ -77,33 +77,39 @@ module PayrollHelper
   # 健康保険料と所得税の取得
   def get_tax(ym, employee_id, base_salary)
     payroll = Payroll.new.init
+    return payroll if ym.blank? || employee_id.blank?
+    
+    e = Employee.find(employee_id)
+    care_from = (e.birth + 40.years - 1.day).strftime("%Y%m").to_i   # 40歳の誕生日前日の月から対象
+    care_to = (e.birth + 65.years - 1.day).strftime("%Y%m").to_i - 1 # 65歳の誕生日前日の月の前月までが対象
 
-    if ym && employee_id
-      e = Employee.find(employee_id)
-      
-      payroll.ym = ym
-      payroll.employee = e
-      payroll.base_salary = base_salary.to_i
+    payroll.ym = ym
+    payroll.employee = e
+    payroll.base_salary = base_salary.to_i
 
-      # 事業所の都道府県コードを取得
-      prefecture_code = e.business_office.prefecture_code
+    # 事業所の都道府県コードを取得
+    prefecture_code = e.business_office.prefecture_code
 
-      # 標準報酬月額の取得
-      standard_remuneration = get_standard_remuneration(ym, e, base_salary)
-      insurance = get_insurance(ym, prefecture_code, standard_remuneration)
+    # 標準報酬月額の取得
+    standard_remuneration = get_standard_remuneration(ym, e, base_salary)
+    insurance = get_insurance(ym, prefecture_code, standard_remuneration)
 
-      # 保険料の設定
-      # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
-      # 折半額の端数は個人負担
+    # 保険料の設定
+    # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
+    # 折半額の端数は個人負担
+    if ym.to_i >= care_from && ym.to_i <= care_to
+      payroll.insurance =  (insurance.health_insurance_half_care - 0.01).round
+      payroll.insurance_all = insurance.health_insurance_all_care.truncate
+    else
       payroll.insurance =  (insurance.health_insurance_half - 0.01).round
       payroll.insurance_all = insurance.health_insurance_all.truncate
-      payroll.pension = (insurance.welfare_pension_insurance_half - 0.01).round
-      payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
-
-      # 対象月の末日の扶養家族の人数から源泉徴収税額を取得
-      day = Date.new(ym.to_i/100, ym.to_i%100, -1)
-      payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(day, payroll.after_insurance_deduction, e.num_of_dependent_on(day))
     end
+    payroll.pension = (insurance.welfare_pension_insurance_half - 0.01).round
+    payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
+
+    # 対象月の末日の扶養家族の人数から源泉徴収税額を取得
+    day = Date.new(ym.to_i/100, ym.to_i%100, -1)
+    payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(day, payroll.after_insurance_deduction, e.num_of_dependent_on(day))
 
     payroll
   end

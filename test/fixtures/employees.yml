@@ -66,3 +66,24 @@ user7:
   employment_date: 2009-01-01
   sex: M
   birth: 1990-01-06
+
+user8:
+  id: 8
+  company_id: 2
+  user_id: 8
+  last_name: 保険
+  first_name: 一
+  employment_date: 2010-01-01
+  sex: M
+  birth: 1977-08-21
+  
+user9:
+  id: 9
+  company_id: 2
+  user_id: 9
+  last_name: 保険
+  first_name: 二
+  employment_date: 2010-01-01
+  sex: M
+  birth: 1977-08-01
+ 

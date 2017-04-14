@@ -59,3 +59,22 @@ user6:
   email: user6@example.com
   encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
   salt: 0.158920068742378
+
+  
+user8:
+  id: 8
+  company_id: 2
+  login_id: user8
+  slips_per_page: 30
+  email: user8@example.com
+  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  salt: 0.158920068742378
+  
+user9:
+  id: 9
+  company_id: 2
+  login_id: user9
+  slips_per_page: 30
+  email: user9@example.com
+  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  salt: 0.158920068742378

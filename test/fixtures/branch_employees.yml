@@ -28,3 +28,16 @@
   employee_id: 6
   cost_ratio: 100
   default_branch: true
+
+7:
+  branch_id: 7
+  employee_id: 8
+  cost_ratio: 100
+  default_branch: true
+  
+8:
+  branch_id: 7
+  employee_id: 9
+  cost_ratio: 100
+  default_branch: true
+  

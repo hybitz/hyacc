@@ -110,7 +110,7 @@ module PayrollInfo
     # 給与所得控除後
     def get_after_deduction
       # みなし給与で計算
-      get_total_deemed_salary - get_deduction
+      (get_total_deemed_salary - get_deduction) < 0 ? 0 : (get_total_deemed_salary - get_deduction)
     end
 
     def get_exemptions
@@ -140,6 +140,7 @@ module PayrollInfo
       total_tax = 0
       # 給与所得控除後 - 基礎控除等
       b = get_after_deduction - get_exemption
+      b = b < 0 ? 0 : b
 
       # 1,000円未満切り捨て
       b = (b/1000).to_i * 1000
@@ -151,8 +152,8 @@ module PayrollInfo
       end
       
       # 住宅借入金控除
-      #e = get_exemptions
-      #total_tax = (total_tax - e.house_loan) < 0 ? 0 : (total_tax - e.house_loan)
+      e = get_exemptions
+      total_tax = total_tax - e.house_loan < 0 ? 0 : total_tax - e.house_loan
 
       # 復興特別税（H25以降）
       total_tax = total_tax * 1.021 if @calendar_year >= 2013

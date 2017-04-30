@@ -167,7 +167,7 @@ class Company < ActiveRecord::Base
     ret = ret >> month_of_payday
 
     # 土日だったら休日前支払
-    while ret.wday == 0 or ret.wday == 6
+    while !HyaccDateUtil.weekday?(ret)
       ret = ret - 1
     end
 

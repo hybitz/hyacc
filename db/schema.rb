@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317075626) do
+ActiveRecord::Schema.define(version: 20170513160617) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "code",                                   default: "",    null: false
@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.boolean  "disabled",             default: false, null: false
   end
 
-  create_table "branch_employees", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "branch_employees", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "branch_id",                      null: false
     t.integer  "employee_id",                    null: false
     t.integer  "cost_ratio",     default: 0,     null: false
@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.index ["code"], name: "index_customers_on_code", unique: true, using: :btree
   end
 
-  create_table "dependent_family_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "dependent_family_members", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "exemption_id",                  null: false
     t.integer  "exemption_type",                null: false
     t.string   "name",                          null: false
@@ -240,7 +240,7 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.string   "position"
   end
 
-  create_table "exemptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "exemptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "employee_id",                              null: false
     t.integer  "yyyy",                                     null: false
     t.integer  "small_scale_mutual_aid",       default: 0, null: false
@@ -258,7 +258,7 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.integer  "house_loan",                   default: 0, null: false
   end
 
-  create_table "financial_statement_headers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "financial_statement_headers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "company_id",     null: false
     t.integer  "branch_id",      null: false
     t.integer  "report_type",    null: false
@@ -269,7 +269,7 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.integer  "report_style"
   end
 
-  create_table "financial_statements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "financial_statements", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "ym",                            null: false
     t.integer  "account_id",                    null: false
     t.string   "account_name",                  null: false
@@ -331,7 +331,7 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.index ["user_id", "input_type", "input_value", "input_value2"], name: "index_input_frequencies_for_unique_key", unique: true, using: :btree
   end
 
-  create_table "investments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "investments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "shares",            default: 0, null: false
     t.integer  "trading_value",     default: 0, null: false
     t.datetime "created_at"
@@ -397,7 +397,7 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.index ["ym"], name: "index_journal_headers_on_ym", using: :btree
   end
 
-  create_table "nostalgic_attrs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "nostalgic_attrs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "model_type",   null: false
     t.integer  "model_id",     null: false
     t.string   "name",         null: false
@@ -430,7 +430,7 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.index ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true, using: :btree
   end
 
-  create_table "receipts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+  create_table "receipts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "journal_header_id",                 null: false
     t.string   "file"
     t.string   "original_filename"
@@ -545,6 +545,9 @@ ActiveRecord::Schema.define(version: 20170317075626) do
     t.integer  "second_factor_attempts_count",  default: 0
     t.boolean  "use_two_factor_authentication", default: false, null: false
     t.boolean  "admin",                         default: false, null: false
+    t.string   "direct_otp"
+    t.datetime "direct_otp_sent_at"
+    t.datetime "totp_timestamp"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["login_id"], name: "index_users_on_login_id", unique: true, using: :btree
     t.index ["otp_secret_key"], name: "index_users_on_otp_secret_key", unique: true, using: :btree

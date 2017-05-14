@@ -10,7 +10,12 @@ module Accounts
   end
 
   def expense_account
-    @_expense_account ||= Account.expenses.where(:sub_account_type => SUB_ACCOUNT_TYPE_NORMAL, :journalizable => true).not_deleted.first
+    if @_expense_account.nil?
+      assert @_expense_account = Account.expenses.where(:sub_account_type => SUB_ACCOUNT_TYPE_NORMAL, :journalizable => true).not_deleted.first
+      assert @_expense_account.sub_accounts.empty?
+    end
+
+    @_expense_account
   end
   
   def social_expense_account

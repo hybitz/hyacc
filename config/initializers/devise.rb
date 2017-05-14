@@ -258,7 +258,12 @@ Devise.setup do |config|
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
   # two_factor_authentication
-  config.max_login_attempts = 3
-  config.allowed_otp_drift_seconds = 60
-  config.otp_length = Rails.application.secrets.otp_length
+  config.max_login_attempts = 3  # Maximum second factor attempts count.
+  config.allowed_otp_drift_seconds = 60  # Allowed TOTP time drift between client and server.
+  config.otp_length = Rails.application.secrets.otp_length  # TOTP code length
+  config.direct_otp_valid_for = 5.minutes  # Time before direct OTP becomes invalid
+  config.direct_otp_length = Rails.application.secrets.otp_length  # Direct OTP code length
+  config.remember_otp_session_for_seconds = 2.hours # Time before browser has to perform 2fA again. Default is 0.
+  config.otp_secret_encryption_key = Rails.application.secrets.secret_key_base
+  config.second_factor_resource_id = 'id' # Field or method name used to set value for 2fA remember cookie
 end

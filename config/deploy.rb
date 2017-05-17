@@ -2,11 +2,11 @@
 lock '3.8.1'
 
 set :application, 'hyacc'
-set :repo_url, `git config --get remote.origin.url`
+set :repo_url, `git config --get remote.origin.url`.chomp
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
-set :branch, ENV['BRANCH'] || 'release'
+set :branch, ENV['BRANCH'] || `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
 # set :deploy_to, '/var/www/my_app_name'
@@ -14,7 +14,6 @@ set :deploy_to, "/var/apps/#{fetch(:application)}"
 
 # Default value for :scm is :git
 # set :scm, :git
-set :scm, :git
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -44,21 +43,17 @@ namespace :deploy do
 
   task :start do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo service unicorn_#{fetch(:application)}_pro start"
-      execute "sudo service memcached start"
+      execute "sudo systemctl start memcached"
     end
   end
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo service unicorn_#{fetch(:application)}_pro stop"
-      execute "sudo service memcached stop"
+      execute "sudo systemctl stop memcached"
     end
   end
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "sudo service memcached stop"
-      execute "sudo service unicorn_#{fetch(:application)}_pro restart"
-      execute "sudo service memcached start"
+      execute "sudo systemctl restart memcached"
     end
   end
 

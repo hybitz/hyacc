@@ -74,7 +74,10 @@ class Mm::ExemptionsController < Base::HyaccController
     permitted = [:employee_id, :yyyy, :small_scale_mutual_aid,
       :life_insurance_premium_old, :life_insurance_premium_new,
       :earthquake_insurance_premium, :special_tax_for_spouse, :spouse,
-      :dependents, :disabled_persons, :basic, :house_loan,
+      :dependents, :disabled_persons, :basic, :mortgage_deduction,
+      :num_of_house_loan, :max_mortgage_deduction, :date_of_start_living_1,
+      :mortgage_deduction_code_1, :year_end_balance_1, :date_of_start_living_2,
+      :mortgage_deduction_code_2, :year_end_balance_2,
       :dependent_family_members_attributes => [:id, :exemption_type, :name, :kana, :my_number, :live_in, :_destroy]
     ]
 

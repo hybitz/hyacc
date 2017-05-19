@@ -273,8 +273,16 @@ ja:
         dependents: 扶養家族
         spouse: 配偶者控除
         disabled_persons: 障害者控除
-        house_loan: 住宅借入金控除
+        mortgage_deduction: 住宅借入金控除
         basic: 基礎控除
+        num_of_house_loan: 住宅借入金等特別控除適用数
+        max_mortgage_deduction: 住宅借入金等特別控除可能額
+        date_of_start_living_1: 居住開始年月日（1回目）
+        mortgage_deduction_code_1: 住宅借入金等特別控除区分（1回目）
+        year_end_balance_1: 住宅借入金等年末残高（1回目）
+        date_of_start_living_2: 居住開始年月日（2回目）
+        mortgage_deduction_code_2: 住宅借入金等特別控除区分（2回目）
+        year_end_balance_2: 住宅借入金等年末残高（2回目）
         
       dependent_family_member: &dependent_family_member
         name: 氏名

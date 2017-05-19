@@ -5,8 +5,7 @@ class Exemption < ActiveRecord::Base
   has_many :under16_family_members, -> { where exemption_type: EXEMPTION_TYPE_UNDER_16 }, class_name: "DependentFamilyMember"
   belongs_to :employee
   validates :employee_id, uniqueness: {scope: [:yyyy]}
-  validates_presence_of :small_scale_mutual_aid, :life_insurance_premium_old, :earthquake_insurance_premium,
-        :special_tax_for_spouse, :spouse, :dependents, :disabled_persons, :basic, :house_loan
+        
 
   accepts_nested_attributes_for :dependent_family_members, :allow_destroy => true
 
@@ -18,11 +17,11 @@ class Exemption < ActiveRecord::Base
     ret = 0
 
     # 旧契約のみで4万円を越える場合は、旧契約の限度額5万円の範囲を控除額とする
-    if life_insurance_premium_old > 40_000
-      ret = life_insurance_premium_old
+    if life_insurance_premium_old.to_i > 40_000
+      ret = life_insurance_premium_old.to_i
       ret = [ret, 50_000].min
     else
-      ret = life_insurance_premium_old + life_insurance_premium_new
+      ret = life_insurance_premium_old.to_i + life_insurance_premium_new.to_i
       ret = [ret, 40_000].min
     end
     

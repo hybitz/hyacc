@@ -61,7 +61,7 @@ module Reports
     def get_social_insurance
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions
-      return logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid
+      return logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid.to_i
     end
     
     # 生命保険料の控除額
@@ -69,7 +69,7 @@ module Reports
       ret = 0
 
       e = Exemption.get(@finder.employee_id, @finder.calendar_year)
-      ret += e.life_insurance_premium if e.present?
+      ret += e.life_insurance_premium.to_i if e.present?
 
       ret
     end

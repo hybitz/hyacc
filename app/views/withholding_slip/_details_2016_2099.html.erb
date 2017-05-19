@@ -61,7 +61,7 @@
     		<td colspan="1">その他</td>
   		</tr>
     	<tr>
-    		<td colspan="2"><%= "★" if @data.exemption.spouse > 0 %></td>
+    		<td colspan="2"><%= "★" if @data.exemption.spouse.to_i > 0 %></td>
     		<td colspan="2"><br></td>
     		<td colspan="2"><br></td>
     		<td colspan="4"><%= number_to_currency(@data.exemption.special_tax_for_spouse, :format=>"%n") %></td>

@@ -130,8 +130,8 @@ module PayrollInfo
       e = get_exemptions
       # 社会保険料等の控除額＋基礎控除等
       total = get_health_insurance + get_employee_pention +
-                e.small_scale_mutual_aid + e.life_insurance_premium + e.earthquake_insurance_premium +
-                e.special_tax_for_spouse + e.spouse + e.dependents + e.disabled_persons + e.basic
+                e.small_scale_mutual_aid.to_i + e.life_insurance_premium.to_i + e.earthquake_insurance_premium.to_i +
+                e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i + e.disabled_persons.to_i + e.basic.to_i
       return total
     end
 
@@ -153,7 +153,7 @@ module PayrollInfo
       
       # 住宅借入金控除
       e = get_exemptions
-      total_tax = total_tax - e.house_loan < 0 ? 0 : total_tax - e.house_loan
+      total_tax = total_tax - e.mortgage_deduction.to_i < 0 ? 0 : total_tax - e.mortgage_deduction.to_i
 
       # 復興特別税（H25以降）
       total_tax = total_tax * 1.021 if @calendar_year >= 2013

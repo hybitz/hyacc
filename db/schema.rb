@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513160617) do
+ActiveRecord::Schema.define(version: 20170519013404) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "code",                                   default: "",    null: false
@@ -241,21 +241,29 @@ ActiveRecord::Schema.define(version: 20170513160617) do
   end
 
   create_table "exemptions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "employee_id",                              null: false
-    t.integer  "yyyy",                                     null: false
-    t.integer  "small_scale_mutual_aid",       default: 0, null: false
-    t.integer  "life_insurance_premium_old",   default: 0, null: false
-    t.integer  "earthquake_insurance_premium", default: 0, null: false
-    t.integer  "special_tax_for_spouse",       default: 0, null: false
+    t.string   "employee_id",                  null: false
+    t.integer  "yyyy",                         null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "spouse",                       default: 0, null: false
-    t.integer  "dependents",                   default: 0, null: false
-    t.integer  "disabled_persons",             default: 0, null: false
-    t.integer  "basic",                        default: 0, null: false
-    t.integer  "company_id",                               null: false
-    t.integer  "life_insurance_premium_new",   default: 0, null: false
-    t.integer  "house_loan",                   default: 0, null: false
+    t.integer  "company_id",                   null: false
+    t.integer  "mortgage_deduction"
+    t.integer  "num_of_house_loan"
+    t.integer  "max_mortgage_deduction"
+    t.date     "date_of_start_living_1"
+    t.string   "mortgage_deduction_code_1"
+    t.integer  "year_end_balance_1"
+    t.date     "date_of_start_living_2"
+    t.string   "mortgage_deduction_code_2"
+    t.integer  "year_end_balance_2"
+    t.integer  "small_scale_mutual_aid"
+    t.integer  "life_insurance_premium_new"
+    t.integer  "life_insurance_premium_old"
+    t.integer  "earthquake_insurance_premium"
+    t.integer  "special_tax_for_spouse"
+    t.integer  "dependents"
+    t.integer  "spouse"
+    t.integer  "disabled_persons"
+    t.integer  "basic"
   end
 
   create_table "financial_statement_headers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

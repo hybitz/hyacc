@@ -59,8 +59,8 @@
     		<td>その他</td>
   		</tr>
     	<tr>
-    		<td><%= "★" if @data.exemption.spouse > 0 %></td>
-    		<td><%= "★" if @data.exemption.spouse == 0 %></td>
+    		<td><%= "★" if @data.exemption.spouse.to_i > 0 %></td>
+    		<td><%= "★" if @data.exemption.spouse.to_i == 0 %></td>
     		<td><br></td>
     		<td><br></td>
     		<td><br></td>

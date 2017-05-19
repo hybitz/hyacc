@@ -12,6 +12,7 @@ before_script:
   - bundle exec rake dad:db:create DAD_MYSQL_NO_ROOT_PASSWORD=true
   - bundle exec rake db:schema:load
 script:
+  - phantomjs
   - bundle exec rake test
   - bundle exec rake dad:test CI=travis
   - bundle exec rake dad:test user_stories CI=travis

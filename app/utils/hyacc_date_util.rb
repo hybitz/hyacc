@@ -1,5 +1,4 @@
 module HyaccDateUtil
-  include HyaccConstants
 
   def self.to_date(yyyymmdd)
     Date.new(yyyymmdd/10000, yyyymmdd/100%100, yyyymmdd%100)
@@ -140,7 +139,7 @@ module HyaccDateUtil
   
   # 年度にymを含めて後何ヶ月残っているか
   def self.get_remaining_months(start_month_of_fiscal_year, ym)
-    12 - HyaccDateUtil.get_ym_index(start_month_of_fiscal_year, ym)
+    12 - get_ym_index(start_month_of_fiscal_year, ym)
   end
 
   def self.weekday_of_month(yyyy, mm)

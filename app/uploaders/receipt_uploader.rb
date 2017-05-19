@@ -20,7 +20,7 @@ class ReceiptUploader < CarrierWave::Uploader::Base
     if Rails.env.test?
       "/tmp/hyacc/#{Rails.env}"
     else
-      "/var/lib/hyacc/#{Rails.env}"
+      "/data/hyacc/#{Rails.env}"
     end
   end
 

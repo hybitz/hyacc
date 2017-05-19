@@ -1,9 +1,3 @@
-require_dependency 'bank_account'
-require_dependency 'customer'
-require_dependency 'sub_account'
-require_dependency 'rent'
-require_dependency 'user'
-
 module Accounts::SubAccountsSupport
   include HyaccConstants
   

@@ -1,5 +1,3 @@
-require 'models/balance_by_branch'
-
 module JournalUtil
   include HyaccConstants
   include HyaccErrors

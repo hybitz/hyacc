@@ -54,7 +54,4 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-  # アップロードした領収書の保存先
-  UPLOAD_DIRECTORY = 'tmp/upload_data'
 end

@@ -1,5 +1,4 @@
 module Base::ViewAttributeHandler
-  require 'models/name_and_value'
   include HyaccViewHelper
 
   protected

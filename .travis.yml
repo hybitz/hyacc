@@ -4,7 +4,6 @@ cache: bundler
 rvm:
   - 2.4.0
   - 2.3.3
-  - 2.2.6
 addons:
   sauce_connect: true
 before_script:
@@ -12,8 +11,6 @@ before_script:
   - bundle exec rake dad:db:create DAD_MYSQL_NO_ROOT_PASSWORD=true
   - bundle exec rake db:schema:load
 script:
-  - phantomjs
   - bundle exec rake test
   - bundle exec rake dad:test CI=travis
   - bundle exec rake dad:test user_stories CI=travis
-

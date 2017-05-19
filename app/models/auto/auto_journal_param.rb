@@ -1,5 +1,4 @@
 module Auto
-  
   class AutoJournalParam
     attr_reader :auto_journal_type
     attr_reader :user

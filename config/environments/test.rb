@@ -39,7 +39,4 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-
-  # アップロードした領収書の保存先
-  UPLOAD_DIRECTORY = 'tmp/upload_data_test'
 end

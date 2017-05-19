@@ -88,7 +88,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  # アップロードした領収書の保存先
-  UPLOAD_DIRECTORY = File.expand_path('../../shared/upload_data', Rails.root)
 end

@@ -19,7 +19,7 @@ if ENV['CI'] == 'travis'
       :url => "http://#{ENV['SAUCE_USERNAME']}:#{ENV['SAUCE_ACCESS_KEY']}@ondemand.saucelabs.com/wd/hub",
       :desired_capabilities => caps
     )
-    driver.file_detector = lambda do |args|
+    driver.browser.file_detector = lambda do |args|
       str = args.first.to_s
       str if File.exist?(str)
     end

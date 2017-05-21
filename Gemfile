@@ -62,6 +62,7 @@ group :development do
 end
 
 group :test do
+  gem 'closer'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner', :require => false
   gem 'minitest'

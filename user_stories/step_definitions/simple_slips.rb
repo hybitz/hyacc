@@ -32,8 +32,8 @@ end
     simple_slip = row[4]
 
     click_on simple_slip
-    assert has_title? simple_slip
-    assert has_no_selector? 'span.notice'
+    assert has_title?(simple_slip)
+    assert has_no_selector?('span.notice')
     assert has_selector?('.account_ready')
 
     begin

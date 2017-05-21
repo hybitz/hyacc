@@ -13,7 +13,6 @@ module SimpleSlips
     end
 
     assert has_no_selector?('.notice')
-    assert has_selector?('.account_ready')
   end
 
   def create_simple_slip(simple_slip)

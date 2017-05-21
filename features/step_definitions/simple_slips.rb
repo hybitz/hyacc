@@ -1,3 +1,12 @@
+前提 /^(.*?)が(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |user_name, account_name|
+  sign_in :name => user_name
+
+  within '.menu' do
+    click_on account_name
+  end
+  assert has_title?(account_name)
+end
+
 前提 /^(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |account_name|
   sign_in user unless current_user
 
@@ -5,7 +14,6 @@
     click_on account_name
   end
   assert has_title?(account_name)
-  assert has_selector?('.account_ready')
 end
 
 もし /^以下の簡易入力伝票(を|に)(登録|更新)する$/ do |prefix, action, ast_table|
@@ -52,9 +60,8 @@ end
       select account.code_and_name, :from => 'simple_slip_account_id', :match => :first
     end
 
-    assert has_selector?('.account_ready')
     if account.has_sub_accounts
-      assert has_selector?('#simple_slip_sub_account_id')
+      assert has_selector?('#simple_slip_sub_account_id option', :minimum => 1)
     end
 
     within form_selector do
@@ -93,7 +100,6 @@ end
 
   with_capture do
     assert has_title?(account.name)
-    assert has_selector?('.account_ready');
   end
 end
 

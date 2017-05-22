@@ -12,6 +12,6 @@ before_script:
   - bin/rails db:schema:load
 script:
   - bin/rails test
-  - bundle exec rake dad:test CI=travis
+  - bundle exec rake dad:test DRIVER=chrome
   - bin/rails db:environment:set RAILS_ENV=test
-  - bundle exec rake dad:test user_stories CI=travis
+  - bundle exec rake dad:test user_stories DRIVER=chrome

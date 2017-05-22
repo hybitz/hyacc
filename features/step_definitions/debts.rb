@@ -11,10 +11,11 @@ end
   find('#debt_table').all('tr').each do |tr|
     if tr.has_button?(action)
       @debt_id = tr['id'].to_s.split('_').last
-      within tr do
-        click_on '精算'
+      accept_alert do
+        within tr do
+          click_on '精算'
+        end
       end
-      confirm
       break
     end
   end

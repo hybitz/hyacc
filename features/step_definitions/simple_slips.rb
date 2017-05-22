@@ -17,7 +17,7 @@ end
 end
 
 もし /^以下の簡易入力伝票(を|に)(登録|更新)する$/ do |prefix, action, ast_table|
-  @account = Account.find_by_name(page.title)
+  assert @account = Account.find_by_name(page.title)
   @slip ||= Slips::Slip.new(:account_code => @account.code)
 
   normalize_table(ast_table).each do |row|

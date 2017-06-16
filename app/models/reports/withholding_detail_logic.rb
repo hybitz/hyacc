@@ -16,8 +16,9 @@ module Reports
       model.after_deduction = get_after_deduction                         # 給与所得控除後の金額
       model.withholding_tax = get_withholding_tax                         # 源泉徴収税額
       model.social_insurance = get_social_insurance                       # 社会保険料等の金額
-      model.life_insurance_deduction = get_life_insurance_deduction       # 生命保険料の控除額
       model.exemption = get_exemptions                             # 配偶者控除額
+      
+      e = Exemption.get(@finder.employee_id, @finder.calendar_year)
       model
     end
     
@@ -62,16 +63,6 @@ module Reports
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions
       return logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid.to_i
-    end
-    
-    # 生命保険料の控除額
-    def get_life_insurance_deduction
-      ret = 0
-
-      e = Exemption.get(@finder.employee_id, @finder.calendar_year)
-      ret += e.life_insurance_premium.to_i if e.present?
-
-      ret
     end
 
   end

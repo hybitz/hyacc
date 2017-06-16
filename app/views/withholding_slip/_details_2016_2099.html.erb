@@ -84,9 +84,9 @@
   		</tr>
        <tr>
     		<td colspan="6"><%= number_to_currency(@data.social_insurance, :format=>"%n") %></td>
-    		<td colspan="6"><%= number_to_currency(@data.life_insurance_deduction, :format=>"%n") %></td>
-    		<td colspan="6">0</td>
-    		<td colspan="5">0</td>
+    		<td colspan="6"><%= number_to_currency(@data.exemption.life_insurance_premium, :format=>"%n") %></td>
+    		<td colspan="6"></td>
+    		<td colspan="5"><%= number_to_currency(@data.exemption.mortgage_deduction, :format=>"%n") %></td>
   		</tr>
     	<tr>
     		<td colspan="23" class="item">摘要</td>
@@ -110,27 +110,27 @@
        <tr>
     		<td colspan="2" rowspan="2" class="item">住宅借入金<br>等特別控除<br>の額の内訳</td>
     		<td colspan="2" class="item">住宅借入金等<br>特別控除適用数</td>
-    		<td colspan="2"></td>
+    		<td colspan="2"><%= @data.exemption.num_of_house_loan %></td>
     		<td colspan="2" class="item">居住開始年月<br>日（1回目）</td>
-    		<td colspan="2"></td>
-    		<td colspan="2"></td>
-    		<td colspan="2"></td>
+    		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_1.year, :only_year => true) if @data.exemption.date_of_start_living_1 %></td>
+    		<td colspan="2"><%= @data.exemption.date_of_start_living_1.mon if @data.exemption.date_of_start_living_1 %></td>
+    		<td colspan="2"><%= @data.exemption.date_of_start_living_1.mday if @data.exemption.date_of_start_living_1 %></td>
     		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（1回目）</td>
-    		<td colspan="2"></td>
+    		<td colspan="2"><%= HyaccConstants::MORTGAGE_DEDUCTION_TYPES[ @data.exemption.mortgage_deduction_code_1 ] %></td>
     		<td colspan="2" class="item">住宅借入金等<br>年末残高（1回目）</td>
-    		<td colspan="3"></td>
+    		<td colspan="3"><%= number_to_currency(@data.exemption.year_end_balance_1, :format=>"%n") %></td>
        </tr>
        <tr>
     		<td colspan="2" class="item">住宅借入金等<br>特別控除可能額</td>
-    		<td colspan="2"></td>
+    		<td colspan="2"><%= number_to_currency(@data.exemption.max_mortgage_deduction, :format=>"%n") %></td>
     		<td colspan="2" class="item">居住開始年月<br>日（2回目）</td>
-    		<td colspan="2"></td>
-    		<td colspan="2"></td>
-    		<td colspan="2"></td>
+    		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_2.year, :only_year => true) if @data.exemption.date_of_start_living_2 %></td>
+    		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mon if @data.exemption.date_of_start_living_2 %></td>
+    		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mday if @data.exemption.date_of_start_living_2 %></td>
     		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（2回目）</td>
-    		<td colspan="2"></td>
+    		<td colspan="2"><%= HyaccConstants::MORTGAGE_DEDUCTION_TYPES[ @data.exemption.mortgage_deduction_code_2 ] %></td>
     		<td colspan="2" class="item">住宅借入金等<br>年末残高（2回目）</td>
-    		<td colspan="3"></td>
+    		<td colspan="3"><%= number_to_currency(@data.exemption.year_end_balance_2, :format=>"%n") %></td>
        </tr>
        <tr>
     		<td colspan="2" rowspan="3" class="item">控除対象<br/>配偶者</td>
@@ -302,7 +302,7 @@
     		<td colspan="1"></td>
     		<td colspan="1"></td>
     		<td colspan="1"></td>
-    		<td colspan="1"><%= to_wareki(@data.employee.birth.year) %></td>
+    		<td colspan="1"><%= to_wareki(@data.employee.birth.year, :only_year => true) %></td>
     		<td colspan="1"><%= @data.employee.birth.month %></td>
     		<td colspan="1"><%= @data.employee.birth.day %></td>
        </tr>

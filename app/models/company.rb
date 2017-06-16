@@ -76,7 +76,7 @@ class Company < ActiveRecord::Base
   # 税抜経理方式の場合は、勘定科目の税区分を取得
   # それ以外は、非課税をデフォルトとする
   def get_tax_type_for(account)
-    ret = TAX_MANAGEMENT_TYPE_EXEMPT
+    ret = TAX_TYPE_NONTAXABLE
 
     if current_fiscal_year.tax_exclusive?
       ret= account.tax_type

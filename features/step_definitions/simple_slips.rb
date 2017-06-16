@@ -48,7 +48,7 @@ end
     end
   end
 
-  begin
+  with_capture do
     form_selector = action == '登録' ? '#new_simple_slip' : "#edit_simple_slip"
     account = Account.find(@slip.account_id)
     branch = Branch.find(@slip.branch_id)
@@ -63,14 +63,16 @@ end
     if account.has_sub_accounts
       assert has_selector?('#simple_slip_sub_account_id option', :minimum => 1)
     end
+    
+    unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
+      assert find('#simple_slip_tax_rate_percent').has_text?
+    end
 
     within form_selector do
       select branch.name, :from => 'simple_slip_branch_id'
       fill_in 'simple_slip_amount_increase', :with => @slip.amount_increase
       fill_in 'simple_slip_amount_decrease', :with => @slip.amount_decrease
     end
-  ensure
-    capture
   end
 
   click_on action

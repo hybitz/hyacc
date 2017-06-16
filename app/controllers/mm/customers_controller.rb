@@ -67,13 +67,21 @@ class Mm::CustomersController < Base::HyaccController
 
   def finder
     unless @finder
-      @finder = CustomerFinder.new(params[:finder])
+      @finder = CustomerFinder.new(finder_params)
       @finder.disabled ||= 'false'
       @finder.page = params[:page]
       @finder.per_page = current_user.slips_per_page
     end
     
     @finder
+  end
+  
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit(
+          :disabled
+        )
+    end
   end
 
   def customer_params

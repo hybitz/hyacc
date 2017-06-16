@@ -57,11 +57,19 @@ class CareersController < Base::HyaccController
   private
 
   def finder
-    @finder ||= CareerFinder.new(params[:finder])
+    @finder ||= CareerFinder.new(finder_params)
     @finder.company_id = current_company.id
     @finder.page = params[:page]
     @finder.per_page = current_user.slips_per_page
     @finder
+  end
+  
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit(
+          :employee_id
+        )
+    end
   end
 
   def career_params

@@ -72,10 +72,16 @@ class Mm::EmployeesController < Base::HyaccController
   end
 
   def finder
-    @finder ||= EmployeeFinder.new(params[:finder])
+    @finder ||= EmployeeFinder.new(finder_params)
     @finder.page = params[:page]
     @finder.per_page = current_user.slips_per_page
     @finder
+  end
+  
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit()
+    end
   end
 
 end

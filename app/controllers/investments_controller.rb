@@ -78,7 +78,7 @@ class InvestmentsController < Base::HyaccController
 
   def finder
     unless @finder
-      @finder = InvestmentFinder.new(params[:finder])
+      @finder = InvestmentFinder.new(finder_params)
       @finder.company_id = current_company.id
       @finder.start_month_of_fiscal_year = current_user.company.start_month_of_fiscal_year
       @finder.fiscal_year ||= current_company.fiscal_year
@@ -87,6 +87,14 @@ class InvestmentsController < Base::HyaccController
     @finder
   end
   
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit(
+          :disabled
+        )
+    end
+  end
+
   def investment_params
     params.require(:investment).permit(:name, :yyyymmdd, :sub_account_id, :customer_id, :buying_or_selling, :for_what,
                                        :shares, :trading_value, :bank_account_id, :charges, :journal_detail_id)

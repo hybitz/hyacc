@@ -63,11 +63,19 @@ class Mm::ExemptionsController < Base::HyaccController
   private
 
   def finder
-    @finder ||= ExemptionFinder.new(params[:finder])
+    @finder ||= ExemptionFinder.new(finder_params)
     @finder.company_id = current_company.id
     @finder.page = params[:page] || 1
     @finder.per_page = current_user.slips_per_page
     @finder
+  end
+  
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit(
+          :calendar_year, :employee_id
+        )
+    end
   end
 
   def exempiton_params

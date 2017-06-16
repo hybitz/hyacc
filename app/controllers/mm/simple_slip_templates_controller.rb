@@ -116,10 +116,18 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   private
 
   def finder
-    @finder ||= SimpleSlipTemplateFinder.new(params[:finder])
+    @finder ||= SimpleSlipTemplateFinder.new(finder_params)
     @finder.page = params[:page] || 1
     @finder.per_page = current_user.slips_per_page
     @finder
+  end
+  
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit(
+          :remarks, :account_id, :sub_account_id
+        )
+    end
   end
 
   def simple_slip_template_params

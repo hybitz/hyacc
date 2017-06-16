@@ -14,8 +14,14 @@ class Mv::DepreciationRatesController < Base::HyaccController
 
   def finder
     unless @finder
-      @finder = DepreciationRateFinder.new(params[:finder])
+      @finder = DepreciationRateFinder.new(finder_params)
     end
     @finder
+  end
+  
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit()
+    end
   end
 end

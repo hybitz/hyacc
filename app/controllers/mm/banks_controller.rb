@@ -79,7 +79,7 @@ class Mm::BanksController < Base::HyaccController
 
   def finder
     unless @finder
-      @finder = BankFinder.new(params[:finder])
+      @finder = BankFinder.new(finder_params)
       @finder.page = params[:page]
       @finder.per_page = current_user.slips_per_page
     end
@@ -87,6 +87,14 @@ class Mm::BanksController < Base::HyaccController
     @finder
   end
 
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit(
+          :disabled
+        )
+    end
+  end
+  
   def bank_params
     params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :address, :disabled])
   end

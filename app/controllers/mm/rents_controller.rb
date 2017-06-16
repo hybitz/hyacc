@@ -79,10 +79,16 @@ class Mm::RentsController < Base::HyaccController
   end
 
   def finder
-    @finder ||= RentFinder.new(params[:finder])
+    @finder ||= RentFinder.new(finder_params)
     @finder.page = params[:page] || 1
     @finder.per_page = current_user.slips_per_page
     @finder
+  end
+  
+  def finder_params
+    if params[:finder]
+      params.require(:finder).permit()
+    end
   end
 
 end

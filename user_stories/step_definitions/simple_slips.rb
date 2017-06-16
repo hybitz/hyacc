@@ -79,6 +79,7 @@ end
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'
       end
+      assert has_selector?('.notice')
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     end
   end
@@ -105,10 +106,9 @@ end
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
         fill_in 'simple_slip_amount_increase', :with => amount
-        sleep 3
         click_on '登録'
       end
-      assert has_selector?('span.notice')
+      assert has_selector?('.notice')
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     end
   end
@@ -167,6 +167,7 @@ end
         click_on '更新'
       end
       assert has_no_dialog?
+      assert has_selector?('.notice')
     end
   end
 end

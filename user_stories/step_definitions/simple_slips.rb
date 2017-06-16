@@ -46,7 +46,7 @@ end
         fill_in 'simple_slip_amount_decrease', :with => amount
         click_on '登録'
       end
-      assert has_selector? 'span.notice'
+      assert has_selector?('.notice')
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     ensure
       capture
@@ -73,6 +73,10 @@ end
         fill_in 'simple_slip_day', :with => ymd.split('-').last
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+
+        unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
+          assert find('#simple_slip_tax_rate_percent').has_text?
+        end
       end
       assert has_selector?('.account_ready')
       within '#new_simple_slip' do
@@ -105,6 +109,11 @@ end
         fill_in 'simple_slip_day', :with => day
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+
+        unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
+          assert find('#simple_slip_tax_rate_percent').has_text?
+        end
+
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'
       end

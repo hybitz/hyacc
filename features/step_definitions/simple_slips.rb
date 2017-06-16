@@ -62,7 +62,7 @@ end
       if account.has_sub_accounts
         assert has_selector?('#simple_slip_sub_account_id option', :minimum => 1)
       end
-      
+
       unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
         assert find('#simple_slip_tax_rate_percent').has_text?
       end

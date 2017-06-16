@@ -7,7 +7,7 @@ class Reports::WithholdingCalcLogicTest < ActiveSupport::TestCase
     finder.calendar_year = 2012
     finder.company_id = Company.first.id
     logic = Reports::WithholdingCalcLogic.new(finder)
-    assert_equal 215300, logic.get_annual_tax
+    assert_equal 216500, logic.get_annual_tax
   end
 
 end

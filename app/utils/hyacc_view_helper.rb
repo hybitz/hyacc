@@ -66,7 +66,11 @@ module HyaccViewHelper
   def focus_on_completes
     revert_and_sort( FOCUS_ON_COMPLETES )
   end
-
+  
+  def mortgage_deduction_types
+    revert_and_sort( MORTGAGE_DEDUCTION_TYPES )
+  end
+  
   def settlement_types
     revert_and_sort( SETTLEMENT_TYPES )
   end

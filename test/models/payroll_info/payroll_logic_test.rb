@@ -30,13 +30,14 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     
   def test_get_exemption
     logic = logic_builder(2008)
-    assert_equal 1_074_955, logic.get_exemption
+    # 3565000（基本給）
+    assert_equal 1_062_455, logic.get_exemption
   end
     
   def test_get_withholding_tax
     logic = logic_builder(2008)
-    # (2652000 - 975600 - 1074955)/1000 * 1000 * 0.05 /100 *100
-    assert_equal 30_000, logic.get_withholding_tax
+    # (2652000 - 975600 - 1062455)/1000 * 1000 * 0.05 /100 *100
+    assert_equal 30_600, logic.get_withholding_tax
   end
     
   def test_get_health_insurance

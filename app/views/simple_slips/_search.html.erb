@@ -14,10 +14,10 @@
 
     <div style="margin: 10px;">
       年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %>
-      <a href='#' onclick='$("#finder_ym").val("");'>×</a>
+      <a href='#' onclick='$("#finder_ym").val("");return false;'>×</a>
 
       摘要：<%= text_field 'finder', 'remarks' %>
-      <a href='#' onclick='$("#finder_remarks").val("");'>×</a>
+      <a href='#' onclick='$("#finder_remarks").val("");return false;'>×</a>
 
       <% if branch_mode %>
       部門：<%= collection_select('finder', 'branch_id', @branches, "id", "name", {:include_blank=>true}) %>

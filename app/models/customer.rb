@@ -1,4 +1,4 @@
-class Customer < ActiveRecord::Base
+class Customer < ApplicationRecord
   nostalgic_for :name, :formal_name
 
   validates :code, :uniqueness => true

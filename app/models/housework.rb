@@ -1,4 +1,4 @@
-class Housework < ActiveRecord::Base
+class Housework < ApplicationRecord
   validates :fiscal_year, :presence => true
   has_many :details, :class_name => 'HouseworkDetail', :dependent => :destroy
   has_many :journal_headers, :dependent => :destroy

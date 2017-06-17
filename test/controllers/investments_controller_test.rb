@@ -23,6 +23,8 @@ class InvestmentsControllerTest < ActionController::TestCase
             buying_or_selling: '1', for_what: '1', shares: '20',
             trading_value: '100000', charges: '1080'}
            }
+      assert_response :success
+      assert_template 'common/reload'
     end
     assert_equal '有価証券情報を追加しました。', flash[:notice]
   end

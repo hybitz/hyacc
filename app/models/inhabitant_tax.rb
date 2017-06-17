@@ -1,4 +1,4 @@
-class InhabitantTax < ActiveRecord::Base
+class InhabitantTax < ApplicationRecord
   belongs_to :employee
   
   validates :ym, presence: true

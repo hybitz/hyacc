@@ -1,4 +1,4 @@
-class SimpleSlipSetting < ActiveRecord::Base
+class SimpleSlipSetting < ApplicationRecord
   belongs_to :account
 
   validates :shortcut_key, :format => {:with => /Ctrl\+[0-9]/}

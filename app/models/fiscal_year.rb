@@ -1,4 +1,4 @@
-class FiscalYear < ActiveRecord::Base
+class FiscalYear < ApplicationRecord
   include HyaccErrors
 
   belongs_to :company

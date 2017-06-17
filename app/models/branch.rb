@@ -1,4 +1,4 @@
-class Branch < ActiveRecord::Base
+class Branch < ApplicationRecord
   acts_as_cached :includes => 'branches/branch_cache'
   acts_as_tree :order => 'code'
 

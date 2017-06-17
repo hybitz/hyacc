@@ -1,4 +1,4 @@
-class Bank < ActiveRecord::Base
+class Bank < ApplicationRecord
   validates :code, :presence => true
   validates :name, :presence => true
 

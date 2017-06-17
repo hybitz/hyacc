@@ -1,4 +1,4 @@
-class Asset < ActiveRecord::Base
+class Asset < ApplicationRecord
   belongs_to :account
   belongs_to :sub_account
   belongs_to :branch

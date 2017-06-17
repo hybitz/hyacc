@@ -1,4 +1,4 @@
-class SubAccount < ActiveRecord::Base
+class SubAccount < ApplicationRecord
   belongs_to :account
 
   validates :code, :presence => true

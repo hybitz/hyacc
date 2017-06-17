@@ -105,7 +105,7 @@ class SimpleSlipsController < Base::HyaccController
     @simple_slip = SimpleSlip.new(simple_slip_params)
 
     begin
-      ActiveRecord::Base.transaction do
+      ApplicationRecord.transaction do
         @simple_slip.save!
 
         # 年月日を入力状態を保存
@@ -133,7 +133,7 @@ class SimpleSlipsController < Base::HyaccController
     @simple_slip.attributes = simple_slip_params
 
     begin
-      ActiveRecord::Base.transaction do
+      ApplicationRecord.transaction do
         @simple_slip.save!
 
         # 年月日を入力状態を保存
@@ -155,7 +155,7 @@ class SimpleSlipsController < Base::HyaccController
     @simple_slip.lock_version = params[:lock_version]
 
     begin
-      ActiveRecord::Base.transaction do
+      ApplicationRecord.transaction do
         if @simple_slip.destroy
           flash[:notice] = '伝票を削除しました。'
         end

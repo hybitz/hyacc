@@ -1,4 +1,4 @@
-class HouseworkDetail < ActiveRecord::Base
+class HouseworkDetail < ApplicationRecord
   belongs_to :account
   belongs_to :housework
   has_many :journal_details, :dependent=>:destroy

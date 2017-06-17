@@ -1,4 +1,4 @@
-class Receipt < ActiveRecord::Base
+class Receipt < ApplicationRecord
   belongs_to :journal_header, :inverse_of => 'receipt'
 
   mount_uploader :file, ReceiptUploader

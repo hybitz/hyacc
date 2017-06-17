@@ -8,8 +8,8 @@ class ClosingAccountJob < ActiveJob::Base
     fiscal_year.company.branches.each do |branch|
       branch_ids << branch.id
     end
-  
-    ActiveRecord::Base.transaction do
+
+    ApplicationRecord.transaction do
       branch_ids.each do |branch_id|
         pl_data = pl_monthly(fiscal_year, branch_id)
         header = FinancialStatementHeader.new(:company_id => fiscal_year.company.id, :branch_id => branch_id,

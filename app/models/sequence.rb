@@ -1,11 +1,4 @@
-# coding: UTF-8
-#
-# $Id: sequence.rb 3096 2013-07-18 15:06:14Z ichy $
-# Product: hyacc
-# Copyright 2009-2013 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
-class Sequence < ActiveRecord::Base
+class Sequence < ApplicationRecord
 
   def self.create_sequence(name, section=nil)
     Sequence.new(:name=>name.to_s, :section=>section).save!

@@ -1,4 +1,4 @@
-class JournalDetail < ActiveRecord::Base
+class JournalDetail < ApplicationRecord
   include HyaccConstants
   include HyaccErrors
 

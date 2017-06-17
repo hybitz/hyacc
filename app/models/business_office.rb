@@ -1,4 +1,4 @@
-class BusinessOffice < ActiveRecord::Base
+class BusinessOffice < ApplicationRecord
   belongs_to :company, :inverse_of => 'business_offices'
 
   nostalgic_for :name

@@ -1,4 +1,4 @@
-class Investment < ActiveRecord::Base
+class Investment < ApplicationRecord
   belongs_to :customer
   belongs_to :bank_account
   belongs_to :journal_detail

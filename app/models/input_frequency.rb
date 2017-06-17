@@ -1,4 +1,4 @@
-class InputFrequency < ActiveRecord::Base
+class InputFrequency < ApplicationRecord
 
   def self.latest(user_id, input_type)
     where(:user_id => user_id, :input_type => input_type).order('frequency desc')

@@ -1,4 +1,4 @@
-class Exemption < ActiveRecord::Base
+class Exemption < ApplicationRecord
   has_many :dependent_family_members, :dependent => :destroy
   has_many :spouse_family_members, -> { where exemption_type: EXEMPTION_TYPE_SPOUSE }, class_name: "DependentFamilyMember"
   has_many :family_members, -> { where exemption_type: EXEMPTION_TYPE_FAMILY }, class_name: "DependentFamilyMember"

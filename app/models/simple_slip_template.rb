@@ -1,4 +1,4 @@
-class SimpleSlipTemplate < ActiveRecord::Base
+class SimpleSlipTemplate < ApplicationRecord
   include HyaccConstants
   
   belongs_to :account

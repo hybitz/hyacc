@@ -1,4 +1,4 @@
-class Account < ActiveRecord::Base
+class Account < ApplicationRecord
   include HyaccConstants
   include HyaccErrors
   include Accounts::SubAccountsSupport

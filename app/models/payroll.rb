@@ -1,4 +1,4 @@
-class Payroll < ActiveRecord::Base
+class Payroll < ApplicationRecord
 
   # 相手先伝票区分
   CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED = '0'

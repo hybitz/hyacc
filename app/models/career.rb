@@ -1,4 +1,4 @@
-class Career < ActiveRecord::Base
+class Career < ApplicationRecord
   belongs_to :employee
   belongs_to :customer
 

@@ -1,4 +1,4 @@
-class BankAccount < ActiveRecord::Base
+class BankAccount < ApplicationRecord
   belongs_to :bank
   belongs_to :bank_office
 

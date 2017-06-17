@@ -1,3 +1,3 @@
-class BankOffice < ActiveRecord::Base
+class BankOffice < ApplicationRecord
   belongs_to :bank
 end

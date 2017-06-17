@@ -1,4 +1,4 @@
-class Employee < ActiveRecord::Base
+class Employee < ApplicationRecord
   include HyaccErrors
   include HyaccConstants
   

@@ -1,4 +1,4 @@
-class Rent < ActiveRecord::Base
+class Rent < ApplicationRecord
   include HyaccConstants
   
   belongs_to :customer

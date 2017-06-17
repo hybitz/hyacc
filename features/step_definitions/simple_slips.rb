@@ -5,6 +5,7 @@
     click_on account_name
   end
   assert has_title?(account_name)
+  assert has_selector?('#slipTable')
 end
 
 前提 /^(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |account_name|

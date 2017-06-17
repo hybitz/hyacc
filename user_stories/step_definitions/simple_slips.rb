@@ -63,11 +63,11 @@ end
       remarks = row[1]
       simple_slip = row[2]
       amount = row[3].to_ai
-      account = Account.where(:name => row[4], :deleted => false).first!
+      assert account = Account.where(:name => row[4], :deleted => false).first
 
       visit_simple_slip(:account => Account.find_by_name(simple_slip))
-
       count = all('#slipTable tbody tr').count
+
       within '#new_simple_slip' do
         fill_in 'simple_slip_ym', :with => ymd.split('-').slice(0, 2).join
         fill_in 'simple_slip_day', :with => ymd.split('-').last
@@ -134,20 +134,26 @@ end
     @remarks << "ATM手数料（科目間違い #{i+1} 回目）"
   end
 
-  visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
-
   @remarks.each_with_index do |remark, i|
     with_capture do
+      visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
       count = all('#slipTable tbody tr').count
-      fill_in 'simple_slip_ym', :with => '201308'
-      fill_in 'simple_slip_day', :with => i + 1
-      fill_in 'simple_slip_remarks', :with => remark
-      find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
-      assert has_selector?('.account_ready')
-      select tax_type_name, :from => 'simple_slip_tax_type'
-      fill_in 'simple_slip_amount_decrease', :with => amount
-      click_on '登録'
-      assert has_selector?('#slipTable tbody tr', :count => count + 1)
+
+      within '#new_simple_slip' do
+        fill_in 'simple_slip_ym', :with => '201308'
+        fill_in 'simple_slip_day', :with => i + 1
+        fill_in 'simple_slip_remarks', :with => remark
+        find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+      end
+        assert has_selector?('.account_ready')
+      within '#new_simple_slip' do
+        select tax_type_name, :from => 'simple_slip_tax_type'
+        fill_in 'simple_slip_amount_decrease', :with => amount
+        click_on '登録'
+      end
+
+      assert has_selector?('.notice')
+      assert has_selector?('#slipTable tbody tr', :count => count + 1), "#{i+1} 回目の登録時にエラー"
     end
   end
 end

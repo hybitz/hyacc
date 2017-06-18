@@ -102,8 +102,8 @@ end
 
     with_capture do
       visit_simple_slip(:account => Account.find_by_name(simple_slip))
-
       count = all('#slipTable tbody tr').count
+
       within '#new_simple_slip' do
         fill_in 'simple_slip_ym', :with => ym
         fill_in 'simple_slip_day', :with => day
@@ -117,6 +117,7 @@ end
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'
       end
+
       assert has_selector?('.notice')
       assert has_selector?('#slipTable tbody tr', :count => count + 1)
     end
@@ -206,6 +207,11 @@ end
         fill_in 'simple_slip_day', :with => day
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+
+        unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
+          assert find('#simple_slip_tax_rate_percent').has_text?
+        end
+
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'
       end

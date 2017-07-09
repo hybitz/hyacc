@@ -1,5 +1,4 @@
-class TaskMailer < ActionMailer::Base
-  default from: "info@hybitz.co.jp"
+class TaskMailer < ApplicationMailer
 
   def create(toAddress, subject, message, attachments_path)
     attachments[File.basename(attachments_path)] = {
@@ -8,8 +7,7 @@ class TaskMailer < ActionMailer::Base
     }
     mail(
       :to => toAddress,
-      :subject => subject,
-      :body => message
+      :subject => subject
     )
   end
 

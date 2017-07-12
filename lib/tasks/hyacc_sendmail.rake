@@ -10,7 +10,7 @@ namespace :hyacc do
       ym = now.strftime("%Y%m")
 
       # 最新のDBデータファイルパスを取得
-      dbdata_path = Dir.glob(File.join('/data/hyacc', Rails.env, 'backup', ym, '*_pro_*.sql.zip')).first
+      dbdata_path = Dir.glob(File.join('/data/hyacc', Rails.env, 'backup', ym, '*_pro_*.sql.zip')).last
 
       # companiesテーブルから管理者メールを取得
       c = Company.first

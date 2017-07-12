@@ -5,19 +5,15 @@ namespace :hyacc do
 
     desc "データベースのバックアップファイルをメールで送信する。"
     task :dbdata => :environment do
-      c = Company.first
-
       # 今日の日付を取得
       now = Time.now
       ym = now.strftime("%Y%m")
-      ymd = now.strftime("%Y%m%d")
-      yyyymmdd = now.strftime("%Y/%m/%d")
-        
+
       # 最新のDBデータファイルパスを取得
-      dbdata_file = c.name + '_pro_' + ymd + '.sql.zip'
-      dbdata_path = File.join('/data/hyacc', Rails.env, 'backup', ym, dbdata_file) 
+      dbdata_path = Dir.glob(File.join('/data/hyacc', Rails.env, 'backup', ym, '*_pro_*.sql.zip')).first
 
       # companiesテーブルから管理者メールを取得
+      c = Company.first
       to = c.admin_email
 
       if File.exist?(dbdata_path) && to.present?

@@ -33,7 +33,7 @@ GEM
       activemodel (= 5.0.4)
       activesupport (= 5.0.4)
       arel (~> 7.0)
-    activerecord-import (0.19.0)
+    activerecord-import (0.19.1)
       activerecord (>= 3.2)
     activerecord-session_store (1.1.0)
       actionpack (>= 4.0, < 5.2)
@@ -154,7 +154,7 @@ GEM
     encryptor (3.0.0)
     erubis (2.7.0)
     execjs (2.7.0)
-    faraday (0.12.1)
+    faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
     ffi-yajl (2.3.1)
@@ -197,7 +197,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.6)
       mime-types (>= 1.16, < 4)
-    materialize-sass (0.99.0)
+    materialize-sass (0.100.0)
       sass (~> 3.3)
     method_source (0.8.2)
     mime-types (3.1)
@@ -206,7 +206,7 @@ GEM
     mimemagic (0.3.2)
     mini_magick (4.8.0)
     mini_portile2 (2.2.0)
-    minitest (5.10.2)
+    minitest (5.10.3)
     minitest-reporters (1.1.14)
       ansi
       builder
@@ -215,7 +215,7 @@ GEM
     mixlib-cli (1.7.0)
     mixlib-config (2.2.4)
     mixlib-log (1.7.1)
-    mixlib-shellout (2.2.7)
+    mixlib-shellout (2.3.2)
     momentjs-rails (2.17.1)
       railties (>= 3.1)
     mousetrap-rails (1.4.6)
@@ -306,7 +306,11 @@ GEM
     ruby-graphviz (1.2.3)
     ruby-progressbar (1.8.1)
     rubyzip (1.2.1)
-    sass (3.4.25)
+    sass (3.5.1)
+      sass-listen (~> 4.0.0)
+    sass-listen (4.0.0)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
       sass (~> 3.1)
@@ -331,7 +335,7 @@ GEM
     simplecov-html (0.10.1)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
-    specinfra (2.68.2)
+    specinfra (2.69.0)
       net-scp
       net-ssh (>= 2.7, < 5.0)
       net-telnet
@@ -365,7 +369,7 @@ GEM
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.3)
-    two_factor_authentication (2.0.0)
+    two_factor_authentication (2.0.1)
       devise
       encryptor
       rails (>= 3.1.1)
@@ -386,7 +390,9 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    wicked_pdf (1.1.0)
     will_paginate (3.1.6)
+    wkhtmltopdf-binary-edge (0.12.4.0)
     wmi-lite (1.0.0)
     xpath (2.1.0)
       nokogiri (~> 1.3)
@@ -448,7 +454,9 @@ DEPENDENCIES
   two_factor_authentication
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
+  wicked_pdf
   will_paginate
+  wkhtmltopdf-binary-edge
 
 BUNDLED WITH
-   1.15.1
+   1.15.3

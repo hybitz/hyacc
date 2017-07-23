@@ -44,6 +44,8 @@ gem 'tax_jp'
 gem 'turbolinks', '~> 5'
 gem 'two_factor_authentication'
 gem 'uglifier', '>= 1.3.0'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary-edge'
 gem 'will_paginate'
 
 group :development, :test do

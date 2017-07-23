@@ -5,70 +5,6 @@ Rails.application.routes.draw do
   devise_for :users
   mount Nostalgic::Engine => '/nostalgic', :as => 'nostalgic'
 
-  namespace :mm do
-    resources :accounts do
-      collection do
-        get 'add_sub_account'
-        get 'list_tree'
-        post 'update_tree'
-      end
-    end
-
-    resources :bank_accounts
-
-    resources :banks do
-      collection do
-        get 'add_bank_office'
-      end
-    end
-
-    resources :branches
-    resources :business_offices
-
-    resources :companies, :only => ['index', 'edit', 'update'] do
-      member do
-        get 'show_logo'
-      end
-    end
-
-    resources :customers
-
-    resources :employees do
-      collection do
-        get 'add_branch'
-      end
-    end
-
-    resources :exemptions do
-      collection do
-        get 'add_dependent_family_member'
-      end
-    end
-
-    resources :inhabitant_taxes do
-      collection do
-        post 'confirm'
-      end
-    end
-   
-    resources :rents
-
-    resources :simple_slip_templates do
-      collection do
-        get 'get_keywords'
-        get 'get_sub_accounts'
-      end
-    end
-
-    resources :users
-  end
-
-  namespace :mv do
-    resources :depreciation_rates, :only => 'index'
-    resources :social_insurances, :only => 'index'
-    resources :withheld_taxes, :only => 'index'
-  end
-
   resources :accounts
   resources :bank_offices, :only => 'index'
   resources :careers
@@ -145,13 +81,10 @@ Rails.application.routes.draw do
   resources :social_expenses, :only => 'index'
   resources :sub_accounts, :only => 'index'
   resources :taxes, :only => ['index', 'update']
-  resources :withholding_slip, :only => 'index'
 
   namespace :bs do
     resources :assets
   end
-
-  resources :investments
 
   get 'closing', :to => 'closing#index'
   get 'journal_admin', :to => 'journal_admin#index'

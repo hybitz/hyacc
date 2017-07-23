@@ -13,7 +13,6 @@ current_company:
   payrolls: '!personal?'
   social_expenses: '!personal?'
   taxes: tax_exclusive?
-  withholding_slip: '!personal?'
 
   mm/employees: '!personal?'
   mm/inhabitant_taxes: '!personal?'
@@ -22,3 +21,5 @@ current_company:
 
   mv/social_insurances: '!personal?'
   mv/withheld_taxes: '!personal?'
+
+  report/withholding_slip: '!personal?'

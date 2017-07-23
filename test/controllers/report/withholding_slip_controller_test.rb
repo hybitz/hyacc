@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WithholdingSlipControllerTest < ActionController::TestCase
+class Report::WithholdingSlipControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in user

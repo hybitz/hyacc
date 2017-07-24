@@ -3,6 +3,7 @@ class VMonthlyLedger
 
   VIEW = <<EOS
     select
+      jh.company_id,
       jh.ym,
       jd.dc_type,
       jd.account_id,
@@ -14,7 +15,7 @@ class VMonthlyLedger
     from journal_details jd
     inner join journal_headers jh on (jh.id = jd.journal_header_id)
     inner join accounts a on (a.id = jd.account_id)
-    group by jh.ym, jd.dc_type, jd.account_id, jd.sub_account_id, jd.branch_id
+    group by jh.company_id, jh.ym, jd.dc_type, jd.account_id, jd.sub_account_id, jd.branch_id
 EOS
 
   def self.find_by_sql(args)

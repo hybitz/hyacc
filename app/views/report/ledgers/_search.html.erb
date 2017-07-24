@@ -1,0 +1,7 @@
+<div class="search">
+  <%= form_tag({:action => 'index'}, :method => 'get') do %>
+    年度：<%= select('finder', 'fiscal_year', finder.fiscal_years) %>
+    部門：<%= select('finder', 'branch_id', to_options(finder.branches), :class => 'branchSelect', :include_blank => true) %>
+    <%= submit_tag '表示' %>
+  <% end %>
+</div>

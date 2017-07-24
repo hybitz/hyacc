@@ -2,12 +2,22 @@ class LedgerFinder
   include ActiveModel::Model
   include HyaccConstants
 
+  attr_accessor :company_id
   attr_accessor :account_id
   attr_accessor :branch_id
   attr_accessor :fiscal_year
   attr_accessor :start_month_of_fiscal_year
   attr_accessor :sub_account_id
 
+  def fiscal_years
+    c = Company.find(company_id)
+    c.fiscal_years.map{|fy| fy.fiscal_year }.sort
+  end
+
+  def branches
+    Branch.get_branches(company_id)
+  end
+  
   def list
     # 科目の指定なしでは検索しない
     return [] unless account_id.to_i > 0
@@ -66,14 +76,34 @@ class LedgerFinder
     sql.append('and journal_headers.ym = ?', ym) if ym > 0
     sql.to_a
   end
+
+  def get_last_year_balance
+    # 科目の指定なしでは検索しない
+    return nil unless account_id.to_i > 0
   
+    account = Account.get(account_id)
+    return nil if [ ACCOUNT_TYPE_PROFIT, ACCOUNT_TYPE_EXPENSE ].include? account.account_type
+  
+    debit = VMonthlyLedger.sum(:amount, conditions_for_last_year_balance(DC_TYPE_DEBIT)).to_i
+    credit = VMonthlyLedger.sum(:amount, conditions_for_last_year_balance(DC_TYPE_CREDIT)).to_i
+  
+    if account.dc_type == DC_TYPE_CREDIT
+      credit - debit
+    else
+      debit - credit
+    end
+  end
+
+  private
+
   # 月別累計検索条件
   def conditions_for_monthly_summary(ym_from, ym_to)
     raise ArgumentError.new("年月の指定がありません。") unless ym_from and ym_to
     raise ArgumentError.new("勘定科目の指定がありません。") unless account_id.to_i > 0
 
     sql = SqlBuilder.new
-    sql.append('ym >= ? and ym < ?', ym_from, ym_to)
+    sql.append('company_id = ?', company_id)
+    sql.append('and ym >= ? and ym < ?', ym_from, ym_to)
     sql.append('and account_id = ?', account_id)
     sql.append('and branch_id = ?', branch_id) if branch_id.to_i > 0
     sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id.to_i > 0
@@ -101,23 +131,6 @@ class LedgerFinder
   
   def last_year
     fiscal_year.to_i - 1
-  end
-
-  def get_last_year_balance
-    # 科目の指定なしでは検索しない
-    return nil unless account_id.to_i > 0
-
-    account = Account.get(account_id)
-    return nil if [ ACCOUNT_TYPE_PROFIT, ACCOUNT_TYPE_EXPENSE ].include? account.account_type
-
-    debit = VMonthlyLedger.sum(:amount, conditions_for_last_year_balance(DC_TYPE_DEBIT)).to_i
-    credit = VMonthlyLedger.sum(:amount, conditions_for_last_year_balance(DC_TYPE_CREDIT)).to_i
-
-    if account.dc_type == DC_TYPE_CREDIT
-      credit - debit
-    else
-      debit - credit
-    end
   end
 
 end

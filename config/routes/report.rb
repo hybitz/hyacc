@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :report do
-    resources :withholding_slip, :only => 'index'
+    resources :ledgers, only: 'index'
+    resources :withholding_slip, only: 'index'
   end
 end

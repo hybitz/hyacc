@@ -1,4 +1,4 @@
-class Report::WithholdingSlipController < Base::HyaccController
+class Report::WithholdingSlipController < ReportController::Base
   view_attribute :title => '源泉徴収'
   helper_method :finder
 

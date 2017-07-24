@@ -3,4 +3,8 @@ class ReportController < Base::HyaccController
 
   def index
   end
+
+  class Base < Base::HyaccController
+    layout 'report'
+  end
 end

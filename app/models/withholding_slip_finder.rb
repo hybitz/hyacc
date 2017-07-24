@@ -7,10 +7,6 @@ class WithholdingSlipFinder
   attr_accessor :calendar_year
   attr_accessor :employee_id
 
-  def calendar_year_options
-    {}
-  end
-
   def employees
     Employee.where(:company_id => company_id, :deleted => false)
   end

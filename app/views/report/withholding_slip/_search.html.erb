@@ -1,0 +1,8 @@
+<div class="search">
+  <%= form_tag({:action => 'index'}, :method => 'get') do %>
+    暦年：<%= select 'finder', 'calendar_year', calendar_years %>
+    従業員：<%= collection_select('finder', 'employee_id', finder.employees, 'id', 'fullname', :include_blank => true) %>
+    帳票様式：<%= collection_select('finder', 'report_type', finder.report_types, 'value', 'name') %>
+    <%= submit_tag "表示" %>
+  <% end %>
+</div>

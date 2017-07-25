@@ -33,6 +33,7 @@ class LedgersController < Base::HyaccController
   def finder
     unless @finder
       @finder = LedgerFinder.new(finder_params)
+      @finder.company_id = current_company.id
       @finder.start_month_of_fiscal_year = current_company.start_month_of_fiscal_year
       @finder.fiscal_year ||= current_company.current_fiscal_year.fiscal_year
     end

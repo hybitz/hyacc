@@ -14,7 +14,7 @@ class LedgersController < Base::HyaccController
     if ym > 0
       target_index = HyaccDateUtil.get_ym_index( finder.start_month_of_fiscal_year, ym )
       @ledgers.delete_at( target_index )
-      @ledgers.insert( target_index, *finder.list_journals( ym ) )
+      @ledgers.insert( target_index, *finder.list_journals(ym) )
     end
     
     # 前年度末残高を取得

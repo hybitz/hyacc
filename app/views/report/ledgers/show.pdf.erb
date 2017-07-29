@@ -1,4 +1,4 @@
-<% Account.where.not(code: ACCOUNT_CODE_VARIOUS).order(:code).each do |a| %>
+<% Account.where(trade_type: TRADE_TYPE_EXTERNAL).order(:code).each do |a| %>
   <%
     sql = SqlBuilder.new
     sql.append('journal_headers.ym in (?)', @fiscal_year.year_month_range)
@@ -11,7 +11,7 @@
     next unless journal_headers.present?
   %>
   <div class="alwaysbreak">
-    <table account_code="<%= a.code %>" dc_type="<%= a.dc_type %>">
+    <table account_code="<%= a.code %>" dc_type="<%= a.dc_type %>" class="ledger">
       <thead>
         <tr>
           <th colspan="3"><%= to_wareki(@fiscal_year.fiscal_year) %>年　<%= a.code_and_name %></th>

@@ -258,7 +258,7 @@ module HyaccConstants
   }
 
   # 伝票区分
-  SLIP_TYPES = HyaccConstants::INTERNAL_SLIP_TYPES.merge(HyaccConstants::BRANCH_SLIP_TYPES.merge(HyaccConstants::EXTERNAL_SLIP_TYPES))
+  SLIP_TYPES = INTERNAL_SLIP_TYPES.merge(BRANCH_SLIP_TYPES.merge(EXTERNAL_SLIP_TYPES))
   
   # 状態区分
   STATUS_TYPES = {

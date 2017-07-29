@@ -2,11 +2,13 @@
   <%
     sql = SqlBuilder.new
     sql.append('journal_headers.ym in (?)', @fiscal_year.year_month_range)
+    sql.append('and journal_headers.slip_type not in(?)', INTERNAL_SLIP_TYPES.keys + BRANCH_SLIP_TYPES.keys)
     sql.append('and exists (')
     sql.append('  select 1 from journal_details')
     sql.append('  where journal_details.journal_header_id = journal_headers.id')
     sql.append('    and journal_details.account_id = ?', a.id)
     sql.append(')')
+
     journal_headers = JournalHeader.where(sql.to_a)
     next unless journal_headers.present?
   %>

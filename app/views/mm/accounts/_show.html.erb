@@ -44,7 +44,7 @@
   <b>買掛金科目:</b> <%= @account.is_trade_account_payable ? 'はい' : 'いいえ' %>
 </p>
 <% end %>
-<% if @account.is_capital %>
+<% if @account.capital? %>
 <p>
   <b>利益積立金科目:</b> <%= @account.is_revenue_reserve_account ? 'はい' : 'いいえ' %>
 </p>

@@ -8,17 +8,15 @@ class LedgersController < Base::HyaccController
   def index
     # 月別累計を取得
     @ledgers = finder.list
-    
+
     # 年月の指定がある場合（損益計算書・貸借対照表からの遷移）、指定月の伝票を取得
     ym = params[:ym].to_i
     if ym > 0
-      target_index = HyaccDateUtil.get_ym_index( finder.start_month_of_fiscal_year, ym )
-      @ledgers.delete_at( target_index )
-      @ledgers.insert( target_index, *finder.list_journals(ym) )
+      target_index = HyaccDateUtil.get_ym_index(finder.company.start_month_of_fiscal_year, ym)
+      @ledgers.delete_at(target_index)
+      @ledgers.insert(target_index, *finder.list_journals(ym))
     end
-    
-    # 前年度末残高を取得
-    @last_year_balance = finder.get_last_year_balance
+
     setup_view_attributes
   end
 
@@ -34,7 +32,6 @@ class LedgersController < Base::HyaccController
     unless @finder
       @finder = LedgerFinder.new(finder_params)
       @finder.company_id = current_company.id
-      @finder.start_month_of_fiscal_year = current_company.start_month_of_fiscal_year
       @finder.fiscal_year ||= current_company.current_fiscal_year.fiscal_year
     end
     @finder

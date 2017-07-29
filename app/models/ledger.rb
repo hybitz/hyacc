@@ -6,6 +6,7 @@ class Ledger
   attr_accessor :day
   attr_accessor :remarks
   attr_accessor :sub_account_id
+  attr_accessor :account
   attr_accessor :amount_debit
   attr_accessor :amount_credit
   attr_accessor :account_name
@@ -21,6 +22,9 @@ class Ledger
     self.ym = journal_header.ym
     self.day = journal_header.day
     self.remarks = journal_header.remarks
+    self.account = ledger_finder.account
+    self.amount_credit = 0
+    self.amount_debit = 0
 
     # 簡易入力の場合は、相手科目の表示が可能
     if journal_header.slip_type == SLIP_TYPE_SIMPLIFIED
@@ -30,9 +34,9 @@ class Ledger
 
         # 金額
         if default_detail.dc_type == DC_TYPE_DEBIT
-          self.amount_debit = default_detail.amount.to_i
+          self.amount_debit += default_detail.amount
         else
-          self.amount_credit = default_detail.amount.to_i
+          self.amount_credit += default_detail.amount
         end
 
         # 相手勘定科目側の明細を取得
@@ -50,19 +54,24 @@ class Ledger
 
     # 諸口としての設定を行う場合
     unless is_set
-      # 金額
-      self.amount_debit = 0
-      self.amount_credit = 0
       journal_header.journal_details.each do |jd|
         # 条件に一致する明細の場合は金額を加算
-        if detail_matches?( ledger_finder, jd )
+        if detail_matches?(ledger_finder, jd)
           self.amount_debit += jd.debit_amount
           self.amount_credit += jd.credit_amount
         end
       end
-      
+
       # 相手勘定科目
-      self.account_name = Account.find_by_code( ACCOUNT_CODE_VARIOUS ).name
+      self.account_name = Account.find_by_code(ACCOUNT_CODE_VARIOUS).name
+    end
+  end
+
+  def net_amount
+    if account.credit?
+      amount_credit - amount_debit
+    else
+      amount_debit - amount_credit
     end
   end
 

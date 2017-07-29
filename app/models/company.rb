@@ -7,7 +7,7 @@ class Company < ApplicationRecord
 
   has_many :users
   has_many :employees
-  has_many :fiscal_years
+  has_many :fiscal_years, -> {where deleted: false}
 
   validates :name, :presence => true
   validates :founded_date, :presence => true

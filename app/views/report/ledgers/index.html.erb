@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      <th><%= FiscalYear.model_name.human %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @fiscal_years.each do |fy| %>
+      <tr>
+        <td><%= fy.fiscal_year %></td>
+        <td><%= link_to 'PDF出力', report_ledger_path(fy.fiscal_year, format: 'pdf') %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

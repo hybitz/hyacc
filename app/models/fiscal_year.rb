@@ -88,7 +88,7 @@ class FiscalYear < ApplicationRecord
 
   # 期末の年月を取得
   def end_year_month
-    HyaccDateUtil.get_end_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )
+    HyaccDateUtil.get_end_year_month_of_fiscal_year(fiscal_year, company.start_month_of_fiscal_year)
   end
 
   # 期首から期末までの年月を配列で取得

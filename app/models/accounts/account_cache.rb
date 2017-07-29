@@ -26,10 +26,10 @@ module Accounts
       end
 
       # 仕訳可能な勘定科目のみ取得する
-      def get_journalizable_accounts(include_deleted = false)
-        with_latency("#{self.name}.get_journalizable_accounts(#{include_deleted})") do
+      def get_journalizable_accounts(with_deleted = false)
+        with_latency("#{self.name}.get_journalizable_accounts(#{with_deleted})") do
           accounts = where(:journalizable => true)
-          unless include_deleted
+          unless with_deleted
             accounts = accounts.where(:deleted => false)
           end
           accounts = accounts.where('code <> ?', ACCOUNT_CODE_VARIOUS).order(:code)

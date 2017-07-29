@@ -6,7 +6,6 @@ class LedgerFinder
   attr_accessor :account_id
   attr_accessor :branch_id
   attr_accessor :fiscal_year
-  attr_accessor :start_month_of_fiscal_year
   attr_accessor :sub_account_id
 
   def fiscal_years
@@ -14,15 +13,27 @@ class LedgerFinder
     c.fiscal_years.map{|fy| fy.fiscal_year }.sort
   end
 
+  def company
+    @company ||= Company.find(company_id)
+  end
+
   def branches
     Branch.get_branches(company_id)
+  end
+  
+  def account
+    if account_id.to_i > 0
+      @account ||= Account.find(account_id)
+    end
+    
+    @account
   end
   
   def list
     # 科目の指定なしでは検索しない
     return [] unless account_id.to_i > 0
 
-    ym_from = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
+    ym_from = HyaccDateUtil.get_start_year_month_of_fiscal_year(fiscal_year, company.start_month_of_fiscal_year)
     ym_to = (ym_from / 100 + 1) * 100 + (ym_from % 100)
 
     ret = {}
@@ -68,6 +79,10 @@ class LedgerFinder
     ret
   end
 
+  def list_fiscal_years
+    fiscal_years
+  end
+  
   def conditions_for_journals(ym = 0)
     sql = SqlBuilder.new
     sql.append('account_id = ?', account_id)
@@ -78,20 +93,22 @@ class LedgerFinder
   end
 
   def get_last_year_balance
-    # 科目の指定なしでは検索しない
-    return nil unless account_id.to_i > 0
+    if @last_year_balance.nil?
+      unless account and account.bs?
+        @last_year_balance = false
+      else
+        debit = VMonthlyLedger.sum(:amount, conditions_for_last_year_balance(DC_TYPE_DEBIT)).to_i
+        credit = VMonthlyLedger.sum(:amount, conditions_for_last_year_balance(DC_TYPE_CREDIT)).to_i
   
-    account = Account.get(account_id)
-    return nil if [ ACCOUNT_TYPE_PROFIT, ACCOUNT_TYPE_EXPENSE ].include? account.account_type
-  
-    debit = VMonthlyLedger.sum(:amount, conditions_for_last_year_balance(DC_TYPE_DEBIT)).to_i
-    credit = VMonthlyLedger.sum(:amount, conditions_for_last_year_balance(DC_TYPE_CREDIT)).to_i
-  
-    if account.dc_type == DC_TYPE_CREDIT
-      credit - debit
-    else
-      debit - credit
+        if account.credit?
+          @last_year_balance = credit - debit
+        else
+          @last_year_balance = debit - credit
+        end
+      end
     end
+
+    @last_year_balance
   end
 
   private
@@ -113,11 +130,11 @@ class LedgerFinder
   
   # 月別累計検索条件
   def conditions_for_last_year_balance( dc_type )
-    raise ArgumentError.new("勘定科目の指定がありません。") unless account_id.to_i > 0
+    raise ArgumentError.new("勘定科目の指定がありません。") unless account
     raise ArgumentError.new("貸借区分の指定がありません。") unless [DC_TYPE_DEBIT, DC_TYPE_CREDIT].include?(dc_type)
 
     # 前年度末
-    start_year_month = HyaccDateUtil.get_start_year_month_of_fiscal_year(last_year, start_month_of_fiscal_year)
+    start_year_month = HyaccDateUtil.get_start_year_month_of_fiscal_year(last_year, company.start_month_of_fiscal_year)
 
     sql = SqlBuilder.new
     sql.append('ym <= ?', HyaccDateUtil.get_year_months( start_year_month, 12 ).last)

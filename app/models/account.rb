@@ -91,6 +91,14 @@ class Account < ApplicationRecord
     path.count('/')
   end
 
+  def bs?
+    asset? or debt? or capital?
+  end
+
+  def pl?
+    profit? or expense?
+  end
+
   # 資産かどうか
   def asset?
     account_type == ACCOUNT_TYPE_ASSET
@@ -102,13 +110,17 @@ class Account < ApplicationRecord
   end
 
   # 収益かどうか
-  def is_profit
+  def profit?
     account_type == ACCOUNT_TYPE_PROFIT
   end
 
   # 資本かどうか
-  def is_capital
+  def capital?
     account_type == ACCOUNT_TYPE_CAPITAL
+  end
+
+  def expense?
+    account_type == ACCOUNT_TYPE_EXPENSE
   end
 
   # 費用の部

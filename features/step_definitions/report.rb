@@ -46,7 +46,7 @@ end
     end
   end
 
-  within '#finders' do
+  within '.search' do
     select '2009', :from => 'finder_calendar_year'
     select employee_name, :from => 'finder_employee_id'
     select report_type, :from => 'finder_report_type'

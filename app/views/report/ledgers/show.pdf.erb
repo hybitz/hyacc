@@ -36,7 +36,7 @@
           finder = LedgerFinder.new(company_id: @fiscal_year.company_id, fiscal_year: @fiscal_year.fiscal_year, account_id: a.id)
           sum = finder.get_last_year_balance || 0
         %>
-        <% if sum > 0 %>
+        <% if a.bs? %>
           <tr style="background-color: papayawhip;">
             <td class="yearMonth"></td>
             <td class="day"></td>
@@ -47,7 +47,7 @@
             <% end %>
             <td class="amountDebit"></td>
             <td class="amountCredit"></td>
-            <td class="amountSum"><%= to_amount(sum) %></td>
+            <td class="amountSum"><%= to_amount(sum, show_zero: true) %></td>
           </tr>
         <% end %>
 

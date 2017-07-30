@@ -11,7 +11,7 @@ module Auto::TransferJournal
     def make_journals
       auto = @src_jd.transfer_journals.build
       auto.company_id = @src_jd.journal_header.company_id
-      auto.ym = HyaccDateUtil.last_month( @src_jd.journal_header.ym )
+      auto.ym = HyaccDateUtil.last_month(@src_jd.journal_header.ym)
       auto.day = HyaccDateUtil.last_day_of_month( auto.ym )
       auto.remarks = @src_jd.journal_header.remarks + '【自動】'
       auto.slip_type = SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE
@@ -40,8 +40,8 @@ module Auto::TransferJournal
       next_day = Date.new(auto.ym/100, auto.ym%100, auto.day ).next
       reverse = auto.transfer_journals.build
       reverse.company_id = auto.company_id
-      reverse.ym = next_day.year * 100 + next_day.month
-      reverse.day = next_day.day
+      reverse.ym = @src_jd.journal_header.ym
+      reverse.day = @src_jd.journal_header.day
       reverse.remarks = auto.remarks + '【逆】'
       reverse.slip_type = auto.slip_type
       reverse.create_user_id = auto.create_user_id

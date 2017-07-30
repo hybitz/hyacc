@@ -29,12 +29,12 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
 
     # 登録した伝票のチェック
     jh = JournalHeader.find_by_remarks(remarks)
-    assert_equal( 200801, jh.ym )
-    assert_equal( 15, jh.day )
-    assert_equal( SLIP_TYPE_SIMPLIFIED, jh.slip_type )
-    assert_equal( remarks, jh.remarks )
-    assert_equal( 3600, jh.amount )
-    assert_equal( 0, jh.transfer_journals.size )
+    assert_equal 200801, jh.ym
+    assert_equal 15, jh.day
+    assert_equal SLIP_TYPE_SIMPLIFIED, jh.slip_type
+    assert_equal remarks, jh.remarks
+    assert_equal 3600, jh.amount
+    assert_equal 0, jh.transfer_journals.size
     assert_equal( 2, jh.journal_details.size )
     assert_equal( DC_TYPE_CREDIT, jh.journal_details[0].dc_type )
     assert_equal( 3600, jh.journal_details[0].amount )
@@ -72,7 +72,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
     # 自動振替伝票のチェック（今月の伝票）
     auto2 = auto1.transfer_journals.first
     assert_equal( 200801, auto2.ym )
-    assert_equal( 1, auto2.day )
+    assert_equal( 15, auto2.day )
     assert_equal( SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, auto2.slip_type )
     assert_equal( remarks + "【自動】【逆】", auto2.remarks )
     assert_equal( 3600, auto2.amount )

@@ -12,7 +12,6 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替の登録がエラーになること
-
     assert_no_difference 'JournalHeader.count' do
       post :create, :params => {
         :account_code => ACCOUNT_CODE_CASH,
@@ -161,7 +160,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
     assert reverse = auto.transfer_journals[0]
     assert_equal 201005, reverse.ym
-    assert_equal 1, reverse.day
+    assert_equal 17, reverse.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, reverse.slip_type
     assert_equal auto.remarks + "【逆】", reverse.remarks
     assert_equal 1500, reverse.amount
@@ -234,7 +233,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
     assert reverse = auto.transfer_journals[0]
     assert_equal 201012, reverse.ym
-    assert_equal 1, reverse.day
+    assert_equal 31, reverse.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, reverse.slip_type
     assert_equal auto.remarks + "【逆】", reverse.remarks
     assert_equal 1600, reverse.amount

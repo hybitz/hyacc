@@ -237,7 +237,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
 
     assert reverse = auto.transfer_journals[0]
     assert_equal 201002, reverse.ym
-    assert_equal 1, reverse.day
+    assert_equal 14, reverse.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, reverse.slip_type
     assert_equal auto.remarks + "【逆】", reverse.remarks
     assert_equal 510, reverse.amount
@@ -267,7 +267,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
 
     assert reverse2 = auto2.transfer_journals[0]
     assert_equal 201002, reverse2.ym
-    assert_equal 1, reverse2.day
+    assert_equal 14, reverse2.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, reverse2.slip_type
     assert_equal auto2.remarks + "【逆】", reverse2.remarks
     assert_equal 40, reverse2.amount
@@ -367,7 +367,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
 
     assert reverse = auto.transfer_journals[0]
     assert_equal 201002, reverse.ym
-    assert_equal 1, reverse.day
+    assert_equal 10, reverse.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, reverse.slip_type
     assert_equal auto.remarks + "【逆】", reverse.remarks
     assert_equal 1000, reverse.amount
@@ -397,7 +397,7 @@ class JournalsController::AccruedExpenseTest < ActionController::TestCase
 
     assert reverse2 = auto2.transfer_journals[0]
     assert_equal 201002, reverse2.ym
-    assert_equal 1, reverse2.day
+    assert_equal 10, reverse2.day
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE, reverse2.slip_type
     assert_equal auto2.remarks + "【逆】", reverse2.remarks
     assert_equal 999, reverse2.amount

@@ -25,10 +25,12 @@ class UpdateDayOnAccruedExpenseReverseJournals < ActiveRecord::Migration[5.0]
           raise '元仕訳と逆仕訳の年月が一致しない'
         end
         
-        if jh.day != 1
+        if jh.day == original.day
+          puts "\tOK"
+        elsif jh.day != 1
           raise '逆仕訳の日が 1 日ではない'
         end
-        
+
         jh.update(:day => original.day)
       else
         if jh.remarks.include?('【自動】【逆】')

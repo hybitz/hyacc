@@ -60,7 +60,7 @@
       <td colspan="<%= colspan_of_asset_remarks %>"><%= f.text_field :remarks, :size => 60, :maxlength => 250, :class => 'remarksText' %></td>
     </tr>
   </table>
-  
+
   <% if @asset.status_created? %>
     <script>
       function updateDurableYears(depreciationMethod){

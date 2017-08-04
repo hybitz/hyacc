@@ -19,7 +19,6 @@
       <th>借方金額</th>
       <th>貸方金額</th>
     </tr>
-  
     <tr>
       <td><%= @journal.ym %></td>
       <td><%= @journal.day %></td>
@@ -47,7 +46,7 @@
         <a href="#" onclick="journal.flip_details(false); return false;">隠す</a>
       </th>
     </tr>
-    
+
     <% @journal.normal_details.each_with_index do |jd, i| %>
       <%= render 'show_detail', :jd => jd, :index => i %>
     <% end %>

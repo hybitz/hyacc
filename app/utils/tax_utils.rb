@@ -1,6 +1,6 @@
-class HyaccMaster::TaxJp
+class TaxUtils
 
-  def get_insurances(prefecture_code, ym, base_salary)
+  def self.get_insurances(prefecture_code, ym, base_salary)
     date = Date.strptime("#{ym}01", '%Y%m%d')
 
     insurances = []
@@ -10,7 +10,7 @@ class HyaccMaster::TaxJp
     insurances
   end
 
-  def get_insurance(ym, prefecture_code, base_salary)
+  def self.get_insurance(ym, prefecture_code, base_salary)
     date = Date.strptime("#{ym}01", '%Y%m%d')
     si = TaxJp::SocialInsurance.find_by_date_and_prefecture_and_salary(date, prefecture_code, base_salary)
 
@@ -18,7 +18,7 @@ class HyaccMaster::TaxJp
   end
 
   # 標準報酬の基本情報を取得
-  def get_basic_info(ym, prefecture_code, base_salary)
+  def self.get_basic_info(ym, prefecture_code, base_salary)
     raise '年月が未指定です。' unless ym
 
     date = Date.strptime("#{ym}01", '%Y%m%d')
@@ -27,9 +27,7 @@ class HyaccMaster::TaxJp
     insurance = convert_tax_jp(si)
   end
 
-  private
-
-  def convert_tax_jp(si)
+  def self.convert_tax_jp(si)
     ret = Insurance.new
     ret.apply_start_ym = si.valid_from
     ret.apply_end_ym = si.valid_until
@@ -53,5 +51,6 @@ class HyaccMaster::TaxJp
 
     ret
   end
+  private_class_method :convert_tax_jp
 
 end

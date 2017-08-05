@@ -120,8 +120,7 @@ module PayrollHelper
   end
 
   def get_insurance(ym, prefecture_code, base_salary)
-    service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_insurance(ym, prefecture_code, base_salary)
+    TaxUtils.get_insurance(ym, prefecture_code, base_salary)
   end
 
   #標準報酬額を取得
@@ -137,8 +136,7 @@ module PayrollHelper
 
   #標準報酬の基本情報を取得
   def get_basic_info(ym, prefecture_code, base_salary)
-    service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_basic_info(ym, prefecture_code, base_salary)
+    TaxUtils.get_basic_info(ym, prefecture_code, base_salary)
   end
 
   def get_pay_day(ym, employee_id = nil)

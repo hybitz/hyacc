@@ -31,7 +31,7 @@
       <% @finder.get_ym_range.each do |ym| %>
       <th align="center">
         <% if @pd[ym][:payroll].is_new %>
-          <%= link_to ym, {:action => :new, :ym => ym, :employee_id => finder.employee_id}, :remote => true %>
+          <%= link_to ym, {:action => :new, :ym => ym, :employee_id => @finder.employee_id}, :remote => true %>
         <% else %>
           <%= link_to ym, edit_payroll_path(@pd[ym][:payroll]), :remote => true %>
         <% end %>

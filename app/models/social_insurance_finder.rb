@@ -6,8 +6,7 @@ class SocialInsuranceFinder
   attr_accessor :base_salary
   
   def list
-    service = HyaccMaster::ServiceFactory.create_service(Rails.env)
-    service.get_insurances(prefecture_code, ym.gsub('-', ''), base_salary)
+    TaxUtils.get_insurances(prefecture_code, ym.gsub('-', ''), base_salary)
   end
 
   def prefectures

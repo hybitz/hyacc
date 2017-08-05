@@ -1,23 +1,27 @@
-<table id="payroll_header_table">
-  <tr style="background-color: lightgrey;">
-    <th>雇　　入　　年　　月　　日</th>
-    <th>所　　属</th>
-    <th>職　　　　　名</th>
-    <th>標準報酬</th>
-    <th>氏　　　　名</th>
-    <th>性別</th>
-  </tr>
-  <tr>
-    <td rowspan="2" align="center"><%= @employee.employment_date.strftime("%Y年　　%m月　　　%d日") %>　雇入</td>
-    <td rowspan="2"></td>
-    <td rowspan="2"><%= @employee.position %></td>
-    <td rowspan="1">健 <%= to_amount(@employee.standard_remuneration) %>円</td>
-    <td rowspan="2"><%= @employee.fullname %></td>
-    <td rowspan="2" align="center"><%= @employee.sex_name %></td>
-  </tr>
-  <tr>
-    <td>厚 <%= to_amount(@employee.standard_remuneration) %>円</td>
-  </tr>
+<table id="payroll_header_table" align="center">
+  <thead>
+    <tr style="background-color: lightgrey;">
+      <th>雇　　入　　年　　月　　日</th>
+      <th>所　　属</th>
+      <th>職　　　　　名</th>
+      <th>標準報酬</th>
+      <th>氏　　　　名</th>
+      <th>性別</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2" align="center"><%= @employee.employment_date.strftime("%Y年　%m月　%d日") %>　雇入</td>
+      <td rowspan="2"></td>
+      <td rowspan="2"><%= @employee.position %></td>
+      <td rowspan="1">健 <%= to_amount(@employee.standard_remuneration) %>円</td>
+      <td rowspan="2"><%= @employee.fullname %></td>
+      <td rowspan="2" align="center"><%= @employee.sex_name %></td>
+    </tr>
+    <tr>
+      <td>厚 <%= to_amount(@employee.standard_remuneration) %>円</td>
+    </tr>
+  </tbody>
 </table>
 
 <table id="payroll_table" border="1" align="center">
@@ -27,7 +31,7 @@
       <% @finder.get_ym_range.each do |ym| %>
       <th align="center">
         <% if @pd[ym][:payroll].is_new %>
-          <%= link_to ym, {:action => :new, :ym => ym}, :remote => true %>
+          <%= link_to ym, {:action => :new, :ym => ym, :employee_id => finder.employee_id}, :remote => true %>
         <% else %>
           <%= link_to ym, edit_payroll_path(@pd[ym][:payroll]), :remote => true %>
         <% end %>

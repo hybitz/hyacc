@@ -1,6 +1,6 @@
 class Company < ApplicationRecord
   belongs_to :business_type
-  has_many :branches
+  has_many :branches, -> { where(deleted: false) }
 
   has_many :business_offices, :inverse_of => 'company'
   accepts_nested_attributes_for :business_offices
@@ -14,7 +14,6 @@ class Company < ApplicationRecord
   validates :admin_email, :email => {:allow_blank => true}
   validates :enterprise_number, :numericality => {:allow_blank => true}
 
-  
   mount_uploader :logo, LogoUploader
 
   attr_accessor :day_of_payday

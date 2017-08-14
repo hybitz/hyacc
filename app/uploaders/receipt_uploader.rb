@@ -1,13 +1,8 @@
 class ReceiptUploader < Daddy::Uploader::Base
-  storage :file
   process :set_metadata
 
   def store_dir
     File.join(model.class.table_name, model.journal_header_id.to_s)
-  end
-
-  def filename
-    @_filename ||= HyaccUtil.hashed_filename(file.path)
   end
 
   private

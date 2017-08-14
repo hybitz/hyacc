@@ -175,8 +175,8 @@ class PayrollsController < Base::HyaccController
 
   def make_journals(payroll)
     param = Auto::Journal::PayrollParam.new(payroll, current_user)
-    factory = Auto::AutoJournalFactory.get_instance( param )
-    journals = factory.make_journals()
+    factory = Auto::AutoJournalFactory.get_instance(param)
+    journals = factory.make_journals
 
     journals.each do |j|
       begin

@@ -20,6 +20,7 @@ class Payroll < ApplicationRecord
   attr_accessor :income_tax     # 源泉所得税
   attr_accessor :insurance      # 個人負担保険料
   attr_accessor :pension        # 個人負担保険料
+  attr_accessor :employee_insurance      # 個人負担雇用保険料
   attr_accessor :insurance_all
   attr_accessor :pension_all
   attr_accessor :subtotal
@@ -195,189 +196,59 @@ class Payroll < ApplicationRecord
 
   # 仕訳明細から源泉所得税金額を取得する
   def get_income_tax_from_jd
-    amount = 0
-    # 預り金
-    deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
-    # 立替金
-    advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
-    # 源泉所得税
-    dr_income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
-    am_income_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY)
-
-    payroll_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_CREDIT
-        if self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED and
-           jd.account_id == deposits_received.id and
-           jd.sub_account_id == dr_income_tax.id
-            amount = jd.amount
-            break
-        elsif self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY and
-          jd.account_id == advance_money.id and
-          jd.sub_account_id == am_income_tax.id
-          amount = jd.amount
-          break
-        end
-      end
+    if self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
+    elsif self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY)
     end
-    return amount
   end
 
   # 仕訳明細から健康保険料を取得する
   def get_insurance_from_jd
-    amount = 0
-    # 預り金
-    deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
-    # 立替金
-    advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
-    # 健康保険料
-    dr_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_DEPOSITS_RECEIVED)
-    am_insurance = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_ADVANCE_MONEY)
-
-    self.payroll_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_CREDIT
-        if self.credit_account_type_of_insurance == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED and
-           jd.account_id == deposits_received.id and
-           jd.sub_account_id == dr_insurance.id
-            amount = jd.amount
-            break
-        elsif self.credit_account_type_of_insurance == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY and
-          jd.account_id == advance_money.id and
-          jd.sub_account_id == am_insurance.id
-          amount = jd.amount
-          break
-        end
-      end
+    if self.credit_account_type_of_insurance == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_DEPOSITS_RECEIVED)
+    elsif self.credit_account_type_of_insurance == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_ADVANCE_MONEY)
     end
-    return amount
   end
 
   # 仕訳明細から厚生年金を取得する
   def get_pension_from_jd
-    amount = 0
-    # 預り金
-    deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
-    # 立替金
-    advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
-    # 厚生年金
-    dr_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED)
-    am_pension = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_ADVANCE_MONEY)
-
-    self.payroll_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_CREDIT
-        if self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED and
-           jd.account_id == deposits_received.id and
-           jd.sub_account_id == dr_pension.id
-            amount = jd.amount
-            break
-        elsif self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY and
-          jd.account_id == advance_money.id and
-          jd.sub_account_id == am_pension.id
-          amount = jd.amount
-          break
-        end
-      end
+    if self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED)
+    elsif self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_ADVANCE_MONEY)
     end
-    return amount
   end
 
   # 仕訳明細から住民税を取得する
   def get_inhabitant_tax_from_jd
-    amount = 0
-    # 預り金
-    deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
-    # 立替金
-    advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
-    # 住民税
-    dr_inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_DEPOSITS_RECEIVED)
-    am_inhabitant_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_ADVANCE_MONEY)
-
-    self.payroll_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_CREDIT
-        if self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED and
-           jd.account_id == deposits_received.id and
-           jd.sub_account_id == dr_inhabitant_tax.id
-            amount = jd.amount
-            break
-        elsif self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY and
-          jd.account_id == advance_money.id and
-          jd.sub_account_id == am_inhabitant_tax.id
-          amount = jd.amount
-          break
-        end
-      end
+    if self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_DEPOSITS_RECEIVED)
+    elsif self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_ADVANCE_MONEY)
     end
-    return amount
   end
 
 
   # 仕訳明細から給与を取得する
   def get_base_salary_from_jd
-    amount = 0
-
-    salary_id = Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id
-    self.payroll_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == salary_id
-        amount += jd.amount
-      end
-    end
-
-    salary_id = Account.find_by_code(ACCOUNT_CODE_SALARY).id
-    self.payroll_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == salary_id
-        amount += jd.amount
-      end
-    end
-
-    amount
+    amount = payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DIRECTOR_SALARY)
+    amount += payroll_journal_header.get_debit_amount(ACCOUNT_CODE_SALARY)
   end
 
   # 仕訳明細から未払費用を取得する
   def get_accrued_liability_from_jd
-    amount = 0
-    unpaid_id = Account.find_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE).id
-    self.pay_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == unpaid_id
-        amount = jd.amount
-        break
-      end
-    end
-    return amount
+    return payroll_journal_header.get_debit_amount(ACCOUNT_CODE_UNPAID_EMPLOYEE)
   end
-
 
   # 仕訳明細から年末調整額を取得する
   def get_year_end_adjustment_liability_from_jd
-    amount = 0
-    # 預り金
-    deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
-    # 預り金（源泉所得税）
-    dr_income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
-
-    # 給与明細から借方の預り金（源泉所得税）を検索
-    self.payroll_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_DEBIT
-         if jd.account_id == deposits_received.id and
-           jd.sub_account_id == dr_income_tax.id
-            amount = jd.amount
-            break
-         end
-      end
-    end
-    return amount
+    return payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
   end
-
 
   # 仕訳明細から未払役員賞与を取得する
   def get_base_bonus_from_jd
-    amount = 0
-    salary_id = Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id
-    self.payroll_journal_header.journal_details.each do | jd |
-      if jd.dc_type == DC_TYPE_DEBIT and jd.account_id == salary_id
-        amount = jd.amount
-        break
-      end
-    end
-    return amount
+    return payroll_journal_header.get_debit_amount(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS)
   end
-
 end

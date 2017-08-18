@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818114858) do
+ActiveRecord::Schema.define(version: 20170818114859) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "code",                                   default: "",    null: false
@@ -428,23 +428,24 @@ ActiveRecord::Schema.define(version: 20170818114858) do
   end
 
   create_table "payrolls", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer  "ym",                                                              null: false
+    t.integer  "ym",                                                                  null: false
     t.integer  "payroll_journal_header_id"
     t.integer  "pay_journal_header_id"
-    t.integer  "days_of_work",                                    default: 0
-    t.integer  "hours_of_work",                                   default: 0
-    t.integer  "hours_of_day_off_work",                           default: 0
-    t.integer  "hours_of_early_for_work",                         default: 0
-    t.integer  "hours_of_late_night_work",                        default: 0
-    t.string   "credit_account_type_of_income_tax",     limit: 1, default: "0",   null: false
-    t.string   "credit_account_type_of_insurance",      limit: 1, default: "0",   null: false
-    t.string   "credit_account_type_of_pension",        limit: 1, default: "0",   null: false
-    t.string   "credit_account_type_of_inhabitant_tax", limit: 1, default: "0",   null: false
+    t.integer  "days_of_work",                                        default: 0
+    t.integer  "hours_of_work",                                       default: 0
+    t.integer  "hours_of_day_off_work",                               default: 0
+    t.integer  "hours_of_early_for_work",                             default: 0
+    t.integer  "hours_of_late_night_work",                            default: 0
+    t.string   "credit_account_type_of_income_tax",         limit: 1, default: "0",   null: false
+    t.string   "credit_account_type_of_insurance",          limit: 1, default: "0",   null: false
+    t.string   "credit_account_type_of_pension",            limit: 1, default: "0",   null: false
+    t.string   "credit_account_type_of_inhabitant_tax",     limit: 1, default: "0",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "employee_id",                                                     null: false
-    t.boolean  "is_bonus",                                        default: false, null: false
+    t.integer  "employee_id",                                                         null: false
+    t.boolean  "is_bonus",                                            default: false, null: false
     t.integer  "commission_journal_header_id"
+    t.string   "credit_account_type_of_employee_insurance", limit: 1, default: "0",   null: false
     t.index ["pay_journal_header_id"], name: "fk_payrolls_pay_journal_header_id", using: :btree
     t.index ["payroll_journal_header_id"], name: "fk_payrolls_payroll_journal_header_id", using: :btree
     t.index ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true, using: :btree

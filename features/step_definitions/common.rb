@@ -29,9 +29,10 @@ end
 ならば /^当該伝票が(登録|更新|削除)される$/ do |action|
   with_capture do
     if @slip
-      if action == '登録'
+      case action
+      when '登録'
         assert has_selector?('.notice', :text => "伝票を#{action}しました。")
-      elsif action == '更新'
+      when '更新'
         assert has_no_selector?('#edit_simple_slip')
         assert has_no_selector?('.reload_dialog')
       end

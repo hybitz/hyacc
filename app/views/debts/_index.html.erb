@@ -105,38 +105,42 @@
   </div>
   <div style="margin:5px;">
     <table id="debt_table">
-      <tr>
-        <th class="yearMonth">年月</th>
-        <th class="yearMonth">日</th>
-        <th class="remarks">摘要</th>
-        <th class="branchName">計上部門</th>
-        <th class="branchName">相手部門</th>
-        <th class="amountSum">金額</th>
-        <th>元伝票</th>
-        <th>個別精算</th>
-      </tr>
-    <% @debts.each do |debt| %>
-      <tr id="debts_<%= debt.id.to_s %>">
-        <td class="yearMonth"><%= debt.ym.to_s %></td>
-        <td class="day"><%= debt.day.to_s %></td>
-        <td class="remarks"><%= debt.remarks %></td>
-        <td class="branchName"><%= debt.branch_name %></td>
-        <td class="branchName"><%= debt.opposite_branch_name %></td>
-        <td class="amountSum"><%= number_to_currency(debt.amount, :unit => '', :precision => 0) %></td>
-        <td class="center">
-          <%= link_to '参照', journal_path(debt.id, :copy_link => 'false'), :remote => true %>
-        </td>
-        <td class="center">
-          <div id="status_<%= debt.id.to_s %>">
-          <% if debt.closed_id %>
-            <%= render 'closed_link', :closed_id => debt.closed_id %>
-          <% else %>
-            <input type="button" value="精算" onclick="close_journal(<%= debt.id %>, <%= debt.branch_id %>);" />
-          <% end %>
-          </div>
-        </td>
-      </tr>
-    <% end %>
+      <thead>
+        <tr>
+          <th class="yearMonth">年月</th>
+          <th class="yearMonth">日</th>
+          <th class="remarks">摘要</th>
+          <th class="branchName">計上部門</th>
+          <th class="branchName">相手部門</th>
+          <th class="amountSum">金額</th>
+          <th>元伝票</th>
+          <th>個別精算</th>
+        </tr>
+      </thead>
+      <tbdoy>
+        <% @debts.each do |debt| %>
+          <tr id="debts_<%= debt.id.to_s %>" class="hover">
+            <td class="yearMonth"><%= debt.ym.to_s %></td>
+            <td class="day"><%= debt.day.to_s %></td>
+            <td class="remarks"><%= debt.remarks %></td>
+            <td class="branchName"><%= debt.branch_name %></td>
+            <td class="branchName"><%= debt.opposite_branch_name %></td>
+            <td class="amountSum"><%= number_to_currency(debt.amount, :unit => '', :precision => 0) %></td>
+            <td class="center">
+              <%= link_to '参照', journal_path(debt.id, :copy_link => 'false'), :remote => true %>
+            </td>
+            <td class="center">
+              <div id="status_<%= debt.id.to_s %>">
+              <% if debt.closed_id %>
+                <%= render 'closed_link', :closed_id => debt.closed_id %>
+              <% else %>
+                <input type="button" value="精算" onclick="close_journal(<%= debt.id %>, <%= debt.branch_id %>);" />
+              <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      <tbody>
     </table>
   </div>
 </div>

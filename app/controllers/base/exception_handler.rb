@@ -14,8 +14,6 @@ module Base::ExceptionHandler
       message = e.message
       HyaccLogger.warn message, e
       store_error_message(message)
-    elsif e.is_a? SocketError
-      handle_socket_error(e, options)
     else
       handle_error(e, options)
     end
@@ -28,18 +26,6 @@ module Base::ExceptionHandler
     raise e
   end
 
-  def handle_socket_error(e, options={})
-    if controller_name == 'notification'
-      message = 'Googleカレンダーに接続できませんでした。'
-      HyaccLogger.warn message,e if RAILS_ENV == 'production'
-    else
-      message = e
-      HyaccLogger.error message, e
-    end
-
-    store_error_message(message)
-  end
-  
   def store_error_message(message)
     flash[:notice] = message
     flash[:is_error_message] = true

@@ -15,7 +15,6 @@ gem 'acts_as_tree'
 gem 'carrierwave'
 gem 'carrierwave-i18n'
 gem 'coffee-rails', '~> 4.2'
-gem 'colorable'
 gem 'daddy'
 gem 'dalli'
 gem 'devise'
@@ -69,7 +68,7 @@ group :test do
   gem 'database_cleaner', :require => false
   gem 'minitest'
   gem 'minitest-reporters'
-  gem 'selenium-webdriver', '~> 2.53'
+  gem 'selenium-webdriver'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
 end

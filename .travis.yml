@@ -2,8 +2,8 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
-  - 2.4.0
-  - 2.3.3
+  - 2.4.2
+  - 2.3.5
 addons:
   sauce_connect: true
 before_script:

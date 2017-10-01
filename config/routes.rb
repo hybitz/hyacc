@@ -51,7 +51,7 @@ Rails.application.routes.draw do
   end
 
   resources :ledgers, :only => ['index', 'show']
-  resources :notifications, :only => ['index']
+
   resources :payrolls do
     collection do
       get 'auto_calc'

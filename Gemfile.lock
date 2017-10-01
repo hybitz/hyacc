@@ -108,7 +108,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    colorable (0.2.0)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     crass (1.0.2)
@@ -432,7 +431,6 @@ DEPENDENCIES
   carrierwave-i18n
   closer
   coffee-rails (~> 4.2)
-  colorable
   cucumber-rails
   daddy
   dalli
@@ -462,7 +460,7 @@ DEPENDENCIES
   rails-i18n
   remotipart
   sass-rails (~> 5.0)
-  selenium-webdriver (~> 2.53)
+  selenium-webdriver
   sidekiq
   simplecov
   simplecov-rcov

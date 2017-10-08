@@ -4,6 +4,9 @@ cache: bundler
 rvm:
   - 2.4.2
   - 2.3.5
+env:
+  - DRIVER=chrome
+  - DRIVER=firefox
 addons:
   sauce_connect: true
 before_script:

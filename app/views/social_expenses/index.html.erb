@@ -1,4 +1,4 @@
-<%= render 'common/search' %>
+<%= render 'search' %>
 
 <script>
   $(document).ready(function() {
@@ -8,8 +8,8 @@
   });
 </script>
 
-<% if @finder.commit %>
-  <table>
+<table>
+  <thead>
     <tr>
       <th>年月</th>
       <th>日</th>
@@ -23,7 +23,8 @@
       <th>控除額</th>
       <th>差引交際費</th>
     </tr>
-  
+  </thead>
+  <tbody>
     <% @journal_headers.each do |jh| %>
       <tr>
         <td class="yearMonth"><%= jh.ym %></td>
@@ -55,5 +56,5 @@
         </tr>
       <% end %>
     <% end %>
-  </table>
-<% end %>
+  </tbody>
+</table>

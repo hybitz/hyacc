@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'mm', :to => 'mm#index'
+
   namespace :mm do
     resources :accounts do
       collection do

@@ -88,7 +88,6 @@ Rails.application.routes.draw do
 
   get 'closing', :to => 'closing#index'
   get 'journal_admin', :to => 'journal_admin#index'
-  get 'mm', :to => 'mm#index'
   get 'mv', :to => 'mv#index'
   get 'report', :to => 'report#index'
   

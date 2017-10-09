@@ -1,13 +1,14 @@
 require 'test_helper'
 
-class WelcomeControllerTest < ActionController::TestCase
+class WelcomeControllerTest < ActionDispatch::IntegrationTest
 
   def test_初期状態
     assert User.delete_all
 
-    get :index
+    get root_path
     assert_response :redirect
-    assert_redirected_to first_boot_index_path
+    follow_redirect!
+    assert_equal '/first_boot', path
   end
 
 end

@@ -1,5 +1,6 @@
 前提 /^(.*?)が(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |user_name, account_name|
   sign_in :name => user_name
+  assert has_no_title?(account_name)
 
   with_capture do
     within '.menu' do

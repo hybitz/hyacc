@@ -146,7 +146,8 @@ end
         fill_in 'simple_slip_remarks', :with => remark
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
       end
-        assert has_selector?('.account_ready')
+      assert has_selector?('.account_ready')
+
       within '#new_simple_slip' do
         select tax_type_name, :from => 'simple_slip_tax_type'
         fill_in 'simple_slip_amount_decrease', :with => amount

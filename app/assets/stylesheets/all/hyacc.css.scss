@@ -2,22 +2,6 @@ a.add {
   margin: 10px 20px;
 }
 
-input, select {
-  background: #FFFAFA;
-
-  &:disabled {
-    background: #EEEEEE;
-  }
-}
-
-input[type="file"] {
-  width: 36em;
-}
-
-button, input[type="button"], input[type="submit"] {
-  background: ButtonFace;
-}
-
 pre {
   background-color: #eee;
   padding: 10px;

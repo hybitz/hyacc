@@ -66,6 +66,7 @@ end
       assert account = Account.where(:name => row[4], :deleted => false).first
 
       visit_simple_slip(:account => Account.find_by_name(simple_slip))
+      assert has_no_selector?('.notice')
       count = all('#slipTable tbody tr').count
 
       within '#new_simple_slip' do

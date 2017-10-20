@@ -9,8 +9,8 @@ class Investment < ApplicationRecord
   }
   validates :buying_or_selling, :presence => true
   validates_numericality_of :shares, :greater_than => 0
-  validates_numericality_of :trading_value, :greater_than => 0
-  validates_numericality_of :charges, :greater_than => 0
+  validates_numericality_of :trading_value, :greater_than_or_equal_to => 0
+  validates_numericality_of :charges, :greater_than_than_or_equal_to => 0
   
   attr_accessor :buying_or_selling
   attr_accessor :yyyymmdd
@@ -39,7 +39,7 @@ class Investment < ApplicationRecord
 
   def set_buying_or_sellng
     self.buying_or_selling = "1"
-    if self.trading_value < 0
+    if self.trading_value < 0 || self.shares < 0
       self.shares = self.shares * -1
       self.trading_value = self.trading_value * -1
       self.buying_or_selling = "0"

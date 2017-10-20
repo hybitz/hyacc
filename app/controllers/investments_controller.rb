@@ -106,7 +106,8 @@ class InvestmentsController < Base::HyaccController
   
   def save_investment!
     @investment.transaction do
-      if @investment.journal_detail_id.nil?
+       # 取引金額が0円（単元株数変更対応）の場合も自動仕訳しない
+      if @investment.journal_detail_id.nil? && @investment.trading_value != 0 && @investment.charges != 0
         param = Auto::Journal::InvestmentParam.new(@investment, current_user)
         factory = Auto::Journal::InvestmentFactory.get_instance(param)
         factory.make_journals.each do |jh|

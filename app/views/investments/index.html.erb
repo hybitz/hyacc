@@ -24,7 +24,7 @@
         <td class="amount"><%= to_amount(inv.shares) if inv.buying_or_selling == "1" %></td>
         <td class="amount"><%= to_amount(inv.shares) if inv.buying_or_selling == "0" %></td>
         <td class="amount">
-        	<%= '△' + to_amount(inv.trading_value) if inv.buying_or_selling == "0" %>
+        	<%= '△' + to_amount(inv.trading_value) if inv.buying_or_selling == "0" && inv.trading_value > 0 %>
         	<%= to_amount(inv.trading_value) if inv.buying_or_selling == "1" %>
         </td>
         <td>

@@ -98,7 +98,7 @@ GEM
     ci_reporter (2.0.0)
       builder (>= 2.1.2)
     cliver (0.3.2)
-    closer (0.5.4)
+    closer (0.5.5)
       cucumber (>= 2.4, <= 4.0)
       poltergeist (>= 1.16)
       selenium-webdriver (~> 3.0)

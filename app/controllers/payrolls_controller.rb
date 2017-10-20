@@ -24,29 +24,27 @@ class PayrollsController < Base::HyaccController
 
   def new
     ym = params[:ym]
-    unless ym.present?
-      @payroll = Payroll.new.init
-    else
-      employee_id = finder.employee_id
-      base_salary = Payroll.get_previous_base_salary(ym, finder.employee_id)
+    @employee = Employee.find(finder.employee_id)
+    employee_id = finder.employee_id
+    base_salary = Payroll.get_previous_base_salary(ym, finder.employee_id)
 
-      @payroll = get_tax(ym, finder.employee_id, base_salary)
+    @payroll = get_tax(ym, finder.employee_id, base_salary)
 
-      # 初期値の設定
-      @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
-      @payroll.hours_of_work = @payroll.days_of_work * 8
+    # 初期値の設定
+    @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
+    @payroll.hours_of_work = @payroll.days_of_work * 8
 
-      # 住民税マスタより住民税額を取得
-      @payroll.inhabitant_tax = get_inhabitant_tax(finder.employee_id, ym)
-      @payroll.pay_day = get_pay_day(ym, finder.employee_id).strftime("%Y-%m-%d")
+    # 住民税マスタより住民税額を取得
+    @payroll.inhabitant_tax = get_inhabitant_tax(finder.employee_id, ym)
+    @payroll.pay_day = get_pay_day(ym, finder.employee_id).strftime("%Y-%m-%d")
 
-      # 従業員への未払費用
-      @payroll.accrued_liability = finder.get_net_sum(ACCOUNT_CODE_UNPAID_EMPLOYEE)
-    end
+    # 従業員への未払費用
+    @payroll.accrued_liability = finder.get_net_sum(ACCOUNT_CODE_UNPAID_EMPLOYEE)
   end
 
   def create
     @payroll = Payroll.new(payroll_params)
+    @employee = Employee.find(finder.employee_id)
 
     begin
       # 入力チェック
@@ -70,12 +68,14 @@ class PayrollsController < Base::HyaccController
 
   def edit
     p = Payroll.find(params[:id])
+    @employee = Employee.find(p.employee_id)
     @payroll = Payroll.find_by_ym_and_employee_id(p.ym, p.employee_id)
   end
 
   def update
     @payroll = Payroll.find(params[:id])
     @payroll.attributes = payroll_params
+    @employee = Employee.find(@payroll.employee_id)
 
     # 削除用に旧伝票を取得
     payroll_on_db = Payroll.find(@payroll.id)
@@ -169,6 +169,7 @@ class PayrollsController < Base::HyaccController
         :insurance, :credit_account_type_of_insurance,
         :pension, :credit_account_type_of_pension,
         :income_tax, :credit_account_type_of_income_tax,
+        :employee_insurance, :credit_account_type_of_employee_insurance,
         :inhabitant_tax, :credit_account_type_of_inhabitant_tax,
         :accrued_liability, :year_end_adjustment_liability, :pay_day)
   end

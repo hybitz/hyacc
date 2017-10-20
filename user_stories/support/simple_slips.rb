@@ -13,6 +13,7 @@ module SimpleSlips
     end
 
     assert has_no_selector?('.notice')
+    assert has_selector?('#slipTable')
   end
 
   def create_simple_slip(simple_slip)

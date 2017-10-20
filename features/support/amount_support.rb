@@ -10,7 +10,7 @@ class String
 
 end
 
-class Fixnum
+class Integer
 
   def to_amount_string
     self.to_as

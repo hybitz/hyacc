@@ -156,7 +156,7 @@ end
       end
 
       assert has_selector?('.notice')
-      assert has_selector?('#slipTable tbody tr', :count => count + 1), "#{i+1} 回目の登録時にエラー"
+      assert has_selector?('#slipTable tbody tr', :count => count + 1), "#{i+1} 回目の登録時にエラー（伝票数が #{count + 1} でない"
     end
   end
 end

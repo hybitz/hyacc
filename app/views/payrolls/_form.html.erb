@@ -103,6 +103,16 @@
           <label><%= f.radio_button :credit_account_type_of_pension, '1' %>立替金</label>
         </td>
       </tr>
+      <% unless @employee.executive %>
+        <tr>
+          <td>雇用保険料</td>
+          <td>
+            <%= f.text_field :employee_insurance, :maxlength => 10 %>
+            <label><%= f.radio_button :credit_account_type_of_pension, '0' %>預り金</label>
+            <label><%= f.radio_button :credit_account_type_of_pension, '1' %>立替金</label>
+          </td>
+        </tr>
+      <% end %>
       <tr>
         <td>所得税</td>
         <td>

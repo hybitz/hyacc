@@ -10,34 +10,39 @@
     <td width="130"><%= format_wareki_year_month_day(@finder.end_year_month_day_of_fiscal_year) %></td>
   </tr>
   <tr>
-    <td width="220">支出交際費等の額<br/>（７の計）</td>
+    <td width="220">支出交際費等の額<br/>（8の計）</td>
     <td align="center" width="20">1</td>
     <td colspan="3" align="right">
       <%= to_amount( @model.get_total_social_expense_amount, :show_zero=>true ) %>
     </td>
-    <td colspan="2">損金不算入限度額<br/>（(1)と(2)のうち少ない金額）× 90/100</td>
+    <td colspan="2">損金不算入限度額<br/>（(2)又は(3)）</td>
     <td align="center" width="20">4</td>
     <td align="right">
-      <%= to_amount( @model.get_loss_limit, :show_zero=>true ) %>
+      <%= to_amount(non_deduction_limit_for_2014(@model.get_total_differential_amount,
+                                                 @model.get_total_social_expense_amount,
+                                                 @model.get_business_months), :show_zero=>true ) %>
     </td>
   </tr>
   <tr>
-    <td width="220">支出接待飲食費損金算入基準額<br/>（９の計） x 50/100</td>
+    <td width="220">支出接待飲食費損金算入基準額<br/>（9の計） x 50/100</td>
     <td align="center" width="20">2</td>
-    <td colspan="3" align="right"><%= to_amount( @model.get_total_differential_amount.quo(2).floor ) %></td>
-    <td colspan="2">損金不算入額<br/>(1) － (3)</td>
+    <td colspan="3" align="right"><%= to_amount( food_and_drink_base_for_2014(@model.get_total_differential_amount) ) %></td>
+    <td colspan="2">損金不算入額<br/>(1) － (4)</td>
     <td align="center">5</td>
-    <td align="right"><%= to_amount( @model.get_not_loss, :show_zero=>true ) %></td>
+    <td align="right"><%= to_amount(non_deduction_for_2014(@model.get_total_differential_amount,
+                                                           @model.get_total_social_expense_amount,
+                                                           @model.get_business_months), :show_zero=>true ) %></td>
   </tr>
   <tr>
     <td>
       定額控除限度額
       <br/>
-      （<%= @model.is_zero_deduction ? "●" : "○" %>０円又は
-      <%= @model.is_zero_deduction ? "○" : "●" %>４００万円）× <%= @model.get_business_months %> / 12
+      （(1)の金額又は800万円 × <%= @model.get_business_months %> / 12 相当額のうち少ない金額)
     </td>
     <td align="center">3</td>
-    <td colspan="3" align="right"><%= to_amount( @model.get_deduction_limit ) %></td>
+    <td colspan="3" align="right">
+     <%= to_amount(fixed_deduction_for_2014(@model.get_total_social_expense_amount, @model.get_business_months), :show_zero => true) %>
+    </td>
     <td colspan="2"></td>
     <td></td>
     <td></td>

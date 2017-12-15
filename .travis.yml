@@ -3,7 +3,7 @@ language: ruby
 cache: bundler
 rvm:
   - 2.4.3
-  - 2.3.5
+  - 2.3.6
 env:
   - DRIVER=chrome
   - DRIVER=firefox

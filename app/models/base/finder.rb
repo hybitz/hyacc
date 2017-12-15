@@ -20,6 +20,7 @@ module Base
   
     def initialize(user)
       @start_month_of_fiscal_year = user.company.start_month_of_fiscal_year
+      @founded_date = user.company.founded_date
       @slips_per_page = user.slips_per_page
       @login_user_id = user.id
       @commit = nil
@@ -69,8 +70,8 @@ module Base
     def start_year_month_day_of_fiscal_year
       yyyymm = start_year_month_of_fiscal_year
       yyyymmdd = (yyyymm.to_s + "01").to_i
-      # TODO 設立日を考慮する必要有り
-      yyyymmdd
+      start_day = HyaccDateUtil.to_int(@founded_date)
+      start_day > yyyymmdd ? start_day : yyyymmdd
     end
     
     def end_year_month_day_of_fiscal_year

@@ -1,10 +1,6 @@
 module Reports
   class InvestmentLogic < BaseLogic
 
-    def initialize(finder)
-      super(finder)
-    end
-    
     def get_investments_report
       reports = []
       get_total_shares_and_trading_values.each do |last_investment|
@@ -14,7 +10,7 @@ module Reports
     end
 
     private
-    
+
     def get_investments(last)
       reports = []
       Investment.where(customer_id: last.customer_id,

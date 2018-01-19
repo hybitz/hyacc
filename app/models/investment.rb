@@ -19,7 +19,9 @@ class Investment < ApplicationRecord
   before_save :set_trading_value
   after_find :set_buying_or_sellng
   after_find :set_yyyymmdd
-  
+
+  private
+
   def set_ym_and_day
     split = self.yyyymmdd.split("-")
     self.ym = split[0..1].join

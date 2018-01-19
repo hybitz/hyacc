@@ -404,10 +404,10 @@ th.amountSum {
   margin: 10px;
   border-collapse: collapse;
   border-color: gray;
-}
 
-#ledgerContainer td {
-  padding: 2px;
+  th {
+    white-space: nowrap;
+  }
 }
 
 .showCareers .employee {

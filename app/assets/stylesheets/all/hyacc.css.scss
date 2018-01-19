@@ -16,6 +16,12 @@ table {
     text-align: left;
   }
 
+  thead {
+    th {
+      white-space: nowrap;
+    }
+  }
+
   tr {
     height: 20px;
 

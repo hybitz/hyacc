@@ -9,7 +9,8 @@
         <th>勘定科目名</th>
         <th>補助科目区分</th>
         <th>仕訳登録可能</th>
-    
+        <th>税区分</th>
+
         <% if finder.account_type_debt? %>
           <th>買掛金科目</th>
         <% end %>
@@ -28,7 +29,8 @@
         <td><%= a.name %></td>
         <td align="center"><%= a.sub_account_type_name %></td>
         <td align="center"><%= a.journalizable ? 'はい' : 'いいえ' %></td>
-    
+        <td align="center"><%= a.tax_type_name %></td>
+
         <% if finder.account_type_debt? %>
           <td align="center"><%= a.is_trade_account_payable ? 'はい' : 'いいえ' %></td>
         <% end %>

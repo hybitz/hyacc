@@ -1,5 +1,5 @@
 class Customer < ApplicationRecord
-  nostalgic_for :name, :formal_name
+  nostalgic_for :name, :formal_name, :address
 
   validates :code, :uniqueness => true
   validates :name, :presence => true

@@ -79,7 +79,7 @@
       <th class="amountCredit">貸方</th>
       <th class="amountMonthlySum">月別累計</th>
       <th class="amountSum">累計</th>
-      <th class="floatLeft"></th>
+      <th class="nowrap"></th>
     </tr>
 
     <% if finder.get_last_year_balance %>
@@ -95,7 +95,7 @@
         <td class="amountCredit"></td>
         <td class="amountMonthlySum"></td>
         <td class="amountSum"><%= to_amount(finder.get_last_year_balance) %></td>
-        <td class="floatLeft"></td>
+        <td class="nowrap"></td>
       </tr>
     <% end %>
   </thead>
@@ -115,7 +115,7 @@
           <td class="amountCredit"><%= to_amount( ledger.amount_credit, :show_zero => true ) %></td>
           <td class="amountMonthlySum"></td>
           <td class="amountSum"></td>
-          <td>
+          <td class="nowrap">
             <% if ledger.has_amount %>
               <%= link_to '伝票表示', ledger_path(ledger.ym), :onclick => 'show_journals(this); return false;' %>
             <% end %>

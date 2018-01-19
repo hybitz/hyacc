@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818114859) do
+ActiveRecord::Schema.define(version: 20180119102917) do
 
   create_table "accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string   "code",                                   default: "",    null: false
@@ -395,7 +395,7 @@ ActiveRecord::Schema.define(version: 20170818114859) do
   create_table "journal_headers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.integer  "ym",                                      null: false
     t.integer  "day",                                     null: false
-    t.integer  "slip_type"
+    t.integer  "slip_type",                               null: false
     t.string   "remarks"
     t.integer  "amount",                                  null: false
     t.string   "finder_key"

@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: social_expense_detail_model.rb 2477 2011-03-23 15:29:30Z ichy $
-# Product: hyacc
-# Copyright 2009 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Reports
   class SocialExpenseDetailModel
     attr_accessor :account

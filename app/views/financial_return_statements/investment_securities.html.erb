@@ -24,22 +24,24 @@
         <td>異動事由</td>
         <td>売却(買入)先の所在地(住所)</td>
       </tr>
+
       <% @investments.each do |investment| %>
-      <tr>
-        <td rowspan="2"><%= investment[:formal_name] %></td>
-        <td rowspan="2"><%= to_amount(investment[:last_shares]) %></td>
-        <td rowspan="2"><%= to_amount(investment[:last_trading_value]) %></td>
-        <td><%= format_wareki_year_month_day(investment[:ymd]) %></td>
-        <td rowspan="2"><%= to_amount(investment[:shares]) %></td>
-        <td rowspan="2"><%= to_amount(investment[:trading_value]) %></td>
-        <td><%= investment[:bank_name] %></td>
-        <td rowspan="2"><%= investment[:etc] %></td>
-      </tr>
-      <tr>
-        <td><%= investment[:reason] %></td>
-        <td><%= investment[:address] %></td>
-      </tr>
+        <tr>
+          <td rowspan="2"><%= investment[:formal_name] %></td>
+          <td rowspan="2"><%= to_amount(investment[:last_shares]) %></td>
+          <td rowspan="2"><%= to_amount(investment[:last_trading_value]) %></td>
+          <td><%= format_wareki_year_month_day(investment[:ymd]) %></td>
+          <td rowspan="2"><%= to_amount(investment[:shares]) %></td>
+          <td rowspan="2"><%= to_amount(investment[:trading_value]) %></td>
+          <td><%= investment[:bank_name] %></td>
+          <td rowspan="2"><%= investment[:etc] %></td>
+        </tr>
+        <tr>
+          <td><%= investment[:reason] %></td>
+          <td><%= investment[:address] %></td>
+        </tr>
       <% end %>
+
       <tr>
         <td rowspan="2" />
         <td rowspan="2" />

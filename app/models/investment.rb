@@ -20,6 +20,14 @@ class Investment < ApplicationRecord
   after_find :set_buying_or_sellng
   after_find :set_yyyymmdd
 
+  def buying?
+    buying_or_selling == '1'
+  end
+
+  def selling?
+    buying_or_selling == '0'
+  end
+
   private
 
   def set_ym_and_day
@@ -33,18 +41,18 @@ class Investment < ApplicationRecord
   end
 
   def set_trading_value
-    if buying_or_selling == "0"
+    if buying_or_selling == '0'
       self.shares = self.shares * -1
       self.trading_value = self.trading_value * -1
     end
   end
 
   def set_buying_or_sellng
-    self.buying_or_selling = "1"
+    self.buying_or_selling = '1'
     if self.trading_value < 0 || self.shares < 0
       self.shares = self.shares * -1
       self.trading_value = self.trading_value * -1
-      self.buying_or_selling = "0"
+      self.buying_or_selling = '0'
     end
   end
 end

@@ -1,38 +1,40 @@
 <div  style="margin: 10px;">
-    <table class="none_border" width="780">
+    <table class="none_border">
       <tr>
         <td class="none_border"><b>有価証券の内訳書</b></td>
       </tr>
     </table>
     <br/>
-    <table width="780">
-      <tr style="background-color: lightgrey;">
-        <td rowspan="3" width="100">区分／種類／銘柄</td>
-        <td colspan="2">期末現在高</td>
-        <td colspan="4">期中増（減）の明細</td>
-        <td rowspan="3" width="100">摘要</td>
-      </tr>
-      <tr style="background-color: lightgrey;">
-        <td rowspan="2">数量</td>
-        <td rowspan="2">金額</td>
-        <td>異動年月日</td>
-        <td rowspan="2">数量</td>
-        <td rowspan="2">金額</td>
-        <td>売却(買入)先の名称(氏名)</td>
-      </tr>
-      <tr style="background-color: lightgrey;">
-        <td>異動事由</td>
-        <td>売却(買入)先の所在地(住所)</td>
-      </tr>
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="3" width="100">区分／種類／銘柄</th>
+          <th colspan="2">期末現在高</th>
+          <th colspan="4">期中増（減）の明細</th>
+          <th rowspan="3" width="100">摘要</th>
+        </tr>
+        <tr>
+          <th rowspan="2">数量</th>
+          <th rowspan="2">金額</th>
+          <th>異動年月日</th>
+          <th rowspan="2">数量</th>
+          <th rowspan="2">金額</th>
+          <th>売却(買入)先の名称(氏名)</th>
+        </tr>
+        <tr>
+          <th>異動事由</th>
+          <th>売却(買入)先の所在地(住所)</th>
+        </tr>
+      </thead>
 
       <% @investments.each do |investment| %>
         <tr>
           <td rowspan="2"><%= investment[:formal_name] %></td>
-          <td rowspan="2"><%= to_amount(investment[:last_shares]) %></td>
-          <td rowspan="2"><%= to_amount(investment[:last_trading_value]) %></td>
+          <td rowspan="2" class="quantity"><%= to_amount(investment[:last_shares]) %></td>
+          <td rowspan="2" class="amount"><%= to_amount(investment[:last_trading_value]) %></td>
           <td><%= format_wareki_year_month_day(investment[:ymd]) %></td>
-          <td rowspan="2"><%= to_amount(investment[:shares]) %></td>
-          <td rowspan="2"><%= to_amount(investment[:trading_value]) %></td>
+          <td rowspan="2" class="quantity"><%= to_amount(investment[:shares]) %></td>
+          <td rowspan="2" class="amount"><%= to_amount(investment[:trading_value]) %></td>
           <td><%= investment[:bank_name] %></td>
           <td rowspan="2"><%= investment[:etc] %></td>
         </tr>
@@ -43,7 +45,7 @@
       <% end %>
 
       <tr>
-        <td rowspan="2" />
+        <td rowspan="2">計</td>
         <td rowspan="2" />
         <td rowspan="2" />
         <td />

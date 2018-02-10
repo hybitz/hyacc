@@ -165,6 +165,8 @@ GEM
     erubis (2.7.0)
     excon (0.60.0)
     execjs (2.7.0)
+    faraday (0.12.2)
+      multipart-post (>= 1.2, < 3)
     ffi (1.9.21)
     ffi-yajl (2.3.1)
       libyajl2 (~> 1.2)
@@ -195,7 +197,7 @@ GEM
     hashie (3.4.6)
     highline (1.7.10)
     holiday_jp (0.6.1)
-    i18n (0.9.3)
+    i18n (0.9.4)
       concurrent-ruby (~> 1.0)
     i18n-js (3.0.4)
       i18n (~> 0.6, >= 0.6.6)
@@ -242,7 +244,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     mixlib-cli (1.7.0)
-    mixlib-config (2.2.4)
+    mixlib-config (2.2.5)
     mixlib-log (1.7.1)
     mixlib-shellout (2.3.2)
     momentjs-rails (2.17.1)
@@ -250,6 +252,7 @@ GEM
     mousetrap-rails (1.4.6)
     multi_json (1.13.1)
     multi_test (0.1.2)
+    multipart-post (2.0.0)
     mysql2 (0.4.10)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -350,11 +353,11 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
     sfl (2.3)
-    sidekiq (5.1.0)
+    sidekiq (5.1.1)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
-      redis (>= 3.3.4, < 5)
+      redis (>= 3.3.5, < 5)
     simplecov (0.15.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -405,7 +408,7 @@ GEM
       rotp (>= 3.2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.5)
+    uglifier (4.1.6)
       execjs (>= 0.3.0, < 3)
     warden (1.2.7)
       rack (>= 1.0)
@@ -446,6 +449,7 @@ DEPENDENCIES
   devise
   devise-i18n
   email_validator (= 1.5.0)
+  faraday (< 0.13.0)
   fog-aws
   fullcalendar-rails
   i18n-js

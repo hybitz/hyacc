@@ -18,7 +18,7 @@ class Employee < ApplicationRecord
 
   has_many :exemptions, :dependent => :destroy
 
-  before_save :set_company_id
+  before_validation :set_company_id
   after_save :reset_account_cache
 
   # フィールド

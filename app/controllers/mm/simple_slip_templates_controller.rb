@@ -104,7 +104,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
       end
     end
 
-    render :text => keywords.strip
+    render :plain => keywords.strip
   end
   
   def get_sub_accounts

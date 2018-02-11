@@ -2,7 +2,7 @@ class SimpleSlipTemplate < ApplicationRecord
   include HyaccConstants
   
   belongs_to :account
-  belongs_to :branch
+  belongs_to :branch, optional: true
   
   validates_presence_of :remarks, :keywords
 

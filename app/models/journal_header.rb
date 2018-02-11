@@ -3,7 +3,7 @@ class JournalHeader < ApplicationRecord
   include HyaccErrors
 
   belongs_to :company
-  belongs_to :depreciation, :inverse_of => :journal_headers
+  belongs_to :depreciation, :inverse_of => :journal_headers, optional: true
 
   has_many :journal_details, :inverse_of => 'journal_header', :dependent => :destroy
   accepts_nested_attributes_for :journal_details, :allow_destroy => true

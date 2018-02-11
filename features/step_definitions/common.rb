@@ -34,7 +34,6 @@ end
         assert has_selector?('.notice', :text => "伝票を#{action}しました。")
       when '更新'
         assert has_no_selector?('#edit_simple_slip')
-        assert has_no_selector?('.reload_dialog')
       end
       assert has_selector?('#new_simple_slip')
     else

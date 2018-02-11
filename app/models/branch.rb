@@ -3,7 +3,7 @@ class Branch < ApplicationRecord
   acts_as_tree :order => 'code'
 
   belongs_to :company
-  belongs_to :business_office, :nostalgic => true
+  belongs_to :business_office, nostalgic: true, optional: true
   has_many :branch_employees
   has_many :employees, :through => :branch_employees
 

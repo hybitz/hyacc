@@ -21,8 +21,8 @@ class FirstBootController < ApplicationController
     @u = User.new(user_params)
 
     unless @c.valid? && @u.valid?
-      Rails.logger.info @c.errors.full_messages.join("\n")
-      Rails.logger.info @u.errors.full_messages.join("\n")
+      Rails.logger.debug @c.errors.full_messages.join("\n")
+      Rails.logger.debug @u.errors.full_messages.join("\n")
       render :index and return
     end
 
@@ -41,32 +41,38 @@ class FirstBootController < ApplicationController
 
     @e.employment_date = @c.founded_date
 
-    @c.transaction do
-      # マスタデータをロード
-      load_fixtures
+    begin
+      @c.transaction do
+        # マスタデータをロード
+        load_fixtures
+  
+        @c.save!
+  
+        @fy.company_id = @c.id
+        @fy.save!
+  
+        @b = @c.branches.build(:business_office => @c.business_offices.first)
+        @b.code = '100'
+        @b.name = '本店'
+        @b.save!
+  
+        @e.company_id = @c.id
+        @u.company_id = @c.id
+        @u.employee = @e
+        @u.save!
+  
+        @be = BranchEmployee.new(:branch => @b, :employee => @e)
+        @be.default_branch = true
+        @be.cost_ratio = 100
+        @be.save!
+      end
 
-      @c.save!
+      redirect_to root_path
 
-      @fy.company_id = @c.id
-      @fy.save!
-
-      @b = @c.branches.build(:business_office => @c.business_offices.first)
-      @b.code = '100'
-      @b.name = '本店'
-      @b.save!
-
-      @e.company_id = @c.id
-      @u.company_id = @c.id
-      @u.employee = @e
-      @u.save!
-
-      @be = BranchEmployee.new(:branch => @b, :employee => @e)
-      @be.default_branch = true
-      @be.cost_ratio = 100
-      @be.save!
+    rescue => e
+      Rails.logger.error e.backtrace.join("\n")
+      render :index
     end
-
-    redirect_to root_path
   end
 
   private

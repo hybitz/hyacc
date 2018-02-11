@@ -131,7 +131,7 @@ module ApplicationHelper
     if renderer
       render renderer.get_template(controller.controller_name), locals
     else
-      render :text => ''
+      render :plain => ''
     end
   end
 

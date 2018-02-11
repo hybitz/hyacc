@@ -23,7 +23,7 @@ class JournalDetail < ApplicationRecord
   accepts_nested_attributes_for :investment
 
   has_one :tax_detail, :foreign_key => :main_detail_id, :class_name => 'JournalDetail', :dependent => :destroy
-  belongs_to :main_detail, :class_name => 'JournalDetail'
+  belongs_to :main_detail, :class_name => 'JournalDetail', optional: true
 
   has_many :transfer_journals, :foreign_key => :transfer_from_detail_id, :class_name => 'JournalHeader', :dependent => :destroy
   accepts_nested_attributes_for :transfer_journals

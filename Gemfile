@@ -7,7 +7,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
+gem 'rails', '~> 5.1.4'
 
 gem 'activerecord-session_store'
 gem 'activerecord-import'
@@ -33,9 +33,9 @@ gem 'momentjs-rails'
 gem 'mousetrap-rails'
 gem 'mysql2', '>= 0.3.18', '< 0.5'
 gem 'nostalgic'
-gem 'puma', '~> 3.0'
-gem 'rails-controller-testing'
+gem 'puma', '~> 3.7'
 gem 'rails-i18n'
+gem 'redis', '~> 3.0'
 gem 'remotipart'
 gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
@@ -50,14 +50,16 @@ gem 'wkhtmltopdf-binary-edge'
 gem 'will_paginate'
 
 group :development, :test do
-  gem 'byebug', platform: :mri
+  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'capybara', '~> 2.13'
+  gem 'selenium-webdriver'
 end
 
 group :development do
   gem 'capistrano-passenger'
   gem 'capistrano-rails'
   gem 'capistrano-sidekiq'
-  gem 'listen', '~> 3.0.5'
+  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rails-erd'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -68,8 +70,9 @@ group :test do
   gem 'closer'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner', :require => false
-  gem 'minitest'
+  gem 'minitest','~> 5.10.3'
   gem 'minitest-reporters'
+  gem 'rails-controller-testing'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
 end

@@ -1,6 +1,6 @@
 class BankAccount < ApplicationRecord
   belongs_to :bank
-  belongs_to :bank_office
+  belongs_to :bank_office, optional: true
 
   validates :code, :presence => true
   validates :name, :presence => true, :uniqueness => true

@@ -3,6 +3,7 @@
   assert has_no_title?(account_name)
 
   with_capture do
+    assert has_link?(account_name)
     within '.menu' do
       click_on account_name
     end

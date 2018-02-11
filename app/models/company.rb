@@ -1,5 +1,5 @@
 class Company < ApplicationRecord
-  belongs_to :business_type
+  belongs_to :business_type, optional: true
   has_many :branches, -> { where(deleted: false) }
 
   has_many :business_offices, :inverse_of => 'company'

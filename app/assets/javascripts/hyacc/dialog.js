@@ -23,8 +23,8 @@ hyacc.Dialog.prototype._init_buttons = function() {
     ret.push({
       text: that.options.submit,
       click: function() {
-        var form = that.jq_dialog.dialog('widget').find('form').first();
-        form.submit();
+        var form = that.jq_dialog.dialog('widget').find('form').first()[0];
+        Rails.fire(form, 'submit')
       }
     });
   }

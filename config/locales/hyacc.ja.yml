@@ -39,13 +39,13 @@ ja:
         deleted: "を削除"
         display_order: "の表示順"
         path: 道
-        system_required: "システム必須"
+        system_required: システム必須
         is_settlement_report_account: 決算書出力
         is_trade_account_payable: 買掛金科目
         is_revenue_reserve_account: 利益積立金科目
         journalizable: 仕訳登録可否
         sub_account_type: 補助科目区分
-        tax_type: "税金区分"
+        tax_type: 税区分
         parent_id: 親勘定科目
 
       asset:
@@ -94,13 +94,14 @@ ja:
 
       company:
         admin_email: 管理者メールアドレス
+        business_type: 事業区分
+        enterprise_number: 法人番号
         fiscal_year: 会計年度
         fiscal_years: 会計年度
         founded_date: 設立日
         logo: ロゴ
         name: 会社名
         users: ユーザ
-        enterprise_number: 法人番号
 
       customer:
         address: 住所

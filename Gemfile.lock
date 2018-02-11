@@ -163,6 +163,8 @@ GEM
       activemodel
     encryptor (3.0.0)
     erubis (2.7.0)
+    et-orbi (1.0.9)
+      tzinfo
     excon (0.60.0)
     execjs (2.7.0)
     faraday (0.12.2)
@@ -337,6 +339,8 @@ GEM
     ruby-graphviz (1.2.3)
     ruby-progressbar (1.9.0)
     rubyzip (1.2.1)
+    rufus-scheduler (3.4.2)
+      et-orbi (~> 1.0)
     sass (3.5.5)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -358,6 +362,11 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
+    sidekiq-scheduler (2.2.1)
+      redis (>= 3, < 5)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 3)
+      tilt (>= 1.4.0)
     simplecov (0.15.1)
       docile (~> 1.1.0)
       json (>= 1.8, < 3)
@@ -472,8 +481,8 @@ DEPENDENCIES
   rails-i18n
   remotipart
   sass-rails (~> 5.0)
-  selenium-webdriver
   sidekiq
+  sidekiq-scheduler
   simplecov
   simplecov-rcov
   spring

@@ -39,6 +39,7 @@ gem 'rails-i18n'
 gem 'remotipart'
 gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
+gem 'sidekiq-scheduler'
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'turbolinks', '~> 5'
@@ -69,7 +70,6 @@ group :test do
   gem 'database_cleaner', :require => false
   gem 'minitest'
   gem 'minitest-reporters'
-  gem 'selenium-webdriver'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119102917) do
+ActiveRecord::Schema.define(version: 20180212021104) do
 
   create_table "accounts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code", default: "", null: false
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20180119102917) do
     t.boolean "default_branch", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "deleted", default: false, null: false
   end
 
   create_table "branches", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|

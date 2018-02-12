@@ -1,11 +1,11 @@
 <%= fields_for "employee[branch_employees_attributes]", be, :index => index do |f| %>
-<tr>
-  <td>
-    <%= f.hidden_field :id %>
-    <%= f.select :branch_id, to_options(@branches) %>
-  </td>
-  <td><%= f.text_field :cost_ratio, :maxlength => 3 %></td>
-  <td align="center"><%= f.check_box :default_branch %></td>
-  <td><%= f.check_box :_destroy %></td>
-</tr>
+  <tr>
+    <td>
+      <%= f.hidden_field :id %>
+      <%= f.select :branch_id, to_options(@branches) %>
+    </td>
+    <td><%= f.text_field :cost_ratio, :maxlength => 3 %></td>
+    <td align="center"><%= f.check_box :default_branch %></td>
+    <td><%= f.check_box :deleted %></td>
+  </tr>
 <% end %>

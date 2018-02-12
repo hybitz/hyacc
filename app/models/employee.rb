@@ -10,8 +10,8 @@ class Employee < ApplicationRecord
   validates_presence_of :last_name, :first_name, :birth, :employment_date, :sex
   validates :my_number, :numericality => {:allow_blank => true}
 
-  has_many :branch_employees, :dependent => :destroy
-  accepts_nested_attributes_for :branch_employees, :allow_destroy => true
+  has_many :branch_employees, -> { where  deleted: false }
+  accepts_nested_attributes_for :branch_employees
 
   has_many :branches, :through => :branch_employees
   has_many :careers, -> { order('start_from, end_to') }, :dependent => :destroy

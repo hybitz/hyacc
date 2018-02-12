@@ -65,7 +65,7 @@ class Mm::EmployeesController < Base::HyaccController
       :num_of_dependents_attributes => [:id, :_destroy],
       :zip_codes_attributes => [:id, :_destroy],
       :addresses_attributes => [:id, :_destroy],
-      :branch_employees_attributes => [:id, :_destroy, :branch_id, :cost_ratio, :default_branch]
+      :branch_employees_attributes => [:id, :deleted, :branch_id, :cost_ratio, :default_branch]
     ]
 
     params.require(:employee).permit(permitted)

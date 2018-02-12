@@ -104,7 +104,7 @@ class JournalsController < Base::HyaccController
 
     if params[:account_id].present?
       selected_account = Account.get(params[:account_id])
-      fy = current_user.company.current_fiscal_year
+      fy = current_company.current_fiscal_year
       if fy.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
         tax_type = selected_account.tax_type
       end
@@ -164,7 +164,7 @@ class JournalsController < Base::HyaccController
     ]
 
     ret = params.require(:journal).permit(*permitted)
-    ret = ret.merge(:company_id => current_user.company_id, :update_user_id => current_user.id)
+    ret = ret.merge(:company_id => current_company.id, :update_user_id => current_user.id)
 
     case action_name
     when 'create'

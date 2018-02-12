@@ -13,12 +13,14 @@ module Users
     unless @_freelancer
       sql = SqlBuilder.new
       sql.append('exists (')
-      sql.append('  select 1 from companies c where c.id = users.company_id and c.type_of = ?', COMPANY_TYPE_PERSONAL)
+      sql.append('  select 1 from employees e')
+      sql.append('  inner join companies c on(c.id = e.company_id)')
+      sql.append('  where e.user_id = users.id and c.type_of = ?', COMPANY_TYPE_PERSONAL)
       sql.append(')')
       assert @_freelancer = User.where(sql.to_a).first
-      assert @_freelancer.company.personal?
-      assert @_freelancer.company.business_type.present?
-      assert @_freelancer.company.tax_simplified?
+      assert @_freelancer.employee.company.personal?
+      assert @_freelancer.employee.company.business_type.present?
+      assert @_freelancer.employee.company.tax_simplified?
     end
   
     @_freelancer

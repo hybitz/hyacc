@@ -57,7 +57,6 @@ class FirstBootController < ApplicationController
         @b.save!
   
         @e.company_id = @c.id
-        @u.company_id = @c.id
         @u.employee = @e
         @u.save!
   

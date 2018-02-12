@@ -3,14 +3,14 @@ class DeemedTaxesController < Base::HyaccController
   before_action :check_business_type
   
   def index
-    fy = current_user.company.current_fiscal_year
+    fy = current_company.current_fiscal_year
     logic = DeemedTax::DeemedTaxLogic.new(fy)
     @dtm = logic.get_deemed_tax_model
   end
   
   def create
     begin
-      fy = current_user.company.current_fiscal_year
+      fy = current_company.current_fiscal_year
       fy.transaction do
         # 既存の仕訳を破棄
         fy.get_deemed_tax_journals.each do |jh|
@@ -37,7 +37,7 @@ class DeemedTaxesController < Base::HyaccController
   private
 
   def check_business_type
-    unless current_user.company.business_type.present?
+    unless current_company.business_type.present?
       render :action => :business_type_required
     end
   end

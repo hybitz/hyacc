@@ -8,7 +8,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替_日付指定_の登録がエラーになること
-    assert_equal CLOSING_STATUS_CLOSED, user.company.get_fiscal_year(200610).closing_status
+    assert_equal CLOSING_STATUS_CLOSED, current_company.get_fiscal_year(200610).closing_status
 
     assert_no_difference 'JournalHeader.count' do
       post :create, :params => {
@@ -36,9 +36,9 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替_日付指定_の更新がエラーになること
-    assert users(:first).company.get_fiscal_year(200610).closed?
-
     jh = JournalHeader.find(10)
+    assert current_company.get_fiscal_year(200610).closed?
+    assert_equal current_company.id, jh.company_id
 
     assert_no_difference 'JournalHeader.count' do
       patch :update, :xhr => true, :params => {:id => jh.id,
@@ -69,7 +69,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
   def test_仮締の年度への費用振替_日付指定_の登録が正常終了すること
     remarks = "仮締の年度への費用振替（日付指定）の登録が正常終了すること"
     assert_nil JournalHeader.find_by_remarks(remarks)
-    assert_equal CLOSING_STATUS_CLOSING, user.company.get_fiscal_year(200711).closing_status
+    assert_equal CLOSING_STATUS_CLOSING, current_company.get_fiscal_year(200711).closing_status
 
     post :create, :params => {
       :account_code => ACCOUNT_CODE_CASH,
@@ -98,7 +98,7 @@ class SimpleSlipsController::DateInputExpenseTest < ActionController::TestCase
   def test_仮締の年度への費用振替_日付指定_の更新が正常終了すること
     jh = JournalHeader.find(10)
 
-    assert_equal CLOSING_STATUS_CLOSING, users(:first).company.get_fiscal_year(200711).closing_status
+    assert_equal CLOSING_STATUS_CLOSING, jh.company.get_fiscal_year(200711).closing_status
 
     patch :update, :xhr => true, :params => {:id => jh.id,
       :account_code => ACCOUNT_CODE_SMALL_CASH,

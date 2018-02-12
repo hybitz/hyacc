@@ -2,7 +2,7 @@ module Companies
 
   def company
     unless @_company
-      assert @_company = Company.not_deleted.first
+      @_company = Company.not_deleted.first
     end
     @_company
   end

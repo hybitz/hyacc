@@ -1,8 +1,8 @@
 <%= flash_notice %>
 
 <div style="margin:10px;">
-  現在の会計年度は<b><%= current_user.company.current_fiscal_year.fiscal_year %>年度</b>です。
-  （会計年度を<%= link_to '変更', {:action=>:edit_current_fiscal_year}, :remote => true %>）
+  現在の会計年度は<b><%= current_company.current_fiscal_year.fiscal_year %>年度</b>です。
+  （会計年度を<%= link_to '変更', {action: :edit_current_fiscal_year}, remote: true %>）
 </div>
 
 <table class="fiscal_years">

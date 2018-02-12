@@ -5,8 +5,8 @@ class Company < ApplicationRecord
   has_many :business_offices, :inverse_of => 'company'
   accepts_nested_attributes_for :business_offices
 
-  has_many :users
   has_many :employees
+  has_many :users, :through => 'employees'
   has_many :fiscal_years, -> {where deleted: false}
 
   validates :name, :presence => true

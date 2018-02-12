@@ -13,7 +13,7 @@ class WelcomeController < Base::HyaccController
 
     # みなし消費税の計算額と仕訳金額がずれているかチェック
     # 本締め後なのにずれている場合のみ警告
-    fy = current_user.company.current_fiscal_year
+    fy = current_company.current_fiscal_year
     if fy.tax_management_type == TAX_MANAGEMENT_TYPE_DEEMED and not fy.open?
       logic = DeemedTax::DeemedTaxLogic.new(fy)
       @dtm = logic.get_deemed_tax_model

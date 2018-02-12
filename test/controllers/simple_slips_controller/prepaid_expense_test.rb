@@ -4,8 +4,9 @@ require 'test_helper'
 class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTest
 
   def setup
-    assert freelancer.company.get_fiscal_year(2010).open?
-    assert freelancer.company.get_fiscal_year(2011).closed?
+    assert freelancer.employee.company.get_fiscal_year(2010).open?
+    assert freelancer.employee.company.get_fiscal_year(2011).closed?
+
     sign_in freelancer
   end
 

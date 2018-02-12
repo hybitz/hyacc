@@ -8,15 +8,15 @@ end
 end
 
 ならば /^会計年度が翌年の状態でダイアログが表示される$/ do
-  assert wait_until { page.has_selector?("div.ui-dialog", :visible => true) }
-  assert page.has_selector?("span.ui-dialog-title", :text => /会計年度.*追加/)
+  assert wait_until { has_selector?("div.ui-dialog", :visible => true) }
+  assert has_selector?("span.ui-dialog-title", :text => /会計年度.*追加/)
   capture
   
-  @expected = current_user.company.last_fiscal_year.fiscal_year + 1
+  @expected = current_company.last_fiscal_year.fiscal_year + 1
 end
 
 ならば /^翌年度が登録され、一覧に表示される$/ do
-  assert wait_until { page.has_no_selector?('div.ui-dialog') }
+  assert wait_until { has_no_selector?('div.ui-dialog') }
   capture
   
   found = false

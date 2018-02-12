@@ -39,7 +39,7 @@ class Bs::AssetsController < Base::HyaccController
         elsif @asset.status_waiting?
           Depreciation::DepreciationUtil.create_depreciations(@asset)
         elsif @asset.status_depreciating?
-          d = @asset.depreciations.find{|d| d.fiscal_year == current_user.company.current_fiscal_year_int }
+          d = @asset.depreciations.find{|d| d.fiscal_year == current_company.current_fiscal_year_int }
           Depreciation::DepreciationUtil.create_journals(d, current_user)
           d.depreciated = true
           @asset.status = ASSET_STATUS_DEPRECIATED unless @asset.depreciations.find{|d| ! d.depreciated? }

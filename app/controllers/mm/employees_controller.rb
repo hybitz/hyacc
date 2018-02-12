@@ -68,12 +68,14 @@ class Mm::EmployeesController < Base::HyaccController
       :branch_employees_attributes => [:id, :deleted, :branch_id, :cost_ratio, :default_branch]
     ]
 
-    params.require(:employee).permit(permitted)
+    ret = params.require(:employee).permit(permitted)
+    ret = ret.merge(company_id: current_company.id)
+    ret
   end
 
   def finder
     @finder ||= EmployeeFinder.new(finder_params)
-    @finder.company_id = current_user.company_id
+    @finder.company_id = current_company.id
     @finder.page = params[:page]
     @finder.per_page = current_user.slips_per_page
     @finder

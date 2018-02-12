@@ -239,7 +239,7 @@ class PayrollsControllerTest < ActionController::TestCase
     sign_in user
     get :index
     get :get_branch_employees, :xhr => true, :params => {
-          :finder => {:branch_id => user.company.branches.first.id}
+          :finder => {:branch_id => current_company.branches.first.id}
           }
     assert_response :success
     assert_template 'payrolls/_get_branch_employees'

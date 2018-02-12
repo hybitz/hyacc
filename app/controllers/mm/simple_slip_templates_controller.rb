@@ -15,7 +15,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   def new
     @simple_slip_template = SimpleSlipTemplate.new
     @simple_slip_template.owner_type = OWNER_TYPE_COMPANY
-    @simple_slip_template.owner_id = current_user.company.id
+    @simple_slip_template.owner_id = current_company.id
   end
 
   def create

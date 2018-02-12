@@ -7,7 +7,7 @@
       click_on '子部門追加'
     end
   
-    code = (Branch.where(:company_id => current_user.company_id).maximum(:code).to_i + 100).to_s
+    code = (Branch.where(:company_id => current_company.id).maximum(:code).to_i + 100).to_s
   
     within_dialog('部門　追加') do
       with_capture do

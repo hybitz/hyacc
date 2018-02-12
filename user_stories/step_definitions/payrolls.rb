@@ -31,7 +31,7 @@
     end
     capture
 
-    pay_day = current_user.company.get_actual_pay_day_for(@ym).strftime('%m月%d日')
+    pay_day = current_company.get_actual_pay_day_for(@ym).strftime('%m月%d日')
     click_on pay_day
     assert has_selector?('.ui-dialog')
   end
@@ -109,7 +109,7 @@ end
         end
       end
   
-      pay_day = current_user.company.get_actual_pay_day_for(ym).strftime('%m月%d日')
+      pay_day = current_company.get_actual_pay_day_for(ym).strftime('%m月%d日')
       click_on pay_day
       assert has_dialog?
     end

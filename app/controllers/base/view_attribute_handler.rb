@@ -78,7 +78,7 @@ module Base::ViewAttributeHandler
   end
   
   def get_branches(options = {})
-    Branch.get_branches(current_user.company.id, has_option?(options[:include], :deleted))
+    Branch.get_branches(current_company.id, has_option?(options[:include], :deleted))
   end
 
   # 部門を取得します。
@@ -181,7 +181,7 @@ module Base::ViewAttributeHandler
     scope = options[:scope] || :all
     
     if scope == :all
-      employees = Employee.where(:company_id => current_user.company_id)
+      employees = Employee.where(:company_id => current_company.id)
       employees = employees.not_deleted unless has_option?(options[:include], :deleted)
     elsif scope == :branch
       branch = get_branch(finder)

@@ -11,7 +11,7 @@ module Auto::Journal
     
     def make_journals
       jh = @params[:jh].transfer_journals.build
-      jh.company_id = @user.company.id
+      jh.company_id = @user.employee.company.id
       jh.ym = @params[:ym]
       jh.day = @params[:day]
       jh.slip_type = SLIP_TYPE_TEMPORARY_DEBT

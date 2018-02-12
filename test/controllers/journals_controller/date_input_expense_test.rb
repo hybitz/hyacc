@@ -4,12 +4,10 @@ require 'test_helper'
 class JournalsController::DateInputExpenseTest < ActionController::TestCase
 
   def setup
-    assert user = User.find(4)
-    assert user.company.get_fiscal_year(2009).closed?
-    assert user.company.get_fiscal_year(2010).open?
-    assert user.company.get_fiscal_year(2011).closed?
-
-    sign_in user
+    sign_in User.find(4)
+    assert current_company.get_fiscal_year(2009).closed?
+    assert current_company.get_fiscal_year(2010).open?
+    assert current_company.get_fiscal_year(2011).closed?
   end
 
   test "本締の年度への費用振替の登録がエラーになること" do

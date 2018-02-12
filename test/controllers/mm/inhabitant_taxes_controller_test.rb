@@ -33,7 +33,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     sign_in admin
     file = upload_file('inhabitant_tax.csv')
     finder = {:year => '2016'}
-    list, linked = InhabitantCsv.load(file.tempfile, user.company)
+    list, linked = InhabitantCsv.load(file.tempfile, admin.employee.company)
     inhabitant = {}
     list.each_with_index do |ic, index|
       inhabitant[index] = {:employee_id => ic.employee_id, :amounts => ic.amounts}

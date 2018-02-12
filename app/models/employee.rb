@@ -18,7 +18,6 @@ class Employee < ApplicationRecord
 
   has_many :exemptions, :dependent => :destroy
 
-  before_validation :set_company_id
   after_save :reset_account_cache
 
   # フィールド
@@ -87,12 +86,6 @@ class Employee < ApplicationRecord
 
   def reset_account_cache
     Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_EMPLOYEE)
-  end
-
-  def set_company_id
-    if self.company_id.blank?
-      self.company_id = user.company_id
-    end
   end
 
 end

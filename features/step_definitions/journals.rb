@@ -104,7 +104,7 @@ end
 end
 
 もし /^伝票ヘッダを入力します。$/ do
-  ym = current_user.company.current_fiscal_year.start_year_month
+  ym = current_company.current_fiscal_year.start_year_month
 
   fill_in 'journal_ym', :with => ym
   fill_in 'journal_day', :with => 1

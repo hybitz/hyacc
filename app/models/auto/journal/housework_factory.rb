@@ -27,7 +27,7 @@ module Auto::Journal
     
     def make_journal_by_month(ym)
       jh = @housework.journal_headers.build
-      jh.company_id = @user.company.id
+      jh.company_id = @user.employee.company.id
       jh.ym = ym
       jh.day = HyaccDateUtil.last_day_of_month(ym)
       jh.slip_type = SLIP_TYPE_HOUSEWORK

@@ -1,4 +1,4 @@
-class AccountsController < ApplicationController
+class AccountsController < Base::HyaccController
 
   # 税抜経理方式の場合は、勘定科目の税区分を取得
   # それ以外は、非課税をデフォルトとする
@@ -6,7 +6,7 @@ class AccountsController < ApplicationController
     account = Account.get(params[:id])
 
     if account
-      tax_type = current_user.company.get_tax_type_for(account)
+      tax_type = current_company.get_tax_type_for(account)
       sub_accounts = HyaccUtil.sort(account.sub_accounts, params[:order]).collect{|sa| {:id => sa.id, :name => sa.name}}
     end
 

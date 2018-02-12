@@ -5,9 +5,9 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
 
   def setup
     user = User.find(4)
-    assert user.company.get_fiscal_year(2009).closed?
-    assert user.company.get_fiscal_year(2010).open?
-    assert user.company.get_fiscal_year(2011).closed?
+    assert user.employee.company.get_fiscal_year(2009).closed?
+    assert user.employee.company.get_fiscal_year(2010).open?
+    assert user.employee.company.get_fiscal_year(2011).closed?
     sign_in user
   end
 

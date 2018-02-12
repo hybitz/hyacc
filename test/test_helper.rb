@@ -32,6 +32,10 @@ class ActionController::TestCase
   def current_user
     @_current_user
   end
+  
+  def current_company
+    @_current_user.employee.company
+  end
 
   def upload_file(filename)
     path = File.join('test', 'upload_files', filename)
@@ -54,6 +58,16 @@ class ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to root_path
+
+    @_current_user = user
+  end
+
+  def current_user
+    @_current_user
+  end
+  
+  def current_company
+    @_current_user.employee.company
   end
 
 end

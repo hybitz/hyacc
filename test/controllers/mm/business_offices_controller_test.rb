@@ -15,7 +15,7 @@ class Mm::BusinessOfficesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/reload'
     assert @bo = assigns(:bo)
-    assert_equal user.company_id, @bo.company_id
+    assert_equal admin.employee.company_id, @bo.company_id
   end
 
   def test_登録_入力エラー

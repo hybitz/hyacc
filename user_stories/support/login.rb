@@ -23,6 +23,10 @@ module Login
   def current_user
     @_current_user
   end
+
+  def current_company
+    @_current_user.employee.company
+  end
 end
 
 World(Login)

@@ -80,7 +80,7 @@ class InvestmentsController < Base::HyaccController
     unless @finder
       @finder = InvestmentFinder.new(finder_params)
       @finder.company_id = current_company.id
-      @finder.start_month_of_fiscal_year = current_user.company.start_month_of_fiscal_year
+      @finder.start_month_of_fiscal_year = current_company.start_month_of_fiscal_year
       @finder.fiscal_year ||= current_company.fiscal_year
     end
     

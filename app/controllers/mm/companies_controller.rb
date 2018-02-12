@@ -2,7 +2,7 @@ class Mm::CompaniesController < Base::HyaccController
   view_attribute :title => '会社'
   
   def index
-    @company = Company.find(current_user.company_id)
+    @company = Company.find(current_company.id)
     
     # 資本金を算出する
     unless @company.personal?
@@ -11,7 +11,7 @@ class Mm::CompaniesController < Base::HyaccController
   end
 
   def show_logo
-    @company = Company.find(current_user.company_id)
+    @company = Company.find(current_company.id)
     if @company.logo.present?
       case params[:version]
       when 'icon'
@@ -25,12 +25,12 @@ class Mm::CompaniesController < Base::HyaccController
   end
 
   def edit
-    @company = Company.find(current_user.company_id)
+    @company = Company.find(current_company.id)
     render "edit_#{params[:field]}", :layout => false
   end
 
   def update
-    @company = Company.find(current_user.company_id)
+    @company = Company.find(current_company.id)
     @company.attributes = company_params
 
     begin

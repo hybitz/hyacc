@@ -36,5 +36,9 @@ module Base
     def current_user
       @user
     end
+
+    def current_company
+      @user.employee.company
+    end
   end
 end

@@ -47,7 +47,7 @@ end
     when '勘定科目'
       @slip.account_id = Account.find_by_name(value).id
     when '計上部門'
-      @slip.branch_id = Branch.where(:company_id => current_user.company_id, :name => value).first!.id
+      @slip.branch_id = Branch.where(:company_id => current_company.id, :name => value).first!.id
     else
       fail "不明なフィールドです。field_name=#{field_name}"
     end
@@ -68,7 +68,7 @@ end
         assert has_selector?('#simple_slip_sub_account_id option', :minimum => 1)
       end
 
-      unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
+      unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
         assert find('#simple_slip_tax_rate_percent').has_text?
       end
 

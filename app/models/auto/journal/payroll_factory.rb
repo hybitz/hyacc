@@ -26,11 +26,11 @@ module Auto::Journal
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
       journal_header = JournalHeader.new
-      journal_header.company_id = @user.company_id
+      journal_header.company_id = employee.company_id
 
       # 給与日の設定
       journal_header.ym = @payroll.ym
-      journal_header.day = @user.company.payroll_day(@payroll.ym)
+      journal_header.day = employee.company.payroll_day(@payroll.ym)
       # 摘要の設定
       journal_header.remarks = "#{salary_account.name}　#{employee.fullname}　#{@payroll.ym%100}月分"
       journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
@@ -204,7 +204,7 @@ module Auto::Journal
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
       journal_header = JournalHeader.new
-      journal_header.company_id = @user.company.id
+      journal_header.company_id = employee.company.id
 
       # 給与日の設定
       journal_header.ym = @payroll.pay_day.split('-')[0..1].join.to_i
@@ -221,7 +221,7 @@ module Auto::Journal
       ## デフォルト部門の取得
       branch_id = employee.default_branch.id
       ## 消費税取り扱い区分を取得
-      fy = @user.company.get_fiscal_year(journal_header.ym)
+      fy = employee.company.get_fiscal_year(journal_header.ym)
       raise HyaccException.new(ERR_FISCAL_YEAR_NOT_EXISTS) unless fy
 
       ## 支払明細
@@ -287,7 +287,7 @@ module Auto::Journal
       journal_header.update_user_id = @user.id
       # 年月の設定
       journal_header.ym = @payroll.pay_day.split('-')[0..1].join.to_i
-      journal_header.company_id = @user.company.id
+      journal_header.company_id = employee.company.id
 
       # 消費税率
       tax_rate = TaxJp.rate_on(journal_header.date)
@@ -299,7 +299,7 @@ module Auto::Journal
       ## デフォルト部門の取得
       branch_id = employee.default_branch.id
       ## 消費税取り扱い区分を取得
-      fy = @user.company.get_fiscal_year(journal_header.ym)
+      fy = employee.company.get_fiscal_year(journal_header.ym)
       raise HyaccException.new(ERR_FISCAL_YEAR_NOT_EXISTS) unless fy
 
       ## 支払明細

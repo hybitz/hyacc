@@ -219,7 +219,7 @@ class SimpleSlipsController < Base::HyaccController
 
     case action_name
     when 'create'
-      ret = ret.merge(:create_user_id => current_user.id, :company_id => current_user.company_id)
+      ret = ret.merge(:create_user_id => current_user.id, :company_id => current_company.id)
     when 'update'
       ret = ret.merge(:update_user_id => current_user.id)
       ret[:auto_journal_type] ||= nil
@@ -262,7 +262,7 @@ class SimpleSlipsController < Base::HyaccController
 
     account = @frequencies.present? ? Account.get(@frequencies.first.input_value) : @accounts.first
     ret.account_id = account.id
-    ret.tax_type = current_user.company.get_tax_type_for(account)
+    ret.tax_type = current_company.get_tax_type_for(account)
 
     ret.branch_id = current_user.employee.default_branch.id
     ret
@@ -288,7 +288,7 @@ class SimpleSlipsController < Base::HyaccController
   # 現在の会計年度としてふさわしい消費税区分を取得する
   # 税抜経理方式でなければ、消費税は非課税として扱う
   def get_tax_type_for_current_fy( tax_type )
-    unless current_user.company.current_fiscal_year.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
+    unless current_company.current_fiscal_year.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
       return TAX_TYPE_NONTAXABLE
     end
 

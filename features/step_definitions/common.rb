@@ -57,7 +57,7 @@ end
     case row[0]
     when '年度'
       assert_equal '本年度', row[1]
-      assert_equal current_user.company.current_fiscal_year_int, page.find('#finder_fiscal_year').value.to_i
+      assert_equal current_company.current_fiscal_year_int, page.find('#finder_fiscal_year').value.to_i
     when '部門'
       assert_equal 'デフォルト部門', row[1]
       assert_equal current_user.employee.default_branch.id, page.find('#finder_branch_id').value.to_i

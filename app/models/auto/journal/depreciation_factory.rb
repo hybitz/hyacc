@@ -31,7 +31,7 @@ module Auto::Journal
         amount += amount_fraction if i == 0
 
         jh = @depreciation.journal_headers.build
-        jh.company_id = @user.company.id
+        jh.company = c
         jh.slip_type = SLIP_TYPE_DEPRECIATION
         jh.ym = HyaccDateUtil.add_months(start_ym, i)
         jh.day = HyaccDateUtil.last_day_of_month(jh.ym)

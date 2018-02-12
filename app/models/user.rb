@@ -5,8 +5,6 @@ class User < ApplicationRecord
 
   acts_as_cached
 
-  belongs_to :company, optional: true
-
   has_one :employee
   accepts_nested_attributes_for :employee
 

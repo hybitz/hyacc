@@ -8,8 +8,8 @@
   assert has_no_selector?('#slipTable tbody tr')
 
   within '#new_simple_slip' do
-    fill_in 'simple_slip_ym', :with => current_user.company.founded_year_month
-    fill_in 'simple_slip_day', :with => current_user.company.founded_date.day
+    fill_in 'simple_slip_ym', :with => current_company.founded_year_month
+    fill_in 'simple_slip_day', :with => current_company.founded_date.day
     fill_in 'simple_slip_remarks', :with => '営業を開始'
     select row[2], :from => 'simple_slip_account_id'
     fill_in 'simple_slip_amount_increase', :with => row[1].gsub(',', '')
@@ -75,7 +75,7 @@ end
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
 
-        unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
+        unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
           assert find('#simple_slip_tax_rate_percent').has_text?
         end
       end
@@ -111,10 +111,12 @@ end
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
 
-        unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
+        unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
           assert find('#simple_slip_tax_rate_percent').has_text?
         end
-
+      end
+      assert has_selector?('.account_ready')
+      within '#new_simple_slip' do
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'
       end
@@ -210,7 +212,7 @@ end
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
 
-        unless current_user.company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
+        unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
           assert find('#simple_slip_tax_rate_percent').has_text?
         end
 

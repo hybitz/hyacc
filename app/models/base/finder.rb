@@ -19,15 +19,15 @@ module Base
     attr_accessor :user_id
   
     def initialize(user)
-      @start_month_of_fiscal_year = user.company.start_month_of_fiscal_year
-      @founded_date = user.company.founded_date
+      @start_month_of_fiscal_year = user.employee.company.start_month_of_fiscal_year
+      @founded_date = user.employee.company.founded_date
       @slips_per_page = user.slips_per_page
       @login_user_id = user.id
       @commit = nil
       @page = 0
       @ym = nil
-      @company_id = user.company_id
-      @fiscal_year = user.company.current_fiscal_year.fiscal_year
+      @company_id = user.employee.company_id
+      @fiscal_year = user.employee.company.current_fiscal_year.fiscal_year
       @branch_id = user.employee.default_branch.id
       @account_id = 0
       @sub_account_id = 0

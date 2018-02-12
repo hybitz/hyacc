@@ -4,11 +4,9 @@ require 'test_helper'
 class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
   def setup
-    user = User.find(4)
-    assert user.company.get_fiscal_year(2009).closed?
-    assert user.company.get_fiscal_year(2010).open?
-
-    sign_in user
+    sign_in User.find(4)
+    assert current_company.get_fiscal_year(2009).closed?
+    assert current_company.get_fiscal_year(2010).open?
   end
 
   def test_本締の年度への費用振替の登録がエラーになること

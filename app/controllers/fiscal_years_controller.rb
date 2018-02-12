@@ -2,11 +2,11 @@ class FiscalYearsController < Base::HyaccController
   view_attribute :title => '会計年度'
 
   def index
-    @fiscal_years = current_user.company.fiscal_years
+    @fiscal_years = current_company.fiscal_years
   end
 
   def new
-    @fiscal_year = current_user.company.new_fiscal_year
+    @fiscal_year = current_company.new_fiscal_year
   end
 
   def create
@@ -103,7 +103,7 @@ class FiscalYearsController < Base::HyaccController
   end
   
   def edit_current_fiscal_year
-    @c = Company.find(current_user.company_id)
+    @c = Company.find(current_company.id)
   end
   
   def update_current_fiscal_year

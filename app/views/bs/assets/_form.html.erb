@@ -12,7 +12,7 @@
 
     <% if @asset.status_waiting? or @asset.status_depreciating? %>
       <span style="margin-left: 5px;">
-        <%= f.submit '償却実行', :onclick => "if ( confirm('#{current_user.company.current_fiscal_year_int}年度分を償却します。よろしいですか？')) {return true;} return false;" %>
+        <%= f.submit '償却実行', :onclick => "if ( confirm('#{current_company.current_fiscal_year_int}年度分を償却します。よろしいですか？')) {return true;} return false;" %>
       </span>
     <% end %>
   </div>

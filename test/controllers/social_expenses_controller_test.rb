@@ -19,7 +19,7 @@ class SocialExpensesControllerTest < ActionDispatch::IntegrationTest
     sign_in user
     get social_expenses_path, params: {
         commit: true,
-        finder: {fiscal_year: user.company.current_fiscal_year_int, branch_id: 989}
+        finder: {fiscal_year: current_company.current_fiscal_year_int, branch_id: 989}
       }
     assert_response :success
     assert_equal '/social_expenses', path

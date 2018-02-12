@@ -43,7 +43,7 @@
     </td>
   </tr>
 
-  <% unless current_user.company.personal? %>
+  <% unless @company.personal? %>
     <tr>
       <th>法人番号</th>
       <td><%= @company.enterprise_number %></td>

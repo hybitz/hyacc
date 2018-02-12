@@ -1,14 +1,9 @@
 class ReportFinder < Base::Finder
   include HyaccConstants
-  attr_reader :company_id
+
   attr_reader :report_type
   attr_reader :report_style
 
-  def initialize(user)
-    super(user)
-    @company_id = user.company.id
-  end
-  
   def setup_from_params( params )
     super(params)
     if params

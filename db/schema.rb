@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180212021104) do
+ActiveRecord::Schema.define(version: 20180212045944) do
 
   create_table "accounts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code", default: "", null: false
@@ -548,7 +548,6 @@ ActiveRecord::Schema.define(version: 20180212021104) do
     t.string "salt", default: "", null: false
     t.boolean "deleted", default: false, null: false
     t.string "google_account"
-    t.string "crypted_google_password"
     t.integer "account_count_of_frequencies", default: 10, null: false
     t.string "yahoo_api_app_id"
     t.boolean "show_details", default: true, null: false

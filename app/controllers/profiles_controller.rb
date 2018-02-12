@@ -18,11 +18,9 @@ class ProfilesController < Base::HyaccController
     begin
       @profile.transaction do
         password = params[:profile].delete(:password)
-        google_password = params[:profile].delete(:google_password)
         
         @profile.attributes = profile_params
         @profile.password = password if password.present?
-        @profile.google_password = google_password if google_password.present?
         @profile.save!
       end
 
@@ -53,7 +51,7 @@ class ProfilesController < Base::HyaccController
   def profile_params
     permitted = [
       :login_id, :password, :email, :slips_per_page, :account_count_of_frequencies, :show_details,
-      :google_account, :google_password, :yahoo_api_app_id,
+      :google_account, :yahoo_api_app_id,
       :simple_slip_settings_attributes => [
         :id, :account_id, :shortcut_key, :_destroy
       ]

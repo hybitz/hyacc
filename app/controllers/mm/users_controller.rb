@@ -71,7 +71,7 @@ class Mm::UsersController < Base::HyaccController
   def user_params
     permitted = [
       :login_id, :email, :slips_per_page, :password,
-      :google_account, :google_password, :employee_id, :account_count_of_frequencies,
+      :google_account, :employee_id, :account_count_of_frequencies,
       :yahoo_api_app_id, :show_details,
       :employee_attributes => [
         :id, :company_id, :first_name, :last_name, :employment_date,

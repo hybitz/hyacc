@@ -2,29 +2,33 @@
 <%= flash_notice %>
 
 <table class="employees">
-  <tr>
-    <th>氏名</th>
-    <th>所属部門</th>
-    <th>業務経歴</th>
-    <th>状態</th>
-    <th colspan="3"></th>
-  </tr>
-  <% @employees.each do |e| %>
-    <tr class="hover">
-      <td><%= e.fullname %></td>
-      <td><%= e.default_branch_name %></td>
-      <td align="right">
-        <% if e.years_of_career > 0 %>
-          <%= link_to "#{e.years_of_career}年", career_statement_path(e) %>
-        <% else %>
-          <span>なし</span>
-        <% end %>
-      </td>
-      <td><%= e.deleted_name %></td>
-      <td><%= link_to '編集', edit_mm_employee_path(e), :remote => true %></td>
-      <td><%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
+  <thead>
+    <tr>
+      <th>氏名</th>
+      <th>所属部門</th>
+      <th>業務経歴</th>
+      <th>状態</th>
+      <th colspan="3"></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @employees.each do |e| %>
+      <tr class="hover">
+        <td><%= e.fullname %></td>
+        <td><%= e.default_branch_name %></td>
+        <td align="right">
+          <% if e.years_of_career > 0 %>
+            <%= link_to "#{e.years_of_career}年", career_statement_path(e) %>
+          <% else %>
+            <span>なし</span>
+          <% end %>
+        </td>
+        <td><%= e.deleted_name %></td>
+        <td><%= link_to '編集', edit_mm_employee_path(e), :remote => true %></td>
+        <td><%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <%= will_paginate @employees %>

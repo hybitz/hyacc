@@ -20,7 +20,7 @@ module Login
       click_on 'Submit'
     end
 
-    assert_url '/'
+    assert_equal '/', current_path
   end
 
   def current_user

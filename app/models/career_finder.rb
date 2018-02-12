@@ -1,8 +1,8 @@
 class CareerFinder
   include ActiveModel::Model
   include Pagination
+  include CompanyAware
 
-  attr_accessor :company_id
   attr_accessor :employee_id
 
   def list

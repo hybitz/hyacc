@@ -1,10 +1,10 @@
 require 'openssl'
 
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :registerable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :two_factor_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, :omniauth_providers => [:google_oauth2]
+
   acts_as_cached
 
   belongs_to :company, optional: true
@@ -29,6 +29,17 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :simple_slip_settings, :allow_destroy => true
 
   before_create :set_default_simple_slip_settings
+
+  def self.from_omniauth(access_token)
+    data = access_token.info
+
+    case access_token['provider'].to_sym
+    when :google_oauth2
+      User.where(:google_account => data["email"]).first
+    else
+      nil
+    end
+  end
 
   def has_google_account
     google_account.to_s.size > 0

@@ -3,8 +3,6 @@ require "rexml/document"
 
 class Mm::SimpleSlipTemplatesController < Base::HyaccController
   view_attribute :title => '簡易入力テンプレート'
-  view_attribute :branches
-  view_attribute :accounts
 
   helper_method :finder
 
@@ -117,6 +115,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
 
   def finder
     @finder ||= SimpleSlipTemplateFinder.new(finder_params)
+    @finder.company_id = current_company.id
     @finder.page = params[:page] || 1
     @finder.per_page = current_user.slips_per_page
     @finder
@@ -124,7 +123,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   
   def finder_params
     if params[:finder]
-      params.require(:finder).permit(
+      ret = params.require(:finder).permit(
           :remarks, :account_id, :sub_account_id
         )
     end

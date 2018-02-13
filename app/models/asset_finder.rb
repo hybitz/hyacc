@@ -1,10 +1,11 @@
 class AssetFinder
   include ActiveModel::Model
   include Pagination
+  include CompanyAware
+  include AccountAware
+  include BranchAware
 
   attr_accessor :fiscal_year
-  attr_accessor :branch_id
-  attr_accessor :account_id
 
   def list
     Asset.where(conditions).order('code').includes([:account, :branch])

@@ -66,13 +66,13 @@
         <th>フォーカス項目</th>
       </tr>
       <tr>
-        <td><%= h_account_select('simple_slip_template', 'account_id') %></td>
+        <td><%= collection_select_code_and_name 'simple_slip_template', 'account_id', finder.accounts, :id, :name, {}, class: 'accountSelect' %></td>
         <td width="100px;"></td>
         <% if branch_mode %>
-        <td><%= h_branch_select('simple_slip_template', :include_blank=>true) %></td>
+          <td><%= f.collection_select :branch_id, current_company.branches, :id, :name, {include_blank: true}, class: 'branchSelect' %></td>
         <% end %>
-        <td><%= f.select :dc_type, dc_types, :include_blank => true, :class => 'dcTypeSelect' %></td>
-        <td><%= f.select :tax_type, tax_types, :include_blank => true, :class => 'taxTypeSelect' %></td>
+        <td><%= f.select :dc_type, dc_types, {include_blank: true}, class: 'dcTypeSelect' %></td>
+        <td><%= f.select :tax_type, tax_types, {include_blank: true}, class: 'taxTypeSelect' %></td>
         <td><%= f.text_field :amount, :class => 'amountText' %></td>
         <td><%= f.text_field :tax_amount, :class => 'amountText' %></td>
         <td><%= f.select :focus_on_complete, focus_on_completes, {:include_blank=>true}, {:class=>'focusOnCompleteSelect'} %></td>

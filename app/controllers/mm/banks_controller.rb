@@ -80,6 +80,7 @@ class Mm::BanksController < Base::HyaccController
   def finder
     unless @finder
       @finder = BankFinder.new(finder_params)
+      @finder.company_id = current_company.id
       @finder.page = params[:page]
       @finder.per_page = current_user.slips_per_page
     end
@@ -96,7 +97,19 @@ class Mm::BanksController < Base::HyaccController
   end
   
   def bank_params
-    params.require(:bank).permit(:name, :code, :bank_offices_attributes => [:id, :code, :name, :address, :disabled])
+    permitted = [
+      :name, :code,
+      bank_offices_attributes: [:id, :code, :name, :address, :disabled]
+    ]
+
+    ret = params.require(:bank).permit(*permitted)
+
+    case action_name
+    when 'create'
+      ret = ret.merge(company_id: current_company.id)
+    end
+
+    ret
   end
 
 end

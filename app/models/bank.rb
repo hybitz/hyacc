@@ -1,4 +1,6 @@
 class Bank < ApplicationRecord
+  belongs_to :company
+
   validates :code, :presence => true
   validates :name, :presence => true
 

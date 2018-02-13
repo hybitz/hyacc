@@ -16,6 +16,8 @@ class Company < ApplicationRecord
 
   mount_uploader :logo, LogoUploader
 
+  has_many :banks, -> { where deleted: false }
+
   attr_accessor :day_of_payday
   attr_accessor :month_of_payday
 

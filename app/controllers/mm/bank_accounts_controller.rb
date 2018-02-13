@@ -1,7 +1,6 @@
 class Mm::BankAccountsController < Base::HyaccController
   before_action :check_banks
   view_attribute :title => '金融口座'
-  view_attribute :banks, :except => :index
   
   def index
     @bank_accounts = BankAccount.not_deleted
@@ -73,7 +72,7 @@ class Mm::BankAccountsController < Base::HyaccController
 
   # 銀行が未登録の場合は金融機関管理に誘導する
   def check_banks
-    if Bank.count == 0
+    if current_company.banks.empty?
       render :template => 'common/banks_required' and return
     end
   end

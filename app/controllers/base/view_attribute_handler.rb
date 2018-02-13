@@ -6,9 +6,7 @@ module Base::ViewAttributeHandler
   def load_view_attributes
     get_attributes.each do |name, options|
       if action_match?(options[:only], options[:except])
-        if name == :banks
-          @banks = get_banks(options)
-        elsif name == :finder
+        if name == :finder
           @finder = get_finder(options)
         elsif name == :branches
           @branches = get_branches(options)
@@ -41,10 +39,6 @@ module Base::ViewAttributeHandler
     else
       Account.get_journalizable_accounts
     end
-  end
-
-  def get_banks(options = {})
-    Bank.all
   end
 
   def load_bank_offices(bank_id, options={})

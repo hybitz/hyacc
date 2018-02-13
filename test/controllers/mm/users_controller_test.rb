@@ -41,7 +41,6 @@ class Mm::UsersControllerTest < ActionController::TestCase
         :password => 'zerozero',
         :email => 'test@example.com',
         :employee_attributes => {
-          :company_id => current_company.id,
           :last_name => 'test_create', 
           :first_name => 'a', 
           :employment_date => '2009-01-01',

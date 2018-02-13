@@ -80,7 +80,11 @@ class Mm::UsersController < Base::HyaccController
     ]
 
     ret = params.require(:user).permit(permitted)
-    ret[:employee_attributes].merge!(company_id: current_company.id)
+
+    if ret[:employee_attributes].present?
+      ret[:employee_attributes].merge!(company_id: current_company.id)
+    end
+
     ret
   end
 end

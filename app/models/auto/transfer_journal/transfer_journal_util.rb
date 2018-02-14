@@ -3,7 +3,7 @@ module Auto::TransferJournal::TransferJournalUtil
   include HyaccErrors
 
   def get_remarks(original_remarks, account_id)
-    a = Account.get(account_id)
+    a = Account.find(account_id)
     if a.account_type == ACCOUNT_TYPE_DEBT
       return original_remarks + '【負債配賦】'
     elsif a.account_type == ACCOUNT_TYPE_ASSET

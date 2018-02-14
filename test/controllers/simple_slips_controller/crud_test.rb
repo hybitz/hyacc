@@ -69,7 +69,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
     sign_in user
 
     finder = Slips::SlipFinder.new(user)
-    finder.account_code = Account.get(2).code # 現金
+    finder.account_code = Account.find(2).code # 現金
     slip = finder.find(11)
     jh = JournalHeader.find(11)
     assert_equal 1, jh.create_user_id

@@ -63,7 +63,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
   end
 
   def test_本締の年度への費用振替の更新がエラーになること
-    account = Account.get(5)
+    account = Account.find(5)
     jh = JournalHeader.find(21)
     slip = SimpleSlip.build_from_journal(account.id, jh.id)
 

@@ -28,7 +28,7 @@ module Auto::TransferJournal
       
       # 明細作成準備
       # 配賦用の勘定科目を特定
-      a = Account.get(src_jd.account_id)
+      a = Account.find(src_jd.account_id)
       if a.path.index(ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE) != nil
         # 販売費および一般管理費
         account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE)

@@ -44,13 +44,13 @@ module JournalHelper
 
   def is_current_asset(account_id)
     # 流動資産科目か
-    a = Account.get(account_id)
+    a = Account.find(account_id)
     # 資産の部
     a.is_current_assets?
   end
 
   def is_debt(account_id)
-    a = Account.get(account_id)
+    a = Account.find(account_id)
     # 負債の部
     a.account_type == ACCOUNT_TYPE_DEBT
   end
@@ -59,7 +59,7 @@ module JournalHelper
 
     return false if account_id.nil?
 
-    a = Account.get(account_id)
+    a = Account.find(account_id)
 
     if [ACCOUNT_CODE_HEAD_OFFICE_COST,
         ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE].include?(a.code)

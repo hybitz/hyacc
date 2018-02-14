@@ -37,32 +37,32 @@ module Reports
     # 控除額
     def get_exemptions
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-      return logic.get_exemptions
+      logic.get_exemptions
     end
     
     # 所得控除の額の合計
     def get_total_exemption
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-      return logic.get_exemption
+      logic.get_exemption
     end
     
     # 給与所得控除後の金額
     def get_after_deduction
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-      return logic.get_after_deduction
+      logic.get_after_deduction
     end
     
     # 源泉徴収税額
     def get_withholding_tax
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-      return logic.get_withholding_tax
+      logic.get_withholding_tax
     end
     
     # 社会保険料等の金額(健康保険料＋社会保険料＋小規模共済)
     def get_social_insurance
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions
-      return logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid.to_i
+      logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid.to_i
     end
 
   end

@@ -3,8 +3,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:google_oauth2]
 
-  acts_as_cached
-
   has_one :employee
   accepts_nested_attributes_for :employee
 

@@ -46,7 +46,7 @@ class JournalDetail < ApplicationRecord
   end
 
   def account
-    account_id ? Account.get(self.account_id) : nil
+    account_id ? Account.find(self.account_id) : nil
   end
 
   def account=(account)
@@ -54,7 +54,7 @@ class JournalDetail < ApplicationRecord
   end
 
   def branch
-    Branch.get(self.branch_id)
+    Branch.find(self.branch_id)
   end
 
   def branch=(branch)

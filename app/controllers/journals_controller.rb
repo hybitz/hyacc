@@ -103,7 +103,7 @@ class JournalsController < Base::HyaccController
     tax_type = TAX_MANAGEMENT_TYPE_EXEMPT
 
     if params[:account_id].present?
-      selected_account = Account.get(params[:account_id])
+      selected_account = Account.find(params[:account_id])
       fy = current_company.current_fiscal_year
       if fy.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
         tax_type = selected_account.tax_type
@@ -175,7 +175,7 @@ class JournalsController < Base::HyaccController
   end
 
   def new_journal
-    default_account = @frequencies.size > 0 ? Account.get(@frequencies.first.input_value.to_i) : @accounts.first
+    default_account = @frequencies.size > 0 ? Account.find(@frequencies.first.input_value.to_i) : @accounts.first
 
     ret = Journal.new
     ret.ym = ymd_input_state.ym

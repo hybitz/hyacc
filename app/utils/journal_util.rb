@@ -71,7 +71,7 @@ module JournalUtil
       account = Account.find_by_code(account)
     # accountが勘定科目IDの場合はマスタ検索
     elsif account.kind_of? Fixnum
-      account = Account.get(account)
+      account = Account.find(account)
     end
     return 0 unless account.kind_of? Account
 
@@ -102,7 +102,7 @@ module JournalUtil
       account = Account.find_by_code( account )
     # accountが勘定科目IDの場合はマスタ検索
     elsif account.kind_of? Fixnum
-      account = Account.get( account )
+      account = Account.find( account )
     end
 
     unless account.kind_of? Account
@@ -181,7 +181,7 @@ module JournalUtil
   # 費用配賦を計算する
   # 配賦不可能な場合は空のハッシュを返す
   def self.make_allocated_cost(branch_id, cost)
-    branches = Branch.get(branch_id).children.where(:deleted => false)
+    branches = Branch.find(branch_id).children.where(:deleted => false)
     return {} if branches.empty?
 
     allocated_costs = {}

@@ -35,7 +35,7 @@ module Auto::TransferJournal
       temp_debt = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
       
       # 部門情報取得
-      src_branch = Branch.get(src_jd.branch_id)
+      src_branch = Branch.find(src_jd.branch_id)
       parent = src_branch.head_office? ? src_branch : src_branch.parent
 
       # 資産明細の作成

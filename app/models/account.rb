@@ -3,7 +3,6 @@ class Account < ApplicationRecord
   include HyaccErrors
   include Accounts::SubAccountsSupport
 
-  acts_as_cached :includes => 'accounts/account_cache'
   acts_as_tree :order => 'display_order'
 
   validates_presence_of :name, :code
@@ -15,6 +14,21 @@ class Account < ApplicationRecord
 
   def self.expenses
     where(:account_type => ACCOUNT_TYPE_EXPENSE)
+  end
+
+  # 仕訳可能な勘定科目のみ取得する
+  def self.get_journalizable_accounts(with_deleted = false)
+    accounts = where(:journalizable => true)
+    accounts = accounts.where(:deleted => false) unless with_deleted
+    accounts = accounts.where('code <> ?', ACCOUNT_CODE_VARIOUS).order(:code)
+
+    # 補助科目が未整備の勘定科目を除外
+    ret = []
+    accounts.each do |a|
+      next if a.sub_account_type != SUB_ACCOUNT_TYPE_NORMAL && a.sub_accounts.empty?
+      ret << a
+    end
+    ret
   end
 
   def code_and_name

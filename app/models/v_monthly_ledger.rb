@@ -39,7 +39,7 @@ EOS
     # 勘定科目は必須
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
 
-    account = Account.get(account_id)
+    account = Account.find(account_id)
   
     sql = ["select sum(amount) as amount from (#{VIEW}) as monthly_ledger "]
 

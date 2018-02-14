@@ -55,7 +55,7 @@ module Base::ViewAttributeHandler
       account_id = finder.to_i
     end
     
-    account_id > 0 ? Account.get( account_id ) : nil
+    account_id > 0 ? Account.find(account_id) : nil
   end
   
   def load_sub_accounts(finder, options = {})
@@ -86,7 +86,7 @@ module Base::ViewAttributeHandler
     end
     
     if branch_id > 0
-      return Branch.get(branch_id)
+      return Branch.find(branch_id)
     end
 
     nil

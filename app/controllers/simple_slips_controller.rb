@@ -26,7 +26,7 @@ class SimpleSlipsController < Base::HyaccController
     json = '['
     templates.each_with_index do |t, index|
       if t.account_id.to_i > 0
-        account = Account.get(t.account_id)
+        account = Account.find(t.account_id)
         renderer = AccountDetails::AccountDetailRenderer.get_instance(account.id)
         if renderer
           account_detail = render_to_string(:partial => renderer.get_template(controller_name), :formats => [:html])
@@ -170,7 +170,7 @@ class SimpleSlipsController < Base::HyaccController
 
   def copy
     @simple_slip = finder.find(params[:id])
-    account = Account.get(@simple_slip.account_id)
+    account = Account.find(@simple_slip.account_id)
 
     renderer = AccountDetails::AccountDetailRenderer.get_instance(account.id)
     if renderer
@@ -260,7 +260,7 @@ class SimpleSlipsController < Base::HyaccController
     ret.ym = ymd_input_state.ym
     ret.day = ymd_input_state.day
 
-    account = @frequencies.present? ? Account.get(@frequencies.first.input_value) : @accounts.first
+    account = @frequencies.present? ? Account.find(@frequencies.first.input_value) : @accounts.first
     ret.account_id = account.id
     ret.tax_type = current_company.get_tax_type_for(account)
 

@@ -5,14 +5,4 @@ class Customer < ApplicationRecord
   validates :name, :presence => true
   validates :formal_name, :presence => true
 
-  after_save :reset_account_cache
-
-  private
-
-  def reset_account_cache
-    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_CUSTOMER)
-    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_ORDER_ENTRY)
-    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_ORDER_PLACEMENT)
-    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_INVESTMENT)
-  end
 end

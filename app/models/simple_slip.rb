@@ -75,11 +75,11 @@ class SimpleSlip
   end
 
   def my_account
-    Account.get(my_account_id)
+    Account.find(my_account_id)
   end
 
   def account
-    Account.get(account_id)
+    Account.find(account_id)
   end
 
   def sub_account
@@ -91,7 +91,7 @@ class SimpleSlip
   end
 
   def branch
-    Branch.get(branch_id)
+    Branch.find(branch_id)
   end
 
   def amount

@@ -503,7 +503,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   # 自動仕訳がある簡易入力伝票が編集画面に遷移できること
   def test_編集_自動仕訳がある簡易入力伝票が編集画面に遷移できること
     finder = Slips::SlipFinder.new(current_user)
-    finder.account_code = Account.get(3).code
+    finder.account_code = Account.find(3).code
     slip = finder.find(6)
     assert_not_nil slip
     assert slip.has_auto_transfers

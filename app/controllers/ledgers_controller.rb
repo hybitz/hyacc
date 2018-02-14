@@ -46,7 +46,7 @@ class LedgersController < Base::HyaccController
 
   def setup_view_attributes
     if finder.account_id.to_i > 0
-      @account = Account.get(finder.account_id)
+      @account = Account.find(finder.account_id)
       @sub_accounts = load_sub_accounts(finder.account_id)
     end
     @sub_accounts ||= []

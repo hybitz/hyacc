@@ -18,9 +18,6 @@ class Employee < ApplicationRecord
 
   has_many :exemptions, :dependent => :destroy
 
-  after_save :reset_account_cache
-
-  # フィールド
   attr_accessor :standard_remuneration # 標準報酬月額
   
   def self.name_is(name)
@@ -80,12 +77,6 @@ class Employee < ApplicationRecord
     else
       0
     end
-  end
-
-  private
-
-  def reset_account_cache
-    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_EMPLOYEE)
   end
 
 end

@@ -34,7 +34,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
   def test_本締の年度からの費用振替の更新がエラーになること
     finder = Slips::SlipFinder.new(current_user)
-    finder.account_code = Account.get(29).code
+    finder.account_code = Account.find(29).code
     slip = finder.find(12)
 
     assert_no_difference 'JournalHeader.count' do
@@ -64,7 +64,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
   def test_本締の年度への費用振替の更新がエラーになること
     finder = Slips::SlipFinder.new(current_user)
-    finder.account_code = Account.get(29).code
+    finder.account_code = Account.find(29).code
     slip = finder.find(15)
 
     assert_no_difference 'JournalHeader.count' do

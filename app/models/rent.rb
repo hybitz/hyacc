@@ -8,10 +8,7 @@ class Rent < ApplicationRecord
   validates_format_of :zip_code, :with=>/[0-9]{7}/, :allow_nil=>true, :message=>'は数字7桁で入力してください。'
 
   validate :validate_ymd_end
-  
-  after_save :reset_account_cache
 
-  # フィールド
   attr_accessor :total_amount
   attr_accessor :remarks
 
@@ -20,10 +17,6 @@ class Rent < ApplicationRecord
   end
 
   private
-
-  def reset_account_cache
-    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_RENT)
-  end
 
   def validate_ymd_end
     if ymd_end.present? && ymd_start.present? && ymd_start > ymd_end

@@ -6,8 +6,6 @@ class BankAccount < ApplicationRecord
   validates :name, :presence => true, :uniqueness => true
   validates :holder_name, :presence => true
 
-  after_save :reset_account_cache
-
   def bank_name
     return nil unless bank
     bank.name
@@ -22,8 +20,4 @@ class BankAccount < ApplicationRecord
     FINANCIAL_ACCOUNT_TYPES[financial_account_type]
   end
 
-  def reset_account_cache
-    Account.expire_caches_by_sub_account_type(SUB_ACCOUNT_TYPE_SAVING_ACCOUNT)
-  end
-  
 end

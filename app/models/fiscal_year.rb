@@ -40,28 +40,16 @@ class FiscalYear < ApplicationRecord
     closing_status == CLOSING_STATUS_OPEN
   end
 
-  def is_closing
+  def closing?
     closing_status == CLOSING_STATUS_CLOSING
-  end
-
-  def is_closed
-    closing_status == CLOSING_STATUS_CLOSED
   end
 
   def closed?
     closing_status == CLOSING_STATUS_CLOSED
   end
 
-  def is_not_closed
-    ! closed?
-  end
-
-  def is_carried
+  def carried?
     carry_status == CARRY_STATUS_CARRIED
-  end
-
-  def is_not_carried
-    ! is_carried
   end
 
   # 期首の年月を取得
@@ -130,7 +118,7 @@ class FiscalYear < ApplicationRecord
   end
 
   def reset_carry_forward_journal
-    if self.is_not_closed
+    unless closed?
       # 繰越仕訳があれば削除
       jh = self.get_carry_forward_journal
       if jh

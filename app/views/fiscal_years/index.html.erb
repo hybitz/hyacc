@@ -49,7 +49,7 @@
         <% end %>
         <td>
           <%= link_to '編集', edit_fiscal_year_path(fy), :remote => true %>
-          <% if current_company.personal? and fy.closed? and fy.is_not_carried %>
+          <% if current_company.personal? and fy.closed? and not fy.carried? %>
             <%= link_to '繰越', {:action => :confirm_carry_forward, :id => fy}, :remote => true %>
           <% end %>
         </td>

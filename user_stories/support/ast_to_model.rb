@@ -30,6 +30,7 @@ module AstToModel
   end
 
   def to_simple_slip(row)
+    assert @branch
     assert a1 = Account.where(:name => row[2], :deleted => false).first
     assert a2 = Account.where(:name => row[4], :deleted => false).first
     assert_equal row[3], row[5]
@@ -38,6 +39,7 @@ module AstToModel
     ret.ym = row[0].split('-')[0..1].join
     ret.day = row[0].split('-').last
     ret.remarks = row[1]
+    ret.branch_id = @branch.id
 
     if a1.asset? or a1.debt?
       ret.my_account_id = a1.id

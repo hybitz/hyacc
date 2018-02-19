@@ -136,7 +136,7 @@ GEM
       railties (>= 4, < 5.2)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
-    daddy (0.6.2)
+    daddy (0.6.3)
       capybara
       ci_reporter
       hashie (~> 3.4.0)

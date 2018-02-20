@@ -99,7 +99,7 @@ GEM
     ci_reporter (2.0.0)
       builder (>= 2.1.2)
     cliver (0.3.2)
-    closer (0.6.1)
+    closer (0.6.2)
       capybara (~> 2.16)
       cucumber (>= 3.0, <= 4.0)
       poltergeist (>= 1.16)
@@ -136,7 +136,7 @@ GEM
       railties (>= 4, < 5.2)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
-    daddy (0.6.3)
+    daddy (0.6.4)
       capybara
       ci_reporter
       hashie (~> 3.4.0)

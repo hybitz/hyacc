@@ -7,19 +7,14 @@ class Mm::EmployeesController < Base::HyaccController
     @employees = finder.list
   end
 
-  def add_branch
-    @be = BranchEmployee.new
-    render partial: 'branch_employee_fields', locals: {be: @be, index: params[:index]}
+  def show
+    @e = Employee.find(params[:id])
   end
 
   def edit
     @e = Employee.find(params[:id])
   end
   
-  def show
-    @e = Employee.find(params[:id])
-  end
-
   def update
     @e = Employee.find(params[:id])
 
@@ -50,6 +45,11 @@ class Mm::EmployeesController < Base::HyaccController
       flash[:notice] = '従業員を削除しました。'
       redirect_to :action => :index
     end
+  end
+
+  def add_branch
+    @be = BranchEmployee.new
+    render partial: 'branch_employee_fields', locals: {be: @be, index: params[:index]}
   end
 
   private

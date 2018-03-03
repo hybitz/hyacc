@@ -6,8 +6,27 @@ html, body {
   min-height: 100%;
 }
 
-a:link { color: #000000; }
-a:visited { color: #000000; }
+a {
+  &:link {
+    color: #000000;
+  }
+
+  &:visited {
+    color: #000000;
+  }
+}
+
+a.selected {
+  font-weight: bold;
+
+  &:link {
+    color: #4682B4;
+  }
+
+  &:visited {
+    color: #4682B4;
+  }
+}
 
 input[type="text"], select {
   background: #FFFAFA;

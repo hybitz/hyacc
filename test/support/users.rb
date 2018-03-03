@@ -26,9 +26,12 @@ module Users
     @_freelancer
   end
   
-  def valid_user_params
+  def user_params
+    login_id = time_string
+
     {
-      :login_id => time_string,
+      :login_id => login_id,
+      :email => "#{login_id}@test.example.com",
       :password => time_string
     }
   end

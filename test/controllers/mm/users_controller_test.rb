@@ -77,7 +77,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, :xhr => true, :params => {:id => user.id, :user => valid_user_params}
+    patch :update, :xhr => true, :params => {:id => user.id, :user => user_params}
     assert_response :success
     assert_template 'common/reload'
   end

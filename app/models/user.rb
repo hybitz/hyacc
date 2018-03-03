@@ -8,10 +8,8 @@ class User < ApplicationRecord
 
   has_one_time_password
 
-  # バリデーション
-  validates_presence_of :login_id
-  validates_uniqueness_of :login_id
-  validates_format_of :login_id, :with=>/[a-zA-Z0-9]*/
+  validates :login_id, presence: true, uniqueness: true
+  validates_format_of :login_id, :with=>/[a-zA-Z0-9._]*/
   validates_format_of :password, :with=>/[!-~]*/
   validates_format_of :email, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
   validates_format_of :google_account, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/

@@ -2,7 +2,7 @@
   <tr>
     <td>
       <%= f.hidden_field :id %>
-      <%= f.select :branch_id, to_options(@branches) %>
+      <%= f.select :branch_id, to_options(current_company.branches) %>
     </td>
     <td><%= f.text_field :cost_ratio, :maxlength => 3 %></td>
     <td align="center"><%= f.check_box :default_branch %></td>

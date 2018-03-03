@@ -1,6 +1,5 @@
 class Mm::EmployeesController < Base::HyaccController
-  view_attribute :title => '従業員'
-  view_attribute :branches, :except => [:index, :destroy]
+  view_attribute title: '従業員'
 
   helper_method :finder
 
@@ -10,7 +9,7 @@ class Mm::EmployeesController < Base::HyaccController
 
   def add_branch
     @be = BranchEmployee.new
-    render :partial => 'branch_employee_fields', :locals => {:be => @be, :index => params[:index]}
+    render partial: 'branch_employee_fields', locals: {be: @be, index: params[:index]}
   end
 
   def edit
@@ -83,7 +82,7 @@ class Mm::EmployeesController < Base::HyaccController
   
   def finder_params
     if params[:finder]
-      params.require(:finder).permit()
+      params.require(:finder).permit
     end
   end
 

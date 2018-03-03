@@ -12,10 +12,12 @@
 //
 //= require rails-ujs
 //= require turbolinks
-//= require jquery
+//= require jquery3
 //= require jquery-ui
 //= require jquery-ui/i18n/datepicker-ja
 //= require jquery.remotipart
+//= require popper
+//= require bootstrap-sprockets
 //= require moment
 //= require fullcalendar
 //= require tax_jp

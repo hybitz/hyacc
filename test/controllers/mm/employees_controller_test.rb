@@ -9,6 +9,27 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_template :index
   end
 
+  def test_参照
+    sign_in admin
+    get :show, params: {id: user.id}, xhr: true
+    assert_response :success
+    assert_template :show
+  end
+
+  def test_追加
+    sign_in admin
+    get :new, xhr: true
+    assert_response :success
+    assert_template :new
+  end
+    
+  def test_登録
+    sign_in admin
+    post :create, :params => {employee: employee_params}, :xhr => true
+    assert_response :success
+    assert_template 'common/reload'
+  end
+
   def test_編集
     sign_in admin
     get :edit, :params => {:id => employee.id}, :xhr => true
@@ -25,7 +46,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, :params => {:id => employee.id, :employee => valid_employee_params}, :xhr => true
+    patch :update, :params => {:id => employee.id, :employee => employee_params}, :xhr => true
     assert_response :success
     assert_template 'common/reload'
   end

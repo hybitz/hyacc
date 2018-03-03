@@ -22,6 +22,7 @@ hyacc.Dialog.prototype._init_buttons = function() {
   if (that.options.submit) {
     ret.push({
       text: that.options.submit,
+      class: 'btn btn-light',
       click: function() {
         var form = that.jq_dialog.dialog('widget').find('form').first()[0];
         Rails.fire(form, 'submit')
@@ -31,6 +32,7 @@ hyacc.Dialog.prototype._init_buttons = function() {
 
   ret.push({
     text: '閉じる',
+    class: 'btn btn-light',
     click: function() {
       that.close();
     }

@@ -11,6 +11,28 @@ class Mm::EmployeesController < Base::HyaccController
     @e = Employee.find(params[:id])
   end
 
+  def new
+    @e = new_employee
+  end
+  
+  def create
+    @e = new_employee
+
+    begin
+      @e.transaction do
+        @e.attributes = employee_params
+        @e.save!
+      end
+
+      flash[:notice] = "#{@e.name} を登録しました。"
+      render 'common/reload'
+
+    rescue => e
+      handle(e)
+      render :action => 'edit'
+    end
+  end
+
   def edit
     @e = Employee.find(params[:id])
   end
@@ -24,7 +46,7 @@ class Mm::EmployeesController < Base::HyaccController
         @e.save!
       end
 
-      flash[:notice] = '従業員を更新しました。'
+      flash[:notice] = "#{@e.name} を更新しました。"
       render 'common/reload'
 
     rescue => e
@@ -42,7 +64,7 @@ class Mm::EmployeesController < Base::HyaccController
       reset_session
       redirect_to root_path
     else
-      flash[:notice] = '従業員を削除しました。'
+      flash[:notice] = "#{@employee.name} を削除しました。"
       redirect_to :action => :index
     end
   end
@@ -54,6 +76,10 @@ class Mm::EmployeesController < Base::HyaccController
 
   private
 
+  def new_employee
+    current_company.employees.build
+  end
+  
   def employee_params
     permitted = [
       :first_name, :last_name, :employment_date,

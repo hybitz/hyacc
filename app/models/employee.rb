@@ -2,7 +2,7 @@ class Employee < ApplicationRecord
   include HyaccErrors
   include HyaccConstants
   
-  belongs_to :user
+  belongs_to :user, optional: true
   belongs_to :company
 
   nostalgic_for :num_of_dependent, :zip_code, :address

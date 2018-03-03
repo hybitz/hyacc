@@ -54,9 +54,15 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     ansi (1.5.0)
     arel (8.0.0)
+    autoprefixer-rails (8.1.0)
+      execjs
     backports (3.11.1)
     bcrypt (3.1.11)
     bindex (0.5.0)
+    bootstrap (4.0.0)
+      autoprefixer-rails (>= 6.0.3)
+      popper_js (>= 1.12.9, < 2)
+      sass (>= 3.5.2)
     builder (3.2.3)
     byebug (10.0.0)
     capistrano (3.10.1)
@@ -302,6 +308,7 @@ GEM
       capybara (~> 2.1)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
+    popper_js (1.12.9)
     public_suffix (3.0.2)
     puma (3.11.2)
     rack (2.0.4)
@@ -463,6 +470,7 @@ DEPENDENCIES
   activerecord-import
   activerecord-session_store
   acts_as_tree
+  bootstrap
   byebug
   capistrano-passenger
   capistrano-rails

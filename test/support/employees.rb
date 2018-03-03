@@ -5,11 +5,12 @@ module Employees
     @_employee ||= Employee.first
   end
   
-  def valid_employee_params(options = {})
+  def employee_params(options = {})
     {
       :last_name => options[:last_name] || '山田',
       :first_name => '花子',
       :sex => SEX_TYPE_F,
+      :birth => 30.years.ago,
       :employment_date => '1990-01-01',
       :my_number => '123456789012',
       :executive => false,
@@ -22,6 +23,6 @@ module Employees
   end
   
   def invalid_employee_params
-    valid_employee_params.merge(:last_name => '')
+    employee_params.merge(:last_name => '')
   end
 end

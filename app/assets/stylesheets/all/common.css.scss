@@ -6,31 +6,10 @@ html, body {
   min-height: 100%;
 }
 
-body {
-  background: #FFFFFF;
-}
-
-a { color: #000000; }
+a:link { color: #000000; }
 a:visited { color: #000000; }
-a:hover { color: #FFFFFF; background: #000000; }
 
-.selected {
-  font-weight: bold;
-  color: slateblue;
-
-  &:visited {
-    color: slateblue;
-  }
-}
-
-a.selected {
-  &:hover {
-    color: #FFFFFF;
-    background: #000000;
-  }
-}
-
-input, select {
+input[type="text"], select {
   background: #FFFAFA;
 
   &:disabled {
@@ -40,10 +19,6 @@ input, select {
 
 input[type="file"] {
   width: 36em;
-}
-
-button, input[type="button"], input[type="submit"] {
-  background: ButtonFace;
 }
 
 .nowrap {

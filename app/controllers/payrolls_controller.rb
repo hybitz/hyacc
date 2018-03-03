@@ -24,7 +24,7 @@ class PayrollsController < Base::HyaccController
 
   def new
     ym = params[:ym]
-    @employee = Employee.find(finder.employee_id)
+    @employee = current_company.employees.find(finder.employee_id)
     employee_id = finder.employee_id
     base_salary = Payroll.get_previous_base_salary(ym, finder.employee_id)
 

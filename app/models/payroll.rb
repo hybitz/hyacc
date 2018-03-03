@@ -20,9 +20,10 @@ class Payroll < ApplicationRecord
   attr_accessor :income_tax     # 源泉所得税
   attr_accessor :insurance      # 個人負担保険料
   attr_accessor :pension        # 個人負担保険料
-  attr_accessor :employee_insurance      # 個人負担雇用保険料
+  attr_accessor :employee_insurance # 個人負担雇用保険料
   attr_accessor :insurance_all
   attr_accessor :pension_all
+  attr_accessor :employee_insurance_all
   attr_accessor :subtotal
   attr_accessor :total
   attr_accessor :pay_day
@@ -42,6 +43,7 @@ class Payroll < ApplicationRecord
     @income_tax = 0
     @insurance = 0
     @pension = 0
+    @employee_insurance = 0
     @insurance_all = 0
     @pension_all = 0
     @base_salary = 0
@@ -116,16 +118,16 @@ class Payroll < ApplicationRecord
   end
 
   def self.get_previous_base_salary(ym, employee_id)
-    base_salary = 0
+    ret = 0
     # 前月分を検索
     past_ym = ym.to_i - 1
     # 1月の場合、-1年(-100)+11月
     past_ym = ym.to_i - 89 if ym.to_i%100 == 1
     previous_payroll = Payroll.where(:ym => past_ym, :employee_id => employee_id, :is_bonus => false).order('ym').first
     if previous_payroll
-      base_salary = previous_payroll.get_base_salary_from_jd
+      ret = previous_payroll.get_base_salary_from_jd
     end
-    base_salary
+    ret
   end
 
   def self.find_by_ym_and_employee_id(ym, employee_id)
@@ -239,16 +241,16 @@ class Payroll < ApplicationRecord
 
   # 仕訳明細から未払費用を取得する
   def get_accrued_liability_from_jd
-    return payroll_journal_header.get_debit_amount(ACCOUNT_CODE_UNPAID_EMPLOYEE)
+    payroll_journal_header.get_debit_amount(ACCOUNT_CODE_UNPAID_EMPLOYEE)
   end
 
   # 仕訳明細から年末調整額を取得する
   def get_year_end_adjustment_liability_from_jd
-    return payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
+    payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
   end
 
   # 仕訳明細から未払役員賞与を取得する
   def get_base_bonus_from_jd
-    return payroll_journal_header.get_debit_amount(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS)
+    payroll_journal_header.get_debit_amount(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS)
   end
 end

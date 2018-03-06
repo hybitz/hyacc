@@ -3,18 +3,18 @@ class TaxUtils
   def self.get_insurances(prefecture_code, ym, base_salary)
     date = Date.strptime("#{ym}01", '%Y%m%d')
 
-    insurances = []
+    ret = []
     TaxJp::SocialInsurance.find_all_by_date_and_prefecture(date, prefecture_code).each do |si|
       insurances << convert_tax_jp(si)
     end
-    insurances
+    ret
   end
 
   def self.get_insurance(ym, prefecture_code, base_salary)
     date = Date.strptime("#{ym}01", '%Y%m%d')
     si = TaxJp::SocialInsurance.find_by_date_and_prefecture_and_salary(date, prefecture_code, base_salary)
 
-    insurance = convert_tax_jp(si)
+    convert_tax_jp(si)
   end
 
   # 標準報酬の基本情報を取得
@@ -24,7 +24,7 @@ class TaxUtils
     date = Date.strptime("#{ym}01", '%Y%m%d')
     si = TaxJp::SocialInsurance.find_by_date_and_prefecture_and_salary(date, prefecture_code, base_salary)
 
-    insurance = convert_tax_jp(si)
+    convert_tax_jp(si)
   end
 
   def self.convert_tax_jp(si)
@@ -52,5 +52,18 @@ class TaxUtils
     ret
   end
   private_class_method :convert_tax_jp
+
+  def self.get_employment_insurances
+    ret = []
+    TaxJp::LaborInsurances::EmploymentInsurance.find_all.each do |ei|
+      ret << ei
+    end
+    ret
+  end
+
+  def self.get_employment_insurance(ym)
+    date = Date.strptime("#{ym}01", '%Y%m%d')
+    TaxJp::LaborInsurances::EmploymentInsurance.find_by_date(date)
+  end
 
 end

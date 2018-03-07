@@ -11,14 +11,12 @@ module Reports
       model.company = Company.find(@finder.company_id)
       model.head_business_office = model.company.head_branch.business_office_on("#{model.calendar_year}-12-31")
       model.employee = Employee.find(@finder.employee_id)
-      model.total_salary = get_total_salary                               # 支払金額
-      model.exemption_amount = get_total_exemption                               # 所得控除の額の合計
-      model.after_deduction = get_after_deduction                         # 給与所得控除後の金額
-      model.withholding_tax = get_withholding_tax                         # 源泉徴収税額
-      model.social_insurance = get_social_insurance                       # 社会保険料等の金額
-      model.exemption = get_exemptions                             # 配偶者控除額
-      
-      e = Exemption.get(@finder.employee_id, @finder.calendar_year)
+      model.total_salary = get_total_salary                       # 支払金額
+      model.exemption_amount = get_total_exemption                # 所得控除の額の合計
+      model.after_deduction = get_after_deduction                 # 給与所得控除後の金額
+      model.withholding_tax = get_withholding_tax                 # 源泉徴収税額
+      model.social_insurance = get_social_insurance               # 社会保険料等の金額
+      model.exemption = get_exemptions                            # 配偶者控除額
       model
     end
     
@@ -58,7 +56,7 @@ module Reports
       logic.get_withholding_tax
     end
     
-    # 社会保険料等の金額(健康保険料＋社会保険料＋小規模共済)
+    # 社会保険料等の金額(健康保険料＋厚生年金保険料＋小規模共済)
     def get_social_insurance
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions

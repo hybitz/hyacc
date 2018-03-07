@@ -181,7 +181,8 @@ module PayrollInfo
         end
 
       end
-      return total_expense
+
+      total_expense
     end
 
     # 厚生年金保険料
@@ -203,7 +204,8 @@ module PayrollInfo
         end
 
       end
-      return total_expense
+
+      total_expense
     end
 
     # 源泉所得税(給与)
@@ -239,9 +241,9 @@ module PayrollInfo
           withholding_taxes[yyyymmdd] = withholding_taxes.has_key?(yyyymmdd) ? withholding_taxes[yyyymmdd] + d.amount : d.amount
         end
       end
-      return withholding_taxes
-    end
 
+      withholding_taxes
+    end
 
   end
 end

@@ -92,7 +92,7 @@ module PayrollHelper
 
     # 標準報酬月額の取得
     standard_remuneration = get_standard_remuneration(ym, e, base_salary)
-    insurance = get_insurance(ym, prefecture_code, standard_remuneration)
+    insurance = TaxUtils.get_social_insurance(ym, prefecture_code, standard_remuneration)
 
     # 保険料の設定
     # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
@@ -117,10 +117,6 @@ module PayrollHelper
                                                                         num_of_dependent)
 
     payroll
-  end
-
-  def get_insurance(ym, prefecture_code, base_salary)
-    TaxUtils.get_insurance(ym, prefecture_code, base_salary)
   end
 
   #標準報酬額を取得

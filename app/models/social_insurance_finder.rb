@@ -6,7 +6,7 @@ class SocialInsuranceFinder
   attr_accessor :base_salary
   
   def list
-    TaxUtils.get_insurances(prefecture_code, ym.gsub('-', ''), base_salary)
+    TaxUtils.get_social_insurances(prefecture_code, ym.gsub('-', ''), base_salary)
   end
 
   def prefectures

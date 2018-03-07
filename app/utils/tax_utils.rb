@@ -5,7 +5,7 @@ class TaxUtils
 
     ret = []
     TaxJp::SocialInsurance.find_all_by_date_and_prefecture(date, prefecture_code).each do |si|
-      insurances << convert_tax_jp(si)
+      ret << convert_tax_jp(si)
     end
     ret
   end

@@ -20,10 +20,9 @@ class Payroll < ApplicationRecord
   attr_accessor :income_tax     # 源泉所得税
   attr_accessor :insurance      # 個人負担保険料
   attr_accessor :pension        # 個人負担保険料
-  attr_accessor :employee_insurance # 個人負担雇用保険料
+  attr_accessor :employment_insurance # 被雇用者負担雇用保険料
   attr_accessor :insurance_all
   attr_accessor :pension_all
-  attr_accessor :employee_insurance_all
   attr_accessor :subtotal
   attr_accessor :total
   attr_accessor :pay_day
@@ -43,7 +42,7 @@ class Payroll < ApplicationRecord
     @income_tax = 0
     @insurance = 0
     @pension = 0
-    @employee_insurance = 0
+    @employment_insurance = 0
     @insurance_all = 0
     @pension_all = 0
     @base_salary = 0

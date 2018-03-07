@@ -169,7 +169,7 @@ class PayrollsController < Base::HyaccController
         :insurance, :credit_account_type_of_insurance,
         :pension, :credit_account_type_of_pension,
         :income_tax, :credit_account_type_of_income_tax,
-        :employee_insurance, :credit_account_type_of_employee_insurance,
+        :employment_insurance, :credit_account_type_of_employment_insurance,
         :inhabitant_tax, :credit_account_type_of_inhabitant_tax,
         :accrued_liability, :year_end_adjustment_liability, :pay_day)
   end

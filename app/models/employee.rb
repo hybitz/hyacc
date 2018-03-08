@@ -5,7 +5,7 @@ class Employee < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :company
 
-  nostalgic_for :num_of_dependent, :zip_code, :address
+  nostalgic_attr :num_of_dependent, :zip_code, :address
 
   validates_presence_of :last_name, :first_name, :birth, :employment_date, :sex
   validates :my_number, :numericality => {:allow_blank => true}

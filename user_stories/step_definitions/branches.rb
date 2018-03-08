@@ -13,7 +13,7 @@
       with_capture do
         select '本社', :from => '事業所'
         fill_in '部門コード', :with => code
-        fill_in '部門名', :with => branch_name
+        fill_in '部門名（正式）', :with => branch_name
       end
       click_on '登録'
     end

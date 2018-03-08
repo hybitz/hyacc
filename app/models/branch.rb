@@ -3,9 +3,14 @@ class Branch < ApplicationRecord
 
   belongs_to :company
   belongs_to :business_office, nostalgic: true, optional: true
+
+  validates :code, presence: true
+  validates :formal_name, presence: true
+
   has_many :branch_employees
   has_many :employees, :through => :branch_employees
 
+  before_save :set_name
   before_save :set_path
 
   def self.get_branches(company_id, include_deleted=false)
@@ -29,6 +34,10 @@ class Branch < ApplicationRecord
 
   private
 
+  def set_name
+    self.name = self.formal_name if self.name.blank?
+  end
+  
   def set_path
     nodes = []
 

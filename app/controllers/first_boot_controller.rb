@@ -53,7 +53,7 @@ class FirstBootController < ApplicationController
   
         @b = @c.branches.build(:business_office => @c.business_offices.first)
         @b.code = '100'
-        @b.name = '本店'
+        @b.formal_name = '本店'
         @b.save!
   
         @e.company_id = @c.id

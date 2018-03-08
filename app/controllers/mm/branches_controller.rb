@@ -52,7 +52,7 @@ class Mm::BranchesController < Base::HyaccController
 
   def branch_params
     permitted = [
-      :name,
+      :formal_name, :name,
       :business_office_id, :business_office_id_effective_at,
       :business_office_ids_attributes => [:id, :_destroy]
     ]

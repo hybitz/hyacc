@@ -2,7 +2,8 @@
   id: 1
   company_id: 1
   code: 101
-  name: 本店管理部
+  formal_name: 本店管理部
+  name: 管理部
   business_office_id: 1 
   path: /1
   cost_ratio: 100 
@@ -10,6 +11,7 @@
   id: 2
   company_id: 1
   code: 102
+  formal_name: 経理部
   name: 経理部
   sub_account_id: 12 
   parent_id: 1
@@ -19,6 +21,7 @@
   id: 3
   company_id: 1
   code: 103
+  formal_name: 営業部
   name: 営業部
   sub_account_id: 13
   parent_id: 1
@@ -28,6 +31,7 @@
   id: 4
   company_id: 1
   code: 104
+  formal_name: 廃止部門
   name: 廃止部門
   sub_account_id: 14
   path: /4
@@ -37,7 +41,8 @@
   id: 5
   company_id: 3
   code: 201
-  name: フリーランスのダミー本社
+  formal_name: フリーランスのダミー本社
+  name: ダミー本社
   business_office_id: 3
   path: /5
   cost_ratio: 100
@@ -45,6 +50,7 @@
   id: 6
   company_id: 4
   code: 301
+  formal_name: 本店
   name: 本店
   business_office_id: 4 
   path: /6
@@ -53,6 +59,7 @@
   id: 7
   company_id: 2
   code: 401
+  formal_name: テスト
   name: テスト
   business_office_id: 2 
   path: /7

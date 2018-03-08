@@ -78,7 +78,8 @@ ja:
       branch:
         business_office_id: 事業所
         code: 部門コード
-        name: 部門名
+        formal_name: 部門名（正式）
+        name: 部門名（省略）
         parent_id: 親部門
 
       branches_employee:
@@ -106,11 +107,11 @@ ja:
       customer:
         address: 住所
         code: 取引先コード
-        formal_name: 取引先名（正式名）
+        formal_name: 取引先名（正式）
         is_order_entry: 受注フラグ
         is_order_placement: 発注フラグ
         is_investment: 投資フラグ
-        name: 取引先名（省略名）
+        name: 取引先名（省略）
 
       customer_name: &customer_name
         formal_name: 取引先名（正式名）

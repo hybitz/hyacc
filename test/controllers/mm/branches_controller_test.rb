@@ -25,7 +25,7 @@ class Mm::BranchesControllerTest < ActionController::TestCase
 
   def test_登録
     sign_in admin
-    post :create, :xhr => true, :params => {:branch => valid_branch_params}
+    post :create, :xhr => true, :params => {:branch => branch_params}
     assert @branch = assigns(:branch)
     assert_response :success
     assert_template 'common/reload'
@@ -40,7 +40,7 @@ class Mm::BranchesControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, :xhr => true, :params => {:id => branch.id, :branch => valid_branch_params.slice(:name)}
+    patch :update, :xhr => true, :params => {:id => branch.id, :branch => branch_params.slice(:name)}
     assert_response :success
     assert_template 'common/reload'
   end

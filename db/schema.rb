@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307151151) do
+ActiveRecord::Schema.define(version: 20180308141042) do
 
   create_table "accounts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code", default: "", null: false
@@ -126,7 +126,7 @@ ActiveRecord::Schema.define(version: 20180307151151) do
 
   create_table "branches", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code", default: "", null: false
-    t.string "name", default: "", null: false
+    t.string "name", null: false
     t.integer "company_id", null: false
     t.integer "sub_account_id"
     t.integer "parent_id"
@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 20180307151151) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "business_office_id"
+    t.string "formal_name", null: false
   end
 
   create_table "business_offices", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|

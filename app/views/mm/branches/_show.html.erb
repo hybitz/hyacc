@@ -13,7 +13,11 @@
         <th><%= Branch.human_attribute_name :code %></th>
         <td><%= @branch.code %></td>
       </tr>
-      <tr class="name">
+      <tr>
+        <th><%= Branch.human_attribute_name :formal_name %></th>
+        <td><%= @branch.formal_name %></td>
+      </tr>
+      <tr>
         <th><%= Branch.human_attribute_name :name %></th>
         <td><%= @branch.name %></td>
       </tr>

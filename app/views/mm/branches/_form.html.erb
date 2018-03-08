@@ -22,7 +22,11 @@
             <% end %>
           </td>
         </tr>
-        <tr class="name">
+        <tr>
+          <th><%= f.label :formal_name %></th>
+          <td><%= f.text_field :formal_name %></td>
+        </tr>
+        <tr>
           <th><%= f.label :name %></th>
           <td><%= f.text_field :name %></td>
         </tr>

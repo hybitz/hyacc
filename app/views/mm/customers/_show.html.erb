@@ -4,12 +4,12 @@
 </p>
 
 <p>
-  <b>取引先名（正式名）:</b>
+  <b><%= @customer.class.human_attribute_name :formal_name %>:</b>
   <%= @customer.formal_name %>
 </p>
 
 <p>
-  <b>取引先名（省略）:</b>
+  <b><%= @customer.class.human_attribute_name :name %>:</b>
   <%= @customer.name %>
 </p>
 

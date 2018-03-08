@@ -114,8 +114,8 @@ ja:
         name: 取引先名（省略）
 
       customer_name: &customer_name
-        formal_name: 取引先名（正式名）
-        name: 取引先名（省略名）
+        formal_name: 取引先名（正式）
+        name: 取引先名（省略）
 
       customer_names:
         <<: *customer_name

@@ -13,7 +13,7 @@
     rows.each do |row|
       name, value = *row
       case name
-      when '取引先コード', '取引先名（正式名）', '取引先名（省略名）', '住所'
+      when '取引先コード', '取引先名（正式）', '取引先名（省略）', '住所'
         fill_in name, :with => value
       when '受注フラグ', '発注フラグ'
         select value, :from => name

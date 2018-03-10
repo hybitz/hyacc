@@ -4,92 +4,91 @@
   var company = new hyacc.Company({selector: 'table.company'});
 </script>
 
-<table class="company">
-  <tr>
-    <th><%= company_label(@company.type_of) %></th>
-    <td><%= @company.name %></td>
-    <td></td>
-  </tr>
-
-  <% unless @company.personal? %>
+<div class="table-responsive col-md-4">
+  <table class="table company">
     <tr>
-      <th>会社の形態</th>
-      <td><%= @company.company_type_name %></td>
+      <th><%= company_label(@company.type_of) %></th>
+      <td><%= @company.name %></td>
       <td></td>
     </tr>
-  <% end %>
 
-  <tr>
-    <th>創立年月日</th>
-    <td><%= format_date(@company.founded_date) %></td>
-    <td></td>
-  </tr>
-  <tr>
-    <th>ロゴ</th>
-    <td><%= image_tag(show_logo_mm_company_path(@company)) if @company.logo.present? %></td>
-    <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'logo'), :onclick => 'company.edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'company.update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
-    </td>
-  </tr>
-  <tr>
-    <th>管理者メールアドレス</th>
-    <td><%= @company.admin_email %></td>
-    <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'admin'), :onclick => 'company.edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'company.update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
-    </td>
-  </tr>
-
-  <% unless @company.personal? %>
+    <% unless @company.personal? %>
+      <tr>
+        <th>会社の形態</th>
+        <td><%= @company.company_type_name %></td>
+        <td></td>
+      </tr>
+    <% end %>
+  
     <tr>
-      <th>法人番号</th>
-      <td><%= @company.enterprise_number %></td>
-      <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'enterprise_number'), :onclick => 'company.edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'company.update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
-      </td>
-    </tr>
-    <tr>
-      <th>資本金</th>
-      <td>
-        <% if @capital.to_i > 0 %>
-          <%= to_amount( @capital ) %>円
-        <% end %>
-      </td>
+      <th>創立年月日</th>
+      <td><%= format_date(@company.founded_date) %></td>
       <td></td>
     </tr>
     <tr>
-      <th>年度の開始月</th>
-      <td><%= @company.start_month_of_fiscal_year %>月</td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>給与支払日</th>
-      <td><%= @company.payday_jp %></td>
+      <th>ロゴ</th>
+      <td><%= image_tag(show_logo_mm_company_path(@company)) if @company.logo.present? %></td>
       <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'payday'), :onclick => 'company.edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'company.update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+        <%= link_to '変更', edit_mm_company_path(@company, field: 'logo'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+        <%= button_tag '更新', onclick: 'company.update(this);' %>
+        <%= button_tag 'キャンセル', onclick: 'company.cancel(this)' %>
       </td>
     </tr>
-  <% end %>
-
-  <tr>
-    <th>事業区分</th>
-    <td><%= @company.business_type_name %></td>
-    <td>
-      <%= link_to '変更', edit_mm_company_path(@company, :field => 'business_type'), :onclick => 'company.edit(this); return false;' %>
-      <%= button_tag '更新', :onclick => 'company.update(this);' %>
-      <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
-    </td>
-  </tr>
-</table>
-
-<div style="margin-top: 10px">
-  <span style="font-weight: bold;">事業所</span>
-  <%= render 'show_business_offices' %>
+    <tr>
+      <th>管理者メールアドレス</th>
+      <td><%= @company.admin_email %></td>
+      <td>
+        <%= link_to '変更', edit_mm_company_path(@company, field: 'admin'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+        <%= button_tag '更新', :onclick => 'company.update(this);' %>
+        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+      </td>
+    </tr>
+  
+    <% unless @company.personal? %>
+      <tr>
+        <th>法人番号</th>
+        <td><%= @company.enterprise_number %></td>
+        <td>
+        <%= link_to '変更', edit_mm_company_path(@company, field: 'enterprise_number'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+        <%= button_tag '更新', :onclick => 'company.update(this);' %>
+        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+        </td>
+      </tr>
+      <tr>
+        <th>資本金</th>
+        <td>
+          <% if @capital.to_i > 0 %>
+            <%= to_amount( @capital ) %>円
+          <% end %>
+        </td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>年度の開始月</th>
+        <td><%= @company.start_month_of_fiscal_year %>月</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>給与支払日</th>
+        <td><%= @company.payday_jp %></td>
+        <td>
+        <%= link_to '変更', edit_mm_company_path(@company, field: 'payday'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+        <%= button_tag '更新', :onclick => 'company.update(this);' %>
+        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+        </td>
+      </tr>
+    <% end %>
+  
+    <tr>
+      <th>事業区分</th>
+      <td><%= @company.business_type_name %></td>
+      <td>
+        <%= link_to '変更', edit_mm_company_path(@company, field: 'business_type'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+        <%= button_tag '更新', :onclick => 'company.update(this);' %>
+        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+      </td>
+    </tr>
+  </table>
 </div>
+
+<%= render 'show_business_offices' %>

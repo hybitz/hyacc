@@ -1,34 +1,37 @@
-<table id="business_offices_table">
-  <thead>
-    <tr>
-      <th>事業所名</th>
-      <th><%= BusinessOffice.human_attribute_name :zip_code %></th>
-      <th>都道府県</th>
-      <th>所在地</th>
-      <th>電話番号</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @company.business_offices.each do |bo| %>
+<div class="table-responsive col-md-8">
+  <h4>事業所</h4>
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= bo.name %></td>
-        <td><%= bo.zip_code %></td>
-        <td><%= bo.prefecture_name %></td>
-        <td><%= bo.address1 %><%= bo.address2 %></td>
-        <td><%= bo.tel %></td>
-        <td>
-          <%= link_to '編集', edit_mm_business_office_path(bo), :remote => true %>
-          <%= link_to '削除', mm_business_office_path(bo), data: {confirm: '削除します。よろしいですか？'}, :method => 'delete' %>
+        <th>事業所名</th>
+        <th><%= BusinessOffice.human_attribute_name :zip_code %></th>
+        <th>都道府県</th>
+        <th>所在地</th>
+        <th>電話番号</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @company.business_offices.each do |bo| %>
+        <tr>
+          <td><%= bo.name %></td>
+          <td><%= bo.zip_code %></td>
+          <td><%= bo.prefecture_name %></td>
+          <td><%= bo.address1 %><%= bo.address2 %></td>
+          <td><%= bo.tel %></td>
+          <td>
+            <%= link_to '編集', edit_mm_business_office_path(bo), class: 'btn btn-light btn-small', remote: true %>
+            <%= link_to '削除', mm_business_office_path(bo), class: 'btn btn-light btn-small', data: {confirm: '削除します。よろしいですか？'}, method: 'delete' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>	
+    <tfoot>
+      <tr>
+        <td colspan="6" align="right">
+          <%= link_to '追加', new_mm_business_office_path, class: 'btn btn-light', remote: true %>
         </td>
       </tr>
-    <% end %>
-  </tbody>	
-  <tfoot>
-    <tr>
-      <td colspan="6" align="right">
-        <%= link_to '追加', new_mm_business_office_path(:company_id => @company.id), :remote => true %>
-      </td>
-    </tr>
-  </tfoot>
-</table>
+    </tfoot>
+  </table>
+</div>

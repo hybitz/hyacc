@@ -3,7 +3,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
   before_action :setup_view_attributes
 
   def new
-    @bo = BusinessOffice.new(:company_id => params[:company_id])
+    @bo = BusinessOffice.new(company_id: current_company.id)
   end
 
   def create

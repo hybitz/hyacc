@@ -9,11 +9,11 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
   def test_index
     get :index
     assert_response :redirect
-    assert_redirected_to [:mm, current_company.id]
+    assert_redirected_to [:mm, current_company]
   end
 
   def test_参照
-    get :show, params: {id: current_company}
+    get :show, params: {id: current_company.id}
     assert_response :success
     assert_template :show
     assert_not_nil assigns(:company)

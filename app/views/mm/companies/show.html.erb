@@ -88,6 +88,15 @@
         <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
       </td>
     </tr>
+    <tr>
+      <th>雇用保険の事業区分</th>
+      <td><%= @company.employment_insurance_type_name %></td>
+      <td>
+        <%= link_to '変更', edit_mm_company_path(@company, field: 'employment_insurance_type'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+        <%= button_tag '更新', :onclick => 'company.update(this);' %>
+        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+      </td>
+    </tr>
   </table>
 </div>
 

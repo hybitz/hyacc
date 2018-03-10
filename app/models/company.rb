@@ -119,6 +119,10 @@ class Company < ApplicationRecord
     business_type.name
   end
 
+  def employment_insurance_type_name
+    TaxJp::EMPLOYMENT_INSURANCE_TYPES[employment_insurance_type]
+  end
+
   def tax_inclusive?
     current_fiscal_year.tax_management_type == TAX_MANAGEMENT_TYPE_INCLUSIVE
   end

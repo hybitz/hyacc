@@ -8,8 +8,14 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
 
   def test_index
     get :index
+    assert_response :redirect
+    assert_redirected_to [:mm, current_company]
+  end
+
+  def test_参照
+    get :show
     assert_response :success
-    assert_template :index
+    assert_template :show
     assert_not_nil assigns(:company)
     assert_not_nil assigns(:capital)
   end

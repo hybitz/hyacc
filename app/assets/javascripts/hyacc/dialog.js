@@ -25,7 +25,7 @@ hyacc.Dialog.prototype._init_buttons = function() {
       class: 'btn btn-light',
       click: function() {
         var form = that.jq_dialog.dialog('widget').find('form').first()[0];
-        Rails.fire(form, 'submit')
+        Rails.fire(form, 'submit');
       }
     });
   }

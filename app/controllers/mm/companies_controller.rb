@@ -2,6 +2,10 @@ class Mm::CompaniesController < Base::HyaccController
   view_attribute :title => '会社'
   
   def index
+    redirect_to [:mm, current_company]
+  end
+
+  def show
     @company = Company.find(current_company.id)
     
     # 資本金を算出する
@@ -49,7 +53,11 @@ class Mm::CompaniesController < Base::HyaccController
   private
 
   def company_params
-    ret = params.require(:company).permit(:logo, :admin_email, :business_type_id, :day_of_payday, :month_of_payday, :enterprise_number)
+    permitted = [
+      :logo, :admin_email, :business_type_id, :day_of_payday, :month_of_payday, :enterprise_number, :employment_insurance_type
+    ]
+   
+    ret = params.require(:company).permit(permitted)
 
     if ret[:month_of_payday].present?
       ret = ret.merge(:payday => ret[:month_of_payday] + "," + ret[:day_of_payday])

@@ -13,8 +13,8 @@ hyacc.Company.prototype.edit = function(trigger) {
 };
 
 hyacc.Company.prototype.update = function(trigger) {
-  var tr = $(trigger).closest('tr');
-  tr.find('form').submit();
+  var form = $(trigger).closest('tr').find('form')[0];
+  Rails.fire(form, 'submit');
 };
 
 hyacc.Company.prototype.cancel = function(trigger) {

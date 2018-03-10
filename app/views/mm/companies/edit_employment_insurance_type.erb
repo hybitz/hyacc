@@ -1,0 +1,3 @@
+<%= form_with model: [:mm, @company], :remote => true do |f| %>
+  <%= f.select :employment_insurance_type, TaxJp::EMPLOYMENT_INSURANCE_TYPES.invert, include_blank: true %>
+<% end %>

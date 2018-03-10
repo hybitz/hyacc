@@ -6,6 +6,7 @@ var options = {
   options.buttons = [
     {
       text: 'コピーを追加',
+      class: 'btn btn-light',
       click: function() {
         hyacc.current_dialog().close();
         $.get('<%= url_for new_journal_path(:copy_id => @journal) %>');

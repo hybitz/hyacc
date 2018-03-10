@@ -13,7 +13,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
         @bo.save!
       end
 
-      flash[:notice] = '事業所を登録しました。'
+      flash[:notice] = "{@bo.name} を登録しました。"
       render 'common/reload'
 
     rescue => e
@@ -34,7 +34,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
         @bo.save!
       end
 
-      flash[:notice] = '事業所を更新しました。'
+      flash[:notice] = "{@bo.name} を更新しました。"
       render 'common/reload'
     rescue => e
       handle(e)
@@ -46,11 +46,11 @@ class Mm::BusinessOfficesController < Base::HyaccController
     begin
       @bo = BusinessOffice.find(params[:id])
 
-      unless @bo.destroy
-        raise HyacccException.new(ERR_DB)
+      @bo.transaction do
+        @bo.destroy_logically!
       end
       
-      flash[:notice] = '事業所を削除しました。'
+      flash[:notice] = "#{@bo.name} を削除しました。"
     rescue => e
       handle(e)
     end

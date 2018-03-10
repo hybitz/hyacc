@@ -48,7 +48,11 @@ class Mm::BusinessOfficesControllerTest < ActionController::TestCase
 
   def test_削除
     sign_in admin
-    delete :destroy, :params => {:id => business_office.id}
+
+    assert_no_difference 'BusinessOffice.count' do
+      delete :destroy, :params => {:id => business_office.id}
+    end
+
     assert_response :redirect
     assert_redirected_to mm_companies_path
   end

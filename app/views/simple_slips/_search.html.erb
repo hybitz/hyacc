@@ -2,7 +2,7 @@
   <%= form_tag({:action => 'index', :account_code => @finder.account_code}, method: 'get', class: 'form-inline') do %>
     <%= hidden_field_tag 'account_code', @finder.account_code %>
 
-    <% if @account.has_sub_accounts %>
+    <% if @account.has_sub_accounts? %>
       <div style="margin: 10px 0;">
         <span class="selected"><%= @account.sub_account_type_name %></span>：
         <% sub_accounts = @finder.deleted.to_i == 0 ? @account.sub_accounts : @account.sub_accounts_all %>

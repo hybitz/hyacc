@@ -27,7 +27,7 @@ class JournalDetailTest < ActiveSupport::TestCase
     @jd = JournalDetail.find(11573)
     assert @jd.valid?
 
-    @jd.account_id = Account.not_deleted.find {|a| a.has_sub_accounts }.id
+    @jd.account_id = Account.not_deleted.find {|a| a.has_sub_accounts? }.id
 
     @jd.sub_account_id = nil
     assert @jd.invalid?

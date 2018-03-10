@@ -44,12 +44,12 @@ module AstToModel
     if a1.asset? or a1.debt?
       ret.my_account_id = a1.id
       ret.account_id = a2.id
-      ret.sub_account_id = a2.sub_accounts.first.id if a2.has_sub_accounts
+      ret.sub_account_id = a2.sub_accounts.first.id if a2.has_sub_accounts?
       ret.amount_increase = row[3].to_ai
     elsif a2.asset? or a2.debt?
       ret.my_account_id = a2.id
       ret.account_id = a1.id
-      ret.sub_account_id = a1.sub_accounts.first.id if a1.has_sub_accounts
+      ret.sub_account_id = a1.sub_accounts.first.id if a1.has_sub_accounts?
       ret.amount_decrease = row[5].to_ai
     else
       raise '簡易入力は資産か負債が対象です。'

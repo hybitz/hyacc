@@ -27,8 +27,7 @@ module SimpleSlips
         select simple_slip.account.code_and_name, :from => 'simple_slip_account_id', :match => :first
       end
 
-      assert has_selector?('.account_ready')
-      if simple_slip.account.has_sub_accounts
+      if simple_slip.account.has_sub_accounts?
         assert has_selector?('#simple_slip_sub_account_id')
       end
 

@@ -34,7 +34,6 @@ end
     click_on simple_slip
     assert has_title?(simple_slip)
     assert has_no_selector?('span.notice')
-    assert has_selector?('.account_ready')
 
     begin
       count = all('#slipTable tbody tr').count
@@ -74,13 +73,12 @@ end
         fill_in 'simple_slip_day', :with => ymd.split('-').last
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+        assert has_select?('simple_slip_sub_account_id') if account.has_sub_accounts?
 
         unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
           assert find('#simple_slip_tax_rate_percent').has_text?
         end
-      end
-      assert has_selector?('.account_ready')
-      within '#new_simple_slip' do
+
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'
       end
@@ -110,13 +108,12 @@ end
         fill_in 'simple_slip_day', :with => day
         fill_in 'simple_slip_remarks', :with => remarks
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
-
+        assert has_select?('simple_slip_sub_account_id') if account.has_sub_accounts?
+        
         unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
           assert find('#simple_slip_tax_rate_percent').has_text?
         end
-      end
-      assert has_selector?('.account_ready')
-      within '#new_simple_slip' do
+
         fill_in 'simple_slip_amount_increase', :with => amount
         click_on '登録'
       end
@@ -148,10 +145,6 @@ end
         fill_in 'simple_slip_day', :with => i + 1
         fill_in 'simple_slip_remarks', :with => remark
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
-      end
-      assert has_selector?('.account_ready')
-
-      within '#new_simple_slip' do
         select tax_type_name, :from => 'simple_slip_tax_type'
         fill_in 'simple_slip_amount_decrease', :with => amount
         click_on '登録'
@@ -183,7 +176,7 @@ end
       click_on '編集'
       within_dialog do
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
-        assert has_selector?('.account_ready')
+        assert has_select?('simple_slip_sub_account_id') if account.has_sub_accounts?
         click_on '更新'
       end
       assert has_no_dialog?

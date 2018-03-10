@@ -231,7 +231,7 @@ class SimpleSlipsController < Base::HyaccController
   # 補助科目が必須の場合でまだ補助科目が存在しない場合はマスタメンテに誘導する
   def check_sub_accounts
     unless @account.sub_account_type == SUB_ACCOUNT_TYPE_NORMAL
-      unless @account.has_sub_accounts
+      unless @account.has_sub_accounts?
         render :action=>:sub_accounts_required and return
       end
     end

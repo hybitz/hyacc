@@ -64,7 +64,7 @@ end
       fill_in 'simple_slip_remarks', :with => @slip.remarks
       select account.code_and_name, :from => 'simple_slip_account_id', :match => :first
 
-      if account.has_sub_accounts
+      if account.has_sub_accounts?
         assert has_selector?('#simple_slip_sub_account_id option', :minimum => 1)
       end
 

@@ -10,7 +10,7 @@ module SimpleSlips
     ret[:day] = day.day.to_s
     ret[:remarks] = '簡易入力テスト'
     ret[:account_id] = account.id
-    ret[:sub_account_id] = account.sub_accounts.first.id if account.has_sub_accounts
+    ret[:sub_account_id] = account.sub_accounts.first.id if account.has_sub_accounts?
     ret[:branch_id] = branch.id
     ret[:amount_decrease] = 1080
     ret[:tax_type] = TAX_TYPE_INCLUSIVE

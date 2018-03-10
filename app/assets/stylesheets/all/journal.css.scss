@@ -3,7 +3,12 @@
     margin-top: 10px;
 
     &:last-child {
-    margin-bottom: 5px;
+      margin-bottom: 5px;
+    }
+
+    th, td {
+      border: 1px solid grey;
+      border-collapse: collapse;
     }
   }
 }

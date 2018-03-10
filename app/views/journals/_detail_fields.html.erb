@@ -53,9 +53,7 @@
     <% end %>
 
     <td colspan="3">
-      <div style="text-align: right; width: 100%;">
-        メモ：<%= f.text_field :note, :maxlength => 255, :class => 'noteText' %>
-      </div>
+      <%= f.text_field :note, :maxlength => 255, :class => 'noteText', :placeholder => 'メモ' %>
     </td>
     <td></td>
     <td rowspan="3" colspan="2"></td>

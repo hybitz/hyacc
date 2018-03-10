@@ -9,9 +9,6 @@ pre {
 }
 
 table {
-  border: 1px solid grey;
-  border-collapse: collapse;
-
   caption {
     text-align: left;
   }
@@ -30,11 +27,7 @@ table {
     }
 
     th, td {
-      border: 1px solid grey;
-      border-collapse: collapse;
       empty-cells: show;
-      margin: 0;
-      padding: 0.1em 0.2em;
       vertical-align: middle;
     }
 
@@ -161,17 +154,20 @@ table {
 
 .noteText {
   width: 20em;
-  height: 100%;
+  height: 20px;
   border: none;
   padding: 0;
   margin: 0;
+  &::placeholder {
+    color: #FFC0CB;
+  }
 }
 
 .day,
 .month,
 .year {
   width: 2em;
-  height: 1em;
+  height: 20px;
   text-align: center;
   vertical-align: middle;
 }

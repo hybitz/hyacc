@@ -1,7 +1,6 @@
 class PayrollsController < Base::HyaccController
   include PayrollHelper
 
-  view_attribute :title => '賃金台帳'
   view_attribute :finder, :class => PayrollFinder, :only => :index
   view_attribute :branches, :only => :index, :include => :deleted
   view_attribute :employees, :only => :index, :scope => :branch
@@ -160,6 +159,15 @@ class PayrollsController < Base::HyaccController
   end
 
   private
+
+  def title
+    case action_name
+    when 'index'
+      '賃金台帳'
+    else
+      '給与明細'
+    end
+  end
 
   def payroll_params
     params.require(:payroll).permit(

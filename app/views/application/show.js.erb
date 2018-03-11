@@ -1,5 +1,5 @@
 var options = {
-  title: '<%= @title.present? ? @title + '　参照' : '参照' %>'
+  title: '<%= title.present? ? title + '　参照' : '参照' %>'
 };
 
 hyacc.current_dialog(options).show('<%=j render 'show' %>');

@@ -62,52 +62,48 @@
 
     <table class="table">
       <tr>
-        <td>年月</td>
-        <td><%= f.text_field :ym, maxlength: 6, readonly: true, class: 'center' %></td>
-      </tr>
-      <tr>
-        <td>労働日数</td>
+        <th>年月</th>
+        <td><%= f.hidden_field :ym %><%= f.object.ym %></td>
+        <th>労働日数</th>
         <td><%= f.text_field :days_of_work, :maxlength => 2 %></td>
-      </tr>
-      <tr>
-        <td>労働時間</td>
+        <th>労働時間</th>
         <td><%= f.text_field :hours_of_work, :maxlength => 5 %></td>
       </tr>
       <tr>
-        <td>休日労働時間数</td>
+        <th><%= f.label :base_salary %></th>
+        <td><%= f.text_field :base_salary, :maxlength => 10 %></td>
+        <td></td>
+        <td></td>
+        <th>休日労働時間数</th>
         <td><%= f.text_field :hours_of_day_off_work, :maxlength => 5 %></td>
       </tr>
       <tr>
-        <td>早出残業時間数</td>
-        <td><%= f.text_field :hours_of_early_for_work, :maxlength => 5 %></td>
-      </tr>
-      <tr>
-        <td>深夜労働時間数</td>
-        <td><%= f.text_field :hours_of_late_night_work, :maxlength => 5 %></td>
-      </tr>
-      <tr>
-        <td><%= f.label :base_salary %></td>
-        <td><%= f.text_field :base_salary, :maxlength => 10 %></td>
-      </tr>
-      <tr>
-        <td>健康保険料</td>
+        <th>健康保険料</th>
         <td>
           <%= f.text_field :insurance, :maxlength => 10 %>
           <label><%= f.radio_button :credit_account_type_of_insurance, '0' %>預り金</label>
           <label><%= f.radio_button :credit_account_type_of_insurance, '1' %>立替金</label>
         </td>
+        <td></td>
+        <td></td>
+        <th>早出残業時間数</th>
+        <td><%= f.text_field :hours_of_early_for_work, :maxlength => 5 %></td>
       </tr>
       <tr>
-        <td>厚生年金保険料</td>
+        <th>厚生年金保険料</th>
         <td>
           <%= f.text_field :pension, :maxlength => 10 %>
           <label><%= f.radio_button :credit_account_type_of_pension, '0' %>預り金</label>
           <label><%= f.radio_button :credit_account_type_of_pension, '1' %>立替金</label>
         </td>
+        <td></td>
+        <td></td>
+        <th>深夜労働時間数</th>
+        <td><%= f.text_field :hours_of_late_night_work, :maxlength => 5 %></td>
       </tr>
       <% unless @employee.executive? %>
         <tr>
-          <td>雇用保険料</td>
+          <th>雇用保険料</th>
           <td>
             <%= f.text_field :employment_insurance, :maxlength => 10 %>
             <label><%= f.radio_button :credit_account_type_of_employment_insurance, '0' %>預り金</label>
@@ -116,7 +112,7 @@
         </tr>
       <% end %>
       <tr>
-        <td>所得税</td>
+        <th>所得税</th>
         <td>
           <%= f.text_field :income_tax, :maxlength => 10 %>
           <label><%= f.radio_button :credit_account_type_of_income_tax, '0' %>預り金</label>
@@ -124,7 +120,7 @@
         </td>
       </tr>
       <tr>
-        <td><%= f.label :inhabitant_tax %></td>
+        <th><%= f.label :inhabitant_tax %></th>
         <td>
           <%= f.text_field :inhabitant_tax, :maxlength => 10 %>
           <label><%= f.radio_button :credit_account_type_of_inhabitant_tax, '0' %>預り金</label>
@@ -132,19 +128,19 @@
         </td>
       </tr>
       <tr>
-        <td>従業員への未払費用</td>
+        <th>従業員への未払費用</th>
         <td><%= f.text_field :accrued_liability, :maxlength => 10 %></td>
       </tr>
   
       <% if @payroll.ym.to_s.slice(4,2) == "12" %>
         <tr>
-          <td>年末調整額（過払分）</td>
+          <th>年末調整額（過払分）</th>
           <td><%= f.text_field :year_end_adjustment_liability, :maxlength => 10 %></td>
         </tr>
       <% end %>
   
       <tr>
-        <td>給与支払日</td>
+        <th>給与支払日</th>
         <td><%= f.text_field :pay_day, :class => 'datepicker' %></td>
       </tr>
     </table>

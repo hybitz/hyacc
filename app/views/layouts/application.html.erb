@@ -27,8 +27,8 @@
       <%= content_for :body %>
     <% else %>
       <%= render 'common/common_js' %>
-      <%= render_header :only => 'index' %>
-      <%= render_menu :only => 'index' %>
+      <%= render_header %>
+      <%= render_menu %>
 
       <div class="main">
         <% if content_for? :main %>

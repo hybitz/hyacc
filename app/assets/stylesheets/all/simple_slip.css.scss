@@ -14,17 +14,17 @@
 
 #slipTable {
   margin: 10px;
-
-  tr.cashRow {
-    th, td {
-      padding: 0.2em 0.4em;
-    }
-  }
 }
 
 .slipTable {
   th, td {
     border: 1px solid grey;
     border-collapse: collapse;
+  }
+
+  tr.cashRow {
+    th, td {
+      padding: 0.2em 0.4em;
+    }
   }
 }

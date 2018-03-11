@@ -100,18 +100,12 @@ module ApplicationHelper
 
   # ヘッダーを表示する
   def render_header(options={})
-    only = options[:only]
-    if only.nil? or only.include? controller.action_name
-      render 'common/header'
-    end
+    render 'common/header'
   end
 
   # メニューを表示する
   def render_menu(options={})
-    only = options[:only]
-    if only.nil? or only.include? controller.action_name
-      render 'common/menu'
-    end
+    render 'common/menu'
   end
 
   # アクションメニューを表示する

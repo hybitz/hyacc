@@ -196,6 +196,10 @@ class SimpleSlipsController < Base::HyaccController
 
   private
 
+  def title
+    @account.name
+  end
+
   def default_url_options
     {
       :account_code => params[:account_code]

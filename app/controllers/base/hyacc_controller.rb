@@ -4,7 +4,6 @@ module Base
     include HyaccErrors
     include ViewAttributeHandler
     include ExceptionHandler
-    include CurrentCompany
     include YmdInputState
     include Years
 

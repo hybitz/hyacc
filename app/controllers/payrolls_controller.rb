@@ -144,7 +144,7 @@ class PayrollsController < Base::HyaccController
     base_salary = params[:payroll][:base_salary]
     payroll = get_tax(ym, employee_id, base_salary)
 
-    render :json => {:insurance => payroll.insurance, :pension => payroll.pension, :income_tax => payroll.income_tax}
+    render :json => {insurance: payroll.insurance, pension: payroll.pension, employment_insurance: payroll.employment_insurance, income_tax: payroll.income_tax}
   end
 
   # 部門を選択した時に、動的にユーザ選択リストを更新する

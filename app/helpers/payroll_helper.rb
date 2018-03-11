@@ -107,14 +107,17 @@ module PayrollHelper
     payroll.pension = (insurance.welfare_pension_insurance_half - 0.01).round
     payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
     
-    # 対象月の末日の扶養家族の人数から源泉徴収税額を取得
-    day = Date.new(ym.to_i/100, ym.to_i%100, -1)
-    # 扶養親族の算出
+    # 対象月の末日を基準
+    date = Date.new(ym.to_i/100, ym.to_i%100, -1)
+
+    # 扶養親族
     exemption = e.exemptions.order("yyyy desc").first
     num_of_dependent = exemption ? exemption.family_members.size : 0
-    payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(day,
-                                                                        payroll.after_insurance_deduction,
-                                                                        num_of_dependent)
+    payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(date, payroll.after_insurance_deduction, num_of_dependent)
+
+    # 雇用保険
+    ei = TaxJp::LaborInsurances::EmploymentInsurance.find_by_date(date)
+    payroll.employment_insurance = (payroll.base_salary * ei.employee_general - 0.01).round
 
     payroll
   end

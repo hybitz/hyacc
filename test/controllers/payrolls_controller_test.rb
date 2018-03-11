@@ -259,6 +259,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert json = ActiveSupport::JSON.decode(response.body)
     assert json.has_key?('insurance')
     assert json.has_key?('pension')
+    assert json.has_key?('employment_insurance')
     assert json.has_key?('income_tax')
   end
 

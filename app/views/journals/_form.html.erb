@@ -17,7 +17,7 @@
   <%= flash_notice %>
   <%= f.hidden_field 'lock_version' %>
 
-  <table>
+  <table class="journalTable">
     <tr>
       <th>年月</th>
       <th>日</th>
@@ -36,7 +36,7 @@
 
   <%= render 'receipt_fields', :f => f %>
 
-  <table class="journal_details">
+  <table class="journalTable journal_details">
     <thead>
       <tr>
         <th>貸借</th>

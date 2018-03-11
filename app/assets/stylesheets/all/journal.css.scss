@@ -5,14 +5,15 @@
     &:last-child {
       margin-bottom: 5px;
     }
-
-    th, td {
-      border: 1px solid grey;
-      border-collapse: collapse;
-    }
   }
 }
 
 .receipt {
   width: 36em;
+}
+
+.journalTable {
+  th, td {
+    border: 1px solid grey;
+  }
 }

@@ -27,8 +27,10 @@
       <%= content_for :body %>
     <% else %>
       <%= render 'common/common_js' %>
-      <%= render_header %>
-      <%= render_menu %>
+      <% if user_signed_in? %>
+        <%= render_header %>
+        <%= render_menu %>
+      <% end %>
 
       <div class="main">
         <% if content_for? :main %>

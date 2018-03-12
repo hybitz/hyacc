@@ -65,6 +65,7 @@ end
     withheld_tax = row[3].to_ai
     health_insurance = row[4].to_ai
     pension = row[5].to_ai
+    employment_insurance = row[6].to_ai
 
     with_capture "#{employee_name} #{ym} の給与" do
       visit_payrolls
@@ -90,11 +91,12 @@ end
     with_capture "#{employee_name} #{ym} の給与支払" do
       assert col = find('#payroll_table thead tr').all('th').index{|th| th.has_link?(ym) }
 
-      { '基本給' => salary.to_as,
-        '所得税' => withheld_tax.to_as,
-        '健康保険料' => health_insurance.to_as,
-        '厚生年金保険料' => pension.to_as
-      }.each do |key, value|
+      { '基本給' => salary,
+        '所得税' => withheld_tax,
+        '健康保険料' => health_insurance,
+        '厚生年金保険料' => pension,
+        '雇用保険料' => employment_insurance
+      }.each do |key, expected|
         case key
         when '健康保険料'
           rowspan = 1
@@ -103,7 +105,7 @@ end
         end
 
         find_tr '#payroll_table', key do |tr|
-          expected = tr.all('td')[col + rowspan].text
+          value = tr.all('td')[col + rowspan].text.to_ai
           assert value == expected, "#{employee_name} の #{key} の金額 #{value} が #{expected} と一致しません"
         end
       end

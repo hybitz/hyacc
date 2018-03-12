@@ -57,17 +57,17 @@ class Payroll < ApplicationRecord
 
   # 社会保険料（健康保険＋厚生年金）
   def social_insurance
-    @insurance + @pension
+    insurance + pension
   end
 
-  # 社会保険料控除後の所得
+  # 社会保険料、雇用保険料控除後の所得
   def after_insurance_deduction
-    @base_salary - social_insurance
+    base_salary - social_insurance - employment_insurance
   end
 
   # 差引合計額（保険料と税金を控除後の金額）
   def after_deduction
-    after_insurance_deduction - @income_tax - @inhabitant_tax
+    after_insurance_deduction - income_tax - inhabitant_tax
   end
 
   def validate_params?

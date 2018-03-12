@@ -1,8 +1,11 @@
 module Validators
   
   class UniqueSubAccountsValidator < ActiveModel::Validator
+    include HyaccConstants
 
     def validate(record)
+      return if [SUB_ACCOUNT_TYPE_EMPLOYEE].include?(record.sub_account_type)
+
       codes = []
       record.sub_accounts_all.each do |sa|
         if codes.include?(sa.code)

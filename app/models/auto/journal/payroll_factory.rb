@@ -68,7 +68,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = account
-        detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_LEGAL_WELFARE).id
+        detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = insurance_half
         detail.note = "会社負担保険料"
@@ -110,10 +110,10 @@ module Auto::Journal
         detail.dc_type = DC_TYPE_CREDIT
         if @payroll.credit_account_type_of_insurance == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
           detail.account = deposits_received
-          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_DEPOSITS_RECEIVED).id
+          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         else
           detail.account = advance_money
-          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE_OF_ADVANCE_MONEY).id
+          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         end
         detail.branch_id = branch_id
         detail.amount = @payroll.insurance
@@ -135,7 +135,7 @@ module Auto::Journal
         detail.amount = @payroll.pension
         detail.note = "個人負担保険料"
       end
-      ### 会社負担保険料の未払分
+      ### 会社負担社会保険料の未払分
       detail = journal_header.journal_details.build
       detail.detail_no = journal_header.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
@@ -143,6 +143,21 @@ module Auto::Journal
       detail.branch_id = branch_id
       detail.amount = tax.insurance_all.to_i - @payroll.insurance.to_i + tax.pension_all.to_i - @payroll.pension.to_i
       detail.note = "会社負担保険料の未払分"
+      ### 雇用保険
+      if @payroll.employment_insurance.to_i != 0
+        detail = journal_header.journal_details.build
+        detail.detail_no = journal_header.journal_details.size
+        detail.dc_type = DC_TYPE_CREDIT
+        if @payroll.credit_account_type_of_employment_insurance == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
+          detail.account = deposits_received
+        else
+          detail.account = advance_money
+        end
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE).id
+        detail.branch_id = branch_id
+        detail.amount = @payroll.employment_insurance
+        detail.note = "従業員負担雇用保険料"
+      end
       ### 住民税
       if @payroll.inhabitant_tax.to_i != 0
         detail = journal_header.journal_details.build

@@ -19,9 +19,9 @@ module Accounts::SubAccountsSupport
         @sub_accounts_all_cache << b
       end
     when SUB_ACCOUNT_TYPE_EMPLOYEE
-      User.all.each do |u|
-        @sub_accounts_cache << u unless u.deleted?
-        @sub_accounts_all_cache << u
+      Employee.all.each do |e|
+        @sub_accounts_cache << e unless e.deleted?
+        @sub_accounts_all_cache << e
       end
     when SUB_ACCOUNT_TYPE_CUSTOMER
       Customer.all.each do |c|

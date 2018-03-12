@@ -82,7 +82,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = account
-        detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_LEGAL_WELFARE).id
+        detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION).id
         detail.branch_id = branch_id
         detail.amount = pension_half
         detail.note = "会社負担保険料"
@@ -94,10 +94,10 @@ module Auto::Journal
         detail.dc_type = DC_TYPE_CREDIT
         if @payroll.credit_account_type_of_income_tax == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
           detail.account = deposits_received
-          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED).id
+          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
         else
           detail.account = advance_money
-          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY).id
+          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
         end
         detail.branch_id = branch_id
         detail.amount = @payroll.income_tax
@@ -126,10 +126,10 @@ module Auto::Journal
         detail.dc_type = DC_TYPE_CREDIT
         if @payroll.credit_account_type_of_pension == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
           detail.account = deposits_received
-          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED).id
+          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION).id
         else
           detail.account = advance_money
-          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_ADVANCE_MONEY).id
+          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION).id
         end
         detail.branch_id = branch_id
         detail.amount = @payroll.pension
@@ -165,10 +165,10 @@ module Auto::Journal
         detail.dc_type = DC_TYPE_CREDIT
         if @payroll.credit_account_type_of_inhabitant_tax == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
           detail.account = deposits_received
-          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_DEPOSITS_RECEIVED).id
+          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX).id
         else
           detail.account = advance_money
-          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_ADVANCE_MONEY).id
+          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX).id
         end
         detail.branch_id = branch_id
         detail.amount = @payroll.inhabitant_tax
@@ -180,7 +180,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = deposits_received
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED).id
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
         detail.branch_id = branch_id
         detail.amount = @payroll.year_end_adjustment_liability
         detail.note = "年末調整過払い分"

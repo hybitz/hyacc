@@ -200,9 +200,9 @@ class Payroll < ApplicationRecord
   # 仕訳明細から源泉所得税金額を取得する
   def get_income_tax_from_jd
     if self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
     elsif self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INCOME_TAX_OF_ADVANCE_MONEY)
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INCOME_TAX)
     end
   end
 
@@ -218,9 +218,9 @@ class Payroll < ApplicationRecord
   # 仕訳明細から厚生年金を取得する
   def get_pension_from_jd
     if self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED)
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
     elsif self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_ADVANCE_MONEY)
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
     end
   end
 
@@ -239,9 +239,9 @@ class Payroll < ApplicationRecord
   # 仕訳明細から住民税を取得する
   def get_inhabitant_tax_from_jd
     if self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_DEPOSITS_RECEIVED)
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INHABITANT_TAX)
     elsif self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INHABITANT_TAX_OF_ADVANCE_MONEY)
+      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INHABITANT_TAX)
     end
   end
 
@@ -259,7 +259,7 @@ class Payroll < ApplicationRecord
 
   # 仕訳明細から年末調整額を取得する
   def get_year_end_adjustment_liability_from_jd
-    payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX_OF_DEPOSITS_RECEIVED)
+    payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
   end
 
   # 仕訳明細から未払役員賞与を取得する

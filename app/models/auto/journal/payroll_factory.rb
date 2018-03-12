@@ -55,7 +55,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = salary_account
-        detail.sub_account_id = employee.user_id
+        detail.sub_account_id = employee.id
         detail.branch_id = branch_id
         detail.amount = @payroll.base_salary
       end
@@ -175,7 +175,7 @@ module Auto::Journal
       detail.detail_no = journal_header.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
-      detail.sub_account_id = employee.user_id
+      detail.sub_account_id = employee.id
       detail.branch_id = branch_id
       detail.note = "振り込み予定額"
       detail.amount = 0
@@ -231,7 +231,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
-        detail.sub_account_id = employee.user_id
+        detail.sub_account_id = employee.id
         detail.branch_id = branch_id
         detail.amount = @payroll.transfer_payment
         detail.note = salary_account.name
@@ -244,7 +244,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = account
-        detail.sub_account_id = employee.user_id
+        detail.sub_account_id = employee.id
         detail.branch_id = branch_id
         detail.amount = @payroll.accrued_liability
         detail.note = "立替費用の精算"

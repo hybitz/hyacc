@@ -56,7 +56,7 @@ class PayrollsController < Base::HyaccController
         @payroll.save!
       end
 
-      flash[:notice] = "#{@payroll.employee.fullname}さんの賃金台帳情報を登録しました。"
+      flash[:notice] = "#{@payroll.employee.fullname}さんの#{title}を登録しました。"
       render 'common/reload'
 
     rescue => e
@@ -191,8 +191,8 @@ class PayrollsController < Base::HyaccController
       begin
         j.save!
       rescue => e
-        Rails.logger.warn j.to_yaml
-        Rails.logger.warn j.journal_details.to_yaml
+        Rails.logger.warn j.attributes.to_yaml
+        Rails.logger.warn j.journal_details.map(&:attributes).to_yaml
         raise e
       end
     end

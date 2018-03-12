@@ -16,3 +16,5 @@ id,code,name,account_id,sub_account_type,social_expense_number_of_people_require
 15,100,ATM手数料,31,1,0
 16,200,振込手数料,31,1,0
 17,300,その他,31,1,0
+18,500,雇用保険料,39,1,0
+19,500,雇用保険料,40,1,0

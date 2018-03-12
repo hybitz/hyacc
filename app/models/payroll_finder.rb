@@ -19,13 +19,13 @@ class PayrollFinder < Base::Finder
     ym_range.each do | ym |
       ret.store(ym, {:payroll => Payroll.find_by_ym_and_employee_id(ym, @employee_id)})
       # 年間合計の設定
-      sum.income_tax = sum.income_tax + ret[ym][:payroll].income_tax
-      sum.insurance = sum.insurance + ret[ym][:payroll].insurance
-      sum.pension = sum.pension + ret[ym][:payroll].pension
-      sum.base_salary = sum.base_salary + ret[ym][:payroll].base_salary
-      sum.inhabitant_tax = sum.inhabitant_tax + ret[ym][:payroll].inhabitant_tax
-      sum.subtotal = sum.subtotal + ret[ym][:payroll].subtotal
-      sum.total = sum.total + ret[ym][:payroll].total
+      sum.income_tax += ret[ym][:payroll].income_tax
+      sum.insurance += ret[ym][:payroll].insurance
+      sum.pension += ret[ym][:payroll].pension
+      sum.base_salary += ret[ym][:payroll].base_salary
+      sum.inhabitant_tax += ret[ym][:payroll].inhabitant_tax
+      sum.subtotal += ret[ym][:payroll].subtotal
+      sum.total += ret[ym][:payroll].total
     end
     
     # 賞与を取得
@@ -36,12 +36,12 @@ class PayrollFinder < Base::Finder
     else
       ret.store("b1",{:payroll => Payroll.get_bonus_info(bonus_list[0].id)})
       # 年間合計の設定
-      sum.income_tax = sum.income_tax + ret["b1"][:payroll].income_tax
-      sum.insurance = sum.insurance + ret["b1"][:payroll].insurance
-      sum.pension = sum.pension + ret["b1"][:payroll].pension
-      sum.base_salary = sum.base_salary + ret["b1"][:payroll].base_salary
-      sum.subtotal = sum.subtotal + ret["b1"][:payroll].subtotal
-      sum.total = sum.total + ret["b1"][:payroll].total
+      sum.income_tax += ret["b1"][:payroll].income_tax
+      sum.insurance += ret["b1"][:payroll].insurance
+      sum.pension += ret["b1"][:payroll].pension
+      sum.base_salary += ret["b1"][:payroll].base_salary
+      sum.subtotal += ret["b1"][:payroll].subtotal
+      sum.total += ret["b1"][:payroll].total
     end
     
     # 賞与2のセット
@@ -50,12 +50,12 @@ class PayrollFinder < Base::Finder
     else
       ret.store("b2",{:payroll => Payroll.get_bonus_info(bonus_list[1].id)})
       # 年間合計の設定
-      sum.income_tax = sum.income_tax + ret["b2"][:payroll].income_tax
-      sum.insurance = sum.insurance + ret["b2"][:payroll].insurance
-      sum.pension = sum.pension + ret["b2"][:payroll].pension
-      sum.base_salary = sum.base_salary + ret["b2"][:payroll].base_salary
-      sum.subtotal = sum.subtotal + ret["b2"][:payroll].subtotal
-      sum.total = sum.total + ret["b2"][:payroll].total
+      sum.income_tax += ret["b2"][:payroll].income_tax
+      sum.insurance += ret["b2"][:payroll].insurance
+      sum.pension += ret["b2"][:payroll].pension
+      sum.base_salary += ret["b2"][:payroll].base_salary
+      sum.subtotal += ret["b2"][:payroll].subtotal
+      sum.total += ret["b2"][:payroll].total
     end
     
     ret[:sum] = sum

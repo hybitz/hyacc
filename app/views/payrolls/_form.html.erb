@@ -26,9 +26,9 @@
   }
 
   function checkForm(form) {
-    var insurance = form.elements['payroll_insurance'].value;
-    var pension = form.elements['payroll_pension'].value;
-    var inhabitant_tax = form.elements['payroll_inhabitant_tax'].value;
+    var insurance = $(form).find('input[name*="\[insurance\]"]').val();
+    var pension = $(form).find('input[name*="\[pension\]"]').val();
+    var inhabitant_tax = $(form).find('input[name*="\[inhabitant_tax\]"]').val();
     var result = true;
 
     if(result && insurance == 0){

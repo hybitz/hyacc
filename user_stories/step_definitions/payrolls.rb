@@ -9,12 +9,11 @@
   assert has_selector?('#payroll_table')
 
   click_on @ym
-  within '.ui-dialog' do
-    with_capture do
-      fill_in '基本給', :with => @salary
+  with_capture do
+    within '.ui-dialog' do
+      fill_in 'payroll[base_salary]', :with => @salary
       assert has_selector?('form[insurance_loaded]');
-
-      fill_in '住民税', :with => 0
+      fill_in 'payroll[inhabitant_tax]', :with => 0
     end
 
     accept_confirm do

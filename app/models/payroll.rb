@@ -140,6 +140,7 @@ class Payroll < ApplicationRecord
     payroll.income_tax = payroll.get_income_tax_from_jd
     payroll.insurance = payroll.get_insurance_from_jd
     payroll.pension = payroll.get_pension_from_jd
+    payroll.employment_insurance = payroll.get_employment_insurance_from_jd
     payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
     payroll.base_salary = payroll.get_base_salary_from_jd
     payroll.year_end_adjustment_liability = payroll.get_year_end_adjustment_liability_from_jd
@@ -178,6 +179,7 @@ class Payroll < ApplicationRecord
     payroll.income_tax = payroll.get_income_tax_from_jd
     payroll.insurance = payroll.get_insurance_from_jd
     payroll.pension = payroll.get_pension_from_jd
+    payroll.employment_insurance = payroll.get_employment_insurance_from_jd
     payroll.base_salary = payroll.get_base_bonus_from_jd
 
     # 支払の伝票取得
@@ -219,6 +221,18 @@ class Payroll < ApplicationRecord
       return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_DEPOSITS_RECEIVED)
     elsif self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
       return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION_OF_ADVANCE_MONEY)
+    end
+  end
+
+  # 仕訳明細から雇用保険を取得する
+  def get_employment_insurance_from_jd
+    case self.credit_account_type_of_employment_insurance
+    when CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
+      payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)
+    when CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
+      payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)
+    else
+      raise "不正な勘定科目です。credit_account_type_of_employment_insuranceA=#{credit_account_type_of_employment_insurance}"
     end
   end
 

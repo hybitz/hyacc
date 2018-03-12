@@ -22,6 +22,7 @@ class PayrollFinder < Base::Finder
       sum.income_tax += ret[ym][:payroll].income_tax
       sum.insurance += ret[ym][:payroll].insurance
       sum.pension += ret[ym][:payroll].pension
+      sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret[ym][:payroll].base_salary
       sum.inhabitant_tax += ret[ym][:payroll].inhabitant_tax
       sum.subtotal += ret[ym][:payroll].subtotal
@@ -39,6 +40,7 @@ class PayrollFinder < Base::Finder
       sum.income_tax += ret["b1"][:payroll].income_tax
       sum.insurance += ret["b1"][:payroll].insurance
       sum.pension += ret["b1"][:payroll].pension
+      sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret["b1"][:payroll].base_salary
       sum.subtotal += ret["b1"][:payroll].subtotal
       sum.total += ret["b1"][:payroll].total
@@ -53,6 +55,7 @@ class PayrollFinder < Base::Finder
       sum.income_tax += ret["b2"][:payroll].income_tax
       sum.insurance += ret["b2"][:payroll].insurance
       sum.pension += ret["b2"][:payroll].pension
+      sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret["b2"][:payroll].base_salary
       sum.subtotal += ret["b2"][:payroll].subtotal
       sum.total += ret["b2"][:payroll].total

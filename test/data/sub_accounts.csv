@@ -30,3 +30,5 @@ id,code,name,account_id,sub_account_type,social_expense_number_of_people_require
 37,100,法人税,65,10,0,0
 38,200,道府県民税,65,10,0,0
 39,300,市町村民税,65,10,0,0
+40,500,雇用保険料,39,1,0,0
+41,500,雇用保険料,7,1,0,0

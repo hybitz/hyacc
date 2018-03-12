@@ -10,7 +10,7 @@
 
   click_on @ym
   with_capture do
-    within '.ui-dialog' do
+    within_dialog do
       fill_in 'payroll[base_salary]', :with => @salary
       assert has_selector?('form[insurance_loaded]');
       fill_in 'payroll[inhabitant_tax]', :with => 0
@@ -75,9 +75,9 @@ end
 
       click_on ym
       within_dialog do
-        fill_in '基本給', :with => salary
-        fill_in '住民税', :with => 0
-        assert has_selector?('form[insurance_loaded]')
+        fill_in 'payroll[base_salary]', :with => salary
+        assert has_selector?('form[insurance_loaded]');
+        fill_in 'payroll[inhabitant_tax]', :with => 0
     
         accept_confirm do
           click_on '登録'

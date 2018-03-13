@@ -1,35 +1,35 @@
 <table id="payroll_header_table" align="center">
   <thead>
-    <tr style="background-color: lightgrey;">
-      <th>雇　　入　　年　　月　　日</th>
-      <th>所　　属</th>
-      <th>職　　　　　名</th>
-      <th>標準報酬</th>
-      <th>氏　　　　名</th>
-      <th>性別</th>
+    <tr>
+      <th><%= justify('雇入年月日') %></th>
+      <th><%= justify('所属') %></th>
+      <th><%= justify('職名') %></th>
+      <th><%= justify('標準報酬') %></th>
+      <th><%= justify('氏名') %></th>
+      <th><%= justify('性別') %></th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td rowspan="2" align="center"><%= @employee.employment_date.strftime("%Y年　%m月　%d日") %>　雇入</td>
+      <td rowspan="2" class="center"><%= @employee.employment_date.strftime("%Y 年 %m 月 %d 日") %>　雇入</td>
       <td rowspan="2"></td>
       <td rowspan="2"><%= @employee.position %></td>
-      <td rowspan="1">健 <%= to_amount(@employee.standard_remuneration) %>円</td>
-      <td rowspan="2"><%= @employee.fullname %></td>
-      <td rowspan="2" align="center"><%= @employee.sex_name %></td>
+      <td rowspan="1">健 <%= to_amount(@employee.standard_remuneration) %> 円</td>
+      <td rowspan="2" class="center"><%= @employee.fullname %></td>
+      <td rowspan="2" class="center"><%= @employee.sex_name %></td>
     </tr>
     <tr>
-      <td>厚 <%= to_amount(@employee.standard_remuneration) %>円</td>
+      <td>厚 <%= to_amount(@employee.standard_remuneration) %> 円</td>
     </tr>
   </tbody>
 </table>
 
-<table id="payroll_table" border="1" align="center">
+<table id="payroll_table" align="center">
   <thead>
-    <tr style="background-color: lightgrey;">
+    <tr>
       <th colspan="2">賃金計算期間</th>
       <% @finder.get_ym_range.each do |ym| %>
-        <th class="center">
+        <th>
           <% if @pd[ym][:payroll].is_new %>
             <%= link_to ym, {:action => :new, :ym => ym, :employee_id => @finder.employee_id}, :remote => true %>
           <% else %>
@@ -37,9 +37,9 @@
           <% end %>
         </th>
       <% end %>
-      <th class="center">賞与１</th>
-      <th class="center">賞与２</th>
-      <th class="center">合計</th>
+      <th>賞与１</th>
+      <th>賞与２</th>
+      <th>合計</th>
     </tr>
   </thead>
   <tbody>
@@ -210,7 +210,7 @@
     <tr>
       <td><%= Payroll.human_attribute_name :inhabitant_tax %></td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td align="center"><%= to_amount(@pd[ym][:payroll].inhabitant_tax) %></td>
+      <td><%= to_amount(@pd[ym][:payroll].inhabitant_tax) %></td>
       <% end %>
       <td></td>
       <td></td>
@@ -232,7 +232,7 @@
       <% end %>
       <td><%= to_amount(@pd["b1"][:payroll].after_insurance_deduction) %></td>
       <td><%= to_amount(@pd["b2"][:payroll].after_insurance_deduction) %></td>
-      <td align="center"><%= to_amount(@pd[:sum].after_insurance_deduction) %></td>
+      <td class="right"><%= to_amount(@pd[:sum].after_insurance_deduction) %></td>
     </tr>
     <tr>
       <td colspan="2">差引合計額</td>
@@ -241,7 +241,7 @@
       <% end %>
       <td><%= to_amount(@pd["b1"][:payroll].after_deduction) %></td>
       <td><%= to_amount(@pd["b2"][:payroll].after_deduction) %></td>
-      <td align="right"><%= to_amount(@pd[:sum].after_deduction) %></td>
+      <td class="right"><%= to_amount(@pd[:sum].after_deduction) %></td>
     </tr>
     <tr>
       <td colspan="2">実物給与</td>

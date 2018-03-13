@@ -59,6 +59,11 @@ module ApplicationHelper
     flash_notice(false, 0)
   end
 
+  def justify(text)
+    span_text = text.chars.map{|x| "<span>#{x}</span>" }.join
+    raw "<div class=\"justify\">#{span_text}</div>"
+  end
+
   # メニュー項目のスタイルを取得する
   def style_for_menu(controller_path)
     # 簡易入力の場合

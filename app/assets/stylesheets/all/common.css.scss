@@ -40,6 +40,23 @@ input[type="file"] {
   width: 36em;
 }
 
+.center {
+  text-align: center;
+}
+
+.justify {
+  display: flex;
+  justify-content: space-between;
+}
+
+.left {
+  text-align: left;
+}
+
 .nowrap {
   white-space: nowrap;
+}
+
+.right {
+  text-align: right;
 }

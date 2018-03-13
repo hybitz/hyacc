@@ -73,7 +73,7 @@
     <tr>
       <td colspan="2">早出残業時間数</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td align="center"><%= @pd[ym][:payroll].hours_of_early_for_work %>H</td>
+      <td align="center"><%= @pd[ym][:payroll].hours_of_early_work %>H</td>
       <% end %>
       <td></td>
       <td></td>

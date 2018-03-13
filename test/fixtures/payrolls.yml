@@ -2,7 +2,7 @@ payroll_00045:
   id: 45
   hours_of_work: 0
   payroll_journal_header_id: 4453
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 4467
   hours_of_late_night_work: 0
   employee_id: 2
@@ -18,7 +18,7 @@ payroll_00046:
   updated_at: 2009-04-21 08:19:36
   hours_of_work: 0
   payroll_journal_header_id: 4705
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 4750
   hours_of_late_night_work: 0
   employee_id: 2
@@ -35,7 +35,7 @@ payroll_00066:
   updated_at: 2009-06-30 22:34:54 +09:00
   hours_of_work: 248
   payroll_journal_header_id: 5869
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 5870
   hours_of_late_night_work: 0
   employee_id: 1
@@ -52,7 +52,7 @@ payroll_00067:
   hours_of_work: 240
   payroll_journal_header_id: 5871
   id: 67
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 5872
   hours_of_late_night_work: 0
   employee_id: 1
@@ -69,7 +69,7 @@ payroll_00068:
   hours_of_work: 248
   payroll_journal_header_id: 5873
   id: 68
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 5874
   hours_of_late_night_work: 0
   employee_id: 1
@@ -86,7 +86,7 @@ payroll_00069:
   hours_of_work: 248
   payroll_journal_header_id: 5875
   id: 69
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 5876
   hours_of_late_night_work: 0
   employee_id: 1
@@ -102,7 +102,7 @@ payroll_00070:
   id: 70
   hours_of_work: 240
   payroll_journal_header_id: 5877
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 5878
   hours_of_late_night_work: 0
   employee_id: 1
@@ -118,7 +118,7 @@ payroll_00071:
   hours_of_work: 248
   payroll_journal_header_id: 5879
   id: 71
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 5880
   hours_of_late_night_work: 0
   employee_id: 1
@@ -135,7 +135,7 @@ payroll_00065:
   hours_of_work: 240
   payroll_journal_header_id: 5867
   id: 65
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   pay_journal_header_id: 5868
   hours_of_late_night_work: 0
   employee_id: 1
@@ -155,7 +155,7 @@ payroll_00122:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -173,7 +173,7 @@ payroll_00123:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -191,7 +191,7 @@ payroll_00125:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -209,7 +209,7 @@ payroll_00126:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -227,7 +227,7 @@ payroll_00127:
   days_of_work: 29
   hours_of_work: 232
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -245,7 +245,7 @@ payroll_00128:
   days_of_work: 29
   hours_of_work: 232
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -263,7 +263,7 @@ payroll_00129:
   days_of_work: 0
   hours_of_work: 0
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -281,7 +281,7 @@ payroll_00130:
   days_of_work: 0
   hours_of_work: 0
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -299,7 +299,7 @@ payroll_00131:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -317,7 +317,7 @@ payroll_00132:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -335,7 +335,7 @@ payroll_00133:
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -353,7 +353,7 @@ payroll_00134:
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -371,7 +371,7 @@ payroll_00135:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -389,7 +389,7 @@ payroll_00136:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -407,7 +407,7 @@ payroll_00137:
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -425,7 +425,7 @@ payroll_00138:
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -443,7 +443,7 @@ payroll_00139:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -461,7 +461,7 @@ payroll_00140:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -479,7 +479,7 @@ payroll_00141:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -497,7 +497,7 @@ payroll_00142:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -515,7 +515,7 @@ payroll_00143:
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -533,7 +533,7 @@ payroll_00144:
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -551,7 +551,7 @@ payroll_00145:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -569,7 +569,7 @@ payroll_00146:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -587,7 +587,7 @@ payroll_00147:
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -605,7 +605,7 @@ payroll_00148:
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -623,7 +623,7 @@ payroll_00150:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'
@@ -641,7 +641,7 @@ payroll_00151:
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
-  hours_of_early_for_work: 0
+  hours_of_early_work: 0
   hours_of_late_night_work: 0
   credit_account_type_of_income_tax: '0'
   credit_account_type_of_insurance: '0'

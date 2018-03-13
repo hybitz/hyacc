@@ -89,7 +89,7 @@ class PayrollsControllerTest < ActionController::TestCase
     post :create, :xhr => true, :params => {
         :payroll => {:ym => ym, :employee_id => employee_id,
                       :days_of_work => 28, :hours_of_work => 224,
-                      :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
+                      :hours_of_day_off_work => 100, :hours_of_early_work => 101,
                       :hours_of_late_night_work => 102, :base_salary => '394000',
                       :insurance => '10000', :pension => '20000',
                       :income_tax => '1000', :inhabitant_tax => '8400',
@@ -185,7 +185,7 @@ class PayrollsControllerTest < ActionController::TestCase
     post :create, :xhr => true, :params => {
         :payroll => {:ym => 200902, :employee_id => 2,
                      :days_of_work => 28, :hours_of_work => 224,
-                     :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
+                     :hours_of_day_off_work => 100, :hours_of_early_work => 101,
                      :hours_of_late_night_work => 102, :base_salary => '',
                      :insurance => '', :pension => '',
                      :income_tax => '', :inhabitant_tax => '',
@@ -211,7 +211,7 @@ class PayrollsControllerTest < ActionController::TestCase
     post :create, :xhr => true, :params => {
         :payroll => {:ym => 200912, :employee_id => 2,
                      :days_of_work => 28, :hours_of_work => 224,
-                     :hours_of_day_off_work => 100, :hours_of_early_for_work => 101,
+                     :hours_of_day_off_work => 100, :hours_of_early_work => 101,
                      :hours_of_late_night_work => 102, :base_salary => '100000a',
                      :insurance => '5@000', :pension => 'x',
                      :income_tax => 'x', :inhabitant_tax => 'x',

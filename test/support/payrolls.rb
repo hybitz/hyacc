@@ -11,7 +11,7 @@ module Payrolls
       :days_of_work => 28,
       :hours_of_work => 224,
       :hours_of_day_off_work => 100,
-      :hours_of_early_for_work => 101,
+      :hours_of_early_work => 101,
       :hours_of_late_night_work => 102,
       :base_salary => '394000',
       :insurance => '10000',

@@ -13,7 +13,7 @@ class PayrollTest < ActiveSupport::TestCase
     assert_equal fix_payroll["days_of_work"], @payroll.days_of_work
     assert_equal fix_payroll["hours_of_work"], @payroll.hours_of_work
     assert_equal fix_payroll["hours_of_day_off_work"], @payroll.hours_of_day_off_work
-    assert_equal fix_payroll["hours_of_early_for_work"], @payroll.hours_of_early_for_work
+    assert_equal fix_payroll["hours_of_early_work"], @payroll.hours_of_early_work
     assert_equal fix_payroll["hours_of_late_night_work"], @payroll.hours_of_late_night_work
   end
 

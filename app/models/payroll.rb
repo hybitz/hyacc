@@ -11,7 +11,7 @@ class Payroll < ApplicationRecord
 
   validates_presence_of :employee_id, :ym, :message => "は必須です。"
   validates_numericality_of :days_of_work, :hours_of_work,
-                            :hours_of_day_off_work, :hours_of_early_for_work,
+                            :hours_of_day_off_work, :hours_of_early_work,
                             :hours_of_late_night_work,
                             :allow_nil => true, :message=>"は数値で入力して下さい。"
 

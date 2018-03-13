@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312140440) do
+ActiveRecord::Schema.define(version: 20180313145327) do
 
   create_table "accounts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code", default: "", null: false
@@ -439,7 +439,7 @@ ActiveRecord::Schema.define(version: 20180312140440) do
     t.integer "days_of_work", default: 0
     t.integer "hours_of_work", default: 0
     t.integer "hours_of_day_off_work", default: 0
-    t.integer "hours_of_early_for_work", default: 0
+    t.integer "hours_of_early_work", default: 0
     t.integer "hours_of_late_night_work", default: 0
     t.string "credit_account_type_of_income_tax", limit: 1, default: "0", null: false
     t.string "credit_account_type_of_insurance", limit: 1, default: "0", null: false

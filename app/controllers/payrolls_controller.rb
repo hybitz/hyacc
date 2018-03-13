@@ -93,7 +93,7 @@ class PayrollsController < Base::HyaccController
         payroll_on_db.days_of_work = @payroll.days_of_work
         payroll_on_db.hours_of_work = @payroll.hours_of_work
         payroll_on_db.hours_of_day_off_work = @payroll.hours_of_day_off_work
-        payroll_on_db.hours_of_early_for_work = @payroll.hours_of_early_for_work
+        payroll_on_db.hours_of_early_work = @payroll.hours_of_early_work
         payroll_on_db.hours_of_late_night_work = @payroll.hours_of_late_night_work
         payroll_on_db.credit_account_type_of_insurance = @payroll.credit_account_type_of_insurance
         payroll_on_db.credit_account_type_of_pension = @payroll.credit_account_type_of_pension
@@ -112,7 +112,7 @@ class PayrollsController < Base::HyaccController
         JournalHeader.find(commission_journal_header_on_db.id).destroy if commission_journal_header_on_db
       end
 
-      flash[:notice] = "#{@payroll.employee.fullname}さんの賃金台帳情報を更新しました。"
+      flash[:notice] = "#{@payroll.employee.fullname}さんの#{title}を更新しました。"
       render 'common/reload'
 
     rescue => e
@@ -128,7 +128,7 @@ class PayrollsController < Base::HyaccController
         @payroll.destroy
       end
 
-      flash[:notice] = '賃金台帳情報を削除しました。'
+      flash[:notice] = "#{title}を削除しました。"
       render 'common/reload'
     rescue => e
       handle(e)
@@ -172,7 +172,7 @@ class PayrollsController < Base::HyaccController
   def payroll_params
     params.require(:payroll).permit(
         :ym, :employee_id,
-        :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_for_work, :hours_of_late_night_work,
+        :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary,
         :insurance, :credit_account_type_of_insurance,
         :pension, :credit_account_type_of_pension,

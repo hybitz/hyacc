@@ -179,23 +179,21 @@ ja:
           <<: *journal_detail
 
       payroll:
-        ym: 年月
+        accrued_liability: 従業員への未払費用
+        base_salary: 基本給
+        commuting_allowance: 通勤手当
         days_of_work: 労働日数
         hours_of_work: 労働時間数
         hours_of_day_off_work: 休日労働時間数
         hours_of_early_work: 早出残業時間数
         hours_of_late_night_work: 深夜労働時間数
-        payroll_journal_header: 給与伝票
-        pay_journal_header: 支払伝票
-        commission_journal_header: 支払手数料伝票
-        insurance: 健康保険料
-        base_salary: 基本給
-        pension: 厚生年金保険料
         income_tax: 所得税
         inhabitant_tax: 住民税
-        accrued_liability: 従業員への未払費用
-        year_end_adjustment_liability: "年末調整額（過払分）"
+        insurance: 健康保険料
         pay_day: "給与支払日"
+        pension: 厚生年金保険料
+        year_end_adjustment_liability: "年末調整額（過払分）"
+        ym: 年月
 
       receipt:
         file: 領収書

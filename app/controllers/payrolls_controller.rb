@@ -173,7 +173,7 @@ class PayrollsController < Base::HyaccController
     params.require(:payroll).permit(
         :ym, :employee_id,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
-        :base_salary,
+        :base_salary, :commuting_allowance,
         :insurance, :credit_account_type_of_insurance,
         :pension, :credit_account_type_of_pension,
         :income_tax, :credit_account_type_of_income_tax,

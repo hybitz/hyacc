@@ -65,14 +65,22 @@
       <tr>
         <th>年月</th>
         <td><%= f.hidden_field :ym %><%= f.object.ym %></td>
+        <td></td>
+        <td></td>
         <th>労働日数</th>
         <td><%= f.text_field :days_of_work, :maxlength => 2 %></td>
-        <th>労働時間</th>
-        <td><%= f.text_field :hours_of_work, :maxlength => 5 %></td>
       </tr>
       <tr>
         <th><%= f.label :base_salary %></th>
         <td><%= f.text_field :base_salary, :maxlength => 10 %></td>
+        <td></td>
+        <td></td>
+        <th>労働時間</th>
+        <td><%= f.text_field :hours_of_work, :maxlength => 5 %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :commuting_allowance %></th>
+        <td><%= f.text_field :commuting_allowance, :maxlength => 6 %></td>
         <td></td>
         <td></td>
         <th>休日労働時間数</th>

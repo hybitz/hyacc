@@ -10,13 +10,13 @@ class Payroll < ApplicationRecord
   belongs_to :commission_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
 
   validates_presence_of :employee_id, :ym, :message => "は必須です。"
+  validates :base_salary, :presence => true, numericality: { only_integer: true, greater_than: 0 }
   validates_numericality_of :days_of_work, :hours_of_work,
                             :hours_of_day_off_work, :hours_of_early_work,
                             :hours_of_late_night_work,
                             :allow_nil => true, :message=>"は数値で入力して下さい。"
 
   # フィールド
-  attr_accessor :base_salary
   attr_accessor :income_tax     # 源泉所得税
   attr_accessor :insurance      # 個人負担保険料
   attr_accessor :pension        # 個人負担保険料
@@ -45,7 +45,6 @@ class Payroll < ApplicationRecord
     @employment_insurance = 0
     @insurance_all = 0
     @pension_all = 0
-    @base_salary = 0
     @subtotal = 0
     @total = 0
     @inhabitant_tax = 0
@@ -72,10 +71,6 @@ class Payroll < ApplicationRecord
 
   def validate_params?
     result = true
-    unless base_salary =~ /^[0-9]{1,}$/
-      errors.add(:base_salary, "は数値で入力して下さい。")
-      result = false
-    end
     unless insurance =~ /^[0-9]{1,}$/
       errors.add(:insurance, "は数値で入力して下さい。")
       result = false
@@ -124,7 +119,7 @@ class Payroll < ApplicationRecord
     past_ym = ym.to_i - 89 if ym.to_i%100 == 1
     previous_payroll = Payroll.where(:ym => past_ym, :employee_id => employee_id, :is_bonus => false).order('ym').first
     if previous_payroll
-      ret = previous_payroll.get_base_salary_from_jd
+      ret = previous_payroll.base_salary
     end
     ret
   end
@@ -142,7 +137,6 @@ class Payroll < ApplicationRecord
     payroll.pension = payroll.get_pension_from_jd
     payroll.employment_insurance = payroll.get_employment_insurance_from_jd
     payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
-    payroll.base_salary = payroll.get_base_salary_from_jd
     payroll.year_end_adjustment_liability = payroll.get_year_end_adjustment_liability_from_jd
 
     # 支払の伝票取得
@@ -180,7 +174,6 @@ class Payroll < ApplicationRecord
     payroll.insurance = payroll.get_insurance_from_jd
     payroll.pension = payroll.get_pension_from_jd
     payroll.employment_insurance = payroll.get_employment_insurance_from_jd
-    payroll.base_salary = payroll.get_base_bonus_from_jd
 
     # 支払の伝票取得
     if payroll.pay_journal_header != nil
@@ -194,7 +187,8 @@ class Payroll < ApplicationRecord
     payroll.total = payroll.subtotal
     # 編集フラグをセット　※Viewで使用
     payroll.is_new = false
-    return payroll
+
+    payroll
   end
 
   # 仕訳明細から源泉所得税金額を取得する
@@ -245,13 +239,6 @@ class Payroll < ApplicationRecord
     end
   end
 
-
-  # 仕訳明細から給与を取得する
-  def get_base_salary_from_jd
-    amount = payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DIRECTOR_SALARY)
-    amount += payroll_journal_header.get_debit_amount(ACCOUNT_CODE_SALARY)
-  end
-
   # 仕訳明細から未払費用を取得する
   def get_accrued_liability_from_jd
     payroll_journal_header.get_debit_amount(ACCOUNT_CODE_UNPAID_EMPLOYEE)
@@ -262,8 +249,4 @@ class Payroll < ApplicationRecord
     payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
   end
 
-  # 仕訳明細から未払役員賞与を取得する
-  def get_base_bonus_from_jd
-    payroll_journal_header.get_debit_amount(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS)
-  end
 end

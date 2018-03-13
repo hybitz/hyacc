@@ -1,7 +1,7 @@
 module PayrollHelper
 
   # 標準報酬月額の計算
-  def get_standard_remuneration(ym = nil, employee = nil, base_salary = nil)
+  def get_standard_remuneration(ym, employee, base_salary)
     standard_remuneration = 0
     if ym != nil and base_salary != nil and employee != nil
       prefecture_code = employee.business_office.prefecture_code

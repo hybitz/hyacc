@@ -100,7 +100,7 @@ class PayrollsControllerTest < ActionController::TestCase
                       :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED}
                       }
     assert_response :success
-    assert assigns(:payroll).errors.empty?
+    assert assigns(:payroll).errors.empty?, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'common/reload'
 
     # 登録された仕訳をチェック
@@ -196,7 +196,7 @@ class PayrollsControllerTest < ActionController::TestCase
                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
                      }
     assert_response :success
-    assert assigns(:payroll).errors.size == 7
+    assert_equal 6, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'new'
   end
 
@@ -223,7 +223,7 @@ class PayrollsControllerTest < ActionController::TestCase
                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
                      }
     assert_response :success
-    assert_equal 8, assigns(:payroll).errors.size
+    assert assigns(:payroll).errors[:inhabitant_tax].any?, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'new'
   end
 

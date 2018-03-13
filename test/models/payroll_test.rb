@@ -19,7 +19,7 @@ class PayrollTest < ActiveSupport::TestCase
 
   def test_get_previous_base_salary
     @payroll = Payroll.find(70)
-    assert_equal 394000, @payroll.get_base_salary_from_jd
+    assert_equal 394000, @payroll.base_salary
 
     date = (@payroll.payroll_journal_header.date + 1.month).strftime('%Y%m')
     employee = @payroll.employee

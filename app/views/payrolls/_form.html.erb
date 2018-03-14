@@ -110,7 +110,7 @@
         <th>深夜労働時間数</th>
         <td><%= f.text_field :hours_of_late_night_work, :maxlength => 5 %></td>
       </tr>
-      <% unless @employee.executive? %>
+      <% unless @payroll.employee.executive? %>
         <tr>
           <th>雇用保険料</th>
           <td>

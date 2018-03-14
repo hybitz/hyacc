@@ -1,60 +1,48 @@
-<%= form_for [:mm, @e], :html => {:class => 'employee'}, :remote => true do |f| %>
+<%= form_with model: [:mm, @e], :remote => true do |f| %>
   <%= flash_notice %>
 
-  <div>
-    <div style="float: left;">
-      <table>
-        <tr>
-          <th><%= f.label :last_name %></th>
-          <td><%= f.text_field :last_name %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :first_name %></th>
-          <td><%= f.text_field :first_name %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :sex %></th>
-          <td><%= f.select :sex, sex_types %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :birth %></th>
-          <td><%= f.date_select :birth, :start_year => Time.now.year - 65, :end_year => Time.now.year - 18, :default => 30.years.ago, :include_blank => true %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :zip_code %></th>
-          <td><%= f.nostalgic_text_field :zip_code, :class => 'zip_code' %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :address %></th>
-          <td><%= f.nostalgic_text_field :address, :class => 'address' %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :employment_date %></th>
-          <td><%= f.date_select :employment_date %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :my_number %></th>
-          <td><%= f.text_field :my_number, :class => 'my_number' %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :executive %></th>
-          <td><label><%= f.check_box :executive %> <%= Employee.human_attribute_name :executive_true %></label></td>
-        </tr>
-        <tr>
-          <th><%= f.label :position %></th>
-          <td><%= f.text_field :position %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :num_of_dependent %></th>
-          <td><%= f.nostalgic_text_field :num_of_dependent %></td>
-        </tr>
-      </table>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <table class="table">
+          <tr>
+            <th class="nowrap"><%= f.label :last_name %></th>
+            <td><%= f.text_field :last_name %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :first_name %></th>
+            <td><%= f.text_field :first_name %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :sex %></th>
+            <td><%= f.select :sex, sex_types %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :birth %></th>
+            <td><%= f.date_select :birth, :start_year => Time.now.year - 65, :end_year => Time.now.year - 18, :default => 30.years.ago, :include_blank => true %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :zip_code %></th>
+            <td><%= f.nostalgic_text_field :zip_code, :class => 'zip_code' %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :address %></th>
+            <td><%= f.nostalgic_text_field :address, :class => 'address' %></td>
+          </tr>
+          <tr>
+            <th class="nowrap"><%= f.label :my_number %></th>
+            <td><%= f.text_field :my_number, :class => 'my_number' %></td>
+          </tr>
+          <tr>
+            <th><%= f.label :num_of_dependent %></th>
+            <td><%= f.nostalgic_text_field :num_of_dependent %></td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-4">
+        <%= render 'evaluation' %>
+        <%= render 'branch_employees' %>
+      </div>
     </div>
-
-    <div style="margin-left: 5px; float: left;">
-      <%= render 'branch_employees' %>
-    </div>
-
-    <div style="clear: left;"></div>
   </div>
 <% end %>

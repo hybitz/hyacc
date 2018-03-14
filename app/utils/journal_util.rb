@@ -83,10 +83,10 @@ module JournalUtil
   # 現在の累計金額の取得
   def self.get_sum(company_id, account_id, dc_type, branch_id, sub_account_id)
     sql = SqlBuilder.new
-    sql.append('account_id = ?', account_id)
+    sql.append('account_id = ?', account_id.to_i)
     sql.append('and dc_type = ?', dc_type)
-    sql.append('and branch_id = ?', branch_id) if branch_id > 0
-    sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id > 0
+    sql.append('and branch_id = ?', branch_id) if branch_id.to_i > 0
+    sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id.to_i > 0
     sql.append('and exists (')
     sql.append('  select 1 from journal_headers jh')
     sql.append('  where jh.id = journal_details.journal_header_id')
@@ -105,9 +105,7 @@ module JournalUtil
       account = Account.find( account )
     end
 
-    unless account.kind_of? Account
-      return 0
-    end
+    return 0 unless account.kind_of? Account
 
     sum_amount_increase = get_sum(company_id, account.id, account.dc_type, branch_id, sub_account_id)
     sum_amount_decrease = get_sum(company_id, account.id, account.opposite_dc_type, branch_id, sub_account_id)

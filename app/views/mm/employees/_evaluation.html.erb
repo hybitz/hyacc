@@ -1,0 +1,16 @@
+<%= fields_for @e do |f| %>
+  <table class="table">
+    <tr>
+      <th><%= f.label :employment_date %></th>
+      <td><%= f.date_select :employment_date %></td>
+    </tr>
+    <tr>
+      <th class="nowrap"><%= f.label :executive %></th>
+      <td><label><%= f.check_box :executive %> <%= Employee.human_attribute_name :executive_true %></label></td>
+    </tr>
+    <tr>
+      <th><%= f.label :position %></th>
+      <td><%= f.text_field :position %></td>
+    </tr>
+  </table>
+<% end %>

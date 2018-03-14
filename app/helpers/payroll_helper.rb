@@ -16,13 +16,13 @@ module PayrollHelper
         pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee.id)
         pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee.id)
         if pr_3.payroll_journal_header.nil?
-          unless pr_2.payroll_journal_header.nil?
+          if pr_2.payroll_journal_header.present?
             return get_remuneration(ym_2, prefecture_code, pr_2.base_salary)
           end
-          unless pr_1.payroll_journal_header.nil?
+          if pr_1.payroll_journal_header.present?
             return get_remuneration(ym_1, prefecture_code, pr_1.base_salary)
           end
-          return get_basic_info(ym, prefecture_code, base_salary).monthly_earnings
+          return TaxUtils.get_basic_info(ym, prefecture_code, base_salary).monthly_earnings
         end
         # 7月より前は前年の4月を基準とする
         x = (ym.to_s).slice(0, 4) + "04"
@@ -41,7 +41,7 @@ module PayrollHelper
         pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
         pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
         ave_bs = (pr.base_salary + pr1.base_salary + pr2.base_salary)/3
-        insurance_ave_bs = get_basic_info(ym, prefecture_code, ave_bs)
+        insurance_ave_bs = TaxUtils.get_basic_info(ym, prefecture_code, ave_bs)
         grade_ave_bs = insurance_ave_bs.grade
         pre_bs = pr.base_salary
         standard_remuneration = insurance_ave_bs.monthly_earnings
@@ -55,7 +55,7 @@ module PayrollHelper
               pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
               pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
               ave_x = (pr.base_salary + pr1.base_salary + pr2.base_salary)/3
-              insurance_x = get_basic_info(ym, prefecture_code, ave_x)
+              insurance_x = TaxUtils.get_basic_info(ym, prefecture_code, ave_x)
               if (grade_ave_bs - insurance_x.grade).abs >= 2
                 standard_remuneration = insurance_x.monthly_earnings
                 grade_ave_bs = insurance_x.grade
@@ -126,16 +126,12 @@ module PayrollHelper
   def get_remuneration(ym, prefecture_code, base_salary)
     remuneration = 0
     #基本給から標準報酬額を取得
-    insurance = get_basic_info(ym, prefecture_code, base_salary)
+    insurance = TaxUtils.get_basic_info(ym, prefecture_code, base_salary)
     unless insurance.nil?
       remuneration = insurance.monthly_earnings
     end
-    return remuneration
-  end
 
-  #標準報酬の基本情報を取得
-  def get_basic_info(ym, prefecture_code, base_salary)
-    TaxUtils.get_basic_info(ym, prefecture_code, base_salary)
+    remuneration
   end
 
   def get_pay_day(ym, employee_id = nil)

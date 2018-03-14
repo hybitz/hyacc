@@ -83,7 +83,6 @@ ja:
         parent_id: 親部門
 
       branches_employee:
-        cost_ratio: コスト割合
         default_branch: 主所属部門
 
       business_office:
@@ -122,6 +121,7 @@ ja:
 
       employee:
         address: 住所
+        base_salary: 基本給
         business_office_id: 所属する事業所
         employment_date: 入社日
         executive: 雇用形態
@@ -136,9 +136,9 @@ ja:
         position: 役職
 
       fiscal_year:
-        fiscal_year: "会計年度"
-        tax_management_type: "税務管理のタイプ"
-        company: "会社"
+        company: 会社
+        fiscal_year: 会計年度
+        tax_management_type: 消費税管理区分
 
       housework:
         fiscal_year: 会計年度

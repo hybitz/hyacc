@@ -21,16 +21,17 @@ class PayrollsControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in user
-
-    finder = PayrollFinder.new(current_user)
-    finder.fiscal_year = 2009
-    finder.employee_id = 2
-    @request.session[PayrollFinder] = finder
-
-    get :new, :params => {:ym => 200904}, :xhr => true
- 
+    get :new, :params => {ym: 200904, employee_id: 2}, :xhr => true
     assert_response :success
     assert_template 'new'
+  end
+
+  def test_登録
+    sign_in user
+    post :create, :params => {:payroll => payroll_params.merge(ym: 200904)}, :xhr => true
+    assert assigns(:payroll).errors.empty?
+    assert_response :success
+    assert_template 'common/reload'
   end
 
   def test_編集
@@ -63,12 +64,7 @@ class PayrollsControllerTest < ActionController::TestCase
   def test_should_get_new_pre_month
     sign_in user
 
-    finder = PayrollFinder.new(current_user)
-    finder.fiscal_year = 2010
-    finder.employee_id = 1
-    @request.session[PayrollFinder] = finder
-
-    get :new, :params => {:ym => 200811}, :xhr => true
+    get :new, :params => {ym: 200811, employee_id: 1}, :xhr => true
 
     assert_response :success
     assert_template 'new'
@@ -134,7 +130,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
     ym = 200904
     employee_id = 2
-    post :create, :params => {:payroll => valid_payroll_params(:ym => ym, :employee_id => employee_id)}, :xhr => true
+    post :create, :params => {:payroll => payroll_params(:ym => ym, :employee_id => employee_id)}, :xhr => true
     assert_response :success
     assert assigns(:payroll).errors.empty?
     assert_template 'common/reload'
@@ -229,7 +225,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in user
-    patch :update, :params => {:id => payroll.id, :payroll => valid_payroll_params}, :xhr => true
+    patch :update, :params => {:id => payroll.id, :payroll => payroll_params}, :xhr => true
     assert assigns(:payroll).errors.empty?
     assert_response :success
     assert_template 'common/reload'

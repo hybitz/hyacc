@@ -11,14 +11,10 @@
     });
   }
 </script>
-<table id="branch_employees_table">
+<table id="branch_employees_table" class="table">
   <thead>
     <tr>
-      <th colspan="4">所属部門</th>
-    </tr>
-    <tr>
-      <th>部門</th>
-      <th>コスト配分</th>
+      <th>所属部門</th>
       <th>デフォルト</th>
       <th>削除</th>
     </tr>
@@ -30,8 +26,8 @@
   </tbody>
   <tfoot>
     <tr>
-      <td colspan="4" align="right">
-        <a href="" onclick="add_branch(this); return false;">部門追加</a>
+      <td colspan="3" class="right">
+        <%= link_to '部門追加', '', onclick: "add_branch(this); return false;", class: 'btn btn-small btn-light' %>
       </td>
     </tr>
   </tfoot>

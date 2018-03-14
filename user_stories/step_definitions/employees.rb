@@ -44,7 +44,6 @@ end
 
       within first('#branch_employees_table tbody tr') do
         select branch_name, :from => find('[name*="\[branch_id\]"]')['id']
-        fill_in find('[name*="\[cost_ratio\]"]')['id'], :with => '100'
         check find('[name*="\[default_branch\]"]')['id']
       end
     end

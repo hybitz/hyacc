@@ -4,8 +4,7 @@
       <%= f.hidden_field :id %>
       <%= f.select :branch_id, to_options(current_company.branches) %>
     </td>
-    <td><%= f.text_field :cost_ratio, :maxlength => 3 %></td>
-    <td align="center"><%= f.check_box :default_branch %></td>
+    <td class="center"><%= f.check_box :default_branch %></td>
     <td><%= f.check_box :deleted %></td>
   </tr>
 <% end %>

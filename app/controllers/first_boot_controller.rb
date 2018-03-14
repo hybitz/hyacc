@@ -62,7 +62,6 @@ class FirstBootController < ApplicationController
   
         @be = BranchEmployee.new(:branch => @b, :employee => @e)
         @be.default_branch = true
-        @be.cost_ratio = 100
         @be.save!
       end
 

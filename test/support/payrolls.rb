@@ -4,7 +4,7 @@ module Payrolls
     @_payroll ||= Payroll.first
   end
 
-  def valid_payroll_params(attrs = {})
+  def payroll_params(attrs = {})
     ret = {
       :ym => attrs[:ym] || payroll.ym,
       :employee_id => attrs[:employee_id] || payroll.employee_id,

@@ -23,27 +23,25 @@ class PayrollsController < Base::HyaccController
 
   def new
     ym = params[:ym]
-    @employee = current_company.employees.find(finder.employee_id)
-    employee_id = finder.employee_id
-    base_salary = Payroll.get_previous_base_salary(ym, finder.employee_id)
+    employee_id = params[:employee_id]
+    base_salary = Payroll.get_previous_base_salary(ym, employee_id)
 
-    @payroll = get_tax(ym, finder.employee_id, base_salary)
+    @payroll = get_tax(ym, employee_id, base_salary)
 
     # 初期値の設定
     @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
     @payroll.hours_of_work = @payroll.days_of_work * 8
 
     # 住民税マスタより住民税額を取得
-    @payroll.inhabitant_tax = get_inhabitant_tax(finder.employee_id, ym)
-    @payroll.pay_day = get_pay_day(ym, finder.employee_id).strftime("%Y-%m-%d")
+    @payroll.inhabitant_tax = get_inhabitant_tax(employee_id, ym)
+    @payroll.pay_day = get_pay_day(ym, employee_id).strftime("%Y-%m-%d")
 
     # 従業員への未払費用
-    @payroll.accrued_liability = finder.get_net_sum(ACCOUNT_CODE_UNPAID_EMPLOYEE)
+    @payroll.accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee_id)
   end
 
   def create
     @payroll = Payroll.new(payroll_params)
-    @employee = Employee.find(finder.employee_id)
 
     begin
       # 入力チェック

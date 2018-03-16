@@ -1,10 +1,12 @@
 .social_insurances {
+  th {
+    text-align: center;
+  }
   td {
     text-align: right;
-    width: 12em;
-  }
-  .grade {
-    width: 4em;
-    text-align: center;
+
+    &.grade {
+      text-align: center;
+    }
   }
 }

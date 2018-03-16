@@ -4,7 +4,7 @@
     <span>～</span>
     <span><%= @list.first.apply_end_ym %></span>
   </div>
-  <table>
+  <table class="table table-striped table-hover">
     <tr>
       <th colspan="3">標準報酬</th>
       <th colspan="2">報酬月額</th>
@@ -27,7 +27,7 @@
       <th>折半額（坑内員／船員）</th>
     </tr>
     <% @list.each do |data| %>
-      <tr class="hover">
+      <tr>
         <td class="grade"><%= data.grade %><%= "(#{data.pension_grade})" if data.welfare_pension_insurance_all > 0 %></td>
         <td><%= to_amount(data.monthly_earnings) %></td>
         <td><%= to_amount(data.daily_earnings) %></td>

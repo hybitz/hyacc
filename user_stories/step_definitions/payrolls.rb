@@ -58,14 +58,15 @@ end
 もし /^各従業員の (.*?) 分の給与を登録$/ do |ym, ast_table|
   ym = ym.split('-').join
   rows = normalize_table(ast_table)[1..-1]
-  
+
   rows.each do |row|
     employee_name = row[1]
-    salary = row[2].to_ai
-    withheld_tax = row[3].to_ai
-    health_insurance = row[4].to_ai
-    pension = row[5].to_ai
-    employment_insurance = row[6].to_ai
+    base_salary = row[2].to_ai
+    commuting_allowance = row[3].to_ai
+    withheld_tax = row[4].to_ai
+    health_insurance = row[5].to_ai
+    pension = row[6].to_ai
+    employment_insurance = row[7].to_ai
 
     with_capture "#{employee_name} #{ym} の給与" do
       visit_payrolls
@@ -76,9 +77,9 @@ end
 
       click_on ym
       within_dialog do
-        fill_in 'payroll[base_salary]', :with => salary
+        fill_in 'payroll[base_salary]', :with => base_salary
+        fill_in 'payroll[commuting_allowance]', :with => commuting_allowance
         assert has_selector?('form[insurance_loaded]');
-        fill_in 'payroll[inhabitant_tax]', :with => 0
     
         accept_confirm do
           click_on '登録'
@@ -91,14 +92,15 @@ end
     with_capture "#{employee_name} #{ym} の給与支払" do
       assert col = find('#payroll_table thead tr').all('th').index{|th| th.has_link?(ym) }
 
-      { '基本給' => salary,
+      { '基本給' => base_salary,
+        '通勤手当' => commuting_allowance,
         '所得税' => withheld_tax,
         '健康保険料' => health_insurance,
         '厚生年金保険料' => pension,
         '雇用保険料' => employment_insurance
       }.each do |key, expected|
         case key
-        when '健康保険料'
+        when '通勤手当', '健康保険料'
           rowspan = 1
         else
           rowspan = 0

@@ -49,15 +49,15 @@ module Auto::Journal
       advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
 
       ## 給与明細
-      ### 役員給与・給与手当
-      if @payroll.base_salary.to_i != 0
+      ### 役員給与・給与手当・通勤手当
+      if @payroll.salary_total > 0
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = salary_account
         detail.sub_account_id = employee.id
         detail.branch_id = branch_id
-        detail.amount = @payroll.base_salary
+        detail.amount = @payroll.salary_total
       end
       ### 法定福利費.健康保険料
       insurance_half = tax.insurance_all.to_i - @payroll.insurance.to_i

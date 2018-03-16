@@ -5,6 +5,7 @@
   assert_equal '合計', footer[1]
   joins = 'inner join accounts a on (a.id = journal_details.account_id)'
 
+  errors = []
   rows.each do |row|
     begin
       assert_equal 1, Account.where(:name => row[1]).size
@@ -18,14 +19,14 @@
       expected = row[0].to_ai
       debit_amount = JournalDetail.where(:dc_type => DC_TYPE_DEBIT, :account_id => account.id).sum(:amount) -
           JournalDetail.where(:dc_type => DC_TYPE_CREDIT, :account_id => account.id).sum(:amount)
-      assert debit_amount == expected, "#{account.name} の金額 #{debit_amount} が #{expected} と一致しません。"
+      errors << "#{account.name} の金額 #{debit_amount} が #{expected} と一致しません。" if debit_amount != expected
     elsif account.credit?
       expected = row[2].to_ai
       credit_amount = JournalDetail.where(:dc_type => DC_TYPE_CREDIT, :account_id => account.id).sum(:amount) -
           JournalDetail.where(:dc_type => DC_TYPE_DEBIT, :account_id => account.id).sum(:amount)
-      assert credit_amount == expected, "#{account.name} の金額 #{credit_amount} が #{expected} と一致しません。"
+      errors << "#{account.name} の金額 #{credit_amount} が #{expected} と一致しません。" if credit_amount != expected
     else
-      raise "予期せぬ貸借区分\n#{account.to_yaml}"
+      raise "予期せぬ貸借区分\n#{account.attributes.to_yaml}"
     end
   end
 
@@ -36,10 +37,12 @@
   debit_sum_amount = footer[0].to_ai
   expected = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_DEBIT, DC_TYPE_DEBIT).sum(:amount) -
       JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_DEBIT, DC_TYPE_CREDIT).sum(:amount)
-  assert debit_sum_amount == expected, "借方合計金額 #{expected} が #{debit_sum_amount} と一致しません。"
+  errors << "借方合計金額 #{expected} が #{debit_sum_amount} と一致しません。" if debit_sum_amount != expected
   
   credit_sum_amount = footer[2].to_ai
   expected = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_CREDIT, DC_TYPE_CREDIT).sum(:amount) -
       JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_CREDIT, DC_TYPE_DEBIT).sum(:amount)
-  assert credit_sum_amount == expected, "貸方合計金額 #{expected} が #{credit_sum_amount} と一致しません。"
+  errors << "貸方合計金額 #{expected} が #{credit_sum_amount} と一致しません。" if credit_sum_amount != expected
+  
+  assert errors.empty?, errors.join("\n")
 end

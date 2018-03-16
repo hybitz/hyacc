@@ -29,7 +29,7 @@ class Branch < ApplicationRecord
   end
 
   def head_office?
-    ! parent_id
+    root?
   end
 
   private

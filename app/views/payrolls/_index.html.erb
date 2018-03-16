@@ -91,7 +91,7 @@
     <tr>
       <td colspan="2">基本給</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].base_salary) %></td>
+        <td class="center"><%= to_amount(@pd[ym][:payroll].base_salary) %></td>
       <% end %>
       <td><%= to_amount(@pd["b1"][:payroll].base_salary) %></td>
       <td><%= to_amount(@pd["b2"][:payroll].base_salary) %></td>
@@ -110,11 +110,11 @@
       <td rowspan="2">手当</td>
       <td>通勤手当</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td></td>
+        <td class="center"><%= to_amount(@pd[ym][:payroll].commuting_allowance) %></td>
       <% end %>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td><%= to_amount(@pd["b1"][:payroll].commuting_allowance) %></td>
+      <td><%= to_amount(@pd["b2"][:payroll].commuting_allowance) %></td>
+      <td class="right"><%= to_amount(@pd[:sum].commuting_allowance) %></td>
     </tr>
     <tr>
       <td>時間外手当</td>

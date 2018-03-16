@@ -23,8 +23,6 @@ class Payroll < ApplicationRecord
   attr_accessor :employment_insurance # 被雇用者負担雇用保険料
   attr_accessor :insurance_all
   attr_accessor :pension_all
-  attr_accessor :subtotal
-  attr_accessor :total
   attr_accessor :pay_day
   attr_accessor :is_new
   attr_accessor :inhabitant_tax        # 住民税
@@ -45,13 +43,21 @@ class Payroll < ApplicationRecord
     @employment_insurance = 0
     @insurance_all = 0
     @pension_all = 0
-    @subtotal = 0
-    @total = 0
     @inhabitant_tax = 0
     @grade = 0
     @accrued_liability = 0
     @year_end_adjustment_liability = 0
     self
+  end
+
+  # 給与小計
+  def subtotal
+    base_salary + commuting_allowance
+  end
+
+  # 給与合計
+  def total
+    subtotal
   end
 
   # 社会保険料（健康保険＋厚生年金）
@@ -61,7 +67,7 @@ class Payroll < ApplicationRecord
 
   # 社会保険料、雇用保険料控除後の所得
   def after_insurance_deduction
-    base_salary - social_insurance - employment_insurance
+    total - social_insurance - employment_insurance
   end
 
   # 差引合計額（保険料と税金を控除後の金額）
@@ -146,9 +152,6 @@ class Payroll < ApplicationRecord
       payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
 
-    # 小計のセット
-    payroll.subtotal = payroll.base_salary
-    payroll.total = payroll.subtotal
     # 編集フラグをセット　※Viewで使用
     payroll.is_new = false
 

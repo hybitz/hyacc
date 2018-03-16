@@ -1,9 +1,12 @@
 .withheld_taxes {
   th {
-    white-space: nowrap;
+    text-align: center;
   }
   td {
     text-align: right;
-    width: 12em;
+    
+    &.salary_range {
+      text-align: center;
+    }
   }
 }

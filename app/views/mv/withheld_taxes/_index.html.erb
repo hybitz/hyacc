@@ -4,7 +4,7 @@
     <span>～</span>
     <span><%= @list.first.valid_until %></span>
   </div>
-  <table>
+  <table class="table table-striped table-hover">
     <tr>
       <th>社会保険料控除後の<br/>給与範囲（以上）</th>
       <th>社会保険料控除後の<br/>給与範囲（未満）</th>
@@ -19,9 +19,9 @@
       <th>乙</th>
     </tr>
     <% @list.each do |data| %>
-      <tr class="hover">
-        <td><%= to_amount(data.salary_range_from, :show_zero => true) %></td>
-        <td><%= to_amount(data.salary_range_to, :show_zero => true) %></td>
+      <tr>
+        <td class="salary_range"><%= to_amount(data.salary_range_from, :show_zero => true) %></td>
+        <td class="salary_range"><%= to_amount(data.salary_range_to, :show_zero => true) %></td>
         <% 8.times do |i| %>
           <td><%= to_amount(data.__send__("dependent_#{i}"), :show_zero => true) %></td>
         <% end %>

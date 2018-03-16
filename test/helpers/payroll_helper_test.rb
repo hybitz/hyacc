@@ -18,7 +18,7 @@ class PayrollHelperTest < ActionView::TestCase
     employee_id = 8
     ym = 201707
     base_salary = 620000
-    p = get_tax(ym, employee_id, base_salary)
+    p = get_tax(ym, employee_id, base_salary, 0)
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
     assert_equal 30721, p.insurance
@@ -28,7 +28,7 @@ class PayrollHelperTest < ActionView::TestCase
     employee_id = 8
     ym = 201708
     base_salary = 620000
-    p = get_tax(ym, employee_id, base_salary)
+    p = get_tax(ym, employee_id, base_salary, 0)
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
     assert_equal 35836, p.insurance
@@ -38,7 +38,7 @@ class PayrollHelperTest < ActionView::TestCase
     employee_id = 9
     ym = 201707
     base_salary = 620000
-    p = get_tax(ym, employee_id, base_salary)
+    p = get_tax(ym, employee_id, base_salary, 0)
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
     assert_equal 35836, p.insurance

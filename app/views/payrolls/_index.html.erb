@@ -128,11 +128,11 @@
     <tr>
       <td colspan="2">小計</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].subtotal) %></td>
+      <td class="center"><%= to_amount(@pd[ym][:payroll].salary_subtotal) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].subtotal) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].subtotal) %></td>
-      <td class="right"><%= to_amount(@pd[:sum].subtotal) %></td>
+      <td><%= to_amount(@pd["b1"][:payroll].salary_subtotal) %></td>
+      <td><%= to_amount(@pd["b2"][:payroll].salary_subtotal) %></td>
+      <td class="right"><%= to_amount(@pd[:sum].salary_subtotal) %></td>
     </tr>
     <tr>
       <td colspan="2">臨時の給与</td>
@@ -146,11 +146,11 @@
     <tr>
       <td colspan="2">合計</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].total) %></td>
+      <td class="center"><%= to_amount(@pd[ym][:payroll].salary_total) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].total) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].total) %></td>
-      <td class="right"><%= to_amount(@pd[:sum].total) %></td>
+      <td><%= to_amount(@pd["b1"][:payroll].salary_total) %></td>
+      <td><%= to_amount(@pd["b2"][:payroll].salary_total) %></td>
+      <td class="right"><%= to_amount(@pd[:sum].salary_total) %></td>
     </tr>
     <tr>
       <td rowspan="8">控除額</td>

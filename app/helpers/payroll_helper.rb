@@ -75,7 +75,7 @@ module PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, base_salary)
+  def get_tax(ym, employee_id, base_salary, commuting_allowance)
     payroll = Payroll.new.init
     return payroll if ym.blank? || employee_id.blank?
     
@@ -87,11 +87,10 @@ module PayrollHelper
     payroll.employee = e
     payroll.base_salary = base_salary.to_i
 
-    # 事業所の都道府県コードを取得
-    prefecture_code = e.business_office.prefecture_code
-
     # 標準報酬月額の取得
-    standard_remuneration = get_standard_remuneration(ym, e, base_salary)
+    salary = base_salary.to_i + commuting_allowance.to_i
+    prefecture_code = e.business_office.prefecture_code # 事業所の都道府県コード
+    standard_remuneration = get_standard_remuneration(ym, e, salary)
     insurance = TaxUtils.get_social_insurance(ym, prefecture_code, standard_remuneration)
 
     # 保険料の設定
@@ -107,17 +106,15 @@ module PayrollHelper
     payroll.pension = (insurance.welfare_pension_insurance_half - 0.01).round
     payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
     
-    # 対象月の末日を基準
-    date = Date.new(ym.to_i/100, ym.to_i%100, -1)
-
-    # 扶養親族
+    # 源泉徴収税
+    date = Date.new(ym.to_i/100, ym.to_i%100, -1) # 対象月の末日を基準
     exemption = e.exemptions.order("yyyy desc").first
-    num_of_dependent = exemption ? exemption.family_members.size : 0
-    payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(date, payroll.after_insurance_deduction, num_of_dependent)
+    num_of_dependent = exemption ? exemption.family_members.size : 0 # 扶養親族
+    salary = payroll.base_salary.to_i - payroll.social_insurance.to_i - payroll.employment_insurance.to_i
+    payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(date, salary, num_of_dependent)
 
     # 雇用保険
-    ei = TaxJp::LaborInsurances::EmploymentInsurance.find_by_date(date)
-    payroll.employment_insurance = (payroll.base_salary * ei.employee_general - 0.01).round
+    payroll.calc_employment_insurance
 
     payroll
   end

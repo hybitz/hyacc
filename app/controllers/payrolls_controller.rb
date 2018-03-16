@@ -26,7 +26,7 @@ class PayrollsController < Base::HyaccController
     employee_id = params[:employee_id]
     base_salary = Payroll.get_previous_base_salary(ym, employee_id)
 
-    @payroll = get_tax(ym, employee_id, base_salary)
+    @payroll = get_tax(ym, employee_id, base_salary, 0)
 
     # 初期値の設定
     @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
@@ -140,7 +140,8 @@ class PayrollsController < Base::HyaccController
     ym = params[:payroll][:ym]
     employee_id = params[:payroll][:employee_id]
     base_salary = params[:payroll][:base_salary]
-    payroll = get_tax(ym, employee_id, base_salary)
+    commuting_allowance = params[:payroll][:commuting_allowance]
+    payroll = get_tax(ym, employee_id, base_salary, commuting_allowance)
 
     render :json => {insurance: payroll.insurance, pension: payroll.pension, employment_insurance: payroll.employment_insurance, income_tax: payroll.income_tax}
   end

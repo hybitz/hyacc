@@ -51,13 +51,13 @@ class Payroll < ApplicationRecord
   end
 
   # 給与小計
-  def subtotal
+  def salary_subtotal
     base_salary + commuting_allowance
   end
 
   # 給与合計
-  def total
-    subtotal
+  def salary_total
+    salary_subtotal
   end
 
   # 社会保険料（健康保険＋厚生年金）
@@ -67,7 +67,7 @@ class Payroll < ApplicationRecord
 
   # 社会保険料、雇用保険料控除後の所得
   def after_insurance_deduction
-    total - social_insurance - employment_insurance
+    salary_total - social_insurance - employment_insurance
   end
 
   # 差引合計額（保険料と税金を控除後の金額）
@@ -185,9 +185,6 @@ class Payroll < ApplicationRecord
       payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
 
-    # 小計のセット
-    payroll.subtotal = payroll.base_salary
-    payroll.total = payroll.subtotal
     # 編集フラグをセット　※Viewで使用
     payroll.is_new = false
 
@@ -252,4 +249,11 @@ class Payroll < ApplicationRecord
     payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
   end
 
+  def calc_employment_insurance
+    # 対象月の末日を基準
+    date = Date.new(ym.to_i/100, ym.to_i%100, -1)
+
+    ei = TaxJp::LaborInsurances::EmploymentInsurance.find_by_date(date)
+    self.employment_insurance = (salary_total * ei.employee_general - 0.01).round
+  end
 end

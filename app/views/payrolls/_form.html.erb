@@ -7,8 +7,8 @@
       return checkForm(this);
     });
 
-    var base_salary = form.find('input[name*="\[base_salary\]"]');
-    base_salary.change(function() {
+    var salary = form.find('.salary');
+    salary.change(function() {
       loadInsurance(form);
     });
   });
@@ -16,6 +16,7 @@
   function loadInsurance(form) {
     var url = '<%= url_for :action => 'auto_calc' %>';
     var params = form.serialize();
+
     $.getJSON(url, params, function(taxes) {
       form.find('input[name*="\[insurance\]"]').val(taxes.insurance);
       form.find('input[name*="\[pension\]"]').val(taxes.pension);
@@ -72,7 +73,7 @@
       </tr>
       <tr>
         <th><%= f.label :base_salary %></th>
-        <td><%= f.text_field :base_salary, :maxlength => 10 %></td>
+        <td><%= f.text_field :base_salary, :maxlength => 10, class: 'salary' %></td>
         <td></td>
         <td></td>
         <th>労働時間</th>
@@ -80,7 +81,7 @@
       </tr>
       <tr>
         <th><%= f.label :commuting_allowance %></th>
-        <td><%= f.text_field :commuting_allowance, :maxlength => 6 %></td>
+        <td><%= f.text_field :commuting_allowance, :maxlength => 6, class: 'salary' %></td>
         <td></td>
         <td></td>
         <th>休日労働時間数</th>

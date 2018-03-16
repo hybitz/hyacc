@@ -180,6 +180,7 @@ ja:
 
       payroll:
         accrued_liability: 従業員への未払費用
+        annual_adjustment: 年末調整額（過払分）
         base_salary: 基本給
         commuting_allowance: 通勤手当
         days_of_work: 労働日数
@@ -192,7 +193,6 @@ ja:
         insurance: 健康保険料
         pay_day: "給与支払日"
         pension: 厚生年金保険料
-        year_end_adjustment_liability: "年末調整額（過払分）"
         ym: 年月
 
       receipt:

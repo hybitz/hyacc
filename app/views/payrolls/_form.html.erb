@@ -145,7 +145,7 @@
       <% if @payroll.ym.to_s.slice(4,2) == "12" %>
         <tr>
           <th>年末調整額（過払分）</th>
-          <td><%= f.text_field :year_end_adjustment_liability, :maxlength => 10 %></td>
+          <td><%= f.text_field :annual_adjustment, :maxlength => 10 %></td>
         </tr>
       <% end %>
   

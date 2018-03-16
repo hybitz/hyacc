@@ -11,6 +11,8 @@ class Payroll < ApplicationRecord
 
   validates_presence_of :employee_id, :ym, :message => "は必須です。"
   validates :base_salary, :presence => true, numericality: { only_integer: true, greater_than: 0 }
+  validates :commuting_allowance, :presence => true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
+  validates :annual_adjustment, numericality: { only_integer: true, allow_blank: true }
   validates_numericality_of :days_of_work, :hours_of_work,
                             :hours_of_day_off_work, :hours_of_early_work,
                             :hours_of_late_night_work,
@@ -29,7 +31,6 @@ class Payroll < ApplicationRecord
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
   attr_accessor :accrued_liability     # 従業員への未払費用
-  attr_accessor :year_end_adjustment_liability # 年末調整額（過払分）
 
   def initialize( args = nil )
     super( args )
@@ -46,7 +47,6 @@ class Payroll < ApplicationRecord
     @inhabitant_tax = 0
     @grade = 0
     @accrued_liability = 0
-    @year_end_adjustment_liability = 0
     self
   end
 
@@ -97,12 +97,6 @@ class Payroll < ApplicationRecord
       errors.add(:accrued_liability, "は数値で入力して下さい。")
       result = false
     end
-    unless year_end_adjustment_liability.nil?
-      unless year_end_adjustment_liability =~ /^-[0-9]{1,}$|[0-9]{1,}$/
-        errors.add(:year_end_adjustment_liability, "は数値で入力して下さい。")
-        result = false
-      end
-    end
 
     if pay_day =~ /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/
       split = pay_day.split('-').map(&:to_i)
@@ -143,7 +137,6 @@ class Payroll < ApplicationRecord
     payroll.pension = payroll.get_pension_from_jd
     payroll.employment_insurance = payroll.get_employment_insurance_from_jd
     payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
-    payroll.year_end_adjustment_liability = payroll.get_year_end_adjustment_liability_from_jd
 
     # 支払の伝票取得
     if payroll.pay_journal_header != nil
@@ -242,11 +235,6 @@ class Payroll < ApplicationRecord
   # 仕訳明細から未払費用を取得する
   def get_accrued_liability_from_jd
     payroll_journal_header.get_debit_amount(ACCOUNT_CODE_UNPAID_EMPLOYEE)
-  end
-
-  # 仕訳明細から年末調整額を取得する
-  def get_year_end_adjustment_liability_from_jd
-    payroll_journal_header.get_debit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
   end
 
   def calc_employment_insurance

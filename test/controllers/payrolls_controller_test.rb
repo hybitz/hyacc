@@ -46,8 +46,6 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    # 基本給
-    assert_equal JournalDetail.find(11578).amount, assigns(:payroll).base_salary
     # 健康保険料
     assert_equal JournalDetail.find(11583).amount, assigns(:payroll).insurance
     # 厚生年金保険料
@@ -56,8 +54,6 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal JournalDetail.find(11581).amount, assigns(:payroll).income_tax
     # 住民税
     assert_equal JournalDetail.find(11582).amount, assigns(:payroll).inhabitant_tax
-    # 年末調整額（過払分）
-    assert_equal JournalDetail.find(11574).amount, assigns(:payroll).year_end_adjustment_liability
   end
 
   # 前月の情報取得
@@ -211,7 +207,7 @@ class PayrollsControllerTest < ActionController::TestCase
                      :hours_of_late_night_work => 102, :base_salary => '100000a',
                      :insurance => '5@000', :pension => 'x',
                      :income_tax => 'x', :inhabitant_tax => 'x',
-                     :accrued_liability => 'x', :year_end_adjustment_liability=>'x',
+                     :accrued_liability => 'x', :annual_adjustment=>'x',
                      :pay_day => 'x',
                      :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
                      :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,

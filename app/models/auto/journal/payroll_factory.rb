@@ -175,14 +175,14 @@ module Auto::Journal
         detail.note = "住民税"
       end
       ### 年末調整分
-      if @payroll.year_end_adjustment_liability.to_i != 0
+      if @payroll.annual_adjustment != 0
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = deposits_received
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
         detail.branch_id = branch_id
-        detail.amount = @payroll.year_end_adjustment_liability
+        detail.amount = @payroll.annual_adjustment
         detail.note = "年末調整過払い分"
       end
       ### 振り込み予定額　※仮明細

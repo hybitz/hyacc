@@ -178,7 +178,7 @@ class PayrollsController < Base::HyaccController
         :income_tax, :credit_account_type_of_income_tax,
         :employment_insurance, :credit_account_type_of_employment_insurance,
         :inhabitant_tax, :credit_account_type_of_inhabitant_tax,
-        :accrued_liability, :year_end_adjustment_liability, :pay_day)
+        :accrued_liability, :annual_adjustment, :pay_day)
   end
 
   def make_journals(payroll)

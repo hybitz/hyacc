@@ -1,2 +1,2 @@
-Time::DATE_FORMATS[:ymd] = '%Y-%m-%d'
-Date::DATE_FORMATS[:ymd] = '%Y-%m-%d'
+Time::DATE_FORMATS[:default] = '%Y-%m-%d %H:%M'
+Date::DATE_FORMATS[:default] = '%Y-%m-%d'

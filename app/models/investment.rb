@@ -20,6 +20,10 @@ class Investment < ApplicationRecord
   after_find :set_buying_or_sellng
   after_find :set_yyyymmdd
 
+  def deal_date
+    Date.parse(yyyymmdd)
+  end
+
   def buying?
     buying_or_selling == '1'
   end

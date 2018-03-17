@@ -17,7 +17,7 @@ module Auto::TransferJournal
     private  
 
     def make_journal_allocated_assets(src_jd)
-      jh = src_jd.transfer_journals.build
+      jh = src_jd.transfer_journals.build(auto: true)
       jh.company_id = @src_jh.company_id
       jh.ym = @src_jh.ym
       jh.day = @src_jh.day

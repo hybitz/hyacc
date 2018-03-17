@@ -35,7 +35,7 @@ module Auto::TransferJournal
       return if branch.head_office?
 
       # 支店の場合は本店との振替仕訳を作成する
-      jh = parent_jh.transfer_journals.build
+      jh = parent_jh.transfer_journals.build(auto: true)
       jh.company_id = @src_jh.company_id
       jh.ym = parent_jh.ym
       jh.day = parent_jh.day

@@ -16,7 +16,7 @@ module Auto::TransferJournal
     private
 
     def make_journal_allocated_cost(src_jd)
-      jh = src_jd.transfer_journals.build
+      jh = src_jd.transfer_journals.build(auto: true)
       jh.company_id = @src_jh.company_id
       jh.ym, jh.day = calc_ym_and_day(src_jd)
       jh.slip_type = SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST
@@ -29,16 +29,11 @@ module Auto::TransferJournal
       # 明細作成準備
       # 配賦用の勘定科目を特定
       a = Account.find(src_jd.account_id)
-      if a.path.index(ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE) != nil
-        # 販売費および一般管理費
-        account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE)
-        account_cost = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST)
-      elsif a.path.index(ACCOUNT_CODE_CORPORATE_TAXES) != nil
+      if a.path.index(ACCOUNT_CODE_CORPORATE_TAXES)
         # 法人税等
         account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE)
         account_cost = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_TAXES)
       else
-        # その他
         account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE)
         account_cost = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST)
       end

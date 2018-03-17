@@ -26,7 +26,7 @@ module Auto::Journal
     end
     
     def make_journal_by_month(ym)
-      jh = @housework.journal_headers.build
+      jh = @housework.journal_headers.build(auto: true)
       jh.company_id = @user.employee.company.id
       jh.ym = ym
       jh.day = HyaccDateUtil.last_day_of_month(ym)

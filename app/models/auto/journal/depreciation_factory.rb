@@ -30,7 +30,7 @@ module Auto::Journal
         amount = amount_per_month
         amount += amount_fraction if i == 0
 
-        jh = @depreciation.journal_headers.build
+        jh = @depreciation.journal_headers.build(auto: true)
         jh.company = c
         jh.slip_type = SLIP_TYPE_DEPRECIATION
         jh.ym = HyaccDateUtil.add_months(start_ym, i)

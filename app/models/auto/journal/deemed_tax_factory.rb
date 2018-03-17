@@ -59,7 +59,7 @@ module Auto::Journal
       # 納税額がない月の仕訳は不要
       return nil unless dtm.total_tax_amount > 0
       
-      jh = JournalHeader.new
+      jh = JournalHeader.new(auto: true)
       jh.company_id = @fiscal_year.company.id
       jh.fiscal_year_id = @fiscal_year.id
       jh.ym = ym

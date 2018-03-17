@@ -36,11 +36,9 @@ module Auto::Journal
       # 仕訳ヘッダ
       jh = @fiscal_year.get_carry_forward_journal
       if jh
-        jh.journal_details.each do |jd|
-          jd.mark_for_destruction
-        end
+        jh.journal_details.map(&:mark_for_destruction)
       else
-        jh = JournalHeader.new
+        jh = JournalHeader.new(auto: true)
       end
       jh.company_id = @fiscal_year.company.id
       jh.fiscal_year_id = @fiscal_year.id

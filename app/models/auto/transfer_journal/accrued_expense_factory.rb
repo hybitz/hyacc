@@ -9,7 +9,7 @@ module Auto::TransferJournal
     end
 
     def make_journals
-      auto = @src_jd.transfer_journals.build
+      auto = @src_jd.transfer_journals.build(auto: true)
       auto.company_id = @src_jd.journal_header.company_id
       auto.ym = HyaccDateUtil.last_month(@src_jd.journal_header.ym)
       auto.day = HyaccDateUtil.last_day_of_month( auto.ym )
@@ -38,7 +38,7 @@ module Auto::TransferJournal
 
       # 逆仕訳の作成
       next_day = Date.new(auto.ym/100, auto.ym%100, auto.day ).next
-      reverse = auto.transfer_journals.build
+      reverse = auto.transfer_journals.build(auto: true)
       reverse.company_id = auto.company_id
       reverse.ym = @src_jd.journal_header.ym
       reverse.day = @src_jd.journal_header.day

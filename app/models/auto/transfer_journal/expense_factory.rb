@@ -12,7 +12,7 @@ module Auto::TransferJournal
     def make_journals
       src_date = @src_jd.journal_header.date
 
-      auto = @src_jd.transfer_journals.build
+      auto = @src_jd.transfer_journals.build(auto: true)
       auto.company_id = @src_jd.journal_header.company_id
       auto.ym = @date.year * 100 + @date.month
       auto.day = @date.day
@@ -40,7 +40,7 @@ module Auto::TransferJournal
       auto_jd.amount = @src_jd.amount
       
       # 逆仕訳を作成
-      reverse = auto.transfer_journals.build
+      reverse = auto.transfer_journals.build(auto: true)
       reverse.company_id = auto.company_id
       reverse.ym = @src_jd.journal_header.ym
       reverse.day = @src_jd.journal_header.day

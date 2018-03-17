@@ -4,8 +4,7 @@ module JournalHelper
   # 編集可能か
   def can_edit( jh )
     # 自動振替伝票は編集不可
-    return false if is_auto( jh )
-    true
+    ! jh.auto?
   end
 
   # 削除可能か
@@ -26,20 +25,6 @@ module JournalHelper
   def colspan_of_account_details_for_show
     return 4 if branch_mode
     3
-  end
-
-  # 自動仕訳か
-  def is_auto( jh )
-    [SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE,
-     SLIP_TYPE_AUTO_TRANSFER_ACCRUED_EXPENSE,
-     SLIP_TYPE_AUTO_TRANSFER_EXPENSE,
-     SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE,
-     SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST,
-     SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS,
-     SLIP_TYPE_CARRY_FORWARD,
-     SLIP_TYPE_DEEMED_TAX,
-     SLIP_TYPE_DEPRECIATION,
-     SLIP_TYPE_HOUSEWORK].include? jh.slip_type
   end
 
   def is_current_asset(account_id)

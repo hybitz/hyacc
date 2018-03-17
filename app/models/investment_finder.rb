@@ -1,15 +1,17 @@
-class InvestmentFinder < Base::Finder
-  include HyaccConstants
+class InvestmentFinder
+  include ActiveModel::Model
+  include Pagination
+  include CompanyAware
+  include BankAccountAware
 
-  attr_accessor :bank_account_id
-  
+  attr_accessor :fiscal_year
+
   def list
     Investment.where(conditions).order('ym, day')
   end
   
   def fiscal_years
-    c = Company.find(company_id)
-    c.fiscal_years.map{|fy| fy.fiscal_year }.sort
+    company.fiscal_years.map{|fy| fy.fiscal_year }.sort
   end
   
   def is_not_related_to_journal_detail
@@ -71,8 +73,8 @@ class InvestmentFinder < Base::Finder
   
   # 会計年度内の年月を12ヶ月分、yyyymmの配列として取得する。
   def get_ym_range
-    start_year_month = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, start_month_of_fiscal_year )
-    HyaccDateUtil.get_year_months( start_year_month, 12 )
+    start_year_month = HyaccDateUtil.get_start_year_month_of_fiscal_year(fiscal_year, company.start_month_of_fiscal_year)
+    HyaccDateUtil.get_year_months(start_year_month, 12)
   end
   
 end

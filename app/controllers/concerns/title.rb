@@ -8,7 +8,7 @@ module Title
   private
 
   def title
-    @title
+    @title ||= I18n.t("title.#{controller_name}")
   end
 
 end

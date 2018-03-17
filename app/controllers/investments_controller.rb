@@ -1,16 +1,12 @@
 class InvestmentsController < Base::HyaccController
-  view_attribute :title => '有価証券'
-  view_attribute :finder, :class => InvestmentFinder
+  include BankAccounts
+
   view_attribute :customers, :only => [:new,:create,:edit,:relate], :conditions => {:is_investment => true, :deleted => false}
-  view_attribute :bank_accounts, :conditions => {financial_account_type: [FINANCIAL_ACCOUNT_TYPE_GENERAL,
-                                                                          FINANCIAL_ACCOUNT_TYPE_SPECIFIC,
-                                                                          FINANCIAL_ACCOUNT_TYPE_SPECIFIC_WITHHOLD]}
-  
+  helper_method :finder
+
   def index
     check_if_related
-    return unless params[:commit]
-    finder.bank_account_id = params[:finder][:bank_account_id]
-    @investments = finder.list
+    @investments = finder.list if params[:commit]
   end
 
   def new
@@ -80,7 +76,6 @@ class InvestmentsController < Base::HyaccController
     unless @finder
       @finder = InvestmentFinder.new(finder_params)
       @finder.company_id = current_company.id
-      @finder.start_month_of_fiscal_year = current_company.start_month_of_fiscal_year
       @finder.fiscal_year ||= current_company.fiscal_year
     end
     
@@ -88,11 +83,7 @@ class InvestmentsController < Base::HyaccController
   end
   
   def finder_params
-    if params[:finder]
-      params.require(:finder).permit(
-          :disabled
-        )
-    end
+    params.fetch(:finder, {}).permit(:fiscal_year, :bank_account_id)
   end
 
   def investment_params

@@ -1,0 +1,5 @@
+<%= form_with scope: :finder, method: 'get', local: true do |f| %>
+  年度：<%= f.select :fiscal_year, fiscal_years %>
+  証券口座：<%= f.select :bank_account_id, to_options(securities_accounts) %>
+  <%= f.submit '表示', class: 'btn btn-default' %>
+<% end %>

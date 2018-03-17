@@ -1,48 +1,45 @@
 <script>
   $(document).ready(function() {
     hyacc.init_datepicker();
-    });
+  });
 </script>
 <%= flash_notice_in_span %>
-<%= form_for @investment, :remote => true do |f| %>
-    <div style="float: left;">
-      
-      <table>
-        <tr>
-          <th><%= f.label :yyyymmdd %></th>
-          <td><%= f.text_field :yyyymmdd, :class => 'datepicker' %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :bank_account_id %></th>
-          <td><%= "金融口座マスタに証券口座が登録されていません。" if @bank_accounts.length == 0 %>
-              <%= f.select :bank_account_id, to_options(@bank_accounts) if @bank_accounts.length > 0 %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :customer_name %></th>
-          <td><%= "取引先マスタに投資先が登録されていません。" if @customers.length == 0 %>
-              <%= f.select :customer_id, to_options(@customers) if @customers.length > 0 %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :buying_or_selling %></th>
-          <td><%= f.radio_button :buying_or_selling, '1', {:checked => true} %>購入　<%= f.radio_button :buying_or_selling, '0' %>売却</td>
-        </tr>
-        <tr>
-          <th><%= f.label :for_what %></th>
-          <td><%= f.radio_button :for_what, SECURITIES_TYPE_FOR_TRADING, {:checked => true} %>売買目的（1年以内）　<%= f.radio_button :for_what, SECURITIES_TYPE_FOR_INVESTMENT %>投資目的（1年越え）</td>
-        </tr>
-        <tr>
-          <th><%= f.label :shares %></th>
-          <td><%= f.text_field :shares %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :trading_value %></th>
-          <td><%= f.text_field :trading_value %></td>
-        </tr>
-        <tr>
-          <th><%= f.label :charges %></th>
-          <td><%= f.text_field :charges %></td>
-        </tr>
-      </table>
-      <%= f.hidden_field :journal_detail_id %>
-    </div>
+<%= form_with model: @investment do |f| %>
+  <table>
+    <tr>
+      <th><%= f.label :yyyymmdd %></th>
+      <td><%= f.text_field :yyyymmdd, :class => 'datepicker' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :bank_account_id %></th>
+      <td><%= "金融口座マスタに証券口座が登録されていません。" if securities_accounts.empty? %>
+          <%= f.select :bank_account_id, to_options(securities_accounts) if securities_accounts.present? %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :customer_name %></th>
+      <td><%= "取引先マスタに投資先が登録されていません。" if @customers.length == 0 %>
+          <%= f.select :customer_id, to_options(@customers) if @customers.length > 0 %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :buying_or_selling %></th>
+      <td><%= f.radio_button :buying_or_selling, '1', {:checked => true} %>購入　<%= f.radio_button :buying_or_selling, '0' %>売却</td>
+    </tr>
+    <tr>
+      <th><%= f.label :for_what %></th>
+      <td><%= f.radio_button :for_what, SECURITIES_TYPE_FOR_TRADING, {:checked => true} %>売買目的（1年以内）　<%= f.radio_button :for_what, SECURITIES_TYPE_FOR_INVESTMENT %>投資目的（1年越え）</td>
+    </tr>
+    <tr>
+      <th><%= f.label :shares %></th>
+      <td><%= f.text_field :shares %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :trading_value %></th>
+      <td><%= f.text_field :trading_value %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :charges %></th>
+      <td><%= f.text_field :charges %></td>
+    </tr>
+  </table>
+  <%= f.hidden_field :journal_detail_id %>
 <% end %>

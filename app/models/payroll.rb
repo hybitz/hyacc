@@ -13,6 +13,8 @@ class Payroll < ApplicationRecord
   validates :base_salary, :presence => true, numericality: { only_integer: true, greater_than: 0 }
   validates :commuting_allowance, :presence => true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :annual_adjustment, numericality: { only_integer: true, allow_blank: true }
+  validates :accrued_liability, numericality: { only_integer: true, allow_blank: true }
+
   validates_numericality_of :days_of_work, :hours_of_work,
                             :hours_of_day_off_work, :hours_of_early_work,
                             :hours_of_late_night_work,
@@ -30,7 +32,6 @@ class Payroll < ApplicationRecord
   attr_accessor :inhabitant_tax        # 住民税
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
-  attr_accessor :accrued_liability     # 従業員への未払費用
 
   def initialize( args = nil )
     super( args )
@@ -46,7 +47,6 @@ class Payroll < ApplicationRecord
     @pension_all = 0
     @inhabitant_tax = 0
     @grade = 0
-    @accrued_liability = 0
     self
   end
 
@@ -91,10 +91,6 @@ class Payroll < ApplicationRecord
     end
     unless inhabitant_tax =~ /^[0-9]{1,}$/
       errors.add(:inhabitant_tax, "は数値で入力して下さい。")
-      result = false
-    end
-    unless accrued_liability =~ /^[0-9]{1,}$/
-      errors.add(:accrued_liability, "は数値で入力して下さい。")
       result = false
     end
 
@@ -142,7 +138,6 @@ class Payroll < ApplicationRecord
     if payroll.pay_journal_header != nil
       jh = payroll.pay_journal_header
       payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
-      payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
 
     # 編集フラグをセット　※Viewで使用
@@ -175,7 +170,6 @@ class Payroll < ApplicationRecord
     if payroll.pay_journal_header != nil
       jh = payroll.pay_journal_header
       payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
-      payroll.accrued_liability = payroll.get_accrued_liability_from_jd
     end
 
     # 編集フラグをセット　※Viewで使用
@@ -230,11 +224,6 @@ class Payroll < ApplicationRecord
     elsif self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
       return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INHABITANT_TAX)
     end
-  end
-
-  # 仕訳明細から未払費用を取得する
-  def get_accrued_liability_from_jd
-    payroll_journal_header.get_debit_amount(ACCOUNT_CODE_UNPAID_EMPLOYEE)
   end
 
   def calc_employment_insurance

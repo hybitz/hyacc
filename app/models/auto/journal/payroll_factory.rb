@@ -252,7 +252,7 @@ module Auto::Journal
         detail.note = salary_account.name
       end
       ### 未払金（従業員）.ユーザ
-      if @payroll.accrued_liability.to_i != 0
+      if @payroll.accrued_liability > 0
         account = Account.find_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE)
 
         detail = journal_header.journal_details.build

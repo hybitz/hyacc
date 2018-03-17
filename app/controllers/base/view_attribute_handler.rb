@@ -24,8 +24,6 @@ module Base::ViewAttributeHandler
           @report_types = get_report_types
         elsif name == :report_styles
           @report_styles = get_report_styles
-        elsif name == :bank_accounts
-          @bank_accounts = get_bank_accounts(options)
         elsif name == :title
           @title = options[name]
         end
@@ -160,14 +158,6 @@ module Base::ViewAttributeHandler
     report_styles
   end
   
-  def get_bank_accounts(options = {})
-    if options[:conditions]
-      BankAccount.where(options[:conditions])
-    else
-      BankAccount.all
-    end
-  end
-
   # 従業員一覧を取得する
   def get_employees(finder, options = {})
     employees = []

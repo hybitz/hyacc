@@ -6,12 +6,12 @@ class InvestmentsControllerTest < ActionController::TestCase
     sign_in user
   end
 
-  def test_should_show_investment
+  def test_一覧
     get :index
     assert_response :success
   end
 
-  def test_should_show_investment_list
+  def test_検索
     get :index, :params => {:finder => {:fiscal_year => 2016, :bank_account_id => 3}}
     assert_response :success
   end

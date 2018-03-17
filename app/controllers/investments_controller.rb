@@ -1,5 +1,5 @@
 class InvestmentsController < Base::HyaccController
-  include BankAccounts
+  include BankAccountsAware
 
   view_attribute :customers, :only => [:new,:create,:edit,:relate], :conditions => {:is_investment => true, :deleted => false}
   helper_method :finder

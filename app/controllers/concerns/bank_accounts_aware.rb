@@ -1,4 +1,4 @@
-module BankAccounts
+module BankAccountsAware
   extend ActiveSupport::Concern
 
   included do

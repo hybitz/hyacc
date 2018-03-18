@@ -42,9 +42,7 @@ module Auto::TransferJournal
       jh.slip_type = SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE
       jh.remarks = @src_jh.remarks + '【内部取引】'
       jh.create_user_id = @src_jh.create_user_id
-      jh.created_at = @src_jh.created_at
       jh.update_user_id = @src_jh.update_user_id
-      jh.updated_at = @src_jh.updated_at
 
       # 明細作成準備
       head_office = branch.company.head_branch
@@ -61,8 +59,6 @@ module Auto::TransferJournal
       jd.account_id = account_head_office.id
       jd.branch_id = branch_id
       jd.amount = amount
-      jd.created_at = @src_jh.created_at
-      jd.updated_at = @src_jh.updated_at
 
       # 本店分の明細を作成
       jd2 = jh.journal_details.build
@@ -72,8 +68,6 @@ module Auto::TransferJournal
       jd2.sub_account_id = account_branch_office.get_sub_account_by_code(branch.code).id
       jd2.branch_id = head_office.id
       jd2.amount = amount
-      jd2.created_at = @src_jh.created_at
-      jd2.updated_at = @src_jh.updated_at
     end
   end
 end

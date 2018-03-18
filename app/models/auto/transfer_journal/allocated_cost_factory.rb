@@ -22,9 +22,7 @@ module Auto::TransferJournal
       jh.slip_type = SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST
       jh.remarks = @src_jh.remarks + '【費用配賦】'
       jh.create_user_id = @src_jh.create_user_id
-      jh.created_at = @src_jh.created_at
       jh.update_user_id = @src_jh.update_user_id
-      jh.updated_at = @src_jh.updated_at
       
       # 明細作成準備
       # 配賦用の勘定科目を特定
@@ -47,8 +45,6 @@ module Auto::TransferJournal
         jd.account_id = account_cost_share.id
         jd.branch_id = branch_id
         jd.amount = cost
-        jd.created_at = src_jd.created_at
-        jd.updated_at = src_jd.updated_at
 
         # 本社費用配賦
         jd2 = jh.journal_details.build
@@ -58,8 +54,6 @@ module Auto::TransferJournal
         jd2.sub_account_id = account_cost.get_sub_account_by_code( Branch.find(branch_id).code ).id
         jd2.branch_id = src_jd.branch_id
         jd2.amount = cost
-        jd2.created_at = src_jd.created_at
-        jd2.updated_at = src_jd.updated_at
       end
     end
     

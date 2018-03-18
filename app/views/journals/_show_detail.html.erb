@@ -17,11 +17,11 @@
   </td>
 </tr>
 <tr style="<%= style_for_detail(jd) %>">
-  <td rowspan="3" align="center">險井ｸ頑律<br/>謖ｯ譖ｿ</td>
+  <td rowspan="3" align="center">計上日<br/>振替</td>
   <td colspan="2">
     <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
            <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />
-    鄙梧怦縺ｮ雋ｻ逕ｨ
+    翌月の費用
   </td>
 
   <% if branch_mode %>
@@ -38,7 +38,7 @@
   <td colspan="2">
     <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
            <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %> />
-    蜑肴怦縺ｮ雋ｻ逕ｨ
+    前月の費用
   </td>
   <td rowspan="2" colspan="4">
     <div id="journal_details_<%= index %>_account_detail" style="margin:5px">
@@ -51,9 +51,9 @@
   <td colspan="2" nowrap>
     <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
            <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
-    <%= jd.auto_journal_year || '----' %> 蟷ｴ
-    <%= jd.auto_journal_month || '--' %> 譛�
-    <%= jd.auto_journal_day || '--' %> 譌･縺ｮ雋ｻ逕ｨ
+    <%= jd.auto_journal_year || '----' %> 年
+    <%= jd.auto_journal_month || '--' %> 月
+    <%= jd.auto_journal_day || '--' %> 日の費用
   </td>
   <td></td>
 </tr>

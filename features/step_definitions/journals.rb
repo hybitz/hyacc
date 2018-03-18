@@ -125,24 +125,24 @@ end
 end
 
 もし /^明細を追加して町内会費を入力します。$/ do
-  click_on '明細追加'
+  with_capture do
+    click_on '明細追加'
 
-  select '借方', :from => 'journal_journal_details_attributes_2__dc_type'
-  select '諸会費', :from => 'journal_journal_details_attributes_2__account_id'
-  fill_in 'journal_journal_details_attributes_2__input_amount', :with => 3000
-  fill_in 'journal_journal_details_attributes_2__note', :with => '町内会費として'
-
-  capture
+    select '借方', from: 'journal[journal_details_attributes[2]][dc_type]'
+    select '諸会費', from: 'journal[journal_details_attributes[2]][account_id]'
+    fill_in 'journal[journal_details_attributes[2]][input_amount]', :with => 3000
+    fill_in 'journal[journal_details_attributes[2]][note]', :with => '町内会費として'
+  end
 end
 
 もし /^明細をもう１つ追加して、現金での支払いを入力します。$/ do
-  click_on '明細追加'
+  with_capture do
+    click_on '明細追加'
 
-  select '貸方', :from => "journal_journal_details_attributes_3__dc_type"
-  select '小口現金', :from => "journal_journal_details_attributes_3__account_id"
-  fill_in 'journal_journal_details_attributes_3__input_amount', :with => 96000
-
-  capture
+    select '貸方', from: 'journal[journal_details_attributes[3]][dc_type]'
+    select '小口現金', from: 'journal[journal_details_attributes[3]][account_id]'
+    fill_in 'journal[journal_details_attributes[3]][input_amount]', with: 96000
+  end
 end
 
 もし /^登録して終了です。$/ do

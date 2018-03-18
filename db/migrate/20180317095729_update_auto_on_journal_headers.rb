@@ -9,10 +9,8 @@ class UpdateAutoOnJournalHeaders < ActiveRecord::Migration[5.1]
       SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST,
       SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS,
       SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE,
-      SLIP_TYPE_CARRY_FORWARD,
       SLIP_TYPE_DEEMED_TAX,
-      SLIP_TYPE_DEPRECIATION,
-      SLIP_TYPE_HOUSEWORK
+      SLIP_TYPE_DEPRECIATION
     ]
     JournalHeader.where(slip_type: slip_types).update_all(['auto = ?', true])
   end

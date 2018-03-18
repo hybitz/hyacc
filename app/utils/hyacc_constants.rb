@@ -35,7 +35,6 @@ module HyaccConstants
     AUTO_JOURNAL_TYPE_PAYROLL = 7 => 'Journal::PayrollFactory',
     AUTO_JOURNAL_TYPE_ALLOCATED_ASSETS = 8 => 'TransferJournal::AllocatedAssetsFactory',
     AUTO_JOURNAL_TYPE_TEMPORARY_DEBT = 9 => 'Journal::TemporaryDebtFactory',
-    AUTO_JOURNAL_TYPE_HOUSEWORK = 10 => 'Journal::HouseworkFactory',
     AUTO_JOURNAL_TYPE_DEEMED_TAX = 12 => 'Journal::DeemedTaxFactory',
     AUTO_JOURNAL_TYPE_INVESTMENT = 13 => 'Journal::InvestmentFactory',
   }
@@ -244,8 +243,6 @@ module HyaccConstants
     SLIP_TYPE_AUTO_TRANSFER_EXPENSE = 4 => '計上日振替',
     SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION = 6 => '給与',
     SLIP_TYPE_DEPRECIATION = 7 => '減価償却',
-    SLIP_TYPE_HOUSEWORK = 11 => '家事按分',
-    SLIP_TYPE_CARRY_FORWARD = 12 => '年次繰越',
     SLIP_TYPE_DEEMED_TAX = 13 => 'みなし消費税',
     SLIP_TYPE_INVESTMENT = 14 => '有価証券'
   }

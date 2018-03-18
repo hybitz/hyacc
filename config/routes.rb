@@ -22,14 +22,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :houseworks, :only => 'index' do
-    member do
-      post 'create_journal'
-    end
-
-    resources :housework_details, :except => 'index'
-  end
-
   resources :investments do
     collection do
       get 'not_related'

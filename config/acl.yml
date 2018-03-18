@@ -7,8 +7,6 @@ current_user:
 current_company:
   deemed_taxes: tax_simplified?
   financial_return_statements: '!personal?'
-  houseworks: personal?
-  housework_details: personal?
   payrolls: '!personal?'
   social_expenses: '!personal?'
   taxes: tax_exclusive?

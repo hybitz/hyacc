@@ -140,12 +140,6 @@ ja:
         fiscal_year: 会計年度
         tax_management_type: 消費税管理区分
 
-      housework:
-        fiscal_year: 会計年度
-
-      housework_detail:
-        business_ratio: 事業費率
-
       insurance:
         grade: 等級
 

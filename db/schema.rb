@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180318042518) do
+ActiveRecord::Schema.define(version: 20180318043541) do
 
   create_table "accounts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code", default: "", null: false
@@ -314,24 +314,6 @@ ActiveRecord::Schema.define(version: 20180318042518) do
     t.integer "lock_version", default: 0, null: false
     t.integer "consumption_entry_type", limit: 1
     t.index ["company_id", "fiscal_year"], name: "index_fiscal_yeras_on_company_id_and_fiscal_year", unique: true
-  end
-
-  create_table "housework_details", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer "housework_id", null: false
-    t.integer "account_id", null: false
-    t.decimal "business_ratio", precision: 5, scale: 2, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "sub_account_id"
-    t.index ["housework_id", "account_id", "sub_account_id"], name: "index_housework_details_as_unique_key", unique: true
-    t.index ["housework_id", "account_id"], name: "index_housework_details_on_housework_id_and_account_id", unique: true
-  end
-
-  create_table "houseworks", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.integer "fiscal_year", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "company_id", null: false
   end
 
   create_table "inhabitant_taxes", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|

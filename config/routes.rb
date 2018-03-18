@@ -20,10 +20,6 @@ Rails.application.routes.draw do
       get  'edit_current_fiscal_year'
       post 'update_current_fiscal_year'
     end
-    member do
-      get  'confirm_carry_forward'
-      post 'carry_forward'
-    end
   end
 
   resources :houseworks, :only => 'index' do

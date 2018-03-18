@@ -36,7 +36,6 @@ module HyaccConstants
     AUTO_JOURNAL_TYPE_ALLOCATED_ASSETS = 8 => 'TransferJournal::AllocatedAssetsFactory',
     AUTO_JOURNAL_TYPE_TEMPORARY_DEBT = 9 => 'Journal::TemporaryDebtFactory',
     AUTO_JOURNAL_TYPE_HOUSEWORK = 10 => 'Journal::HouseworkFactory',
-    AUTO_JOURNAL_TYPE_CARRY_FORWARD = 11 => 'Journal::CarryForwardFactory',
     AUTO_JOURNAL_TYPE_DEEMED_TAX = 12 => 'Journal::DeemedTaxFactory',
     AUTO_JOURNAL_TYPE_INVESTMENT = 13 => 'Journal::InvestmentFactory',
   }
@@ -44,12 +43,6 @@ module HyaccConstants
   # 給与振込口座
   BANK_ACCOUNT_ID_FOR_PAY = 1
 
-  # 繰越状態（個人事業主用）
-  CARRY_STATUS = {
-    CARRY_STATUS_NOT_CARRIED = false => '未繰越',
-    CARRY_STATUS_CARRIED = true => '繰越済',
-  }
-  
   # 締め状態
   CLOSING_STATUS = {
     CLOSING_STATUS_OPEN = 1 => '通常',

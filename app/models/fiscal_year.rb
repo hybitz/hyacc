@@ -5,16 +5,7 @@ class FiscalYear < ApplicationRecord
   validates_presence_of :company_id, :fiscal_year
   validates_uniqueness_of :fiscal_year, :scope => :company_id
 
-  before_save :reset_carry_forward_journal
-  after_save :create_housework
   after_create :create_sequence_for_asset_code
-
-  def get_carry_forward_journal
-    journals = JournalHeader.find_closing_journals(self, SLIP_TYPE_CARRY_FORWARD)
-    return nil if journals.empty?
-    return journals.first if journals.size == 1
-    raise HyaccException.new(ERR_DUPLICATEE_CARRY_FORWARD_JOURNAL)
-  end
 
   def get_deemed_tax_journals
     JournalHeader.find_closing_journals(self, SLIP_TYPE_DEEMED_TAX)
@@ -22,10 +13,6 @@ class FiscalYear < ApplicationRecord
 
   def tax_exclusive?
     self.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
-  end
-
-  def carry_status_name
-    CARRY_STATUS[ carry_status ]
   end
 
   def closing_status_name
@@ -46,10 +33,6 @@ class FiscalYear < ApplicationRecord
 
   def closed?
     closing_status == CLOSING_STATUS_CLOSED
-  end
-
-  def carried?
-    carry_status == CARRY_STATUS_CARRIED
   end
 
   # 期首の年月を取得
@@ -99,34 +82,9 @@ class FiscalYear < ApplicationRecord
 
   private
 
-  # 個人事業主の場合は家事按分を作成
-  def create_housework
-    if company.personal?
-      hw = Housework.find_by_fiscal_year(fiscal_year)
-      unless hw
-        hw = Housework.new
-        hw.company_id = company.id
-        hw.fiscal_year = fiscal_year
-        hw.save!
-      end
-    end
-  end
-
   # 資産コード用のシーケンスを作成
   def create_sequence_for_asset_code
     Sequence.create_sequence(Asset, fiscal_year)
   end
 
-  def reset_carry_forward_journal
-    unless closed?
-      # 繰越仕訳があれば削除
-      jh = self.get_carry_forward_journal
-      if jh
-        raise HyaccException.new(ERR_DB) unless jh.destroy
-      end
-
-      self.carry_status = CARRY_STATUS_NOT_CARRIED
-      self.carried_at = nil
-    end
-  end
 end

@@ -19,7 +19,6 @@
     </thead>
     <tbody>
       <% @fiscal_years.each do |fy| %>
-        <% jh = fy.get_carry_forward_journal %>
         <tr>
           <td><%= fy.fiscal_year %></td>
           <td><%= format_year_month( fy.start_year_month ) %> ～ <%= format_year_month( fy.end_year_month ) %></td>

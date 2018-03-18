@@ -150,7 +150,7 @@ end
     within_dialog do
       click_on '登録'
     end
-    assert has_no_dialog?
+    assert has_no_dialog?(/振替伝票.*/)
     assert has_selector?('.notice')
   end
 end

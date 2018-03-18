@@ -42,9 +42,7 @@
     <td colspan="2">
       <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %> 翌月</label>
     </td>
-
-    <td><%= render 'get_allocation', :jd => jd, :index => index %></td>
-
+    <td rowspan="3"><%= render 'get_allocation', :jd => jd, :index => index %></td>
     <td colspan="3">
       <label>メモ <%= f.text_field :note, :maxlength => 255, :class => 'noteText' %></label>
     </td>

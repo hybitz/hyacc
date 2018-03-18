@@ -2,7 +2,6 @@ class JournalsController < Base::HyaccController
   include JournalHelper
   include AssetUtil
 
-  view_attribute :title => '振替伝票'
   view_attribute :finder, :class => JournalFinder, :only => :index
 
   before_action :setup_view_attributes, :only => ['index', 'new', 'show', 'edit', 'add_detail']
@@ -141,9 +140,11 @@ class JournalsController < Base::HyaccController
   end
 
   def get_allocation
+    branch = current_company.branches.find(params[:branch_id])
+
     jd = JournalDetail.new(:dc_type => params[:dc_type],
-            :account_id => params[:account_id], :branch_id => params[:branch_id],
-            :is_allocated_cost => true, :is_allocated_assets => false)
+            :account_id => params[:account_id], :branch_id => branch.id,
+            :is_allocated_cost => branch.head_office?, :is_allocated_assets => false)
     render :partial => 'get_allocation', :locals => {:jd => jd, :index => params[:index]}
   end
 

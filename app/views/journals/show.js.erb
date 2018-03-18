@@ -2,16 +2,20 @@ var options = {
   title: '<%= @title.present? ? @title + '　参照' : '参照' %>'
 };
 
-options.buttons = [
-    {
-      text: '編集',
-      class: 'btn btn-light',
-      click: function() {
-        hyacc.current_dialog().close();
-        $.get('<%= url_for edit_journal_path(@journal) %>');
-      }
+options.buttons = [];
+options.buttons.push(
+  {
+    text: '編集',
+    class: 'btn btn-light',
+    click: function() {
+      hyacc.current_dialog().close();
+      $.get('<%= url_for edit_journal_path(@journal) %>');
     }
-  <% if @copy_link %>
+  }
+);
+
+<% if @copy_link %>
+  options.buttons.push(
     {
       text: 'コピーを追加',
       class: 'btn btn-light',
@@ -20,7 +24,7 @@ options.buttons = [
         $.get('<%= url_for new_journal_path(:copy_id => @journal) %>');
       }
     }
-  <% end %>
-];
+  );
+<% end %>
 
 hyacc.current_dialog(options).show('<%=j render 'show' %>');

@@ -17,16 +17,6 @@ module JournalHelper
     return can_edit( jh )
   end
 
-  def colspan_of_account_details
-    return 3 if branch_mode
-    2
-  end
-
-  def colspan_of_account_details_for_show
-    return 4 if branch_mode
-    3
-  end
-
   def is_current_asset(account_id)
     # 流動資産科目か
     a = Account.find(account_id)

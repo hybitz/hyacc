@@ -19,11 +19,9 @@
       <%= f.collection_select :sub_account_id, jd.account.sub_accounts, :id, :name, {},
             :class => 'subAccountSelect', :style => ('display: none;' unless jd.account.sub_accounts.present?) %>
     </td>
-    <% if branch_mode %>
     <td>
       <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect' %>
     </td>
-    <% end %>
     <td class="amount">
       <%= f.text_field :input_amount, :class => 'amountText' %>
     </td>
@@ -62,7 +60,7 @@
     <td colspan="2">
       <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %> 前月</label>
     </td>
-    <td rowspan="2" colspan="<%= colspan_of_account_details %>">
+    <td rowspan="2" colspan="3">
       <div id="journal_details_<%= index %>_account_detail" style="margin:5px">
         <%= render_account_details jd.account_id, :jd => jd, :index => index %>
       </div>

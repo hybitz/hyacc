@@ -338,18 +338,16 @@ hyacc.Journal.prototype._set_deleted = function(detail, deleted) {
 };
 
 hyacc.Journal.prototype._refresh_allocation = function(detail) {
-  if (this.options.branch_mode) {
-    var params = {
-      account_id: this._get_account_id(detail),
-      branch_id: this._get_branch_id(detail),
-      dc_type: this._get_dc_type(detail),
-      index: detail.closest('[data-index]').data('index')
-    };
+  var params = {
+    account_id: this._get_account_id(detail),
+    branch_id: this._get_branch_id(detail),
+    dc_type: this._get_dc_type(detail),
+    index: detail.closest('[data-index]').data('index')
+  };
 
-    $.get(this.options.get_allocation_path, params, function(html) {
-      $('#jd_' + params.index + '_allocation').html(html);
-    });
-  }
+  $.get(this.options.get_allocation_path, params, function(html) {
+    $('#jd_' + params.index + '_allocation').html(html);
+  });
 };
 
 hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {

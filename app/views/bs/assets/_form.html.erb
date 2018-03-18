@@ -57,7 +57,7 @@
       </td>
       <td><%= f.text_field :durable_years, :maxlength => 2, :class => 'durableYearsText', :disabled => !@asset.status_created? %></td>
       <td><%= f.text_field :depreciation_limit, :class => 'amountText', :disabled => !@asset.status_created? %></td>
-      <td colspan="<%= colspan_of_asset_remarks %>"><%= f.text_field :remarks, :size => 60, :maxlength => 250, :class => 'remarksText' %></td>
+      <td colspan="3"><%= f.text_field :remarks, :size => 60, :maxlength => 250, :class => 'remarksText' %></td>
     </tr>
   </table>
 

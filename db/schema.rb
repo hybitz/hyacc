@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180318043541) do
+ActiveRecord::Schema.define(version: 20180318044423) do
 
   create_table "accounts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code", default: "", null: false
@@ -367,7 +367,6 @@ ActiveRecord::Schema.define(version: 20180318043541) do
     t.integer "main_detail_id"
     t.boolean "is_allocated_cost", default: false, null: false
     t.boolean "is_allocated_assets", default: false, null: false
-    t.integer "housework_detail_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "settlement_type", limit: 1
@@ -386,7 +385,6 @@ ActiveRecord::Schema.define(version: 20180318043541) do
     t.integer "transfer_from_id"
     t.integer "depreciation_id"
     t.integer "transfer_from_detail_id"
-    t.integer "housework_id"
     t.integer "create_user_id", null: false
     t.integer "update_user_id", null: false
     t.datetime "created_at"

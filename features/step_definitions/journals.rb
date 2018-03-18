@@ -106,22 +106,22 @@ end
 もし /^伝票ヘッダを入力します。$/ do
   ym = current_company.current_fiscal_year.start_year_month
 
-  fill_in 'journal_ym', :with => ym
-  fill_in 'journal_day', :with => 1
-  fill_in 'journal_remarks', :with => '家賃等の支払い'
+  fill_in 'journal[ym]', with: ym
+  fill_in 'journal[day]', with: 1
+  fill_in 'journal[remarks]', with: '家賃等の支払い'
   capture
 end
 
 もし /^借方に家賃と光熱費を入力します。$/ do
-  select '借方', :from => "journal_journal_details_attributes_0__dc_type"
-  select '地代家賃', :from => "journal_journal_details_attributes_0__account_id"
-  fill_in 'journal_journal_details_attributes_0__input_amount', :with => 78000
+  with_capture do
+    select '借方', from: 'journal[journal_details_attributes[0]][dc_type]'
+    select '地代家賃', from: 'journal[journal_details_attributes[0]][account_id]'
+    fill_in 'journal[journal_details_attributes[0]][input_amount]', with: 78000
 
-  select '借方', :from => "journal_journal_details_attributes_1__dc_type"
-  select '光熱費', :from => "journal_journal_details_attributes_1__account_id"
-  fill_in 'journal_journal_details_attributes_1__input_amount', :with => 15000
-
-  capture
+    select '借方', from: 'journal[journal_details_attributes[1]][dc_type]'
+    select '光熱費', from: 'journal[journal_details_attributes[1]][account_id]'
+    fill_in 'journal[journal_details_attributes[1]][input_amount]', with: 15000
+  end
 end
 
 もし /^明細を追加して町内会費を入力します。$/ do
@@ -150,7 +150,6 @@ end
     within_dialog do
       click_on '登録'
     end
-    assert has_no_dialog?(/振替伝票.*/)
     assert has_selector?('.notice')
   end
 end

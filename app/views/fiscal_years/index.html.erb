@@ -5,59 +5,35 @@
   （会計年度を<%= link_to '変更', {action: :edit_current_fiscal_year}, remote: true %>）
 </div>
 
-<table class="fiscal_years">
-  <thead>
-    <tr>
-      <th>会計年度</th>
-      <th>期間</th>
-      <th>消費税</th>
-      <th>消費税申告</th>
-      <th>締め状態</th>
-      <% if current_company.personal? %>
-        <th>繰越状態</th>
-        <th>繰越日時</th>
-        <th>繰越利益</th>
-      <% end %>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @fiscal_years.each do |fy| %>
-      <% jh = fy.get_carry_forward_journal %>
+<div class="col-md-6">
+  <table class="table table-striped table-hover fiscal_years">
+    <thead>
       <tr>
-        <td align="center"><%= fy.fiscal_year %></td>
-        <td align="center"><%= format_year_month( fy.start_year_month ) %> ～ <%= format_year_month( fy.end_year_month ) %></td>
-        <td align="center"><%= fy.tax_management_type_name %></td>
-        <td align="center"><%= fy.consumption_entry_type_name %></td>
-        <td align="center"><%= fy.closing_status_name %></td>
-        <% if current_company.personal? %>
-        <td align="center">
-            <%= link_to fy.carry_status_name, {:controller => :journal, :action => :show, :id => jh}, :remote => true if jh %>
-            <%= fy.carry_status_name unless jh %>
-        </td>
-        <td align="center"><%= format_datetime(fy.carried_at) %></td>
-        <td align="right">
-          <% if jh and calc_carry_forward_revenue_amount(jh) < 0 %>
-          <span style="color: red;">
-          <% else %>
-          <span>
-          <% end %>
-            <%= to_amount(calc_carry_forward_revenue_amount(jh), :show_zero=>true) if jh %>
-          </span>
-        </td>
-        <% end %>
-        <td>
-          <%= link_to '編集', edit_fiscal_year_path(fy), :remote => true %>
-          <% if current_company.personal? and fy.closed? and not fy.carried? %>
-            <%= link_to '繰越', {:action => :confirm_carry_forward, :id => fy}, :remote => true %>
-          <% end %>
-        </td>
+        <th>会計年度</th>
+        <th>期間</th>
+        <th>消費税</th>
+        <th>消費税申告</th>
+        <th>締め状態</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<div style="margin: 10px;">
-  <%= link_to '翌年度を追加', new_fiscal_year_path, :remote => true %>
+    </thead>
+    <tbody>
+      <% @fiscal_years.each do |fy| %>
+        <% jh = fy.get_carry_forward_journal %>
+        <tr>
+          <td><%= fy.fiscal_year %></td>
+          <td><%= format_year_month( fy.start_year_month ) %> ～ <%= format_year_month( fy.end_year_month ) %></td>
+          <td><%= fy.tax_management_type_name %></td>
+          <td><%= fy.consumption_entry_type_name %></td>
+          <td><%= fy.closing_status_name %></td>
+          <td><%= link_to '編集', edit_fiscal_year_path(fy), remote: true %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="6" class="right"><%= link_to '翌年度を追加', new_fiscal_year_path, remote: true, class: 'btn btn-light' %></td>
+      </tr>
+    </tfoot>
+  </table>
 </div>

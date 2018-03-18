@@ -1,3 +1,7 @@
 .fiscal_years {
-  margin: 10px;
+  thead, tbody {
+    th, td {
+      text-align: center;
+    }
+  }
 }

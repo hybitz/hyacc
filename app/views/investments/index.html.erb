@@ -5,44 +5,46 @@
 <% if @investments %>
 <%= render 'common/message' %>
 
-<table class="table table-striped table-hover">
-  <thead>
-    <tr>
-      <th class="center">取引日</th>
-      <th>証券口座</th>
-      <th>有価証券</th>
-      <th class="center">購入株数</th>
-      <th class="center">売却株数</th>
-      <th class="center">金額</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% Array(@investments).each do |inv| %>
+<div class="col-md-8">
+  <table class="table table-striped table-hover">
+    <thead>
       <tr>
-        <td class="center"><%= inv.deal_date %></td>
-        <td><%= inv.bank_account.name %></td>
-        <td><%= inv.customer.formal_name %></td>
-        <td class="right"><%= to_amount(inv.shares) if inv.buying_or_selling == "1" %></td>
-        <td class="right"><%= to_amount(inv.shares) if inv.buying_or_selling == "0" %></td>
-        <td class="right">
-        	 <%= '△' + to_amount(inv.trading_value) if inv.buying_or_selling == "0" && inv.trading_value > 0 %>
-        	 <%= to_amount(inv.trading_value) if inv.buying_or_selling == "1" %>
-        </td>
-        <td class="center">
-          <%= link_to '編集', edit_investment_path(inv), :remote => true, class: 'btn btn-light' %>
-          <%= link_to '削除', investment_path(inv),
-                data: {confirm: '伝票を削除します。よろしいですか？'}, :method => :delete, class: 'btn btn-light' %>
+        <th class="center">取引日</th>
+        <th>証券口座</th>
+        <th>有価証券</th>
+        <th class="center">購入株数</th>
+        <th class="center">売却株数</th>
+        <th class="center">金額</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Array(@investments).each do |inv| %>
+        <tr>
+          <td class="center"><%= inv.deal_date %></td>
+          <td><%= inv.bank_account.name %></td>
+          <td><%= inv.customer.formal_name %></td>
+          <td class="right"><%= to_amount(inv.shares) if inv.buying_or_selling == "1" %></td>
+          <td class="right"><%= to_amount(inv.shares) if inv.buying_or_selling == "0" %></td>
+          <td class="right">
+          	 <%= '△' + to_amount(inv.trading_value) if inv.buying_or_selling == "0" && inv.trading_value > 0 %>
+          	 <%= to_amount(inv.trading_value) if inv.buying_or_selling == "1" %>
+          </td>
+          <td class="center">
+            <%= link_to '編集', edit_investment_path(inv), :remote => true, class: 'btn btn-light' %>
+            <%= link_to '削除', investment_path(inv),
+                  data: {confirm: '伝票を削除します。よろしいですか？'}, :method => :delete, class: 'btn btn-light' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="7" class="text-right">
+          <%= link_to '新しい取引を追加', new_investment_path, :class => 'btn btn-light add', :remote => true %>
         </td>
       </tr>
-    <% end %>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="7" class="text-right">
-        <%= link_to '新しい取引を追加', new_investment_path, :class => 'btn btn-light add', :remote => true %>
-      </td>
-    </tr>
-  </tfoot>
-</table>
+    </tfoot>
+  </table>
+</div>
 <% end %>

@@ -3,6 +3,7 @@ var options = {
   buttons: [
     {
       text: '編集',
+      class: 'btn btn-light',
       click: function() {
         hyacc.current_dialog().close();
         $.get('<%= edit_mm_branch_path(@branch) %>');
@@ -10,6 +11,7 @@ var options = {
     },
     {
       text: '削除',
+      class: 'btn btn-light',
       click: function() {
         if (confirm('削除します。よろしいですか？')) {
           var url = '<%= mm_branch_path(@branch) %>';
@@ -19,6 +21,7 @@ var options = {
     },
     {
       text: '子部門追加',
+      class: 'btn btn-light',
       click: function() {
         hyacc.current_dialog().close();
         $.get('<%= new_mm_branch_path(:parent_id => @branch.id) %>');

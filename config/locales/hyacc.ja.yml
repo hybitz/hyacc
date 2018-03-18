@@ -151,12 +151,12 @@ ja:
       journal_detail: &journal_detail
         account_id: 勘定科目
         branch_id: 計上部門
-        detail_no: "明細番号"
-        dc_type: "貸借区分"
-        amount: "金額"
-        note: "備考"
-        social_expense_number_of_people: "接待交際の参加人数"
-        detail_type: "明細区分"
+        detail_no: 明細番号
+        dc_type: 貸借区分
+        amount: 金額
+        note: メモ
+        social_expense_number_of_people: 接待交際の参加人数
+        detail_type: 明細区分
         tax_type: 消費税区分
         tax_rate: 消費税率
         sub_account: 補助科目

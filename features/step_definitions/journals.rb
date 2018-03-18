@@ -146,10 +146,12 @@ end
 end
 
 もし /^登録して終了です。$/ do
+  assert has_no_selector?('.notice')
   with_capture do
     within_dialog do
       click_on '登録'
     end
+    assert has_no_dialog?
     assert has_selector?('.notice')
   end
 end

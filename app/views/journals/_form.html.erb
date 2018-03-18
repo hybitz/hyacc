@@ -3,7 +3,6 @@
 
   $(document).ready(function() {
     journal = new hyacc.Journal('#journal_form', {
-      branch_mode: <%= branch_mode %>,
       add_detail_path: '<%= url_for :action => 'add_detail' %>',
       get_account_detail_path: '<%= url_for :action => 'get_account_detail' %>',
       get_allocation_path: '<%= url_for :action => 'get_allocation' %>',
@@ -42,7 +41,7 @@
         <th>貸借</th>
         <th>勘定科目</th>
         <th>補助科目</th>
-        <% if branch_mode %><th>計上部門</th><% end %>
+        <th>計上部門</th>
         <th>金　額</th>
         <th colspan="2">消費税</th>
         <th>合計</th>
@@ -60,7 +59,7 @@
     </tbody>
     <tfoot>
       <tr>
-        <td colspan="<%= branch_mode ? 8 : 7 %>"></td>
+        <td colspan="8"></td>
         <td align="center" colspan="2">
           <%= link_to '明細追加', '#', :onclick => 'journal.add_detail(this); return false;' %>
         </td>

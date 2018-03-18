@@ -33,9 +33,7 @@
     <th>摘要</th>
     <th>勘定科目</th>
     <th>補助科目</th>
-    <% if branch_mode %>
-      <th>計上部門</th>
-    <% end %>
+    <th>計上部門</th>
     <th>貸借</th>
     <th>消費税区分</th>
     <th>金額</th>
@@ -49,11 +47,7 @@
       <td class="remarks"><%= t.remarks %></td>
       <td class="accountName"><%= t.account.name if t.account %></td>
       <td class="subAccountName"><%= t.sub_account.name if t.sub_account %></td>
-
-      <% if branch_mode %>
-        <td class="branchName"><%= t.branch.name if t.branch %></td>
-      <% end %>
-
+      <td class="branchName"><%= t.branch.name if t.branch %></td>
       <td align="center"><%= t.dc_type_name %></td>
       <td align="center"><%= t.tax_type_name %></td>
       <td class="amount"><%= to_amount(t.amount) %></td>

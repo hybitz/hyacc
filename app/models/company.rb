@@ -95,11 +95,6 @@ class Company < ApplicationRecord
     ret
   end
 
-  # 部門ありモードかどうか
-  def branch_mode
-    branches.where(:deleted => false).size > 1
-  end
-
   # 本店部門を取得する
   def head_branch
     branches.where('parent_id is null').first!

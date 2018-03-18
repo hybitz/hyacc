@@ -16,12 +16,11 @@ module SimpleSlipHelper
   
   def define_colspan_of_receipt
     if @simple_slip.new_record?
-      ret = 7
+      ret = 8
     else
-      ret = 4
+      ret = 5
     end
 
-    ret += 1 if branch_mode
     ret
   end
   

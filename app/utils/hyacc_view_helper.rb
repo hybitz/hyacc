@@ -1,11 +1,6 @@
 module HyaccViewHelper
   include HyaccConstants
   
-  # 部門ありモードかどうか
-  def branch_mode
-    current_company.branch_mode
-  end
-  
   def format_datetime( date, format=nil )
     return '' if date.nil?
     

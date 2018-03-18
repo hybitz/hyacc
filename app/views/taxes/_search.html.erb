@@ -3,9 +3,7 @@
     <div>
       年度：<%= select('finder', 'fiscal_year', fiscal_years) %>
       
-      <% if branch_mode %>
       部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank => true ) %>
-      <% end %>
       
       <%= submit_tag "表示", :id=>'search_button' %>
     </div>

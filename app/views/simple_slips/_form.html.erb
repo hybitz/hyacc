@@ -1,9 +1,6 @@
 <tr>
   <td class="yearMonth">
     <%= f.hidden_field :my_sub_account_id %>
-    <% unless branch_mode %>
-      <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id %>
-    <% end %>
     <%= f.hidden_field :lock_version %>
     <%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText', :onchange => "simple_slip.update_tax_amount();" %>
   </td>
@@ -24,13 +21,9 @@
     <%= f.select :sub_account_id, f.object.sub_accounts, {}, :class => 'subAccountSelect', :style => 'width: 100%;' %>
     <%= hide_if_no_options("##{@simple_slip.new_record? ? 'new_simple_slip' : 'edit_simple_slip'} .subAccountSelect") %>
   </td>
-
-  <% if branch_mode %>
-    <td class="branchName">
-      <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect', :style => 'width: 100%;' %>
-    </td>
-  <% end %>
-
+  <td class="branchName">
+    <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect', :style => 'width: 100%;' %>
+  </td>
   <td class="amount"><%= f.text_field :amount_increase, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount();' %></td>
   <td class="amount"><%= f.text_field :amount_decrease, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount();' %></td>
 
@@ -49,7 +42,7 @@
     <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>
   </td>
   <td style="border-left-style: none;">&nbsp;翌月</td>
-  <td rowspan="2" colspan="<%= branch_mode ? 2 : 1 %>">
+  <td rowspan="2" colspan="2">
     <%# 勘定科目ごとの入力項目 %>
     <div id="account_detail" class="account_detail" style="valign: middle; margin: 5px;">
       <%= render_account_details @simple_slip.account_id %>

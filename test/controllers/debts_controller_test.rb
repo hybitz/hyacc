@@ -47,13 +47,4 @@ class DebtsControllerTest < ActionController::TestCase
     assert_equal num_journal_headers, JournalHeader.count
   end
 
-  def test_部門モードでない場合は利用不可
-    sign_in freelancer
-    assert_not current_company.branch_mode
-
-    get :index
-
-    assert_response :forbidden
-  end
-
 end

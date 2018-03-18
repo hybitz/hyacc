@@ -3,9 +3,7 @@
   <td class="day"><%= ledger.day %></td>
   <td class="remarks"><%= ledger.remarks %></td>
   <td class="accountName"><%= ledger.account_name %></td>
-  <% if branch_mode %>
   <td class="branchName"><%= ledger.branch_name %></td>
-  <% end %>
   <td class="amountDebit"><%= to_amount( ledger.amount_debit ) %></td>
   <td class="amountCredit"><%= to_amount( ledger.amount_credit ) %></td>
   <td class="amountMonthlySum"></td>

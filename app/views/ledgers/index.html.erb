@@ -72,9 +72,7 @@
       <th class="day">日</th>
       <th class="remarks">摘要</th>
       <th class="accountName">相手勘定科目</th>
-      <% if branch_mode %>
       <th class="branchName">相手計上部門</th>
-      <% end %>
       <th class="amountDebit">借方</th>
       <th class="amountCredit">貸方</th>
       <th class="amountMonthlySum">月別累計</th>
@@ -88,9 +86,7 @@
         <td class="day"></td>
         <td class="remarks">前期末残高</td>
         <td class="accountName"></td>
-        <% if branch_mode %>
-          <td class="branchName"></td>
-        <% end %>
+        <td class="branchName"></td>
         <td class="amountDebit"></td>
         <td class="amountCredit"></td>
         <td class="amountMonthlySum"></td>
@@ -108,9 +104,7 @@
           <td class="day"></td>
           <td class="remarks"></td>
           <td class="accountName"></td>
-          <% if branch_mode %>
           <td class="branchName"></td>
-          <% end %>
           <td class="amountDebit"><%= to_amount( ledger.amount_debit, :show_zero => true ) %></td>
           <td class="amountCredit"><%= to_amount( ledger.amount_credit, :show_zero => true ) %></td>
           <td class="amountMonthlySum"></td>

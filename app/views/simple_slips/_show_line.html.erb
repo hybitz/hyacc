@@ -3,7 +3,7 @@
 <td class="remarks"><%= slip.remarks %></td>
 <td class="accountName"><%= slip.account_code + ":" if slip.account_code != HyaccConstants::ACCOUNT_CODE_VARIOUS %> <%= slip.account_name %></td>
 <td class="subAccountName"><%= slip.sub_account_name %></td>
-<% if branch_mode %><td class="branchName"><%= slip.branch_name %></td><% end %>
+<td class="branchName"><%= slip.branch_name %></td>
 <td class="amountIncrease"><%= to_amount( slip.slip_amount_increase ) %></td>
 <td class="amountDecrease"><%= to_amount( slip.slip_amount_decrease ) %></td>
 <td class="amountSum"></td>

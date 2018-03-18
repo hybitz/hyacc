@@ -2,9 +2,7 @@
   var simple_slip;
 
   $(document).ready(function() {
-    simple_slip = new hyacc.SimpleSlip('#edit_simple_slip', {
-      branch_mode: <%= branch_mode %>
-    });
+    simple_slip = new hyacc.SimpleSlip('#edit_simple_slip');
   });
 </script>
 
@@ -27,7 +25,7 @@
       <th class="remarks">摘　　要</th>
       <th class="accountName">勘定科目</th>
       <th class="subAccountName">補助科目</th>
-      <% if branch_mode %><th class="branchName">計上部門</th><% end %>
+      <th class="branchName">計上部門</th>
       <th>増　加</th>
       <th>減　少</th>
     </tr>

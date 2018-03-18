@@ -3,10 +3,7 @@
     <div>
       年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %>
       勘定科目：<%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", {:selected=>@finder.account_id, :include_blank=>true}) %>
-      
-      <% if branch_mode %>
       部門：<%= select('finder', 'branch_id', to_options(@branches), :class=>'branchSelect', :include_blank => true ) %>
-      <% end %>
     </div>
     <div>
       摘要：<%= text_field 'finder', 'remarks' %>

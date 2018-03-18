@@ -6,7 +6,7 @@
       <th>資産名</th>
       <th>勘定科目</th>
       <th>補助科目</th>
-      <% if branch_mode %><th>部門</th><% end %>
+      <th>部門</th>
       <th>取得年月日</th>
       <th>償却方法</th>
       <th>耐用年数</th>
@@ -24,7 +24,7 @@
         <td><%= asset.name %></td>
         <td><%= asset.account.name %></td>
         <td><%= asset.sub_account.name if asset.sub_account %></td>
-        <% if branch_mode %><td><%= asset.branch.name %></td><% end %>
+        <td><%= asset.branch.name %></td>
         <td align="center"><%= render_ymd(asset) %></td>
         <td align="center"><%= asset.depreciation_method_name %></td>
         <td align="center"><%= "#{asset.durable_years}年" if asset.durable_years.to_i > 0 %></td>

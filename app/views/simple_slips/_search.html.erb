@@ -19,9 +19,7 @@
       摘要：<%= text_field 'finder', 'remarks', class: 'form-control' %>
       <a href='#' onclick='$("#finder_remarks").val("");return false;'>×</a>
 
-      <% if branch_mode %>
       部門：<%= collection_select('finder', 'branch_id', @branches, "id", "name", {:include_blank=>true}) %>
-      <% end %>
 
       <%= submit_tag '表示', class: 'btn btn-default' %>
     </div>

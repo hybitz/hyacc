@@ -132,13 +132,10 @@
         $(document).ready(function() {
           // 税引前当期利益から法人税等を減算し当期利益にセット
           sub('pretaxProfit_amount', ACCOUNT_CODE_CORPORATE_TAXES + '_amount', 'profit_amount');
-          
-          <% if branch_mode %>
           // 法人税等負担を減算
           sub('profit_amount', ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE + '_amount', 'profit_amount');
           // 法人税等配賦を減算
           sub('profit_amount', ACCOUNT_CODE_HEAD_OFFICE_TAXES + '_amount', 'profit_amount');
-          <% end %>
         });
       </script>
     </td>

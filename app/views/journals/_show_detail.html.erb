@@ -2,9 +2,7 @@
   <td><%= jd.dc_type_name %></td>
   <td><%= jd.account.code + ":" + jd.account_name %></td>
   <td><%= jd.sub_account_name %></td>
-  <% if branch_mode %>
-    <td><%= jd.branch_name %></td>
-  <% end %>
+  <td><%= jd.branch_name %></td>
   <td class="amount"><%= to_amount(jd.input_amount) %></td>
   <td>
     <%= jd.tax_type_name %>
@@ -24,9 +22,7 @@
     翌月の費用
   </td>
 
-  <% if branch_mode %>
   <td><%= render 'get_allocation', :jd => jd, :index => index %></td>
-  <% end %>
 
   <td colspan="3">
     <div style="text-align: right; width: 100%;"><%= jd.note %></div>

@@ -16,7 +16,7 @@
       事業所：<%= select('finder', 'business_office_id', to_options(@business_offices) ) %>
     <% end %>
 
-    <% if branch_mode and @branches %>
+    <% if @branches %>
       部門：<%= select('finder', 'branch_id', to_options( @branches ), :class=>'branchSelect', :include_blank => true) %>
     <% end %>
       

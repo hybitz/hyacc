@@ -5,7 +5,6 @@ current_user:
   mm/: admin?
 
 current_company:
-  debts: branch_mode
   deemed_taxes: tax_simplified?
   financial_return_statements: '!personal?'
   houseworks: personal?

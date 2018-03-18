@@ -6,7 +6,7 @@
   </div>
 <% end %>
 
-<% if branch_mode and @debt_sum > 0 %>
+<% if @debt_sum > 0 %>
   <div style="margin:20px; font-size: larger;">
     未清算の仮負債が <b style="color: red;"><%= get_debt_count(@debts) %></b> 件、合計 <b style="color: red;"><%= to_amount(@debt_sum) %></b> 円あります。
   </div>

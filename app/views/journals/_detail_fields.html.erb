@@ -6,9 +6,6 @@
     <td nowrap>
       <%= f.hidden_field :id %>
       <%= f.hidden_field :_destroy, :value => jd.deleted? %>
-      <% unless branch_mode %>
-        <%= f.hidden_field :branch_id, :value => current_user.employee.default_branch.id %>
-      <% end %>
       <%= f.select :dc_type, options_for_select(dc_types, jd.dc_type), {}, :class => 'dcTypeSelect' %>
     </td>
     <td>
@@ -46,9 +43,7 @@
       <label><%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %> 翌月</label>
     </td>
 
-    <% if branch_mode %>
     <td><%= render 'get_allocation', :jd => jd, :index => index %></td>
-    <% end %>
 
     <td colspan="3">
       <label>メモ <%= f.text_field :note, :maxlength => 255, :class => 'noteText' %></label>

@@ -34,7 +34,7 @@
     <table>
       <tr>
         <th>摘要</th>
-        <td colspan="<%= branch_mode ? '5' : '4' %>" align="center">
+        <td colspan="5" align="center">
           <%= f.text_field :remarks, :style => 'width:99%;' %>
         </td>
         <td colspan="2" align="center">
@@ -43,22 +43,20 @@
       </tr>
       <tr>
         <th>説明</th>
-        <td colspan="<%= branch_mode ? '7' : '6' %>" align="center">
+        <td colspan="7" align="center">
           <%= f.text_field :description, :style=>'width:99%;' %>
         </td>
       </tr>
       <tr>
         <th>キーワード</th>
-        <td colspan="<%= branch_mode ? '7' : '6' %>" align="center">
+        <td colspan="7" align="center">
           <%= f.text_field :keywords, :style=>'width:99%;' %>
         </td>
       </tr>
       <tr>
         <th class="accountName">勘定科目</th>
         <th class="subAccountName">補助科目</th>
-        <% if branch_mode %>
-          <th class="branchName">計上部門</th>
-        <% end %>
+        <th class="branchName">計上部門</th>
         <th>貸借区分</th>
         <th>消費税区分</th>
         <th class="amount">金額</th>
@@ -68,9 +66,7 @@
       <tr>
         <td><%= collection_select_code_and_name 'simple_slip_template', 'account_id', finder.accounts, :id, :name, {}, class: 'accountSelect' %></td>
         <td width="100px;"></td>
-        <% if branch_mode %>
-          <td><%= f.collection_select :branch_id, current_company.branches, :id, :name, {include_blank: true}, class: 'branchSelect' %></td>
-        <% end %>
+        <td><%= f.collection_select :branch_id, current_company.branches, :id, :name, {include_blank: true}, class: 'branchSelect' %></td>
         <td><%= f.select :dc_type, dc_types, {include_blank: true}, class: 'dcTypeSelect' %></td>
         <td><%= f.select :tax_type, tax_types, {include_blank: true}, class: 'taxTypeSelect' %></td>
         <td><%= f.text_field :amount, :class => 'amountText' %></td>

@@ -26,7 +26,7 @@
       <th>取得価額</th>
       <th>勘定科目</th>
       <th>補助科目</th>
-      <% if branch_mode %><th>計上部門</th><% end %>
+      <th>計上部門</th>
     </tr>
     <tr>
       <td align="center">
@@ -37,7 +37,7 @@
       <td class="amount"><%= to_amount(@asset.amount) %></td>
       <td><%= @asset.account.name %></td>
       <td><%= @asset.sub_account.name if @asset.sub_account %></td>
-      <% if branch_mode %><td><%= @asset.branch.name %></td><% end %>
+      <td><%= @asset.branch.name %></td>
     </tr>
     <tr>
       <th>取得年月日</th>

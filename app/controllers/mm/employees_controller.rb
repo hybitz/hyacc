@@ -17,10 +17,10 @@ class Mm::EmployeesController < Base::HyaccController
   
   def create
     @e = new_employee
+    @e.attributes = employee_params
 
     begin
       @e.transaction do
-        @e.attributes = employee_params
         @e.save!
       end
 
@@ -39,10 +39,10 @@ class Mm::EmployeesController < Base::HyaccController
   
   def update
     @e = Employee.find(params[:id])
+    @e.attributes = employee_params
 
     begin
       @e.transaction do
-        @e.attributes = employee_params
         @e.save!
       end
 

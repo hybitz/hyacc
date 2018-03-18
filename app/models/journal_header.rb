@@ -242,15 +242,11 @@ class JournalHeader < ApplicationRecord
   end
 
   def copy
-    self.class.copy_journal(self)
-  end
-
-  def self.copy_journal(jh)
     copy = Journal.new
-    copy.attributes = jh.attributes
+    copy.attributes = self.attributes
     copy.id = nil
 
-    jh.journal_details.each do |src_jd|
+    self.journal_details.each do |src_jd|
       jd = copy.journal_details.build(src_jd.attributes.except('id', 'created_at', 'updated_at'))
 
       if src_jd.asset
@@ -265,14 +261,14 @@ class JournalHeader < ApplicationRecord
 
     # Trac#171 2010/01/27
     # 本体明細に消費税明細への参照を設定する
-    jh.journal_details.each do |src_jd|
+    self.journal_details.each do |src_jd|
       if src_jd.tax_detail.present?
         copy_jd = copy.journal_detail(src_jd.detail_no)
         copy_jd.tax_detail = copy.journal_detail(src_jd.tax_detail.detail_no)
       end
     end
 
-    jh.transfer_journals.each do |tj|
+    self.transfer_journals.each do |tj|
       copy.transfer_journals << tj.copy
     end
 

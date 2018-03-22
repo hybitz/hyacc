@@ -1,4 +1,10 @@
 <%
+  # 資産管理機能一覧
+  bs_controllers = [
+    {:name => '/bs', :title => '資産管理'},
+    {:name => '/bs/assets', :title => '減価償却'},
+  ]
+
   # 仕訳管理機能一覧
   journal_admin_controllers = [
     {:name => '/journal_admin', :title => '伝票管理'},
@@ -67,7 +73,7 @@
     |
   <% end %>
 
-  <%= link_to '資産管理', bs_assets_path(purified_params), :class => style_for_menu('/bs/assets') %>
+  <%= link_to '資産管理', bs_path(purified_params), :class => style_for_menu(bs_controllers) %>
   |
   <%= link_to '締め処理', closing_path(purified_params), :class => style_for_menu(closing_controllers) %>
   |
@@ -83,6 +89,7 @@
 <%= render 'common/sub_menu', :controllers => journal_admin_controllers %>
 <%= render 'common/sub_menu', :controllers => closing_controllers %>
 <%= render 'common/sub_menu', :controllers => report_controllers %>
+<%= render 'common/sub_menu', :controllers => bs_controllers %>
 <%= render 'common/sub_menu', :controllers => mm_controllers %>
 <%= render 'common/sub_menu', :controllers => mv_controllers %>
 

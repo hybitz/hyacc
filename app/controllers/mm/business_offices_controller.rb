@@ -1,5 +1,4 @@
 class Mm::BusinessOfficesController < Base::HyaccController
-  view_attribute :title => '事業所'
   before_action :setup_view_attributes
 
   def new

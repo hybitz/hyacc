@@ -1,5 +1,4 @@
 class Mm::BranchesController < Base::HyaccController
-  view_attribute :title => '部門'
 
   def index
   end

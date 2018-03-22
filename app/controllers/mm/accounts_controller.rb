@@ -1,6 +1,4 @@
 class Mm::AccountsController < Base::HyaccController
-  view_attribute :title => '勘定科目'
-
   helper_method :finder
 
   def index

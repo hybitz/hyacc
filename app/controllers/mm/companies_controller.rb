@@ -1,6 +1,5 @@
 class Mm::CompaniesController < Base::HyaccController
-  view_attribute :title => '会社'
-  
+
   def index
     redirect_to [:mm, current_company]
   end

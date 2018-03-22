@@ -1,6 +1,5 @@
 class Mm::BankAccountsController < Base::HyaccController
   before_action :check_banks
-  view_attribute :title => '金融口座'
   
   def index
     @bank_accounts = BankAccount.not_deleted

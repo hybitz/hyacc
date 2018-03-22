@@ -1,6 +1,5 @@
 class Mm::RentsController < Base::HyaccController
   before_action :check_customer_exists
-  view_attribute :title => '地代家賃'
   view_attribute :deleted_types
 
   helper_method :finder

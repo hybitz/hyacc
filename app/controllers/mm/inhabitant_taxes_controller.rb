@@ -1,5 +1,4 @@
 class Mm::InhabitantTaxesController < Base::BasicMasterController
-  view_attribute :title => '住民税'
   helper_method :finder
 
   def index

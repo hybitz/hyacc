@@ -70,10 +70,6 @@ Rails.application.routes.draw do
   resources :sub_accounts, :only => 'index'
   resources :taxes, :only => ['index', 'update']
 
-  namespace :bs do
-    resources :assets
-  end
-
   get 'closing', :to => 'closing#index'
   get 'journal_admin', :to => 'journal_admin#index'
   get 'mv', :to => 'mv#index'

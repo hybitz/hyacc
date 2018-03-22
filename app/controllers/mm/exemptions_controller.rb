@@ -1,5 +1,4 @@
 class Mm::ExemptionsController < Base::HyaccController
-  view_attribute :title => '所得税控除'
   helper_method :finder
 
   def index

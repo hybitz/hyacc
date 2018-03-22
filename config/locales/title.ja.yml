@@ -1,5 +1,19 @@
 ja:
   title:
+    bs: 資産管理
     bs/assets: 減価償却
     investments: 有価証券
     journals: 振替伝票
+    mm: マスタメンテ
+    mm/accounts: 勘定科目
+    mm/bank_accounts: 金融口座
+    mm/banks: 金融機関
+    mm/branches: 部門
+    mm/companies: 会社
+    mm/customers: 取引先
+    mm/employees: 従業員
+    mm/exemptions: 所得税控除
+    mm/inhabitant_taxes: 住民税
+    mm/rents: 地代家賃
+    mm/simple_slip_templates: 簡易入力テンプレート
+    

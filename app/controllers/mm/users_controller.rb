@@ -1,6 +1,5 @@
 class Mm::UsersController < Base::HyaccController
-  view_attribute :title => 'ユーザ'
-         
+
   def index
     @users = User.paginate :page => params[:page], :per_page => current_user.slips_per_page
   end

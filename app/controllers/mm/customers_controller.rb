@@ -1,5 +1,4 @@
 class Mm::CustomersController < Base::HyaccController
-  view_attribute :title => '取引先'
 
   helper_method :finder
   

@@ -1,5 +1,4 @@
 class Mm::EmployeesController < Base::HyaccController
-  view_attribute title: '従業員'
 
   helper_method :finder
 

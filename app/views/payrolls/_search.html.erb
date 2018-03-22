@@ -1,6 +1,6 @@
 <script>
   $(document).on('turbolinks:load', function() {
-    $('#finder_branch_id').change(function() {
+    $('select[name="finder\[branch_id\]"]').change(function() {
       var url = '<%= url_for :action=>'get_branch_employees' %>';
       var params = {branch_id: $(this).val(), format: 'html'};
       $.get(url, params, function(html) {
@@ -10,12 +10,12 @@
   });
 </script>
 <div id="search" style="margin: 15px;">
-  <%= form_tag({:action => 'index'}, :method => 'get') do %>
-    年度：<%= select('finder', 'fiscal_year', fiscal_years) %>
+  <%= form_with(scope: 'finder', url: {action: 'index'}, local: true, method: 'get') do |f| %>
+    年度：<%= f.select :fiscal_year, fiscal_years %>
 
-    部門：<%= collection_select('finder', 'branch_id', @branches, :id, :name) %>
+    部門：<%= f.collection_select :branch_id, @branches, :id, :name %>
     <span id="branch_employees"></span>
 
-    <%= submit_tag "表示" %>
+    <%= f.submit -'表示' %>
   <% end %>
 </div>

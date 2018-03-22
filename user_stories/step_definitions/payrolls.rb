@@ -5,11 +5,11 @@
   @salary = table[1][1].to_ai
 
   visit_payrolls
-  click_on '表示'
-  assert has_selector?('#payroll_table')
-
-  click_on @ym
   with_capture do
+    click_on '表示'
+    assert has_selector?('#payroll_table')
+
+    click_on @ym
     within_dialog do
       fill_in 'payroll[base_salary]', :with => @salary
       assert has_selector?('form[insurance_loaded]');

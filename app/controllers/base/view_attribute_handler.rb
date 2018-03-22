@@ -24,8 +24,6 @@ module Base::ViewAttributeHandler
           @report_types = get_report_types
         elsif name == :report_styles
           @report_styles = get_report_styles
-        elsif name == :title
-          @title = options[name]
         end
       end
     end

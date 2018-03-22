@@ -2,8 +2,6 @@ class WelcomeController < Base::HyaccController
   include FirstBoot
   before_action :authenticate_user!
 
-  view_attribute :title => 'トップ'
-
   def index
     # 消費税をチェックしたほうがよさそうな伝票
     @tax_check_count = TaxFinder.new(current_user).count

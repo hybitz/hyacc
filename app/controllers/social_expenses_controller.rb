@@ -1,5 +1,4 @@
 class SocialExpensesController < Base::HyaccController
-  view_attribute :title => '交際費管理'
   helper_method :finder
 
   def index

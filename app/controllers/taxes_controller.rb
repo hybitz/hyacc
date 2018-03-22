@@ -1,5 +1,4 @@
 class TaxesController < Base::HyaccController
-  view_attribute :title => '消費税管理'
   view_attribute :finder, :class => TaxFinder, :only => :index
   view_attribute :branches, :only => :index
 

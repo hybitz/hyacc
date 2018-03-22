@@ -15,9 +15,11 @@ module VisitPage
     visit '/'
     click_on '資産管理'
     assert has_title?('資産管理')
+    click_on '減価償却'
+    assert has_title?('減価償却')
 
     if options[:branch]
-      select options[:branch].name, :from => 'finder_branch_id'
+      select options[:branch].name, :from => 'finder[branch_id]'
       click_on '表示'
     end
 

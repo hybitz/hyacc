@@ -70,7 +70,7 @@ end
 
     with_capture "#{employee_name} #{ym} の給与" do
       visit_payrolls
-      select row[0], :from => 'finder_branch_id'
+      select row[0], :from => 'finder[branch_id]'
       assert has_selector?('#finder_employee_id option', :text => employee_name)
       click_on '表示'
       assert has_selector?('#payroll_table')

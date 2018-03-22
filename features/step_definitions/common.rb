@@ -57,16 +57,16 @@ end
     case row[0]
     when '年度'
       assert_equal '本年度', row[1]
-      assert_equal current_company.current_fiscal_year_int, page.find('#finder_fiscal_year').value.to_i
+      assert_equal current_company.current_fiscal_year_int, find('select[name="finder\\[fiscal_year\\]"]').value.to_i
     when '部門'
       assert_equal 'デフォルト部門', row[1]
-      assert_equal current_user.employee.default_branch.id, page.find('#finder_branch_id').value.to_i
+      assert_equal current_user.employee.default_branch.id, find('select[name="finder\\[branch_id\\]"]').value.to_i
     when '従業員'
       assert_equal 'ログインユーザ', row[1]
-      assert_equal current_user.employee.id, page.find('#finder_employee_id').value.to_i
+      assert_equal current_user.employee.id, find('select[name="finder\\[employee_id\\]"]').value.to_i
     when '勘定科目'
       assert_equal 'ブランク', row[1]
-      assert page.find('#finder_account_id').value.blank?
+      assert find('select[name="finder\\[account_id\\]"]').value.blank?
     when '暦年'
       assert_equal '今年', row[1]
       #assert_equal ?, page.find('#finder_calendar_year').value.to_i
@@ -78,6 +78,6 @@ end
 
 もし /^追加をクリックし、ダイアログを表示$/ do
   click_on '追加'
-  assert page.has_selector?('.ui-dialog')
+  assert has_selector?('.ui-dialog')
   capture
 end

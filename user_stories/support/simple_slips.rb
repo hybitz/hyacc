@@ -8,7 +8,7 @@ module SimpleSlips
     assert has_title?(options[:account].name)
 
     if options[:branch]
-      select options[:branch].name, :from => 'finder_branch_id'
+      select options[:branch].name, :from => 'finder[branch_id]'
       click_on '表示'
     end
 

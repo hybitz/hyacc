@@ -362,7 +362,7 @@ hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
     if (!options.visibility_only) {
       var amount = this._get_input_amount(detail);
-      var ymField = $('#journal_ym');
+      var ymField = $('input[name="journal\\[ym\\]"]');
       var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
 
       var taxRate = taxRatePercentField.val() * 0.01;

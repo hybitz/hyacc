@@ -60,23 +60,23 @@ end
 
   with_capture do
     within '#journal_form' do
-      fill_in 'journal_ym', :with => @journal.ym
-      fill_in 'journal_day', :with => @journal.day
-      fill_in 'journal_remarks', :with => @journal.remarks
+      fill_in 'journal[ym]', :with => @journal.ym
+      fill_in 'journal[day]', :with => @journal.day
+      fill_in 'journal[remarks]', :with => @journal.remarks
       attach_file '領収書', @journal.receipt.file.path if @journal.receipt.present?
 
       @journal.journal_details.each_with_index do |detail, i|
-        prefix = "journal_journal_details_attributes_#{i}_"
+        prefix = "journal[journal_details_attributes[#{i}]]"
 
-        select detail.dc_type_name, :from => "#{prefix}_dc_type"
-        select detail.account_name, :from => "#{prefix}_account_id"
+        select detail.dc_type_name, :from => "#{prefix}[dc_type]"
+        select detail.account_name, :from => "#{prefix}[account_id]"
         assert has_selector?(".journal_details [data-index=\"#{i}\"].sub_account_ready")
-        select detail.sub_account_name, :from => "#{prefix}_sub_account_id" if detail.sub_account_id.present?
-        select detail.branch_name, :from => "#{prefix}_branch_id"
-        fill_in "#{prefix}_input_amount", :with => detail.input_amount
+        select detail.sub_account_name, :from => "#{prefix}[sub_account_id]" if detail.sub_account_id.present?
+        select detail.branch_name, :from => "#{prefix}[branch_id]"
+        fill_in "#{prefix}[input_amount]", :with => detail.input_amount
       end
 
-      find('#journal_ym').click # キャプチャ前にフォーカスイベントを発生させたいだけ
+      find('input[name="journal[ym]"]').click # キャプチャ前にフォーカスイベントを発生させたいだけ
     end
   end
 
@@ -146,8 +146,8 @@ end
 end
 
 もし /^登録して終了です。$/ do
-  assert has_no_selector?('.notice')
   with_capture do
+    assert has_no_selector?('.notice')
     within_dialog do
       click_on '登録'
     end

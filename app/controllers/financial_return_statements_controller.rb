@@ -1,5 +1,4 @@
 class FinancialReturnStatementsController < Base::HyaccController
-  view_attribute :title => '確定申告'
   view_attribute :finder, :class => ReportFinder
   view_attribute :branches
   view_attribute :report_types

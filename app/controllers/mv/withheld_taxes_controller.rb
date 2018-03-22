@@ -1,5 +1,4 @@
 class Mv::WithheldTaxesController < Base::HyaccController
-  view_attribute :title => '源泉徴収税'
   helper_method :finder
 
   def index

@@ -1,5 +1,4 @@
 class DebtsController < Base::HyaccController
-  view_attribute :title => '仮負債精算'
   view_attribute :finder, :class => DebtFinder, :only => :index
   view_attribute :branches, :only => :index
   # 流動資産のみ対象

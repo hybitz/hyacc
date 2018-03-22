@@ -1,5 +1,4 @@
 class Mv::EmploymentInsurancesController < Base::HyaccController
-  view_attribute :title => '雇用保険料'
   helper_method :finder
 
   def index

@@ -2,8 +2,19 @@ ja:
   title:
     bs: 資産管理
     bs/assets: 減価償却
+    career_statements: 業務経歴書
+    careers: 業務経歴
+    closing: 締め処理
+    debts: 仮負債精算
+    deemed_taxes: みなし消費税
+    financial_return_statements: 確定申告
+    financial_statements: 決算書
+    first_boot: 初期設定
+    fiscal_years: 会計年度
     investments: 有価証券
+    journal_admin: 伝票管理
     journals: 振替伝票
+    ledgers: 元帳
     mm: マスタメンテ
     mm/accounts: 勘定科目
     mm/bank_accounts: 金融口座
@@ -16,4 +27,12 @@ ja:
     mm/inhabitant_taxes: 住民税
     mm/rents: 地代家賃
     mm/simple_slip_templates: 簡易入力テンプレート
+    mv/depreciation_rates: 減価償却率
+    mv/employment_insurances: 雇用保険料
+    mv/social_insurances: 社会保険料
+    mv/withheld_taxes: 源泉徴収税
+    profiles: 個人設定
+    report: 帳票出力
+    report/ledgers: 元帳
+    report/withholding_slip: 源泉徴収
     

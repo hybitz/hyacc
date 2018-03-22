@@ -1,5 +1,4 @@
 class FiscalYearsController < Base::HyaccController
-  view_attribute :title => '会計年度'
 
   def index
     @fiscal_years = current_company.fiscal_years

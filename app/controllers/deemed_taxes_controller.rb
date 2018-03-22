@@ -1,5 +1,4 @@
 class DeemedTaxesController < Base::HyaccController
-  view_attribute :title => 'みなし消費税'
   before_action :check_business_type
   
   def index

@@ -1,5 +1,4 @@
 class CareersController < Base::HyaccController
-  view_attribute :title => '業務経歴'
   view_attribute :customers, :conditions => ['is_order_entry=?', true]
 
   helper_method :finder

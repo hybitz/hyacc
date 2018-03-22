@@ -1,5 +1,4 @@
 class LedgersController < Base::HyaccController
-  view_attribute :title => '元帳'
   view_attribute :accounts, :only => :index
   view_attribute :branches, :only => :index
 

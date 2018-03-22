@@ -1,5 +1,4 @@
 class Report::LedgersController < ReportController
-  view_attribute :title => '元帳'
 
   def index
     @fiscal_years = current_company.fiscal_years.order('fiscal_year desc')

@@ -5,9 +5,9 @@
 
     within_dialog('振替伝票　追加') do
       with_capture do
-        fill_in 'journal_ym', :with => journal.ym
-        fill_in 'journal_day', :with => journal.day
-        fill_in 'journal_remarks', :with => journal.remarks
+        fill_in 'journal[ym]', :with => journal.ym
+        fill_in 'journal[day]', :with => journal.day
+        fill_in 'journal[remarks]', :with => journal.remarks
         
         journal.journal_details.each_with_index do |jd, i|
           within find('.journal_details tbody').all('tr')[i*4] do

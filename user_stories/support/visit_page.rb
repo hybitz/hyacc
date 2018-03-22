@@ -66,6 +66,8 @@ module VisitPage
     visit '/'
     click_on '賃金台帳'
     assert has_title?('賃金台帳')
+    assert has_selector?('#branch_employees select')
+    assert has_button?('表示')
     assert has_no_selector?('#payroll_table')
   end
 

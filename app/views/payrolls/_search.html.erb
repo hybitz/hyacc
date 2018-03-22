@@ -1,6 +1,6 @@
 <script>
   $(document).on('turbolinks:load', function() {
-    $('select[name="finder\[branch_id\]"]').change(function() {
+    $('select[name="finder\\[branch_id\\]"]').change(function() {
       var url = '<%= url_for :action=>'get_branch_employees' %>';
       var params = {branch_id: $(this).val(), format: 'html'};
       $.get(url, params, function(html) {

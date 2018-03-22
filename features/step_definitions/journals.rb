@@ -151,6 +151,7 @@ end
     within_dialog do
       click_on '登録'
     end
+    pause 3
     assert has_no_dialog?
     assert has_selector?('.notice')
   end

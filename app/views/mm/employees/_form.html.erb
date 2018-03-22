@@ -6,12 +6,8 @@
       <div class="col-md-8">
         <table class="table">
           <tr>
-            <th class="nowrap"><%= f.label :last_name %></th>
-            <td><%= f.text_field :last_name %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :first_name %></th>
-            <td><%= f.text_field :first_name %></td>
+            <th class="nowrap"><%= f.label :last_name %><%= f.label :first_name %></th>
+            <td><%= f.text_field :last_name %><%= f.text_field :first_name %></td>
           </tr>
           <tr>
             <th><%= f.label :sex %></th>

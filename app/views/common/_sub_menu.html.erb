@@ -1,15 +1,15 @@
-<% if controllers.any?{|c| c[:name] == '/' + controller.controller_path } %>
+<% if controllers.include?(controller_path) %>
   <div class="subMenu">
     <% show_separator = false %>
     <% controllers.each_with_index {|c, index| %>
       <% next if index == 0 %>
-      <% next unless available?(c[:name]) %>
+      <% next unless available?(c) %>
 
       <% if show_separator %>
       |
       <% end %>
 
-      <%= link_to c[:title], {:controller => c[:name]}, :class => style_for_menu(c[:name]) %>
+      <%= link_to t("title.#{c}"), {controller: '/' + c}, class: style_for_menu(c) %>
       <% show_separator = true %>
     <% } %>
   </div>

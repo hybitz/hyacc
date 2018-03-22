@@ -1,75 +1,75 @@
 <%
   # 資産管理機能一覧
-  bs_controllers = [
-    {:name => '/bs', :title => '資産管理'},
-    {:name => '/bs/assets', :title => '減価償却'},
-  ]
+  bs_controllers = %w{
+    bs
+    bs/assets
+  }
 
   # 仕訳管理機能一覧
-  journal_admin_controllers = [
-    {:name => '/journal_admin', :title => '伝票管理'},
-    {:name => '/debts', :title => '仮負債精算'},
-    {:name => '/social_expenses', :title => '交際費管理'},
-    {:name => '/taxes', :title => '消費税管理'}
-  ]
+  journal_admin_controllers = %w{
+    journal_admin
+    debts
+    social_expenses
+    taxes
+  }
 
   # 締め処理機能一覧 
-  closing_controllers = [
-    {:name=>'/closing', :title=>'締め処理'},
-    {:name=>'/deemed_taxes', :title=>'みなし消費税'},
-    {:name=>'/fiscal_years', :title=>'会計年度'},
-  ]
+  closing_controllers = %w{
+    closing
+    deemed_taxes
+    fiscal_years
+  }
 
   # 帳票出力機能一覧 
-  report_controllers = [
-    {:name => '/report', :title => '帳票出力'},
-    {:name => '/career_statements',:title => '業務経歴書'},
-    {:name => '/financial_statements', :title => '決算書'},
-    {:name => '/financial_return_statements', :title => '確定申告'},
-    {:name => '/report/withholding_slip', :title => '源泉徴収'},
-    {:name => '/report/ledgers', :title => '元帳'}
-  ]
+  report_controllers = %w{
+    report
+    career_statements
+    financial_statements
+    financial_return_statements
+    report/withholding_slip
+    report/ledgers
+  }
 
   # マスタメンテ機能一覧 
-  mm_controllers = [
-    {:name => '/mm', :title => 'マスタメンテ'},
-    {:name => '/mm/companies', :title => '会社'},
-    {:name => '/mm/branches', :title => '部門'},
-    {:name => '/mm/employees', :title => '従業員'},
-    {:name => '/mm/users', :title => 'ユーザ'},
-    {:name => '/careers', :title => '業務経歴'},
-    {:name => '/mm/bank_accounts', :title => '金融口座'},
-    {:name => '/mm/banks', :title => '金融機関'},
-    {:name => '/mm/customers', :title => '取引先'},
-    {:name => '/mm/accounts', :title => '勘定科目'},
-    {:name => '/mm/rents', :title => '地代家賃'},
-    {:name => '/mm/inhabitant_taxes', :title => '住民税（特別徴収税）'},
-    {:name => '/mm/exemptions', :title => '所得税控除'},
-    {:name => '/mm/simple_slip_templates', :title => '簡易入力テンプレート'},
-  ]
+  mm_controllers = %w{
+    mm
+    mm/companies
+    mm/branches
+    mm/employees
+    mm/users
+    careers
+    mm/bank_accounts
+    mm/banks
+    mm/customers
+    mm/accounts
+    mm/rents
+    mm/inhabitant_taxes
+    mm/exemptions
+    mm/simple_slip_templates
+  }
 
   # マスタビューア機能一覧 
-  mv_controllers = [
-    {:name =>'/mv', :title => 'マスタビューア'},
-    {:name => '/mv/depreciation_rates', :title=>'減価償却率'},
-    {:name =>'/mv/social_insurances', :title => '社会保険料'},
-    {:name =>'/mv/employment_insurances', :title => '雇用保険料'},
-    {:name =>'/mv/withheld_taxes', :title => '源泉徴収税'},
-  ]
+  mv_controllers = %w{
+    mv
+    mv/depreciation_rates
+    mv/social_insurances
+    mv/employment_insurances
+    mv/withheld_taxes
+  }
 %>
 
 <div class="menu">
   <%= render 'common/simple_slip_menu' %>
   
-  <%= link_to '振替伝票', journals_path(purified_params), :class => style_for_menu('/journals') %>
+  <%= link_to '振替伝票', journals_path(purified_params), :class => style_for_menu('journals') %>
   |
   <%= link_to '伝票管理', journal_admin_path(purified_params), :class => style_for_menu(journal_admin_controllers) %>
   |
-  <%= link_to_if true, '有価証券', investments_path(purified_params), :class => style_for_menu('/investments') %>
+  <%= link_to '有価証券', investments_path(purified_params), :class => style_for_menu('investments') %>
   |
 
   <% if available?('payrolls') %>
-    <%= link_to '賃金台帳', payrolls_path(purified_params), :class => style_for_menu('/payrolls') %>
+    <%= link_to '賃金台帳', payrolls_path(purified_params), :class => style_for_menu('payrolls') %>
     |
   <% end %>
 
@@ -77,7 +77,7 @@
   |
   <%= link_to '締め処理', closing_path(purified_params), :class => style_for_menu(closing_controllers) %>
   |
-  <%= link_to '元帳', ledgers_path(purified_params), :class => style_for_menu('/ledgers') %>
+  <%= link_to '元帳', ledgers_path(purified_params), :class => style_for_menu('ledgers') %>
   |
   <%= link_to '帳票出力', report_path(purified_params), :class => style_for_menu(report_controllers) %>
   |

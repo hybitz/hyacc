@@ -65,24 +65,24 @@ module ApplicationHelper
   end
 
   # メニュー項目のスタイルを取得する
-  def style_for_menu(controller_path)
+  def style_for_menu(c)
     # 簡易入力の場合
-    if controller.controller_name == 'simple_slips'
-      if @account.code == controller_path
+    if controller_name == 'simple_slips'
+      if @account.code == c
         'selected'
       end
     # 通常のコントローラの場合
-    elsif '/' + controller.controller_path == controller_path
+    elsif controller_path == c
       'selected'
     # サブメニューがある場合
-    elsif controller_path.is_a? Array and controller_path.any?{|c| c[:name] == '/' + controller.controller_path}
+    elsif c.is_a? Array and c.include?(controller_path)
       'selected'
     end
   end
 
   # アクション項目のスタイルを取得する
-  def style_for_action(action_name)
-    if action_name.to_s == controller.action_name
+  def style_for_action(a)
+    if action_name.to_s == a
       'selected'
     else
       ''

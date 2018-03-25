@@ -1,5 +1,5 @@
-<table class="bank_offices">
-  <caption>金融機関営業店</caption>
+<span>金融機関営業店</span>
+<table class="table bank_offices">
 
   <thead>
     <tr>
@@ -19,7 +19,7 @@
   <tfoot>
     <tr>
       <td colspan="4">
-        <%= link_to '追加', {:action => 'add_bank_office'}, :onclick => 'banks.add_bank_office(this); return false;' %>
+        <%= link_to '追加', {:action => 'add_bank_office'}, :onclick => 'banks.add_bank_office(this); return false;', class: 'btn btn-light' %>
       </td>
     </tr>
   </tfoot>

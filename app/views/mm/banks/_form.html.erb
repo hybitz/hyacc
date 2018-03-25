@@ -1,9 +1,9 @@
-<%= form_for [:mm, @bank], :remote => true do |f| %>
+<%= form_with model: [:mm, @bank] do |f| %>
   <%= flash_notice %>
-  
+
   <% if @bank.new_record? %>
     <p>
-      <%= f.label :code %><br />
+      <%= f.label :code %><br>
       <%= f.text_field :code %>
     </p>
   <% else %>
@@ -13,7 +13,7 @@
   <% end %>
 
   <p>
-    <%= f.label :name %><br />
+    <%= f.label :name %><br>
     <%= f.text_field :name %>
   </p>
 

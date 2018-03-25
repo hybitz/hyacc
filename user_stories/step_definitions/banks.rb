@@ -12,10 +12,10 @@
   
   click_on '追加'
   within '.ui-dialog' do
-    fill_in '金融機関コード', :with => @bank.code
-    fill_in '金融機関名', :with => @bank.name
-    within_table '金融機関営業店' do
-      click_link '追加'
+    fill_in 'bank[code]', :with => @bank.code
+    fill_in 'bank[name]', :with => @bank.name
+    within '.bank_offices' do
+      click_on '追加'
       assert has_selector?('tr', :count => 3)
   
       all('input').each do |input|

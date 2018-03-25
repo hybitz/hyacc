@@ -9,8 +9,8 @@ end
   assert has_no_selector?('table.mm.banks td', :text => @bank_params[:name])
 
   within '.ui-dialog' do
-    fill_in Bank.human_attribute_name(:code), :with => @bank_params[:code]
-    fill_in Bank.human_attribute_name(:name), :with => @bank_params[:name]
+    fill_in 'bank[code]', :with => @bank_params[:code]
+    fill_in 'bank[name]', :with => @bank_params[:name]
 
     selector = '.bank_offices tbody tr'
     assert has_no_selector?(selector)
@@ -21,7 +21,7 @@ end
     click_on '登録'
   end
 
-  assert has_selector?('table.mm.banks td', :text => @bank_params[:name])
+  assert has_selector?('table.banks td', :text => @bank_params[:name])
   capture
 end
 

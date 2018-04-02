@@ -65,14 +65,12 @@ class PayrollsController < Base::HyaccController
 
   def edit
     p = Payroll.find(params[:id])
-    @employee = Employee.find(p.employee_id)
     @payroll = Payroll.find_by_ym_and_employee_id(p.ym, p.employee_id)
   end
 
   def update
     @payroll = Payroll.find(params[:id])
     @payroll.attributes = payroll_params
-    @employee = Employee.find(@payroll.employee_id)
 
     # 削除用に旧伝票を取得
     payroll_on_db = Payroll.find(@payroll.id)
@@ -88,22 +86,8 @@ class PayrollsController < Base::HyaccController
 
       payroll_on_db.transaction do
         # 給与・支払い伝票は新規追加して旧伝票を削除
-        payroll_on_db.days_of_work = @payroll.days_of_work
-        payroll_on_db.hours_of_work = @payroll.hours_of_work
-        payroll_on_db.hours_of_day_off_work = @payroll.hours_of_day_off_work
-        payroll_on_db.hours_of_early_work = @payroll.hours_of_early_work
-        payroll_on_db.hours_of_late_night_work = @payroll.hours_of_late_night_work
-        payroll_on_db.credit_account_type_of_insurance = @payroll.credit_account_type_of_insurance
-        payroll_on_db.credit_account_type_of_pension = @payroll.credit_account_type_of_pension
-        payroll_on_db.credit_account_type_of_income_tax = @payroll.credit_account_type_of_income_tax
-        payroll_on_db.credit_account_type_of_inhabitant_tax = @payroll.credit_account_type_of_inhabitant_tax
-
         make_journals(@payroll)
-
-        payroll_on_db.payroll_journal_header = @payroll.payroll_journal_header
-        payroll_on_db.pay_journal_header = @payroll.pay_journal_header
-        payroll_on_db.commission_journal_header = @payroll.commission_journal_header
-        payroll_on_db.save!
+        @payroll.save!
 
         JournalHeader.find(payroll_journal_header_on_db.id).destroy if payroll_journal_header_on_db
         JournalHeader.find(pay_journal_header_on_db.id).destroy if pay_journal_header_on_db

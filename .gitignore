@@ -9,6 +9,7 @@ capybara-*.html
 /.buildpath
 /.bundle
 /.byebug_history
+/.settings/
 /vendor/bundle
 /log/*
 /test/reports

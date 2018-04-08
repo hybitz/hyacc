@@ -3,12 +3,8 @@
 %>
 <%= fields_for prefix, jd do |f| %>
   <span id="jd_<%= index %>_allocation">
-    <% if can_allocate_cost(jd.branch_id) and is_real_cost(jd.account_id) %>
-      <label><%= f.check_box :is_allocated_cost %> 費用配賦</label>
-    <% elsif can_allocate_assets(jd.account_id, jd.dc_type) %>
-      <label><%= f.check_box :is_allocated_assets %> 資産配賦</label>
-    <% elsif can_allocate_debt(jd.account_id, jd.dc_type) %>
-      <label><%= f.check_box :is_allocated_assets %> 負債配賦</label>
+    <% if jd.allocatable? %>
+      <label><%= f.check_box :is_allocated_cost %> <%= jd.account.account_type_name %>配賦</label>
     <% end %>
   </span>
 <% end %>

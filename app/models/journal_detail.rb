@@ -62,11 +62,19 @@ class JournalDetail < ApplicationRecord
   end
 
   def dc_type_name
-    DC_TYPES[ dc_type ]
+    DC_TYPES[dc_type]
+  end
+
+  def debit?
+    dc_type == DC_TYPE_DEBIT
+  end
+
+  def credit?
+    dc_type == DC_TYPE_CREDIT
   end
 
   def tax_type_name
-    TAX_TYPES[ tax_type ]
+    TAX_TYPES[tax_type]
   end
 
   def debit_amount
@@ -168,6 +176,21 @@ class JournalDetail < ApplicationRecord
       if settlement_type.to_i == 0
         errors.add(:settlement_type, ERR_REQUIRED_SETTLEMENT_TYPE)
       end
+    end
+  end
+
+  def allocatable?
+    return false if account.internal_trade?
+    return false if branch.leaf?
+
+    if account.expense?
+      true
+    elsif account.debt?
+      credit?
+    elsif account.is_current_assets?
+      credit?
+    else
+      false
     end
   end
 

@@ -72,6 +72,14 @@ class Account < ApplicationRecord
     TRADE_TYPES[trade_type]
   end
 
+  def external_trade?
+    trade_type == TRADE_TYPE_EXTERNAL
+  end
+
+  def internal_trade?
+    trade_type == TRADE_TYPE_INTERNAL
+  end
+
   def is_leaf
     children.empty?
   end
@@ -135,11 +143,6 @@ class Account < ApplicationRecord
 
   def expense?
     account_type == ACCOUNT_TYPE_EXPENSE
-  end
-
-  # 費用の部
-  def is_expense?
-    path.index(ACCOUNT_CODE_EXPENSE)
   end
 
   # 流動資産の部

@@ -178,11 +178,14 @@ class JournalsController < Base::HyaccController
   def new_journal
     default_account = @frequencies.size > 0 ? Account.find(@frequencies.first.input_value.to_i) : @accounts.first
 
-    ret = Journal.new
+    ret = Journal.new(company_id: current_company.id)
     ret.ym = ymd_input_state.ym
     ret.day = ymd_input_state.day
-    ret.journal_details.build(:dc_type => DC_TYPE_DEBIT, :account_id => default_account.id)
-    ret.journal_details.build(:dc_type => DC_TYPE_CREDIT, :account_id => default_account.id)
+
+    [DC_TYPE_DEBIT, DC_TYPE_CREDIT].each do |dc_type|
+      ret.journal_details.build(dc_type: dc_type, account: default_account, branch: current_user.employee.default_branch)
+    end
+
     ret
   end
 

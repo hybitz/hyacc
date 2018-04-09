@@ -11,9 +11,10 @@
 
     click_on @ym
     within_dialog do
-      fill_in 'payroll[base_salary]', :with => @salary
+      fill_in 'payroll[base_salary]', with: @salary
+      fill_in 'payroll[commuting_allowance]', with: 0 # blur
       assert has_selector?('form[insurance_loaded]');
-      fill_in 'payroll[inhabitant_tax]', :with => 0
+      fill_in 'payroll[inhabitant_tax]', with: 0
     end
 
     accept_confirm do

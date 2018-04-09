@@ -81,13 +81,13 @@ GEM
     capistrano-sidekiq (1.0.1)
       capistrano (>= 3.9.0)
       sidekiq (>= 3.4)
-    capybara (2.18.0)
+    capybara (3.0.1)
       addressable
       mini_mime (>= 0.1.3)
-      nokogiri (>= 1.3.3)
-      rack (>= 1.0.0)
-      rack-test (>= 0.5.4)
-      xpath (>= 2.0, < 4.0)
+      nokogiri (~> 1.8)
+      rack (>= 1.6.0)
+      rack-test (>= 0.6.3)
+      xpath (~> 3.0)
     carrierwave (1.2.2)
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
@@ -104,11 +104,9 @@ GEM
     choice (0.2.0)
     ci_reporter (2.0.0)
       builder (>= 2.1.2)
-    cliver (0.3.2)
-    closer (0.6.2)
-      capybara (~> 2.16)
+    closer (0.7.0)
+      capybara (>= 2.18)
       cucumber (>= 3.0, <= 4.0)
-      poltergeist (>= 1.16)
       selenium-webdriver (~> 3.0)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -119,7 +117,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
-    crass (1.0.3)
+    crass (1.0.4)
     cucumber (3.1.0)
       builder (>= 2.1.2)
       cucumber-core (~> 3.1.0)
@@ -134,17 +132,14 @@ GEM
       cucumber-tag_expressions (~> 1.1.0)
       gherkin (>= 5.0.0)
     cucumber-expressions (5.0.15)
-    cucumber-rails (1.5.0)
-      capybara (>= 1.1.2, < 3)
-      cucumber (>= 1.3.8, < 4)
-      mime-types (>= 1.17, < 4)
-      nokogiri (~> 1.5)
-      railties (>= 4, < 5.2)
+    cucumber-rails (1.4.0)
+      capybara (>= 1.1.2)
+      cucumber (>= 1.2.0)
+      nokogiri (>= 1.5.0)
+      rails (>= 3.0.0)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
     daddy (0.6.6)
-      capybara
-      ci_reporter
       hashie (~> 3.4.0)
       highline
       holiday_jp
@@ -247,7 +242,7 @@ GEM
     mini_magick (4.8.0)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
-    minitest (5.10.3)
+    minitest (5.11.3)
     minitest-reporters (1.2.0)
       ansi
       builder
@@ -305,10 +300,6 @@ GEM
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
     plist (3.4.0)
-    poltergeist (1.17.0)
-      capybara (~> 2.1)
-      cliver (~> 0.3.1)
-      websocket-driver (>= 0.2.0)
     popper_js (1.12.9)
     public_suffix (3.0.2)
     puma (3.11.3)
@@ -358,7 +349,9 @@ GEM
     rb-inotify (0.9.10)
       ffi (>= 0.5.0, < 2)
     redis (3.3.5)
-    remotipart (1.3.1)
+    redis-namespace (1.6.0)
+      redis (>= 3.0.4)
+    remotipart (1.4.0)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -476,9 +469,10 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails
   capistrano-sidekiq
-  capybara (~> 2.13)
+  capybara
   carrierwave
   carrierwave-i18n
+  ci_reporter
   closer
   coffee-rails (~> 4.2)
   cucumber-rails
@@ -498,7 +492,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mimemagic
   mini_magick
-  minitest (~> 5.10.3)
+  minitest
   minitest-reporters
   momentjs-rails
   mousetrap-rails
@@ -512,6 +506,7 @@ DEPENDENCIES
   rails-erd
   rails-i18n
   redis (~> 3.0)
+  redis-namespace
   remotipart
   sass-rails (~> 5.0)
   selenium-webdriver

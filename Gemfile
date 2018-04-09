@@ -39,6 +39,7 @@ gem 'omniauth-google-oauth2'
 gem 'puma', '~> 3.7'
 gem 'rails-i18n'
 gem 'redis', '~> 3.0'
+gem 'redis-namespace'
 gem 'remotipart'
 gem 'sass-rails', '~> 5.0'
 gem 'sidekiq'
@@ -54,7 +55,7 @@ gem 'will_paginate'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'capybara', '~> 2.13'
+  gem 'capybara'
   gem 'selenium-webdriver'
 end
 
@@ -70,10 +71,11 @@ group :development do
 end
 
 group :test do
+  gem 'ci_reporter', :require => false
   gem 'closer'
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner', :require => false
-  gem 'minitest','~> 5.10.3'
+  gem 'minitest'
   gem 'minitest-reporters'
   gem 'rails-controller-testing'
   gem 'simplecov', :require => false

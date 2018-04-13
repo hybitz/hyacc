@@ -32,7 +32,7 @@
 
   accounts = rows.map{|row| Account.where(:name => row[1]).first }
   details = JournalDetail.where('account_id not in (?)', accounts.map(&:id))
-  assert details.empty?, "予期せぬ勘定科目の仕訳が存在します。#{details.to_yaml}"
+  assert details.empty?, "予期せぬ勘定科目の仕訳が存在します。#{details.map(&:attributes).to_yaml}"
 
   debit_sum_amount = footer[0].to_ai
   expected = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_DEBIT, DC_TYPE_DEBIT).sum(:amount) -

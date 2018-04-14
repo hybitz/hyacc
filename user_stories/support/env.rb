@@ -1,6 +1,3 @@
-require 'minitest'
-MultiTest.disable_autorun
-
 require 'closer'
 
 begin

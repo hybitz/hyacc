@@ -104,7 +104,7 @@ GEM
     choice (0.2.0)
     ci_reporter (2.0.0)
       builder (>= 2.1.2)
-    closer (0.7.0)
+    closer (0.7.1)
       capybara (>= 2.18)
       cucumber (>= 3.0, <= 4.0)
       selenium-webdriver (~> 3.0)

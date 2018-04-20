@@ -5,6 +5,10 @@
       <td><%= f.date_select :employment_date %></td>
     </tr>
     <tr>
+      <th><%= f.label :retirement_date %></th>
+      <td><%= f.date_select :retirement_date, include_blank:true %></td>
+    </tr>
+    <tr>
       <th class="nowrap"><%= f.label :executive %></th>
       <td><label><%= f.check_box :executive %> <%= Employee.human_attribute_name :executive_true %></label></td>
     </tr>

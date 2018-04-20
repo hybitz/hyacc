@@ -12,6 +12,7 @@ module Employees
       :sex => SEX_TYPE_F,
       :birth => 30.years.ago,
       :employment_date => '1990-01-01',
+      :retirement_date => '9999-12-31',
       :my_number => '123456789012',
       :executive => false,
       :zip_code => '0600042',

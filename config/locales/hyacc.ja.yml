@@ -124,6 +124,7 @@ ja:
         base_salary: 基本給
         business_office_id: 所属する事業所
         employment_date: 入社日
+        retirement_date: 退社日
         executive: 雇用形態
         executive_true: 役員
         executive_false: 従業員

@@ -5,7 +5,7 @@ module WithholdingSlips
     {
       :report_type => REPORT_TYPE_WITHHOLDING_DETAILS,
       :employee_id => 1,
-      :calendar_year => 2008
+      :calendar_year => "2008"
     }
   end
   
@@ -13,7 +13,7 @@ module WithholdingSlips
     {
       :report_type => REPORT_TYPE_WITHHOLDING_SUMMARY,
       :employee_id => 1,
-      :calendar_year => 2008
+      :calendar_year => "2008"
     }
   end
   
@@ -27,7 +27,7 @@ module WithholdingSlips
     {
       :report_type => REPORT_TYPE_WITHHOLDING_DETAILS,
       :employee_id => 1,
-      :calendar_year => 2006
+      :calendar_year => "2006"
     }
   end
 end

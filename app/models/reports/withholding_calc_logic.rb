@@ -77,6 +77,14 @@ module Reports
       c = Company.find(@finder.company_id)
       c.employees.each do |emp|
         @finder.employee_id = emp.id
+
+        if emp.employment_date > (@finder.calendar_year + "-12-31").to_date
+          next
+        end
+        if !emp.retirement_date.nil? && emp.retirement_date < (@finder.calendar_year + "-01-01").to_date
+          next
+        end
+
         logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         w = logic.get_withholding_tax
         t = w + t

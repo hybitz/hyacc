@@ -81,7 +81,7 @@ class Mm::EmployeesController < Base::HyaccController
   
   def employee_params
     permitted = [
-      :first_name, :last_name, :employment_date,
+      :first_name, :last_name, :employment_date, :retirement_date,
       :sex, :business_office_id, :birth, :my_number, :executive, :position,
       :num_of_dependent, :num_of_dependent_effective_at,
       :zip_code, :zip_code_effective_at,

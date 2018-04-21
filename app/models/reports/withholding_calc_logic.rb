@@ -46,6 +46,7 @@ module Reports
       
       annual_tax = get_annual_tax
       model.tax_adjustment = model.withholding_tax_FY + model.withholding_tax_of_bonus_FY - annual_tax if annual_tax # 年末調整額 = 源泉徴収全額 - 年調税額
+      model.overpayment = previous_overpayment((@finder.calendar_year.to_i - 1).to_s)
       model
     end
 
@@ -93,6 +94,29 @@ module Reports
     rescue => e
       # 源泉徴収情報が未登録の場合はnil
       return nil
+    end
+    
+    def previous_overpayment(previous_year)
+      logic = PayrollInfo::PayrollLogic.new(previous_year, @finder.employee_id)
+      all_withholding_taxes_1H = logic.get_all_withholding_taxes_1H
+      annual_tax = 0
+      c = Company.find(@finder.company_id)
+      c.employees.each do |emp|
+        @finder.employee_id = emp.id
+
+        if emp.employment_date > (previous_year + "-12-31").to_date
+          next
+        end
+        if !emp.retirement_date.nil? && emp.retirement_date < (previous_year + "-01-01").to_date
+          next
+        end
+
+        logic = PayrollInfo::PayrollLogic.new(previous_year, @finder.employee_id)
+        w = logic.get_withholding_tax
+        annual_tax = w + annual_tax
+      end
+      
+      annual_tax - all_withholding_taxes_1H < 0 ? annual_tax - all_withholding_taxes_1H : 0
     end
   end
 end

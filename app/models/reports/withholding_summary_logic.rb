@@ -13,7 +13,7 @@ module Reports
       model.withholding_tax = get_withholding_tax                         # 源泉徴収税額
       model
     end
-
+    
     # 支払金額
     def get_total_salary
       total_base_salary = 0
@@ -23,10 +23,10 @@ module Reports
         logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         total_base_salary = total_base_salary + logic.get_total_base_salary
       end
-
+      
       total_base_salary
     end
-
+    
     # 源泉徴収税額
     def get_withholding_tax
       total_withholding_tax = 0
@@ -42,7 +42,7 @@ module Reports
         logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         total_withholding_tax = total_withholding_tax + logic.get_withholding_tax
       end
-
+      
       total_withholding_tax
     end
   end

@@ -62,6 +62,16 @@
       <td><%= number_to_currency(@data.total_salary_FY + @data.total_bonus_FY, :format=>"%n") %></td>
       <td><%= number_to_currency(@data.withholding_tax_FY + @data.withholding_tax_of_bonus_FY, :format=>"%n") %></td>
     </tr>
+  <% if @data.overpayment < 0 %>
+    <tr style="background-color: lightgrey;">
+        <td colspan="3">前期過払分</td>
+    </tr>
+    <tr class="hover">
+      <td>前期過払分</td>
+      <td>-</td>
+      <td><%= number_to_currency(@data.overpayment, :format=>"%n") %></td>
+    </tr>
+  <% end %>
     <tr style="background-color: lightgrey;">
         <td colspan="3">年末調整額</td>
     </tr>
@@ -77,7 +87,7 @@
     <tr class="hover">
       <td>上期合計</td>
       <td><%= number_to_currency(@data.total_salary_1H + @data.total_bonus_1H, :format=>"%n") %></td>
-      <td><%= number_to_currency(@data.withholding_tax_1H + @data.withholding_tax_of_bonus_1H, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_1H + @data.withholding_tax_of_bonus_1H + @data.overpayment, :format=>"%n") %></td>
     </tr>
     <tr class="hover">
       <td>下期合計(年末調整後)</td>

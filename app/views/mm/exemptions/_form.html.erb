@@ -55,8 +55,8 @@
       <th colspan="2">居住開始年月日（2回目）</th><td><%= f.text_field :date_of_start_living_2, :class => 'datepicker' %></td>
     </tr>
     <tr>
-      <th colspan="2">住宅借入金等特別控除区分（1回目）</th><td><%= f.select :mortgage_deduction_code_1, mortgage_deduction_types %></td>
-      <th colspan="2">住宅借入金等特別控除区分（2回目）</th><td><%= f.select :mortgage_deduction_code_2, mortgage_deduction_types %></td>
+      <th colspan="2">住宅借入金等特別控除区分（1回目）</th><td><%= f.select :mortgage_deduction_code_1, mortgage_deduction_types, include_blank:true %></td>
+      <th colspan="2">住宅借入金等特別控除区分（2回目）</th><td><%= f.select :mortgage_deduction_code_2, mortgage_deduction_types, include_blank:true %></td>
     </tr>
     <tr>
       <th colspan="2">住宅借入金等年末残高（1回目）</th><td><%= f.text_field :year_end_balance_1, :class => 'amount' %></td>

@@ -10,7 +10,7 @@ class Slips::SlipUtilsTest < ActiveSupport::TestCase
     jh = create_journal()
     assert Slips::SlipUtils.editable_as_simple_slip(jh, @account.id)
 
-    jh.journal_details[0].is_allocated_cost = true
+    jh.journal_details[0].allocated = true
     assert ! Slips::SlipUtils.editable_as_simple_slip(jh, @account.id)
   end
   

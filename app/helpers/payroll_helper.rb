@@ -86,11 +86,14 @@ module PayrollHelper
     payroll.ym = ym
     payroll.employee = e
     payroll.base_salary = base_salary.to_i
+    payroll.commuting_allowance = commuting_allowance.to_i
+
+    # 雇用保険
+    payroll.calc_employment_insurance
 
     # 標準報酬月額の取得
-    salary = base_salary.to_i + commuting_allowance.to_i
     prefecture_code = e.business_office.prefecture_code # 事業所の都道府県コード
-    standard_remuneration = get_standard_remuneration(ym, e, salary)
+    standard_remuneration = get_standard_remuneration(ym, e, payroll.salary_total)
     insurance = TaxUtils.get_social_insurance(ym, prefecture_code, standard_remuneration)
 
     # 保険料の設定
@@ -110,11 +113,8 @@ module PayrollHelper
     date = Date.new(ym.to_i/100, ym.to_i%100, -1) # 対象月の末日を基準
     exemption = e.exemptions.order("yyyy desc").first
     num_of_dependent = exemption ? exemption.family_members.size : 0 # 扶養親族
-    salary = payroll.base_salary.to_i - payroll.social_insurance.to_i - payroll.employment_insurance.to_i
+    salary = payroll.salary_total - payroll.social_insurance - payroll.commuting_allowance
     payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(date, salary, num_of_dependent)
-
-    # 雇用保険
-    payroll.calc_employment_insurance
 
     payroll
   end

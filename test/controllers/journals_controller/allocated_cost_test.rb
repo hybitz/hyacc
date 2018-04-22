@@ -19,7 +19,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[0].input_amount = 100
     post_jh.journal_details[0].tax_type = TAX_TYPE_INCLUSIVE
     post_jh.journal_details[0].tax_rate_percent = 5
-    post_jh.journal_details[0].is_allocated_cost = 1
+    post_jh.journal_details[0].allocated = true
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
     post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details << JournalDetail.new
@@ -44,7 +44,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
               :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-              :is_allocated_cost => true,
+              :allocated => true,
               :dc_type => post_jh.journal_details[0].dc_type
             },
             '2' => {
@@ -116,7 +116,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.tax_type = TAX_TYPE_INCLUSIVE
     jd.tax_rate_percent = 5
     jd.tax_amount = 4
-    jd.is_allocated_cost = true
+    jd.allocated = true
     jd.dc_type = DC_TYPE_DEBIT # 借方
     jd.auto_journal_type = AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
 
@@ -141,7 +141,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
               :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :allocated => post_jh.journal_details[0].allocated,
               :dc_type => post_jh.journal_details[0].dc_type,
               :auto_journal_type => post_jh.journal_details[0].auto_journal_type,
             },
@@ -186,7 +186,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.input_amount = 100
     jd.tax_type = TAX_TYPE_INCLUSIVE
     jd.tax_rate_percent = 5
-    jd.is_allocated_cost = true
+    jd.allocated = true
     jd.dc_type = DC_TYPE_DEBIT # 借方
     jd.auto_journal_type = AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
 
@@ -211,7 +211,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
               :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :allocated => post_jh.journal_details[0].allocated,
               :dc_type => post_jh.journal_details[0].dc_type,
               :auto_journal_type => post_jh.journal_details[0].auto_journal_type
             },
@@ -256,7 +256,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.input_amount = 100
     jd.tax_type = TAX_TYPE_INCLUSIVE
     jd.tax_rate_percent = 5
-    jd.is_allocated_cost = true
+    jd.allocated = true
     jd.dc_type = DC_TYPE_DEBIT # 借方
     jd.auto_journal_type = AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
     jd.auto_journal_year = 2009
@@ -284,7 +284,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
               :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :allocated => post_jh.journal_details[0].allocated,
               :dc_type => post_jh.journal_details[0].dc_type,
               :auto_journal_type => post_jh.journal_details[0].auto_journal_type,
               :auto_journal_year => post_jh.journal_details[0].auto_journal_year,
@@ -332,7 +332,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[0].settlement_type = SETTLEMENT_TYPE_FULL
     post_jh.journal_details[0].input_amount = 100000
     post_jh.journal_details[0].tax_type = 1
-    post_jh.journal_details[0].is_allocated_cost = 1
+    post_jh.journal_details[0].allocated = true
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
     post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details << JournalDetail.new
@@ -340,7 +340,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].account_id = 2 # 現金
     post_jh.journal_details[1].input_amount = 100000
     post_jh.journal_details[1].tax_type = 1
-    post_jh.journal_details[1].is_allocated_assets = 1
+    post_jh.journal_details[1].allocated = true
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
 
@@ -358,7 +358,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
               :settlement_type => post_jh.journal_details[0].settlement_type,
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
-              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :allocated => post_jh.journal_details[0].allocated,
               :dc_type => post_jh.journal_details[0].dc_type,
             },
             '2' => {
@@ -366,7 +366,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
               :account_id => post_jh.journal_details[1].account_id,
               :input_amount => post_jh.journal_details[1].input_amount,
               :tax_type => post_jh.journal_details[1].tax_type,
-              :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+              :allocated => post_jh.journal_details[1].allocated,
               :dc_type => post_jh.journal_details[1].dc_type,
             }
           }
@@ -410,7 +410,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.input_amount = 100
     jd.tax_type = TAX_TYPE_INCLUSIVE
     jd.tax_rate_percent = 5
-    jd.is_allocated_cost = '0'
+    jd.allocated = false
     jd.dc_type = DC_TYPE_DEBIT # 借方
 
     jd = post_jh.journal_details.build
@@ -434,7 +434,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
               :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :allocated => post_jh.journal_details[0].allocated,
               :dc_type => post_jh.journal_details[0].dc_type
             },
             '2' => {

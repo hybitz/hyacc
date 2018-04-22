@@ -4,7 +4,7 @@
 <%= fields_for prefix, jd do |f| %>
   <span id="jd_<%= index %>_allocation">
     <% if jd.allocatable? %>
-      <label><%= f.check_box :is_allocated_cost %> <%= jd.account.account_type_name %>配賦</label>
+      <label><%= f.check_box :allocated %> <%= jd.account.account_type_name %>配賦</label>
     <% end %>
   </span>
 <% end %>

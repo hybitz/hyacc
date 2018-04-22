@@ -119,8 +119,13 @@ class JournalDetail < ApplicationRecord
   def auto_journal_types
     ret = []
     ret << auto_journal_type if auto_journal_type > 0
-    ret << AUTO_JOURNAL_TYPE_ALLOCATED_COST if is_allocated_cost
-    ret << AUTO_JOURNAL_TYPE_ALLOCATED_ASSETS if is_allocated_assets
+    if allocated?
+      if account.expense?
+        ret << AUTO_JOURNAL_TYPE_ALLOCATED_COST
+      else
+        ret << AUTO_JOURNAL_TYPE_ALLOCATED_ASSETS
+      end
+    end
     ret
   end
 
@@ -181,7 +186,6 @@ class JournalDetail < ApplicationRecord
 
   def allocatable?
     return false if account.internal_trade?
-    return false if branch.leaf?
 
     if account.expense?
       true

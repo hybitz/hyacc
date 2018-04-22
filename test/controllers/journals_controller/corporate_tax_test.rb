@@ -22,7 +22,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     post_jh.journal_details[0].settlement_type = SETTLEMENT_TYPE_FULL
     post_jh.journal_details[0].input_amount = 100000
     post_jh.journal_details[0].tax_type = 1
-    post_jh.journal_details[0].is_allocated_cost = 1
+    post_jh.journal_details[0].allocated = true
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
     post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details << JournalDetail.new
@@ -30,7 +30,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     post_jh.journal_details[1].account_id = 2 # 現金
     post_jh.journal_details[1].input_amount = 100000
     post_jh.journal_details[1].tax_type = 1
-    post_jh.journal_details[1].is_allocated_assets = 1
+    post_jh.journal_details[1].allocated = true
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
 
@@ -48,7 +48,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
               :settlement_type => post_jh.journal_details[0].settlement_type,
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
-              :is_allocated_cost => post_jh.journal_details[0].is_allocated_cost,
+              :allocated => post_jh.journal_details[0].allocated,
               :dc_type => post_jh.journal_details[0].dc_type,
             },
             '2' => {
@@ -56,7 +56,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
               :account_id => post_jh.journal_details[1].account_id,
               :input_amount => post_jh.journal_details[1].input_amount,
               :tax_type => post_jh.journal_details[1].tax_type,
-              :is_allocated_assets => post_jh.journal_details[1].is_allocated_assets,
+              :allocated => post_jh.journal_details[1].allocated,
               :dc_type => post_jh.journal_details[1].dc_type,
             }
           }

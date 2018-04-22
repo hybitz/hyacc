@@ -59,7 +59,7 @@ module Auto::Journal
       jd.amount = (@investment.charges.to_i / 1 + tax_rate).ceil
       jd.tax_type = TAX_TYPE_INCLUSIVE
       jd.tax_rate_percent = tax_rate * 100
-      jd.is_allocated_cost = true
+      jd.allocated = true
       jd.tax_detail = tax_detail
       
        ## 貸方預け金明細

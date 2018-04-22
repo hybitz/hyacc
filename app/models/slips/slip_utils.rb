@@ -34,7 +34,7 @@ class Slips::SlipUtils
     end
 
     # 配賦仕訳が存在する場合は振替伝票でのみ編集可
-    if jh.journal_details.any?{|jd| jd.is_allocated_cost or jd.is_allocated_assets }
+    if jh.journal_details.any?{|jd| jd.allocated? }
       return false
     end
 

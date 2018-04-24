@@ -15,8 +15,8 @@ module Auto
       end
   
       # 内部取引
-      param = Auto::TransferJournal::InternalTradeParam.new( jh )
-      factory = Auto::AutoJournalFactory.get_instance( param )
+      param = Auto::TransferJournal::InternalTradeParam.new(jh)
+      factory = Auto::AutoJournalFactory.get_instance(param)
       factory.make_journals
     end
   

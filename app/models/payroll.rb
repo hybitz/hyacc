@@ -178,32 +178,17 @@ class Payroll < ApplicationRecord
 
   # 仕訳明細から源泉所得税金額を取得する
   def get_income_tax_from_jd
-    if self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
-    elsif self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INCOME_TAX)
-    end
+    payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
   end
 
   # 仕訳明細から厚生年金を取得する
   def get_pension_from_jd
-    if self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
-    elsif self.credit_account_type_of_pension == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
-    end
+    payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
   end
 
   # 仕訳明細から雇用保険を取得する
   def get_employment_insurance_from_jd
-    case self.credit_account_type_of_employment_insurance
-    when CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-      payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)
-    when CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
-      payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)
-    else
-      raise "不正な勘定科目です。credit_account_type_of_employment_insuranceA=#{credit_account_type_of_employment_insurance}"
-    end
+    payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)
   end
 
   # 仕訳明細から住民税を取得する

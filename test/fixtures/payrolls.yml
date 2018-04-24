@@ -11,9 +11,6 @@ payroll_00045:
   days_of_work: 31
   base_salary: 394000
   health_insurance: 15580
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
 payroll_00046:
   id: 46
@@ -26,9 +23,6 @@ payroll_00046:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   days_of_work: 31
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "1"
 payroll_00066: 
   id: 66
@@ -41,9 +35,6 @@ payroll_00066:
   ym: 200805
   hours_of_day_off_work: 0
   days_of_work: 31
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
 payroll_00067:
   id: 67
@@ -57,9 +48,6 @@ payroll_00067:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 349000
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
 payroll_00068: 
   id: 68
@@ -73,9 +61,6 @@ payroll_00068:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
 payroll_00069: 
   id: 69
@@ -89,9 +74,6 @@ payroll_00069:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
 payroll_00070: 
   id: 70
@@ -105,9 +87,6 @@ payroll_00070:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
 payroll_00071: 
   id: 71
@@ -121,9 +100,6 @@ payroll_00071:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 424000
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
 payroll_00065:
   id: 65
@@ -136,9 +112,6 @@ payroll_00065:
   ym: 200804
   hours_of_day_off_work: 0
   days_of_work: 30
-  credit_account_type_of_income_tax: "0"
-  credit_account_type_of_pension: "0"
-  credit_account_type_of_insurance: "0"
   credit_account_type_of_inhabitant_tax: "0"
 payroll_00122:
   id: 122
@@ -151,9 +124,6 @@ payroll_00122:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
   is_bonus: false
 payroll_00123:
@@ -167,9 +137,6 @@ payroll_00123:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
   is_bonus: false
 payroll_00125: 
@@ -182,12 +149,7 @@ payroll_00125:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-02-02 04:09:49.000000000 Z
-  updated_at: 2012-05-17 22:32:41.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00126: 
@@ -200,12 +162,7 @@ payroll_00126:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-02-02 04:36:39.000000000 Z
-  updated_at: 2012-02-02 04:36:39.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00127: 
@@ -218,12 +175,7 @@ payroll_00127:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-02-29 14:26:30.000000000 Z
-  updated_at: 2012-05-17 22:32:05.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00128: 
@@ -236,12 +188,7 @@ payroll_00128:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-03-01 03:42:32.000000000 Z
-  updated_at: 2012-03-01 03:42:32.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00129: 
@@ -254,12 +201,7 @@ payroll_00129:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-03-10 11:26:54.000000000 Z
-  updated_at: 2012-03-10 11:26:54.000000000 Z
   employee_id: 2
   is_bonus: true
 payroll_00130: 
@@ -272,12 +214,7 @@ payroll_00130:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-03-10 11:26:54.000000000 Z
-  updated_at: 2012-03-10 11:26:54.000000000 Z
   employee_id: 1
   is_bonus: true
 payroll_00131: 
@@ -290,12 +227,7 @@ payroll_00131:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-03-30 21:54:52.000000000 Z
-  updated_at: 2012-05-17 22:31:33.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00132: 
@@ -308,12 +240,7 @@ payroll_00132:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-04-01 18:52:15.000000000 Z
-  updated_at: 2012-04-01 18:52:15.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00133: 
@@ -326,12 +253,7 @@ payroll_00133:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-04-28 22:04:33.000000000 Z
-  updated_at: 2012-04-28 22:04:33.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00134: 
@@ -344,12 +266,7 @@ payroll_00134:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-04-30 11:55:04.000000000 Z
-  updated_at: 2012-05-17 22:29:39.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00135: 
@@ -362,12 +279,7 @@ payroll_00135:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-05-29 18:33:35.000000000 Z
-  updated_at: 2012-05-29 18:33:35.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00136: 
@@ -380,12 +292,7 @@ payroll_00136:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-06-02 05:50:52.000000000 Z
-  updated_at: 2012-06-02 05:50:52.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00137: 
@@ -398,12 +305,7 @@ payroll_00137:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-07-01 18:26:29.000000000 Z
-  updated_at: 2012-07-01 18:26:29.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00138: 
@@ -416,12 +318,7 @@ payroll_00138:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-07-04 14:00:52.000000000 Z
-  updated_at: 2012-07-04 14:00:52.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00139: 
@@ -434,12 +331,7 @@ payroll_00139:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-08-04 22:31:26.000000000 Z
-  updated_at: 2012-08-04 22:31:26.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00140: 
@@ -452,12 +344,7 @@ payroll_00140:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-08-05 02:15:05.000000000 Z
-  updated_at: 2012-08-05 02:15:05.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00141: 
@@ -470,12 +357,7 @@ payroll_00141:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-08-30 15:14:46.000000000 Z
-  updated_at: 2012-08-30 15:14:46.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00142: 
@@ -488,12 +370,7 @@ payroll_00142:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-09-02 15:54:03.000000000 Z
-  updated_at: 2012-09-02 15:54:03.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00143: 
@@ -506,12 +383,7 @@ payroll_00143:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-09-28 19:00:59.000000000 Z
-  updated_at: 2012-09-28 19:00:59.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00144: 
@@ -524,12 +396,7 @@ payroll_00144:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-10-01 13:04:21.000000000 Z
-  updated_at: 2012-10-01 13:11:12.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00145: 
@@ -542,12 +409,7 @@ payroll_00145:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-11-01 15:52:51.000000000 Z
-  updated_at: 2012-11-01 16:43:29.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00146: 
@@ -560,12 +422,7 @@ payroll_00146:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-11-02 23:41:24.000000000 Z
-  updated_at: 2012-11-02 23:41:24.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00147: 
@@ -578,12 +435,7 @@ payroll_00147:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-11-28 18:13:03.000000000 Z
-  updated_at: 2012-12-02 05:45:34.000000000 Z
   employee_id: 2
   is_bonus: false
 payroll_00148: 
@@ -596,12 +448,7 @@ payroll_00148:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-11-30 20:23:08.000000000 Z
-  updated_at: 2012-11-30 20:23:08.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00150: 
@@ -614,12 +461,7 @@ payroll_00150:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2012-12-31 17:04:46.000000000 Z
-  updated_at: 2012-12-31 17:04:46.000000000 Z
   employee_id: 1
   is_bonus: false
 payroll_00151: 
@@ -632,11 +474,6 @@ payroll_00151:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_income_tax: '0'
-  credit_account_type_of_insurance: '0'
-  credit_account_type_of_pension: '0'
   credit_account_type_of_inhabitant_tax: '0'
-  created_at: 2013-01-03 09:00:46.000000000 Z
-  updated_at: 2013-01-03 09:07:09.000000000 Z
   employee_id: 2
   is_bonus: false

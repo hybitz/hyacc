@@ -89,11 +89,7 @@
       </tr>
       <tr>
         <th>健康保険料</th>
-        <td>
-          <%= f.text_field :health_insurance, :maxlength => 10 %>
-          <label><%= f.radio_button :credit_account_type_of_insurance, '0' %>預り金</label>
-          <label><%= f.radio_button :credit_account_type_of_insurance, '1' %>立替金</label>
-        </td>
+        <td><%= f.text_field :health_insurance, :maxlength => 10 %></td>
         <td></td>
         <td></td>
         <th>早出残業時間数</th>
@@ -101,11 +97,7 @@
       </tr>
       <tr>
         <th>厚生年金保険料</th>
-        <td>
-          <%= f.text_field :pension, :maxlength => 10 %>
-          <label><%= f.radio_button :credit_account_type_of_pension, '0' %>預り金</label>
-          <label><%= f.radio_button :credit_account_type_of_pension, '1' %>立替金</label>
-        </td>
+        <td><%= f.text_field :pension, :maxlength => 10 %></td>
         <td></td>
         <td></td>
         <th>深夜労働時間数</th>
@@ -114,20 +106,12 @@
       <% unless @payroll.employee.executive? %>
         <tr>
           <th>雇用保険料</th>
-          <td>
-            <%= f.text_field :employment_insurance, :maxlength => 10 %>
-            <label><%= f.radio_button :credit_account_type_of_employment_insurance, '0' %>預り金</label>
-            <label><%= f.radio_button :credit_account_type_of_employment_insurance, '1' %>立替金</label>
-          </td>
+          <td><%= f.text_field :employment_insurance, :maxlength => 10 %></td>
         </tr>
       <% end %>
       <tr>
         <th>所得税</th>
-        <td>
-          <%= f.text_field :income_tax, :maxlength => 10 %>
-          <label><%= f.radio_button :credit_account_type_of_income_tax, '0' %>預り金</label>
-          <label><%= f.radio_button :credit_account_type_of_income_tax, '1' %>立替金</label>
-        </td>
+        <td><%= f.text_field :income_tax, :maxlength => 10 %></td>
       </tr>
       <tr>
         <th><%= f.label :inhabitant_tax %></th>

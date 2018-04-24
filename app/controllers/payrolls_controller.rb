@@ -157,10 +157,7 @@ class PayrollsController < Base::HyaccController
         :ym, :employee_id,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :commuting_allowance,
-        :health_insurance, :credit_account_type_of_insurance,
-        :pension, :credit_account_type_of_pension,
-        :income_tax, :credit_account_type_of_income_tax,
-        :employment_insurance, :credit_account_type_of_employment_insurance,
+        :health_insurance, :pension, :income_tax, :employment_insurance,
         :inhabitant_tax, :credit_account_type_of_inhabitant_tax,
         :accrued_liability, :annual_adjustment, :pay_day)
   end

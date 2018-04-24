@@ -92,13 +92,8 @@ module Auto::Journal
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
-        if @payroll.credit_account_type_of_income_tax == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-          detail.account = deposits_received
-          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
-        else
-          detail.account = advance_money
-          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
-        end
+        detail.account = deposits_received
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
         detail.branch_id = branch_id
         detail.amount = @payroll.income_tax
         detail.note = "源泉所得税"
@@ -108,13 +103,8 @@ module Auto::Journal
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
-        if @payroll.credit_account_type_of_insurance == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-          detail.account = deposits_received
-          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
-        else
-          detail.account = advance_money
-          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
-        end
+        detail.account = deposits_received
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = @payroll.health_insurance
         detail.note = "個人負担保険料"
@@ -124,13 +114,8 @@ module Auto::Journal
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
-        if @payroll.credit_account_type_of_pension == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-          detail.account = deposits_received
-          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION).id
-        else
-          detail.account = advance_money
-          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION).id
-        end
+        detail.account = deposits_received
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION).id
         detail.branch_id = branch_id
         detail.amount = @payroll.pension
         detail.note = "個人負担保険料"
@@ -148,11 +133,7 @@ module Auto::Journal
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
-        if @payroll.credit_account_type_of_employment_insurance == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-          detail.account = deposits_received
-        else
-          detail.account = advance_money
-        end
+        detail.account = deposits_received
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = @payroll.employment_insurance

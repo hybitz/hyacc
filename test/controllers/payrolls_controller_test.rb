@@ -84,9 +84,6 @@ class PayrollsControllerTest < ActionController::TestCase
                       :health_insurance => '10000', :pension => '20000',
                       :income_tax => '1000', :inhabitant_tax => '8400',
                       :accrued_liability => '120000', :pay_day => '2009-03-06',
-                      :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
-                      :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
-                      :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
                       :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED}
                       }
     assert_response :success
@@ -95,9 +92,6 @@ class PayrollsControllerTest < ActionController::TestCase
 
     # 登録された仕訳をチェック
     pr = Payroll.find_by_ym_and_employee_id(ym, employee_id)
-    assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_income_tax
-    assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_insurance
-    assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_pension
     assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_inhabitant_tax
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
@@ -114,7 +108,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal 1, jd.count
   end
 
-  def test_should_get_create_advance_money
+  def test_should_get_create_advance_money_for_inhabitant_tax
     sign_in user
 
     finder = PayrollFinder.new(current_user)
@@ -124,34 +118,32 @@ class PayrollsControllerTest < ActionController::TestCase
 
     ym = 200904
     employee_id = 2
-    post :create, :params => {:payroll => payroll_params(:ym => ym, :employee_id => employee_id)}, :xhr => true
+    post :create, params: {payroll: payroll_params(ym: ym, employee_id: employee_id)}, xhr: true
     assert_response :success
     assert assigns(:payroll).errors.empty?
     assert_template 'common/reload'
 
     # 登録された仕訳をチェック
     pr = Payroll.find_by_ym_and_employee_id(ym, employee_id)
-    assert_equal Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY, pr.credit_account_type_of_income_tax
-    assert_equal Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY, pr.credit_account_type_of_insurance
-    assert_equal Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY, pr.credit_account_type_of_pension
     assert_equal Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY, pr.credit_account_type_of_inhabitant_tax
     advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
+    deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     temp_pay_tax = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
-    income_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
-    health_insurance = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
-    pension = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
+    income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
+    health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
+    pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
     inhabitant_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
 
     jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
-            pr.payroll_journal_header_id, advance_money.id, income_tax.id)
+            pr.payroll_journal_header_id, deposits_received.id, income_tax.id)
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
-            pr.payroll_journal_header_id, advance_money.id, health_insurance.id)
+            pr.payroll_journal_header_id, deposits_received.id, health_insurance.id)
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
-              pr.payroll_journal_header_id, advance_money.id, pension.id)
+              pr.payroll_journal_header_id, deposits_received.id, pension.id)
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
@@ -180,9 +172,6 @@ class PayrollsControllerTest < ActionController::TestCase
                      :health_insurance => '', :pension => '',
                      :income_tax => '', :inhabitant_tax => '',
                      :accrued_liability => '', :pay_day => '20090332',
-                     :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                     :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                     :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
                      }
     assert_response :success
@@ -207,9 +196,6 @@ class PayrollsControllerTest < ActionController::TestCase
                      :income_tax => 'x', :inhabitant_tax => 'x',
                      :accrued_liability => 'x', :annual_adjustment=>'x',
                      :pay_day => 'x',
-                     :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                     :credit_account_type_of_insurance => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
-                     :credit_account_type_of_pension => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
                      }
     assert_response :success

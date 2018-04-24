@@ -18,7 +18,7 @@
     var params = form.serialize();
 
     $.getJSON(url, params, function(taxes) {
-      form.find('input[name*="\[insurance\]"]').val(taxes.insurance);
+      form.find('input[name*="\[health_insurance\]"]').val(taxes.health_insurance);
       form.find('input[name*="\[pension\]"]').val(taxes.pension);
       form.find('input[name*="\[employment_insurance\]"]').val(taxes.employment_insurance);
       form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
@@ -27,12 +27,12 @@
   }
 
   function checkForm(form) {
-    var insurance = $(form).find('input[name*="\[insurance\]"]').val();
+    var health_insurance = $(form).find('input[name*="\[health_insurance\]"]').val();
     var pension = $(form).find('input[name*="\[pension\]"]').val();
     var inhabitant_tax = $(form).find('input[name*="\[inhabitant_tax\]"]').val();
     var result = true;
 
-    if(result && insurance == 0){
+    if(result && health_insurance == 0){
       result = window.confirm('健康保険料が0円です。登録しますか？')
     }
 
@@ -90,7 +90,7 @@
       <tr>
         <th>健康保険料</th>
         <td>
-          <%= f.text_field :insurance, :maxlength => 10 %>
+          <%= f.text_field :health_insurance, :maxlength => 10 %>
           <label><%= f.radio_button :credit_account_type_of_insurance, '0' %>預り金</label>
           <label><%= f.radio_button :credit_account_type_of_insurance, '1' %>立替金</label>
         </td>

@@ -12,6 +12,7 @@ class Payroll < ApplicationRecord
   validates_presence_of :employee_id, :ym, :message => "は必須です。"
   validates :base_salary, :presence => true, numericality: { only_integer: true, greater_than: 0 }
   validates :commuting_allowance, :presence => true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
+  validates :health_insurance, :presence => true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :annual_adjustment, numericality: { only_integer: true, allow_blank: true }
   validates :accrued_liability, numericality: { only_integer: true, allow_blank: true }
 
@@ -22,7 +23,6 @@ class Payroll < ApplicationRecord
 
   # フィールド
   attr_accessor :income_tax     # 源泉所得税
-  attr_accessor :insurance      # 個人負担保険料
   attr_accessor :pension        # 個人負担保険料
   attr_accessor :employment_insurance # 被雇用者負担雇用保険料
   attr_accessor :insurance_all
@@ -40,7 +40,6 @@ class Payroll < ApplicationRecord
 
   def init
     @income_tax = 0
-    @insurance = 0
     @pension = 0
     @employment_insurance = 0
     @insurance_all = 0
@@ -62,7 +61,7 @@ class Payroll < ApplicationRecord
 
   # 社会保険料（健康保険＋厚生年金）
   def social_insurance
-    insurance + pension
+    health_insurance + pension
   end
 
   # 保険料合計
@@ -82,10 +81,6 @@ class Payroll < ApplicationRecord
 
   def validate_params?
     result = true
-    unless insurance =~ /^[0-9]{1,}$/
-      errors.add(:insurance, "は数値で入力して下さい。")
-      result = false
-    end
     unless pension =~ /^[0-9]{1,}$/
       errors.add(:pension, "は数値で入力して下さい。")
       result = false
@@ -134,7 +129,6 @@ class Payroll < ApplicationRecord
     payroll.init
     # 給与伝票取得
     payroll.income_tax = payroll.get_income_tax_from_jd
-    payroll.insurance = payroll.get_insurance_from_jd
     payroll.pension = payroll.get_pension_from_jd
     payroll.employment_insurance = payroll.get_employment_insurance_from_jd
     payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
@@ -153,7 +147,7 @@ class Payroll < ApplicationRecord
 
   # Payrollから賞与情報を取得
   def self.list_bonus(ym_range, employee_id)
-    Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.shift, ym_range.pop, true).order('ym desc')
+    Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.first, ym_range.last, true).order('ym desc')
   end
 
   # 賃金台帳表示用の賞与情報を取得する
@@ -167,7 +161,6 @@ class Payroll < ApplicationRecord
     payroll.init
     # 給与伝票取得
     payroll.income_tax = payroll.get_income_tax_from_jd
-    payroll.insurance = payroll.get_insurance_from_jd
     payroll.pension = payroll.get_pension_from_jd
     payroll.employment_insurance = payroll.get_employment_insurance_from_jd
 
@@ -189,15 +182,6 @@ class Payroll < ApplicationRecord
       return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
     elsif self.credit_account_type_of_income_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
       return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INCOME_TAX)
-    end
-  end
-
-  # 仕訳明細から健康保険料を取得する
-  def get_insurance_from_jd
-    if self.credit_account_type_of_insurance == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
-    elsif self.credit_account_type_of_insurance == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
     end
   end
 

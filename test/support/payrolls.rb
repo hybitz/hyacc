@@ -14,7 +14,7 @@ module Payrolls
       :hours_of_early_work => 101,
       :hours_of_late_night_work => 102,
       :base_salary => '394000',
-      :insurance => '10000',
+      :health_insurance => '10000',
       :pension => '20000',
       :income_tax => '1000',
       :inhabitant_tax => '8400',

@@ -10,6 +10,7 @@ payroll_00045:
   hours_of_day_off_work: 0
   days_of_work: 31
   base_salary: 394000
+  health_insurance: 15580
   credit_account_type_of_income_tax: "0"
   credit_account_type_of_pension: "0"
   credit_account_type_of_insurance: "0"
@@ -31,7 +32,6 @@ payroll_00046:
   credit_account_type_of_inhabitant_tax: "1"
 payroll_00066: 
   id: 66
-  updated_at: 2009-06-30 22:34:54 +09:00
   hours_of_work: 248
   payroll_journal_header_id: 5869
   hours_of_early_work: 0
@@ -41,7 +41,6 @@ payroll_00066:
   ym: 200805
   hours_of_day_off_work: 0
   days_of_work: 31
-  created_at: 2009-06-30 22:34:54 +09:00
   credit_account_type_of_income_tax: "0"
   credit_account_type_of_pension: "0"
   credit_account_type_of_insurance: "0"

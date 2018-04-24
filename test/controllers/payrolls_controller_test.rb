@@ -46,8 +46,6 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
 
-    # 健康保険料
-    assert_equal JournalDetail.find(11583).amount, assigns(:payroll).insurance
     # 厚生年金保険料
     assert_equal JournalDetail.find(11573).amount, assigns(:payroll).pension
     # 所得税
@@ -83,7 +81,7 @@ class PayrollsControllerTest < ActionController::TestCase
                       :days_of_work => 28, :hours_of_work => 224,
                       :hours_of_day_off_work => 100, :hours_of_early_work => 101,
                       :hours_of_late_night_work => 102, :base_salary => '394000',
-                      :insurance => '10000', :pension => '20000',
+                      :health_insurance => '10000', :pension => '20000',
                       :income_tax => '1000', :inhabitant_tax => '8400',
                       :accrued_liability => '120000', :pay_day => '2009-03-06',
                       :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED,
@@ -103,16 +101,16 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_inhabitant_tax
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
-    insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
+    health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
     pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
     inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
-    jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => income_tax.id)
+    jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: income_tax.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => insurance.id)
+    jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: health_insurance.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => pension.id)
+    jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: pension.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(:journal_header_id => pr.payroll_journal_header_id, :account_id => deposits_received.id, :sub_account_id => inhabitant_tax.id)
+    jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: inhabitant_tax.id)
     assert_equal 1, jd.count
   end
 
@@ -140,7 +138,7 @@ class PayrollsControllerTest < ActionController::TestCase
     advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
     temp_pay_tax = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
     income_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
-    insurance = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
+    health_insurance = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
     pension = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
     inhabitant_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
 
@@ -149,7 +147,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
-            pr.payroll_journal_header_id, advance_money.id, insurance.id)
+            pr.payroll_journal_header_id, advance_money.id, health_insurance.id)
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
@@ -179,7 +177,7 @@ class PayrollsControllerTest < ActionController::TestCase
                      :days_of_work => 28, :hours_of_work => 224,
                      :hours_of_day_off_work => 100, :hours_of_early_work => 101,
                      :hours_of_late_night_work => 102, :base_salary => '',
-                     :insurance => '', :pension => '',
+                     :health_insurance => '', :pension => '',
                      :income_tax => '', :inhabitant_tax => '',
                      :accrued_liability => '', :pay_day => '20090332',
                      :credit_account_type_of_income_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY,
@@ -188,7 +186,7 @@ class PayrollsControllerTest < ActionController::TestCase
                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
                      }
     assert_response :success
-    assert_equal 5, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
+    assert_equal 4, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'new'
   end
 
@@ -205,7 +203,7 @@ class PayrollsControllerTest < ActionController::TestCase
                      :days_of_work => 28, :hours_of_work => 224,
                      :hours_of_day_off_work => 100, :hours_of_early_work => 101,
                      :hours_of_late_night_work => 102, :base_salary => '100000a',
-                     :insurance => '5@000', :pension => 'x',
+                     :health_insurance => '5@000', :pension => 'x',
                      :income_tax => 'x', :inhabitant_tax => 'x',
                      :accrued_liability => 'x', :annual_adjustment=>'x',
                      :pay_day => 'x',
@@ -249,7 +247,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
-    assert json.has_key?('insurance')
+    assert json.has_key?('health_insurance')
     assert json.has_key?('pension')
     assert json.has_key?('employment_insurance')
     assert json.has_key?('income_tax')
@@ -269,7 +267,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
-    assert_equal insurances['insurance_00120']['health_insurance_half'], json['insurance']
+    assert_equal insurances['insurance_00120']['health_insurance_half'], json['health_insurance']
   end
 
   def test_削除

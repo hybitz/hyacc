@@ -21,7 +21,7 @@ class PayrollHelperTest < ActionView::TestCase
     p = get_tax(ym, employee_id, base_salary, 0)
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
-    assert_equal 30721, p.insurance
+    assert_equal 30721, p.health_insurance
   end
 
   def test_get_tax_for_care
@@ -31,7 +31,7 @@ class PayrollHelperTest < ActionView::TestCase
     p = get_tax(ym, employee_id, base_salary, 0)
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
-    assert_equal 35836, p.insurance
+    assert_equal 35836, p.health_insurance
   end
 
   def test_get_tax_for_care_born_on_first
@@ -41,7 +41,7 @@ class PayrollHelperTest < ActionView::TestCase
     p = get_tax(ym, employee_id, base_salary, 0)
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
-    assert_equal 35836, p.insurance
+    assert_equal 35836, p.health_insurance
   end
 
 end

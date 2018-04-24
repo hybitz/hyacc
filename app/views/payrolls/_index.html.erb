@@ -156,11 +156,11 @@
       <td rowspan="8">控除額</td>
       <td>健康保険料</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].insurance) %></td>
+      <td class="center"><%= to_amount(@pd[ym][:payroll].health_insurance) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].insurance) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].insurance) %></td>
-      <td class="right"><%= to_amount(@pd[:sum].insurance) %></td>
+      <td><%= to_amount(@pd["b1"][:payroll].health_insurance) %></td>
+      <td><%= to_amount(@pd["b2"][:payroll].health_insurance) %></td>
+      <td class="right"><%= to_amount(@pd[:sum].health_insurance) %></td>
     </tr>
     <tr>
       <td>厚生年金保険料</td>

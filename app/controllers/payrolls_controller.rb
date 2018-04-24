@@ -12,7 +12,7 @@ class PayrollsController < Base::HyaccController
 
       # 標準報酬月額の取得
       ym_range = finder.get_ym_range
-      payroll = Payroll.where("employee_id = ? and ym >= ? and ym <= ? and is_bonus = false", @employee.id, ym_range.first, ym_range.last).order("ym desc").first
+      payroll = Payroll.where("employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?", @employee.id, ym_range.first, ym_range.last, false).order("ym desc").first
       ym = payroll.ym if payroll
       base_salary = Payroll.find_by_ym_and_employee_id(ym, @employee.id).base_salary
 
@@ -127,7 +127,7 @@ class PayrollsController < Base::HyaccController
     commuting_allowance = params[:payroll][:commuting_allowance]
     payroll = get_tax(ym, employee_id, base_salary, commuting_allowance)
 
-    render :json => {insurance: payroll.insurance, pension: payroll.pension, employment_insurance: payroll.employment_insurance, income_tax: payroll.income_tax}
+    render json: {health_insurance: payroll.health_insurance, pension: payroll.pension, employment_insurance: payroll.employment_insurance, income_tax: payroll.income_tax}
   end
 
   # 部門を選択した時に、動的にユーザ選択リストを更新する
@@ -157,7 +157,7 @@ class PayrollsController < Base::HyaccController
         :ym, :employee_id,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :commuting_allowance,
-        :insurance, :credit_account_type_of_insurance,
+        :health_insurance, :credit_account_type_of_insurance,
         :pension, :credit_account_type_of_pension,
         :income_tax, :credit_account_type_of_income_tax,
         :employment_insurance, :credit_account_type_of_employment_insurance,

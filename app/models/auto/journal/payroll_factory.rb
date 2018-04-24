@@ -60,7 +60,7 @@ module Auto::Journal
         detail.amount = @payroll.salary_total
       end
       ### 法定福利費.健康保険料
-      insurance_half = tax.insurance_all.to_i - @payroll.insurance.to_i
+      insurance_half = tax.insurance_all.to_i - @payroll.health_insurance
       if insurance_half != 0
         account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
@@ -104,7 +104,7 @@ module Auto::Journal
         detail.note = "源泉所得税"
       end
       ### 健康保険料
-      if @payroll.insurance.to_i != 0
+      if @payroll.health_insurance > 0
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
@@ -116,7 +116,7 @@ module Auto::Journal
           detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         end
         detail.branch_id = branch_id
-        detail.amount = @payroll.insurance
+        detail.amount = @payroll.health_insurance
         detail.note = "個人負担保険料"
       end
       ### 厚生年金
@@ -141,7 +141,7 @@ module Auto::Journal
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
       detail.branch_id = branch_id
-      detail.amount = tax.insurance_all.to_i - @payroll.insurance.to_i + tax.pension_all.to_i - @payroll.pension.to_i
+      detail.amount = tax.insurance_all.to_i - @payroll.health_insurance + tax.pension_all.to_i - @payroll.pension.to_i
       detail.note = "会社負担保険料の未払分"
       ### 雇用保険
       if @payroll.employment_insurance.to_i != 0

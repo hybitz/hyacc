@@ -20,7 +20,7 @@ class PayrollFinder < Base::Finder
       ret[ym] = {:payroll => Payroll.find_by_ym_and_employee_id(ym, @employee_id)}
       # 年間合計の設定
       sum.income_tax += ret[ym][:payroll].income_tax
-      sum.insurance += ret[ym][:payroll].insurance
+      sum.health_insurance += ret[ym][:payroll].health_insurance
       sum.pension += ret[ym][:payroll].pension
       sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret[ym][:payroll].base_salary
@@ -29,7 +29,7 @@ class PayrollFinder < Base::Finder
     end
     
     # 賞与を取得
-    bonus_list = Payroll.list_bonus(get_ym_range, @employee_id)
+    bonus_list = Payroll.list_bonus(ym_range, @employee_id)
     # 賞与1のセット
     if bonus_list[0].nil?
       ret['b1'] = {:payroll => Payroll.new.init}
@@ -37,7 +37,7 @@ class PayrollFinder < Base::Finder
       ret['b1'] = {:payroll => Payroll.get_bonus_info(bonus_list[0].id)}
       # 年間合計の設定
       sum.income_tax += ret["b1"][:payroll].income_tax
-      sum.insurance += ret["b1"][:payroll].insurance
+      sum.health_insurance += ret["b1"][:payroll].health_insurance
       sum.pension += ret["b1"][:payroll].pension
       sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret["b1"][:payroll].base_salary
@@ -51,7 +51,7 @@ class PayrollFinder < Base::Finder
       ret['b2'] = {:payroll => Payroll.get_bonus_info(bonus_list[1].id)}
       # 年間合計の設定
       sum.income_tax += ret["b2"][:payroll].income_tax
-      sum.insurance += ret["b2"][:payroll].insurance
+      sum.health_insurance += ret["b2"][:payroll].health_insurance
       sum.pension += ret["b2"][:payroll].pension
       sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret["b2"][:payroll].base_salary

@@ -65,9 +65,14 @@ class Payroll < ApplicationRecord
     insurance + pension
   end
 
-  # 社会保険料、雇用保険料控除後の所得
+  # 保険料合計
+  def insurance_total
+    social_insurance + employment_insurance
+  end
+
+  # 保険料控除後の所得
   def after_insurance_deduction
-    salary_total - social_insurance - employment_insurance
+    salary_total - insurance_total
   end
 
   # 差引合計額（保険料と税金を控除後の金額）

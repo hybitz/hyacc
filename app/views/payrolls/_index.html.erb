@@ -183,11 +183,11 @@
     <tr>
       <td>保険料合計</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].social_insurance) %></td>
+      <td class="center"><%= to_amount(@pd[ym][:payroll].insurance_total) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].social_insurance) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].social_insurance) %></td>
-      <td class="right"><%= to_amount(@pd[:sum].social_insurance) %></td>
+      <td><%= to_amount(@pd["b1"][:payroll].insurance_total) %></td>
+      <td><%= to_amount(@pd["b2"][:payroll].insurance_total) %></td>
+      <td class="right"><%= to_amount(@pd[:sum].insurance_total) %></td>
     </tr>
     <tr>
       <td></td>

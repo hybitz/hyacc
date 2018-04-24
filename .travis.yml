@@ -2,14 +2,16 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
-  - 2.5.0
-  - 2.4.3
+  - 2.5.1
 env:
   - DRIVER=chrome
   - DRIVER=firefox
 addons:
   sauce_connect: true
-before_script:
+branches:
+  only:
+    - master
+before_install:
   - cp -f travis/database.yml config/
   - bundle exec rake dad:db:create DAD_MYSQL_NO_ROOT_PASSWORD=true
   - bin/rails db:schema:load

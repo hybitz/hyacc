@@ -66,7 +66,7 @@ end
     commuting_allowance = row[3].to_ai
     withheld_tax = row[4].to_ai
     health_insurance = row[5].to_ai
-    pension = row[6].to_ai
+    welfare_pension = row[6].to_ai
     employment_insurance = row[7].to_ai
 
     with_capture "#{employee_name} #{ym} の給与" do
@@ -98,7 +98,7 @@ end
         '通勤手当' => commuting_allowance,
         '所得税' => withheld_tax,
         '健康保険料' => health_insurance,
-        '厚生年金保険料' => pension,
+        '厚生年金保険料' => welfare_pension,
         '雇用保険料' => employment_insurance
       }.each do |key, expected|
         case key

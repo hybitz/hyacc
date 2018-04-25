@@ -100,7 +100,7 @@ module PayrollHelper
       payroll.health_insurance = (insurance.health_insurance_half - 0.01).round
       payroll.insurance_all = insurance.health_insurance_all.truncate
     end
-    payroll.pension = (insurance.welfare_pension_insurance_half - 0.01).round
+    payroll.welfare_pension = (insurance.welfare_pension_insurance_half - 0.01).round
     payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
     
     # 源泉徴収税

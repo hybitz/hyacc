@@ -187,7 +187,7 @@ ja:
         inhabitant_tax: 住民税
         insurance: 健康保険料
         pay_day: "給与支払日"
-        pension: 厚生年金保険料
+        welfare_pension: 厚生年金保険料
         ym: 年月
 
       receipt:

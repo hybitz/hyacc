@@ -21,7 +21,7 @@ class PayrollFinder < Base::Finder
       # 年間合計の設定
       sum.income_tax += ret[ym][:payroll].income_tax
       sum.health_insurance += ret[ym][:payroll].health_insurance
-      sum.pension += ret[ym][:payroll].pension
+      sum.welfare_pension += ret[ym][:payroll].welfare_pension
       sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret[ym][:payroll].base_salary
       sum.commuting_allowance += ret[ym][:payroll].commuting_allowance
@@ -38,7 +38,7 @@ class PayrollFinder < Base::Finder
       # 年間合計の設定
       sum.income_tax += ret["b1"][:payroll].income_tax
       sum.health_insurance += ret["b1"][:payroll].health_insurance
-      sum.pension += ret["b1"][:payroll].pension
+      sum.welfare_pension += ret["b1"][:payroll].welfare_pension
       sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret["b1"][:payroll].base_salary
       sum.commuting_allowance += ret['b1'][:payroll].commuting_allowance
@@ -52,7 +52,7 @@ class PayrollFinder < Base::Finder
       # 年間合計の設定
       sum.income_tax += ret["b2"][:payroll].income_tax
       sum.health_insurance += ret["b2"][:payroll].health_insurance
-      sum.pension += ret["b2"][:payroll].pension
+      sum.welfare_pension += ret["b2"][:payroll].welfare_pension
       sum.employment_insurance += ret[ym][:payroll].employment_insurance
       sum.base_salary += ret["b2"][:payroll].base_salary
       sum.commuting_allowance += ret["b2"][:payroll].commuting_allowance

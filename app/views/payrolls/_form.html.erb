@@ -19,7 +19,7 @@
 
     $.getJSON(url, params, function(taxes) {
       form.find('input[name*="\[health_insurance\]"]').val(taxes.health_insurance);
-      form.find('input[name*="\[pension\]"]').val(taxes.pension);
+      form.find('input[name*="\[welfare_pension\]"]').val(taxes.welfare_pension);
       form.find('input[name*="\[employment_insurance\]"]').val(taxes.employment_insurance);
       form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
       form.attr('insurance_loaded', true);
@@ -28,15 +28,15 @@
 
   function checkForm(form) {
     var health_insurance = $(form).find('input[name*="\[health_insurance\]"]').val();
-    var pension = $(form).find('input[name*="\[pension\]"]').val();
+    var welfare_pension = $(form).find('input[name*="\[welfare_pension\]"]').val();
     var inhabitant_tax = $(form).find('input[name*="\[inhabitant_tax\]"]').val();
     var result = true;
 
-    if(result && health_insurance == 0){
+    if (result && health_insurance == 0) {
       result = window.confirm('健康保険料が0円です。登録しますか？')
     }
 
-    if(result && pension == 0){
+    if (result && welfare_pension == 0) {
       result = window.confirm('厚生年金保険料が0円です。登録しますか？')
     }
 
@@ -97,7 +97,7 @@
       </tr>
       <tr>
         <th>厚生年金保険料</th>
-        <td><%= f.text_field :pension, :maxlength => 10 %></td>
+        <td><%= f.text_field :welfare_pension, :maxlength => 10 %></td>
         <td></td>
         <td></td>
         <th>深夜労働時間数</th>

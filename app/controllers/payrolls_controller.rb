@@ -127,7 +127,7 @@ class PayrollsController < Base::HyaccController
     commuting_allowance = params[:payroll][:commuting_allowance]
     payroll = get_tax(ym, employee_id, base_salary, commuting_allowance)
 
-    render json: {health_insurance: payroll.health_insurance, pension: payroll.pension, employment_insurance: payroll.employment_insurance, income_tax: payroll.income_tax}
+    render json: {health_insurance: payroll.health_insurance, welfare_pension: payroll.welfare_pension, employment_insurance: payroll.employment_insurance, income_tax: payroll.income_tax}
   end
 
   # 部門を選択した時に、動的にユーザ選択リストを更新する
@@ -157,7 +157,7 @@ class PayrollsController < Base::HyaccController
         :ym, :employee_id,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :commuting_allowance,
-        :health_insurance, :pension, :income_tax, :employment_insurance,
+        :health_insurance, :welfare_pension, :income_tax, :employment_insurance,
         :inhabitant_tax, :credit_account_type_of_inhabitant_tax,
         :accrued_liability, :annual_adjustment, :pay_day)
   end

@@ -9,10 +9,12 @@ class Payroll < ApplicationRecord
   belongs_to :pay_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
   belongs_to :commission_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
 
-  validates_presence_of :employee_id, :ym, :message => "は必須です。"
-  validates :base_salary, :presence => true, numericality: { only_integer: true, greater_than: 0 }
-  validates :commuting_allowance, :presence => true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
-  validates :health_insurance, :presence => true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
+  validates :employee_id, presence: true
+  validates :ym, presence: true
+  validates :base_salary, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :commuting_allowance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
+  validates :health_insurance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
+  validates :welfare_pension, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :annual_adjustment, numericality: { only_integer: true, allow_blank: true }
   validates :accrued_liability, numericality: { only_integer: true, allow_blank: true }
 
@@ -23,7 +25,6 @@ class Payroll < ApplicationRecord
 
   # フィールド
   attr_accessor :income_tax     # 源泉所得税
-  attr_accessor :pension        # 個人負担保険料
   attr_accessor :employment_insurance # 被雇用者負担雇用保険料
   attr_accessor :insurance_all
   attr_accessor :pension_all
@@ -40,7 +41,6 @@ class Payroll < ApplicationRecord
 
   def init
     @income_tax = 0
-    @pension = 0
     @employment_insurance = 0
     @insurance_all = 0
     @pension_all = 0
@@ -61,7 +61,7 @@ class Payroll < ApplicationRecord
 
   # 社会保険料（健康保険＋厚生年金）
   def social_insurance
-    health_insurance + pension
+    health_insurance + welfare_pension
   end
 
   # 保険料合計
@@ -81,10 +81,7 @@ class Payroll < ApplicationRecord
 
   def validate_params?
     result = true
-    unless pension =~ /^[0-9]{1,}$/
-      errors.add(:pension, "は数値で入力して下さい。")
-      result = false
-    end
+
     unless income_tax =~ /^[0-9]{1,}$/
       errors.add(:income_tax, "は数値で入力して下さい。")
       result = false
@@ -104,7 +101,8 @@ class Payroll < ApplicationRecord
       errors.add(:pay_day, "はYYYY-MM-DD形式で入力して下さい。")
       result = false
     end
-    return result
+
+    result
   end
 
   def self.get_previous_base_salary(ym, employee_id)
@@ -129,7 +127,6 @@ class Payroll < ApplicationRecord
     payroll.init
     # 給与伝票取得
     payroll.income_tax = payroll.get_income_tax_from_jd
-    payroll.pension = payroll.get_pension_from_jd
     payroll.employment_insurance = payroll.get_employment_insurance_from_jd
     payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
 
@@ -161,7 +158,6 @@ class Payroll < ApplicationRecord
     payroll.init
     # 給与伝票取得
     payroll.income_tax = payroll.get_income_tax_from_jd
-    payroll.pension = payroll.get_pension_from_jd
     payroll.employment_insurance = payroll.get_employment_insurance_from_jd
 
     # 支払の伝票取得
@@ -179,11 +175,6 @@ class Payroll < ApplicationRecord
   # 仕訳明細から源泉所得税金額を取得する
   def get_income_tax_from_jd
     payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
-  end
-
-  # 仕訳明細から厚生年金を取得する
-  def get_pension_from_jd
-    payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
   end
 
   # 仕訳明細から雇用保険を取得する

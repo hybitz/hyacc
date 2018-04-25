@@ -165,11 +165,11 @@
     <tr>
       <td>厚生年金保険料</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td class="center"><%= to_amount(@pd[ym][:payroll].pension) %></td>
+        <td class="center"><%= to_amount(@pd[ym][:payroll].welfare_pension) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].pension) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].pension) %></td>
-      <td class="right"><%= to_amount(@pd[:sum].pension) %></td>
+      <td><%= to_amount(@pd["b1"][:payroll].welfare_pension) %></td>
+      <td><%= to_amount(@pd["b2"][:payroll].welfare_pension) %></td>
+      <td class="right"><%= to_amount(@pd[:sum].welfare_pension) %></td>
     </tr>
     <tr>
       <td>雇用保険料</td>

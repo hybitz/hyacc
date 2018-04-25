@@ -168,7 +168,7 @@ class PayrollsControllerTest < ActionController::TestCase
                   :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
                     }
     assert_response :success
-    assert_equal 2, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
+    assert_equal 1, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'new'
   end
 
@@ -184,11 +184,12 @@ class PayrollsControllerTest < ActionController::TestCase
         :payroll => {:ym => 200912, :employee_id => 2,
                      :days_of_work => 28, :hours_of_work => 224,
                      :hours_of_day_off_work => 100, :hours_of_early_work => 101,
-                     :hours_of_late_night_work => 102, :base_salary => '100000a',
-                     :health_insurance => '5@000', :welfare_pension => 'x',
-                     :income_tax => 'x', :inhabitant_tax => 'x',
-                     :accrued_liability => 'x', :annual_adjustment=>'x',
-                     :pay_day => 'x',
+                     :hours_of_late_night_work => 102, :base_salary => '100000',
+                     :health_insurance => '50000', :welfare_pension => '0',
+                     :income_tax => '0',
+                     :inhabitant_tax => 'x',
+                     :accrued_liability => '0', :annual_adjustment=>'0',
+                     :pay_day => '2010-01-25',
                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
                      }
     assert_response :success

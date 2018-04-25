@@ -5,9 +5,9 @@ class Payroll < ApplicationRecord
   CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY = '1'
 
   belongs_to :employee
-  belongs_to :payroll_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
-  belongs_to :pay_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
-  belongs_to :commission_journal_header, :class_name => 'JournalHeader', :dependent => :destroy
+  belongs_to :payroll_journal_header, class_name: 'JournalHeader', dependent: :destroy, optional: true
+  belongs_to :pay_journal_header, class_name: 'JournalHeader', dependent: :destroy, optional: true
+  belongs_to :commission_journal_header, class_name: 'JournalHeader', dependent: :destroy, optional: true
 
   validates :employee_id, presence: true
   validates :ym, presence: true
@@ -16,6 +16,7 @@ class Payroll < ApplicationRecord
   validates :health_insurance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :welfare_pension, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :income_tax, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
+  validates :inhabitant_tax, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :annual_adjustment, numericality: { only_integer: true, allow_blank: true }
   validates :accrued_liability, numericality: { only_integer: true, allow_blank: true }
 
@@ -24,12 +25,13 @@ class Payroll < ApplicationRecord
                             :hours_of_late_night_work,
                             :allow_nil => true, :message=>"は数値で入力して下さい。"
 
+   before_save :make_journals
+                            
   # フィールド
   attr_accessor :insurance_all
   attr_accessor :pension_all
   attr_accessor :pay_day
   attr_accessor :is_new
-  attr_accessor :inhabitant_tax        # 住民税
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
 
@@ -41,7 +43,6 @@ class Payroll < ApplicationRecord
   def init
     @insurance_all = 0
     @pension_all = 0
-    @inhabitant_tax = 0
     @grade = 0
     self
   end
@@ -79,11 +80,6 @@ class Payroll < ApplicationRecord
   def validate_params?
     result = true
 
-    unless inhabitant_tax =~ /^[0-9]{1,}$/
-      errors.add(:inhabitant_tax, "は数値で入力して下さい。")
-      result = false
-    end
-
     if pay_day =~ /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/
       split = pay_day.split('-').map(&:to_i)
       unless Date.valid_date?(split[0], split[1], split[2])
@@ -118,8 +114,6 @@ class Payroll < ApplicationRecord
 
     # アディショナル項目を初期値にセット
     payroll.init
-    # 給与伝票取得
-    payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
 
     # 支払の伝票取得
     if payroll.pay_journal_header != nil
@@ -160,17 +154,31 @@ class Payroll < ApplicationRecord
     payroll
   end
 
-  # 仕訳明細から住民税を取得する
-  def get_inhabitant_tax_from_jd
-    if self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INHABITANT_TAX)
-    elsif self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
-      return payroll_journal_header.get_credit_amount(ACCOUNT_CODE_ADVANCE_MONEY, SUB_ACCOUNT_CODE_INHABITANT_TAX)
-    end
-  end
-
   def calc_employment_insurance
     ei = TaxUtils.get_employment_insurance(ym)
     self.employment_insurance = (salary_total * ei.employee_general - 0.01).round
+  end
+
+  private
+
+  def make_journals
+    user = User.find(self.update_user_id)
+    param = Auto::Journal::PayrollParam.new(self, user)
+    factory = Auto::AutoJournalFactory.get_instance(param)
+    journals = factory.make_journals
+  
+    journals.each do |j|
+      begin
+        j.save!
+      rescue => e
+        Rails.logger.warn j.attributes.to_yaml
+        Rails.logger.warn j.journal_details.map(&:attributes).to_yaml
+        raise e
+      end
+    end
+  
+    self.payroll_journal_header = journals[0]
+    self.pay_journal_header = journals[1]
+    self.commission_journal_header = journals[2]
   end
 end

@@ -140,7 +140,7 @@ module Auto::Journal
         detail.note = "従業員負担雇用保険料"
       end
       ### 住民税
-      if @payroll.inhabitant_tax.to_i != 0
+      if @payroll.inhabitant_tax > 0
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT

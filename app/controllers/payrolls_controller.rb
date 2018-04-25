@@ -50,14 +50,13 @@ class PayrollsController < Base::HyaccController
       end
 
       @payroll.transaction do
-        make_journals(@payroll)
         @payroll.save!
       end
 
       flash[:notice] = "#{@payroll.employee.fullname}さんの#{title}を登録しました。"
       render 'common/reload'
 
-    rescue => e
+    rescue ActiveRecord::RecordInvalid => e
       handle(e)
       render 'new'
     end
@@ -84,11 +83,10 @@ class PayrollsController < Base::HyaccController
         raise ActiveRecord::RecordInvalid.new(@payroll)
       end
 
-      payroll_on_db.transaction do
-        # 給与・支払い伝票は新規追加して旧伝票を削除
-        make_journals(@payroll)
+      @payroll.transaction do
         @payroll.save!
 
+        # 給与・支払い伝票は新規追加するので、旧伝票を削除
         JournalHeader.find(payroll_journal_header_on_db.id).destroy if payroll_journal_header_on_db
         JournalHeader.find(pay_journal_header_on_db.id).destroy if pay_journal_header_on_db
         JournalHeader.find(commission_journal_header_on_db.id).destroy if commission_journal_header_on_db
@@ -97,7 +95,7 @@ class PayrollsController < Base::HyaccController
       flash[:notice] = "#{@payroll.employee.fullname}さんの#{title}を更新しました。"
       render 'common/reload'
 
-    rescue => e
+    rescue ActiveRecord::RecordInvalid => e
       handle(e)
       render 'edit'
     end
@@ -112,7 +110,7 @@ class PayrollsController < Base::HyaccController
 
       flash[:notice] = "#{title}を削除しました。"
       render 'common/reload'
-    rescue => e
+    rescue ActiveRecord::RecordInvalid => e
       handle(e)
       render :edit
     end
@@ -158,33 +156,22 @@ class PayrollsController < Base::HyaccController
   end
 
   def payroll_params
-    params.require(:payroll).permit(
+    ret = params.require(:payroll).permit(
         :ym, :employee_id,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :commuting_allowance,
         :health_insurance, :welfare_pension, :income_tax, :employment_insurance,
         :inhabitant_tax, :credit_account_type_of_inhabitant_tax,
         :accrued_liability, :annual_adjustment, :pay_day)
-  end
 
-  def make_journals(payroll)
-    param = Auto::Journal::PayrollParam.new(payroll, current_user)
-    factory = Auto::AutoJournalFactory.get_instance(param)
-    journals = factory.make_journals
-
-    journals.each do |j|
-      begin
-        j.save!
-      rescue => e
-        Rails.logger.warn j.attributes.to_yaml
-        Rails.logger.warn j.journal_details.map(&:attributes).to_yaml
-        raise e
-      end
+    case action_name
+    when 'create'
+      ret.merge!(create_user_id: current_user.id, update_user_id: current_user.id)
+    else
+      ret.merge!(update_user_id: current_user.id)
     end
 
-    payroll.payroll_journal_header = journals[0]
-    payroll.pay_journal_header = journals[1]
-    payroll.commission_journal_header = journals[2]
+    ret
   end
 
   def get_inhabitant_tax( employee_id, ym )

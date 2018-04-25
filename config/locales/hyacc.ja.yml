@@ -2,6 +2,7 @@ ja:
   attributes:
     created_at: 登録日時
     description: 説明
+    inhabitant_tax: 住民税
     remarks: 摘要
     short_description: 概要
     trade_type: 取引区分
@@ -17,8 +18,7 @@ ja:
       company: "会社"
       customer: "顧客"
       fiscal_year: "年度"
-      insurance: "保険料"
-      inhabitant_tax: "住民税"
+      inhabitant_tax: 住民税
       journal_detail: "仕訳明細"
       journal_header: "仕訳ヘッダ"
       payroll: 給与
@@ -26,7 +26,6 @@ ja:
       rent: 地代家賃
       sub_account: 補助科目
       user: ユーザ
-      withheld_tax: 源泉徴収税
 
     attributes:
       account:
@@ -184,7 +183,6 @@ ja:
         hours_of_early_work: 早出残業時間数
         hours_of_late_night_work: 深夜労働時間数
         income_tax: 所得税
-        inhabitant_tax: 住民税
         insurance: 健康保険料
         pay_day: "給与支払日"
         welfare_pension: 厚生年金保険料

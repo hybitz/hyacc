@@ -25,7 +25,6 @@ class Payroll < ApplicationRecord
 
   # フィールド
   attr_accessor :income_tax     # 源泉所得税
-  attr_accessor :employment_insurance # 被雇用者負担雇用保険料
   attr_accessor :insurance_all
   attr_accessor :pension_all
   attr_accessor :pay_day
@@ -41,7 +40,6 @@ class Payroll < ApplicationRecord
 
   def init
     @income_tax = 0
-    @employment_insurance = 0
     @insurance_all = 0
     @pension_all = 0
     @inhabitant_tax = 0
@@ -127,7 +125,6 @@ class Payroll < ApplicationRecord
     payroll.init
     # 給与伝票取得
     payroll.income_tax = payroll.get_income_tax_from_jd
-    payroll.employment_insurance = payroll.get_employment_insurance_from_jd
     payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
 
     # 支払の伝票取得
@@ -158,7 +155,6 @@ class Payroll < ApplicationRecord
     payroll.init
     # 給与伝票取得
     payroll.income_tax = payroll.get_income_tax_from_jd
-    payroll.employment_insurance = payroll.get_employment_insurance_from_jd
 
     # 支払の伝票取得
     if payroll.pay_journal_header != nil
@@ -177,11 +173,6 @@ class Payroll < ApplicationRecord
     payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
   end
 
-  # 仕訳明細から雇用保険を取得する
-  def get_employment_insurance_from_jd
-    payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)
-  end
-
   # 仕訳明細から住民税を取得する
   def get_inhabitant_tax_from_jd
     if self.credit_account_type_of_inhabitant_tax == CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
@@ -192,10 +183,7 @@ class Payroll < ApplicationRecord
   end
 
   def calc_employment_insurance
-    # 対象月の末日を基準
-    date = Date.new(ym.to_i/100, ym.to_i%100, -1)
-
-    ei = TaxJp::LaborInsurances::EmploymentInsurance.find_by_date(date)
+    ei = TaxUtils.get_employment_insurance(ym)
     self.employment_insurance = (salary_total * ei.employee_general - 0.01).round
   end
 end

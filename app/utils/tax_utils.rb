@@ -62,7 +62,9 @@ class TaxUtils
   end
 
   def self.get_employment_insurance(ym)
-    date = Date.strptime("#{ym}01", '%Y%m%d')
+    # 対象月の末日を基準
+    date = Date.new(ym.to_i/100, ym.to_i%100, -1)
+
     TaxJp::LaborInsurances::EmploymentInsurance.find_by_date(date)
   end
 

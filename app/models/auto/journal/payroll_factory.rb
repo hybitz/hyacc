@@ -129,7 +129,7 @@ module Auto::Journal
       detail.amount = tax.insurance_all.to_i - @payroll.health_insurance + tax.pension_all.to_i - @payroll.welfare_pension
       detail.note = "会社負担保険料の未払分"
       ### 雇用保険
-      if @payroll.employment_insurance.to_i != 0
+      if @payroll.employment_insurance > 0
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT

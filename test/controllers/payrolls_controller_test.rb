@@ -45,18 +45,13 @@ class PayrollsControllerTest < ActionController::TestCase
     get :edit, :params => {:id => 45}, :xhr => true
     assert_response :success
     assert_template 'edit'
-
-    # 所得税
-    assert_equal JournalDetail.find(11581).amount, assigns(:payroll).income_tax
-    # 住民税
-    assert_equal JournalDetail.find(11582).amount, assigns(:payroll).inhabitant_tax
   end
 
   # 前月の情報取得
   def test_should_get_new_pre_month
     sign_in user
 
-    get :new, :params => {ym: 200811, employee_id: 1}, :xhr => true
+    get :new, params: {ym: 200811, employee_id: 1}, xhr: true
 
     assert_response :success
     assert_template 'new'
@@ -162,18 +157,18 @@ class PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    post :create, :xhr => true, :params => {
-        :payroll => {:ym => 200902, :employee_id => 2,
-                     :days_of_work => 28, :hours_of_work => 224,
-                     :hours_of_day_off_work => 100, :hours_of_early_work => 101,
-                     :hours_of_late_night_work => 102, :base_salary => '',
-                     :health_insurance => '', :welfare_pension => '',
-                     :income_tax => '', :inhabitant_tax => '',
-                     :accrued_liability => '', :pay_day => '20090332',
-                     :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
-                     }
+    post :create, xhr: true, params: {
+        payroll: {:ym => 200902, :employee_id => 2,
+                  :days_of_work => 28, :hours_of_work => 224,
+                  :hours_of_day_off_work => 100, :hours_of_early_work => 101,
+                  :hours_of_late_night_work => 102, :base_salary => '',
+                  :health_insurance => '', :welfare_pension => '',
+                  :income_tax => '', :inhabitant_tax => '',
+                  :accrued_liability => '', :pay_day => '20090332',
+                  :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
+                    }
     assert_response :success
-    assert_equal 3, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
+    assert_equal 2, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'new'
   end
 

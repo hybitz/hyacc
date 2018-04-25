@@ -88,7 +88,7 @@ module Auto::Journal
         detail.note = "会社負担保険料"
       end
       ### 源泉所得税
-      if @payroll.income_tax.to_i != 0
+      if @payroll.income_tax > 0
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
@@ -156,7 +156,7 @@ module Auto::Journal
         detail.note = "住民税"
       end
       ### 年末調整分
-      if @payroll.annual_adjustment != 0
+      if @payroll.annual_adjustment > 0
         detail = journal_header.journal_details.build
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT

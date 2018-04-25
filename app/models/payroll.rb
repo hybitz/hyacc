@@ -15,6 +15,7 @@ class Payroll < ApplicationRecord
   validates :commuting_allowance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :health_insurance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :welfare_pension, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
+  validates :income_tax, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :annual_adjustment, numericality: { only_integer: true, allow_blank: true }
   validates :accrued_liability, numericality: { only_integer: true, allow_blank: true }
 
@@ -24,7 +25,6 @@ class Payroll < ApplicationRecord
                             :allow_nil => true, :message=>"は数値で入力して下さい。"
 
   # フィールド
-  attr_accessor :income_tax     # 源泉所得税
   attr_accessor :insurance_all
   attr_accessor :pension_all
   attr_accessor :pay_day
@@ -39,7 +39,6 @@ class Payroll < ApplicationRecord
   end
 
   def init
-    @income_tax = 0
     @insurance_all = 0
     @pension_all = 0
     @inhabitant_tax = 0
@@ -80,10 +79,6 @@ class Payroll < ApplicationRecord
   def validate_params?
     result = true
 
-    unless income_tax =~ /^[0-9]{1,}$/
-      errors.add(:income_tax, "は数値で入力して下さい。")
-      result = false
-    end
     unless inhabitant_tax =~ /^[0-9]{1,}$/
       errors.add(:inhabitant_tax, "は数値で入力して下さい。")
       result = false
@@ -124,7 +119,6 @@ class Payroll < ApplicationRecord
     # アディショナル項目を初期値にセット
     payroll.init
     # 給与伝票取得
-    payroll.income_tax = payroll.get_income_tax_from_jd
     payroll.inhabitant_tax = payroll.get_inhabitant_tax_from_jd
 
     # 支払の伝票取得
@@ -153,8 +147,6 @@ class Payroll < ApplicationRecord
     end
     # アディショナル項目を初期値にセット
     payroll.init
-    # 給与伝票取得
-    payroll.income_tax = payroll.get_income_tax_from_jd
 
     # 支払の伝票取得
     if payroll.pay_journal_header != nil
@@ -166,11 +158,6 @@ class Payroll < ApplicationRecord
     payroll.is_new = false
 
     payroll
-  end
-
-  # 仕訳明細から源泉所得税金額を取得する
-  def get_income_tax_from_jd
-    payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_INCOME_TAX)
   end
 
   # 仕訳明細から住民税を取得する

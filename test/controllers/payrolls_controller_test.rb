@@ -94,7 +94,7 @@ class PayrollsControllerTest < ActionController::TestCase
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
     health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
-    welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
+    welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION)
     inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
     jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: income_tax.id)
     assert_equal 1, jd.count
@@ -129,7 +129,7 @@ class PayrollsControllerTest < ActionController::TestCase
     temp_pay_tax = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
     income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
     health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
-    welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
+    welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION)
     inhabitant_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
 
     jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",

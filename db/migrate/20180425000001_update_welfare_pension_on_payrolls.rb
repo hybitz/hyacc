@@ -18,6 +18,6 @@ class UpdateWelfarePensionOnPayrolls < ActiveRecord::Migration[5.1]
   end
 
   def get_pension_from_jd(payroll)
-    payroll.payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)
+    payroll.payroll_journal_header.get_credit_amount(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_WELFARE_PENSION)
   end
 end

@@ -194,12 +194,12 @@ module PayrollInfo
       list.each do |p|
         # 厚生年金保険料(預り金)
         p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
-                                                        :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)).each do |d|
+                                                        :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_WELFARE_PENSION)).each do |d|
           total_expense = total_expense + d.amount
         end
         # 厚生年金保険料(立替金)
         p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
-                                                        :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_EMPLOYEES_PENSION)).each do |d|
+                                                        :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_WELFARE_PENSION)).each do |d|
           total_expense = total_expense + d.amount
         end
 

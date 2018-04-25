@@ -82,7 +82,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = account
-        detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION).id
+        detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
         detail.branch_id = branch_id
         detail.amount = pension_half
         detail.note = "会社負担保険料"
@@ -115,7 +115,7 @@ module Auto::Journal
         detail.detail_no = journal_header.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYEES_PENSION).id
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
         detail.branch_id = branch_id
         detail.amount = @payroll.welfare_pension
         detail.note = "個人負担保険料"

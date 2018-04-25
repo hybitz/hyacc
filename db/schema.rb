@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180425160027) do
+ActiveRecord::Schema.define(version: 20180425161409) do
 
   create_table "accounts", id: :integer, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
     t.string "code", default: "", null: false
@@ -434,8 +434,8 @@ ActiveRecord::Schema.define(version: 20180425160027) do
     t.integer "employment_insurance", default: 0, null: false
     t.integer "income_tax", default: 0, null: false
     t.integer "inhabitant_tax", default: 0, null: false
-    t.integer "create_user_id"
-    t.integer "update_user_id"
+    t.integer "create_user_id", null: false
+    t.integer "update_user_id", null: false
     t.index ["pay_journal_header_id"], name: "fk_payrolls_pay_journal_header_id"
     t.index ["payroll_journal_header_id"], name: "fk_payrolls_payroll_journal_header_id"
     t.index ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true

@@ -12,6 +12,8 @@ payroll_00045:
   base_salary: 394000
   health_insurance: 15580
   credit_account_type_of_inhabitant_tax: "0"
+  create_user_id: 2
+  update_user_id: 2
 payroll_00046:
   id: 46
   ym: 200901
@@ -24,6 +26,8 @@ payroll_00046:
   hours_of_day_off_work: 0
   days_of_work: 31
   credit_account_type_of_inhabitant_tax: "1"
+  create_user_id: 2
+  update_user_id: 2
 payroll_00066: 
   id: 66
   hours_of_work: 248
@@ -36,6 +40,8 @@ payroll_00066:
   hours_of_day_off_work: 0
   days_of_work: 31
   credit_account_type_of_inhabitant_tax: "0"
+  create_user_id: 1
+  update_user_id: 1
 payroll_00067:
   id: 67
   ym: 200806
@@ -49,6 +55,8 @@ payroll_00067:
   hours_of_day_off_work: 0
   base_salary: 349000
   credit_account_type_of_inhabitant_tax: "0"
+  create_user_id: 1
+  update_user_id: 1
 payroll_00068: 
   id: 68
   ym: 200807
@@ -62,6 +70,8 @@ payroll_00068:
   hours_of_day_off_work: 0
   base_salary: 394000
   credit_account_type_of_inhabitant_tax: "0"
+  create_user_id: 1
+  update_user_id: 2
 payroll_00069: 
   id: 69
   ym: 200808
@@ -75,6 +85,8 @@ payroll_00069:
   hours_of_day_off_work: 0
   base_salary: 394000
   credit_account_type_of_inhabitant_tax: "0"
+  create_user_id: 1
+  update_user_id: 1
 payroll_00070: 
   id: 70
   ym: 200809
@@ -88,7 +100,9 @@ payroll_00070:
   hours_of_day_off_work: 0
   base_salary: 394000
   credit_account_type_of_inhabitant_tax: "0"
-payroll_00071: 
+  create_user_id: 2
+  update_user_id: 1
+payroll_00071:
   id: 71
   ym: 200810
   employee_id: 1
@@ -101,6 +115,8 @@ payroll_00071:
   hours_of_day_off_work: 0
   base_salary: 424000
   credit_account_type_of_inhabitant_tax: "0"
+  create_user_id: 2
+  update_user_id: 2
 payroll_00065:
   id: 65
   hours_of_work: 240
@@ -113,6 +129,8 @@ payroll_00065:
   hours_of_day_off_work: 0
   days_of_work: 30
   credit_account_type_of_inhabitant_tax: "0"
+  create_user_id: 2
+  update_user_id: 2
 payroll_00122:
   id: 122
   ym: 201112
@@ -126,6 +144,8 @@ payroll_00122:
   hours_of_late_night_work: 0
   credit_account_type_of_inhabitant_tax: '0'
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00123:
   id: 123
   ym: 201112
@@ -139,6 +159,8 @@ payroll_00123:
   hours_of_late_night_work: 0
   credit_account_type_of_inhabitant_tax: '0'
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00125: 
   id: 125
   ym: 201201
@@ -152,6 +174,8 @@ payroll_00125:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00126: 
   id: 126
   ym: 201201
@@ -165,6 +189,8 @@ payroll_00126:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00127: 
   id: 127
   ym: 201202
@@ -178,6 +204,8 @@ payroll_00127:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00128: 
   id: 128
   ym: 201202
@@ -191,6 +219,8 @@ payroll_00128:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00129: 
   id: 129
   ym: 201201
@@ -204,7 +234,9 @@ payroll_00129:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: true
-payroll_00130: 
+  create_user_id: 1
+  update_user_id: 1
+payroll_00130:
   id: 130
   ym: 201201
   payroll_journal_header_id: 14248
@@ -217,6 +249,8 @@ payroll_00130:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: true
+  create_user_id: 1
+  update_user_id: 1
 payroll_00131: 
   id: 131
   ym: 201203
@@ -230,6 +264,8 @@ payroll_00131:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00132: 
   id: 132
   ym: 201203
@@ -243,6 +279,8 @@ payroll_00132:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00133: 
   id: 133
   ym: 201204
@@ -256,6 +294,8 @@ payroll_00133:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00134: 
   id: 134
   ym: 201204
@@ -269,6 +309,8 @@ payroll_00134:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00135: 
   id: 135
   ym: 201205
@@ -282,6 +324,8 @@ payroll_00135:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00136: 
   id: 136
   ym: 201205
@@ -295,6 +339,8 @@ payroll_00136:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00137: 
   id: 137
   ym: 201206
@@ -308,6 +354,8 @@ payroll_00137:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00138: 
   id: 138
   ym: 201206
@@ -321,6 +369,8 @@ payroll_00138:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00139: 
   id: 139
   ym: 201207
@@ -334,6 +384,8 @@ payroll_00139:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00140: 
   id: 140
   ym: 201207
@@ -347,6 +399,8 @@ payroll_00140:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00141: 
   id: 141
   ym: 201208
@@ -360,6 +414,8 @@ payroll_00141:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00142: 
   id: 142
   ym: 201208
@@ -373,6 +429,8 @@ payroll_00142:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00143: 
   id: 143
   ym: 201209
@@ -386,6 +444,8 @@ payroll_00143:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00144: 
   id: 144
   ym: 201209
@@ -399,6 +459,8 @@ payroll_00144:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00145: 
   id: 145
   ym: 201210
@@ -412,6 +474,8 @@ payroll_00145:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00146: 
   id: 146
   ym: 201210
@@ -425,6 +489,8 @@ payroll_00146:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00147: 
   id: 147
   ym: 201211
@@ -438,6 +504,8 @@ payroll_00147:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00148: 
   id: 148
   ym: 201211
@@ -451,6 +519,8 @@ payroll_00148:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00150: 
   id: 150
   ym: 201212
@@ -464,6 +534,8 @@ payroll_00150:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1
 payroll_00151: 
   id: 151
   ym: 201212
@@ -477,3 +549,5 @@ payroll_00151:
   credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
+  create_user_id: 1
+  update_user_id: 1

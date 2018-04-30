@@ -7,4 +7,6 @@ module Journals
     end
     @_journal
   end
+
+  
 end

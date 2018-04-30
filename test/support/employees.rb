@@ -26,4 +26,20 @@ module Employees
   def invalid_employee_params
     employee_params.merge(:last_name => '')
   end
+
+  def new_employee(options = {})
+    ret = Employee.new(employee_params(options))
+    ret.company = options.fetch(:company, company)
+    ret.user = options[:user]
+    ret
+  end
+  
+  def create_employee(options = {})
+    options[:user] ||= create_user
+
+    ret = new_employee(options)
+    assert ret.save, ret.errors.full_messages.join("\n")
+    ret
+  end
+
 end

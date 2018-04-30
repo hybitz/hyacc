@@ -232,18 +232,27 @@ module Auto::Journal
         detail.amount = @payroll.transfer_payment
         detail.note = salary_account.name
       end
-      ### 未払金（従業員）.ユーザ
+      ### 未払金（従業員）の残高を部門別に精算
       if @payroll.accrued_liability > 0
-        account = Account.find_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE)
-
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
-        detail.dc_type = DC_TYPE_DEBIT
-        detail.account = account
-        detail.sub_account_id = employee.id
-        detail.branch_id = branch_id
-        detail.amount = @payroll.accrued_liability
-        detail.note = "立替費用の精算"
+        account = VUnpaidEmployee.account
+        total_amount = @payroll.accrued_liability
+        VUnpaidEmployee.net_sums_by_branch(employee, order: 'amount').each do |sum|
+          detail = journal_header.journal_details.build
+          detail.detail_no = journal_header.journal_details.size
+          detail.dc_type = DC_TYPE_DEBIT
+          detail.account = account
+          detail.sub_account_id = employee.id
+          detail.branch_id = sum.branch_id
+          detail.note = "立替費用の精算"
+          
+          if total_amount > sum.amount
+            detail.amount = sum.amount
+            total_amount -= sum.amount
+          else
+            detail.amount = total_amount
+            break
+          end
+        end
       end
       ### 普通預金
       account = Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT)

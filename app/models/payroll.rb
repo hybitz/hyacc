@@ -169,6 +169,7 @@ class Payroll < ApplicationRecord
   
     journals.each do |j|
       begin
+        Auto::AutoJournalUtil.do_auto_transfers(j)
         j.save!
       rescue => e
         Rails.logger.warn j.attributes.to_yaml

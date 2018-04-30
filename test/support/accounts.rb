@@ -11,7 +11,7 @@ module Accounts
 
   def expense_account
     if @_expense_account.nil?
-      assert @_expense_account = Account.expenses.where(:sub_account_type => SUB_ACCOUNT_TYPE_NORMAL, :journalizable => true).not_deleted.first
+      assert @_expense_account = Account.expenses.where(:sub_account_type => SUB_ACCOUNT_TYPE_NORMAL, :journalizable => true, deleted: false).first
       assert @_expense_account.sub_accounts.empty?
     end
 

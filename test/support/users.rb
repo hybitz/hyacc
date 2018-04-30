@@ -35,4 +35,15 @@ module Users
       :password => time_string
     }
   end
+  
+  def new_user(options = {})
+    ret = User.new(user_params)
+    ret
+  end
+  
+  def create_user(options = {})
+    ret = new_user
+    assert ret.save, ret.errors.full_messages.join("\n")
+    ret
+  end
 end

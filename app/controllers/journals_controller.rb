@@ -163,11 +163,11 @@ class JournalsController < Base::HyaccController
     ]
 
     ret = params.require(:journal).permit(*permitted)
-    ret = ret.merge(:company_id => current_company.id, :update_user_id => current_user.id)
+    ret = ret.merge(company_id: current_company.id, update_user_id: current_user.id)
 
     case action_name
     when 'create'
-      ret = ret.merge(:slip_type => SLIP_TYPE_TRANSFER, :create_user_id => current_user.id)
+      ret = ret.merge(slip_type: SLIP_TYPE_TRANSFER, create_user_id: current_user.id)
     end
 
     ret

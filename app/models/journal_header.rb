@@ -42,7 +42,16 @@ class JournalHeader < ApplicationRecord
 
   # 伝票の年月日を取得
   def date
-    Date.new( year, month, day )
+    Date.new(year, month, day)
+  end
+  
+  def date=(value)
+    self.ym = value.strftime('%Y%m')
+    self.day = value.day
+  end
+
+  def year
+    ym / 100
   end
 
   def month
@@ -64,10 +73,6 @@ class JournalHeader < ApplicationRecord
   # 同一会計年度かどうか
   def is_same_fiscal_year( other )
     self.fiscal_year == other.fiscal_year
-  end
-
-  def year
-    ym / 100
   end
 
   # 自動振替伝票が存在するか

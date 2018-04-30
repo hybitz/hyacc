@@ -2,11 +2,6 @@ require 'test_helper'
 
 class JournalHeaderTest < ActiveSupport::TestCase
 
-  def setup
-    # fixtureで検索キーを設定していないので、ARを一旦保存
-    JournalHeader.all.each {|jh| assert jh.save }
-  end
-
   def test_ym
     jh = JournalHeader.find(1)
 
@@ -48,7 +43,20 @@ class JournalHeaderTest < ActiveSupport::TestCase
     assert_raise( ActiveRecord::RecordInvalid ){ jh.save! }
   end
 
+  def test_date=
+    expected = Date.new(2018, 1, 20)
+
+    jh = JournalHeader.new
+    jh.date = expected
+    
+    assert_equal 201801, jh.ym
+    assert_equal 20, jh.day
+  end
+  
   def test_find_by_finder_key
+    # fixtureで検索キーを設定していないので、ARを一旦保存
+    JournalHeader.all.each {|jh| assert jh.save }
+
     journals = JournalHeader.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,1-.*')
     assert_equal 2, journals.count
 

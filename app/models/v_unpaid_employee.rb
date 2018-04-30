@@ -36,7 +36,22 @@ EOS
     end
 
     conditions = sql.to_a
-    find_by_sql(["select * from (#{VIEW}) as unpaid_employee #{conditions[0]}"] + conditions[1..-1])
+    sums = find_by_sql(["select * from (#{VIEW}) as unpaid_employee #{conditions[0]}"] + conditions[1..-1])
+
+    ret = {}
+    sums.each do |sum|
+      if ret[sum.branch_id]
+        if sum.dc_type == account.dc_type
+          ret[sum.branch_id].amount += sum.amount
+        else
+          ret[sum.branch_id].amount -= sum.amount
+        end
+      else
+        ret[sum.branch_id] = sum
+      end
+    end
+
+    ret.values
   end
   
 end

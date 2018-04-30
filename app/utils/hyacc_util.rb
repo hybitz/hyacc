@@ -8,10 +8,10 @@ module HyaccUtil
     "#{Digest::MD5.file(filename)}#{File.extname(filename)}"
   end
 
-  def self.subtract( amount1, amount2 )
+  def self.subtract(amount1, amount2)
     ret = 0
     ret += amount1.nil? ? 0 : amount1
-    ret -= amount2 unless amount2.nil?
+    ret -= amount2.nil? ? 0 : amount2
     ret
   end
   

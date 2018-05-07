@@ -484,7 +484,7 @@ DEPENDENCIES
   devise
   devise-i18n
   email_validator (= 1.5.0)
-  faraday (< 0.13.0)
+  faraday
   fog-aws
   fullcalendar-rails
   i18n-js

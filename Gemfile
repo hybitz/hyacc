@@ -1,17 +1,15 @@
 source 'https://rubygems.org'
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-git_source(:github) do |repo_name|
-  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
-  "https://github.com/#{repo_name}.git"
-end
-
+ruby '2.5.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.5'
+gem 'rails', '~> 5.2.0'
 
 gem 'activerecord-session_store'
 gem 'activerecord-import'
 gem 'acts_as_tree'
+gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap'
 gem 'carrierwave'
 gem 'carrierwave-i18n'
@@ -29,16 +27,16 @@ gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'mimemagic'
-gem 'mini_magick'
+gem 'mini_magick', '~> 4.8'
 gem 'momentjs-rails'
 gem 'mousetrap-rails'
-gem 'mysql2', '>= 0.3.18', '< 0.5'
+gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 gem 'nostalgic'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.11'
 gem 'rails-i18n'
-gem 'redis', '~> 3.0'
+gem 'redis', '~> 4.0'
 gem 'redis-namespace'
 gem 'remotipart'
 gem 'sass-rails', '~> 5.0'
@@ -55,8 +53,6 @@ gem 'will_paginate'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'capybara'
-  gem 'selenium-webdriver'
 end
 
 group :development do
@@ -71,6 +67,7 @@ group :development do
 end
 
 group :test do
+  gem 'capybara', '>= 2.15', '< 4.0'
   gem 'ci_reporter', :require => false
   gem 'closer'
   gem 'cucumber-rails', :require => false
@@ -78,6 +75,7 @@ group :test do
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'rails-controller-testing'
+  gem 'selenium-webdriver'
   gem 'simplecov', :require => false
   gem 'simplecov-rcov', :require => false
 end

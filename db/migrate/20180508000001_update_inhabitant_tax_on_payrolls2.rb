@@ -1,4 +1,4 @@
-class UpdateInhabitantTaxOnPayrolls < ActiveRecord::Migration[5.1]
+class UpdateInhabitantTaxOnPayrolls2 < ActiveRecord::Migration[5.1]
   include HyaccConstants
   
   CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED = '0'

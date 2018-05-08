@@ -31,14 +31,8 @@ class Payroll < ApplicationRecord
   attr_accessor :insurance_all
   attr_accessor :pension_all
   attr_accessor :pay_day
-  attr_accessor :is_new
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
-
-  def initialize( args = nil )
-    super( args )
-    @is_new = true
-  end
 
   def init
     @insurance_all = 0
@@ -109,8 +103,8 @@ class Payroll < ApplicationRecord
 
   def self.find_by_ym_and_employee_id(ym, employee_id)
     # 月別情報を検索
-    payroll = Payroll.where(:ym => ym, :employee_id => employee_id, :is_bonus => false).first
-    return Payroll.new.init unless payroll
+    payroll = Payroll.where(ym: ym, employee_id: employee_id, is_bonus: false).first
+    payroll ||= Payroll.new(ym: ym, employee_id: employee_id)
 
     # アディショナル項目を初期値にセット
     payroll.init
@@ -120,9 +114,6 @@ class Payroll < ApplicationRecord
       jh = payroll.pay_journal_header
       payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
     end
-
-    # 編集フラグをセット　※Viewで使用
-    payroll.is_new = false
 
     payroll
   end
@@ -136,9 +127,8 @@ class Payroll < ApplicationRecord
   def self.get_bonus_info(id)
     # 賞与情報を取得
     payroll = Payroll.find(id)
-    if payroll == nil
-      return Payroll.new.init
-    end
+    payroll ||= Payroll.new
+
     # アディショナル項目を初期値にセット
     payroll.init
 
@@ -147,9 +137,6 @@ class Payroll < ApplicationRecord
       jh = payroll.pay_journal_header
       payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
     end
-
-    # 編集フラグをセット　※Viewで使用
-    payroll.is_new = false
 
     payroll
   end

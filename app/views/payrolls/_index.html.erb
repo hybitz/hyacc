@@ -30,7 +30,7 @@
       <th colspan="2">賃金計算期間</th>
       <% @finder.get_ym_range.each do |ym| %>
         <th>
-          <% if @pd[ym][:payroll].is_new %>
+          <% if @pd[ym][:payroll].new_record? %>
             <%= link_to ym, {:action => :new, :ym => ym, :employee_id => @finder.employee_id}, :remote => true %>
           <% else %>
             <%= link_to ym, edit_payroll_path(@pd[ym][:payroll]), :remote => true %>
@@ -265,7 +265,7 @@
       <td colspan="2">支給日</td>
       <% @finder.get_ym_range.each do |ym| %>
       <td align="center">
-        <% unless @pd[ym][:payroll].is_new %>
+        <% if @pd[ym][:payroll].persisted? %>
           <%= link_to @pd[ym][:payroll].pay_day.split('-')[1..2].join('月') + '日',
                 edit_journal_path(@pd[ym][:payroll].pay_journal_header_id),
                 :remote => true %>
@@ -273,14 +273,14 @@
       </td>
       <% end %>
       <td>
-        <% unless @pd["b1"][:payroll].is_new %>
+        <% if @pd["b1"][:payroll].persisted? %>
           <%= link_to @pd["b1"][:payroll].pay_day.split('-')[1..2].join('月') + '日',
                 edit_journal_path(@pd["b1"][:payroll].pay_journal_header_id),
                 :remote => true %>
         <% end %>
       </td>
       <td>
-        <% unless @pd["b2"][:payroll].is_new %>
+        <% if @pd["b2"][:payroll].persisted? %>
           <%= link_to @pd["b2"][:payroll].pay_day.split('-')[1..2].join('月') + '日',
                 edit_journal_path(@pd["b2"][:payroll].pay_journal_header_id),
                 :remote => true %>

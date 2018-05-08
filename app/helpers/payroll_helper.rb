@@ -70,7 +70,7 @@ module PayrollHelper
 
   # 健康保険料と所得税の取得
   def get_tax(ym, employee_id, base_salary, commuting_allowance)
-    payroll = Payroll.new.init
+    payroll = Payroll.new
     return payroll if ym.blank? || employee_id.blank?
     
     e = Employee.find(employee_id)

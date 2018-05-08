@@ -15,7 +15,7 @@ class PayrollFinder < Base::Finder
 
     # データの受け皿の準備
     ret = {}
-    sum = Payroll.new.init
+    sum = Payroll.new
     ym_range.each do |ym|
       ret[ym] = {:payroll => Payroll.find_by_ym_and_employee_id(ym, @employee_id)}
       # 年間合計の設定
@@ -32,7 +32,7 @@ class PayrollFinder < Base::Finder
     bonus_list = Payroll.list_bonus(ym_range, @employee_id)
     # 賞与1のセット
     if bonus_list[0].nil?
-      ret['b1'] = {:payroll => Payroll.new.init}
+      ret['b1'] = {:payroll => Payroll.new}
     else
       ret['b1'] = {:payroll => Payroll.get_bonus_info(bonus_list[0].id)}
       # 年間合計の設定
@@ -46,7 +46,7 @@ class PayrollFinder < Base::Finder
     
     # 賞与2のセット
     if bonus_list[1].nil?
-      ret['b2'] = {:payroll => Payroll.new.init}
+      ret['b2'] = {:payroll => Payroll.new}
     else
       ret['b2'] = {:payroll => Payroll.get_bonus_info(bonus_list[1].id)}
       # 年間合計の設定

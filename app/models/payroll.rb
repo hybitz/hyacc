@@ -34,13 +34,6 @@ class Payroll < ApplicationRecord
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
 
-  def init
-    @insurance_all = 0
-    @pension_all = 0
-    @grade = 0
-    self
-  end
-
   # 給与小計
   def salary_subtotal
     base_salary + commuting_allowance
@@ -106,9 +99,6 @@ class Payroll < ApplicationRecord
     payroll = Payroll.where(ym: ym, employee_id: employee_id, is_bonus: false).first
     payroll ||= Payroll.new(ym: ym, employee_id: employee_id)
 
-    # アディショナル項目を初期値にセット
-    payroll.init
-
     # 支払の伝票取得
     if payroll.pay_journal_header != nil
       jh = payroll.pay_journal_header
@@ -128,9 +118,6 @@ class Payroll < ApplicationRecord
     # 賞与情報を取得
     payroll = Payroll.find(id)
     payroll ||= Payroll.new
-
-    # アディショナル項目を初期値にセット
-    payroll.init
 
     # 支払の伝票取得
     if payroll.pay_journal_header != nil

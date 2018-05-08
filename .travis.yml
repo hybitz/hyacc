@@ -2,7 +2,7 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
-  - 2.5.1
+  - 2.5.0
 env:
   - DRIVER=chrome
   - DRIVER=firefox
@@ -13,9 +13,9 @@ branches:
     - master
 before_install:
   - cp -f travis/database.yml config/
+script:
   - bundle exec rake dad:db:create DAD_MYSQL_NO_ROOT_PASSWORD=true
   - bin/rails db:schema:load
-script:
   - bin/rails test
   - bundle exec rake dad:test
   - bin/rails db:environment:set RAILS_ENV=test

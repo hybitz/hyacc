@@ -22,13 +22,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :investments do
-    collection do
-      get 'not_related'
-      get 'relate'
-    end
-  end
-
   resources :journals do
     collection do
       get 'add_detail'

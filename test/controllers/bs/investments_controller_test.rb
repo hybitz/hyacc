@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class InvestmentsControllerTest < ActionController::TestCase
+class Bs::InvestmentsControllerTest < ActionController::TestCase
   
   def setup
     sign_in user
@@ -15,7 +15,12 @@ class InvestmentsControllerTest < ActionController::TestCase
     get :index, :params => {:finder => {:fiscal_year => 2016, :bank_account_id => 3}}
     assert_response :success
   end
-  
+
+  def test_追加
+    get :new, xhr: true
+    assert_response :success
+  end
+    
   def test_should_create_investment
     assert_difference('Investment.count') do
       post :create, :xhr => true, :params => {

@@ -2,6 +2,7 @@ ja:
   title:
     bs: 資産管理
     bs/assets: 減価償却
+    bs/investments: 有価証券
     career_statements: 業務経歴書
     careers: 業務経歴
     closing: 締め処理
@@ -11,7 +12,6 @@ ja:
     financial_statements: 決算書
     first_boot: 初期設定
     fiscal_years: 会計年度
-    investments: 有価証券
     journal_admin: 伝票管理
     journals: 振替伝票
     ledgers: 元帳

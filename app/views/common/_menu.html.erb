@@ -3,6 +3,7 @@
   bs_controllers = %w{
     bs
     bs/assets
+    bs/investments
   }
 
   # 仕訳管理機能一覧
@@ -64,8 +65,6 @@
   <%= link_to '振替伝票', journals_path(purified_params), :class => style_for_menu('journals') %>
   |
   <%= link_to '伝票管理', journal_admin_path(purified_params), :class => style_for_menu(journal_admin_controllers) %>
-  |
-  <%= link_to '有価証券', investments_path(purified_params), :class => style_for_menu('investments') %>
   |
 
   <% if available?('payrolls') %>

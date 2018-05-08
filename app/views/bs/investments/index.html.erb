@@ -1,6 +1,6 @@
 <%= render 'search' %>
 <% if @has_not_related %>
-<div><%= link_to '関連付けされていない伝票が存在します', not_related_investments_path %></div>
+<div><%= link_to '関連付けされていない伝票が存在します', not_related_bs_investments_path %></div>
 <% end %>
 <% if @investments %>
 <%= render 'common/message' %>
@@ -31,9 +31,9 @@
           	 <%= to_amount(inv.trading_value) if inv.buying_or_selling == "1" %>
           </td>
           <td class="center">
-            <%= link_to '編集', edit_investment_path(inv), :remote => true, class: 'btn btn-light' %>
-            <%= link_to '削除', investment_path(inv),
-                  data: {confirm: '伝票を削除します。よろしいですか？'}, :method => :delete, class: 'btn btn-light' %>
+            <%= link_to '編集', edit_bs_investment_path(inv), remote: true, class: 'btn btn-light btn-sm' %>
+            <%= link_to '削除', bs_investment_path(inv),
+                  data: {confirm: '伝票を削除します。よろしいですか？'}, method: :delete, class: 'btn btn-light btn-sm' %>
           </td>
         </tr>
       <% end %>
@@ -41,7 +41,7 @@
     <tfoot>
       <tr>
         <td colspan="7" class="text-right">
-          <%= link_to '新しい取引を追加', new_investment_path, :class => 'btn btn-light add', :remote => true %>
+          <%= link_to '新しい取引を追加', new_bs_investment_path, remote: true, class: 'btn btn-light add' %>
         </td>
       </tr>
     </tfoot>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_08_000002) do
+ActiveRecord::Schema.define(version: 2018_05_18_041705) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -112,6 +112,12 @@ ActiveRecord::Schema.define(version: 2018_05_08_000002) do
     t.datetime "updated_at"
     t.boolean "disabled", default: false, null: false
     t.integer "company_id", null: false
+    t.integer "lt_30k_same_office"
+    t.integer "ge_30k_same_office"
+    t.integer "lt_30k_other_office"
+    t.integer "ge_30k_other_office"
+    t.integer "lt_30k_other_bank"
+    t.integer "ge_30k_other_bank"
   end
 
   create_table "branch_employees", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -255,6 +261,8 @@ ActiveRecord::Schema.define(version: 2018_05_08_000002) do
     t.integer "num_of_dependent", default: 0, null: false
     t.string "position"
     t.date "retirement_date"
+    t.integer "bank_id_for_pay"
+    t.integer "office_id_for_pay"
   end
 
   create_table "exemptions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

@@ -8,13 +8,14 @@ module Auto::Journal
       super( auto_journal_param )
       @payroll = auto_journal_param.payroll
       @user = auto_journal_param.user
+      @credit_amount = 0
     end
 
     def make_journals
       ret = []
       ret << make_payroll
       ret << make_pay
-      ret << make_commission
+      ret << make_commission if commissions_required?
       ret
     end
 
@@ -274,11 +275,32 @@ module Auto::Journal
           credit += jd.amount.to_i
         end
       end
-      detail.amount = debit - credit
+      @credit_amount = debit - credit
+      detail.amount = @credit_amount
 
       journal_header
     end
 
+    def commissions_required?
+      return calc_commissions > 0
+    end
+    
+    def calc_commissions
+      commission = 0
+      employee = Employee.find(@payroll.employee_id)
+      ba = BankAccount.find(BANK_ACCOUNT_ID_FOR_PAY)
+      if ba.bank_id == employee.bank_id_for_pay
+        if ba.bank_office_id == employee.office_id_for_pay
+          commission = ba.bank.get_commission(@credit_amount, Bank::TO_SAME_OFFICE)
+        else
+          commission = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_OFFICE)
+        end
+      else
+        commission = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_BANK)
+      end
+      return commission
+    end
+    
     def make_commission
       journal_header = JournalHeader.new
       # 氏名
@@ -308,8 +330,8 @@ module Auto::Journal
       raise HyaccException.new(ERR_FISCAL_YEAR_NOT_EXISTS) unless fy
 
       ## 支払明細
-      ### TODO 銀行口座マスタとの連携
-      commission = 500
+      commission = calc_commissions
+      
       ### 支払手数料
       account = Account.find_by_code(ACCOUNT_CODE_COMMISSION_PAID)
       sub_account = account.sub_accounts.find{|sa| sa.name == '振込手数料' }

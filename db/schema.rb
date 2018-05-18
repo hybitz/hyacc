@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_18_041705) do
+ActiveRecord::Schema.define(version: 2018_05_18_041638) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -41,6 +41,27 @@ ActiveRecord::Schema.define(version: 2018_05_18_041705) do
     t.boolean "sub_account_editable", default: true, null: false
     t.index ["code"], name: "index_accounts_on_code", unique: true
     t.index ["name"], name: "index_accounts_on_name", unique: true
+  end
+
+  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
@@ -112,12 +133,6 @@ ActiveRecord::Schema.define(version: 2018_05_18_041705) do
     t.datetime "updated_at"
     t.boolean "disabled", default: false, null: false
     t.integer "company_id", null: false
-    t.integer "lt_30k_same_office"
-    t.integer "ge_30k_same_office"
-    t.integer "lt_30k_other_office"
-    t.integer "ge_30k_other_office"
-    t.integer "lt_30k_other_bank"
-    t.integer "ge_30k_other_bank"
   end
 
   create_table "branch_employees", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -261,8 +276,6 @@ ActiveRecord::Schema.define(version: 2018_05_18_041705) do
     t.integer "num_of_dependent", default: 0, null: false
     t.string "position"
     t.date "retirement_date"
-    t.integer "bank_id_for_pay"
-    t.integer "office_id_for_pay"
   end
 
   create_table "exemptions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

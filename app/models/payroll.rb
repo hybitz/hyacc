@@ -19,6 +19,7 @@ class Payroll < ApplicationRecord
   validates :inhabitant_tax, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :annual_adjustment, numericality: { only_integer: true, allow_blank: true }
   validates :accrued_liability, numericality: { only_integer: true, allow_blank: true }
+  validates :pay_day, date: true
 
   validates_numericality_of :days_of_work, :hours_of_work,
                             :hours_of_day_off_work, :hours_of_early_work,
@@ -30,7 +31,6 @@ class Payroll < ApplicationRecord
   # フィールド
   attr_accessor :insurance_all
   attr_accessor :pension_all
-  attr_accessor :pay_day
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
 
@@ -64,23 +64,6 @@ class Payroll < ApplicationRecord
     after_insurance_deduction - income_tax - inhabitant_tax
   end
 
-  def validate_params?
-    result = true
-
-    if pay_day =~ /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/
-      split = pay_day.split('-').map(&:to_i)
-      unless Date.valid_date?(split[0], split[1], split[2])
-        errors.add(:pay_day, "は存在する日付をYYYY-MM-DD形式で入力して下さい。")
-        result = false
-      end
-    else
-      errors.add(:pay_day, "はYYYY-MM-DD形式で入力して下さい。")
-      result = false
-    end
-
-    result
-  end
-
   def self.get_previous_base_salary(ym, employee_id)
     ret = 0
     # 前月分を検索
@@ -99,12 +82,6 @@ class Payroll < ApplicationRecord
     payroll = Payroll.where(ym: ym, employee_id: employee_id, is_bonus: false).first
     payroll ||= Payroll.new(ym: ym, employee_id: employee_id)
 
-    # 支払の伝票取得
-    if payroll.pay_journal_header != nil
-      jh = payroll.pay_journal_header
-      payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
-    end
-
     payroll
   end
 
@@ -118,12 +95,6 @@ class Payroll < ApplicationRecord
     # 賞与情報を取得
     payroll = Payroll.find(id)
     payroll ||= Payroll.new
-
-    # 支払の伝票取得
-    if payroll.pay_journal_header != nil
-      jh = payroll.pay_journal_header
-      payroll.pay_day = Date.new(jh.ym/100, jh.ym%100, jh.day).strftime("%Y-%m-%d")
-    end
 
     payroll
   end

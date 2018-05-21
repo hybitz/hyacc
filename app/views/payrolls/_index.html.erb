@@ -275,7 +275,7 @@
       <% @finder.get_ym_range.each do |ym| %>
       <td align="center">
         <% if @pd[ym].persisted? %>
-          <%= link_to @pd[ym].pay_day.split('-')[1..2].join('月') + '日',
+          <%= link_to @pd[ym].pay_day.strftime('%m月%d日'),
                 edit_journal_path(@pd[ym].pay_journal_header_id),
                 remote: true %>
         <% end %>
@@ -283,14 +283,14 @@
       <% end %>
       <td>
         <% if @pd["b1"].persisted? %>
-          <%= link_to @pd["b1"].pay_day.split('-')[1..2].join('月') + '日',
+          <%= link_to @pd["b1"].pay_day.strftime('%m月%d日'),
                 edit_journal_path(@pd["b1"].pay_journal_header_id),
                 remote: true %>
         <% end %>
       </td>
       <td>
         <% if @pd["b2"].persisted? %>
-          <%= link_to @pd["b2"].pay_day.split('-')[1..2].join('月') + '日',
+          <%= link_to @pd["b2"].pay_day.strftime('%m月%d日'),
                 edit_journal_path(@pd["b2"].pay_journal_header_id),
                 remote: true %>
         <% end %>

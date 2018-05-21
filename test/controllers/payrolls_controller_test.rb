@@ -168,7 +168,7 @@ class PayrollsControllerTest < ActionController::TestCase
                   :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
                     }
     assert_response :success
-    assert_equal 1, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
+    assert_equal 7, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'new'
   end
 

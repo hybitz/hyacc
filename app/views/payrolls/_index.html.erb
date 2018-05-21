@@ -30,10 +30,10 @@
       <th colspan="2">賃金計算期間</th>
       <% @finder.get_ym_range.each do |ym| %>
         <th>
-          <% if @pd[ym][:payroll].new_record? %>
-            <%= link_to ym, {:action => :new, :ym => ym, :employee_id => @finder.employee_id}, :remote => true %>
+          <% if @pd[ym].new_record? %>
+            <%= link_to ym, {:action => :new, :ym => ym, :employee_id => @finder.employee_id}, remote: true %>
           <% else %>
-            <%= link_to ym, edit_payroll_path(@pd[ym][:payroll]), :remote => true %>
+            <%= link_to ym, edit_payroll_path(@pd[ym]), remote: true %>
           <% end %>
         </th>
       <% end %>
@@ -46,7 +46,7 @@
     <tr>
       <td colspan="2">労働日数</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td class="center"><%= @pd[ym][:payroll].days_of_work %>日</td>
+        <td class="center"><%= @pd[ym].days_of_work %>日</td>
       <% end %>
       <td></td>
       <td></td>
@@ -55,7 +55,7 @@
     <tr>
       <td colspan="2">労働時間数</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td align="center"><%= @pd[ym][:payroll].hours_of_work %>H</td>
+      <td align="center"><%= @pd[ym].hours_of_work %>H</td>
       <% end %>
       <td></td>
       <td></td>
@@ -64,7 +64,7 @@
     <tr>
       <td colspan="2">休日労働時間数</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= @pd[ym][:payroll].hours_of_day_off_work %>H</td>
+      <td class="center"><%= @pd[ym].hours_of_day_off_work %>H</td>
       <% end %>
       <td></td>
       <td></td>
@@ -73,7 +73,7 @@
     <tr>
       <td colspan="2">早出残業時間数</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= @pd[ym][:payroll].hours_of_early_work %>H</td>
+      <td class="center"><%= @pd[ym].hours_of_early_work %>H</td>
       <% end %>
       <td></td>
       <td></td>
@@ -82,7 +82,7 @@
     <tr>
       <td colspan="2">深夜労働時間数</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= @pd[ym][:payroll].hours_of_late_night_work %>H</td>
+      <td class="center"><%= @pd[ym].hours_of_late_night_work %>H</td>
       <% end %>
       <td></td>
       <td></td>
@@ -91,10 +91,10 @@
     <tr>
       <td colspan="2">基本給</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td class="center"><%= to_amount(@pd[ym][:payroll].base_salary) %></td>
+        <td class="center"><%= to_amount(@pd[ym].base_salary) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].base_salary) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].base_salary) %></td>
+      <td><%= to_amount(@pd["b1"].base_salary) %></td>
+      <td><%= to_amount(@pd["b2"].base_salary) %></td>
       <td class="right"><%= to_amount(@pd[:sum].base_salary) %></td>
     </tr>
     <tr>
@@ -110,10 +110,10 @@
       <td rowspan="2">手当</td>
       <td>通勤手当</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td class="center"><%= to_amount(@pd[ym][:payroll].commuting_allowance) %></td>
+        <td class="center"><%= to_amount(@pd[ym].commuting_allowance) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].commuting_allowance) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].commuting_allowance) %></td>
+      <td><%= to_amount(@pd["b1"].commuting_allowance) %></td>
+      <td><%= to_amount(@pd["b2"].commuting_allowance) %></td>
       <td class="right"><%= to_amount(@pd[:sum].commuting_allowance) %></td>
     </tr>
     <tr>
@@ -128,10 +128,10 @@
     <tr>
       <td colspan="2">小計</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].salary_subtotal) %></td>
+      <td class="center"><%= to_amount(@pd[ym].salary_subtotal) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].salary_subtotal) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].salary_subtotal) %></td>
+      <td><%= to_amount(@pd["b1"].salary_subtotal) %></td>
+      <td><%= to_amount(@pd["b2"].salary_subtotal) %></td>
       <td class="right"><%= to_amount(@pd[:sum].salary_subtotal) %></td>
     </tr>
     <tr>
@@ -146,47 +146,47 @@
     <tr>
       <td colspan="2">合計</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].salary_total) %></td>
+      <td class="center"><%= to_amount(@pd[ym].salary_total) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].salary_total) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].salary_total) %></td>
+      <td><%= to_amount(@pd["b1"].salary_total) %></td>
+      <td><%= to_amount(@pd["b2"].salary_total) %></td>
       <td class="right"><%= to_amount(@pd[:sum].salary_total) %></td>
     </tr>
     <tr>
       <td rowspan="8">控除額</td>
       <td>健康保険料</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].health_insurance) %></td>
+      <td class="center"><%= to_amount(@pd[ym].health_insurance) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].health_insurance) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].health_insurance) %></td>
+      <td><%= to_amount(@pd["b1"].health_insurance) %></td>
+      <td><%= to_amount(@pd["b2"].health_insurance) %></td>
       <td class="right"><%= to_amount(@pd[:sum].health_insurance) %></td>
     </tr>
     <tr>
       <td>厚生年金保険料</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td class="center"><%= to_amount(@pd[ym][:payroll].welfare_pension) %></td>
+        <td class="center"><%= to_amount(@pd[ym].welfare_pension) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].welfare_pension) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].welfare_pension) %></td>
+      <td><%= to_amount(@pd["b1"].welfare_pension) %></td>
+      <td><%= to_amount(@pd["b2"].welfare_pension) %></td>
       <td class="right"><%= to_amount(@pd[:sum].welfare_pension) %></td>
     </tr>
     <tr>
       <td>雇用保険料</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td class="center"><%= to_amount(@pd[ym][:payroll].employment_insurance) %></td>
+        <td class="center"><%= to_amount(@pd[ym].employment_insurance) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].employment_insurance) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].employment_insurance) %></td>
+      <td><%= to_amount(@pd["b1"].employment_insurance) %></td>
+      <td><%= to_amount(@pd["b2"].employment_insurance) %></td>
       <td class="right"><%= to_amount(@pd[:sum].employment_insurance) %></td>
     </tr>
     <tr>
       <td>保険料合計</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].insurance_total) %></td>
+      <td class="center"><%= to_amount(@pd[ym].insurance_total) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].insurance_total) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].insurance_total) %></td>
+      <td><%= to_amount(@pd["b1"].insurance_total) %></td>
+      <td><%= to_amount(@pd["b2"].insurance_total) %></td>
       <td class="right"><%= to_amount(@pd[:sum].insurance_total) %></td>
     </tr>
     <tr>
@@ -201,16 +201,16 @@
     <tr>
       <td>所得税</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].income_tax) %></td>
+      <td class="center"><%= to_amount(@pd[ym].income_tax) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].income_tax) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].income_tax) %></td>
+      <td><%= to_amount(@pd["b1"].income_tax) %></td>
+      <td><%= to_amount(@pd["b2"].income_tax) %></td>
       <td class="right"><%= to_amount(@pd[:sum].income_tax) %></td>
     </tr>
     <tr>
       <td><%= Payroll.human_attribute_name :inhabitant_tax %></td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].inhabitant_tax) %></td>
+      <td class="center"><%= to_amount(@pd[ym].inhabitant_tax) %></td>
       <% end %>
       <td></td>
       <td></td>
@@ -228,19 +228,19 @@
     <tr>
       <td colspan="2">保険料控除後の所得</td>
       <% @finder.get_ym_range.each do |ym| %>
-      <td class="center"><%= to_amount(@pd[ym][:payroll].after_insurance_deduction) %></td>
+      <td class="center"><%= to_amount(@pd[ym].after_insurance_deduction) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].after_insurance_deduction) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].after_insurance_deduction) %></td>
+      <td><%= to_amount(@pd["b1"].after_insurance_deduction) %></td>
+      <td><%= to_amount(@pd["b2"].after_insurance_deduction) %></td>
       <td class="right"><%= to_amount(@pd[:sum].after_insurance_deduction) %></td>
     </tr>
     <tr>
-      <td colspan="2">差引合計額</td>
+      <td colspan="2">差引支給額</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td align="center"><%= to_amount(@pd[ym][:payroll].after_deduction) %></td>
+        <td align="center"><%= to_amount(@pd[ym].after_deduction) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].after_deduction) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].after_deduction) %></td>
+      <td><%= to_amount(@pd["b1"].after_deduction) %></td>
+      <td><%= to_amount(@pd["b2"].after_deduction) %></td>
       <td class="right"><%= to_amount(@pd[:sum].after_deduction) %></td>
     </tr>
     <tr>
@@ -253,37 +253,46 @@
       <td></td>
     </tr>
     <tr>
-      <td colspan="2">差引支給額</td>
+      <td colspan="2">経費精算</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td align="center"><%= to_amount(@pd[ym][:payroll].after_deduction) %></td>
+        <td align="center"><%= to_amount(@pd[ym].accrued_liability) %></td>
       <% end %>
-      <td><%= to_amount(@pd["b1"][:payroll].after_deduction) %></td>
-      <td><%= to_amount(@pd["b2"][:payroll].after_deduction) %></td>
-      <td align="right"><%= to_amount(@pd[:sum].after_deduction) %></td>
+      <td><%= to_amount(@pd["b1"].accrued_liability) %></td>
+      <td><%= to_amount(@pd["b2"].accrued_liability) %></td>
+      <td align="right"><%= to_amount(@pd[:sum].accrued_liability) %></td>
+    </tr>
+    <tr>
+      <td colspan="2">差引合計額</td>
+      <% @finder.get_ym_range.each do |ym| %>
+        <td align="center"><%= to_amount(@pd[ym].after_deduction + @pd[ym].accrued_liability) %></td>
+      <% end %>
+      <td><%= to_amount(@pd["b1"].after_deduction) %></td>
+      <td><%= to_amount(@pd["b2"].after_deduction) %></td>
+      <td align="right"><%= to_amount(@pd[:sum].after_deduction + @pd[:sum].accrued_liability) %></td>
     </tr>
     <tr>
       <td colspan="2">支給日</td>
       <% @finder.get_ym_range.each do |ym| %>
       <td align="center">
-        <% if @pd[ym][:payroll].persisted? %>
-          <%= link_to @pd[ym][:payroll].pay_day.split('-')[1..2].join('月') + '日',
-                edit_journal_path(@pd[ym][:payroll].pay_journal_header_id),
-                :remote => true %>
+        <% if @pd[ym].persisted? %>
+          <%= link_to @pd[ym].pay_day.split('-')[1..2].join('月') + '日',
+                edit_journal_path(@pd[ym].pay_journal_header_id),
+                remote: true %>
         <% end %>
       </td>
       <% end %>
       <td>
-        <% if @pd["b1"][:payroll].persisted? %>
-          <%= link_to @pd["b1"][:payroll].pay_day.split('-')[1..2].join('月') + '日',
-                edit_journal_path(@pd["b1"][:payroll].pay_journal_header_id),
-                :remote => true %>
+        <% if @pd["b1"].persisted? %>
+          <%= link_to @pd["b1"].pay_day.split('-')[1..2].join('月') + '日',
+                edit_journal_path(@pd["b1"].pay_journal_header_id),
+                remote: true %>
         <% end %>
       </td>
       <td>
-        <% if @pd["b2"][:payroll].persisted? %>
-          <%= link_to @pd["b2"][:payroll].pay_day.split('-')[1..2].join('月') + '日',
-                edit_journal_path(@pd["b2"][:payroll].pay_journal_header_id),
-                :remote => true %>
+        <% if @pd["b2"].persisted? %>
+          <%= link_to @pd["b2"].pay_day.split('-')[1..2].join('月') + '日',
+                edit_journal_path(@pd["b2"].pay_journal_header_id),
+                remote: true %>
         <% end %>
       </td>
       <td></td>

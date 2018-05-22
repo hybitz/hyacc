@@ -118,6 +118,11 @@ ja:
       customer_names:
         <<: *customer_name
 
+      employee_bank_account:
+        bank_name: 金融機関名称
+        bank_office_name: 支店名称
+        code: 口座番号
+        
       employee:
         address: 住所
         base_salary: 基本給

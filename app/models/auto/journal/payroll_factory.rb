@@ -202,11 +202,7 @@ module Auto::Journal
 
       journal_header = JournalHeader.new
       journal_header.company_id = employee.company.id
-
-      # 給与日の設定
-      journal_header.ym = @payroll.pay_day.split('-')[0..1].join.to_i
-      journal_header.day = @payroll.pay_day.split('-').last
-      # 摘要の設定
+      journal_header.date = @payroll.pay_day
       journal_header.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
       journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
       journal_header.create_user_id = @user.id
@@ -302,19 +298,15 @@ module Auto::Journal
     end
     
     def make_commission
-      journal_header = JournalHeader.new
-      # 氏名
       employee = Employee.find(@payroll.employee_id)
-      # 給与日の設定
-      journal_header.day = @payroll.pay_day.split('-').last
-      # 摘要の設定
+
+      journal_header = JournalHeader.new
+      journal_header.company_id = employee.company.id
+      journal_header.date = @payroll.pay_day
       journal_header.remarks = "給与支給、振込手数料　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
       journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
       journal_header.create_user_id = @user.id
       journal_header.update_user_id = @user.id
-      # 年月の設定
-      journal_header.ym = @payroll.pay_day.split('-')[0..1].join.to_i
-      journal_header.company_id = employee.company.id
 
       # 消費税率
       tax_rate = TaxJp.rate_on(journal_header.date)

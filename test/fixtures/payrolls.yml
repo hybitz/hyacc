@@ -1,6 +1,7 @@
 payroll_00045:
   id: 45
   ym: 200812
+  pay_day: 2009-01-25
   employee_id: 2
   hours_of_work: 0
   payroll_journal_header_id: 4453
@@ -17,6 +18,7 @@ payroll_00045:
 payroll_00046:
   id: 46
   ym: 200901
+  pay_day: 2009-02-25
   employee_id: 2
   hours_of_work: 0
   payroll_journal_header_id: 4705

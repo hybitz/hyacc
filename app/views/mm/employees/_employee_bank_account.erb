@@ -1,0 +1,16 @@
+<%= fields_for @e.employee_bank_account do |f| %>
+  <table class="table">
+    <tr>
+      <th><%= f.label :bank_name %></th>
+      <td><%= f.text_field :bank_name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :bank_office_name %></th>
+      <td><%= f.text_field :bank_office_name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :code %></th>
+      <td><%= f.text_field :code %></td>
+    </tr>
+  </table>
+<% end %>

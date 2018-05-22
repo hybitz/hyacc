@@ -277,13 +277,18 @@ module Auto::Journal
       journal_header
     end
 
+<<<<<<< HEAD
     def commissions_required?
       return calc_commissions > 0
     end
     
     def calc_commissions
       commission = 0
+=======
+    def make_commission
+>>>>>>> branch 'master' of git@github.com:hybitz/hyacc.git
       employee = Employee.find(@payroll.employee_id)
+<<<<<<< HEAD
       ba = BankAccount.find(BANK_ACCOUNT_ID_FOR_PAY)
       if ba.bank_id == employee.bank_id_for_pay
         if ba.bank_office_id == employee.office_id_for_pay
@@ -299,6 +304,8 @@ module Auto::Journal
     
     def make_commission
       employee = Employee.find(@payroll.employee_id)
+=======
+>>>>>>> branch 'master' of git@github.com:hybitz/hyacc.git
 
       journal_header = JournalHeader.new
       journal_header.company_id = employee.company.id

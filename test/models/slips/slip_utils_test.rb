@@ -10,7 +10,7 @@ class Slips::SlipUtilsTest < ActiveSupport::TestCase
     jh = create_journal()
     assert Slips::SlipUtils.editable_as_simple_slip(jh, @account.id)
 
-    jh.journal_details[0].allocated = true
+    jh.journal_details[0].allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
     assert ! Slips::SlipUtils.editable_as_simple_slip(jh, @account.id)
   end
   

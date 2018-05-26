@@ -1,10 +1,19 @@
-<%
-  prefix = "journal[journal_details_attributes[#{index}]]"
-%>
-<%= fields_for prefix, jd do |f| %>
-  <span id="jd_<%= index %>_allocation">
+<%= fields_for "journal[journal_details_attributes[#{index}]]", jd do |f| %>
+  <div id="jd_<%= index %>_allocation">
     <% if jd.allocatable? %>
-      <label><%= f.check_box :allocated %> <%= jd.account.account_type_name %>配賦</label>
+      <strong><%= jd.account.account_type_name %>配賦</strong>
+      <div>
+        <label>
+          <%= f.check_box :allocation_type, {include_hidden: false}, ALLOCATION_TYPE_EVEN_BY_SIBLINGS %>
+          <%= ALLOCATION_TYPES[ALLOCATION_TYPE_EVEN_BY_SIBLINGS] %>
+        </label>
+      </div>
+      <div>
+        <label>
+          <%= f.check_box :allocation_type, {include_hidden: false, disabled: true}, ALLOCATION_TYPE_SHARE_BY_EMPLOYEE_RATIO %>
+          <%= ALLOCATION_TYPES[ALLOCATION_TYPE_SHARE_BY_EMPLOYEE_RATIO] %>
+        </label>
+      </div>
     <% end %>
-  </span>
+  </div>
 <% end %>

@@ -9,6 +9,12 @@ module HyaccConstants
     ACCOUNT_TYPE_EXPENSE = 5 => '費用',
   }
 
+  # 配賦区分
+  ALLOCATION_TYPES = {
+    ALLOCATION_TYPE_EVEN_BY_SIBLINGS = 1 => '同列部門で均等',
+    ALLOCATION_TYPE_SHARE_BY_EMPLOYEE_RATIO = 2 => '社員数に応じて'
+  }
+
   # 承認ステータス
   APPROVAL_STATUS = {
     APPROVAL_STATUS_NOT_APPROVED = 1 => '未承認',

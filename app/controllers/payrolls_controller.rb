@@ -34,7 +34,7 @@ class PayrollsController < Base::HyaccController
 
     # 住民税マスタより住民税額を取得
     @payroll.inhabitant_tax = get_inhabitant_tax(employee_id, ym)
-    @payroll.pay_day = get_pay_day(ym, employee_id).strftime("%Y-%m-%d")
+    @payroll.pay_day = get_pay_day(ym, employee_id)
 
     # 従業員への未払費用
     @payroll.accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee_id)
@@ -44,11 +44,6 @@ class PayrollsController < Base::HyaccController
     @payroll = Payroll.new(payroll_params)
 
     begin
-      # 入力チェック
-      unless @payroll.validate_params?
-        raise ActiveRecord::RecordInvalid.new(@payroll)
-      end
-
       @payroll.transaction do
         @payroll.save!
       end
@@ -78,11 +73,6 @@ class PayrollsController < Base::HyaccController
     commission_journal_header_on_db = payroll_on_db.commission_journal_header
 
     begin
-      # 入力チェック
-      unless @payroll.validate_params?
-        raise ActiveRecord::RecordInvalid.new(@payroll)
-      end
-
       @payroll.transaction do
         @payroll.save!
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_21_230000) do
+ActiveRecord::Schema.define(version: 2018_05_26_112730) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -391,7 +391,7 @@ ActiveRecord::Schema.define(version: 2018_05_21_230000) do
     t.datetime "updated_at"
     t.integer "settlement_type", limit: 1
     t.decimal "tax_rate", precision: 4, scale: 3, default: "0.0", null: false
-    t.boolean "allocated", default: false, null: false
+    t.integer "allocation_type"
     t.index ["journal_header_id", "detail_no"], name: "journal_details_journal_header_id_and_detail_no_index", unique: true
     t.index ["main_detail_id"], name: "index_journal_details_main_detail_id"
   end

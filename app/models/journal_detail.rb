@@ -119,7 +119,7 @@ class JournalDetail < ApplicationRecord
   def auto_journal_types
     ret = []
     ret << auto_journal_type if auto_journal_type > 0
-    if allocated?
+    if allocation_type.present?
       if account.expense?
         ret << AUTO_JOURNAL_TYPE_ALLOCATED_COST
       else

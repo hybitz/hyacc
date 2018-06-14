@@ -139,7 +139,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].tax_type = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
-    post_jh.journal_details[1].allocated = true
+    post_jh.journal_details[1].allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
 
     assert_difference 'JournalHeader.count', 4 do
       post :create, :params => {
@@ -163,7 +163,7 @@ class JournalsController::AutoTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[1].input_amount,
               :tax_type => post_jh.journal_details[1].tax_type,
               :dc_type => post_jh.journal_details[1].dc_type,
-              :allocated => post_jh.journal_details[1].allocated,
+              :allocation_type => post_jh.journal_details[1].allocation_type,
             }
           }
         }
@@ -224,7 +224,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     jd.input_amount = 10000
     jd.tax_type = TAX_TYPE_INCLUSIVE
     jd.tax_rate_percent = 5
-    jd.allocated = true
+    jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
     jd.dc_type = DC_TYPE_DEBIT # 借方
 
     jd = post_jh.journal_details.build
@@ -233,7 +233,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     jd.input_amount = 10000
     jd.tax_type = TAX_TYPE_NONTAXABLE
     jd.dc_type = DC_TYPE_CREDIT # 貸方
-    jd.allocated = true
+    jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
 
     assert_difference 'JournalHeader.count', 7 do
       post :create, :params => {
@@ -249,7 +249,7 @@ class JournalsController::AutoTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
               :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-              :allocated => post_jh.journal_details[0].allocated,
+              :allocation_type => post_jh.journal_details[0].allocation_type,
               :dc_type => post_jh.journal_details[0].dc_type
             },
             '2' => {
@@ -258,7 +258,7 @@ class JournalsController::AutoTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[1].input_amount,
               :tax_type => post_jh.journal_details[1].tax_type,
               :dc_type => post_jh.journal_details[1].dc_type,
-              :allocated => post_jh.journal_details[1].allocated,
+              :allocation_type => post_jh.journal_details[1].allocation_type,
             }
           }
         }
@@ -277,12 +277,12 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_equal post_jh.journal_details[0].input_amount, jh.amount
     assert_equal 0, jh.transfer_journals.count, "内部取引の自動仕訳は費用配賦と資産配賦の伝票に関連する"
     assert_equal 3, jh.journal_details.count, "消費税明細を含めて３明細"
-    assert_equal 2, jh.journal_details.where(:allocated => true).count
-    assert_equal 1, jh.journal_details.where(:allocated => true).first.transfer_journals.count, "費用配賦の自動仕訳が伝票明細に関連する"
-    assert_equal 1, jh.journal_details.where(:allocated => true).second.transfer_journals.count, "資産配賦の自動仕訳が伝票明細に関連する"
+    assert_equal 2, jh.journal_details.where(allocation_type: ALLOCATION_TYPE_EVEN_BY_SIBLINGS).count
+    assert_equal 1, jh.journal_details.where(allocation_type: ALLOCATION_TYPE_EVEN_BY_SIBLINGS).first.transfer_journals.count, "費用配賦の自動仕訳が伝票明細に関連する"
+    assert_equal 1, jh.journal_details.where(allocation_type: ALLOCATION_TYPE_EVEN_BY_SIBLINGS).second.transfer_journals.count, "資産配賦の自動仕訳が伝票明細に関連する"
 
     # 自動仕訳（費用配賦）
-    jd = jh.journal_details.where(:allocated => true).first
+    jd = jh.journal_details.where(allocation_type: ALLOCATION_TYPE_EVEN_BY_SIBLINGS).first
     auto = jd.transfer_journals.first
     assert_equal jd.id, auto.transfer_from_detail_id
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST, auto.slip_type
@@ -294,7 +294,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     end
 
     # 自動仕訳（資産配賦）
-    jd = jh.journal_details.where(:allocated => true).second
+    jd = jh.journal_details.where(allocation_type: ALLOCATION_TYPE_EVEN_BY_SIBLINGS).second
     auto = jd.transfer_journals.first
     assert_equal jd.id, auto.transfer_from_detail_id
     assert_equal SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS, auto.slip_type
@@ -328,7 +328,6 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[0].input_amount = 10000
     post_jh.journal_details[0].tax_type = 1
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
-    post_jh.journal_details[0].allocated = false
     post_jh.journal_details << JournalDetail.new
     post_jh.journal_details[1].branch_id = 1
     post_jh.journal_details[1].account_id = 5 # 普通預金
@@ -337,10 +336,9 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].tax_type = 1
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
-    post_jh.journal_details[1].allocated = false
 
     assert_difference 'JournalHeader.count', 1 do
-      post :create, :params => {
+      post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -351,7 +349,7 @@ class JournalsController::AutoTest < ActionController::TestCase
               :account_id => post_jh.journal_details[0].account_id,
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
-              :allocated => post_jh.journal_details[0].allocated,
+              :allocation_type => post_jh.journal_details[0].allocation_type,
               :dc_type => post_jh.journal_details[0].dc_type
             },
             '2' => {
@@ -361,12 +359,11 @@ class JournalsController::AutoTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[1].input_amount,
               :tax_type => post_jh.journal_details[1].tax_type,
               :dc_type => post_jh.journal_details[1].dc_type,
-              :allocated => post_jh.journal_details[1].allocated,
+              :allocation_type => post_jh.journal_details[1].allocation_type,
             }
           }
         }
-      },
-      :xhr => true
+      }
 
       assert_response :success
       assert_template 'common/reload'

@@ -15,8 +15,5 @@ before_install:
   - cp -f travis/database.yml config/
 script:
   - bundle exec rake dad:db:create DAD_MYSQL_NO_ROOT_PASSWORD=true
-  - bin/rails db:schema:load
-  - bin/rails test
-  - bundle exec rake dad:test
-  - bin/rails db:environment:set RAILS_ENV=test
+  - bin/rails db:schema:load RAILS_ENV=test
   - bundle exec rake dad:test user_stories

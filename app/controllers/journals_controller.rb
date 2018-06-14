@@ -155,7 +155,7 @@ class JournalsController < Base::HyaccController
       :journal_details_attributes => [
           :id, :_destroy, :dc_type, :account_id, :branch_id, :sub_account_id,
           :input_amount, :tax_type, :tax_rate_percent, :tax_amount,
-          :social_expense_number_of_people, :settlement_type, :note, :allocated,
+          :social_expense_number_of_people, :settlement_type, :note, :allocation_type,
           :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,
           :asset_attributes => [:id, :lock_version]
       ],

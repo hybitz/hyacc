@@ -165,7 +165,8 @@ class JournalHeaderTest < ActiveSupport::TestCase
         assert_nil copy_jd.main_detail_id
       end
 
-      assert_equal jd.allocated, copy_jd.allocated
+      assert_nil jd.allocation_type
+      assert_nil copy_jd.allocation_type
       assert_equal jd.branch_name, copy_jd.branch_name
       assert_equal jd.note, copy_jd.note
       assert_nil copy_jd.created_at

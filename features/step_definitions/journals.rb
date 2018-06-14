@@ -2,7 +2,7 @@
   assert_visit '/journals'
 end
 
-もし /^任意の振替伝票の(参照|編集|削除)をクリックする$/ do |action|
+もし /^任意の振替伝票の(編集|削除)をクリックする$/ do |action|
   assert has_selector?('#journals_table tr')
 
   all('#journals_table tr').each do |tr|
@@ -18,6 +18,15 @@ end
       end
     end
     break
+  end
+end
+
+もし /^任意の振替伝票の摘要をクリックする$/ do
+  selector = '#journals_table tbody tr'
+  assert has_selector?(selector)
+
+  within first(selector) do
+    click_on all('td')[3].text.strip
   end
 end
 

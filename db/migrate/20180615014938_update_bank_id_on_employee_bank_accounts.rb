@@ -1,5 +1,7 @@
 class UpdateBankIdOnEmployeeBankAccounts < ActiveRecord::Migration[5.2]
   def up
+    return unless Rails.env.production?
+
     i = EmployeeBankAccount.new
     i.employee_id = 1
     i.bank_id = 3

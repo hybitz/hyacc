@@ -137,7 +137,7 @@ GEM
       backports (>= 3.8.0)
       cucumber-tag_expressions (~> 1.1.0)
       gherkin (>= 5.0.0)
-    cucumber-expressions (6.0.0)
+    cucumber-expressions (6.0.1)
     cucumber-rails (1.6.0)
       capybara (>= 1.1.2, < 4)
       cucumber (>= 3.0.2, < 4)
@@ -262,7 +262,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     mixlib-cli (1.7.0)
-    mixlib-config (2.2.6)
+    mixlib-config (2.2.8)
       tomlrb
     mixlib-log (2.0.4)
     mixlib-shellout (2.3.2)
@@ -442,7 +442,7 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
-    tomlrb (1.2.6)
+    tomlrb (1.2.7)
     turbolinks (5.1.1)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)

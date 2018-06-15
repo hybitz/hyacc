@@ -29,7 +29,7 @@
         <th>累　計</th>
         <th style="width: 4em;">振　替</th>
         <th style="width: 4em;">領収書</th>
-        <th colspan="4"></th>
+        <th colspan="3"></th>
       </tr>
 
       <tr class="cashRow">
@@ -44,7 +44,7 @@
         <td class="amountSum" <%= 'style="color: red;"' if @pre_sum_amount < 0 %>><%= to_amount(@pre_sum_amount, :show_zero => true) %></td>
         <td></td>
         <td></td>
-        <td colspan="4" align="center">
+        <td colspan="3" align="center">
           <%= link_to '△', {:action => 'index', :account_code => @finder.account_code, 'finder[offset]' => @finder.prev_offset, 'finder[keep_paging]' => true} if @finder.prev_offset %>
         </td>
       </tr>
@@ -71,7 +71,7 @@
         <td class="amountSum" <%= 'style="color: red;"' if @sum_amount < 0 %>><%= to_amount( @sum_amount, :show_zero => true ) %></td>
         <td></td>
         <td></td>
-        <td colspan="4" align="center">
+        <td colspan="3" align="center">
           <%= link_to '▽', {:action => 'index', :account_code => @finder.account_code, 'finder[offset]' => @finder.next_offset, 'finder[keep_paging]' => true} if @finder.next_offset %>
         </td>
       </tr>

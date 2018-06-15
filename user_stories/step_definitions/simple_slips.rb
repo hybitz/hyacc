@@ -27,11 +27,13 @@ end
 
     ymd = row[0]
     remarks = row[1]
-    account = Account.where(:name => row[2], :deleted => false).first!
+    account = Account.where(name: row[2], deleted: false).first!
     amount = row[3].gsub(',', '')
     simple_slip = row[4]
 
-    click_on simple_slip
+    within '.menu' do
+      click_on simple_slip
+    end
     assert has_title?(simple_slip)
     assert has_no_selector?('span.notice')
 
@@ -46,7 +48,7 @@ end
         click_on '登録'
       end
       assert has_selector?('.notice')
-      assert has_selector?('#slipTable tbody tr', :count => count + 1)
+      assert has_selector?('#slipTable tbody tr', count: count + 1)
     ensure
       capture
     end
@@ -62,7 +64,7 @@ end
       remarks = row[1]
       simple_slip = row[2]
       amount = row[3].to_ai
-      assert account = Account.where(:name => row[4], :deleted => false).first
+      assert account = Account.where(name: row[4], deleted: false).first
 
       visit_simple_slip(:account => Account.find_by_name(simple_slip))
       assert has_no_selector?('.notice')
@@ -97,7 +99,7 @@ end
     remarks = row[1]
     simple_slip = row[2]
     amount = row[3].gsub(',', '')
-    assert account = Account.where(:name => row[4], :deleted => false).first
+    assert account = Account.where(name: row[4], deleted: false).first
 
     with_capture do
       visit_simple_slip(:account => Account.find_by_name(simple_slip))
@@ -231,23 +233,23 @@ end
 end
 
 もし /^(.*?)で(パソコン|サーバマシン)を購入$/ do |branch_name, what, ast_table|
-  assert @branch = Branch.where(:name => branch_name).first
+  assert @branch = Branch.where(name: branch_name).first
   row = normalize_table(ast_table)[1]
 
   ss = SimpleSlip.new
   ss.ym = row[0].split('-')[0..1].join
   ss.day = row[0].split('-').last
   ss.remarks = row[1]
-  ss.my_account_id = Account.where(:name => row[4], :deleted => false).first.id
-  ss.account_id = Account.where(:name => row[2], :deleted => false).first.id
+  ss.my_account_id = Account.where(name: row[4], deleted: false).first.id
+  ss.account_id = Account.where(name: row[2], deleted: false).first.id
   ss.branch_id = @branch.id
   ss.amount_decrease = row[5].to_ai
 
   create_simple_slip(ss)
 
   with_capture do
-    find_tr '#slipTable', ss.remarks do
-      click_on '参照'
+    within '#slipTable' do
+      click_on ss.remarks
     end
     assert has_dialog?
     

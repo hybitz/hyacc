@@ -82,7 +82,7 @@ end
   click_on action
 end
 
-もし /^任意の簡易伝票の(参照|編集|削除|コピー)をクリックする$/ do |action|
+もし /^任意の簡易伝票の(編集|削除|コピー)をクリックする$/ do |action|
   assert @account = Account.find_by_name(page.title)
 
   assert tr = first('#slipTable tbody tr')
@@ -98,6 +98,19 @@ end
     else
       click_on action
     end
+  end
+end
+
+もし /^任意の簡易伝票をクリックする$/ do
+  assert @account = Account.find_by_name(page.title)
+
+  assert tr = first('#slipTable tbody tr')
+  within tr do
+    @slip = Slips::Slip.new(:account_code => @account.code)
+    @slip.id = tr['slip_id'].to_i
+    @slip.remarks = find('td.remarks').text
+
+    click_on @slip.remarks
   end
 end
 

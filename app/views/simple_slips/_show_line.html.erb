@@ -1,6 +1,12 @@
 <td class="yearMonth"><%= slip.ym %></td>
 <td class="day"><%= slip.day %></td>
-<td class="remarks"><%= slip.remarks %></td>
+<td class="remarks">
+  <% if slip.editable? %>
+    <%= link_to slip.remarks, {:action => :show, :id => slip.id, :account_code => params[:account_code]}, :remote => true %>
+  <% else %>
+    <%= link_to slip.remarks, journal_path(slip.id), :remote => true %>
+  <% end %>
+</td>
 <td class="accountName"><%= slip.account_code + ":" if slip.account_code != HyaccConstants::ACCOUNT_CODE_VARIOUS %> <%= slip.account_name %></td>
 <td class="subAccountName"><%= slip.sub_account_name %></td>
 <td class="branchName"><%= slip.branch_name %></td>
@@ -13,15 +19,6 @@
 <td class="center">
   <%= link_to '(電子)', receipt_path(slip.journal_header.receipt) if slip.journal_header.receipt.present? %>
 </td>
-<td class="action" style="border-right: none;">
-  <%# 編集可能な伝票の場合は簡易登録画面を表示 %>
-  <% if slip.editable? %>
-    <%= link_to '参照', {:action => :show, :id => slip.id, :account_code => params[:account_code]}, :remote => true %>
-  <%# 編集不可能なら振替伝票画面を表示 %>
-  <% else %>
-    <%= link_to '参照', journal_path(slip.id), :remote => true %>
-  <% end %>
-</td>
 <td class="action" style="border-left: none; border-right: none;">
   <%# 編集可能な伝票の場合は簡易登録画面を表示 %>
   <% if slip.editable? %>
@@ -32,7 +29,9 @@
   <% end %>
 </td>
 <td class="action" style="border-left: none; border-right: none;">
-  <%= link_to '削除', {:action=>:destroy, :id=>slip.id, :lock_version=>slip.lock_version, :account_code => params[:account_code]}, data: {confirm: '削除します。よろしいですか？'}, :method => :delete %>
+  <% if slip.editable? %>
+    <%= link_to '削除', {action: :destroy, id: slip.id, lock_version: slip.lock_version, account_code: params[:account_code]}, data: {confirm: '削除します。よろしいですか？'}, method: :delete %>
+  <% end %>
 </td>
 <td class="action" style="border-left: none;">
   <% if slip.editable? %>

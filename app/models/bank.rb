@@ -1,6 +1,4 @@
 class Bank < ApplicationRecord
-  include HyaccErrors
-  
   belongs_to :company
 
   TO_SAME_OFFICE = 1

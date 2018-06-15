@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_26_112730) do
+ActiveRecord::Schema.define(version: 2018_06_15_014938) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -133,6 +133,12 @@ ActiveRecord::Schema.define(version: 2018_05_26_112730) do
     t.datetime "updated_at"
     t.boolean "disabled", default: false, null: false
     t.integer "company_id", null: false
+    t.integer "lt_30k_same_office"
+    t.integer "ge_30k_same_office"
+    t.integer "lt_30k_other_office"
+    t.integer "ge_30k_other_office"
+    t.integer "lt_30k_other_bank"
+    t.integer "ge_30k_other_bank"
   end
 
   create_table "branch_employees", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -256,6 +262,15 @@ ActiveRecord::Schema.define(version: 2018_05_26_112730) do
     t.boolean "depreciated", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "employee_bank_accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.string "code", null: false
+    t.integer "bank_id", null: false
+    t.integer "bank_office_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "employees", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|

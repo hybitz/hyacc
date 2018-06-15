@@ -19,8 +19,6 @@ class Employee < ApplicationRecord
   has_many :exemptions, :dependent => :destroy
   
   has_one :employee_bank_account, :dependent => :destroy
-  has_one :bank_for_pay, :foreign_key => :id, :class_name => 'Bank'
-  has_one :office_for_pay, :foreign_key => :id, :class_name => 'Bank'
 
   attr_accessor :standard_remuneration # 標準報酬月額
   

@@ -1,15 +1,15 @@
 <%= fields_for @e.employee_bank_account do |f| %>
   <table class="table">
     <tr>
-      <th><%= f.label :bank_name %></th>
+      <th>金融機関名称</th>
       <td><%= f.text_field :bank_name %></td>
     </tr>
     <tr>
-      <th><%= f.label :bank_office_name %></th>
+      <th>支店名称</th>
       <td><%= f.text_field :bank_office_name %></td>
     </tr>
     <tr>
-      <th><%= f.label :code %></th>
+      <th>口座番号</th>
       <td><%= f.text_field :code %></td>
     </tr>
   </table>

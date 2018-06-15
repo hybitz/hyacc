@@ -285,8 +285,8 @@ module Auto::Journal
       commission = 0
       employee = Employee.find(@payroll.employee_id)
       ba = BankAccount.find(BANK_ACCOUNT_ID_FOR_PAY)
-      if ba.bank_id == employee.bank_id_for_pay
-        if ba.bank_office_id == employee.office_id_for_pay
+      if ba.bank_id == employee.employee_bank_account.bank_id
+        if ba.bank_office_id == employee.employee_bank_account.bank_office_id
           commission = ba.bank.get_commission(@credit_amount, Bank::TO_SAME_OFFICE)
         else
           commission = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_OFFICE)

@@ -3,21 +3,56 @@ data1:
   company_id: 1
   code: '0116'
   name: 北海道銀行
-
+  lt_30k_same_office: 100
+  ge_30k_same_office: 100
+  lt_30k_other_office: 100
+  ge_30k_other_office: 200
+  lt_30k_other_bank: 400
+  ge_30k_other_bank: 500
+    
 data2:
   id: 2
   company_id: 1
   code: '0036'
-  name: イーバンク銀行
+  name: 楽天銀行
+  lt_30k_same_office: 48
+  ge_30k_same_office: 48
+  lt_30k_other_office: 48
+  ge_30k_other_office: 48
+  lt_30k_other_bank: 153
+  ge_30k_other_bank: 239
 
 data3:
   id: 3
   company_id: 1
   code: '0005'
   name: 三菱東京UFJ銀行
+  lt_30k_same_office: 48
+  ge_30k_same_office: 48
+  lt_30k_other_office: 48
+  ge_30k_other_office: 48
+  lt_30k_other_bank: 153
+  ge_30k_other_bank: 239
 
 b4:
   id: 4
   company_id: 1
   code: '0001'
   name: みずほ銀行
+  lt_30k_same_office: 48
+  ge_30k_same_office: 48
+  lt_30k_other_office: 48
+  ge_30k_other_office: 48
+  lt_30k_other_bank: 153
+  ge_30k_other_bank: 239
+data5:
+  id: 5
+  company_id: 1
+  code: '0040'
+  name: イオン銀行
+  lt_30k_same_office: 48
+  ge_30k_same_office: 48
+  lt_30k_other_office: 48
+  ge_30k_other_office: 48
+  lt_30k_other_bank: 153
+  ge_30k_other_bank: 239

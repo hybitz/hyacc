@@ -24,3 +24,11 @@ data3:
   deleted: 0
   created_at: 2010-04-01 22:35:34
   updated_at: 2010-04-01 22:35:34
+data5:
+  id: 5
+  bank_id: 5
+  name: オパール支店
+  code: 010
+  deleted: 0
+  created_at: 2018-06-01 22:35:34
+  updated_at: 2018-06-01 22:35:34

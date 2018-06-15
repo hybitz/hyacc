@@ -1,7 +1,62 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+data1:
+  id: 1
+  employee_id: 1
+  code: 1234567
+  bank_id: 1
+  bank_office_id: 1
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
+data2:
+  id: 2
+  employee_id: 2
+  code: 1234567
+  bank_id: 3
+  bank_office_id: 3
 
+data3:
+  id: 3
+  employee_id: 3
+  code: 1234567
+  bank_id: 1
+  bank_office_id: 1
+
+data4:
+  id: 4
+  employee_id: 4
+  code: 1234567
+  bank_id: 3
+  bank_office_id: 3
+
+data5:
+  id: 5
+  employee_id: 5
+  code: 1234567
+  bank_id: 3
+  bank_office_id: 3
+
+data6:
+  id: 6
+  employee_id: 6
+  code: 1234567
+  bank_id: 3
+  bank_office_id: 3
+
+data7:
+  id: 7
+  employee_id: 7
+  code: 1234567
+  bank_id: 3
+  bank_office_id: 3
+
+data8:
+  id: 8
+  employee_id: 8
+  code: 1234567
+  bank_id: 3
+  bank_office_id: 3
+
+data9:
+  id: 9
+  employee_id: 9
+  code: 1234567
+  bank_id: 3
+  bank_office_id: 3

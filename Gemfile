@@ -7,7 +7,6 @@ ruby '~> 2.5.0'
 gem 'rails', '~> 5.2.0'
 
 gem 'activerecord-session_store'
-gem 'activerecord-import'
 gem 'acts_as_tree'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap'

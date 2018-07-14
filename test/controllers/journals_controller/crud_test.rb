@@ -466,34 +466,6 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_equal 1, jh.transfer_journals[0].transfer_journals.size(), "自動振替仕訳が削除されていないこと"
   end
 
-  def test_destroy
-    jh = JournalHeader.find(10)
-
-    delete :destroy, :params => {:id => jh.id, :lock_version => jh.lock_version}
-    assert_response :redirect
-    assert_redirected_to :action => 'index'
-
-    assert_raise(ActiveRecord::RecordNotFound) {
-      JournalHeader.find(jh.id)
-    }
-  end
-
-  def test_前払振替の伝票は削除できない
-    assert_no_difference 'JournalHeader.count' do
-      delete :destroy, :params => {:id => '5695'}
-      assert_response :redirect
-      assert_redirected_to :action => 'index'
-    end
-  end
-
-  def test_台帳登録の伝票は削除できない
-    assert_no_difference 'JournalHeader.count' do
-      delete :destroy, :params => {:id => '5697'}
-      assert_response :redirect
-      assert_redirected_to :action => 'index'
-    end
-  end
-
   def test_編集_不正な伝票区分の場合は編集画面に遷移できないこと
     get :edit, :xhr => true, :params => {:id => 5}
     assert_response :redirect

@@ -3,6 +3,8 @@ var options = {
 };
 
 options.buttons = [];
+
+<% if can_edit(@journal) %>
 options.buttons.push(
   {
     text: '編集',
@@ -13,6 +15,7 @@ options.buttons.push(
     }
   }
 );
+<% end %>
 
 <% if @copy_link %>
   options.buttons.push(
@@ -22,6 +25,36 @@ options.buttons.push(
       click: function() {
         hyacc.current_dialog().close();
         $.get('<%= url_for new_journal_path(:copy_id => @journal) %>');
+      }
+    }
+  );
+<% end %>
+
+<% if can_delete(@journal) %>
+  options.buttons.push(
+    {
+      text: '削除',
+      class: 'btn btn-light',
+      click: function() {
+        if (!confirm('伝票を削除します。よろしいですか？')) {
+          return;
+        }
+  
+        var params = {
+          authenticity_token: '<%= form_authenticity_token %>',
+          _method: 'delete',
+          lock_version: <%= @journal.lock_version %>
+        };
+        var result = $.post('<%= url_for journal_path(@journal) %>', params);
+        result.then(
+          function() {
+            hyacc.current_dialog().close();
+            location.reload();
+          },
+          function() {
+            alert('エラーが発生しました。');
+          }
+        );
       }
     }
   );

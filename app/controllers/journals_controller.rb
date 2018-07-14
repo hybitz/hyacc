@@ -136,7 +136,11 @@ class JournalsController < Base::HyaccController
     end
 
     # 正常終了でもエラーでもリストへ戻る
-    redirect_to :action => 'index'
+    if request.xhr?
+      head :ok
+    else
+      redirect_to :action => 'index'
+    end
   end
 
   def get_allocation

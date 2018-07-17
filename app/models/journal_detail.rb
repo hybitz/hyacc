@@ -15,6 +15,8 @@ class JournalDetail < ApplicationRecord
   attr_accessor :investment_id
 
   belongs_to :journal_header, :inverse_of => 'journal_details'
+  belongs_to :account
+  belongs_to :branch
 
   has_one :asset, :dependent => :destroy
   accepts_nested_attributes_for :asset
@@ -43,22 +45,6 @@ class JournalDetail < ApplicationRecord
 
   def deleted?
     marked_for_destruction?
-  end
-
-  def account
-    account_id ? Account.find(self.account_id) : nil
-  end
-
-  def account=(account)
-    self.account_id = account ? account.id : nil
-  end
-
-  def branch
-    Branch.find(self.branch_id)
-  end
-
-  def branch=(branch)
-    self.branch_id = branch ? branch.id : nil
   end
 
   def dc_type_name

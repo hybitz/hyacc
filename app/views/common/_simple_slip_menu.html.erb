@@ -9,7 +9,10 @@
     <% current_user.simple_slip_settings.each do |sss| %>
       Mousetrap.bindGlobal('<%= sss.shortcut_key.downcase %>', function(e) {
         e.preventDefault();
-        document.location.href = '<%= url_for :controller => '/simple_slips', :account_code => sss.account.code %>';
+        setTimeout(function() {
+          document.location.href = '<%= url_for :controller => '/simple_slips', :account_code => sss.account.code %>';
+        }, 0);
+        return false;
       });
     <% end %>
   });

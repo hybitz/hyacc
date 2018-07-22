@@ -15,9 +15,7 @@ class User < ApplicationRecord
   validates_format_of :google_account, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
 
   has_many :simple_slip_settings, -> { order(:shortcut_key) }
-  accepts_nested_attributes_for :simple_slip_settings, :allow_destroy => true
-
-  before_create :set_default_simple_slip_settings
+  accepts_nested_attributes_for :simple_slip_settings, allow_destroy: true
 
   def self.from_omniauth(access_token)
     data = access_token.info
@@ -51,9 +49,4 @@ class User < ApplicationRecord
     LoginMailer.invoice_login(self).deliver_now
   end
 
-  private
-
-  def set_default_simple_slip_settings
-    SimpleSlipSetting.set_default_simple_slip_settings(self)
-  end
 end

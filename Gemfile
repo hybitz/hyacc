@@ -33,7 +33,6 @@ gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 gem 'nostalgic'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
-gem 'puma', '~> 3.11'
 gem 'rails-i18n'
 gem 'redis', '~> 4.0'
 gem 'redis-namespace'
@@ -53,6 +52,7 @@ gem 'zengin_code'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'puma', '~> 3.11'
 end
 
 group :development do

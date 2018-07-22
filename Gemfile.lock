@@ -218,7 +218,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor
-    itamae-plugin-recipe-daddy (0.1.1)
+    itamae-plugin-recipe-daddy (0.1.2)
     itamae-plugin-resource-pip (1.0.0)
       itamae (~> 1.2)
     jbuilder (2.7.0)

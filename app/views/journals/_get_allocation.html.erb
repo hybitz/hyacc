@@ -2,12 +2,25 @@
   <div id="jd_<%= index %>_allocation">
     <% if jd.allocatable? %>
       <strong><%= jd.account.account_type_name %>配賦</strong>
-      <div>
-        <label>
-          <%= f.check_box :allocation_type, {include_hidden: false}, ALLOCATION_TYPE_EVEN_BY_SIBLINGS %>
-          <%= ALLOCATION_TYPES[ALLOCATION_TYPE_EVEN_BY_SIBLINGS] %>
-        </label>
-      </div>
+
+      <% if jd.branch.children.present? %>
+        <div>
+          <label>
+            <%= f.check_box :allocation_type, {include_hidden: false}, ALLOCATION_TYPE_EVEN_BY_CHILDREN %>
+            <%= ALLOCATION_TYPES[ALLOCATION_TYPE_EVEN_BY_CHILDREN] %>
+          </label>
+        </div>
+      <% end %>
+
+      <% if jd.branch.siblings.present? %>
+        <div>
+          <label>
+            <%= f.check_box :allocation_type, {include_hidden: false}, ALLOCATION_TYPE_EVEN_BY_SIBLINGS %>
+            <%= ALLOCATION_TYPES[ALLOCATION_TYPE_EVEN_BY_SIBLINGS] %>
+          </label>
+        </div>
+      <% end %>
+
       <div>
         <label>
           <%= f.check_box :allocation_type, {include_hidden: false, disabled: true}, ALLOCATION_TYPE_SHARE_BY_EMPLOYEE_RATIO %>

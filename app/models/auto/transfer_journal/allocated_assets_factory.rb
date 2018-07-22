@@ -32,14 +32,10 @@ module Auto::TransferJournal
       # 仮負債
       temp_debt = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
       
-      # 部門情報取得
-      src_branch = Branch.find(src_jd.branch_id)
-      parent = src_branch.head_office? ? src_branch : src_branch.parent
-
       # 資産明細の作成
-      JournalUtil.make_allocated_cost(parent.id, src_jd.amount).each do |branch_id, cost|
-        # サブ部門の場合は自身の仮負債を作成しない
-        next if not src_branch.head_office? and branch_id == src_jd.branch_id
+      JournalUtil.make_allocated_cost(src_jd.amount, src_jd.allocation_type, src_jd.branch).each do |branch_id, cost|
+        # 自身の仮負債を作成しない
+        next if branch_id == src_jd.branch_id
 
         # 仮資産（借方）
         jd = jh.journal_details.build

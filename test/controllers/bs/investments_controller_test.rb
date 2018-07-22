@@ -12,7 +12,7 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
   end
 
   def test_検索
-    get :index, :params => {:finder => {:fiscal_year => 2016, :bank_account_id => 3}}
+    get :index, params: {finder: {fiscal_year: 2016, bank_account_id: 3}}
     assert_response :success
   end
 

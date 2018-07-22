@@ -12,7 +12,8 @@ module HyaccConstants
   # 配賦区分
   ALLOCATION_TYPES = {
     ALLOCATION_TYPE_EVEN_BY_SIBLINGS = 1 => '同列部門に均等に',
-    ALLOCATION_TYPE_SHARE_BY_EMPLOYEE_RATIO = 2 => '社員数に応じて'
+    ALLOCATION_TYPE_SHARE_BY_EMPLOYEE_RATIO = 2 => '社員数に応じて',
+    ALLOCATION_TYPE_EVEN_BY_CHILDREN = 3 => '子部門に均等に',
   }
 
   # 承認ステータス

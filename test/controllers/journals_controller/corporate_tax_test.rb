@@ -22,7 +22,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     post_jh.journal_details[0].settlement_type = SETTLEMENT_TYPE_FULL
     post_jh.journal_details[0].input_amount = 100000
     post_jh.journal_details[0].tax_type = 1
-    post_jh.journal_details[0].allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+    post_jh.journal_details[0].allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
     post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details << JournalDetail.new
@@ -30,7 +30,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     post_jh.journal_details[1].account_id = 2 # 現金
     post_jh.journal_details[1].input_amount = 100000
     post_jh.journal_details[1].tax_type = 1
-    post_jh.journal_details[1].allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+    post_jh.journal_details[1].allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
 

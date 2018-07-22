@@ -37,7 +37,7 @@ module Auto::TransferJournal
       end
       
       # 配賦明細の作成
-      JournalUtil.make_allocated_cost(src_jd.branch_id, src_jd.amount).each do |branch_id, cost|
+      JournalUtil.make_allocated_cost(src_jd.amount, src_jd.allocation_type, src_jd.branch).each do |branch_id, cost|
         # 本社費用負担
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size

@@ -176,10 +176,21 @@ module JournalUtil
     end
   end
 
-  # 費用配賦を計算する
+  # 配賦額を計算する
   # 配賦不可能な場合は空のハッシュを返す
-  def self.make_allocated_cost(branch_id, cost)
-    branches = Branch.find(branch_id).children.where(deleted: false)
+  def self.make_allocated_cost(cost, allocation_type, branch)
+    case allocation_type
+    when ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+      parent = branch.parent
+    when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE_RATIO
+      parent = nil
+    when ALLOCATION_TYPE_EVEN_BY_CHILDREN
+      parent = branch
+    else
+      raise "不正な配賦区分です。allocation_type=#{allocation_type}"
+    end
+
+    branches = parent.children.where(deleted: false)
     return {} if branches.empty?
 
     allocated_costs = {}

@@ -19,7 +19,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[0].input_amount = 100
     post_jh.journal_details[0].tax_type = TAX_TYPE_INCLUSIVE
     post_jh.journal_details[0].tax_rate_percent = 5
-    post_jh.journal_details[0].allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+    post_jh.journal_details[0].allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
     post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details << JournalDetail.new
@@ -31,7 +31,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].detail_no = 2
 
     assert_difference 'JournalHeader.count', 4 do
-      post :create, :params => {
+      post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -44,7 +44,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
               :input_amount => post_jh.journal_details[0].input_amount,
               :tax_type => post_jh.journal_details[0].tax_type,
               :tax_rate_percent => post_jh.journal_details[0].tax_rate_percent,
-              :allocation_type => ALLOCATION_TYPE_EVEN_BY_SIBLINGS,
+              :allocation_type => post_jh.journal_details[0].allocation_type,
               :dc_type => post_jh.journal_details[0].dc_type
             },
             '2' => {
@@ -116,7 +116,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.tax_type = TAX_TYPE_INCLUSIVE
     jd.tax_rate_percent = 5
     jd.tax_amount = 4
-    jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+    jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
     jd.dc_type = DC_TYPE_DEBIT # 借方
     jd.auto_journal_type = AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
 
@@ -128,7 +128,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
-      post :create, :xhr => true, :params => {
+      post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -186,7 +186,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.input_amount = 100
     jd.tax_type = TAX_TYPE_INCLUSIVE
     jd.tax_rate_percent = 5
-    jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+    jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
     jd.dc_type = DC_TYPE_DEBIT # 借方
     jd.auto_journal_type = AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
 
@@ -256,7 +256,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.input_amount = 100
     jd.tax_type = TAX_TYPE_INCLUSIVE
     jd.tax_rate_percent = 5
-    jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+    jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
     jd.dc_type = DC_TYPE_DEBIT # 借方
     jd.auto_journal_type = AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
     jd.auto_journal_year = 2009
@@ -271,7 +271,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
     assert_difference 'JournalHeader.count', 6 do
-      post :create, :xhr => true, :params => {
+      post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -332,7 +332,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[0].settlement_type = SETTLEMENT_TYPE_FULL
     post_jh.journal_details[0].input_amount = 100000
     post_jh.journal_details[0].tax_type = 1
-    post_jh.journal_details[0].allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+    post_jh.journal_details[0].allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
     post_jh.journal_details[0].dc_type = DC_TYPE_DEBIT # 借方
     post_jh.journal_details[0].detail_no = 1
     post_jh.journal_details << JournalDetail.new
@@ -340,7 +340,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].account_id = 2 # 現金
     post_jh.journal_details[1].input_amount = 100000
     post_jh.journal_details[1].tax_type = 1
-    post_jh.journal_details[1].allocation_type = ALLOCATION_TYPE_EVEN_BY_SIBLINGS
+    post_jh.journal_details[1].allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
 

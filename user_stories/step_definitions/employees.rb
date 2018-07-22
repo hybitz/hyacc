@@ -25,7 +25,7 @@
 end
 
 もし /^(.*?)を(.*?)に配属$/ do |first_name, branch_name|
-  assert @employee = Employee.where(:first_name => first_name, :deleted => false).first
+  assert @employee = Employee.where(first_name: first_name, deleted: false).first
 
   visit_employees
 
@@ -40,10 +40,10 @@ end
     with_capture do
       assert has_selector?('#branch_employees_table')
       click_on '部門追加'
-      assert has_selector?('#branch_employees_table tbody tr', :count => 1)
+      assert has_selector?('#branch_employees_table tbody tr', count: 1)
 
       within first('#branch_employees_table tbody tr') do
-        select branch_name, :from => find('[name*="\[branch_id\]"]')['id']
+        select branch_name, from: find('[name*="\[branch_id\]"]')['id']
         check find('[name*="\[default_branch\]"]')['id']
       end
     end
@@ -53,5 +53,11 @@ end
   with_capture do
     assert has_no_dialog?
     assert has_selector?('.notice')
+  end
+
+  sign_in(@employee.user, force: true)
+  with_capture { visit_profile }
+  [ ACCOUNT_CODE_CASH, ACCOUNT_CODE_ORDINARY_DIPOSIT, ACCOUNT_CODE_RECEIVABLE ].each_with_index do |account_code, i|
+    add_shortcut("Ctrl+#{i+1}", account_code)
   end
 end

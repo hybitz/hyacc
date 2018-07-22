@@ -1,6 +1,10 @@
 module Login
 
-  def sign_in(user)
+  def sign_in(user, options = {})
+    if options.fetch(:force, false)
+      sign_out if has_link?('ログアウト')
+    end
+
     visit '/users/sign_in'
     assert has_selector?('form.new_user')
     fill_in 'ログインID', :with => user.login_id
@@ -18,6 +22,7 @@ module Login
   def sign_out
     click_on 'ログアウト'
     assert has_selector?('form.new_user')
+    @_current_user = nil
   end
 
   def current_user
@@ -25,7 +30,7 @@ module Login
   end
 
   def current_company
-    @_current_user.employee.company
+    @_current_user.try(:employee).try(:company)
   end
 end
 

@@ -221,7 +221,7 @@ end
 end
 
 もし /^(.*?)の実績$/ do |branch_name, ast_table|
-  assert @branch = Branch.where(:name => branch_name).first
+  assert @branch = Branch.where(name: branch_name).first
 
   sign_out if current_user
   sign_in(@branch.employees.first.user)

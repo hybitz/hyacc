@@ -3,3 +3,8 @@ application: hyacc
 cucumber:
   use_feature_name: false
   title: Hyacc
+
+web:
+  server_name: localhost
+app:
+  type: passenger

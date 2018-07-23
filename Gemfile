@@ -68,14 +68,14 @@ end
 
 group :test do
   gem 'capybara', '>= 2.15', '< 4.0'
-  gem 'ci_reporter', :require => false
-  gem 'closer'
-  gem 'cucumber-rails', :require => false
-  gem 'database_cleaner', :require => false
+  gem 'ci_reporter', require: false
+  gem 'closer', require: false
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner', require: false
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'
-  gem 'simplecov', :require => false
-  gem 'simplecov-rcov', :require => false
+  gem 'simplecov', require: false
+  gem 'simplecov-rcov', require: false
 end

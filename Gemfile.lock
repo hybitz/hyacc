@@ -63,7 +63,7 @@ GEM
     bindex (0.5.0)
     bootsnap (1.3.1)
       msgpack (~> 1.0)
-    bootstrap (4.1.1)
+    bootstrap (4.1.2)
       autoprefixer-rails (>= 6.0.3)
       popper_js (>= 1.12.9, < 2)
       sass (>= 3.5.2)
@@ -262,7 +262,7 @@ GEM
     mixlib-config (2.2.13)
       tomlrb
     mixlib-log (2.0.4)
-    mixlib-shellout (2.3.2)
+    mixlib-shellout (2.4.0)
     momentjs-rails (2.20.1)
       railties (>= 3.1)
     mousetrap-rails (1.4.6)

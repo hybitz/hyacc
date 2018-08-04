@@ -101,7 +101,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal 1, jd.count
   end
 
-  def test_should_get_create_advance_money_for_inhabitant_tax
+  def test_should_create_advance_money_for_inhabitant_tax
     sign_in user
 
     finder = PayrollFinder.new(current_user)
@@ -113,12 +113,14 @@ class PayrollsControllerTest < ActionController::TestCase
     employee_id = 2
     post :create, params: {payroll: payroll_params(ym: ym, employee_id: employee_id)}, xhr: true
     assert_response :success
-    assert assigns(:payroll).errors.empty?
     assert_template 'common/reload'
+    assert @payroll = assigns(:payroll) 
+    assert @payroll.errors.empty?
 
     # 登録された仕訳をチェック
-    pr = Payroll.find_by_ym_and_employee_id(ym, employee_id)
+    pr = Payroll.find(@payroll.id)
     assert_equal Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY, pr.credit_account_type_of_inhabitant_tax
+
     advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     temp_pay_tax = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
@@ -146,7 +148,7 @@ class PayrollsControllerTest < ActionController::TestCase
     # 仮払消費税として登録されていること
     jd = JournalDetail.where("journal_header_id=? and account_id=?", pr.commission_journal_header_id, temp_pay_tax.id)
     assert_equal 1, jd.count
-    assert_equal 25, jd[0].amount
+    assert_equal 25, jd[0].amount, jd[0].attributes.to_yaml
   end
 
   def test_should_get_create_with_errors

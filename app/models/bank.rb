@@ -5,8 +5,8 @@ class Bank < ApplicationRecord
   TO_OTHER_OFFICE = 2
   TO_OTHER_BANK = 3
   
-  validates :code, :presence => true
-  validates :name, :presence => true
+  validates :code, presence: true
+  validates :name, presence: true
 
   has_many :bank_offices
   accepts_nested_attributes_for :bank_offices

@@ -182,7 +182,7 @@ module JournalUtil
     case allocation_type
     when ALLOCATION_TYPE_EVEN_BY_SIBLINGS
       parent = branch.parent
-    when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE_RATIO
+    when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
       parent = nil
     when ALLOCATION_TYPE_EVEN_BY_CHILDREN
       parent = branch

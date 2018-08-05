@@ -17,43 +17,11 @@ class VUnpaidEmployeeTest < ActiveSupport::TestCase
     sums = VUnpaidEmployee.net_sums_by_branch(e)
     assert_equal 2, sums.size
     
-    assert sum1 = sums.find{|sum| sum.branch_id == c.branches.first.id }
-    assert_equal 2000, sum1.amount
+    assert sum1 = sums.find{|sum| sum[0] == c.branches.first.id }
+    assert_equal 2000, sum1[1]
 
-    assert sum2 = sums.find{|sum| sum.branch_id == c.branches.second.id }
-    assert_equal 4000, sum2.amount
+    assert sum2 = sums.find{|sum| sum[0] == c.branches.second.id }
+    assert_equal 4000, sum2[1]
   end
 
-  private
-
-  def create_journal(options = {})
-    c = options[:company]
-    b = options[:branch]
-    e = options[:employee]
-
-    ret = JournalHeader.new
-    ret.company = options[:company]
-    ret.date = c.current_fiscal_year.start_day + rand(365).days
-    ret.remarks = 'テスト'
-    ret.slip_type = SLIP_TYPE_TRANSFER
-    ret.create_user_id = ret.update_user_id = e.user_id
-    
-    jd = ret.journal_details.build
-    jd.detail_no = ret.journal_details.size
-    jd.dc_type = DC_TYPE_DEBIT
-    jd.account = expense_account
-    jd.branch = b
-    jd.amount = options[:amount]
-
-    jd = ret.journal_details.build
-    jd.detail_no = ret.journal_details.size
-    jd.dc_type = DC_TYPE_CREDIT
-    jd.account = Account.find_by_code(ACCOUNT_CODE_UNPAID_EMPLOYEE)
-    jd.sub_account_id = e.id
-    jd.branch = b
-    jd.amount = options[:amount]
-    
-    assert ret.save, ret.errors.full_messages.join("\n")
-    ret
-  end
 end

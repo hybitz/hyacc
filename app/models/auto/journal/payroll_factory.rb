@@ -233,18 +233,18 @@ module Auto::Journal
       if @payroll.accrued_liability > 0
         account = VUnpaidEmployee.account
         total_amount = @payroll.accrued_liability
-        VUnpaidEmployee.net_sums_by_branch(employee, order: 'amount').each do |sum|
+        VUnpaidEmployee.net_sums_by_branch(employee, order: 'amount').each do |branch_id, amount|
           detail = journal_header.journal_details.build
           detail.detail_no = journal_header.journal_details.size
           detail.dc_type = DC_TYPE_DEBIT
           detail.account = account
           detail.sub_account_id = employee.id
-          detail.branch_id = sum.branch_id
+          detail.branch_id = branch_id
           detail.note = "立替費用の精算"
           
-          if total_amount > sum.amount
-            detail.amount = sum.amount
-            total_amount -= sum.amount
+          if total_amount > amount
+            detail.amount = amount
+            total_amount -= amount
           else
             detail.amount = total_amount
             break

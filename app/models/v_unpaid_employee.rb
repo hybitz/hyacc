@@ -40,18 +40,15 @@ EOS
 
     ret = {}
     sums.each do |sum|
-      if ret[sum.branch_id]
-        if sum.dc_type == account.dc_type
-          ret[sum.branch_id].amount += sum.amount
-        else
-          ret[sum.branch_id].amount -= sum.amount
-        end
+      ret[sum.branch_id] ||= 0
+      if sum.dc_type == account.dc_type
+        ret[sum.branch_id] += sum.amount
       else
-        ret[sum.branch_id] = sum
+        ret[sum.branch_id] -= sum.amount
       end
     end
 
-    ret.values
+    ret
   end
   
 end

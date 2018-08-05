@@ -111,7 +111,9 @@ class PayrollsControllerTest < ActionController::TestCase
 
     ym = 200904
     employee_id = 2
-    post :create, params: {payroll: payroll_params(ym: ym, employee_id: employee_id)}, xhr: true
+    post :create, xhr: true, params: {
+        payroll: payroll_params(ym: ym, employee_id: employee_id, accrued_liability: 0)
+      }
     assert_response :success
     assert_template 'common/reload'
     assert @payroll = assigns(:payroll) 

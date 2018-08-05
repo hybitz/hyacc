@@ -8,7 +8,7 @@ class Branch < ApplicationRecord
   validates :formal_name, presence: true
 
   has_many :branch_employees
-  has_many :employees, :through => :branch_employees
+  has_many :employees, through: :branch_employees
 
   before_save :set_name
   before_save :set_path

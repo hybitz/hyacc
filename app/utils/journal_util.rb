@@ -177,30 +177,31 @@ module JournalUtil
   end
 
   # 配賦額を計算する
-  # 配賦不可能な場合は空のハッシュを返す
-  def self.make_allocated_cost(cost, allocation_type, branch)
-    case allocation_type
+  def self.make_allocated_cost(journal_detail)
+    case journal_detail.allocation_type
     when ALLOCATION_TYPE_EVEN_BY_SIBLINGS
-      parent = branch.parent
+      make_allocation(journal_detail.amount, journal_detail.branch.parent)
     when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
       parent = nil
     when ALLOCATION_TYPE_EVEN_BY_CHILDREN
-      parent = branch
+      make_allocation(journal_detail.amount, journal_detail.branch)
     else
       raise "不正な配賦区分です。allocation_type=#{allocation_type}"
     end
+  end
 
-    branches = parent.children.where(deleted: false)
+  def self.make_allocation(cost, branch)
+    branches = branch.children.where(deleted: false)
     return {} if branches.empty?
 
-    allocated_costs = {}
+    ret = {}
 
     costs = HyaccUtil.divide(cost, branches.size)
     branches.each_with_index do |b, i|
-      allocated_costs[b.id] = costs[i]
+      ret[b.id] = costs[i]
     end
 
-    allocated_costs
+    ret
   end
 
   # 伝票登録時の経理締めチェック

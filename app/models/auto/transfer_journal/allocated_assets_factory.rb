@@ -33,7 +33,7 @@ module Auto::TransferJournal
       temp_debt = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
       
       # 資産明細の作成
-      JournalUtil.make_allocated_cost(src_jd.amount, src_jd.allocation_type, src_jd.branch).each do |branch_id, cost|
+      JournalUtil.make_allocated_cost(src_jd).each do |branch_id, cost|
         # 自身の仮負債を作成しない
         next if branch_id == src_jd.branch_id
 

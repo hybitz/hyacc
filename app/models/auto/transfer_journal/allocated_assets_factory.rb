@@ -2,8 +2,7 @@ module Auto::TransferJournal
   
   # 資産の自動配賦
   class AllocatedAssetsFactory < Auto::AutoJournalFactory
-    include Auto::TransferJournal::TransferJournalUtil
-    
+
     def initialize( auto_journal_param )
       super( auto_journal_param )
       @src_jd = auto_journal_param.journal_detail
@@ -11,20 +10,12 @@ module Auto::TransferJournal
     end
     
     def make_journals
-      make_journal_allocated_assets(@src_jd)
-    end
-    
-    private  
-
-    def make_journal_allocated_assets(src_jd)
-      jh = src_jd.transfer_journals.build(auto: true)
+      jh = @src_jd.transfer_journals.build(auto: true)
       jh.company_id = @src_jh.company_id
-      jh.ym = @src_jh.ym
-      jh.day = @src_jh.day
+      jh.date = @src_jh.date
       jh.slip_type = SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_ASSETS
-      jh.remarks = get_remarks(@src_jh.remarks, src_jd.account_id)
-      jh.create_user_id = @src_jh.create_user_id
-      jh.update_user_id = @src_jh.update_user_id
+      jh.remarks = Auto::TransferJournal::TransferJournalUtil.get_remarks(@src_jh.remarks, @src_jd.account_id)
+      jh.create_user_id = jh.update_user_id = @src_jh.update_user_id
       
       # 明細作成準備
       # 仮資産
@@ -33,16 +24,16 @@ module Auto::TransferJournal
       temp_debt = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
       
       # 資産明細の作成
-      JournalUtil.make_allocated_cost(src_jd).each do |branch_id, cost|
+      JournalUtil.make_allocated_cost(@src_jd).each do |branch_id, cost|
         # 自身の仮負債を作成しない
-        next if branch_id == src_jd.branch_id
+        next if branch_id == @src_jd.branch_id
 
         # 仮資産（借方）
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = temp_assets.id
-        jd.branch_id = src_jd.branch_id
+        jd.branch_id = @src_jd.branch_id
         jd.amount = cost
 
         # 仮負債（貸方）
@@ -50,7 +41,7 @@ module Auto::TransferJournal
         jd2.detail_no = jh.journal_details.size
         jd2.dc_type = DC_TYPE_CREDIT
         jd2.account_id = temp_debt.id
-        jd2.sub_account_id = temp_debt.get_sub_account_by_code( Branch.find(src_jd.branch_id).code ).id
+        jd2.sub_account_id = temp_debt.get_sub_account_by_code(Branch.find(@src_jd.branch_id).code).id
         jd2.branch_id = branch_id
         jd2.amount = cost
       end

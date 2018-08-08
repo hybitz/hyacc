@@ -43,10 +43,16 @@ module Companies
     @_company_of_tax_inclusive
   end
 
-  def valid_company_params
+  def company_params(options = {})
     {
-      :admin_email => 'admin@example.com',
-      :business_type_id => BusinessType.first.id
+      admin_email: 'admin@example.com',
+      business_type_id: BusinessType.first.id
     }
+  end
+  
+  def create_company(options = {})
+    ret = Company.new(company_params.merge(founded_date: Date.today - rand(3).years, name: 'テスト会社', start_month_of_fiscal_year: rand(12) + 1))
+    assert ret.save, ret.errors.full_messages
+    ret
   end
 end

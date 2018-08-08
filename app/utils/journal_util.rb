@@ -180,26 +180,50 @@ module JournalUtil
   def self.make_allocated_cost(journal_detail)
     case journal_detail.allocation_type
     when ALLOCATION_TYPE_EVEN_BY_SIBLINGS
-      make_allocation(journal_detail.amount, journal_detail.branch.parent)
+      branches = journal_detail.branch.siblings.where(deleted: false)
+      make_allocation(journal_detail.amount, branches)
     when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
-      parent = nil
+      branches = journal_detail.branch.self_and_descendants.where(deleted: false)
+      make_capitation(journal_detail.amount, branches)
     when ALLOCATION_TYPE_EVEN_BY_CHILDREN
-      make_allocation(journal_detail.amount, journal_detail.branch)
+      branches = journal_detail.branch.children.where(deleted: false)
+      make_allocation(journal_detail.amount, branches)
     else
       raise "不正な配賦区分です。allocation_type=#{allocation_type}"
     end
   end
 
-  def self.make_allocation(cost, branch)
-    branches = branch.children.where(deleted: false)
+  def self.make_allocation(cost, branches)
     return {} if branches.empty?
-
+  
     ret = {}
-
+  
     costs = HyaccUtil.divide(cost, branches.size)
     branches.each_with_index do |b, i|
-      ret[b.id] = costs[i]
+      ret[b] = costs[i]
     end
+  
+    ret
+  end
+
+  def self.make_capitation(cost, branches)
+    ret = {}
+
+    denominator = branches.inject(0){|sum, b| sum + b.branch_employees.where(default_branch: true).size }
+    total = 0
+    branch_for_leftover = nil
+
+    branches.each do |b|
+      numerator = b.branch_employees.where(default_branch: true).size
+      next if numerator == 0
+      
+      branch_for_leftover ||= b
+      amount = cost * numerator / denominator
+      ret[b] = amount
+      total += amount
+    end
+    
+    ret[branch_for_leftover] += (cost - total) if total > 0
 
     ret
   end

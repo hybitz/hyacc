@@ -56,7 +56,7 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
   end
   
   def test_更新
-    patch :update, :xhr => true, :params => {:id => current_company.id, :company => valid_company_params}
+    patch :update, :xhr => true, :params => {:id => current_company.id, company: company_params}
     assert_response :success
     assert_equal 'document.location.reload();', @response.body
   end

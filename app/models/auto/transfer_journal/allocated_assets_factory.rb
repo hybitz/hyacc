@@ -24,16 +24,16 @@ module Auto::TransferJournal
       temp_debt = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
       
       # 資産明細の作成
-      JournalUtil.make_allocated_cost(@src_jd).each do |branch_id, cost|
+      JournalUtil.make_allocated_cost(@src_jd).each do |branch, cost|
         # 自身の仮負債を作成しない
-        next if branch_id == @src_jd.branch_id
+        next if branch.id == @src_jd.branch_id
 
         # 仮資産（借方）
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = temp_assets.id
-        jd.branch_id = @src_jd.branch_id
+        jd.branch = @src_jd.branch
         jd.amount = cost
 
         # 仮負債（貸方）
@@ -41,8 +41,8 @@ module Auto::TransferJournal
         jd2.detail_no = jh.journal_details.size
         jd2.dc_type = DC_TYPE_CREDIT
         jd2.account_id = temp_debt.id
-        jd2.sub_account_id = temp_debt.get_sub_account_by_code(Branch.find(@src_jd.branch_id).code).id
-        jd2.branch_id = branch_id
+        jd2.sub_account_id = temp_debt.get_sub_account_by_code(@src_jd.branch.code).id
+        jd2.branch = branch
         jd2.amount = cost
       end
     end

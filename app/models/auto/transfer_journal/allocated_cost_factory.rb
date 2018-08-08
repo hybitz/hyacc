@@ -30,13 +30,13 @@ module Auto::TransferJournal
       end
       
       # 配賦明細の作成
-      JournalUtil.make_allocated_cost(@src_jd).each do |branch_id, cost|
+      JournalUtil.make_allocated_cost(@src_jd).each do |branch, cost|
         # 本社費用負担
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = account_cost_share.id
-        jd.branch_id = branch_id
+        jd.branch = branch
         jd.amount = cost
 
         # 本社費用配賦
@@ -44,8 +44,8 @@ module Auto::TransferJournal
         jd2.detail_no = jh.journal_details.size
         jd2.dc_type = DC_TYPE_CREDIT
         jd2.account_id = account_cost.id
-        jd2.sub_account_id = account_cost.get_sub_account_by_code(Branch.find(branch_id).code).id
-        jd2.branch_id = @src_jd.branch_id
+        jd2.sub_account_id = account_cost.get_sub_account_by_code(branch.code).id
+        jd2.branch = @src_jd.branch
         jd2.amount = cost
       end
     end

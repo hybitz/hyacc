@@ -2,17 +2,17 @@ class Company < ApplicationRecord
   belongs_to :business_type, optional: true
   has_many :branches, -> { where deleted: false }
 
-  has_many :business_offices, -> { where deleted: false }, :inverse_of => 'company'
+  has_many :business_offices, -> { where deleted: false }, inverse_of: 'company'
   accepts_nested_attributes_for :business_offices
 
   has_many :employees, -> { where deleted: false }
   has_many :users, :through => 'employees'
   has_many :fiscal_years, -> { where deleted: false }
 
-  validates :name, :presence => true
-  validates :founded_date, :presence => true
-  validates :admin_email, :email => {:allow_blank => true}
-  validates :enterprise_number, :numericality => {:allow_blank => true}
+  validates :name, presence: true
+  validates :founded_date, presence: true
+  validates :admin_email, email: {allow_blank: true}
+  validates :enterprise_number, numericality: {allow_blank: true}
 
   mount_uploader :logo, LogoUploader
 

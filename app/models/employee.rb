@@ -13,12 +13,12 @@ class Employee < ApplicationRecord
   has_many :branch_employees, -> { where deleted: false }
   accepts_nested_attributes_for :branch_employees
 
-  has_many :branches, :through => :branch_employees
-  has_many :careers, -> { order('start_from, end_to') }, :dependent => :destroy
+  has_many :branches, through: :branch_employees
+  has_many :careers, -> { order('start_from, end_to') }, dependent: :destroy
 
-  has_many :exemptions, :dependent => :destroy
+  has_many :exemptions, dependent: :destroy
   
-  has_one :employee_bank_account, :dependent => :destroy
+  has_one :employee_bank_account, dependent: :destroy
 
   attr_accessor :standard_remuneration # 標準報酬月額
   

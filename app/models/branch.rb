@@ -1,5 +1,5 @@
 class Branch < ApplicationRecord
-  acts_as_tree :order => 'code'
+  acts_as_tree order: 'code'
 
   belongs_to :company
   belongs_to :business_office, nostalgic: true, optional: true
@@ -7,7 +7,7 @@ class Branch < ApplicationRecord
   validates :code, presence: true
   validates :formal_name, presence: true
 
-  has_many :branch_employees
+  has_many :branch_employees, -> { where deleted: false }
   has_many :employees, through: :branch_employees
 
   before_save :set_name

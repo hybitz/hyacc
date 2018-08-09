@@ -180,13 +180,13 @@ module JournalUtil
   def self.make_allocated_cost(journal_detail)
     case journal_detail.allocation_type
     when ALLOCATION_TYPE_EVEN_BY_SIBLINGS
-      branches = journal_detail.branch.siblings.where(deleted: false)
+      branches = journal_detail.branch.siblings
       make_allocation(journal_detail.amount, branches)
     when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
-      branches = journal_detail.branch.self_and_descendants.where(deleted: false)
+      branches = journal_detail.branch.self_and_descendants
       make_capitation(journal_detail.amount, branches)
     when ALLOCATION_TYPE_EVEN_BY_CHILDREN
-      branches = journal_detail.branch.children.where(deleted: false)
+      branches = journal_detail.branch.children
       make_allocation(journal_detail.amount, branches)
     else
       raise "不正な配賦区分です。allocation_type=#{allocation_type}"

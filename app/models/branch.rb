@@ -24,6 +24,10 @@ class Branch < ApplicationRecord
     parent.name
   end
 
+  def children
+    super.where(deleted: false)
+  end
+
   def business_office
     super || parent.business_office
   end

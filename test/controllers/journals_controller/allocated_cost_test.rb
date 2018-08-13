@@ -166,8 +166,10 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert_equal post_jh.remarks, jh.remarks
     assert_equal post_jh.journal_details[0].input_amount, jh.amount
     assert_equal 3, jh.journal_details.length, "消費税明細を含めて３明細"
-    assert_equal 0, jh.transfer_journals.length, "内部取引仕訳は費用配賦仕訳に関連付けされる"
+    assert_equal 0, jh.transfer_journals.length
     assert_equal 1, jh.journal_details[0].transfer_journals.length
+    assert_equal 0, jh.journal_details[1].transfer_journals.length
+    assert_equal 0, jh.journal_details[2].transfer_journals.length
     
     # 自動仕訳（費用配賦）
     auto1 = jh.journal_details[0].transfer_journals[0]

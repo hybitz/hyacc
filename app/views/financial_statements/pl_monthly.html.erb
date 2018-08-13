@@ -167,8 +167,8 @@
 
   <%# 法人税等 %>
   <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_CORPORATE_TAXES %>
-  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE %>
-  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_HEAD_OFFICE_TAXES %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_SHARED_TAXES %>
+  <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_ALLOCATED_TAXES %>
 
   <%# 当期利益 %>
   <tr id="profit" style="font-weight: bold;">
@@ -182,9 +182,9 @@
           // 税引前当期利益から法人税等を減算し当期利益にセット
           subtract_all_months('pretaxProfit', ACCOUNT_CODE_CORPORATE_TAXES, 'profit');
           // 法人税等負担を減算
-          subtract_all_months('profit', ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE, 'profit');
+          subtract_all_months('profit', ACCOUNT_CODE_SHARED_TAXES, 'profit');
           // 法人税等配賦を減算
-          subtract_all_months('profit', ACCOUNT_CODE_HEAD_OFFICE_TAXES, 'profit');
+          subtract_all_months('profit', ACCOUNT_CODE_ALLOCATED_TAXES, 'profit');
           // 累計を計算
           calc_sum('profit');
         });

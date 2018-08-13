@@ -2,7 +2,7 @@ class UpdateSubAccountIdFor8888OnJournalDetails < ActiveRecord::Migration[5.1]
   include HyaccConstants
   
   def up
-    a = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST)
+    a = Account.find_by_code(ACCOUNT_CODE_ALLOCATED_COST)
     a.update_column(:sub_account_type, SUB_ACCOUNT_TYPE_BRANCH)
 
     JournalDetail.where(account_id: a.id).find_each do |jd|

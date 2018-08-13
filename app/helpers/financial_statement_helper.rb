@@ -45,19 +45,16 @@ module FinancialStatementHelper
       
       if branch.head_office?
         # 本店の場合に表示しない
-        return false if [ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE,
-                         ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE].include? account.code
-      else
-        # 支店の場合に表示しない
-        return false if [ACCOUNT_CODE_HEAD_OFFICE_COST,
-                         ACCOUNT_CODE_HEAD_OFFICE_TAXES].include? account.code
+        return false if [ACCOUNT_CODE_SHARED_COST,
+                         ACCOUNT_CODE_SHARED_TAXES].include?(account.code)
       end
     end
     
     true
   end
-  
-private
+
+  private
+
   def is_visible_on_report( account, branch_id )
     # 削除された科目は表示しない
     return false if account.deleted

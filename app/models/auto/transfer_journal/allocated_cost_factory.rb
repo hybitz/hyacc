@@ -22,20 +22,23 @@ module Auto::TransferJournal
       a = Account.find(@src_jd.account_id)
       if a.path.index(ACCOUNT_CODE_CORPORATE_TAXES)
         # 法人税等
-        account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_TAXES_SHARE)
-        account_cost = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_TAXES)
+        shared_cost = Account.find_by_code(ACCOUNT_CODE_SHARED_TAXES)
+        allocated_cost = Account.find_by_code(ACCOUNT_CODE_ALLOCATED_TAXES)
       else
-        account_cost_share = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST_SHARE)
-        account_cost = Account.find_by_code(ACCOUNT_CODE_HEAD_OFFICE_COST)
+        shared_cost = Account.find_by_code(ACCOUNT_CODE_SHARED_COST)
+        allocated_cost = Account.find_by_code(ACCOUNT_CODE_ALLOCATED_COST)
       end
       
       # 配賦明細の作成
       JournalUtil.make_allocated_cost(@src_jd).each do |branch, cost|
+        # 自身の負担分を作成しない
+        next if branch.id == @src_jd.branch_id
+
         # 本社費用負担
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
-        jd.account_id = account_cost_share.id
+        jd.account_id = shared_cost.id
         jd.branch = branch
         jd.amount = cost
 
@@ -43,8 +46,8 @@ module Auto::TransferJournal
         jd2 = jh.journal_details.build
         jd2.detail_no = jh.journal_details.size
         jd2.dc_type = DC_TYPE_CREDIT
-        jd2.account_id = account_cost.id
-        jd2.sub_account_id = account_cost.get_sub_account_by_code(branch.code).id
+        jd2.account_id = allocated_cost.id
+        jd2.sub_account_id = allocated_cost.get_sub_account_by_code(branch.code).id
         jd2.branch = @src_jd.branch
         jd2.amount = cost
       end

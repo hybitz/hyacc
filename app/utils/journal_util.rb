@@ -180,7 +180,7 @@ module JournalUtil
   def self.make_allocated_cost(journal_detail)
     case journal_detail.allocation_type
     when ALLOCATION_TYPE_EVEN_BY_SIBLINGS
-      branches = journal_detail.branch.siblings
+      branches = journal_detail.branch.self_and_siblings
       make_allocation(journal_detail.amount, branches)
     when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
       branches = journal_detail.branch.self_and_descendants

@@ -1,32 +1,13 @@
 もし /^本店から資金を異動$/ do |ast_table|
   to_journals(ast_table).each do |journal|
-    visit_journals
-    click_on '追加'
+    create_journal(journal)
+  end
+end
 
-    within_dialog('振替伝票　追加') do
-      with_capture do
-        fill_in 'journal[ym]', :with => journal.ym
-        fill_in 'journal[day]', :with => journal.day
-        fill_in 'journal[remarks]', :with => journal.remarks
-        
-        journal.journal_details.each_with_index do |jd, i|
-          within find('.journal_details tbody').all('tr')[i*4] do
-            select jd.dc_type_name, :from => find('[name*="\[dc_type\]"]')['id']
-            find('[name*="\[account_id\]"]').first(:option, jd.account.code_and_name).select_option
-          end
-          assert has_selector?("[data-index=\"#{i}\"].sub_account_ready")
-          within find('.journal_details tbody').all('tr')[i*4] do
-            select jd.sub_account.name, :from => find('[name*="\[sub_account_id\]"]')['id'] if jd.sub_account.present?
-            select jd.branch.name, :from => find('[name*="\[branch_id\]"]')['id']
-            fill_in find('[name*="\[input_amount\]"]')['id'], :with => jd.input_amount
-          end
-        end
-      end
-      click_on '登録'
-    end
-  
-    with_capture do
-      assert has_selector?('.notice')
-    end
+もし /^タクシー代を精算$/ do |ast_table|
+  to_journals(ast_table).each do |journal|
+    journal.journal_details[0].allocation_type = ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
+    journal.journal_details[1].allocation_type = ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
+    create_journal(journal)
   end
 end

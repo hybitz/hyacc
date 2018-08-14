@@ -395,6 +395,148 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert_equal ACCOUNT_CODE_BRANCH_OFFICE, auto5.journal_details[1].account.code
   end
 
+  def test_費用配賦_前払費用_人頭割
+    branch = Branch.find(1)
+    branches = Branch.where(company_id: branch.company_id, deleted: false)
+    assert_equal 3, branches.size
+    assert_equal 3, BranchEmployee.where(branch_id: branches.select(:id), default_branch: true, deleted: false).size
+
+    post_jh = JournalHeader.new
+    post_jh.remarks = "費用配賦_前払費用_人頭割 #{Time.now}"
+    post_jh.ym = 200908
+    post_jh.day = 21
+  
+    jd = post_jh.journal_details.build
+    jd.branch = branch
+    jd.account = Account.find_by_code(ACCOUNT_CODE_SOCIAL_EXPENSE)
+    jd.sub_account_id = jd.account.sub_accounts.first.id
+    jd.social_expense_number_of_people = 3
+    jd.input_amount = 1050
+    jd.tax_type = TAX_TYPE_INCLUSIVE
+    jd.tax_rate_percent = 5
+    jd.tax_amount = 50
+    jd.allocation_type = ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
+    jd.dc_type = DC_TYPE_DEBIT # 借方
+    jd.auto_journal_type = AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
+  
+    jd = post_jh.journal_details.build
+    jd.branch = branch
+    jd.account = Account.find_by_code(ACCOUNT_CODE_CASH)
+    jd.input_amount = 1050
+    jd.tax_type = TAX_TYPE_NONTAXABLE
+    jd.dc_type = DC_TYPE_CREDIT # 貸方
+
+    assert_difference 'JournalHeader.count', 6 do
+      post :create, xhr: true, params: {
+        :journal => {
+          :ym => post_jh.ym,
+          :day => post_jh.day,
+          :remarks => post_jh.remarks,
+          :journal_details_attributes => {
+            '1' => {
+              branch_id: post_jh.journal_details[0].branch_id,
+              account_id: post_jh.journal_details[0].account_id,
+              sub_account_id: post_jh.journal_details[0].sub_account_id,
+              social_expense_number_of_people: post_jh.journal_details[0].social_expense_number_of_people,
+              tax_amount: post_jh.journal_details[0].tax_amount,
+              input_amount: post_jh.journal_details[0].input_amount,
+              tax_type: post_jh.journal_details[0].tax_type,
+              tax_rate_percent: post_jh.journal_details[0].tax_rate_percent,
+              allocation_type: post_jh.journal_details[0].allocation_type,
+              dc_type: post_jh.journal_details[0].dc_type,
+              auto_journal_type: post_jh.journal_details[0].auto_journal_type,
+            },
+            '2' => {
+              branch_id: post_jh.journal_details[1].branch_id,
+              account_id: post_jh.journal_details[1].account_id,
+              input_amount: post_jh.journal_details[1].input_amount,
+              tax_type: post_jh.journal_details[1].tax_type,
+              dc_type: post_jh.journal_details[1].dc_type,
+            }
+          }
+        }
+      }
+  
+      assert_response :success
+      assert_template 'common/reload'
+    end
+    
+    # 仕訳内容の確認
+    list = JournalHeader.where('remarks like ?', JournalUtil.escape_search(post_jh.remarks) + '%')
+    assert_equal 6, list.size, "本伝票、前払費用、逆仕訳、配賦、部門間取引２部門の計６仕訳"
+    jh = list[0]
+    assert_equal post_jh.remarks, jh.remarks
+    assert_equal post_jh.journal_details[0].input_amount, jh.amount
+    assert_equal 3, jh.journal_details.size, "消費税明細を含めて３明細"
+    assert_equal 0, jh.transfer_journals.size
+    assert_equal 2, jh.journal_details[0].transfer_journals.size
+    assert_equal 0, jh.journal_details[1].transfer_journals.size
+    assert_equal 0, jh.journal_details[2].transfer_journals.size
+    
+    # 自動仕訳（前払仕訳）
+    auto1 = jh.journal_details[0].transfer_journals[0]
+    assert_equal jh.journal_details[0].id, auto1.transfer_from_detail_id
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE, auto1.slip_type
+    assert_equal 200908, auto1.ym
+    assert_equal 31, auto1.day
+    assert_equal 2, auto1.journal_details.size
+    assert_equal post_jh.journal_details[0].account.code, auto1.journal_details[0].account.code
+    assert_equal 1000, auto1.journal_details[0].amount
+    assert_equal ACCOUNT_CODE_PREPAID_EXPENSE, auto1.journal_details[1].account.code
+    assert_equal 1000, auto1.journal_details[1].amount
+    assert_equal 1, auto1.transfer_journals.size, '逆仕訳が１つ'
+  
+    # 自動仕訳（逆仕訳）
+    auto2 = auto1.transfer_journals[0]
+    assert_equal auto1.id, auto2.transfer_from_id
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE, auto2.slip_type
+    assert_equal 200909, auto2.ym
+    assert_equal 1, auto2.day
+    assert_equal 2, auto2.journal_details.size
+    assert_equal auto1.journal_details[0].account.code, auto2.journal_details[0].account.code
+    assert_equal 1000, auto2.journal_details[0].amount
+    assert_not_equal auto1.journal_details[0].dc_type, auto2.journal_details[0].dc_type
+    assert_equal ACCOUNT_CODE_PREPAID_EXPENSE, auto2.journal_details[1].account.code
+    assert_equal 1000, auto2.journal_details[1].amount
+    assert_not_equal auto1.journal_details[1].dc_type, auto2.journal_details[1].dc_type
+    assert_equal 0, auto2.transfer_journals.size
+  
+    # 自動仕訳（費用配賦）
+    auto3 = jh.journal_details[0].transfer_journals[1]
+    assert_equal jh.journal_details[0].id, auto3.transfer_from_detail_id
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_ALLOCATED_COST, auto3.slip_type
+    assert_equal 200909, auto3.ym
+    assert_equal 1, auto3.day
+    assert_equal 4, auto3.journal_details.size
+    assert_equal branches.second, auto3.journal_details[0].branch
+    assert_equal branches.first, auto3.journal_details[1].branch
+    assert_equal branches.third, auto3.journal_details[2].branch
+    assert_equal branches.first, auto3.journal_details[3].branch
+    assert_equal ACCOUNT_CODE_SHARED_COST, auto3.journal_details[0].account.code
+    assert_equal ACCOUNT_CODE_ALLOCATED_COST, auto3.journal_details[1].account.code
+    assert_equal ACCOUNT_CODE_SHARED_COST, auto3.journal_details[2].account.code
+    assert_equal ACCOUNT_CODE_ALLOCATED_COST, auto3.journal_details[3].account.code
+    assert_equal 333, auto3.journal_details[0].amount
+    assert_equal 333, auto3.journal_details[1].amount
+    assert_equal 333, auto3.journal_details[2].amount
+    assert_equal 333, auto3.journal_details[3].amount
+    assert_equal 2, auto3.transfer_journals.length
+  
+    # 自動仕訳（本支店勘定１）
+    auto4 = auto3.transfer_journals[0]
+    assert_equal auto3.id, auto4.transfer_from_id
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE, auto4.slip_type
+    assert_equal ACCOUNT_CODE_HEAD_OFFICE, auto4.journal_details[0].account.code
+    assert_equal ACCOUNT_CODE_BRANCH_OFFICE, auto4.journal_details[1].account.code
+  
+    # 自動仕訳（本支店勘定２）
+    auto5 = auto3.transfer_journals[1]
+    assert_equal auto3.id, auto5.transfer_from_id
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_INTERNAL_TRADE, auto5.slip_type
+    assert_equal ACCOUNT_CODE_HEAD_OFFICE, auto5.journal_details[0].account.code
+    assert_equal ACCOUNT_CODE_BRANCH_OFFICE, auto5.journal_details[1].account.code
+  end
+
   def test_auto_journal_type_accrued_expense
     remarks = 'test_auto_journal_type_accrued_expense' + Time.now.to_s
     

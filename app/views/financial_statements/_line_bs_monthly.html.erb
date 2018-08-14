@@ -1,7 +1,7 @@
 <% account = @sum[account_code][:account] %>
 
 <%# 非表示の科目はスキップする %>
-<% return unless is_visible_on_bs( account, @finder.branch_id ) %>
+<% return unless is_visible_on_report( account, @finder.branch_id ) %>
 
 <% if account.is_leaf_on_settlement_report %>
   <tr id="<%= account.code %>">

@@ -1,6 +1,6 @@
 <%# 非表示の科目はスキップする %>
 <% return unless @sum[account_code] %>
-<% return unless is_visible_on_pl( @sum[account_code][:account], @finder.branch_id ) %>
+<% return unless is_visible_on_report( @sum[account_code][:account], @finder.branch_id ) %>
 
 <tr id="<%= account_code %>" style="<%= defined?(style) ? style : '' %>">
   <% (@sum[account_code][:account].node_level - 2).times do |n| %>

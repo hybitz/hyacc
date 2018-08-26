@@ -8,36 +8,32 @@ class DebtFinder < Base::Finder
     
     # 仮負債の明細ごとにリスト化する
     a = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
-    key_branch_id = branch_id
-    key_branch_id = "[0-9]*" if branch_id == 0
     jhs.each do |jh|
-      d = Debt.new
-      d.id = jh.id
-      d.ym = jh.ym
-      d.day = jh.day
-      
-      # Trac#140 明細から派生する自動仕訳をJournalHeaderではなくJournalDetailに関連付けるようにしました。
-      # 既存のデータはヘッダに関連付いています。
-      if jh.transfer_from_id
-        d.remarks = JournalHeader.find(jh.transfer_from_id).remarks
-        d.transfer_from_id = jh.transfer_from_id
-      # 今後登録されるデータは明細に関連付いています。
-      else
-        src_jh = JournalDetail.find(jh.transfer_from_detail_id).journal_header
-        d.remarks = src_jh.remarks
-        d.transfer_from_id = src_jh.id
-      end
-    
-      jh.journal_details.where('account_id = ? and branch_id rlike ?', a.id, key_branch_id).each do |jd|
-        dummy = Marshal.load(Marshal.dump(d))
-        dummy.amount = jd.amount
-        dummy.branch_id = jd.branch_id
-        dummy.branch_name = jd.branch_name
-        dummy.opposite_branch_id = jd.sub_account_id
-        dummy.opposite_branch_name = jd.sub_account_name
-        dummy.closed_id = closed_id(jh, jd.branch_id)
-        sum += jd.amount unless dummy.closed_id
-        ret << dummy
+      jh.journal_details.where('account_id = ? and branch_id = ?', a.id, branch_id).each do |jd|
+        d = Debt.new
+        d.id = jh.id
+        d.ym = jh.ym
+        d.day = jh.day
+        # Trac#140 明細から派生する自動仕訳をJournalHeaderではなくJournalDetailに関連付けるようにしました。
+        # 既存のデータはヘッダに関連付いています。
+        if jh.transfer_from_id
+          d.remarks = JournalHeader.find(jh.transfer_from_id).remarks
+          d.transfer_from_id = jh.transfer_from_id
+        # 今後登録されるデータは明細に関連付いています。
+        else
+          src_jh = JournalDetail.find(jh.transfer_from_detail_id).journal_header
+          d.remarks = src_jh.remarks
+          d.transfer_from_id = src_jh.id
+        end
+
+        d.amount = jd.amount
+        d.branch_id = jd.branch_id
+        d.branch_name = jd.branch_name
+        d.opposite_branch_id = jd.sub_account_id
+        d.opposite_branch_name = jd.sub_account_name
+        d.closed_id = closed_id(jh, jd.branch_id)
+        sum += jd.amount unless d.closed_id
+        ret << d
       end
     end
     

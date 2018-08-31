@@ -3,9 +3,9 @@ class Journal < ApplicationRecord
   include HyaccErrors
 
   belongs_to :company
-  belongs_to :depreciation, :inverse_of => :journals, optional: true
+  belongs_to :depreciation, inverse_of: 'journals', optional: true
 
-  has_many :journal_details, :inverse_of => 'journal', :dependent => :destroy
+  has_many :journal_details, inverse_of: 'journal', dependent: :destroy
   accepts_nested_attributes_for :journal_details, :allow_destroy => true
 
   has_many :transfer_journals, :foreign_key => :transfer_from_id, # 外部キーは所有される側にあるので、fromとしている

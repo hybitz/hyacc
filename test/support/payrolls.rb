@@ -19,8 +19,7 @@ module Payrolls
       :income_tax => '1000',
       :inhabitant_tax => '8400',
       :accrued_liability => attrs.fetch(:accrued_liability, 0),
-      :pay_day => '2009-03-06',
-      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY
+      :pay_day => '2009-03-06'
     }
   end
 

@@ -1,9 +1,4 @@
 class Payroll < ApplicationRecord
-
-  # 相手先伝票区分
-  CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED = '0'
-  CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY = '1'
-
   belongs_to :employee
   belongs_to :payroll_journal, class_name: 'Journal', dependent: :destroy, optional: true
   belongs_to :pay_journal, class_name: 'Journal', dependent: :destroy, optional: true

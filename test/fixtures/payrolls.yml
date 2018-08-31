@@ -12,7 +12,6 @@ payroll_00045:
   days_of_work: 31
   base_salary: 394000
   health_insurance: 15580
-  credit_account_type_of_inhabitant_tax: "0"
   create_user_id: 2
   update_user_id: 2
 payroll_00046:
@@ -27,26 +26,26 @@ payroll_00046:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   days_of_work: 31
-  credit_account_type_of_inhabitant_tax: "1"
   create_user_id: 2
   update_user_id: 2
 payroll_00066: 
   id: 66
+  ym: 200805
+  pay_day: 2008-06-25
   hours_of_work: 248
   payroll_journal_id: 5869
   hours_of_early_work: 0
   pay_journal_id: 5870
   hours_of_late_night_work: 0
   employee_id: 1
-  ym: 200805
   hours_of_day_off_work: 0
   days_of_work: 31
-  credit_account_type_of_inhabitant_tax: "0"
   create_user_id: 1
   update_user_id: 1
 payroll_00067:
   id: 67
   ym: 200806
+  pay_day: 2008-07-25
   employee_id: 1
   days_of_work: 30
   hours_of_work: 240
@@ -56,12 +55,12 @@ payroll_00067:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 349000
-  credit_account_type_of_inhabitant_tax: "0"
   create_user_id: 1
   update_user_id: 1
 payroll_00068: 
   id: 68
   ym: 200807
+  pay_day: 2008-08-25
   employee_id: 1
   days_of_work: 31
   hours_of_work: 248
@@ -71,12 +70,12 @@ payroll_00068:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
-  credit_account_type_of_inhabitant_tax: "0"
   create_user_id: 1
   update_user_id: 2
 payroll_00069: 
   id: 69
   ym: 200808
+  pay_day: 2008-09-25
   employee_id: 1
   days_of_work: 31
   hours_of_work: 248
@@ -86,12 +85,12 @@ payroll_00069:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
-  credit_account_type_of_inhabitant_tax: "0"
   create_user_id: 1
   update_user_id: 1
 payroll_00070: 
   id: 70
   ym: 200809
+  pay_day: 2008-10-25
   employee_id: 1
   days_of_work: 30
   hours_of_work: 240
@@ -101,12 +100,12 @@ payroll_00070:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
-  credit_account_type_of_inhabitant_tax: "0"
   create_user_id: 2
   update_user_id: 1
 payroll_00071:
   id: 71
   ym: 200810
+  pay_day: 2008-11-25
   employee_id: 1
   days_of_work: 31
   hours_of_work: 248
@@ -116,26 +115,26 @@ payroll_00071:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 424000
-  credit_account_type_of_inhabitant_tax: "0"
   create_user_id: 2
   update_user_id: 2
 payroll_00065:
   id: 65
+  ym: 200804
+  pay_day: 2008-05-25
   hours_of_work: 240
   payroll_journal_id: 5867
   hours_of_early_work: 0
   pay_journal_id: 5868
   hours_of_late_night_work: 0
   employee_id: 1
-  ym: 200804
   hours_of_day_off_work: 0
   days_of_work: 30
-  credit_account_type_of_inhabitant_tax: "0"
   create_user_id: 2
   update_user_id: 2
 payroll_00122:
   id: 122
   ym: 201112
+  pay_day: 2012-01-25
   employee_id: 1
   payroll_journal_id: 14018
   pay_journal_id: 14019
@@ -144,13 +143,13 @@ payroll_00122:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00123:
   id: 123
   ym: 201112
+  pay_day: 2012-01-25
   employee_id: 2
   payroll_journal_id: 15164
   pay_journal_id: 15165
@@ -159,13 +158,13 @@ payroll_00123:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00125: 
   id: 125
   ym: 201201
+  pay_day: 2012-02-25
   payroll_journal_id: 15162
   pay_journal_id: 15163
   days_of_work: 31
@@ -173,7 +172,6 @@ payroll_00125:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -181,6 +179,7 @@ payroll_00125:
 payroll_00126: 
   id: 126
   ym: 201201
+  pay_day: 2012-02-25
   payroll_journal_id: 14404
   pay_journal_id: 14405
   days_of_work: 31
@@ -188,7 +187,6 @@ payroll_00126:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -196,6 +194,7 @@ payroll_00126:
 payroll_00127: 
   id: 127
   ym: 201202
+  pay_day: 2012-03-25
   payroll_journal_id: 15160
   pay_journal_id: 15161
   days_of_work: 29
@@ -203,7 +202,6 @@ payroll_00127:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -211,6 +209,7 @@ payroll_00127:
 payroll_00128: 
   id: 128
   ym: 201202
+  pay_day: 2012-03-25
   payroll_journal_id: 14577
   pay_journal_id: 14578
   days_of_work: 29
@@ -218,7 +217,6 @@ payroll_00128:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -226,6 +224,7 @@ payroll_00128:
 payroll_00129: 
   id: 129
   ym: 201201
+  pay_day: 2012-02-25
   payroll_journal_id: 14247
   pay_journal_id: 14250
   days_of_work: 0
@@ -233,7 +232,6 @@ payroll_00129:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: true
   create_user_id: 1
@@ -241,6 +239,7 @@ payroll_00129:
 payroll_00130:
   id: 130
   ym: 201201
+  pay_day: 2012-02-25
   payroll_journal_id: 14248
   pay_journal_id: 14249
   days_of_work: 0
@@ -248,7 +247,6 @@ payroll_00130:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: true
   create_user_id: 1
@@ -256,6 +254,7 @@ payroll_00130:
 payroll_00131: 
   id: 131
   ym: 201203
+  pay_day: 2012-04-25
   payroll_journal_id: 15158
   pay_journal_id: 15159
   days_of_work: 31
@@ -263,7 +262,6 @@ payroll_00131:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -271,6 +269,7 @@ payroll_00131:
 payroll_00132: 
   id: 132
   ym: 201203
+  pay_day: 2012-04-25
   payroll_journal_id: 14774
   pay_journal_id: 14775
   days_of_work: 31
@@ -278,7 +277,6 @@ payroll_00132:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -286,6 +284,7 @@ payroll_00132:
 payroll_00133: 
   id: 133
   ym: 201204
+  pay_day: 2012-05-25
   payroll_journal_id: 15055
   pay_journal_id: 15056
   days_of_work: 30
@@ -293,7 +292,6 @@ payroll_00133:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -301,6 +299,7 @@ payroll_00133:
 payroll_00134: 
   id: 134
   ym: 201204
+  pay_day: 2012-05-25
   payroll_journal_id: 15156
   pay_journal_id: 15157
   days_of_work: 30
@@ -308,7 +307,6 @@ payroll_00134:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -316,6 +314,7 @@ payroll_00134:
 payroll_00135: 
   id: 135
   ym: 201205
+  pay_day: 2012-06-25
   payroll_journal_id: 15257
   pay_journal_id: 15258
   days_of_work: 31
@@ -323,7 +322,6 @@ payroll_00135:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -331,6 +329,7 @@ payroll_00135:
 payroll_00136: 
   id: 136
   ym: 201205
+  pay_day: 2012-06-25
   payroll_journal_id: 15307
   pay_journal_id: 15308
   days_of_work: 31
@@ -338,7 +337,6 @@ payroll_00136:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -346,6 +344,7 @@ payroll_00136:
 payroll_00137: 
   id: 137
   ym: 201206
+  pay_day: 2012-07-25
   payroll_journal_id: 15446
   pay_journal_id: 15447
   days_of_work: 30
@@ -353,7 +352,6 @@ payroll_00137:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -361,6 +359,7 @@ payroll_00137:
 payroll_00138: 
   id: 138
   ym: 201206
+  pay_day: 2012-07-25
   payroll_journal_id: 15478
   pay_journal_id: 15479
   days_of_work: 30
@@ -368,7 +367,6 @@ payroll_00138:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -376,6 +374,7 @@ payroll_00138:
 payroll_00139: 
   id: 139
   ym: 201207
+  pay_day: 2012-08-25
   payroll_journal_id: 15661
   pay_journal_id: 15662
   days_of_work: 31
@@ -383,7 +382,6 @@ payroll_00139:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -391,6 +389,7 @@ payroll_00139:
 payroll_00140: 
   id: 140
   ym: 201207
+  pay_day: 2012-08-25
   payroll_journal_id: 15690
   pay_journal_id: 15691
   days_of_work: 31
@@ -398,7 +397,6 @@ payroll_00140:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -406,6 +404,7 @@ payroll_00140:
 payroll_00141: 
   id: 141
   ym: 201208
+  pay_day: 2012-09-25
   payroll_journal_id: 15836
   pay_journal_id: 15837
   days_of_work: 31
@@ -413,7 +412,6 @@ payroll_00141:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -421,6 +419,7 @@ payroll_00141:
 payroll_00142: 
   id: 142
   ym: 201208
+  pay_day: 2012-09-25
   payroll_journal_id: 15921
   pay_journal_id: 15922
   days_of_work: 31
@@ -428,7 +427,6 @@ payroll_00142:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -436,6 +434,7 @@ payroll_00142:
 payroll_00143: 
   id: 143
   ym: 201209
+  pay_day: 2012-10-25
   payroll_journal_id: 16121
   pay_journal_id: 16122
   days_of_work: 30
@@ -443,7 +442,6 @@ payroll_00143:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -451,6 +449,7 @@ payroll_00143:
 payroll_00144: 
   id: 144
   ym: 201209
+  pay_day: 2012-10-25
   payroll_journal_id: 16404
   pay_journal_id: 16405
   days_of_work: 30
@@ -458,7 +457,6 @@ payroll_00144:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -466,6 +464,7 @@ payroll_00144:
 payroll_00145: 
   id: 145
   ym: 201210
+  pay_day: 2012-11-25
   payroll_journal_id: 16579
   pay_journal_id: 16580
   days_of_work: 31
@@ -473,7 +472,6 @@ payroll_00145:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -481,6 +479,7 @@ payroll_00145:
 payroll_00146: 
   id: 146
   ym: 201210
+  pay_day: 2012-11-25
   payroll_journal_id: 16655
   pay_journal_id: 16656
   days_of_work: 31
@@ -488,7 +487,6 @@ payroll_00146:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -496,6 +494,7 @@ payroll_00146:
 payroll_00147: 
   id: 147
   ym: 201211
+  pay_day: 2012-12-25
   payroll_journal_id: 16847
   pay_journal_id: 16848
   days_of_work: 30
@@ -503,7 +502,6 @@ payroll_00147:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1
@@ -511,6 +509,7 @@ payroll_00147:
 payroll_00148: 
   id: 148
   ym: 201211
+  pay_day: 2012-12-25
   payroll_journal_id: 16825
   pay_journal_id: 16826
   days_of_work: 30
@@ -518,7 +517,6 @@ payroll_00148:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -526,6 +524,7 @@ payroll_00148:
 payroll_00150: 
   id: 150
   ym: 201212
+  pay_day: 2013-01-25
   payroll_journal_id: 17109
   pay_journal_id: 17110
   days_of_work: 31
@@ -533,7 +532,6 @@ payroll_00150:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 1
   is_bonus: false
   create_user_id: 1
@@ -541,6 +539,7 @@ payroll_00150:
 payroll_00151: 
   id: 151
   ym: 201212
+  pay_day: 2013-01-25
   payroll_journal_id: 17133
   pay_journal_id: 17134
   days_of_work: 31
@@ -548,7 +547,6 @@ payroll_00151:
   hours_of_day_off_work: 0
   hours_of_early_work: 0
   hours_of_late_night_work: 0
-  credit_account_type_of_inhabitant_tax: '0'
   employee_id: 2
   is_bonus: false
   create_user_id: 1

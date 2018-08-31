@@ -26,7 +26,7 @@ module Auto::Journal
           Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
-      journal = Journal.new
+      journal = Auto::Journal::Payroll.new
       journal.company_id = employee.company_id
 
       # 給与日の設定
@@ -145,13 +145,8 @@ module Auto::Journal
         detail = journal.journal_details.build
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
-        if @payroll.credit_account_type_of_inhabitant_tax == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
-          detail.account = deposits_received
-          detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX).id
-        else
-          detail.account = advance_money
-          detail.sub_account_id = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX).id
-        end
+        detail.account = deposits_received
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX).id
         detail.branch_id = branch_id
         detail.amount = @payroll.inhabitant_tax
         detail.note = "住民税"
@@ -200,7 +195,7 @@ module Auto::Journal
           Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
-      journal = Journal.new
+      journal = Auto::Journal::PayrollPay.new
       journal.company_id = employee.company.id
       journal.date = @payroll.pay_day
       journal.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
@@ -301,7 +296,7 @@ module Auto::Journal
     def make_commission
       employee = Employee.find(@payroll.employee_id)
 
-      journal = Journal.new
+      journal = Auto::Journal::PayrollCommission.new
       journal.company_id = employee.company.id
       journal.date = @payroll.pay_day
       journal.remarks = "給与支給、振込手数料　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"

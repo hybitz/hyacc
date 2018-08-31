@@ -151,8 +151,7 @@ class PayrollsController < Base::HyaccController
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :commuting_allowance,
         :health_insurance, :welfare_pension, :income_tax, :employment_insurance,
-        :inhabitant_tax, :credit_account_type_of_inhabitant_tax,
-        :accrued_liability, :annual_adjustment, :pay_day)
+        :inhabitant_tax, :accrued_liability, :annual_adjustment, :pay_day)
 
     case action_name
     when 'create'

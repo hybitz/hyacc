@@ -76,8 +76,7 @@ class PayrollsControllerTest < ActionController::TestCase
                       :hours_of_late_night_work => 102, :base_salary => '394000',
                       :health_insurance => '10000', :welfare_pension => '20000',
                       :income_tax => '1000', :inhabitant_tax => '8400',
-                      :accrued_liability => '120000', :pay_day => '2009-03-06',
-                      :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED}
+                      :accrued_liability => '120000', :pay_day => '2009-03-06'}
                       }
     assert_response :success
     assert assigns(:payroll).errors.empty?, assigns(:payroll).errors.full_messages.join("\n")
@@ -85,7 +84,6 @@ class PayrollsControllerTest < ActionController::TestCase
 
     # 登録された仕訳をチェック
     pr = Payroll.find_by_ym_and_employee_id(ym, employee_id)
-    assert_equal Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED, pr.credit_account_type_of_inhabitant_tax
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
     health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
@@ -101,7 +99,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal 1, jd.count
   end
 
-  def test_should_create_advance_money_for_inhabitant_tax
+  def test_inhabitant_tax
     sign_in user
 
     finder = PayrollFinder.new(current_user)
@@ -121,15 +119,12 @@ class PayrollsControllerTest < ActionController::TestCase
 
     # 登録された仕訳をチェック
     pr = Payroll.find(@payroll.id)
-    assert_equal Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY, pr.credit_account_type_of_inhabitant_tax
-
-    advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     temp_pay_tax = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
     income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
     health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
     welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION)
-    inhabitant_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
+    inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
 
     jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
             pr.payroll_journal_id, deposits_received.id, income_tax.id)
@@ -144,7 +139,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
-              pr.payroll_journal_id, advance_money.id, inhabitant_tax.id)
+              pr.payroll_journal_id, deposits_received.id, inhabitant_tax.id)
     assert_equal 1, jd.count
 
     # 仮払消費税として登録されていること
@@ -168,9 +163,8 @@ class PayrollsControllerTest < ActionController::TestCase
                   :hours_of_late_night_work => 102, :base_salary => '',
                   :health_insurance => '', :welfare_pension => '',
                   :income_tax => '', :inhabitant_tax => '',
-                  :accrued_liability => '', :pay_day => '20090332',
-                  :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
-                    }
+                  :accrued_liability => '', :pay_day => '20090332'}
+        }
     assert_response :success
     assert_equal 7, assigns(:payroll).errors.size, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'new'
@@ -193,9 +187,8 @@ class PayrollsControllerTest < ActionController::TestCase
                      :income_tax => '0',
                      :inhabitant_tax => 'x',
                      :accrued_liability => '0', :annual_adjustment=>'0',
-                     :pay_day => '2010-01-25',
-                     :credit_account_type_of_inhabitant_tax => Payroll::CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY}
-                     }
+                     :pay_day => '2010-01-25'}
+        }
     assert_response :success
     assert assigns(:payroll).errors[:inhabitant_tax].any?, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'new'

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_31_064652) do
+ActiveRecord::Schema.define(version: 2018_08_31_073247) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -430,6 +430,8 @@ ActiveRecord::Schema.define(version: 2018_08_31_064652) do
     t.integer "company_id", null: false
     t.boolean "deleted", default: false, null: false
     t.boolean "auto", default: false, null: false
+    t.integer "payroll_id"
+    t.string "type"
     t.index ["company_id", "ym", "day"], name: "index_journal_headers_on_company_id_and_date"
     t.index ["transfer_from_detail_id"], name: "index_journal_headers_transfer_from_detail_id"
     t.index ["transfer_from_id"], name: "index_journals_on_transfer_from_id"
@@ -455,7 +457,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_064652) do
     t.integer "hours_of_day_off_work", default: 0
     t.integer "hours_of_early_work", default: 0
     t.integer "hours_of_late_night_work", default: 0
-    t.string "credit_account_type_of_inhabitant_tax", limit: 1, default: "0", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "employee_id", null: false
@@ -472,7 +473,7 @@ ActiveRecord::Schema.define(version: 2018_08_31_064652) do
     t.integer "inhabitant_tax", default: 0, null: false
     t.integer "create_user_id", null: false
     t.integer "update_user_id", null: false
-    t.date "pay_day"
+    t.date "pay_day", null: false
     t.index ["pay_journal_id"], name: "fk_payrolls_pay_journal_header_id"
     t.index ["payroll_journal_id"], name: "fk_payrolls_payroll_journal_header_id"
     t.index ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true

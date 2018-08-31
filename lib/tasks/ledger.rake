@@ -18,8 +18,8 @@ namespace :hyacc do
 
             c.branches.each do |b|
               jh_condition = {:company_id => c.id, :ym => ym, :day => date.day}
-              debit = JournalDetail.joins(:journal_header).where(:journal_headers => jh_condition,
-                  :dc_type => JournalDetail::DC_TYPE_DEBIT, :branch_id => b.id).sum(:amount)
+              debit = JournalDetail.joins(:journal).where(journals: jh_condition,
+                  :dc_type => JournalDetail::DC_TYPE_DEBIT, branch_id: b.id).sum(:amount)
               credit = JournalDetail.joins(:journal_header).where(:journal_headers => jh_condition,
                   :dc_type => JournalDetail::DC_TYPE_CREDIT, :branch_id => b.id).sum(:amount)
               if debit != credit

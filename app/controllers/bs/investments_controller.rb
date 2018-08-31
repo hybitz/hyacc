@@ -50,7 +50,7 @@ class Bs::InvestmentsController < Base::HyaccController
   end
   
   def relate
-    @investment = finder.set_investment_from_journal(params[:journal_header_id])
+    @investment = finder.set_investment_from_journal(params[:journal_id])
     render :new
   end
 
@@ -120,7 +120,7 @@ class Bs::InvestmentsController < Base::HyaccController
         @investment.destroy
       else
          # 有価証券の登録で追加した自動仕訳伝票の場合のみ関連伝票を削除
-        jh = @investment.journal_detail.journal_header
+        jh = @investment.journal_detail.journal
         SLIP_TYPE_INVESTMENT == jh.slip_type ? jh.destroy : @investment.destroy
       end
     end

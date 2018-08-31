@@ -35,9 +35,9 @@ class DebtsController < Base::HyaccController
     params[:ym] = split[0..1].join
     params[:day] = split[2]
 
-    jh = JournalHeader.find(params[:journal_header_id])
+    jh = Journal.find(params[:journal_id])
     # 締め状態のチェック用
-    old = JournalHeader.find(params[:journal_header_id])
+    old = Journal.find(params[:journal_id])
 
     params[:jh] = jh
     a = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)

@@ -91,13 +91,13 @@ class PayrollsControllerTest < ActionController::TestCase
     health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
     welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION)
     inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
-    jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: income_tax.id)
+    jd = JournalDetail.where(journal_id: pr.payroll_journal_id, account_id: deposits_received.id, sub_account_id: income_tax.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: health_insurance.id)
+    jd = JournalDetail.where(journal_id: pr.payroll_journal_id, account_id: deposits_received.id, sub_account_id: health_insurance.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: welfare_pension.id)
+    jd = JournalDetail.where(journal_id: pr.payroll_journal_id, account_id: deposits_received.id, sub_account_id: welfare_pension.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(journal_header_id: pr.payroll_journal_header_id, account_id: deposits_received.id, sub_account_id: inhabitant_tax.id)
+    jd = JournalDetail.where(journal_id: pr.payroll_journal_id, account_id: deposits_received.id, sub_account_id: inhabitant_tax.id)
     assert_equal 1, jd.count
   end
 
@@ -131,24 +131,24 @@ class PayrollsControllerTest < ActionController::TestCase
     welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION)
     inhabitant_tax = advance_money.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
 
-    jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
-            pr.payroll_journal_header_id, deposits_received.id, income_tax.id)
+    jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
+            pr.payroll_journal_id, deposits_received.id, income_tax.id)
     assert_equal 1, jd.count
 
-    jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
-            pr.payroll_journal_header_id, deposits_received.id, health_insurance.id)
+    jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
+            pr.payroll_journal_id, deposits_received.id, health_insurance.id)
     assert_equal 1, jd.count
 
-    jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
-              pr.payroll_journal_header_id, deposits_received.id, welfare_pension.id)
+    jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
+              pr.payroll_journal_id, deposits_received.id, welfare_pension.id)
     assert_equal 1, jd.count
 
-    jd = JournalDetail.where("journal_header_id=? and account_id=? and sub_account_id=?",
-              pr.payroll_journal_header_id, advance_money.id, inhabitant_tax.id)
+    jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
+              pr.payroll_journal_id, advance_money.id, inhabitant_tax.id)
     assert_equal 1, jd.count
 
     # 仮払消費税として登録されていること
-    jd = JournalDetail.where("journal_header_id=? and account_id=?", pr.commission_journal_header_id, temp_pay_tax.id)
+    jd = JournalDetail.where("journal_id=? and account_id=?", pr.commission_journal_id, temp_pay_tax.id)
     assert_equal 1, jd.count
     assert_equal 25, jd[0].amount, jd[0].attributes.to_yaml
   end
@@ -258,8 +258,8 @@ class PayrollsControllerTest < ActionController::TestCase
     sign_in user
 
     @payroll = payroll
-    assert @payroll.payroll_journal_header.present?
-    assert @payroll.pay_journal_header.present?
+    assert @payroll.payroll_journal.present?
+    assert @payroll.pay_journal.present?
 
     assert_difference 'Payroll.count', -1 do
       delete :destroy, :params => {:id => payroll}, :xhr => true
@@ -267,7 +267,7 @@ class PayrollsControllerTest < ActionController::TestCase
       assert_template 'common/reload'
     end
 
-    assert Journal.where(:id => [@payroll.payroll_journal_header_id, @payroll.pay_journal_header_id]).empty?
+    assert Journal.where(:id => [@payroll.payroll_journal_id, @payroll.pay_journal_id]).empty?
   end
 
 end

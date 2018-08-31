@@ -2,7 +2,7 @@ class SocialExpensesController < Base::HyaccController
   helper_method :finder
 
   def index
-    @journal_headers = finder.list
+    @journals = finder.list
   end
 
   private

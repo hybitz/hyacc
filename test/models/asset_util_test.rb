@@ -8,7 +8,7 @@ class AssetUtilTest < ActiveSupport::TestCase
   end
 
   def test_clear_asset_from_details
-    jh = JournalHeader.find(6300)
+    jh = Journal.find(6300)
 
     jh.journal_details.each do |jd|
       assert_not_nil(jd.asset) if jd.detail_no == 2

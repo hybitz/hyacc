@@ -49,17 +49,17 @@ module JournalUtil
     sql.append('account_id = ?', account_id)
     sql.append('and journal_details.dc_type = ?', dc_type)
     sql.append('and (')
-    sql.append('  journal_headers.ym*100 + journal_headers.day < ?', slip.ym * 100 + slip.day)
+    sql.append('  journals.ym*100 + journals.day < ?', slip.ym * 100 + slip.day)
     sql.append('  or (')
-    sql.append('    journal_headers.ym*100 + journal_headers.day = ?', slip.ym * 100 + slip.day)
+    sql.append('    journals.ym*100 + journals.day = ?', slip.ym * 100 + slip.day)
     sql.append('    and')
-    sql.append('    journal_headers.id < ?', slip.journal_header.id)
+    sql.append('    journals.id < ?', slip.journal.id)
     sql.append('  )')
     sql.append(')')
     sql.append('and branch_id = ? ', branch_id) if branch_id > 0
     sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id > 0
 
-    JournalDetail.joins(:journal_header).where(sql.to_a).sum('journal_details.amount')
+    JournalDetail.joins(:journal).where(sql.to_a).sum('journal_details.amount')
   end
 
   def self.get_net_sum_until(slip, account, branch_id, sub_account_id)
@@ -88,8 +88,8 @@ module JournalUtil
     sql.append('and branch_id = ?', branch_id) if branch_id.to_i > 0
     sql.append('and sub_account_id = ?', sub_account_id) if sub_account_id.to_i > 0
     sql.append('and exists (')
-    sql.append('  select 1 from journal_headers jh')
-    sql.append('  where jh.id = journal_details.journal_header_id')
+    sql.append('  select 1 from journals jh')
+    sql.append('  where jh.id = journal_details.journal_id')
     sql.append('    and jh.company_id = ?', company_id)
     sql.append(')')
 

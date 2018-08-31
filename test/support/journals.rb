@@ -13,7 +13,7 @@ module Journals
     b = options[:branch]
     e = options[:employee]
 
-    ret = JournalHeader.new
+    ret = Journal.new
     ret.company = options[:company]
     ret.date = c.current_fiscal_year.start_day + rand(365).days
     ret.remarks = 'テスト'

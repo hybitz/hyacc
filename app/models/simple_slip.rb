@@ -216,8 +216,8 @@ class SimpleSlip
 
   def journal
     if @journal.nil?
-      @journal = JournalHeader.find(id) if id.present?
-      @journal ||= JournalHeader.new
+      @journal = Journal.find(id) if id.present?
+      @journal ||= Journal.new
     end
 
     @journal

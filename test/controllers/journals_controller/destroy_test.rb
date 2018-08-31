@@ -17,7 +17,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
   
     assert_raise(ActiveRecord::RecordNotFound) {
-      JournalHeader.find(jh.id)
+      Journal.find(jh.id)
     }
   end
   

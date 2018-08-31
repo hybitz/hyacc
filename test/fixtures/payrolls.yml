@@ -4,9 +4,9 @@ payroll_00045:
   pay_day: 2009-01-25
   employee_id: 2
   hours_of_work: 0
-  payroll_journal_header_id: 4453
+  payroll_journal_id: 4453
   hours_of_early_work: 0
-  pay_journal_header_id: 4467
+  pay_journal_id: 4467
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   days_of_work: 31
@@ -21,9 +21,9 @@ payroll_00046:
   pay_day: 2009-02-25
   employee_id: 2
   hours_of_work: 0
-  payroll_journal_header_id: 4705
+  payroll_journal_id: 4705
   hours_of_early_work: 0
-  pay_journal_header_id: 4750
+  pay_journal_id: 4750
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   days_of_work: 31
@@ -33,9 +33,9 @@ payroll_00046:
 payroll_00066: 
   id: 66
   hours_of_work: 248
-  payroll_journal_header_id: 5869
+  payroll_journal_id: 5869
   hours_of_early_work: 0
-  pay_journal_header_id: 5870
+  pay_journal_id: 5870
   hours_of_late_night_work: 0
   employee_id: 1
   ym: 200805
@@ -50,9 +50,9 @@ payroll_00067:
   employee_id: 1
   days_of_work: 30
   hours_of_work: 240
-  payroll_journal_header_id: 5871
+  payroll_journal_id: 5871
   hours_of_early_work: 0
-  pay_journal_header_id: 5872
+  pay_journal_id: 5872
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 349000
@@ -65,9 +65,9 @@ payroll_00068:
   employee_id: 1
   days_of_work: 31
   hours_of_work: 248
-  payroll_journal_header_id: 5873
+  payroll_journal_id: 5873
   hours_of_early_work: 0
-  pay_journal_header_id: 5874
+  pay_journal_id: 5874
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
@@ -80,9 +80,9 @@ payroll_00069:
   employee_id: 1
   days_of_work: 31
   hours_of_work: 248
-  payroll_journal_header_id: 5875
+  payroll_journal_id: 5875
   hours_of_early_work: 0
-  pay_journal_header_id: 5876
+  pay_journal_id: 5876
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
@@ -95,9 +95,9 @@ payroll_00070:
   employee_id: 1
   days_of_work: 30
   hours_of_work: 240
-  payroll_journal_header_id: 5877
+  payroll_journal_id: 5877
   hours_of_early_work: 0
-  pay_journal_header_id: 5878
+  pay_journal_id: 5878
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 394000
@@ -110,9 +110,9 @@ payroll_00071:
   employee_id: 1
   days_of_work: 31
   hours_of_work: 248
-  payroll_journal_header_id: 5879
+  payroll_journal_id: 5879
   hours_of_early_work: 0
-  pay_journal_header_id: 5880
+  pay_journal_id: 5880
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 424000
@@ -122,9 +122,9 @@ payroll_00071:
 payroll_00065:
   id: 65
   hours_of_work: 240
-  payroll_journal_header_id: 5867
+  payroll_journal_id: 5867
   hours_of_early_work: 0
-  pay_journal_header_id: 5868
+  pay_journal_id: 5868
   hours_of_late_night_work: 0
   employee_id: 1
   ym: 200804
@@ -137,8 +137,8 @@ payroll_00122:
   id: 122
   ym: 201112
   employee_id: 1
-  payroll_journal_header_id: 14018
-  pay_journal_header_id: 14019
+  payroll_journal_id: 14018
+  pay_journal_id: 14019
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -152,8 +152,8 @@ payroll_00123:
   id: 123
   ym: 201112
   employee_id: 2
-  payroll_journal_header_id: 15164
-  pay_journal_header_id: 15165
+  payroll_journal_id: 15164
+  pay_journal_id: 15165
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -166,8 +166,8 @@ payroll_00123:
 payroll_00125: 
   id: 125
   ym: 201201
-  payroll_journal_header_id: 15162
-  pay_journal_header_id: 15163
+  payroll_journal_id: 15162
+  pay_journal_id: 15163
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -181,8 +181,8 @@ payroll_00125:
 payroll_00126: 
   id: 126
   ym: 201201
-  payroll_journal_header_id: 14404
-  pay_journal_header_id: 14405
+  payroll_journal_id: 14404
+  pay_journal_id: 14405
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -196,8 +196,8 @@ payroll_00126:
 payroll_00127: 
   id: 127
   ym: 201202
-  payroll_journal_header_id: 15160
-  pay_journal_header_id: 15161
+  payroll_journal_id: 15160
+  pay_journal_id: 15161
   days_of_work: 29
   hours_of_work: 232
   hours_of_day_off_work: 0
@@ -211,8 +211,8 @@ payroll_00127:
 payroll_00128: 
   id: 128
   ym: 201202
-  payroll_journal_header_id: 14577
-  pay_journal_header_id: 14578
+  payroll_journal_id: 14577
+  pay_journal_id: 14578
   days_of_work: 29
   hours_of_work: 232
   hours_of_day_off_work: 0
@@ -226,8 +226,8 @@ payroll_00128:
 payroll_00129: 
   id: 129
   ym: 201201
-  payroll_journal_header_id: 14247
-  pay_journal_header_id: 14250
+  payroll_journal_id: 14247
+  pay_journal_id: 14250
   days_of_work: 0
   hours_of_work: 0
   hours_of_day_off_work: 0
@@ -241,8 +241,8 @@ payroll_00129:
 payroll_00130:
   id: 130
   ym: 201201
-  payroll_journal_header_id: 14248
-  pay_journal_header_id: 14249
+  payroll_journal_id: 14248
+  pay_journal_id: 14249
   days_of_work: 0
   hours_of_work: 0
   hours_of_day_off_work: 0
@@ -256,8 +256,8 @@ payroll_00130:
 payroll_00131: 
   id: 131
   ym: 201203
-  payroll_journal_header_id: 15158
-  pay_journal_header_id: 15159
+  payroll_journal_id: 15158
+  pay_journal_id: 15159
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -271,8 +271,8 @@ payroll_00131:
 payroll_00132: 
   id: 132
   ym: 201203
-  payroll_journal_header_id: 14774
-  pay_journal_header_id: 14775
+  payroll_journal_id: 14774
+  pay_journal_id: 14775
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -286,8 +286,8 @@ payroll_00132:
 payroll_00133: 
   id: 133
   ym: 201204
-  payroll_journal_header_id: 15055
-  pay_journal_header_id: 15056
+  payroll_journal_id: 15055
+  pay_journal_id: 15056
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
@@ -301,8 +301,8 @@ payroll_00133:
 payroll_00134: 
   id: 134
   ym: 201204
-  payroll_journal_header_id: 15156
-  pay_journal_header_id: 15157
+  payroll_journal_id: 15156
+  pay_journal_id: 15157
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
@@ -316,8 +316,8 @@ payroll_00134:
 payroll_00135: 
   id: 135
   ym: 201205
-  payroll_journal_header_id: 15257
-  pay_journal_header_id: 15258
+  payroll_journal_id: 15257
+  pay_journal_id: 15258
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -331,8 +331,8 @@ payroll_00135:
 payroll_00136: 
   id: 136
   ym: 201205
-  payroll_journal_header_id: 15307
-  pay_journal_header_id: 15308
+  payroll_journal_id: 15307
+  pay_journal_id: 15308
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -346,8 +346,8 @@ payroll_00136:
 payroll_00137: 
   id: 137
   ym: 201206
-  payroll_journal_header_id: 15446
-  pay_journal_header_id: 15447
+  payroll_journal_id: 15446
+  pay_journal_id: 15447
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
@@ -361,8 +361,8 @@ payroll_00137:
 payroll_00138: 
   id: 138
   ym: 201206
-  payroll_journal_header_id: 15478
-  pay_journal_header_id: 15479
+  payroll_journal_id: 15478
+  pay_journal_id: 15479
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
@@ -376,8 +376,8 @@ payroll_00138:
 payroll_00139: 
   id: 139
   ym: 201207
-  payroll_journal_header_id: 15661
-  pay_journal_header_id: 15662
+  payroll_journal_id: 15661
+  pay_journal_id: 15662
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -391,8 +391,8 @@ payroll_00139:
 payroll_00140: 
   id: 140
   ym: 201207
-  payroll_journal_header_id: 15690
-  pay_journal_header_id: 15691
+  payroll_journal_id: 15690
+  pay_journal_id: 15691
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -406,8 +406,8 @@ payroll_00140:
 payroll_00141: 
   id: 141
   ym: 201208
-  payroll_journal_header_id: 15836
-  pay_journal_header_id: 15837
+  payroll_journal_id: 15836
+  pay_journal_id: 15837
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -421,8 +421,8 @@ payroll_00141:
 payroll_00142: 
   id: 142
   ym: 201208
-  payroll_journal_header_id: 15921
-  pay_journal_header_id: 15922
+  payroll_journal_id: 15921
+  pay_journal_id: 15922
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -436,8 +436,8 @@ payroll_00142:
 payroll_00143: 
   id: 143
   ym: 201209
-  payroll_journal_header_id: 16121
-  pay_journal_header_id: 16122
+  payroll_journal_id: 16121
+  pay_journal_id: 16122
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
@@ -451,8 +451,8 @@ payroll_00143:
 payroll_00144: 
   id: 144
   ym: 201209
-  payroll_journal_header_id: 16404
-  pay_journal_header_id: 16405
+  payroll_journal_id: 16404
+  pay_journal_id: 16405
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
@@ -466,8 +466,8 @@ payroll_00144:
 payroll_00145: 
   id: 145
   ym: 201210
-  payroll_journal_header_id: 16579
-  pay_journal_header_id: 16580
+  payroll_journal_id: 16579
+  pay_journal_id: 16580
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -481,8 +481,8 @@ payroll_00145:
 payroll_00146: 
   id: 146
   ym: 201210
-  payroll_journal_header_id: 16655
-  pay_journal_header_id: 16656
+  payroll_journal_id: 16655
+  pay_journal_id: 16656
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -496,8 +496,8 @@ payroll_00146:
 payroll_00147: 
   id: 147
   ym: 201211
-  payroll_journal_header_id: 16847
-  pay_journal_header_id: 16848
+  payroll_journal_id: 16847
+  pay_journal_id: 16848
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
@@ -511,8 +511,8 @@ payroll_00147:
 payroll_00148: 
   id: 148
   ym: 201211
-  payroll_journal_header_id: 16825
-  pay_journal_header_id: 16826
+  payroll_journal_id: 16825
+  pay_journal_id: 16826
   days_of_work: 30
   hours_of_work: 240
   hours_of_day_off_work: 0
@@ -526,8 +526,8 @@ payroll_00148:
 payroll_00150: 
   id: 150
   ym: 201212
-  payroll_journal_header_id: 17109
-  pay_journal_header_id: 17110
+  payroll_journal_id: 17109
+  pay_journal_id: 17110
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0
@@ -541,8 +541,8 @@ payroll_00150:
 payroll_00151: 
   id: 151
   ym: 201212
-  payroll_journal_header_id: 17133
-  pay_journal_header_id: 17134
+  payroll_journal_id: 17133
+  pay_journal_id: 17134
   days_of_work: 31
   hours_of_work: 248
   hours_of_day_off_work: 0

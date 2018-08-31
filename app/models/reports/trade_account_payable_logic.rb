@@ -52,7 +52,7 @@ module Reports
       sql.append('  jd.dc_type,')
       sql.append('  sum(jd.amount) as amount')
       sql.append('from journal_details jd')
-      sql.append('inner join journal_headers jh on (jh.id = jd.journal_header_id)')
+      sql.append('inner join journals jh on (jh.id = jd.journal_id)')
       sql.append('inner join accounts a on (a.id = jd.account_id)')
       sql.append('where ym <= ?', ym)
       sql.append('  and account_id = ?', account.id)

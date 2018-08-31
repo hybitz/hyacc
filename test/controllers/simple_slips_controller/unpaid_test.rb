@@ -28,7 +28,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
 
     # 登録した伝票のチェック
-    jh = JournalHeader.find_by_remarks(remarks)
+    jh = Journal.find_by_remarks(remarks)
     assert_equal 200801, jh.ym
     assert_equal 15, jh.day
     assert_equal SLIP_TYPE_SIMPLIFIED, jh.slip_type
@@ -113,7 +113,7 @@ class SimpleSlipsController::UnpaidTest < ActionController::TestCase
     assert_redirected_to :action=>:index
 
     # 登録した伝票のチェック
-    assert jh = JournalHeader.where(:remarks => remarks).first
+    assert jh = Journal.where(:remarks => remarks).first
     assert_equal( 200801, jh.ym )
     assert_equal( 7, jh.day )
     assert_equal( SLIP_TYPE_SIMPLIFIED, jh.slip_type )

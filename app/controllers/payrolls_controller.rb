@@ -68,18 +68,18 @@ class PayrollsController < Base::HyaccController
 
     # 削除用に旧伝票を取得
     payroll_on_db = Payroll.find(@payroll.id)
-    payroll_journal_header_on_db = payroll_on_db.payroll_journal_header
-    pay_journal_header_on_db = payroll_on_db.pay_journal_header
-    commission_journal_header_on_db = payroll_on_db.commission_journal_header
+    payroll_journal_on_db = payroll_on_db.payroll_journal
+    pay_journal_on_db = payroll_on_db.pay_journal
+    commission_journal_on_db = payroll_on_db.commission_journal
 
     begin
       @payroll.transaction do
         @payroll.save!
 
         # 給与・支払い伝票は新規追加するので、旧伝票を削除
-        JournalHeader.find(payroll_journal_header_on_db.id).destroy if payroll_journal_header_on_db
-        JournalHeader.find(pay_journal_header_on_db.id).destroy if pay_journal_header_on_db
-        JournalHeader.find(commission_journal_header_on_db.id).destroy if commission_journal_header_on_db
+        Journal.find(payroll_journal_on_db.id).destroy if payroll_journal_on_db
+        Journal.find(pay_journal_on_db.id).destroy if pay_journal_on_db
+        Journal.find(commission_journal_on_db.id).destroy if commission_journal_on_db
       end
 
       flash[:notice] = "#{@payroll.employee.fullname}さんの#{title}を更新しました。"

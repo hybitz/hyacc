@@ -8,9 +8,9 @@ module Reports
       a = Account.find_by_code(ACCOUNT_CODE_RECEIVABLE)
       
       # 借方
-      debits = JournalDetail.where(:account_id => a.id, :dc_type=>DC_TYPE_DEBIT).joins(:journal_header).where(JournalHeader.arel_table[:ym].lteq ymd[0, 6]).group(:sub_account_id).sum(:amount)
+      debits = JournalDetail.where(account_id: a.id, dc_type: DC_TYPE_DEBIT).joins(:journal).where(Journal.arel_table[:ym].lteq ymd[0, 6]).group(:sub_account_id).sum(:amount)
       # 貸方
-      credits = JournalDetail.where(:account_id => a.id, :dc_type=>DC_TYPE_CREDIT).joins(:journal_header).where(JournalHeader.arel_table[:ym].lteq ymd[0, 6]).group(:sub_account_id).sum(:amount)
+      credits = JournalDetail.where(account_id: a.id, dc_type: DC_TYPE_CREDIT).joins(:journal).where(Journal.arel_table[:ym].lteq ymd[0, 6]).group(:sub_account_id).sum(:amount)
 
       debits.each do |key, value|
         sum = 0

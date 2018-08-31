@@ -4,7 +4,7 @@ class LedgersControllerTest < ActionController::TestCase
 
   def setup
     # fixtureで検索キーを設定していないので、ARを一旦保存
-    JournalHeader.all.each{|jh| assert jh.save }
+    Journal.all.each{|jh| assert jh.save }
   end
 
   def test_一覧
@@ -14,11 +14,11 @@ class LedgersControllerTest < ActionController::TestCase
   end
 
   def test_参照
-    num_journal_headers = JournalHeader.where('finder_key rlike ? and ym = ?', '.*-1311,[0-9]*,[0-9]*-.*', 200705).count
+    num_journals = Journal.where('finder_key rlike ? and ym = ?', '.*-1311,[0-9]*,[0-9]*-.*', 200705).count
 
     sign_in user
     get :show, :xhr => true, :params => {:id => 200705, :finder => {:fiscal_year => 2007, :account_id => 5}}
-    assert_equal num_journal_headers, assigns(:ledgers).length
+    assert_equal num_journals, assigns(:ledgers).length
   end
 
 end

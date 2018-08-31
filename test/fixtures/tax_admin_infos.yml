@@ -1,5 +1,5 @@
 1:
   id: 1
-  journal_header_id: 10
+  journal_id: 10
   should_include_tax: true
   checked: false

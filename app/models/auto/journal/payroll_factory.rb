@@ -26,17 +26,17 @@ module Auto::Journal
           Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
-      journal_header = JournalHeader.new
-      journal_header.company_id = employee.company_id
+      journal = Journal.new
+      journal.company_id = employee.company_id
 
       # 給与日の設定
-      journal_header.ym = @payroll.ym
-      journal_header.day = employee.company.payroll_day(@payroll.ym)
+      journal.ym = @payroll.ym
+      journal.day = employee.company.payroll_day(@payroll.ym)
       # 摘要の設定
-      journal_header.remarks = "#{salary_account.name}　#{employee.fullname}　#{@payroll.ym%100}月分"
-      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
-      journal_header.create_user_id = @user.id
-      journal_header.update_user_id = @user.id
+      journal.remarks = "#{salary_account.name}　#{employee.fullname}　#{@payroll.ym%100}月分"
+      journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
+      journal.create_user_id = @user.id
+      journal.update_user_id = @user.id
 
       # 明細の作成
       # ￥０の明細を作成しない
@@ -52,8 +52,8 @@ module Auto::Journal
       ## 給与明細
       ### 役員給与・給与手当・通勤手当
       if @payroll.salary_total > 0
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = salary_account
         detail.sub_account_id = employee.id
@@ -65,8 +65,8 @@ module Auto::Journal
       if insurance_half != 0
         account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = account
         detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
@@ -79,8 +79,8 @@ module Auto::Journal
       if pension_half != 0
         account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = account
         detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
@@ -90,8 +90,8 @@ module Auto::Journal
       end
       ### 源泉所得税
       if @payroll.income_tax > 0
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
@@ -101,8 +101,8 @@ module Auto::Journal
       end
       ### 健康保険料
       if @payroll.health_insurance > 0
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
@@ -112,8 +112,8 @@ module Auto::Journal
       end
       ### 厚生年金
       if @payroll.welfare_pension > 0
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
@@ -122,8 +122,8 @@ module Auto::Journal
         detail.note = "個人負担保険料"
       end
       ### 会社負担社会保険料の未払分
-      detail = journal_header.journal_details.build
-      detail.detail_no = journal_header.journal_details.size
+      detail = journal.journal_details.build
+      detail.detail_no = journal.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
       detail.branch_id = branch_id
@@ -131,8 +131,8 @@ module Auto::Journal
       detail.note = "会社負担保険料の未払分"
       ### 雇用保険
       if @payroll.employment_insurance > 0
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE).id
@@ -142,8 +142,8 @@ module Auto::Journal
       end
       ### 住民税
       if @payroll.inhabitant_tax > 0
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         if @payroll.credit_account_type_of_inhabitant_tax == Payroll::CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED
           detail.account = deposits_received
@@ -158,8 +158,8 @@ module Auto::Journal
       end
       ### 年末調整分
       if @payroll.annual_adjustment > 0
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = deposits_received
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
@@ -168,8 +168,8 @@ module Auto::Journal
         detail.note = "年末調整過払い分"
       end
       ### 振り込み予定額　※仮明細
-      detail = journal_header.journal_details.build
-      detail.detail_no = journal_header.journal_details.size
+      detail = journal.journal_details.build
+      detail.detail_no = journal.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
       detail.sub_account_id = employee.id
@@ -179,7 +179,7 @@ module Auto::Journal
       # 貸借の金額調整、振り込み予定額で調整する
       debit = 0
       credit = 0
-      journal_header.journal_details.each do |jd|
+      journal.journal_details.each do |jd|
         if jd.dc_type == DC_TYPE_DEBIT
           debit += jd.amount.to_i
         else
@@ -190,7 +190,7 @@ module Auto::Journal
       detail.amount = debit - credit
       @payroll.transfer_payment = debit - credit
 
-      journal_header
+      journal
     end
 
     # 支払明細の取得
@@ -200,13 +200,13 @@ module Auto::Journal
           Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
-      journal_header = JournalHeader.new
-      journal_header.company_id = employee.company.id
-      journal_header.date = @payroll.pay_day
-      journal_header.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
-      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
-      journal_header.create_user_id = @user.id
-      journal_header.update_user_id = @user.id
+      journal = Journal.new
+      journal.company_id = employee.company.id
+      journal.date = @payroll.pay_day
+      journal.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
+      journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
+      journal.create_user_id = @user.id
+      journal.update_user_id = @user.id
 
       # 明細の作成
       ## ￥０の明細を作成しない
@@ -214,14 +214,14 @@ module Auto::Journal
       ## デフォルト部門の取得
       branch_id = employee.default_branch.id
       ## 消費税取り扱い区分を取得
-      fy = employee.company.get_fiscal_year(journal_header.ym)
+      fy = employee.company.get_fiscal_year(journal.ym)
       raise HyaccException.new(ERR_FISCAL_YEAR_NOT_EXISTS) unless fy
 
       ## 支払明細
       ### 未払費用.役員報酬、振込み予定額を設定
       if @payroll.transfer_payment.to_i != 0
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
         detail.sub_account_id = employee.id
@@ -234,8 +234,8 @@ module Auto::Journal
         account = VUnpaidEmployee.account
         total_amount = @payroll.accrued_liability
         VUnpaidEmployee.net_sums_by_branch(employee, order: 'amount').each do |branch_id, amount|
-          detail = journal_header.journal_details.build
-          detail.detail_no = journal_header.journal_details.size
+          detail = journal.journal_details.build
+          detail.detail_no = journal.journal_details.size
           detail.dc_type = DC_TYPE_DEBIT
           detail.account = account
           detail.sub_account_id = employee.id
@@ -253,8 +253,8 @@ module Auto::Journal
       end
       ### 普通預金
       account = Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT)
-      detail = journal_header.journal_details.build
-      detail.detail_no = journal_header.journal_details.size
+      detail = journal.journal_details.build
+      detail.detail_no = journal.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = account
       detail.sub_account_id = BANK_ACCOUNT_ID_FOR_PAY
@@ -264,7 +264,7 @@ module Auto::Journal
       # 貸借の金額調整、振り込み予定額で調整する
       debit = 0
       credit = 0
-      journal_header.journal_details.each do |jd|
+      journal.journal_details.each do |jd|
         if jd.dc_type == DC_TYPE_DEBIT
           debit += jd.amount.to_i
         else
@@ -274,7 +274,7 @@ module Auto::Journal
       @credit_amount = debit - credit
       detail.amount = @credit_amount
 
-      journal_header
+      journal
     end
 
     def commissions_required?
@@ -301,17 +301,17 @@ module Auto::Journal
     def make_commission
       employee = Employee.find(@payroll.employee_id)
 
-      journal_header = JournalHeader.new
-      journal_header.company_id = employee.company.id
-      journal_header.date = @payroll.pay_day
-      journal_header.remarks = "給与支給、振込手数料　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
-      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
-      journal_header.create_user_id = @user.id
-      journal_header.update_user_id = @user.id
+      journal = Journal.new
+      journal.company_id = employee.company.id
+      journal.date = @payroll.pay_day
+      journal.remarks = "給与支給、振込手数料　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
+      journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
+      journal.create_user_id = @user.id
+      journal.update_user_id = @user.id
 
       # 消費税率
-      tax_rate = TaxJp.rate_on(journal_header.date)
-      Rails.logger.debug "tax_rate=#{tax_rate}, date=#{journal_header.date}"
+      tax_rate = TaxJp.rate_on(journal.date)
+      Rails.logger.debug "tax_rate=#{tax_rate}, date=#{journal.date}"
 
       # 明細の作成
       ## ￥０の明細を作成しない
@@ -319,7 +319,7 @@ module Auto::Journal
       ## デフォルト部門の取得
       branch_id = employee.default_branch.id
       ## 消費税取り扱い区分を取得
-      fy = employee.company.get_fiscal_year(journal_header.ym)
+      fy = employee.company.get_fiscal_year(journal.ym)
       raise HyaccException.new(ERR_FISCAL_YEAR_NOT_EXISTS) unless fy
 
       ## 支払明細
@@ -328,8 +328,8 @@ module Auto::Journal
       ### 支払手数料
       account = Account.find_by_code(ACCOUNT_CODE_COMMISSION_PAID)
       sub_account = account.sub_accounts.find{|sa| sa.name == '振込手数料' }
-      detail = journal_header.journal_details.build
-      detail.detail_no = journal_header.journal_details.size
+      detail = journal.journal_details.build
+      detail.detail_no = journal.journal_details.size
       detail.dc_type = DC_TYPE_DEBIT
       detail.account = account
       detail.sub_account_id = sub_account.id if sub_account.present?
@@ -346,8 +346,8 @@ module Auto::Journal
 
       ### 支払手数料の消費税
       if fy.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
-        detail = journal_header.journal_details.build
-        detail.detail_no = journal_header.journal_details.size
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.detail_type = DETAIL_TYPE_TAX
         detail.tax_type = TAX_TYPE_NONTAXABLE
@@ -355,13 +355,13 @@ module Auto::Journal
         detail.branch_id = branch_id
         detail.amount = (commission * tax_rate).to_i
         detail.note = "振込手数料の消費税"
-        detail.main_detail = journal_header.journal_details.first
+        detail.main_detail = journal.journal_details.first
       end
 
       ### 普通預金
       account = Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT)
-      detail = journal_header.journal_details.build
-      detail.detail_no = journal_header.journal_details.size
+      detail = journal.journal_details.build
+      detail.detail_no = journal.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = account
       detail.sub_account_id = BANK_ACCOUNT_ID_FOR_PAY
@@ -371,7 +371,7 @@ module Auto::Journal
       # 貸借の金額調整、振り込み予定額で調整する
       debit = 0
       credit = 0
-      journal_header.journal_details.each do |jd|
+      journal.journal_details.each do |jd|
         if jd.dc_type == DC_TYPE_DEBIT
           debit += jd.amount.to_i
         else
@@ -380,7 +380,7 @@ module Auto::Journal
       end
       detail.amount = debit - credit
 
-      journal_header
+      journal
     end
   end
 end

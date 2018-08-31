@@ -48,7 +48,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
   # 同一科目の指定の場合はエラー
   # 通常の画面上からは入力できないがサーバサイドでチェックする
   def test_edit_fail_by_same_account
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :create, :params => {
         :account_code => ACCOUNT_CODE_CASH,
         :simple_slip => {
@@ -71,9 +71,9 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
 
   # 楽観的ロックによる更新エラー
   def test_edit_fail_by_lock
-    jh = JournalHeader.find(10)
+    jh = Journal.find(10)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       patch :update, :params => {
         :id => jh.id,
         :account_code => ACCOUNT_CODE_SMALL_CASH,
@@ -98,7 +98,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
     assert_template 'common/reload'
     assert assigns(:simple_slip)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       patch :update, :params => {
         :id => jh.id,
         :account_code => ACCOUNT_CODE_SMALL_CASH,
@@ -149,7 +149,7 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
     assert_template 'common/reload'
     assert assigns(:simple_slip)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :destroy, :params => {
         :id => 10,
         :account_code => ACCOUNT_CODE_SMALL_CASH,
@@ -159,6 +159,6 @@ class SimpleSlipsController::CashTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to :action => 'index'
-    assert JournalHeader.where(:id => 10).present?
+    assert Journal.where(:id => 10).present?
   end
 end

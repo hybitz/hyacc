@@ -24,7 +24,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @journal_headers.each do |jh| %>
+        <% @journals.each do |jh| %>
           <tr>
             <td class="yearMonth"><%= jh.ym %></td>
             <td class="day"><%= jh.day %></td>
@@ -48,7 +48,7 @@
       </tbody>  
     </table>
     
-    <%= will_paginate @journal_headers %>
-    <%= link_to '追加', {:action => 'new'}, class: 'add btn btn-light', remote: true %>
+    <%= will_paginate @journals %>
+    <%= link_to '追加', {action: 'new'}, class: 'add btn btn-light', remote: true %>
   </div>
 </div>

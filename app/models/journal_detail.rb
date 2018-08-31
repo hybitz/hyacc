@@ -14,7 +14,7 @@ class JournalDetail < ApplicationRecord
   # 有価証券用の入力フィールド
   attr_accessor :investment_id
 
-  belongs_to :journal_header, :inverse_of => 'journal_details'
+  belongs_to :journal, inverse_of: 'journal_details'
   belongs_to :account
   belongs_to :branch
 
@@ -27,7 +27,7 @@ class JournalDetail < ApplicationRecord
   has_one :tax_detail, :foreign_key => :main_detail_id, :class_name => 'JournalDetail', :dependent => :destroy
   belongs_to :main_detail, :class_name => 'JournalDetail', optional: true
 
-  has_many :transfer_journals, :foreign_key => :transfer_from_detail_id, :class_name => 'JournalHeader', :dependent => :destroy
+  has_many :transfer_journals, :foreign_key => :transfer_from_detail_id, :class_name => 'Journal', :dependent => :destroy
   accepts_nested_attributes_for :transfer_journals
 
   validates :account_id, :presence => true
@@ -195,8 +195,8 @@ class JournalDetail < ApplicationRecord
     if account.depreciable
       unless asset
         asset = build_asset
-        asset.code = AssetUtil.create_asset_code(journal_header.company.get_fiscal_year_int(journal_header.ym))
-        asset.name = note.present? ? note : journal_header.remarks
+        asset.code = AssetUtil.create_asset_code(journal.company.get_fiscal_year_int(journal.ym))
+        asset.name = note.present? ? note : journal.remarks
         asset.status = ASSET_STATUS_CREATED
         asset.depreciation_method = account.depreciation_method
         asset.depreciation_limit = 1 # 平成19年度以降は1年まで償却可能
@@ -204,8 +204,8 @@ class JournalDetail < ApplicationRecord
       asset.account = account
       asset.sub_account_id = sub_account_id
       asset.branch = branch
-      asset.ym = journal_header.ym
-      asset.day = journal_header.day
+      asset.ym = journal.ym
+      asset.day = journal.day
       asset.amount = amount
     else
       asset.mark_for_destruction if asset

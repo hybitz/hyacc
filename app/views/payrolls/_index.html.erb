@@ -31,7 +31,7 @@
       <% @finder.get_ym_range.each do |ym| %>
         <th>
           <% if @pd[ym].new_record? %>
-            <%= link_to ym, {:action => :new, :ym => ym, :employee_id => @finder.employee_id}, remote: true %>
+            <%= link_to ym, {action: :new, ym: ym, employee_id: @finder.employee_id}, remote: true %>
           <% else %>
             <%= link_to ym, edit_payroll_path(@pd[ym]), remote: true %>
           <% end %>
@@ -276,7 +276,7 @@
       <td align="center">
         <% if @pd[ym].persisted? %>
           <%= link_to @pd[ym].pay_day.strftime('%m月%d日'),
-                edit_journal_path(@pd[ym].pay_journal_header_id),
+                edit_journal_path(@pd[ym].pay_journal_id),
                 remote: true %>
         <% end %>
       </td>
@@ -284,14 +284,14 @@
       <td>
         <% if @pd["b1"].persisted? %>
           <%= link_to @pd["b1"].pay_day.strftime('%m月%d日'),
-                edit_journal_path(@pd["b1"].pay_journal_header_id),
+                edit_journal_path(@pd["b1"].pay_journal_id),
                 remote: true %>
         <% end %>
       </td>
       <td>
         <% if @pd["b2"].persisted? %>
           <%= link_to @pd["b2"].pay_day.strftime('%m月%d日'),
-                edit_journal_path(@pd["b2"].pay_journal_header_id),
+                edit_journal_path(@pd["b2"].pay_journal_id),
                 remote: true %>
         <% end %>
       </td>

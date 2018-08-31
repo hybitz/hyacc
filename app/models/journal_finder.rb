@@ -26,7 +26,7 @@ class JournalFinder < Base::Finder
     
     # 初期検索でページングしていない時は一番最後（直近）のページを表示する
     if @page == 0
-      total_count = JournalHeader.where(conditions).count
+      total_count = Journal.where(conditions).count
       if total_count > 0
         offset = total_count % per_page
         @page = total_count / per_page + (offset > 0 ? 1 : 0)
@@ -35,7 +35,7 @@ class JournalFinder < Base::Finder
       @page = 1 if @page == 0
     end
 
-    JournalHeader.where(conditions).paginate(:page => @page, :per_page => per_page).order('ym, day, created_at')
+    Journal.where(conditions).paginate(:page => @page, :per_page => per_page).order('ym, day, created_at')
   end
 
   private

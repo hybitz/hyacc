@@ -24,7 +24,7 @@ module Reports
       rents['etc'] = Rent.new(:total_amount => 0, :address => '不明',
                               :remarks => '補助科目が指定されていない伝票',
                               :customer => Customer.new)
-      JournalHeader.where(conditions(@finder.branch_id)).includes(:journal_details).each do |jh|
+      Journal.where(conditions(@finder.branch_id)).includes(:journal_details).each do |jh|
         jh.journal_details.each do |jd|
           if jd.account.code == ACCOUNT_CODE_RENT
             sub_account_id = jd.sub_account_id || 'etc'

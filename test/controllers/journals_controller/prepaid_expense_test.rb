@@ -12,9 +12,9 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替の登録がエラーになること
-    post_jh = JournalHeader.find(18)
+    post_jh = Journal.find(18)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
@@ -53,7 +53,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度からの費用振替の更新がエラーになること
-    post_jh = JournalHeader.find(18)
+    post_jh = Journal.find(18)
     assert post_jh.fiscal_year.open?
     assert post_jh.journal_details[0].transfer_journals[0].transfer_journals[0].fiscal_year.closed?
 
@@ -97,7 +97,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替の更新がエラーになること
-    post_jh = JournalHeader.find(21)
+    post_jh = Journal.find(21)
     assert post_jh.fiscal_year.open?
     assert post_jh.journal_details[0].transfer_journals[0].fiscal_year.open? # もともとは通常の年度に登録されている自動仕訳
 
@@ -139,9 +139,9 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度の費用振替の削除がエラーになること
-    jh = JournalHeader.find(18)
+    jh = Journal.find(18)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       delete :destroy, :params => {:id => jh.id, :lock_version => jh.lock_version}
     end
 
@@ -152,9 +152,9 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
 
   def test_通常の年度への費用振替の登録が正常終了すること
     remarks = "通常の年度への費用振替の登録が正常終了すること#{Time.new}"
-    assert_nil JournalHeader.where(:remarks => remarks).first
+    assert_nil Journal.where(:remarks => remarks).first
 
-    post_jh = JournalHeader.find(21)
+    post_jh = Journal.find(21)
 
     post :create, :xhr => true, :params => {
       :journal => {
@@ -202,7 +202,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_template 'common/reload'
     assert_equal '伝票を登録しました。', flash[:notice]
 
-    assert jh = JournalHeader.where(:remarks => remarks).first
+    assert jh = Journal.where(:remarks => remarks).first
     assert_equal 201009, jh.ym
     assert_equal 14, jh.day
     assert_equal SLIP_TYPE_TRANSFER, jh.slip_type
@@ -282,7 +282,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
 
   def test_通常の年度への費用振替の更新が正常終了すること
     remarks = "通常の年度への費用振替の更新が正常終了すること #{Time.new}"
-    post_jh = JournalHeader.find(21)
+    post_jh = Journal.find(21)
     lock_version = post_jh.lock_version
 
     patch :update, :xhr => true, :params => {:id => post_jh.id,
@@ -334,7 +334,7 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
     assert_template 'common/reload'
     assert_equal '伝票を更新しました。', flash[:notice]
 
-    assert jh = JournalHeader.find_by_remarks(remarks)
+    assert jh = Journal.find_by_remarks(remarks)
     assert_equal 201005, jh.ym
     assert_equal 19, jh.day
     assert_equal SLIP_TYPE_TRANSFER, jh.slip_type
@@ -412,9 +412,9 @@ class JournalsController::PrepaidExpenseTest < ActionController::TestCase
   end
 
   def atest_通常の年度の費用振替の削除が正常終了すること
-    jh = JournalHeader.find(21)
+    jh = Journal.find(21)
 
-    assert_difference 'JournalHeader.count', -3 do
+    assert_difference 'Journal.count', -3 do
       delete :destroy, :params => {:id => jh.id, :lock_version => jh.lock_version}
     end
 

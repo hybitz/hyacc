@@ -3,11 +3,11 @@ module Auto::TransferJournal
   class InternalTradeParam < Auto::AutoJournalParam
     include HyaccConstants
     
-    attr_reader :journal_header
+    attr_reader :journal
     
-    def initialize( journal_header )
-      super( AUTO_JOURNAL_TYPE_INTERNAL_TRADE )
-      @journal_header = journal_header
+    def initialize(journal)
+      super(AUTO_JOURNAL_TYPE_INTERNAL_TRADE)
+      @journal = journal
     end
 
   end

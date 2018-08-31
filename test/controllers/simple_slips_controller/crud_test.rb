@@ -7,7 +7,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
   end
 
   def test_Trac_144_売上高の補助科目が受注先である場合に正しく伝票登録できること
-    num_journal_headers = JournalHeader.count
+    num_journals = Journal.count
     remarks = "売掛金と売上高の伝票 #{Time.now}"
 
     assert a = Account.find_by_code(6121)
@@ -31,9 +31,9 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
 
     assert_response :redirect
     assert_redirected_to :action=>:index
-    assert_equal num_journal_headers + 1, JournalHeader.count
+    assert_equal num_journals + 1, Journal.count
 
-    jh = JournalHeader.find_by_remarks(remarks)
+    jh = Journal.find_by_remarks(remarks)
     assert_equal 2, jh.journal_details.size
 
     jd = jh.journal_details[0]
@@ -58,7 +58,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
 
     result = JSON.parse(@response.body)
     jd = JournalDetail.find(19597)
-    assert_equal JournalHeader.find(jd.journal_header_id).remarks, result['remarks']
+    assert_equal Journal.find(jd.journal_id).remarks, result['remarks']
     assert_equal jd.account_id, result['account_id']
     assert_equal jd.sub_account_id, result['sub_account_id']
     assert_equal jd.tax_type, result['tax_type']
@@ -71,7 +71,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
     finder = Slips::SlipFinder.new(user)
     finder.account_code = Account.find(2).code # 現金
     slip = finder.find(11)
-    jh = JournalHeader.find(11)
+    jh = Journal.find(11)
     assert_equal 1, jh.create_user_id
     assert_equal 1, slip.asset_id
     assert_equal '100', slip.asset_code
@@ -103,7 +103,7 @@ class SimpleSlipsController::CrudTest < ActionController::TestCase
     assert_equal '伝票を更新しました。', flash[:notice]
     assert_template 'common/reload'
 
-    jh = JournalHeader.find(11)
+    jh = Journal.find(11)
     assert_equal 1, jh.create_user_id
     assert_equal 2, jh.update_user_id
   end

@@ -42,7 +42,7 @@ module Slips
 
     # ARモデル
     attr_accessor :user
-    attr_reader :journal_header
+    attr_reader :journal
 
     # 簡易入力が前提としている勘定科目、補助科目
     attr_accessor :my_account_id
@@ -50,12 +50,12 @@ module Slips
 
     def initialize(*args)
       # 第1引数が伝票ヘッダの場合
-      if args[0].is_a? JournalHeader
-        @journal_header = args[0]
+      if args[0].is_a? Journal
+        @journal = args[0]
         setup_from_journal(args[1])
       # 第1引数がハッシュの場合(通常は画面入力）
       elsif args[0].is_a? Hash
-        @journal_header = JournalHeader.new
+        @journal = Journal.new
         setup_from_params(args[0])
       else
         raise HyaccException.new(args[0].class)
@@ -63,36 +63,36 @@ module Slips
     end
 
     def new_record?
-      @journal_header.new_record?
+      @journal.new_record?
     end
 
     def errors
-      @journal_header.errors
+      @journal.errors
     end
 
     def journal_details
-      @journal_header.journal_details
+      @journal.journal_details
     end
 
     # 簡易入力機能で編集可能かどうか
     def editable?
-      SlipUtils.editable_as_simple_slip(@journal_header, @my_account_id)
+      SlipUtils.editable_as_simple_slip(@journal, @my_account_id)
     end
 
     def destroy
       # 締め状態の確認
-      JournalUtil.validate_closing_status_on_delete( @journal_header )
+      JournalUtil.validate_closing_status_on_delete( @journal )
 
       # 資産チェック
-      validate_assets( nil, @journal_header )
+      validate_assets( nil, @journal )
 
-      @journal_header.lock_version = lock_version
-      @journal_header.destroy
+      @journal.lock_version = lock_version
+      @journal.destroy
     end
 
     # 自動振替伝票があるか
     def has_auto_transfers
-      @journal_header.has_auto_transfers
+      @journal.has_auto_transfers
     end
 
     private
@@ -101,11 +101,11 @@ module Slips
       my_account = Account.find_by_code(slip_finder.account_code)
       @my_account_id = my_account.id
 
-      @id = @journal_header.id
-      @ym = @journal_header.ym
-      @day = @journal_header.day
-      @remarks = @journal_header.remarks
-      @lock_version = @journal_header.lock_version
+      @id = @journal.id
+      @ym = @journal.ym
+      @day = @journal.day
+      @remarks = @journal.remarks
+      @lock_version = @journal.lock_version
 
       if editable?
         # 本伝票が前提としている科目側の明細を取得

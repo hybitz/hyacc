@@ -12,7 +12,7 @@ class VTax
       jd.settlement_type,
       sum(jd.amount) as amount
     from journal_details jd
-    inner join journal_headers jh on (jh.id = jd.journal_header_id)
+    inner join journals jh on (jh.id = jd.journal_id)
     inner join accounts a on (a.id = jd.account_id)
     where a.is_tax_account = 1
     group by jh.ym, jd.dc_type, jd.account_id, jd.sub_account_id, jd.branch_id, jd.settlement_type

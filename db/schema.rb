@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_08_143729) do
+ActiveRecord::Schema.define(version: 2018_08_31_060846) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -387,7 +387,7 @@ ActiveRecord::Schema.define(version: 2018_08_08_143729) do
   end
 
   create_table "journal_details", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
-    t.integer "journal_header_id", null: false
+    t.integer "journal_id", null: false
     t.integer "detail_no", null: false
     t.integer "detail_type", default: 1, null: false
     t.integer "dc_type", null: false
@@ -407,11 +407,11 @@ ActiveRecord::Schema.define(version: 2018_08_08_143729) do
     t.integer "settlement_type", limit: 1
     t.decimal "tax_rate", precision: 4, scale: 3, default: "0.0", null: false
     t.integer "allocation_type"
-    t.index ["journal_header_id", "detail_no"], name: "journal_details_journal_header_id_and_detail_no_index", unique: true
+    t.index ["journal_id", "detail_no"], name: "journal_details_journal_header_id_and_detail_no_index", unique: true
     t.index ["main_detail_id"], name: "index_journal_details_main_detail_id"
   end
 
-  create_table "journal_headers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "journals", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "ym", null: false
     t.integer "day", null: false
     t.integer "slip_type", null: false
@@ -432,8 +432,8 @@ ActiveRecord::Schema.define(version: 2018_08_08_143729) do
     t.boolean "auto", default: false, null: false
     t.index ["company_id", "ym", "day"], name: "index_journal_headers_on_company_id_and_date"
     t.index ["transfer_from_detail_id"], name: "index_journal_headers_transfer_from_detail_id"
-    t.index ["transfer_from_id"], name: "index_journal_headers_on_transfer_from_id"
-    t.index ["ym"], name: "index_journal_headers_on_ym"
+    t.index ["transfer_from_id"], name: "index_journals_on_transfer_from_id"
+    t.index ["ym"], name: "index_journals_on_ym"
   end
 
   create_table "nostalgic_attrs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -448,8 +448,8 @@ ActiveRecord::Schema.define(version: 2018_08_08_143729) do
 
   create_table "payrolls", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "ym", null: false
-    t.integer "payroll_journal_header_id"
-    t.integer "pay_journal_header_id"
+    t.integer "payroll_journal_id"
+    t.integer "pay_journal_id"
     t.integer "days_of_work", default: 0
     t.integer "hours_of_work", default: 0
     t.integer "hours_of_day_off_work", default: 0
@@ -460,7 +460,7 @@ ActiveRecord::Schema.define(version: 2018_08_08_143729) do
     t.datetime "updated_at"
     t.integer "employee_id", null: false
     t.boolean "is_bonus", default: false, null: false
-    t.integer "commission_journal_header_id"
+    t.integer "commission_journal_id"
     t.integer "commuting_allowance", default: 0, null: false
     t.integer "base_salary", default: 0, null: false
     t.integer "annual_adjustment", default: 0, null: false
@@ -473,13 +473,13 @@ ActiveRecord::Schema.define(version: 2018_08_08_143729) do
     t.integer "create_user_id", null: false
     t.integer "update_user_id", null: false
     t.date "pay_day"
-    t.index ["pay_journal_header_id"], name: "fk_payrolls_pay_journal_header_id"
-    t.index ["payroll_journal_header_id"], name: "fk_payrolls_payroll_journal_header_id"
+    t.index ["pay_journal_id"], name: "fk_payrolls_pay_journal_header_id"
+    t.index ["payroll_journal_id"], name: "fk_payrolls_payroll_journal_header_id"
     t.index ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true
   end
 
   create_table "receipts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.integer "journal_header_id", null: false
+    t.integer "journal_id", null: false
     t.string "file"
     t.string "original_filename"
     t.boolean "deleted", default: false, null: false
@@ -559,7 +559,7 @@ ActiveRecord::Schema.define(version: 2018_08_08_143729) do
   end
 
   create_table "tax_admin_infos", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
-    t.integer "journal_header_id", null: false
+    t.integer "journal_id", null: false
     t.boolean "should_include_tax", default: false, null: false
     t.boolean "checked", default: false, null: false
     t.datetime "created_at"

@@ -9,7 +9,7 @@ end
 もし /^(.*?)の明細にチェックを入れる$/ do |account_name|
   find_tr '#journal_container', account_name do |tr|
     checkbox = tr.first('input[type="checkbox"]')
-    @journal_header_id = checkbox['id'].split('_')[3].to_i
+    @journal_id = checkbox['id'].split('_')[3].to_i
     assert_check checkbox['id'] 
   end
 end

@@ -2,7 +2,7 @@ class ReceiptUploader < Daddy::Uploader::Base
   process :set_metadata
 
   def store_dir
-    File.join(model.class.table_name, model.journal_header_id.to_s)
+    File.join(model.class.table_name, model.journal_id.to_s)
   end
 
   private

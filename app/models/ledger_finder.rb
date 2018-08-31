@@ -66,9 +66,9 @@ class LedgerFinder
     raise ArgumentError.new("勘定科目の指定がありません。") unless account_id.to_i > 0
     
     ret = []
-    details = JournalDetail.includes(:journal_header).references(:journal_header).select(:journal_header_id).where(conditions_for_journals(ym))
-    ids = details.map(&:journal_header_id).uniq
-    JournalHeader.where(:id => ids).order('ym, day, created_at').includes(:journal_details).each do |jh|
+    details = JournalDetail.includes(:journal).references(:journal).select(:journal_id).where(conditions_for_journals(ym))
+    ids = details.map(&:journal_id).uniq
+    Journal.where(:id => ids).order('ym, day, created_at').includes(:journal_details).each do |jh|
       ret << Ledger.new(jh, self)
     end
 
@@ -84,7 +84,7 @@ class LedgerFinder
     sql.append('account_id = ?', account_id)
     sql.append('and branch_id = ?', branch_id) if branch_id.to_i > 0
     sql.append('and journal_details.sub_account_id = ?', sub_account_id) if sub_account_id.to_i > 0
-    sql.append('and journal_headers.ym = ?', ym) if ym > 0
+    sql.append('and journals.ym = ?', ym) if ym > 0
     sql.to_a
   end
 

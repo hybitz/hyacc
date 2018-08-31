@@ -8,7 +8,7 @@ class JournalsController::AutoTest < ActionController::TestCase
   end
 
   def test_create_head_and_branch
-    assert_difference 'JournalHeader.count', 2 do
+    assert_difference 'Journal.count', 2 do
       post :create, :params => {
         :journal => {
           :ym => 200812,
@@ -37,7 +37,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => 200812, :day => 4)
+    list = Journal.where(:ym => 200812, :day => 4)
     assert_equal 2, list.length, "自動仕訳が１つ作成されるので合計２仕訳"
     jh = list[0]
     assert_equal 200812, jh.ym
@@ -64,7 +64,7 @@ class JournalsController::AutoTest < ActionController::TestCase
   def test_create_branch_and_branch
     remarks = "支店間取引の自動仕訳テスト #{Time.now}"
 
-    assert_difference 'JournalHeader.count', 3 do
+    assert_difference 'Journal.count', 3 do
       post :create, :params => {
         :journal => {
           :ym => 200812,
@@ -93,7 +93,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => 200812, :day => 2)
+    list = Journal.where(:ym => 200812, :day => 2)
     assert_equal 3, list.length, "自動仕訳が２つ作成されるので合計３仕訳"
     jh = list[0]
     assert_equal remarks, jh.remarks
@@ -119,7 +119,7 @@ class JournalsController::AutoTest < ActionController::TestCase
   end
 
   def test_create_allocate_assets_of_head_office
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = '資産配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
     post_jh.day = 17
@@ -141,7 +141,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].detail_no = 2
     post_jh.journal_details[1].allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
 
-    assert_difference 'JournalHeader.count', 4 do
+    assert_difference 'Journal.count', 4 do
       post :create, :params => {
         :journal => {
           :ym => post_jh.ym,
@@ -175,7 +175,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
+    list = Journal.where(:ym => post_jh.ym, :day => post_jh.day)
     assert_equal 4, list.length, "自動仕訳が３つ作成されるので合計４仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks
@@ -211,7 +211,7 @@ class JournalsController::AutoTest < ActionController::TestCase
   end
 
   def test_create_allocate_assets_of_branch_office
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = '資産配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
     post_jh.day = 16
@@ -235,7 +235,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     jd.dc_type = DC_TYPE_CREDIT # 貸方
     jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
 
-    assert_difference 'JournalHeader.count', 7 do
+    assert_difference 'Journal.count', 7 do
       post :create, :params => {
         :journal => {
           :ym => post_jh.ym,
@@ -270,7 +270,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
+    list = Journal.where(:ym => post_jh.ym, :day => post_jh.day)
     assert_equal 7, list.length, "自動仕訳が6つ作成されるので合計7仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks
@@ -317,7 +317,7 @@ class JournalsController::AutoTest < ActionController::TestCase
   end
 
   def test_create_not_allocate_assets
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = '費用配賦テスト' + Time.now.to_s
     post_jh.ym = 200908
     post_jh.day = 15
@@ -337,7 +337,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
 
-    assert_difference 'JournalHeader.count', 1 do
+    assert_difference 'Journal.count', 1 do
       post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
@@ -370,7 +370,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
+    list = Journal.where(:ym => post_jh.ym, :day => post_jh.day)
     assert_equal 1, list.length, "自動仕訳は作成されないので合計１仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks

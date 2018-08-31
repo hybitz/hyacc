@@ -12,7 +12,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:finder)
-    assert_not_nil assigns(:journal_headers)
+    assert_not_nil assigns(:journals)
   end
 
   def test_list_by_ym_like
@@ -23,7 +23,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
     assert_not_nil assigns(:finder)
-    assert_equal 4, assigns(:journal_headers).size
+    assert_equal 4, assigns(:journals).size
   end
 
   def test_追加
@@ -36,7 +36,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_コピーを追加
-    copy_from = JournalHeader.find(1)
+    copy_from = Journal.find(1)
     ym = Date.today.strftime('%Y%m')
     assert_not_equal ym, copy_from.ym
 
@@ -53,7 +53,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   def test_登録
     remarks = '振替伝票テスト' + Time.now.to_s
 
-    assert_difference 'JournalHeader.count', 1 do
+    assert_difference 'Journal.count', 1 do
       post :create, :xhr => true, :params => {
         :journal => {
           :ym => '200803',
@@ -108,7 +108,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_登録_入力エラー
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :create, :xhr => true, :params => {
         :journal => {
           :ym => '200803',
@@ -150,7 +150,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     a = Account.find_by_code(ACCOUNT_CODE_DEBT)
     assert_equal false, a.journalizable
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :create, :xhr => true, :params => {
         :journal => {
           :ym => '200907',
@@ -187,7 +187,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_接待交際費で交際費人数なしでの登録がエラーになること
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :create, :xhr => true, :params => {
         :journal => {
           :remarks => "接待交際費テスト",
@@ -228,7 +228,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_接待交際費で交際費人数ありでの登録が正常終了すること
-    assert_difference 'JournalHeader.count', 1 do
+    assert_difference 'Journal.count', 1 do
       post :create, :xhr => true, :params => {
         :journal => {
           :remarks=>"接待交際費テスト",
@@ -266,7 +266,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_編集
-    get :edit, :xhr => true, :params => {:id => JournalHeader.first}
+    get :edit, :xhr => true, :params => {:id => Journal.first}
 
     assert_response :success
     assert_template 'edit'
@@ -294,7 +294,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_更新
-    jh = JournalHeader.find(1)
+    jh = Journal.find(1)
     assert ! jh.receipt
     assert_not_equal user.id, jh.create_user_id
     sign_in user
@@ -337,7 +337,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   def test_Trac_99_バリデーションエラー時に金額が正しいか
     jh = Journal.find(11)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       patch :update, :xhr => true, :params => {:id => jh.id,
         :journal => {
           :ym=>200907,
@@ -379,9 +379,9 @@ class JournalsController::CrudTest < ActionController::TestCase
   # 賃金台帳から登録された仕訳の更新テスト
   def test_update_payroll
     remarks = "賃金台帳から登録された仕訳の更新テスト #{Time.now}"
-    jh = JournalHeader.find(4453)
+    jh = Journal.find(4453)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       patch :update, :xhr => true, :params => {:id => jh.id,
         :journal => {
           :ym => jh.ym,
@@ -412,12 +412,12 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_template 'common/reload'
 
     # 伝票区分は台帳登録のまま
-    jh = JournalHeader.find_by_remarks(remarks)
+    jh = Journal.find_by_remarks(remarks)
     assert_equal SLIP_TYPE_AUTO_TRANSFER_PAYROLL, jh.slip_type
   end
 
   def test_更新_楽観的ロックエラー
-    jh = JournalHeader.find(1)
+    jh = Journal.find(1)
 
     patch :update, :xhr => true, :params => {:id => jh.id,
       :journal => {
@@ -451,7 +451,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   # 楽観的ロックによる更新エラー
   def test_destroy_fail_by_lock
-    jh = JournalHeader.find(6)
+    jh = Journal.find(6)
     lock_version = jh.lock_version
 
     # 意図的にロックバージョンを上げる
@@ -461,7 +461,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
 
     # 伝票が元のままであるか
-    jh = JournalHeader.find(6)
+    jh = Journal.find(6)
     assert_equal 1, jh.transfer_journals.size(), "自動振替仕訳が削除されていないこと"
     assert_equal 1, jh.transfer_journals[0].transfer_journals.size(), "自動振替仕訳が削除されていないこと"
   end

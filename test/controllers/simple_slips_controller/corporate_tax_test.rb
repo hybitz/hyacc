@@ -29,7 +29,7 @@ class SimpleSlipsController::CorporateTaxTest < ActionController::TestCase
     assert_redirected_to :action => :index
     assert_equal '伝票を登録しました。', flash[:notice]
 
-    assert jh = JournalHeader.find_by_remarks(remarks)
+    assert jh = Journal.find_by_remarks(remarks)
 
     jd = jh.journal_details[0]
     assert_nil jd.settlement_type

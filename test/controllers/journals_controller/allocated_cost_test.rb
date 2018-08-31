@@ -11,7 +11,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     branch = Branch.find(1)
     assert_equal 2, branch.children.size
     
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = '費用配賦_子部門に均等' + Time.now.to_s
     post_jh.ym = 200908
     post_jh.day = 13
@@ -66,7 +66,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
+    list = Journal.where(:ym => post_jh.ym, :day => post_jh.day)
     assert_equal 4, list.length, "自動仕訳が３つ作成されるので合計４仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks
@@ -107,7 +107,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     branch = Branch.find(2)
     assert_equal 1, branch.siblings.size
 
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = '費用配賦_同列部門に均等' + Time.now.to_s
     post_jh.ym = 200908
     post_jh.day = 18
@@ -160,7 +160,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    list = JournalHeader.where(ym: post_jh.ym, day: post_jh.day)
+    list = Journal.where(ym: post_jh.ym, day: post_jh.day)
     assert_equal 4, list.length, "本伝票、配賦仕訳、部門間取引２部門の計４仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks
@@ -200,7 +200,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   def test_費用配賦_前払費用_子部門に均等
     remarks = "費用配賦_前払費用_子部門に均等 #{Time.now}"
     
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = remarks
     post_jh.ym = 200908
     post_jh.day = 14
@@ -223,7 +223,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.tax_type = TAX_TYPE_NONTAXABLE
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
-    assert_difference 'JournalHeader.count', 6 do
+    assert_difference 'Journal.count', 6 do
       post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
@@ -257,7 +257,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    assert @journal = JournalHeader.where(:remarks => remarks).first
+    assert @journal = Journal.where(:remarks => remarks).first
 
     # 自動仕訳（費用配賦）は未払振替伝票の次に作成されるため、配列要素の２番目
     auto1 = @journal.journal_details[0].transfer_journals[1]
@@ -271,7 +271,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     branch = Branch.find(3)
     assert_equal 1, branch.siblings.size
 
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = "費用配賦_前払費用_同列部門に均等 #{Time.now}"
     post_jh.ym = 200908
     post_jh.day = 14
@@ -294,7 +294,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.tax_type = TAX_TYPE_NONTAXABLE
     jd.dc_type = DC_TYPE_CREDIT # 貸方
   
-    assert_difference 'JournalHeader.count', 6 do
+    assert_difference 'Journal.count', 6 do
       post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
@@ -328,7 +328,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    list = JournalHeader.where('remarks like ?', JournalUtil.escape_search(post_jh.remarks) + '%')
+    list = Journal.where('remarks like ?', JournalUtil.escape_search(post_jh.remarks) + '%')
     assert_equal 6, list.size, "本伝票、前払費用、逆仕訳、配賦、部門間取引２部門の計６仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks
@@ -401,7 +401,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert_equal 3, branches.size
     assert_equal 3, BranchEmployee.where(branch_id: branches.select(:id), default_branch: true, deleted: false).size
 
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = "費用配賦_前払費用_人頭割 #{Time.now}"
     post_jh.ym = 200908
     post_jh.day = 21
@@ -426,7 +426,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.tax_type = TAX_TYPE_NONTAXABLE
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
-    assert_difference 'JournalHeader.count', 6 do
+    assert_difference 'Journal.count', 6 do
       post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
@@ -462,7 +462,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    list = JournalHeader.where('remarks like ?', JournalUtil.escape_search(post_jh.remarks) + '%')
+    list = Journal.where('remarks like ?', JournalUtil.escape_search(post_jh.remarks) + '%')
     assert_equal 6, list.size, "本伝票、前払費用、逆仕訳、配賦、部門間取引２部門の計６仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks
@@ -540,7 +540,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   def test_auto_journal_type_accrued_expense
     remarks = 'test_auto_journal_type_accrued_expense' + Time.now.to_s
     
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = remarks
     post_jh.ym = 200908
     post_jh.day = 15
@@ -563,7 +563,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.tax_type = 1
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
-    assert_difference 'JournalHeader.count', 6 do
+    assert_difference 'Journal.count', 6 do
       post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
@@ -597,7 +597,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    assert jh = JournalHeader.where(:remarks => remarks).first
+    assert jh = Journal.where(:remarks => remarks).first
 
     # 自動仕訳（費用配賦）は前払振替伝票の次に作成されるため、配列要素の２番目
     auto1 = jh.journal_details[0].transfer_journals[1]
@@ -610,7 +610,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   def test_auto_journal_type_date_input_expense
     remarks = 'test_auto_journal_type_date_input_expense ' + Time.now.to_s
     
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = remarks 
     post_jh.ym = 200908
     post_jh.day = 16
@@ -636,7 +636,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.tax_type = 1
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
-    assert_difference 'JournalHeader.count', 6 do
+    assert_difference 'Journal.count', 6 do
       post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
@@ -673,7 +673,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    assert jh = JournalHeader.where(:remarks => remarks).first
+    assert jh = Journal.where(:remarks => remarks).first
 
     # 自動仕訳（費用配賦）は計上日振替伝票の次に作成されるため、配列要素の２番目
     auto1 = jh.journal_details[0].transfer_journals[1]
@@ -687,7 +687,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert a = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = '法人税配賦テスト' + Time.now.to_s
     post_jh.ym = 200911
     post_jh.day = 3
@@ -710,7 +710,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     post_jh.journal_details[1].dc_type = DC_TYPE_CREDIT # 貸方
     post_jh.journal_details[1].detail_no = 2
 
-    assert_difference 'JournalHeader.count', 7 do
+    assert_difference 'Journal.count', 7 do
       post :create, :xhr => true, :params => {
         :journal => {
           :ym => post_jh.ym,
@@ -744,7 +744,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => post_jh.ym, :day => post_jh.day)
+    list = Journal.where(:ym => post_jh.ym, :day => post_jh.day)
     
     assert_equal 7, list.length, "自動仕訳が6つ作成されるので合計7仕訳"
     jh = list[0]
@@ -764,7 +764,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   
   
   def test_振替伝票の登録_配賦なし
-    post_jh = JournalHeader.new
+    post_jh = Journal.new
     post_jh.remarks = '振替伝票の登録_配賦なし' + Time.now.to_s
     post_jh.ym = 200908
     post_jh.day = 14
@@ -785,7 +785,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     jd.tax_type = 1
     jd.dc_type = DC_TYPE_CREDIT # 貸方
 
-    assert_difference 'JournalHeader.count', 1 do
+    assert_difference 'Journal.count', 1 do
       post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
@@ -818,7 +818,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = JournalHeader.where(:remarks => post_jh.remarks)
+    list = Journal.where(:remarks => post_jh.remarks)
     assert_equal 1, list.length, '自動仕訳が作成されない'
     jh = list.first
     assert_equal post_jh.journal_details[0].input_amount, jh.amount

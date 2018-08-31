@@ -4,7 +4,7 @@ class DebtFinder < Base::Finder
   def list
     ret = []
     sum = 0
-    jhs = JournalHeader.where(conditions).includes(:journal_details).order('ym desc, day desc, journal_headers.created_at desc').reverse
+    jhs = Journal.where(conditions).includes(:journal_details).order('ym desc, day desc, journals.created_at desc').reverse
     
     # 仮負債の明細ごとにリスト化する
     a = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
@@ -14,14 +14,14 @@ class DebtFinder < Base::Finder
         d.id = jh.id
         d.ym = jh.ym
         d.day = jh.day
-        # Trac#140 明細から派生する自動仕訳をJournalHeaderではなくJournalDetailに関連付けるようにしました。
+        # Trac#140 明細から派生する自動仕訳をJournalではなくJournalDetailに関連付けるようにしました。
         # 既存のデータはヘッダに関連付いています。
         if jh.transfer_from_id
-          d.remarks = JournalHeader.find(jh.transfer_from_id).remarks
+          d.remarks = Journal.find(jh.transfer_from_id).remarks
           d.transfer_from_id = jh.transfer_from_id
         # 今後登録されるデータは明細に関連付いています。
         else
-          src_jh = JournalDetail.find(jh.transfer_from_detail_id).journal_header
+          src_jh = JournalDetail.find(jh.transfer_from_detail_id).journal
           d.remarks = src_jh.remarks
           d.transfer_from_id = src_jh.id
         end

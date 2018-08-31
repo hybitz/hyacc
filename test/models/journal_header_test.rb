@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class JournalHeaderTest < ActiveSupport::TestCase
+class JournalTest < ActiveSupport::TestCase
 
   def test_ym
-    jh = JournalHeader.find(1)
+    jh = Journal.find(1)
 
     # 年月が未設定は認めない
     jh.ym = nil
@@ -23,7 +23,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
   end
 
   def test_day
-    jh = JournalHeader.find(1)
+    jh = Journal.find(1)
 
     # 日が未設定は認めない
     jh.ym = 200701
@@ -46,7 +46,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
   def test_date=
     expected = Date.new(2018, 1, 20)
 
-    jh = JournalHeader.new
+    jh = Journal.new
     jh.date = expected
     
     assert_equal 201801, jh.ym
@@ -55,19 +55,19 @@ class JournalHeaderTest < ActiveSupport::TestCase
   
   def test_find_by_finder_key
     # fixtureで検索キーを設定していないので、ARを一旦保存
-    JournalHeader.all.each {|jh| assert jh.save }
+    Journal.all.each {|jh| assert jh.save }
 
-    journals = JournalHeader.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,1-.*')
+    journals = Journal.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,1-.*')
     assert_equal 2, journals.count
 
     # 検索条件がすべて１つの明細のものでなければヒットしない
-    journals = JournalHeader.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,2-.*')
+    journals = Journal.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,2-.*')
     assert_equal 0, journals.count
   end
 
   # 貸借の一致しない仕訳の登録がエラーになること
   def test_illegal_dc_amount
-    jh = JournalHeader.new
+    jh = Journal.new
     jh.company_id = 1
     jh.ym = 200906
     jh.day = 8
@@ -94,7 +94,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
 
   # Trac#190
   def test_validate_fiscal_year
-    jh = JournalHeader.find(1)
+    jh = Journal.find(1)
 
     assert_nothing_raised {
       jh.save!
@@ -108,7 +108,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
   end
 
   def test_copy
-    jh = JournalHeader.find(5880)
+    jh = Journal.find(5880)
 
     copy = jh.copy
     assert copy.new_record?
@@ -134,7 +134,7 @@ class JournalHeaderTest < ActiveSupport::TestCase
     jh.journal_details.each_with_index do |jd, i|
       copy_jd = copy.journal_details[i]
       assert copy_jd.new_record?
-      assert_nil copy_jd.journal_header_id
+      assert_nil copy_jd.journal_id
       assert_equal jd.detail_no, copy_jd.detail_no
       assert_equal jd.dc_type, copy_jd.dc_type
       assert_equal jd.account_id, copy_jd.account_id
@@ -181,12 +181,12 @@ class JournalHeaderTest < ActiveSupport::TestCase
   end
 
   def test_get_all_related_journals
-    journal = JournalHeader.new
-    journal.transfer_journals << JournalHeader.new
-    journal.transfer_journals[0].transfer_journals << JournalHeader.new
+    journal = Journal.new
+    journal.transfer_journals << Journal.new
+    journal.transfer_journals[0].transfer_journals << Journal.new
     assert_equal 3, journal.get_all_related_journals.length
 
-    journal.transfer_journals << JournalHeader.new
+    journal.transfer_journals << Journal.new
     assert_equal 4, journal.get_all_related_journals.length
   end
 

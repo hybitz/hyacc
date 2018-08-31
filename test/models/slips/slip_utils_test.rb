@@ -30,7 +30,7 @@ class Slips::SlipUtilsTest < ActiveSupport::TestCase
   private
 
   def create_journal
-    jh = JournalHeader.new
+    jh = Journal.new
     jh.slip_type = SLIP_TYPE_TRANSFER
     
     jd1 = JournalDetail.new

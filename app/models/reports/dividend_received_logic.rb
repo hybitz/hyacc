@@ -27,7 +27,7 @@ module Reports
     end
     
     def get_stocks(ym_start, ym_end, sub_account_id)
-      stocks = JournalDetail.where(:account_id => Account.where(:code => ACCOUNT_CODE_DIVIDEND_RECEIVED), :sub_account_id => sub_account_id).joins(:journal_header).where("journal_headers.ym >= ? and journal_headers.ym <= ?", ym_start, ym_end)      
+      stocks = JournalDetail.where(account_id: Account.where(code: ACCOUNT_CODE_DIVIDEND_RECEIVED), sub_account_id: sub_account_id).joins(:journal).where("journals.ym >= ? and journals.ym <= ?", ym_start, ym_end)      
     end
   end
 end

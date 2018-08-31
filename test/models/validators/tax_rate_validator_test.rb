@@ -3,7 +3,7 @@ require 'test_helper'
 class TaxRateValidatorTest < ActiveSupport::TestCase
 
   def test_非課税
-    jh = JournalHeader.new
+    jh = Journal.new
     jd = jh.journal_details.build(:account => expense_account, :branch => branch, :amount => 100)
     jd.tax_type = TAX_TYPE_NONTAXABLE
 
@@ -17,7 +17,7 @@ class TaxRateValidatorTest < ActiveSupport::TestCase
   end
 
   def test_内税
-    jh = JournalHeader.new
+    jh = Journal.new
     jd = jh.journal_details.build(:account => expense_account, :branch => branch, :amount => 100)
     jd.tax_type = TAX_TYPE_INCLUSIVE
 

@@ -1,3 +1,3 @@
 class TaxAdminInfo < ApplicationRecord
-  belongs_to :journal_header
+  belongs_to :journal
 end

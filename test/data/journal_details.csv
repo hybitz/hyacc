@@ -1,4 +1,4 @@
-id,journal_header_id,detail_no,detail_type,dc_type,account_id,account_name,sub_account_id,sub_account_name,branch_id,branch_name,amount,note,tax_type,tax_rate,main_detail_id,social_expense_number_of_people,allocation_type
+id,journal_id,detail_no,detail_type,dc_type,account_id,account_name,sub_account_id,sub_account_name,branch_id,branch_name,amount,note,tax_type,tax_rate,main_detail_id,social_expense_number_of_people,allocation_type
 1,1,1,1,1,19,テスト科目,,,1,本店管理部,105,,1,0,,,
 2,1,2,1,2,2,テスト科目,,,1,本店管理部,105,,1,0,,,
 3,2,1,1,1,5,テスト科目,1,テスト補助科目,1,本店管理部,105,,1,0,,,

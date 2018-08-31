@@ -13,12 +13,12 @@
     <th class="action"></th>
   </tr>
   
-  <% if @journal_headers.empty? %>
+  <% if @journals.empty? %>
     <tr>
       <td colspan="11">該当する伝票はありません。</td>
     </tr>
   <% else %>
-    <% @journal_headers.each do |jh| %>
+    <% @journals.each do |jh| %>
     <tr>
       <td><%= jh.ym %></td>
       <td><%= jh.day %></td>

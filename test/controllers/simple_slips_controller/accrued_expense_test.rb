@@ -10,7 +10,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度への費用振替の登録がエラーになること
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :create, :params => {
         :account_code => ACCOUNT_CODE_CASH,
         :simple_slip => {
@@ -37,7 +37,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     finder.account_code = Account.find(29).code
     slip = finder.find(12)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       patch :update, :xhr => true, :params => {:id => slip.id,
         :account_code => finder.account_code,
         :simple_slip => {
@@ -67,7 +67,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     finder.account_code = Account.find(29).code
     slip = finder.find(15)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       patch :update, :xhr => true, :params => {:id => slip.id,
         :account_code => finder.account_code,
         :simple_slip => {
@@ -93,9 +93,9 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
   end
 
   def test_本締の年度の費用振替の削除がエラーになること
-    jh = JournalHeader.find(12)
+    jh = Journal.find(12)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :destroy, :params => {:account_code => ACCOUNT_CODE_CASH, :id => jh.id, :lock_version => jh.lock_version}
     end
 
@@ -106,7 +106,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
   def test_通常の年度への費用振替の登録が正常終了すること
     remarks = "通常の年度への費用振替の登録が正常終了すること #{Time.new}"
-    assert_nil JournalHeader.find_by_remarks(remarks)
+    assert_nil Journal.find_by_remarks(remarks)
 
     post :create, :params => {
       :account_code => ACCOUNT_CODE_CASH,
@@ -126,7 +126,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     assert_redirected_to :action => :index
     assert_equal '伝票を登録しました。', flash[:notice]
 
-    assert jh = JournalHeader.find_by_remarks(remarks)
+    assert jh = Journal.find_by_remarks(remarks)
     assert_equal 201005, jh.ym
     assert_equal 17, jh.day
     assert_equal SLIP_TYPE_SIMPLIFIED, jh.slip_type
@@ -174,7 +174,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
 
   def test_通常の年度への費用振替の更新が正常終了すること
     remarks = "通常の年度への費用振替の更新が正常終了すること #{Time.new}"
-    jh = JournalHeader.find(15)
+    jh = Journal.find(15)
     lock_version = jh.lock_version
 
     patch :update, :xhr => true, :params => {:id => jh.id,
@@ -199,7 +199,7 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
     assert_template 'common/reload'
     assert_equal '伝票を更新しました。', flash[:notice]
 
-    assert jh = JournalHeader.find_by_remarks(remarks)
+    assert jh = Journal.find_by_remarks(remarks)
     assert_equal 201012, jh.ym
     assert_equal 31, jh.day
     assert_equal SLIP_TYPE_SIMPLIFIED, jh.slip_type
@@ -246,11 +246,11 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度の費用振替を取り消して更新できること
-    jh = JournalHeader.find(15)
+    jh = Journal.find(15)
     assert my_account = Account.find_by_code(ACCOUNT_CODE_CASH)
     assert_accrued_expense(my_account, jh)
 
-    assert_difference 'JournalHeader.count', -2 do
+    assert_difference 'Journal.count', -2 do
       patch :update, :xhr => true, :params => {
         :account_code => my_account.code, :id => jh.id,
         :simple_slip => {:lock_version => jh.lock_version}
@@ -263,11 +263,11 @@ class SimpleSlipsController::AccruedExpenseTest < ActionController::TestCase
   end
 
   def test_通常の年度の費用振替の削除が正常終了すること
-    jh = JournalHeader.find(15)
+    jh = Journal.find(15)
     assert my_account = Account.find_by_code(ACCOUNT_CODE_CASH)
     assert_accrued_expense(my_account, jh)
 
-    assert_difference 'JournalHeader.count', -3 do
+    assert_difference 'Journal.count', -3 do
       delete :destroy, :params => {:account_code => my_account.code, :id => jh.id, :lock_version => jh.lock_version}
     end
 

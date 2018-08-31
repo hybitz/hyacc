@@ -5,7 +5,7 @@ module Auto::TransferJournal
 
     def initialize( auto_journal_param )
       super(auto_journal_param)
-      @src_jh = auto_journal_param.journal_header
+      @src_jh = auto_journal_param.journal
     end
 
     def make_journals

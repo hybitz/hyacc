@@ -8,7 +8,7 @@ class FiscalYear < ApplicationRecord
   after_create :create_sequence_for_asset_code
 
   def get_deemed_tax_journals
-    JournalHeader.find_closing_journals(self, SLIP_TYPE_DEEMED_TAX)
+    Journal.find_closing_journals(self, SLIP_TYPE_DEEMED_TAX)
   end
 
   def tax_exclusive?

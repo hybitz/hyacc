@@ -20,7 +20,7 @@ class JournalsController < Base::HyaccController
   end
 
   def index
-    @journal_headers = finder.list(:per_page => current_user.slips_per_page)
+    @journals = finder.list(per_page: current_user.slips_per_page)
   end
 
   def show
@@ -113,7 +113,7 @@ class JournalsController < Base::HyaccController
   end
 
   def destroy
-    jh = JournalHeader.find(params[:id])
+    jh = Journal.find(params[:id])
     if can_delete(jh)
       begin
         jh.transaction do

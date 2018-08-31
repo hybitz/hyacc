@@ -14,11 +14,11 @@ module PayrollHelper
       pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee.id)
       pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee.id)
       pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee.id)
-      if pr_3.payroll_journal_header.nil?
-        if pr_2.payroll_journal_header.present?
+      if pr_3.payroll_journal.nil?
+        if pr_2.payroll_journal.present?
           return get_remuneration(ym_2, prefecture_code, pr_2.salary_total)
         end
-        if pr_1.payroll_journal_header.present?
+        if pr_1.payroll_journal.present?
           return get_remuneration(ym_1, prefecture_code, pr_1.salary_total)
         end
         return TaxUtils.get_basic_info(ym, prefecture_code, salary).monthly_earnings
@@ -30,7 +30,7 @@ module PayrollHelper
         x = y.to_s + "04"
       end
       pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
-      while pr.payroll_journal_header.nil?
+      while pr.payroll_journal.nil?
         x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
         pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
       end

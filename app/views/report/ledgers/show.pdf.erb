@@ -1,16 +1,16 @@
 <% Account.where.not(code: [ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD]).where(trade_type: TRADE_TYPE_EXTERNAL).order(:code).each do |a| %>
   <%
     sql = SqlBuilder.new
-    sql.append('journal_headers.ym in (?)', @fiscal_year.year_month_range)
-    sql.append('and journal_headers.slip_type in(?)', EXTERNAL_SLIP_TYPES.keys)
+    sql.append('journals.ym in (?)', @fiscal_year.year_month_range)
+    sql.append('and journals.slip_type in(?)', EXTERNAL_SLIP_TYPES.keys)
     sql.append('and exists (')
     sql.append('  select 1 from journal_details')
-    sql.append('  where journal_details.journal_header_id = journal_headers.id')
+    sql.append('  where journal_details.journal_id = journals.id')
     sql.append('    and journal_details.account_id = ?', a.id)
     sql.append(')')
 
-    journal_headers = JournalHeader.where(sql.to_a)
-    next unless journal_headers.present?
+    journals = Journal.where(sql.to_a)
+    next unless journals.present?
   %>
   <div class="alwaysbreak">
     <table account_code="<%= a.code %>" dc_type="<%= a.dc_type %>" class="ledger">
@@ -47,7 +47,7 @@
           </tr>
         <% end %>
 
-        <% journal_headers.order('ym, day, id').map{|jh| Ledger.new(jh, finder) }.each do |ledger| %>
+        <% journals.order('ym, day, id').map{|jh| Ledger.new(jh, finder) }.each do |ledger| %>
           <tr class="nobreak">
             <td class="yearMonth"><%= ledger.ym %></td>
             <td class="day"><%= ledger.day %></td>

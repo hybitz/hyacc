@@ -7,7 +7,7 @@ class SimpleSlipsController::DepositTest < ActionController::TestCase
   end
 
   def test_登録
-    assert_difference 'JournalHeader.count', 1 do
+    assert_difference 'Journal.count', 1 do
       post :create, :params => {
         :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
         :simple_slip => {
@@ -33,7 +33,7 @@ class SimpleSlipsController::DepositTest < ActionController::TestCase
   end
 
   def test_預金で銀行口座の指定がない場合に更新処理がエラーになること
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       patch :update, :xhr => true, :params => {:id => 9,
         :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
         :simple_slip => {
@@ -55,7 +55,7 @@ class SimpleSlipsController::DepositTest < ActionController::TestCase
   end
 
   def test_預金で銀行口座の指定がない場合に登録処理がエラーになること
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       post :create, :params => {
         :account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT,
         :simple_slip => {

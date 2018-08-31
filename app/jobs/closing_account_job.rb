@@ -89,7 +89,7 @@ class ClosingAccountJob < ActiveJob::Base
     sql.append('  jd.dc_type,')
     sql.append('  sum(jd.amount) as amount')
     sql.append('from journal_details jd')
-    sql.append('inner join journal_headers jh on (jh.id = jd.journal_header_id)')
+    sql.append('inner join journals jh on (jh.id = jd.journal_id)')
     sql.append('inner join accounts a on (a.id = jd.account_id)')
     sql.append('where ym >= ? and ym <= ?', ym_range.first, ym_range.last)
     sql.append('  and path like ?', '%' + account.path + '%')

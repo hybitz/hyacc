@@ -6,7 +6,7 @@ module Auto::TransferJournal
     def initialize( auto_journal_param )
       super( auto_journal_param )
       @src_jd = auto_journal_param.journal_detail
-      @src_jh = @src_jd.journal_header
+      @src_jh = @src_jd.journal
     end
 
     def make_journals
@@ -57,15 +57,15 @@ module Auto::TransferJournal
       ajt = jd.auto_journal_type.to_i
       
       if ajt == AUTO_JOURNAL_TYPE_PREPAID_EXPENSE
-        ym = HyaccDateUtil.next_month( jd.journal_header.ym ) 
+        ym = HyaccDateUtil.next_month(jd.journal.ym) 
         [ ym, 1 ]
       elsif ajt == AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE
-        ym = HyaccDateUtil.last_month( jd.journal_header.ym )
+        ym = HyaccDateUtil.last_month(jd.journal.ym)
         [ ym, HyaccDateUtil.last_day_of_month(ym) ]
       elsif ajt == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE
         [ jd.auto_journal_year.to_i * 100 + jd.auto_journal_month.to_i, jd.auto_journal_day.to_i ]
       else
-        [ jd.journal_header.ym, jd.journal_header.day ]
+        [ jd.journal.ym, jd.journal.day ]
       end
     end
   end

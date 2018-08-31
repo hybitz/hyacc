@@ -17,17 +17,17 @@ class DebtsControllerTest < ActionController::TestCase
   end
   
   def test_仮負債個別精算
-    num_journal_headers = JournalHeader.count
+    num_journals = Journal.count
     
-    post :create, :params => {:journal_header_id => '6466',:branch_id => '3',
+    post :create, :params => {:journal_id => '6466',:branch_id => '3',
       :account_id=>'5',:sub_account_id => '1',
       :ymd=>'2009-09-24'
     }
     assert_response :success
-    assert_equal num_journal_headers + 1, JournalHeader.count
+    assert_equal num_journals + 1, Journal.count
     
     # 仕訳内容の確認
-    list = JournalHeader.where(:ym => 200909, :day => 24)
+    list = Journal.where(:ym => 200909, :day => 24)
     assert_equal 1, list.length, "自動仕訳が１つ作成される"
     jh = list[0]
     assert_equal 6466, jh.transfer_from_id
@@ -36,15 +36,15 @@ class DebtsControllerTest < ActionController::TestCase
   
   # 仮負債個別精算（エラー）
   def test_update_fail
-    num_journal_headers = JournalHeader.count
+    num_journals = Journal.count
     
     post :create, :params => {
-      :journal_header_id => '6466', :branch_id => '3',
+      :journal_id => '6466', :branch_id => '3',
       :account_id=>'5', :sub_account_id => '',
       :ymd=>'2009-09-24'
     }
     assert_response :internal_server_error
-    assert_equal num_journal_headers, JournalHeader.count
+    assert_equal num_journals, Journal.count
   end
 
 end

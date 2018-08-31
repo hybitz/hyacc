@@ -5,9 +5,9 @@ class Payroll < ApplicationRecord
   CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY = '1'
 
   belongs_to :employee
-  belongs_to :payroll_journal_header, class_name: 'JournalHeader', dependent: :destroy, optional: true
-  belongs_to :pay_journal_header, class_name: 'JournalHeader', dependent: :destroy, optional: true
-  belongs_to :commission_journal_header, class_name: 'JournalHeader', dependent: :destroy, optional: true
+  belongs_to :payroll_journal, class_name: 'Journal', dependent: :destroy, optional: true
+  belongs_to :pay_journal, class_name: 'Journal', dependent: :destroy, optional: true
+  belongs_to :commission_journal, class_name: 'Journal', dependent: :destroy, optional: true
 
   validates :employee_id, presence: true
   validates :ym, presence: true
@@ -123,8 +123,8 @@ class Payroll < ApplicationRecord
       end
     end
   
-    self.payroll_journal_header = journals[0]
-    self.pay_journal_header = journals[1]
-    self.commission_journal_header = journals[2]
+    self.payroll_journal = journals[0]
+    self.pay_journal = journals[1]
+    self.commission_journal = journals[2]
   end
 end

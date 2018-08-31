@@ -33,7 +33,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
   end
 
   def test_本締の年度に費用振替が存在する伝票の更新がエラーになること
-    jh = JournalHeader.find(18)
+    jh = Journal.find(18)
     assert_equal 201012, jh.ym
     jd = jh.normal_details[0]
     assert_equal 201101, jd.transfer_journals[0].transfer_journals[0].ym
@@ -64,7 +64,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
 
   def test_本締の年度への費用振替の更新がエラーになること
     account = Account.find(5)
-    jh = JournalHeader.find(21)
+    jh = Journal.find(21)
     slip = SimpleSlip.build_from_journal(account.id, jh.id)
 
     patch simple_slip_path(jh), :params => {
@@ -92,9 +92,9 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
   end
 
   def test_本締の年度の費用振替の削除がエラーになること
-    jh = JournalHeader.find(18)
+    jh = Journal.find(18)
 
-    assert_no_difference 'JournalHeader.count' do
+    assert_no_difference 'Journal.count' do
       delete simple_slip_path(jh), :params => {:account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :lock_version => jh.lock_version}
     end
 
@@ -105,7 +105,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
 
   def test_通常の年度への費用振替の登録が正常終了すること
     remarks = "通常の年度への費用振替の登録が正常終了すること #{Time.new}"
-    assert_nil JournalHeader.find_by_remarks(remarks)
+    assert_nil Journal.find_by_remarks(remarks)
 
     post simple_slips_path, :params => {
       :account_code => ACCOUNT_CODE_CASH,
@@ -125,7 +125,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
     assert_redirected_to :action => :index
     assert_equal '伝票を登録しました。', flash[:notice]
 
-    assert jh = JournalHeader.find_by_remarks(remarks)
+    assert jh = Journal.find_by_remarks(remarks)
     assert_equal 201005, jh.ym
     assert_equal 10, jh.day
     assert_equal SLIP_TYPE_SIMPLIFIED, jh.slip_type
@@ -172,7 +172,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
 
   def test_通常の年度への費用振替の更新が正常終了すること
     remarks = "通常の年度への費用振替の更新が正常終了すること #{Time.new}"
-    jh = JournalHeader.find(21)
+    jh = Journal.find(21)
     lock_version = jh.lock_version
 
     patch simple_slip_path(jh), :params => {
@@ -198,7 +198,7 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
     assert_template 'common/reload'
     assert_equal '伝票を更新しました。', flash[:notice]
 
-    assert jh = JournalHeader.find_by_remarks(remarks)
+    assert jh = Journal.find_by_remarks(remarks)
     assert_equal 201011, jh.ym
     assert_equal 30, jh.day
     assert_equal SLIP_TYPE_SIMPLIFIED, jh.slip_type
@@ -245,9 +245,9 @@ class SimpleSlipsController::PrepaidExpenseTest < ActionDispatch::IntegrationTes
   end
 
   def test_通常の年度の費用振替の削除が正常終了すること
-    jh = JournalHeader.find(21)
+    jh = Journal.find(21)
 
-    assert_difference 'JournalHeader.count', -3 do
+    assert_difference 'Journal.count', -3 do
       delete simple_slip_path(jh), :params => {:account_code => ACCOUNT_CODE_ORDINARY_DIPOSIT, :lock_version => jh.lock_version}
     end
 

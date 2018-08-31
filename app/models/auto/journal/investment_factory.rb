@@ -17,7 +17,7 @@ module Auto::Journal
       ym = split[0..1].join
       day = split[2]
       
-      jh = JournalHeader.new
+      jh = Journal.new
       jh.company = @user.employee.company
       jh.ym = ym
       jh.day = day

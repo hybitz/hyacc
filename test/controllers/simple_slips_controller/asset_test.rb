@@ -6,7 +6,7 @@ class SimpleSlipsController::AssetTest < ActionController::TestCase
   def test_destroy_fail_by_depreciation_waiting
     sign_in user
     assert current_company.get_fiscal_year(200610).closed?
-    jh = JournalHeader.find(6300)
+    jh = Journal.find(6300)
     assert_equal current_company.id, jh.company_id
 
     delete :destroy, :params => {:id => jh.id,
@@ -17,7 +17,7 @@ class SimpleSlipsController::AssetTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to action: :index
     assert_nil assigns(:slip)
-    assert_not_nil JournalHeader.find(6300)
+    assert_not_nil Journal.find(6300)
   end
 
 end

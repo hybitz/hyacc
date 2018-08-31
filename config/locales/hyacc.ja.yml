@@ -19,8 +19,8 @@ ja:
       customer: "顧客"
       fiscal_year: "年度"
       inhabitant_tax: 住民税
-      journal_detail: "仕訳明細"
-      journal_header: "仕訳ヘッダ"
+      journal: 仕訳
+      journal_detail: 仕訳明細
       payroll: 給与
       receipt: 領収書
       rent: 地代家賃
@@ -166,16 +166,16 @@ ja:
         tax_rate: 消費税率
         sub_account: 補助科目
 
-      journal_details:
-        <<: *journal_detail
-
-      journal_header: &journal_header
+      journal: &journal
         amount: 伝票金額
         day: 日
         slip_type: 伝票区分
         ym: 年月
         journal_details:
           <<: *journal_detail
+
+      journal_details:
+        <<: *journal_detail
 
       payroll:
         accrued_liability: 従業員への未払費用

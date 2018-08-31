@@ -72,7 +72,7 @@ module Slips
       conditions = get_conditions
 
       # 条件に該当する総伝票数を取得
-      total_count = JournalHeader.where(conditions).count
+      total_count = Journal.where(conditions).count
 
       # 前伝票ページングのためのオフセットを計算
       prev_count = total_count - offset.to_i - per_page
@@ -94,10 +94,10 @@ module Slips
       end
 
       # 条件に該当する伝票を取得
-      journal_headers = JournalHeader.where(conditions).includes(:journal_details, :receipt)
-            .order('journal_headers.ym desc, journal_headers.day desc, journal_headers.id desc')
+      journals = Journal.where(conditions).includes(:journal_details, :receipt)
+            .order('journals.ym desc, journals.day desc, journals.id desc')
             .limit(ym.to_i == 0 ? per_page : nil).offset(offset.to_i).reverse
-      journal_headers.map{|jh| Slip.new(jh, self) }
+      journals.map{|jh| Slip.new(jh, self) }
     end
 
     private
@@ -122,11 +122,11 @@ module Slips
       # 年月は任意
       normalized_ym = ym.to_s.length > 6 ? ym[0..3] + ym[-2..-1] : nil
       if normalized_ym
-        sql.append('and journal_headers.ym >= ? and journal_headers.ym <= ?', normalized_ym, normalized_ym)
+        sql.append('and journals.ym >= ? and journals.ym <= ?', normalized_ym, normalized_ym)
       end
 
       # 摘要は任意
-      sql.append('and journal_headers.remarks like ?', '%' + remarks + '%') if remarks.present?
+      sql.append('and journals.remarks like ?', '%' + remarks + '%') if remarks.present?
 
       sql.to_a
     end

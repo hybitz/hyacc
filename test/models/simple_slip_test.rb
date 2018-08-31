@@ -21,14 +21,14 @@ class SimpleSlipTest < ActiveSupport::TestCase
     assert ! slip.id.present?
     assert_equal AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE, slip.auto_journal_type
 
-    assert_difference 'JournalHeader.count', 3 do
+    assert_difference 'Journal.count', 3 do
       assert_nothing_raised do
         assert slip.save!
         assert slip.id.present?
       end
     end
 
-    assert jh = JournalHeader.find_by_id(slip.id)
+    assert jh = Journal.find_by_id(slip.id)
     assert_equal 3, jh.journal_details.size
     assert jd = jh.normal_details.find{|d| d.account_id != my_account.id }
     assert_equal 1, jd.transfer_journals.size
@@ -41,7 +41,7 @@ class SimpleSlipTest < ActiveSupport::TestCase
     
     slip.auto_journal_type = nil
 
-    assert_difference 'JournalHeader.count', -2 do
+    assert_difference 'Journal.count', -2 do
       assert_nothing_raised do
         assert slip.save!
       end

@@ -17,7 +17,7 @@
   <%= '自振' if slip.has_auto_transfers %>
 </td>
 <td class="center">
-  <%= link_to '(電子)', receipt_path(slip.journal_header.receipt) if slip.journal_header.receipt.present? %>
+  <%= link_to '(電子)', receipt_path(slip.journal.receipt) if slip.journal.receipt.present? %>
 </td>
 <td class="action" style="border-left: none; border-right: none;">
   <%# 編集可能な伝票の場合は簡易登録画面を表示 %>

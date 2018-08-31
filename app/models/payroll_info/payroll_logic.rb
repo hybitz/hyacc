@@ -13,19 +13,19 @@ module PayrollInfo
       total_base_salary = 0
 
       # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal_header).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
+      list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
 
       list.each do |p|
         # 役員給与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
           total_base_salary += d.amount
         end
         # 給与手当
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
           total_base_salary += d.amount
         end
         # 賞与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
           total_base_salary += d.amount
         end
       end
@@ -38,17 +38,17 @@ module PayrollInfo
       salarys = {}
 
       # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.joins(:pay_journal_header).where("journal_headers.ym like ?",  @calendar_year.to_s + '%').order("journal_headers.ym, journal_headers.day")
+      list = Payroll.joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%').order("journals.ym, journals.day")
 
       list.each do |p|
         # 役員給与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
-          yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
         end
         # 給与手当
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
-          yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
+          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
         end
       end
@@ -60,12 +60,12 @@ module PayrollInfo
       bonuses = {}
 
       # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.joins(:pay_journal_header).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
+      list = Payroll.joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
 
       list.each do |p|
         # 賞与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
-          yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
+          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           bonuses[yyyymmdd] = bonuses.has_key?(yyyymmdd) ? bonuses[yyyymmdd] + d.amount : d.amount
         end
       end
@@ -166,16 +166,16 @@ module PayrollInfo
     def get_health_insurance
       total_expense = 0
       # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal_header).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
+      list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
 
       list.each do |p|
         # 健康保険料(預り金)
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_HEALTH_INSURANCE)).each do |d|
           total_expense = total_expense + d.amount
         end
         # 健康保険料(立替金)
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_HEALTH_INSURANCE)).each do |d|
           total_expense = total_expense + d.amount
         end
@@ -189,16 +189,16 @@ module PayrollInfo
     def get_employee_pention
       total_expense = 0
       # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal_header).where("journal_headers.ym like ?",  @calendar_year.to_s + '%')
+      list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
 
       list.each do |p|
         # 厚生年金保険料(預り金)
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_WELFARE_PENSION)).each do |d|
           total_expense = total_expense + d.amount
         end
         # 厚生年金保険料(立替金)
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_WELFARE_PENSION)).each do |d|
           total_expense = total_expense + d.amount
         end
@@ -231,13 +231,13 @@ module PayrollInfo
 
       withholding_taxes = {}
       # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.joins(:pay_journal_header).where("journal_headers.ym like ?" + conditions,  @calendar_year.to_s + '%').order("journal_headers.ym, journal_headers.day")
+      list = Payroll.joins(:pay_journal).where("journals.ym like ?" + conditions,  @calendar_year.to_s + '%').order("journals.ym, journals.day")
       list.each do |p|
         # 賞与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX),
                                                         :dc_type => DC_TYPE_CREDIT).each do |d|
-          yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
+          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           withholding_taxes[yyyymmdd] = withholding_taxes.has_key?(yyyymmdd) ? withholding_taxes[yyyymmdd] + d.amount : d.amount
         end
       end
@@ -249,13 +249,13 @@ module PayrollInfo
    def get_all_withholding_taxes_1H
       amount = 0
         # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.joins(:pay_journal_header).where("journal_headers.ym >= ? and journal_headers.ym <= ?", @calendar_year.to_s + '01', @calendar_year.to_s + '06')
+      list = Payroll.joins(:pay_journal).where("journals.ym >= ? and journals.ym <= ?", @calendar_year.to_s + '01', @calendar_year.to_s + '06')
       list.each do |p|
         # 賞与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX),
                                                         :dc_type => DC_TYPE_CREDIT).each do |d|
-          yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
+          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           amount += d.amount
         end
       end
@@ -266,13 +266,13 @@ module PayrollInfo
     def get_all_withholding_taxes_2H
       amount = 0
         # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.joins(:pay_journal_header).where("journal_headers.ym >= ? and journal_headers.ym <= ?", @calendar_year.to_s + '07', @calendar_year.to_s + '12')
+      list = Payroll.joins(:pay_journal).where("journals.ym >= ? and journals.ym <= ?", @calendar_year.to_s + '07', @calendar_year.to_s + '12')
       list.each do |p|
         # 賞与
-        p.payroll_journal_header.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX),
                                                         :dc_type => DC_TYPE_CREDIT).each do |d|
-          yyyymmdd = p.pay_journal_header.ym.to_s + format("%02d", p.pay_journal_header.day)
+          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           amount += d.amount
         end
       end

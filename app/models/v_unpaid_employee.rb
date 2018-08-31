@@ -10,7 +10,7 @@ class VUnpaidEmployee
       jd.branch_id,
       sum(jd.amount) as amount
     from journal_details jd
-    inner join journal_headers jh on (jh.id = jd.journal_header_id)
+    inner join journals jh on (jh.id = jd.journal_id)
     inner join accounts a on (a.id = jd.account_id)
     inner join employees e on (e.id = jd.sub_account_id)
     inner join branches b on (b.id = jd.branch_id)

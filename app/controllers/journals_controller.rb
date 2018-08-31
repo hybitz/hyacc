@@ -201,8 +201,7 @@ class JournalsController < Base::HyaccController
   def decide_slip_type( old_journal = nil )
     return SLIP_TYPE_TRANSFER if old_journal.nil?
     return SLIP_TYPE_TRANSFER if old_journal.slip_type == SLIP_TYPE_SIMPLIFIED
-    return old_journal.slip_type if [SLIP_TYPE_TRANSFER,
-                                     SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION].include? old_journal.slip_type
+    return old_journal.slip_type if [SLIP_TYPE_TRANSFER, SLIP_TYPE_AUTO_TRANSFER_PAYROLL].include? old_journal.slip_type
 
     raise HyaccException.new(ERR_INVALID_SLIP_TYPE)
   end

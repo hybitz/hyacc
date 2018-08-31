@@ -413,7 +413,7 @@ class JournalsController::CrudTest < ActionController::TestCase
 
     # 伝票区分は台帳登録のまま
     jh = JournalHeader.find_by_remarks(remarks)
-    assert_equal SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION, jh.slip_type
+    assert_equal SLIP_TYPE_AUTO_TRANSFER_PAYROLL, jh.slip_type
   end
 
   def test_更新_楽観的ロックエラー

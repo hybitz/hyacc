@@ -38,7 +38,7 @@ class TaxFinder < Base::Finder
     sql.append "and slip_type in (?, ?, ?)",
         SLIP_TYPE_SIMPLIFIED,
         SLIP_TYPE_TRANSFER,
-        SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
+        SLIP_TYPE_AUTO_TRANSFER_PAYROLL
 
     # 検索キー
     sql.append "and finder_key rlike ?",

@@ -10,7 +10,7 @@ module JournalHelper
   # 削除可能か
   def can_delete( jh )
     # 台帳登録は削除不可
-    if jh.slip_type == SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
+    if jh.slip_type == SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       return false
     end
 

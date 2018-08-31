@@ -34,7 +34,7 @@ module Auto::Journal
       journal_header.day = employee.company.payroll_day(@payroll.ym)
       # 摘要の設定
       journal_header.remarks = "#{salary_account.name}　#{employee.fullname}　#{@payroll.ym%100}月分"
-      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
+      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal_header.create_user_id = @user.id
       journal_header.update_user_id = @user.id
 
@@ -204,7 +204,7 @@ module Auto::Journal
       journal_header.company_id = employee.company.id
       journal_header.date = @payroll.pay_day
       journal_header.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
-      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
+      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal_header.create_user_id = @user.id
       journal_header.update_user_id = @user.id
 
@@ -305,7 +305,7 @@ module Auto::Journal
       journal_header.company_id = employee.company.id
       journal_header.date = @payroll.pay_day
       journal_header.remarks = "給与支給、振込手数料　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
-      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_LEDGER_REGISTRATION
+      journal_header.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal_header.create_user_id = @user.id
       journal_header.update_user_id = @user.id
 

@@ -26,7 +26,7 @@ module Auto::Journal
           Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
-      journal = Auto::Journal::Payroll.new
+      journal = @payroll.build_payroll_journal
       journal.company_id = employee.company_id
 
       # 給与日の設定
@@ -195,7 +195,7 @@ module Auto::Journal
           Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
-      journal = Auto::Journal::PayrollPay.new
+      journal = @payroll.build_pay_journal
       journal.company_id = employee.company.id
       journal.date = @payroll.pay_day
       journal.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
@@ -296,7 +296,7 @@ module Auto::Journal
     def make_commission
       employee = Employee.find(@payroll.employee_id)
 
-      journal = Auto::Journal::PayrollCommission.new
+      journal = @payroll.build_commission_journal
       journal.company_id = employee.company.id
       journal.date = @payroll.pay_day
       journal.remarks = "給与支給、振込手数料　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"

@@ -74,12 +74,12 @@ class PayrollsController < Base::HyaccController
 
     begin
       @payroll.transaction do
-        @payroll.save!
-
         # 給与・支払い伝票は新規追加するので、旧伝票を削除
         Journal.find(payroll_journal_on_db.id).destroy if payroll_journal_on_db
         Journal.find(pay_journal_on_db.id).destroy if pay_journal_on_db
         Journal.find(commission_journal_on_db.id).destroy if commission_journal_on_db
+
+        @payroll.save!
       end
 
       flash[:notice] = "#{@payroll.employee.fullname}さんの#{title}を更新しました。"

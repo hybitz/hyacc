@@ -89,13 +89,13 @@ class PayrollsControllerTest < ActionController::TestCase
     health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
     welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION)
     inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
-    jd = JournalDetail.where(journal_id: pr.payroll_journal_id, account_id: deposits_received.id, sub_account_id: income_tax.id)
+    jd = JournalDetail.where(journal_id: pr.payroll_journal.id, account_id: deposits_received.id, sub_account_id: income_tax.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(journal_id: pr.payroll_journal_id, account_id: deposits_received.id, sub_account_id: health_insurance.id)
+    jd = JournalDetail.where(journal_id: pr.payroll_journal.id, account_id: deposits_received.id, sub_account_id: health_insurance.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(journal_id: pr.payroll_journal_id, account_id: deposits_received.id, sub_account_id: welfare_pension.id)
+    jd = JournalDetail.where(journal_id: pr.payroll_journal.id, account_id: deposits_received.id, sub_account_id: welfare_pension.id)
     assert_equal 1, jd.count
-    jd = JournalDetail.where(journal_id: pr.payroll_journal_id, account_id: deposits_received.id, sub_account_id: inhabitant_tax.id)
+    jd = JournalDetail.where(journal_id: pr.payroll_journal.id, account_id: deposits_received.id, sub_account_id: inhabitant_tax.id)
     assert_equal 1, jd.count
   end
 
@@ -127,23 +127,23 @@ class PayrollsControllerTest < ActionController::TestCase
     inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
 
     jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
-            pr.payroll_journal_id, deposits_received.id, income_tax.id)
+            pr.payroll_journal.id, deposits_received.id, income_tax.id)
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
-            pr.payroll_journal_id, deposits_received.id, health_insurance.id)
+            pr.payroll_journal.id, deposits_received.id, health_insurance.id)
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
-              pr.payroll_journal_id, deposits_received.id, welfare_pension.id)
+              pr.payroll_journal.id, deposits_received.id, welfare_pension.id)
     assert_equal 1, jd.count
 
     jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
-              pr.payroll_journal_id, deposits_received.id, inhabitant_tax.id)
+              pr.payroll_journal.id, deposits_received.id, inhabitant_tax.id)
     assert_equal 1, jd.count
 
     # 仮払消費税として登録されていること
-    jd = JournalDetail.where("journal_id=? and account_id=?", pr.commission_journal_id, temp_pay_tax.id)
+    jd = JournalDetail.where("journal_id=? and account_id=?", pr.commission_journal.id, temp_pay_tax.id)
     assert_equal 1, jd.count
     assert_equal 25, jd[0].amount, jd[0].attributes.to_yaml
   end
@@ -196,7 +196,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in user
-    patch :update, :params => {:id => payroll.id, :payroll => payroll_params}, :xhr => true
+    patch :update, xhr: true, params: {id: payroll.id, payroll: payroll_params}
     assert assigns(:payroll).errors.empty?
     assert_response :success
     assert_template 'common/reload'
@@ -255,12 +255,12 @@ class PayrollsControllerTest < ActionController::TestCase
     assert @payroll.pay_journal.present?
 
     assert_difference 'Payroll.count', -1 do
-      delete :destroy, :params => {:id => payroll}, :xhr => true
+      delete :destroy, params: {id: @payroll.id}, xhr: true
       assert_response :success
       assert_template 'common/reload'
     end
 
-    assert Journal.where(:id => [@payroll.payroll_journal_id, @payroll.pay_journal_id]).empty?
+    assert Journal.where(payroll_id: @payroll.id).empty?
   end
 
 end

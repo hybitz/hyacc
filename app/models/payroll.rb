@@ -1,8 +1,5 @@
 class Payroll < ApplicationRecord
   belongs_to :employee
-  belongs_to :payroll_journal, class_name: 'Journal', dependent: :destroy, optional: true
-  belongs_to :pay_journal, class_name: 'Journal', dependent: :destroy, optional: true
-  belongs_to :commission_journal, class_name: 'Journal', dependent: :destroy, optional: true
 
   validates :employee_id, presence: true
   validates :ym, presence: true
@@ -21,7 +18,11 @@ class Payroll < ApplicationRecord
                             :hours_of_late_night_work,
                             :allow_nil => true, :message=>"は数値で入力して下さい。"
 
-   before_save :make_journals
+  has_one :payroll_journal, class_name: 'Auto::Journal::Payroll', dependent: :destroy
+  has_one :pay_journal, class_name: 'Auto::Journal::PayrollPay', dependent: :destroy
+  has_one :commission_journal, class_name: 'Auto::Journal::PayrollCommission', dependent: :destroy
+
+  before_save :make_journals
                             
   # フィールド
   attr_accessor :insurance_all
@@ -110,16 +111,11 @@ class Payroll < ApplicationRecord
     journals.each do |j|
       begin
         Auto::AutoJournalUtil.do_auto_transfers(j)
-        j.save!
       rescue => e
         Rails.logger.warn j.attributes.to_yaml
         Rails.logger.warn j.journal_details.map(&:attributes).to_yaml
         raise e
       end
     end
-  
-    self.payroll_journal = journals[0]
-    self.pay_journal = journals[1]
-    self.commission_journal = journals[2]
   end
 end

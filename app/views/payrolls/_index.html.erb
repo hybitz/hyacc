@@ -276,7 +276,7 @@
       <td align="center">
         <% if @pd[ym].persisted? %>
           <%= link_to @pd[ym].pay_day.strftime('%m月%d日'),
-                edit_journal_path(@pd[ym].pay_journal_id),
+                edit_journal_path(@pd[ym].pay_journal),
                 remote: true %>
         <% end %>
       </td>
@@ -284,14 +284,14 @@
       <td>
         <% if @pd["b1"].persisted? %>
           <%= link_to @pd["b1"].pay_day.strftime('%m月%d日'),
-                edit_journal_path(@pd["b1"].pay_journal_id),
+                edit_journal_path(@pd["b1"].pay_journal),
                 remote: true %>
         <% end %>
       </td>
       <td>
         <% if @pd["b2"].persisted? %>
           <%= link_to @pd["b2"].pay_day.strftime('%m月%d日'),
-                edit_journal_path(@pd["b2"].pay_journal_id),
+                edit_journal_path(@pd["b2"].pay_journal),
                 remote: true %>
         <% end %>
       </td>

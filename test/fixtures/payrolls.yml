@@ -28,6 +28,20 @@ payroll_00046:
   days_of_work: 31
   create_user_id: 2
   update_user_id: 2
+payroll_00065:
+  id: 65
+  ym: 200804
+  pay_day: 2008-05-25
+  hours_of_work: 240
+  payroll_journal_id: 5867
+  hours_of_early_work: 0
+  pay_journal_id: 5868
+  hours_of_late_night_work: 0
+  employee_id: 1
+  hours_of_day_off_work: 0
+  days_of_work: 30
+  create_user_id: 2
+  update_user_id: 2
 payroll_00066: 
   id: 66
   ym: 200805
@@ -115,20 +129,6 @@ payroll_00071:
   hours_of_late_night_work: 0
   hours_of_day_off_work: 0
   base_salary: 424000
-  create_user_id: 2
-  update_user_id: 2
-payroll_00065:
-  id: 65
-  ym: 200804
-  pay_day: 2008-05-25
-  hours_of_work: 240
-  payroll_journal_id: 5867
-  hours_of_early_work: 0
-  pay_journal_id: 5868
-  hours_of_late_night_work: 0
-  employee_id: 1
-  hours_of_day_off_work: 0
-  days_of_work: 30
   create_user_id: 2
   update_user_id: 2
 payroll_00122:

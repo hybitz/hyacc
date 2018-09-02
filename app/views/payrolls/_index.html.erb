@@ -274,7 +274,7 @@
       <td colspan="2">支給日</td>
       <% @finder.get_ym_range.each do |ym| %>
       <td align="center">
-        <% if @pd[ym].persisted? %>
+        <% if @pd[ym].persisted? and @pd[ym].pay_journal %>
           <%= link_to @pd[ym].pay_day.strftime('%m月%d日'), journal_path(@pd[ym].pay_journal.id), remote: true %>
         <% end %>
       </td>

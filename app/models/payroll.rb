@@ -30,6 +30,14 @@ class Payroll < ApplicationRecord
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
 
+  def year
+    ym / 100
+  end
+
+  def month
+    ym % 100
+  end
+
   # 給与小計
   def salary_subtotal
     base_salary + commuting_allowance

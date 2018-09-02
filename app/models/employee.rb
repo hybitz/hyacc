@@ -2,8 +2,8 @@ class Employee < ApplicationRecord
   include HyaccErrors
   include HyaccConstants
   
-  belongs_to :user, optional: true
   belongs_to :company
+  belongs_to :user, optional: true
 
   nostalgic_attr :num_of_dependent, :zip_code, :address
 
@@ -28,7 +28,7 @@ class Employee < ApplicationRecord
   
   # デフォルト所属部門
   def default_branch(raise_error = true)
-    be = branch_employees.where(:default_branch => true).first
+    be = branch_employees.where(default_branch: true).first
     return be.branch if be
 
     if raise_error

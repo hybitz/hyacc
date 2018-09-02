@@ -20,8 +20,7 @@ class Branch < ApplicationRecord
   end
 
   def parent_name
-    return nil unless parent
-    parent.name
+    parent.try(:name)
   end
 
   def children
@@ -30,6 +29,11 @@ class Branch < ApplicationRecord
 
   def business_office
     super || parent.business_office
+  end
+
+  def business_office_at(date)
+    business_office_id = business_office_id_at(date) || parent.business_office_id_at(date)
+    BusinessOffice.find_by_id(business_office_id)
   end
 
   def head_office?

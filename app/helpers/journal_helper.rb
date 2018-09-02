@@ -3,17 +3,17 @@ module JournalHelper
 
   # 編集可能か
   def can_edit( jh )
+    # 台帳登録は編集不可
+    if jh.slip_type == SLIP_TYPE_AUTO_TRANSFER_PAYROLL
+      return false
+    end
+
     # 自動振替伝票は編集不可
     ! jh.auto?
   end
 
   # 削除可能か
   def can_delete( jh )
-    # 台帳登録は削除不可
-    if jh.slip_type == SLIP_TYPE_AUTO_TRANSFER_PAYROLL
-      return false
-    end
-
     return can_edit( jh )
   end
 

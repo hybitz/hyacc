@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_31_073247) do
+ActiveRecord::Schema.define(version: 2018_09_02_040434) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -450,8 +450,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_073247) do
 
   create_table "payrolls", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.integer "ym", null: false
-    t.integer "payroll_journal_id"
-    t.integer "pay_journal_id"
     t.integer "days_of_work", default: 0
     t.integer "hours_of_work", default: 0
     t.integer "hours_of_day_off_work", default: 0
@@ -461,7 +459,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_073247) do
     t.datetime "updated_at"
     t.integer "employee_id", null: false
     t.boolean "is_bonus", default: false, null: false
-    t.integer "commission_journal_id"
     t.integer "commuting_allowance", default: 0, null: false
     t.integer "base_salary", default: 0, null: false
     t.integer "annual_adjustment", default: 0, null: false
@@ -474,8 +471,6 @@ ActiveRecord::Schema.define(version: 2018_08_31_073247) do
     t.integer "create_user_id", null: false
     t.integer "update_user_id", null: false
     t.date "pay_day", null: false
-    t.index ["pay_journal_id"], name: "fk_payrolls_pay_journal_header_id"
-    t.index ["payroll_journal_id"], name: "fk_payrolls_payroll_journal_header_id"
     t.index ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true
   end
 

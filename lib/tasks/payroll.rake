@@ -10,7 +10,8 @@ namespace :hyacc do
         bo = p.employee.default_branch.business_office_at(date)
         
         list = TaxJp::SocialInsurance.find_all_by_date_and_prefecture(date, bo.prefecture_code)
-        puts "#{p.ym} #{p.employee.name} #{bo.prefecture_name}: #{list.size}"
+        social_insurance = list.find{|si| si.welfare_pension.general_amount_half.to_i == p.welfare_pension }
+        puts "#{p.ym} #{p.employee.name} #{bo.prefecture_name}: #{p.welfare_pension} => #{social_insurance}"
       end
     end
   end

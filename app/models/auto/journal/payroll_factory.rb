@@ -204,7 +204,6 @@ module Auto::Journal
       journal.update_user_id = @user.id
 
       # 明細の作成
-      ## ￥０の明細を作成しない
 
       ## デフォルト部門の取得
       branch_id = employee.default_branch.id
@@ -229,6 +228,8 @@ module Auto::Journal
         account = VUnpaidEmployee.account
         total_amount = @payroll.accrued_liability
         VUnpaidEmployee.net_sums_by_branch(employee, order: 'amount').each do |branch_id, amount|
+          next if amount == 0 # ￥０の明細を作成しない
+
           detail = journal.journal_details.build
           detail.detail_no = journal.journal_details.size
           detail.dc_type = DC_TYPE_DEBIT

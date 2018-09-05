@@ -8,8 +8,8 @@
     <%= jd.tax_type_name %>
     <%= "#{jd.tax_rate_percent}%" unless jd.tax_type_nontaxable? %>
   </td>
-  <td class="amount"><%= to_amount(jd.tax_amount, :show_zero => true) %></td>
-  <td class="amount"><%= to_amount(jd.tax_type == TAX_TYPE_EXCLUSIVE ? jd.input_amount + jd.tax_amount : jd.input_amount ) %></td>
+  <td class="amount"><%= to_amount(jd.tax_amount, show_zero: true) %></td>
+  <td class="amount"><%= to_amount(jd.tax_type_exclusive? ? jd.input_amount + jd.tax_amount : jd.input_amount ) %></td>
   <td nowrap>
     <a href="#" class="flip_detail_button"><%= message_for_details %></a>
   </td>

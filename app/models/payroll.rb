@@ -74,7 +74,7 @@ class Payroll < ApplicationRecord
     past_ym = ym.to_i - 1
     # 1月の場合、-1年(-100)+11月
     past_ym = ym.to_i - 89 if ym.to_i%100 == 1
-    previous_payroll = Payroll.where(:ym => past_ym, :employee_id => employee_id, :is_bonus => false).order('ym').first
+    previous_payroll = Payroll.where(ym: past_ym, employee_id: employee_id, is_bonus: false).order('ym').first
     if previous_payroll
       ret = previous_payroll.base_salary
     end

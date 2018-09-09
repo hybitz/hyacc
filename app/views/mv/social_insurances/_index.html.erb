@@ -29,7 +29,7 @@
     <% @list.each do |data| %>
       <tr>
         <td class="grade"><%= data.grade %><%= "(#{data.pension_grade})" if data.welfare_pension_insurance_all > 0 %></td>
-        <td><%= to_amount(data.monthly_earnings) %></td>
+        <td><%= to_amount(data.monthly_standard) %></td>
         <td><%= to_amount(data.daily_earnings) %></td>
         <td><%= to_amount(data.pay_range_above) %></td>
         <td><%= to_amount(data.pay_range_under) if data.pay_range_under < 2_147_483_647 %></td>

@@ -21,7 +21,7 @@ module PayrollHelper
         if pr_1.payroll_journal.present?
           return get_remuneration(ym_1, prefecture_code, pr_1.salary_total)
         end
-        return TaxUtils.get_basic_info(ym, prefecture_code, salary).monthly_earnings
+        return TaxUtils.get_basic_info(ym, prefecture_code, salary).monthly_standard
       end
       # 7月より前は前年の4月を基準とする
       x = (ym.to_s).slice(0, 4) + "04"
@@ -43,7 +43,7 @@ module PayrollHelper
       insurance_ave_bs = TaxUtils.get_basic_info(ym, prefecture_code, ave_bs)
       grade_ave_bs = insurance_ave_bs.grade
       pre_bs = pr.salary_total
-      standard_remuneration = insurance_ave_bs.monthly_earnings
+      standard_remuneration = insurance_ave_bs.monthly_standard
       while ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
         x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
         pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
@@ -56,7 +56,7 @@ module PayrollHelper
             ave_x = (pr.salary_total + pr1.salary_total + pr2.salary_total)/3
             insurance_x = TaxUtils.get_basic_info(ym, prefecture_code, ave_x)
             if (grade_ave_bs - insurance_x.grade).abs >= 2
-              standard_remuneration = insurance_x.monthly_earnings
+              standard_remuneration = insurance_x.monthly_standard
               grade_ave_bs = insurance_x.grade
               pre_bs = pr.salary_total
             end
@@ -71,7 +71,6 @@ module PayrollHelper
   # 健康保険料と所得税の取得
   def get_tax(ym, employee_id, base_salary, commuting_allowance)
     payroll = Payroll.new
-    return payroll if ym.blank? || employee_id.blank?
     
     e = Employee.find(employee_id)
     care_from = (e.birth + 40.years - 1.day).strftime("%Y%m").to_i   # 40歳の誕生日前日の月から対象
@@ -115,14 +114,8 @@ module PayrollHelper
 
   # 標準報酬額を取得
   def get_remuneration(ym, prefecture_code, salary)
-    remuneration = 0
-
     insurance = TaxUtils.get_basic_info(ym, prefecture_code, salary)
-    unless insurance.nil?
-      remuneration = insurance.monthly_earnings
-    end
-
-    remuneration
+    insurance.monthly_standard
   end
 
   def get_pay_day(ym, employee_id = nil)

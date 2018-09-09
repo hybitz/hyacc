@@ -36,7 +36,7 @@ class TaxUtils
     ret.pension_grade = si.grade.pension_grade
     ret.pay_range_above = si.grade.salary_from
     ret.pay_range_under = si.grade.salary_to
-    ret.monthly_earnings = si.grade.monthly_standard
+    ret.monthly_standard = si.grade.monthly_standard
     ret.daily_earnings = si.grade.daily_standard
 
     ret.health_insurance_all = si.health_insurance.general_amount

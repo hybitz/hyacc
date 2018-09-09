@@ -233,8 +233,6 @@ class PayrollsControllerTest < ActionController::TestCase
   def test_should_get_auto_calc_insurance
     sign_in user
 
-    insurances = YAML.load_file(File.join('test', 'data', 'insurances.yml'))
-
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2008
     finder.employee_id = 1
@@ -244,7 +242,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
-    assert_equal insurances['insurance_00120']['health_insurance_half'], json['health_insurance']
+    assert_equal 15580, json['health_insurance']
   end
 
   def test_削除

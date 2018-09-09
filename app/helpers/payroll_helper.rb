@@ -71,7 +71,7 @@ module PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, base_salary, commuting_allowance)
+  def get_tax(ym, employee_id, base_salary, commuting_allowance, monthly_standard)
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
@@ -87,7 +87,7 @@ module PayrollHelper
     payroll.calc_employment_insurance
 
     # 標準報酬月額の取得
-    payroll.monthly_standard = get_standard_remuneration(ym, e, payroll.salary_total)
+    payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(ym, e, payroll.salary_total)
 
     # 社会保険料
     prefecture_code = e.business_office.prefecture_code # 事業所の都道府県コード

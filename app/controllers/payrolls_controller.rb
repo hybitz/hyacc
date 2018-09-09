@@ -13,10 +13,7 @@ class PayrollsController < Base::HyaccController
       # 標準報酬月額の取得
       ym_range = finder.get_ym_range
       payroll = Payroll.where("employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?", @employee.id, ym_range.first, ym_range.last, false).order("ym desc").first
-      ym = payroll.ym if payroll
-      base_salary = Payroll.find_by_ym_and_employee_id(ym, @employee.id).base_salary
-
-      @standard_remuneration = get_standard_remuneration(ym, @employee, base_salary)
+      @monthly_standard = payroll.monthly_standard if payroll
       @pd = finder.list_monthly_pay
     end
   end
@@ -24,7 +21,10 @@ class PayrollsController < Base::HyaccController
   def new
     ym = params[:ym]
     employee_id = params[:employee_id]
-    base_salary = Payroll.get_previous_base_salary(ym, employee_id)
+
+    previous_payroll = Payroll.get_previous(ym, employee_id)
+    base_salary = previous_payroll.try(:base_salary)
+    monthly_standard = previous_payroll.try(:monthly_standard)
 
     @payroll = get_tax(ym, employee_id, base_salary, 0)
 
@@ -149,7 +149,7 @@ class PayrollsController < Base::HyaccController
     ret = params.require(:payroll).permit(
         :ym, :employee_id,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
-        :base_salary, :commuting_allowance,
+        :base_salary, :commuting_allowance, :monthly_standard,
         :health_insurance, :welfare_pension, :income_tax, :employment_insurance,
         :inhabitant_tax, :accrued_liability, :annual_adjustment, :pay_day)
 

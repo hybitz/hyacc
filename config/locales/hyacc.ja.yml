@@ -189,6 +189,7 @@ ja:
         hours_of_late_night_work: 深夜労働時間数
         income_tax: 所得税
         insurance: 健康保険料
+        monthly_standard: 標準報酬月額
         pay_day: "給与支払日"
         welfare_pension: 厚生年金保険料
         ym: 年月

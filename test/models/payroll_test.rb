@@ -8,6 +8,6 @@ class PayrollTest < ActiveSupport::TestCase
 
     date = (@payroll.payroll_journal.date + 1.month).strftime('%Y%m')
     employee = @payroll.employee
-    assert_equal 394000, Payroll.get_previous_base_salary(date, employee.id)
+    assert_equal 394000, Payroll.get_previous(date, employee.id).base_salary
   end
 end

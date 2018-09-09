@@ -21,8 +21,10 @@ module PayrollHelper
         if pr_1.payroll_journal.present?
           return get_remuneration(ym_1, prefecture_code, pr_1.salary_total)
         end
+
         return TaxUtils.get_basic_info(ym, prefecture_code, salary).monthly_standard
       end
+
       # 7月より前は前年の4月を基準とする
       x = (ym.to_s).slice(0, 4) + "04"
       if ym.to_s.slice(4, 2).to_i < 7
@@ -85,11 +87,12 @@ module PayrollHelper
     payroll.calc_employment_insurance
 
     # 標準報酬月額の取得
-    prefecture_code = e.business_office.prefecture_code # 事業所の都道府県コード
-    standard_remuneration = get_standard_remuneration(ym, e, payroll.salary_total)
-    insurance = TaxUtils.get_social_insurance(ym, prefecture_code, standard_remuneration)
+    payroll.monthly_standard = get_standard_remuneration(ym, e, payroll.salary_total)
 
-    # 保険料の設定
+    # 社会保険料
+    prefecture_code = e.business_office.prefecture_code # 事業所の都道府県コード
+    insurance = TaxUtils.get_social_insurance(ym, prefecture_code, payroll.monthly_standard)
+
     # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
     # 折半額の端数は個人負担
     if ym.to_i >= care_from && ym.to_i <= care_to
@@ -103,11 +106,7 @@ module PayrollHelper
     payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
     
     # 源泉徴収税
-    date = Date.new(ym.to_i/100, ym.to_i%100, -1) # 対象月の末日を基準
-    exemption = e.exemptions.order("yyyy desc").first
-    num_of_dependent = exemption ? exemption.family_members.size : 0 # 扶養親族
-    salary = payroll.salary_total - payroll.social_insurance - payroll.commuting_allowance
-    payroll.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(date, salary, num_of_dependent)
+    payroll.calc_income_tax
 
     payroll
   end

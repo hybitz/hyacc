@@ -68,17 +68,13 @@ class Payroll < ApplicationRecord
     after_insurance_deduction - income_tax - inhabitant_tax
   end
 
-  def self.get_previous_base_salary(ym, employee_id)
-    ret = 0
+  def self.get_previous(ym, employee_id)
     # 前月分を検索
     past_ym = ym.to_i - 1
     # 1月の場合、-1年(-100)+11月
     past_ym = ym.to_i - 89 if ym.to_i%100 == 1
-    previous_payroll = Payroll.where(ym: past_ym, employee_id: employee_id, is_bonus: false).order('ym').first
-    if previous_payroll
-      ret = previous_payroll.base_salary
-    end
-    ret
+
+    Payroll.where(ym: past_ym, employee_id: employee_id, is_bonus: false).order('ym').first
   end
 
   def self.find_by_ym_and_employee_id(ym, employee_id)
@@ -102,10 +98,22 @@ class Payroll < ApplicationRecord
 
     payroll
   end
+  
+  def num_of_dependent
+    exemption = employee.exemptions.order("yyyy desc").first
+    exemption ? exemption.family_members.size : 0 # 扶養親族
+  end
 
   def calc_employment_insurance
     ei = TaxUtils.get_employment_insurance(ym)
     self.employment_insurance = (salary_total * ei.employee_general - 0.01).round
+  end
+  
+  def calc_income_tax
+    date = Date.new(ym.to_i/100, ym.to_i%100, -1) # 対象月の末日を基準
+    salary = salary_total - social_insurance - commuting_allowance
+
+    self.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(date, salary, num_of_dependent)
   end
 
   private

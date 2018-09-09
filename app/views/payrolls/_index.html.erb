@@ -14,12 +14,12 @@
       <td rowspan="2" class="center"><%= @employee.employment_date.strftime("%Y 年 %m 月 %d 日") %>　雇入</td>
       <td rowspan="2"></td>
       <td rowspan="2"><%= @employee.position %></td>
-      <td rowspan="1">健 <%= to_amount(@employee.standard_remuneration) %> 円</td>
+      <td rowspan="1">健 <%= to_amount(@standard_remuneration) %> 円</td>
       <td rowspan="2" class="center"><%= @employee.fullname %></td>
       <td rowspan="2" class="center"><%= @employee.sex_name %></td>
     </tr>
     <tr>
-      <td>厚 <%= to_amount(@employee.standard_remuneration) %> 円</td>
+      <td>厚 <%= to_amount(@standard_remuneration) %> 円</td>
     </tr>
   </tbody>
 </table>

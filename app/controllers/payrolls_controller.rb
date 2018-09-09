@@ -16,7 +16,7 @@ class PayrollsController < Base::HyaccController
       ym = payroll.ym if payroll
       base_salary = Payroll.find_by_ym_and_employee_id(ym, @employee.id).base_salary
 
-      @employee.standard_remuneration = get_standard_remuneration(ym, @employee, base_salary)
+      @standard_remuneration = get_standard_remuneration(ym, @employee, base_salary)
       @pd = finder.list_monthly_pay
     end
   end

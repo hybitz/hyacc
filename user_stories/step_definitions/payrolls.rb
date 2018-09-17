@@ -12,12 +12,11 @@
     click_on @ym
     within_dialog do
       fill_in 'payroll[base_salary]', with: @salary
+      fill_in 'payroll[monthly_standard]', with: @salary
       fill_in 'payroll[commuting_allowance]', with: 0
       assert has_selector?('form[insurance_loaded]');
       fill_in 'payroll[inhabitant_tax]', with: 0 # blur
-    end
 
-    accept_confirm do
       click_on '登録'
     end
   end
@@ -78,14 +77,13 @@ end
 
       click_on ym
       within_dialog do
-        fill_in 'payroll[base_salary]', :with => base_salary
-        fill_in 'payroll[commuting_allowance]', :with => commuting_allowance
+        fill_in 'payroll[base_salary]', with: base_salary
+        fill_in 'payroll[monthly_standard]', with: base_salary
+        fill_in 'payroll[commuting_allowance]', with: commuting_allowance
         assert has_selector?('form[insurance_loaded]');
         fill_in 'payroll[inhabitant_tax]', with: 0 # blur
 
-        accept_confirm do
-          click_on '登録'
-        end
+        click_on '登録'
       end
       assert has_no_dialog?
       assert has_selector?('#finder_employee_id option', :text => employee_name)

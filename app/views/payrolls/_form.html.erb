@@ -3,12 +3,7 @@
     hyacc.init_datepicker();
 
     var form = $('.payroll_form form');
-    form.submit(function() {
-      return checkForm(this);
-    });
-
-    var salary = form.find('.salary');
-    salary.change(function() {
+    form.find('.salary').change(function() {
       loadInsurance(form);
     });
   });
@@ -26,26 +21,6 @@
     });
   }
 
-  function checkForm(form) {
-    var health_insurance = $(form).find('input[name*="\[health_insurance\]"]').val();
-    var welfare_pension = $(form).find('input[name*="\[welfare_pension\]"]').val();
-    var inhabitant_tax = $(form).find('input[name*="\[inhabitant_tax\]"]').val();
-    var result = true;
-
-    if (result && health_insurance == 0) {
-      result = window.confirm('健康保険料が0円です。登録しますか？')
-    }
-
-    if (result && welfare_pension == 0) {
-      result = window.confirm('厚生年金保険料が0円です。登録しますか？')
-    }
-
-    if(result && inhabitant_tax == 0){
-      result = window.confirm('住民税が0円です。登録しますか？')
-    }
-
-    return result;
-  }
 </script>
 
 <%= flash_notice %>

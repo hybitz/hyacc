@@ -71,14 +71,14 @@ end
     with_capture "#{employee_name} #{ym} の給与" do
       visit_payrolls
       select row[0], :from => 'finder[branch_id]'
-      assert has_selector?('#finder_employee_id option', :text => employee_name)
+      assert has_selector?('#finder_employee_id option', text: employee_name)
       click_on '表示'
       assert has_selector?('#payroll_table')
 
       click_on ym
       within_dialog do
         fill_in 'payroll[base_salary]', with: base_salary
-        fill_in 'payroll[monthly_standard]', with: base_salary
+        fill_in 'payroll[monthly_standard]', with: base_salary + commuting_allowance
         fill_in 'payroll[commuting_allowance]', with: commuting_allowance
         assert has_selector?('form[insurance_loaded]');
         fill_in 'payroll[inhabitant_tax]', with: 0 # blur
@@ -86,7 +86,7 @@ end
         click_on '登録'
       end
       assert has_no_dialog?
-      assert has_selector?('#finder_employee_id option', :text => employee_name)
+      assert has_selector?('#finder_employee_id option', text: employee_name)
     end
 
     with_capture "#{employee_name} #{ym} の給与支払" do

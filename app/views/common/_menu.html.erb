@@ -52,7 +52,6 @@
   # マスタビューア機能一覧 
   mv_controllers = %w{
     mv
-    mv/depreciation_rates
     mv/social_insurances
     mv/employment_insurances
     mv/withheld_taxes
@@ -83,6 +82,8 @@
   <%= link_to 'マスタメンテ', mm_path(purified_params), :class => style_for_menu(mm_controllers) %>
   |
   <%= link_to 'マスタビューア', mv_path(purified_params), :class => style_for_menu(mv_controllers) %>
+  |
+  <%= link_to 'TaxJP', tax_jp_path(purified_params), target: '_blank' %>
 </div>
 
 <%= render 'common/sub_menu', :controllers => journal_admin_controllers %>

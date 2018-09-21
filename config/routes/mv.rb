@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
+  mount TaxJp::Engine, at: '/tax_jp', as: 'tax_jp'
+
   namespace :mv do
-    resources :depreciation_rates, only: 'index'
     resources :social_insurances, only: 'index'
     resources :employment_insurances, only: 'index'
     resources :withheld_taxes, only: 'index'

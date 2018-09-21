@@ -18,7 +18,7 @@
 //= require jquery-ui/i18n/datepicker-ja
 //= require jquery.remotipart
 //= require popper
-//= require bootstrap-sprockets
+//= require bootstrap
 //= require moment
 //= require fullcalendar
 //= require tax_jp

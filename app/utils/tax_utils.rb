@@ -53,14 +53,6 @@ class TaxUtils
   end
   private_class_method :convert_tax_jp
 
-  def self.get_employment_insurances
-    ret = []
-    TaxJp::LaborInsurances::EmploymentInsurance.find_all.each do |ei|
-      ret << ei
-    end
-    ret
-  end
-
   def self.get_employment_insurance(ym)
     # 対象月の末日を基準
     date = Date.new(ym.to_i/100, ym.to_i%100, -1)

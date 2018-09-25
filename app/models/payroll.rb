@@ -40,7 +40,7 @@ class Payroll < ApplicationRecord
 
   # 給与小計
   def salary_subtotal
-    base_salary + commuting_allowance
+    base_salary + commuting_allowance + housing_allowance
   end
 
   # 給与合計

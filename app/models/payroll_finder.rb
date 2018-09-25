@@ -44,6 +44,7 @@ class PayrollFinder < Base::Finder
       sum.employment_insurance += p.employment_insurance
       sum.base_salary += p.base_salary
       sum.commuting_allowance += p.commuting_allowance
+      sum.housing_allowance += p.housing_allowance
       sum.inhabitant_tax += p.inhabitant_tax
       sum.accrued_liability += p.accrued_liability
     end

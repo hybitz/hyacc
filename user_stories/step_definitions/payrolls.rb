@@ -14,7 +14,6 @@
       fill_in 'payroll[base_salary]', with: @salary
       fill_in 'payroll[monthly_standard]', with: @salary
       fill_in 'payroll[commuting_allowance]', with: 0
-      assert has_selector?('form[insurance_loaded]');
       fill_in 'payroll[inhabitant_tax]', with: 0 # blur
 
       click_on '登録'
@@ -80,7 +79,6 @@ end
         fill_in 'payroll[base_salary]', with: base_salary
         fill_in 'payroll[monthly_standard]', with: base_salary + commuting_allowance
         fill_in 'payroll[commuting_allowance]', with: commuting_allowance
-        assert has_selector?('form[insurance_loaded]');
         fill_in 'payroll[inhabitant_tax]', with: 0 # blur
 
         click_on '登録'

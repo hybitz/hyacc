@@ -50,7 +50,7 @@ module Auto::Journal
       advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
 
       ## 給与明細
-      ### 役員給与・給与手当・通勤手当
+      ### 役員給与・給与手当・通勤手当・住宅手当
       if @payroll.salary_total > 0
         detail = journal.journal_details.build
         detail.detail_no = journal.journal_details.size

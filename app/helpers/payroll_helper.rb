@@ -2,7 +2,7 @@ module PayrollHelper
 
   # 標準報酬月額の計算
   def get_standard_remuneration(ym, employee, salary)
-    standard_remuneration = 0
+    ret = 0
 
     prefecture_code = employee.business_office.prefecture_code
 
@@ -45,7 +45,7 @@ module PayrollHelper
     insurance_ave_bs = TaxUtils.get_basic_info(ym, prefecture_code, ave_bs)
     grade_ave_bs = insurance_ave_bs.grade
     pre_bs = pr.salary_total
-    standard_remuneration = insurance_ave_bs.monthly_standard
+    ret = insurance_ave_bs.monthly_standard
     while ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
       x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
       pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
@@ -58,7 +58,7 @@ module PayrollHelper
           ave_x = (pr.salary_total + pr1.salary_total + pr2.salary_total)/3
           insurance_x = TaxUtils.get_basic_info(ym, prefecture_code, ave_x)
           if (grade_ave_bs - insurance_x.grade).abs >= 2
-            standard_remuneration = insurance_x.monthly_standard
+            ret = insurance_x.monthly_standard
             grade_ave_bs = insurance_x.grade
             pre_bs = pr.salary_total
           end
@@ -66,7 +66,7 @@ module PayrollHelper
       end
     end
 
-    standard_remuneration
+    ret
   end
 
   # 健康保険料と所得税の取得

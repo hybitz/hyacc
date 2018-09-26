@@ -70,7 +70,7 @@ module PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, base_salary, commuting_allowance, monthly_standard)
+  def get_tax(ym, employee_id, base_salary, commuting_allowance, housing_allowance, monthly_standard)
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
@@ -81,6 +81,7 @@ module PayrollHelper
     payroll.employee = e
     payroll.base_salary = base_salary.to_i
     payroll.commuting_allowance = commuting_allowance.to_i
+    payroll.housing_allowance = housing_allowance.to_i
 
     # 雇用保険
     payroll.calc_employment_insurance

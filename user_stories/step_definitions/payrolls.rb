@@ -62,10 +62,11 @@ end
     employee_name = row[1]
     base_salary = row[2].to_ai
     commuting_allowance = row[3].to_ai
-    withheld_tax = row[4].to_ai
-    health_insurance = row[5].to_ai
-    welfare_pension = row[6].to_ai
-    employment_insurance = row[7].to_ai
+    housing_allowance = row[4].to_ai
+    withheld_tax = row[5].to_ai
+    health_insurance = row[6].to_ai
+    welfare_pension = row[7].to_ai
+    employment_insurance = row[8].to_ai
 
     with_capture "#{employee_name} #{ym} の給与" do
       visit_payrolls
@@ -77,8 +78,9 @@ end
       click_on ym
       within_dialog do
         fill_in 'payroll[base_salary]', with: base_salary
-        fill_in 'payroll[monthly_standard]', with: base_salary + commuting_allowance
+        fill_in 'payroll[monthly_standard]', with: base_salary + commuting_allowance + housing_allowance
         fill_in 'payroll[commuting_allowance]', with: commuting_allowance
+        fill_in 'payroll[housing_allowance]', with: housing_allowance
         fill_in 'payroll[inhabitant_tax]', with: 0 # blur
 
         click_on '登録'

@@ -19,12 +19,12 @@
       expected = row[0].to_ai
       debit_amount = JournalDetail.where(:dc_type => DC_TYPE_DEBIT, :account_id => account.id).sum(:amount) -
           JournalDetail.where(:dc_type => DC_TYPE_CREDIT, :account_id => account.id).sum(:amount)
-      errors << "#{account.name} の金額 #{debit_amount} が #{expected} と一致しません。" if debit_amount != expected
+      errors << "#{account.name} の金額 #{debit_amount} は #{expected} と #{debit_amount - expected} 差異があります。" if debit_amount != expected
     elsif account.credit?
       expected = row[2].to_ai
       credit_amount = JournalDetail.where(:dc_type => DC_TYPE_CREDIT, :account_id => account.id).sum(:amount) -
           JournalDetail.where(:dc_type => DC_TYPE_DEBIT, :account_id => account.id).sum(:amount)
-      errors << "#{account.name} の金額 #{credit_amount} が #{expected} と一致しません。" if credit_amount != expected
+      errors << "#{account.name} の金額 #{credit_amount} は #{expected} と #{credit_amount - expected} 差異があります。" if credit_amount != expected
     else
       raise "予期せぬ貸借区分\n#{account.attributes.to_yaml}"
     end
@@ -37,12 +37,12 @@
   debit_sum_amount = footer[0].to_ai
   expected = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_DEBIT, DC_TYPE_DEBIT).sum(:amount) -
       JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_DEBIT, DC_TYPE_CREDIT).sum(:amount)
-  errors << "借方合計金額 #{expected} が #{debit_sum_amount} と一致しません。" if debit_sum_amount != expected
+  errors << "借方合計金額 #{debit_sum_amount} は #{expected} と #{debit_sum_amount - expected} 差異があります。" if debit_sum_amount != expected
   
   credit_sum_amount = footer[2].to_ai
   expected = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_CREDIT, DC_TYPE_CREDIT).sum(:amount) -
       JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_CREDIT, DC_TYPE_DEBIT).sum(:amount)
-  errors << "貸方合計金額 #{expected} が #{credit_sum_amount} と一致しません。" if credit_sum_amount != expected
+  errors << "貸方合計金額 #{credit_sum_amount} は #{expected} と #{credit_sum_amount - expected} 差異があります。" if credit_sum_amount != expected
   
   assert errors.empty?, errors.join("\n")
 end

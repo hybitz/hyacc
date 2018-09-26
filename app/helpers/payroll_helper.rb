@@ -14,11 +14,11 @@ module PayrollHelper
     pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee.id)
     pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee.id)
     pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee.id)
-    if pr_3.nil?
-      if pr_2.present?
+    if pr_3.new_record?
+      if pr_2.persisted?
         return pr_2.monthly_standard
       end
-      if pr_1.present?
+      if pr_1.persisted?
         return pr_1.monthly_standard
       end
 
@@ -32,7 +32,7 @@ module PayrollHelper
       x = y.to_s + "04"
     end
     pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
-    while pr.payroll_journal.nil?
+    while pr.new_record?
       x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
       pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
     end

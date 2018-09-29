@@ -34,13 +34,13 @@
   details = JournalDetail.where('account_id not in (?)', accounts.map(&:id))
   assert details.empty?, "予期せぬ勘定科目の仕訳が存在します。#{details.map(&:attributes).to_yaml}"
 
-  debit_sum_amount = footer[0].to_ai
-  expected = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_DEBIT, DC_TYPE_DEBIT).sum(:amount) -
+  expected = footer[0].to_ai
+  debit_sum_amount = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_DEBIT, DC_TYPE_DEBIT).sum(:amount) -
       JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_DEBIT, DC_TYPE_CREDIT).sum(:amount)
   errors << "借方合計金額 #{debit_sum_amount} は #{expected} と #{debit_sum_amount - expected} 差異があります。" if debit_sum_amount != expected
   
-  credit_sum_amount = footer[2].to_ai
-  expected = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_CREDIT, DC_TYPE_CREDIT).sum(:amount) -
+  expected = footer[2].to_ai
+  credit_sum_amount = JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_CREDIT, DC_TYPE_CREDIT).sum(:amount) -
       JournalDetail.joins(joins).where('a.dc_type = ? and journal_details.dc_type = ?', DC_TYPE_CREDIT, DC_TYPE_DEBIT).sum(:amount)
   errors << "貸方合計金額 #{credit_sum_amount} は #{expected} と #{credit_sum_amount - expected} 差異があります。" if credit_sum_amount != expected
   

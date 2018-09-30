@@ -183,7 +183,7 @@ module JournalUtil
       branches = journal_detail.branch.self_and_siblings
       make_allocation(journal_detail.amount, branches)
     when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
-      branches = journal_detail.branch.root.self_and_descendants
+      branches = journal_detail.branch.self_and_descendants
       make_capitation(journal_detail.amount, branches)
     when ALLOCATION_TYPE_EVEN_BY_CHILDREN
       branches = journal_detail.branch.children

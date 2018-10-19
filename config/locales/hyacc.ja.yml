@@ -187,6 +187,7 @@ ja:
         hours_of_day_off_work: 休日労働時間数
         hours_of_early_work: 早出残業時間数
         hours_of_late_night_work: 深夜労働時間数
+        housing_allowance: 住宅手当
         income_tax: 所得税
         insurance: 健康保険料
         monthly_standard: 標準報酬月額

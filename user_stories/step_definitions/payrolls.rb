@@ -14,7 +14,6 @@
       fill_in 'payroll[base_salary]', with: @salary
       fill_in 'payroll[monthly_standard]', with: @salary
       fill_in 'payroll[commuting_allowance]', with: 0
-      assert has_selector?('form[insurance_loaded]');
       fill_in 'payroll[inhabitant_tax]', with: 0 # blur
 
       click_on '登録'
@@ -60,40 +59,45 @@ end
   rows = normalize_table(ast_table)[1..-1]
 
   rows.each do |row|
-    employee_name = row[1]
     base_salary = row[2].to_ai
     commuting_allowance = row[3].to_ai
-    withheld_tax = row[4].to_ai
-    health_insurance = row[5].to_ai
-    welfare_pension = row[6].to_ai
-    employment_insurance = row[7].to_ai
+    housing_allowance = row[4].to_ai
+    withheld_tax = row[5].to_ai
+    health_insurance = row[6].to_ai
+    welfare_pension = row[7].to_ai
+    employment_insurance = row[8].to_ai
 
-    with_capture "#{employee_name} #{ym} の給与" do
-      visit_payrolls
-      select row[0], :from => 'finder[branch_id]'
-      assert has_selector?('#finder_employee_id option', text: employee_name)
+    visit_payrolls
+    assert employee = current_company.employees.find_by_first_name(row[1])
+
+    with_capture "#{employee.name} #{ym} の給与" do
+      select row[0], from: 'finder[branch_id]'
+      select employee.name, from: 'finder[employee_id]'
       click_on '表示'
       assert has_selector?('#payroll_table')
 
       click_on ym
       within_dialog do
         fill_in 'payroll[base_salary]', with: base_salary
-        fill_in 'payroll[monthly_standard]', with: base_salary + commuting_allowance
         fill_in 'payroll[commuting_allowance]', with: commuting_allowance
-        assert has_selector?('form[insurance_loaded]');
+        fill_in 'payroll[housing_allowance]', with: housing_allowance
+        if Payroll.where(employee_id: employee.id).empty?
+          fill_in 'payroll[monthly_standard]', with: base_salary + commuting_allowance + housing_allowance
+        end
         fill_in 'payroll[inhabitant_tax]', with: 0 # blur
 
         click_on '登録'
       end
       assert has_no_dialog?
-      assert has_selector?('#finder_employee_id option', text: employee_name)
+      assert has_selector?('.notice')
     end
 
-    with_capture "#{employee_name} #{ym} の給与支払" do
+    with_capture "#{employee.name} #{ym} の給与支払" do
       assert col = find('#payroll_table thead tr').all('th').index{|th| th.has_link?(ym) }
 
       { '基本給' => base_salary,
         '通勤手当' => commuting_allowance,
+        '住宅手当' => housing_allowance,
         '所得税' => withheld_tax,
         '健康保険料' => health_insurance,
         '厚生年金保険料' => welfare_pension,
@@ -108,7 +112,7 @@ end
 
         find_tr '#payroll_table', key do |tr|
           value = tr.all('td')[col + rowspan].text.to_ai
-          assert value == expected, "#{employee_name} の #{key} の金額 #{value} が #{expected} と一致しません"
+          assert value == expected, "#{employee.name} の #{key} の金額 #{value} が #{expected} と一致しません"
         end
       end
   

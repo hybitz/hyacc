@@ -2,76 +2,75 @@ module PayrollHelper
 
   # 標準報酬月額の計算
   def get_standard_remuneration(ym, employee, salary)
-    standard_remuneration = 0
-    if ym != nil and salary != nil and employee != nil
-      prefecture_code = employee.business_office.prefecture_code
+    ret = 0
 
-      ym = ym.to_i
-      # 1,2,3か月前の給与
-      ym_1 = (Date.new(ym/100, ym%100, 1) << 1).strftime("%Y%m")
-      ym_2 = (Date.new(ym/100, ym%100, 1) << 2).strftime("%Y%m")
-      ym_3 = (Date.new(ym/100, ym%100, 1) << 3).strftime("%Y%m")
-      pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee.id)
-      pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee.id)
-      pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee.id)
-      if pr_3.payroll_journal.nil?
-        if pr_2.payroll_journal.present?
-          return get_remuneration(ym_2, prefecture_code, pr_2.salary_total)
-        end
-        if pr_1.payroll_journal.present?
-          return get_remuneration(ym_1, prefecture_code, pr_1.salary_total)
-        end
+    prefecture_code = employee.business_office.prefecture_code
 
-        return TaxUtils.get_basic_info(ym, prefecture_code, salary).monthly_standard
+    ym = ym.to_i
+    # 1,2,3か月前の給与
+    ym_1 = (Date.new(ym/100, ym%100, 1) << 1).strftime("%Y%m")
+    ym_2 = (Date.new(ym/100, ym%100, 1) << 2).strftime("%Y%m")
+    ym_3 = (Date.new(ym/100, ym%100, 1) << 3).strftime("%Y%m")
+    pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee.id)
+    pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee.id)
+    pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee.id)
+    if pr_3.new_record?
+      if pr_2.persisted?
+        return pr_2.monthly_standard
+      end
+      if pr_1.persisted?
+        return pr_1.monthly_standard
       end
 
-      # 7月より前は前年の4月を基準とする
-      x = (ym.to_s).slice(0, 4) + "04"
-      if ym.to_s.slice(4, 2).to_i < 7
-        y = ((ym.to_s).slice(0, 4)).to_i - 1
-        x = y.to_s + "04"
-      end
+      return TaxUtils.get_basic_info(ym, prefecture_code, salary).monthly_standard
+    end
+
+    # 7月より前は前年の4月を基準とする
+    x = (ym.to_s).slice(0, 4) + "04"
+    if ym.to_s.slice(4, 2).to_i < 7
+      y = ((ym.to_s).slice(0, 4)).to_i - 1
+      x = y.to_s + "04"
+    end
+    pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
+    while pr.new_record?
+      x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
       pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
-      while pr.payroll_journal.nil?
-        x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
-        pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
-      end
-      # 基準となる標準報酬月額
-      x1 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
-      x2 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")
-      pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
-      pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
-      ave_bs = (pr.salary_total + pr1.salary_total + pr2.salary_total)/3
-      insurance_ave_bs = TaxUtils.get_basic_info(ym, prefecture_code, ave_bs)
-      grade_ave_bs = insurance_ave_bs.grade
-      pre_bs = pr.salary_total
-      standard_remuneration = insurance_ave_bs.monthly_standard
-      while ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
-        x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
-        pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
-        if pre_bs != pr.salary_total
-          if ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
-            x1 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
-            x2 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")
-            pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
-            pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
-            ave_x = (pr.salary_total + pr1.salary_total + pr2.salary_total)/3
-            insurance_x = TaxUtils.get_basic_info(ym, prefecture_code, ave_x)
-            if (grade_ave_bs - insurance_x.grade).abs >= 2
-              standard_remuneration = insurance_x.monthly_standard
-              grade_ave_bs = insurance_x.grade
-              pre_bs = pr.salary_total
-            end
+    end
+    # 基準となる標準報酬月額
+    x1 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
+    x2 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")
+    pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
+    pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
+    ave_bs = (pr.salary_total + pr1.salary_total + pr2.salary_total)/3
+    insurance_ave_bs = TaxUtils.get_basic_info(ym, prefecture_code, ave_bs)
+    grade_ave_bs = insurance_ave_bs.grade
+    pre_bs = pr.salary_total
+    ret = insurance_ave_bs.monthly_standard
+    while ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
+      x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
+      pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
+      if pre_bs != pr.salary_total
+        if ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
+          x1 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
+          x2 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")
+          pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
+          pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
+          ave_x = (pr.salary_total + pr1.salary_total + pr2.salary_total)/3
+          insurance_x = TaxUtils.get_basic_info(ym, prefecture_code, ave_x)
+          if (grade_ave_bs - insurance_x.grade).abs >= 2
+            ret = insurance_x.monthly_standard
+            grade_ave_bs = insurance_x.grade
+            pre_bs = pr.salary_total
           end
         end
       end
     end
 
-    standard_remuneration
+    ret
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, base_salary, commuting_allowance, monthly_standard)
+  def get_tax(ym, employee_id, base_salary, commuting_allowance, housing_allowance, monthly_standard)
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
@@ -82,6 +81,7 @@ module PayrollHelper
     payroll.employee = e
     payroll.base_salary = base_salary.to_i
     payroll.commuting_allowance = commuting_allowance.to_i
+    payroll.housing_allowance = housing_allowance.to_i
 
     # 雇用保険
     payroll.calc_employment_insurance
@@ -109,12 +109,6 @@ module PayrollHelper
     payroll.calc_income_tax
 
     payroll
-  end
-
-  # 標準報酬額を取得
-  def get_remuneration(ym, prefecture_code, salary)
-    insurance = TaxUtils.get_basic_info(ym, prefecture_code, salary)
-    insurance.monthly_standard
   end
 
   def get_pay_day(ym, employee_id = nil)

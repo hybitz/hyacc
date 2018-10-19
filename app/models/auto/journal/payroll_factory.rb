@@ -44,13 +44,13 @@ module Auto::Journal
       ## デフォルト部門の取得
       branch_id = employee.default_branch.id
       # 保険料と所得税の取得
-      tax = get_tax(@payroll.ym, employee.id, @payroll.base_salary, @payroll.commuting_allowance, @payroll.monthly_standard)
+      tax = get_tax(@payroll.ym, employee.id, @payroll.base_salary, @payroll.commuting_allowance, @payroll.housing_allowance, @payroll.monthly_standard)
       # 勘定科目の取得
       deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
       advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
 
       ## 給与明細
-      ### 役員給与・給与手当・通勤手当
+      ### 役員給与・給与手当・通勤手当・住宅手当
       if @payroll.salary_total > 0
         detail = journal.journal_details.build
         detail.detail_no = journal.journal_details.size

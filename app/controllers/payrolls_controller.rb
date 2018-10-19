@@ -24,9 +24,11 @@ class PayrollsController < Base::HyaccController
 
     previous_payroll = Payroll.get_previous(ym, employee_id)
     base_salary = previous_payroll.try(:base_salary)
+    commuting_allowance = previous_payroll.try(:commuting_allowance)
+    housing_allowance = previous_payroll.try(:housing_allowance)
     monthly_standard = previous_payroll.try(:monthly_standard)
 
-    @payroll = get_tax(ym, employee_id, base_salary, 0, monthly_standard)
+    @payroll = get_tax(ym, employee_id, base_salary, commuting_allowance, housing_allowance, monthly_standard)
 
     # 初期値の設定
     @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
@@ -113,8 +115,9 @@ class PayrollsController < Base::HyaccController
     employee_id = params[:payroll][:employee_id]
     base_salary = params[:payroll][:base_salary]
     commuting_allowance = params[:payroll][:commuting_allowance]
+    housing_allowance = params[:payroll][:housing_allowance]
     monthly_standard = params[:payroll][:monthly_standard]
-    payroll = get_tax(ym, employee_id, base_salary, commuting_allowance, monthly_standard)
+    payroll = get_tax(ym, employee_id, base_salary, commuting_allowance, housing_allowance, monthly_standard)
 
     render json: {
       health_insurance: payroll.health_insurance,
@@ -150,7 +153,7 @@ class PayrollsController < Base::HyaccController
     ret = params.require(:payroll).permit(
         :ym, :employee_id,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
-        :base_salary, :commuting_allowance, :monthly_standard,
+        :base_salary, :commuting_allowance, :housing_allowance, :monthly_standard,
         :health_insurance, :welfare_pension, :income_tax, :employment_insurance,
         :inhabitant_tax, :accrued_liability, :annual_adjustment, :pay_day)
 

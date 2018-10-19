@@ -11,3 +11,9 @@ end
     create_journal(journal)
   end
 end
+
+もし /^引越し費用を精算$/ do |ast_table|
+  to_journals(ast_table).each do |journal|
+    create_journal(journal)
+  end
+end

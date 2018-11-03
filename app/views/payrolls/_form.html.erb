@@ -48,22 +48,26 @@
         <td><%= f.text_field :hours_of_work, maxlength: 5 %></td>
       </tr>
       <tr>
-        <th><%= f.label :commuting_allowance %></th>
-        <td><%= f.text_field :commuting_allowance, maxlength: 6, class: 'salary' %></td>
+        <th><%= f.label :extra_pay %></th>
+        <td><%= f.text_field :extra_pay, maxlength: 10, class: 'salary' %></td>
         <th>休日労働時間数</th>
         <td><%= f.text_field :hours_of_day_off_work, maxlength: 5 %></td>
       </tr>
       <tr>
-        <th><%= f.label :housing_allowance %></th>
-        <td><%= f.text_field :housing_allowance, maxlength: 6, class: 'salary' %></td>
+        <th><%= f.label :commuting_allowance %></th>
+        <td><%= f.text_field :commuting_allowance, maxlength: 6, class: 'salary' %></td>
         <th>早出残業時間数</th>
         <td><%= f.text_field :hours_of_early_work, maxlength: 5 %></td>
       </tr>
       <tr>
-        <th><%= f.label :monthly_standard %></th>
-        <td><%= f.text_field :monthly_standard, maxlength: 10, class: 'salary' %></td>
+        <th><%= f.label :housing_allowance %></th>
+        <td><%= f.text_field :housing_allowance, maxlength: 6, class: 'salary' %></td>
         <th>深夜労働時間数</th>
         <td><%= f.text_field :hours_of_late_night_work, maxlength: 5 %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :monthly_standard %></th>
+        <td><%= f.text_field :monthly_standard, maxlength: 10, class: 'salary' %></td>
       </tr>
       <tr>
         <th>健康保険料</th>

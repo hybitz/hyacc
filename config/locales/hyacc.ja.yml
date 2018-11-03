@@ -183,6 +183,7 @@ ja:
         base_salary: 基本給
         commuting_allowance: 通勤手当
         days_of_work: 労働日数
+        extra_pay: 所定時間外割増賃金
         hours_of_work: 労働時間数
         hours_of_day_off_work: 休日労働時間数
         hours_of_early_work: 早出残業時間数

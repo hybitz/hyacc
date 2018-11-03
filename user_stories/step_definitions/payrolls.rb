@@ -60,12 +60,13 @@ end
 
   rows.each do |row|
     base_salary = row[2].to_ai
-    commuting_allowance = row[3].to_ai
-    housing_allowance = row[4].to_ai
-    withheld_tax = row[5].to_ai
-    health_insurance = row[6].to_ai
-    welfare_pension = row[7].to_ai
-    employment_insurance = row[8].to_ai
+    extra_pay = row[3].to_ai
+    commuting_allowance = row[4].to_ai
+    housing_allowance = row[5].to_ai
+    withheld_tax = row[6].to_ai
+    health_insurance = row[7].to_ai
+    welfare_pension = row[8].to_ai
+    employment_insurance = row[9].to_ai
 
     visit_payrolls
     assert employee = current_company.employees.find_by_first_name(row[1])
@@ -79,10 +80,11 @@ end
       click_on ym
       within_dialog do
         fill_in 'payroll[base_salary]', with: base_salary
+        fill_in 'payroll[extra_pay]', with: extra_pay
         fill_in 'payroll[commuting_allowance]', with: commuting_allowance
         fill_in 'payroll[housing_allowance]', with: housing_allowance
         if Payroll.where(employee_id: employee.id).empty?
-          fill_in 'payroll[monthly_standard]', with: base_salary + commuting_allowance + housing_allowance
+          fill_in 'payroll[monthly_standard]', with: base_salary + extra_pay + commuting_allowance + housing_allowance
         end
         fill_in 'payroll[inhabitant_tax]', with: 0 # blur
 
@@ -96,6 +98,7 @@ end
       assert col = find('#payroll_table thead tr').all('th').index{|th| th.has_link?(ym) }
 
       { '基本給' => base_salary,
+        '所定時間外割増賃金' => extra_pay,
         '通勤手当' => commuting_allowance,
         '住宅手当' => housing_allowance,
         '所得税' => withheld_tax,

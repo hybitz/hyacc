@@ -100,11 +100,11 @@
     <tr>
       <td colspan="2">所定時間外割増賃金</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td></td>
+        <td><%= to_amount(@pd[ym].extra_pay) %></td>
       <% end %>
       <td></td>
       <td></td>
-      <td></td>
+      <td class="right"><%= to_amount(@pd[:sum].extra_pay) %></td>
     </tr>
     <tr>
       <td rowspan="3">手当</td>

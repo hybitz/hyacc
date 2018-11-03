@@ -43,6 +43,7 @@ class PayrollFinder < Base::Finder
       sum.welfare_pension += p.welfare_pension
       sum.employment_insurance += p.employment_insurance
       sum.base_salary += p.base_salary
+      sum.extra_pay += p.extra_pay
       sum.commuting_allowance += p.commuting_allowance
       sum.housing_allowance += p.housing_allowance
       sum.inhabitant_tax += p.inhabitant_tax

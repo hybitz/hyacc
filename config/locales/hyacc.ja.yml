@@ -284,6 +284,9 @@ ja:
         date_of_start_living_2: 居住開始年月日（2回目）
         mortgage_deduction_code_2: 住宅借入金等特別控除区分（2回目）
         year_end_balance_2: 住宅借入金等年末残高（2回目）
+        previous_salary: 前職の支払金額
+        previous_withholding_tax: 前職の源泉徴収税額
+        previous_social_insurance: 前職の社会保険料等の金額
         
       dependent_family_member: &dependent_family_member
         name: 氏名

@@ -33,6 +33,13 @@ module PayrollInfo
       total_base_salary
     end
 
+    # 支払金額(前職を含む)
+    def get_total_base_salary_include_previous
+      base_salary = get_total_base_salary
+      e = get_exemptions
+      base_salary + e.previous_salary.to_i
+    end
+
     # 支払金額(給与)
     def get_base_salaries
       salarys = {}
@@ -74,7 +81,7 @@ module PayrollInfo
 
     # みなし給与
     def get_total_deemed_salary
-      deemed_salary = get_total_base_salary
+      deemed_salary = get_total_base_salary_include_previous
       deemed_salary = 0 if deemed_salary.blank?
       # 年末調整のしかたの「Ⅵ　電子計算機等による年末調整」を参照
       deemed_salary = (deemed_salary/1000).to_i * 1000 if deemed_salary >= 1_619_000 && deemed_salary <= 1_619_999
@@ -118,7 +125,7 @@ module PayrollInfo
       e = Exemption.where(:employee_id => @employee_id, :yyyy => @calendar_year).first
       unless e
         HyaccLogger.error "源泉徴収情報が登録されていません。"
-        raise HyaccException.new("源泉徴収情報が登録されていません。")
+        raise HyaccException.new("源泉徴収情報が登録されていません。雇用ID：" + @employee_id.to_s)
       end
       e
     end
@@ -131,7 +138,8 @@ module PayrollInfo
       # 社会保険料等の控除額＋基礎控除等
       total = get_health_insurance + get_employee_pention +
                 e.small_scale_mutual_aid.to_i + e.life_insurance_premium.to_i + e.earthquake_insurance_premium.to_i +
-                e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i + e.disabled_persons.to_i + e.basic.to_i
+                e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i + e.disabled_persons.to_i + e.basic.to_i +
+                e.previous_social_insurance.to_i
       return total
     end
 
@@ -160,6 +168,13 @@ module PayrollInfo
       total_tax = (total_tax/100).to_i * 100
 
       total_tax
+    end
+
+    # 源泉所得税(前職を含む)
+    def get_withholding_tax_include_previous
+      wt = get_withholding_tax
+      e = get_exemptions
+      wt + e.previous_withholding_tax.to_i
     end
 
     # 健康保険料

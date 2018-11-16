@@ -62,6 +62,17 @@
       <th colspan="2">住宅借入金等年末残高（1回目）</th><td><%= f.text_field :year_end_balance_1, :class => 'amount' %></td>
       <th colspan="2">住宅借入金等年末残高（2回目）</th><td><%= f.text_field :year_end_balance_2, :class => 'amount' %></td>
     </tr>
+    <tr>
+      <th colspan="2">前職の支払金額</th><td><%= f.text_field :previous_salary, :class => 'amount' %></td>
+      <th colspan="2">前職の源泉徴収税額</th><td><%= f.text_field :previous_withholding_tax, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">前職の社会保険料等の金額</th><td><%= f.text_field :previous_social_insurance, :class => 'amount' %></td>
+      <th colspan="2"></th><td></td>
+    </tr>
+    <tr>
+      <th colspan="2">摘要欄</th><td colspan='4'><%= f.text_area :remarks, :maxlength => '500', :size => '60x3' %></td>
+    </tr>
   </table>
   <table width="400">
   <thead>

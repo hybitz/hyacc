@@ -26,10 +26,10 @@ module Reports
 
     private
 
-    # 支払金額
+    # 支払金額(前職を含む)
     def get_total_salary
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-      return logic.get_total_base_salary
+      return logic.get_total_base_salary_include_previous
     end
     
     # 控除額
@@ -50,17 +50,17 @@ module Reports
       logic.get_after_deduction
     end
     
-    # 源泉徴収税額
+    # 源泉徴収税額(前職を含む)
     def get_withholding_tax
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-      logic.get_withholding_tax
+      logic.get_withholding_tax_include_previous
     end
     
-    # 社会保険料等の金額(健康保険料＋厚生年金保険料＋小規模共済)
+    # 社会保険料等の金額(健康保険料＋厚生年金保険料＋小規模共済＋前職分の社会保険料等の金額)
     def get_social_insurance
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions
-      logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid.to_i
+      logic.get_health_insurance + logic.get_employee_pention + e.small_scale_mutual_aid.to_i + e.previous_social_insurance.to_i
     end
 
   end

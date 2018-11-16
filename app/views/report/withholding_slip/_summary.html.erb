@@ -9,13 +9,23 @@
   <table width="500">
     <tr>
       <td style="background-color: lightgrey;">#</td>
-      <td style="background-color: lightgrey;">支払金額</td>
-      <td style="background-color: lightgrey;">源泉徴収税額</td>
+      <td style="background-color: lightgrey;">A.支払金額（前職分を除く）</td>
+      <td style="background-color: lightgrey;">A.源泉徴収税額（前職分を除く）</td>
     </tr>
     <tr>
       <td>1</td>
       <td><%= number_to_currency(@data.total_salary, :format=>"%n") %></td>
       <td><%= number_to_currency(@data.withholding_tax, :format=>"%n") %></td>
+    </tr>
+    <tr>
+      <td style="background-color: lightgrey;">#</td>
+      <td style="background-color: lightgrey;">B.支払金額（前職分を含む）</td>
+      <td style="background-color: lightgrey;">B.源泉徴収税額（前職分を含む）</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><%= number_to_currency(@data.total_salary_include_previous, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_include_previous, :format=>"%n") %></td>
     </tr>
   </table>
 </div>

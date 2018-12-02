@@ -18,6 +18,19 @@ class PayrollsController < Base::HyaccController
     end
   end
 
+  def new_bonus
+    ym = params[:ym]
+    employee_id = params[:employee_id]
+    previous_payroll = Payroll.get_previous(ym, employee_id)
+    raise '前月の給与がない場合の計算には対応していません' unless previous_payroll.present?
+
+    base_salary = previous_payroll.base_salary
+    monthly_standard = previous_payroll.monthly_standard
+
+    @payroll = get_tax(ym, employee_id, base_salary, 0, 0, 0, monthly_standard, is_bonus: true)
+    @payroll.pay_day = get_pay_day(ym, employee_id)
+  end
+
   def new
     ym = params[:ym]
     employee_id = params[:employee_id]
@@ -119,7 +132,8 @@ class PayrollsController < Base::HyaccController
     commuting_allowance = params[:payroll][:commuting_allowance]
     housing_allowance = params[:payroll][:housing_allowance]
     monthly_standard = params[:payroll][:monthly_standard]
-    payroll = get_tax(ym, employee_id, base_salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
+    is_bonus = params[:payroll][:is_bonus].present?
+    payroll = get_tax(ym, employee_id, base_salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard, is_bonus: is_bonus)
 
     render json: {
       health_insurance: payroll.health_insurance,
@@ -153,7 +167,7 @@ class PayrollsController < Base::HyaccController
 
   def payroll_params
     ret = params.require(:payroll).permit(
-        :ym, :employee_id,
+        :ym, :employee_id, :is_bonus,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :extra_pay, :commuting_allowance, :housing_allowance, :monthly_standard,
         :health_insurance, :welfare_pension, :income_tax, :employment_insurance,

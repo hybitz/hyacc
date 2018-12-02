@@ -53,7 +53,7 @@ class Payroll < ApplicationRecord
     health_insurance + welfare_pension
   end
 
-  # 保険料合計
+  # 保険料合計（社会保険＋雇用保険）
   def insurance_total
     social_insurance + employment_insurance
   end
@@ -74,7 +74,7 @@ class Payroll < ApplicationRecord
     # 1月の場合、-1年(-100)+11月
     past_ym = ym.to_i - 89 if ym.to_i%100 == 1
 
-    Payroll.where(ym: past_ym, employee_id: employee_id, is_bonus: false).order('ym').first
+    Payroll.where(ym: past_ym, employee_id: employee_id, is_bonus: false).first
   end
 
   def self.find_by_ym_and_employee_id(ym, employee_id)
@@ -85,20 +85,11 @@ class Payroll < ApplicationRecord
     payroll
   end
 
-  # Payrollから賞与情報を取得
+  # 賞与
   def self.list_bonus(ym_range, employee_id)
-    Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.first, ym_range.last, true).order('ym desc')
+    Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.first, ym_range.last, true)
   end
 
-  # 賃金台帳表示用の賞与情報を取得する
-  def self.get_bonus_info(id)
-    # 賞与情報を取得
-    payroll = Payroll.find(id)
-    payroll ||= Payroll.new
-
-    payroll
-  end
-  
   def num_of_dependent
     exemption = employee.exemptions.order("yyyy desc").first
     exemption ? exemption.family_members.size : 0 # 扶養親族
@@ -111,9 +102,16 @@ class Payroll < ApplicationRecord
   
   def calc_income_tax
     date = Date.new(ym.to_i/100, ym.to_i%100, -1) # 対象月の末日を基準
-    salary = salary_total - social_insurance - commuting_allowance
+    salary = salary_total - insurance_total - commuting_allowance
 
-    self.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(date, salary, num_of_dependent)
+    if is_bonus?
+      previous = self.class.get_previous(ym, employee_id)
+      previous_salary = previous.salary_total - previous.insurance_total - previous.commuting_allowance
+      tax_ratio = WithheldTax.find_bonus_tax_ratio_by_date_and_salary_and_dependent(date, previous_salary, num_of_dependent)
+      self.income_tax = (salary * tax_ratio).to_i
+    else
+      self.income_tax = WithheldTax.find_by_date_and_salary_and_dependent(date, salary, num_of_dependent)
+    end
   end
 
   private

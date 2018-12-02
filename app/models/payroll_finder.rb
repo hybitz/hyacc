@@ -21,19 +21,13 @@ class PayrollFinder < Base::Finder
     
     # 賞与を取得
     bonus_list = Payroll.list_bonus(ym_range, @employee_id)
-    # 賞与1のセット
-    if bonus_list[0].nil?
-      ret['b1'] = Payroll.new
-    else
-      ret['b1'] = Payroll.get_bonus_info(bonus_list[0].id)
+    first_half, second_half = ym_range.each_slice(6).to_a
+    bonus_list.each do |b|
+      ret['b1'] = b if first_half.include?(b.ym)
+      ret['b2'] = b if second_half.include?(b.ym)
     end
-    
-    # 賞与2のセット
-    if bonus_list[1].nil?
-      ret['b2'] = Payroll.new
-    else
-      ret['b2'] = Payroll.get_bonus_info(bonus_list[1].id)
-    end
+    ret['b1'] ||= Payroll.new
+    ret['b2'] ||= Payroll.new
     
     # 年間合計の設定
     sum = Payroll.new

@@ -1,0 +1,74 @@
+<script>
+  $(document).ready(function() {
+    hyacc.init_datepicker();
+
+    var form = $('.payroll_form form');
+    form.find('.salary').change(loadInsurance);
+  });
+
+  function loadInsurance() {
+    var form = $(this).closest('form');
+    var url = '<%= url_for :action => 'auto_calc' %>';
+    var params = form.serialize();
+
+    $.getJSON(url, params, function(taxes) {
+      form.find('input[name*="\[health_insurance\]"]').val(taxes.health_insurance);
+      form.find('input[name*="\[welfare_pension\]"]').val(taxes.welfare_pension);
+      form.find('input[name*="\[employment_insurance\]"]').val(taxes.employment_insurance);
+      form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
+    });
+  }
+</script>
+
+<%= flash_notice %>
+
+<% if @payroll.persisted? %>
+  （<%= link_to '明細削除', payroll_path(@payroll), method: 'delete', remote: true,
+                          data: {confirm: '明細を削除します。よろしいですか？'} %>）
+<% end %>
+
+<br>
+
+<div class="payroll_form">
+  <%= form_with model: @payroll, id: 'payroll_form', remote: true do |f| %>
+    <%= f.hidden_field :employee_id %>
+    <%= f.hidden_field :is_bonus %>
+
+    <table class="table">
+      <tr>
+        <th>年月</th>
+        <td><%= f.hidden_field :ym %><%= f.object.ym %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :base_salary %></th>
+        <td><%= f.text_field :base_salary, maxlength: 10, class: 'salary' %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :monthly_standard %></th>
+        <td><%= f.text_field :monthly_standard, maxlength: 10, class: 'salary' %></td>
+      </tr>
+      <tr>
+        <th>健康保険料</th>
+        <td><%= f.text_field :health_insurance, maxlength: 10 %></td>
+      </tr>
+      <tr>
+        <th>厚生年金保険料</th>
+        <td><%= f.text_field :welfare_pension, maxlength: 10 %></td>
+      </tr>
+      <% unless @payroll.employee.executive? %>
+        <tr>
+          <th>雇用保険料</th>
+          <td><%= f.text_field :employment_insurance, :maxlength => 10 %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <th>所得税</th>
+        <td><%= f.text_field :income_tax, maxlength: 10 %></td>
+      </tr>
+      <tr>
+        <th>給与支払日</th>
+        <td><%= f.text_field :pay_day, class: 'datepicker' %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

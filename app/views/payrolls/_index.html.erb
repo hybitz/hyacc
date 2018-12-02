@@ -37,8 +37,20 @@
           <% end %>
         </th>
       <% end %>
-      <th>賞与１</th>
-      <th>賞与２</th>
+      <th>
+        <% if @pd['b1'].new_record? %>
+          <%= link_to '賞与１', {action: 'new', bonus: 'b1', employee_id: @finder.employee_id}, remote: true %>
+        <% else %>
+            <%= link_to '賞与１', edit_payroll_path(@pd['b1']), remote: true %>
+        <% end %>
+      </th>
+      <th>
+        <% if @pd['b2'].new_record? %>
+          <%= link_to '賞与２', {action: 'new', bonus: 'b2', employee_id: @finder.employee_id}, remote: true %>
+        <% else %>
+            <%= link_to '賞与２', edit_payroll_path(@pd['b2']), remote: true %>
+        <% end %>
+      </th>
       <th>合計</th>
     </tr>
   </thead>

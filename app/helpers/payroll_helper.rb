@@ -75,7 +75,7 @@ module PayrollHelper
     
     e = Employee.find(employee_id)
     care_from = (e.birth + 40.years - 1.day).strftime("%Y%m").to_i   # 40歳の誕生日前日の月から対象
-    care_to = (e.birth + 65.years - 1.day).strftime("%Y%m").to_i - 1 # 65歳の誕生日前日の月の前月までが対象
+    care_to = (e.birth + 65.years - 1.day).prev_month.strftime("%Y%m").to_i # 65歳の誕生日前日の月の前月までが対象
 
     payroll.ym = ym
     payroll.employee = e

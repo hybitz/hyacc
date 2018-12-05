@@ -102,7 +102,7 @@ module PayrollHelper
     payroll
   end
 
-  def get_pay_day(ym, employee_id = nil)
+  def get_pay_day(ym, employee_id)
     company = Employee.find(employee_id).company
     company.get_actual_pay_day_for(ym)
   end

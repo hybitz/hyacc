@@ -33,7 +33,11 @@ module Auto::Journal
       journal.ym = @payroll.ym
       journal.day = employee.company.payroll_day(@payroll.ym)
       # 摘要の設定
-      journal.remarks = "#{salary_account.name}　#{employee.fullname}　#{@payroll.ym%100}月分"
+      if @payroll.is_bonus?
+        journal.remarks = "給与（賞与）　#{employee.fullname}　#{@payroll.year}年#{@payroll.month}月分"
+      else
+        journal.remarks = "給与　#{employee.fullname}　#{@payroll.month}月分"
+      end
       journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal.create_user_id = @user.id
       journal.update_user_id = @user.id
@@ -196,7 +200,11 @@ module Auto::Journal
       journal = @payroll.build_pay_journal
       journal.company_id = employee.company.id
       journal.date = @payroll.pay_day
-      journal.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
+      if @payroll.is_bonus?
+        journal.remarks = "給与（賞与）支給　#{employee.fullname}　#{@payroll.year}年#{@payroll.month}月分"
+      else
+        journal.remarks = "給与支給、立替費用の精算　#{employee.fullname}　#{@payroll.month}月分"
+      end
       journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal.create_user_id = @user.id
       journal.update_user_id = @user.id
@@ -298,7 +306,11 @@ module Auto::Journal
       journal = @payroll.build_commission_journal
       journal.company_id = employee.company.id
       journal.date = @payroll.pay_day
-      journal.remarks = "給与支給、振込手数料　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
+      if @payroll.is_bonus?
+        journal.remarks = "給与（賞与）振込手数料　#{employee.fullname}　#{@payroll.year}年#{@payroll.month}月分"
+      else
+        journal.remarks = "給与振込手数料　#{employee.fullname}　#{@payroll.month}月分"
+      end
       journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal.create_user_id = @user.id
       journal.update_user_id = @user.id

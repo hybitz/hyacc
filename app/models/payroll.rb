@@ -3,7 +3,8 @@ class Payroll < ApplicationRecord
 
   validates :employee_id, presence: true
   validates :ym, presence: true
-  validates :base_salary, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :base_salary, presence: true, numericality: { only_integer: true, greater_than: 0 }, :unless => :is_bonus?
+  validates :temporary_salary, presence: true, numericality: { only_integer: true, greater_than: 0 }, :if => :is_bonus?
   validates :commuting_allowance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :health_insurance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :welfare_pension, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
@@ -25,8 +26,6 @@ class Payroll < ApplicationRecord
   before_save :make_journals
                             
   # フィールド
-  attr_accessor :health_insurance_all
-  attr_accessor :pension_all
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
 
@@ -38,11 +37,6 @@ class Payroll < ApplicationRecord
     ym % 100
   end
 
-  # 臨時の給与
-  def temporary_salary
-    is_bonus? ? base_salary : 0
-  end
-  
   # 給与小計
   def salary_subtotal
     base_salary + extra_pay + commuting_allowance + housing_allowance
@@ -50,7 +44,7 @@ class Payroll < ApplicationRecord
 
   # 給与合計
   def salary_total
-    salary_subtotal
+    salary_subtotal + temporary_salary
   end
 
   # 社会保険料（健康保険＋厚生年金）
@@ -99,6 +93,17 @@ class Payroll < ApplicationRecord
     exemption = employee.exemptions.order("yyyy desc").first
     exemption ? exemption.family_members.size : 0 # 扶養親族
   end
+  
+  def calc_social_insurance
+    # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
+    # 折半額の端数は個人負担
+    if care_applicable?
+      self.health_insurance = (social_insurance_model.health_insurance_half_care - 0.01).round
+    else
+      self.health_insurance = (social_insurance_model.health_insurance_half - 0.01).round
+    end
+    self.welfare_pension = (social_insurance_model.welfare_pension_insurance_half - 0.01).round
+  end
 
   def calc_employment_insurance
     ei = TaxUtils.get_employment_insurance(ym)
@@ -126,8 +131,30 @@ class Payroll < ApplicationRecord
     ym >= care_from && ym < care_to
   end
   
+  def health_insurance_all
+    if care_applicable?
+      social_insurance_model.health_insurance_all_care.truncate
+    else
+      social_insurance_model.health_insurance_all.truncate
+    end
+  end
+  
+  def pension_all
+    social_insurance_model.welfare_pension_insurance_all.truncate
+  end
+
   private
 
+  # 社会保険
+  def social_insurance_model
+    if @social_insurance_model.nil?
+      # 事業所の都道府県コード
+      prefecture_code = employee.business_office.prefecture_code
+      @social_insurance_model = TaxUtils.get_social_insurance(ym, prefecture_code, monthly_standard)
+    end
+    @social_insurance_model
+  end
+  
   def make_journals
     user = User.find(self.update_user_id)
     param = Auto::Journal::PayrollParam.new(self, user)

@@ -43,8 +43,6 @@ module Auto::Journal
 
       ## デフォルト部門の取得
       branch_id = employee.default_branch.id
-      # 保険料と所得税の取得
-      tax = get_tax(@payroll.ym, employee.id, @payroll.base_salary, @payroll.extra_pay, @payroll.commuting_allowance, @payroll.housing_allowance, @payroll.monthly_standard)
       # 勘定科目の取得
       deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
       advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
@@ -61,7 +59,7 @@ module Auto::Journal
         detail.amount = @payroll.salary_total
       end
       ### 法定福利費.健康保険料
-      insurance_half = tax.health_insurance_all.to_i - @payroll.health_insurance
+      insurance_half = @payroll.health_insurance_all.to_i - @payroll.health_insurance
       if insurance_half != 0
         account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
@@ -75,7 +73,7 @@ module Auto::Journal
         detail.note = '会社負担健康保険料'
       end
       ### 法定福利費.厚生年金
-      pension_half = tax.pension_all.to_i - @payroll.welfare_pension
+      pension_half = @payroll.pension_all.to_i - @payroll.welfare_pension
       if pension_half != 0
         account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
@@ -127,7 +125,7 @@ module Auto::Journal
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
       detail.branch_id = branch_id
-      detail.amount = tax.health_insurance_all.to_i - @payroll.health_insurance + tax.pension_all.to_i - @payroll.welfare_pension
+      detail.amount = @payroll.health_insurance_all.to_i - @payroll.health_insurance + @payroll.pension_all.to_i - @payroll.welfare_pension
       detail.note = "会社負担保険料の未払分"
       ### 雇用保険
       if @payroll.employment_insurance > 0

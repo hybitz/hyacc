@@ -160,9 +160,9 @@
       <% @finder.get_ym_range.each do |ym| %>
         <td></td>
       <% end %>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td class="text-center"><%= to_amount(@pd["b1"].temporary_salary) %></td>
+      <td class="text-center"><%= to_amount(@pd["b2"].temporary_salary) %></td>
+      <td class="text-right"><%= to_amount(@pd[:sum].temporary_salary) %></td>
     </tr>
     <tr>
       <td colspan="2">合計</td>
@@ -258,7 +258,7 @@
     <tr>
       <td colspan="2">差引支給額</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td align="text-center"><%= to_amount(@pd[ym].after_deduction) %></td>
+        <td class="text-center"><%= to_amount(@pd[ym].after_deduction) %></td>
       <% end %>
       <td class="text-center"><%= to_amount(@pd["b1"].after_deduction) %></td>
       <td class="text-center"><%= to_amount(@pd["b2"].after_deduction) %></td>
@@ -276,7 +276,7 @@
     <tr>
       <td colspan="2">経費精算</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td align="text-center"><%= to_amount(@pd[ym].accrued_liability) %></td>
+        <td class="text-center"><%= to_amount(@pd[ym].accrued_liability) %></td>
       <% end %>
       <td class="text-center"><%= to_amount(@pd["b1"].accrued_liability) %></td>
       <td class="text-center"><%= to_amount(@pd["b2"].accrued_liability) %></td>
@@ -285,7 +285,7 @@
     <tr>
       <td colspan="2">差引合計額</td>
       <% @finder.get_ym_range.each do |ym| %>
-        <td align="text-center"><%= to_amount(@pd[ym].after_deduction + @pd[ym].accrued_liability) %></td>
+        <td class="text-center"><%= to_amount(@pd[ym].after_deduction + @pd[ym].accrued_liability) %></td>
       <% end %>
       <td class="text-center"><%= to_amount(@pd["b1"].after_deduction) %></td>
       <td class="text-center"><%= to_amount(@pd["b2"].after_deduction) %></td>

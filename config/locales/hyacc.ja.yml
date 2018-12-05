@@ -239,20 +239,6 @@ ja:
         simple_slip_settings:
           shortcut_key: ショートカットキー
 
-      withheld_tax:
-        apply_start_ym: "適用開始ym"
-        apply_end_ym: "適用終了ym"
-        pay_range_above: "有料範囲を超えて"
-        pay_range_under: "有料の範囲の下で"
-        no_dependent: "いいえに依存"
-        one_dependent: "1依存"
-        two_dependent: "の2つ依存"
-        three_dependent: "3依存性"
-        four_dependent: "四つ依存"
-        five_dependent: "5依存"
-        six_dependent: "6人に依存する"
-        seven_dependent: "セブン依存"
-
       investment:
         yyyymmdd: "年月日"
         bank_account_id: "証券口座"

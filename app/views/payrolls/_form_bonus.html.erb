@@ -3,10 +3,10 @@
     hyacc.init_datepicker();
 
     var form = $('.payroll_form form');
-    form.find('.salary').change(loadInsurance);
+    form.find('.salary').change(load_insurance);
   });
 
-  function loadInsurance() {
+  function load_insurance() {
     var form = $(this).closest('form');
     var url = '<%= url_for :action => 'auto_calc' %>';
     var params = form.serialize();
@@ -44,10 +44,6 @@
         <td><%= f.text_field :temporary_salary, maxlength: 10, class: 'salary' %></td>
       </tr>
       <tr>
-        <th><%= f.label :monthly_standard %></th>
-        <td><%= f.text_field :monthly_standard, maxlength: 10, class: 'salary' %></td>
-      </tr>
-      <tr>
         <th>健康保険料</th>
         <td><%= f.text_field :health_insurance, maxlength: 10 %></td>
       </tr>
@@ -58,7 +54,7 @@
       <% unless @payroll.employee.executive? %>
         <tr>
           <th>雇用保険料</th>
-          <td><%= f.text_field :employment_insurance, :maxlength => 10 %></td>
+          <td><%= f.text_field :employment_insurance, maxlength: 10 %></td>
         </tr>
       <% end %>
       <tr>

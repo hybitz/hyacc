@@ -74,8 +74,6 @@ module PayrollHelper
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
-    care_from = (e.birth + 40.years - 1.day).strftime("%Y%m").to_i   # 40歳の誕生日前日の月から対象
-    care_to = (e.birth + 65.years - 1.day).prev_month.strftime("%Y%m").to_i # 65歳の誕生日前日の月の前月までが対象
 
     payroll.ym = ym
     payroll.employee = e
@@ -97,12 +95,12 @@ module PayrollHelper
 
     # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
     # 折半額の端数は個人負担
-    if ym.to_i >= care_from && ym.to_i <= care_to
+    if payroll.care_applicable?
       payroll.health_insurance = (insurance.health_insurance_half_care - 0.01).round
-      payroll.insurance_all = insurance.health_insurance_all_care.truncate
+      payroll.health_insurance_all = insurance.health_insurance_all_care.truncate
     else
       payroll.health_insurance = (insurance.health_insurance_half - 0.01).round
-      payroll.insurance_all = insurance.health_insurance_all.truncate
+      payroll.health_insurance_all = insurance.health_insurance_all.truncate
     end
     payroll.welfare_pension = (insurance.welfare_pension_insurance_half - 0.01).round
     payroll.pension_all = insurance.welfare_pension_insurance_all.truncate

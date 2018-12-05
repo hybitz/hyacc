@@ -25,7 +25,7 @@ class Payroll < ApplicationRecord
   before_save :make_journals
                             
   # フィールド
-  attr_accessor :insurance_all
+  attr_accessor :health_insurance_all
   attr_accessor :pension_all
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
@@ -114,6 +114,13 @@ class Payroll < ApplicationRecord
     end
   end
 
+  # 介護保険は40歳の誕生日前日の月から65歳の誕生日前日の月の前月までが対象
+  def care_applicable?
+    care_from = (employee.birth + 40.years - 1.day).strftime("%Y%m").to_i 
+    care_to = (employee.birth + 65.years - 1.day).strftime("%Y%m").to_i 
+    ym >= care_from && ym < care_to
+  end
+  
   private
 
   def make_journals

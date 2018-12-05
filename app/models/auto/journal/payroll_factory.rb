@@ -61,7 +61,7 @@ module Auto::Journal
         detail.amount = @payroll.salary_total
       end
       ### 法定福利費.健康保険料
-      insurance_half = tax.insurance_all.to_i - @payroll.health_insurance
+      insurance_half = tax.health_insurance_all.to_i - @payroll.health_insurance
       if insurance_half != 0
         account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
@@ -72,7 +72,7 @@ module Auto::Journal
         detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = insurance_half
-        detail.note = "会社負担保険料"
+        detail.note = '会社負担健康保険料'
       end
       ### 法定福利費.厚生年金
       pension_half = tax.pension_all.to_i - @payroll.welfare_pension
@@ -86,7 +86,7 @@ module Auto::Journal
         detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
         detail.branch_id = branch_id
         detail.amount = pension_half
-        detail.note = "会社負担保険料"
+        detail.note = '会社負担厚生年金'
       end
       ### 源泉所得税
       if @payroll.income_tax > 0
@@ -108,7 +108,7 @@ module Auto::Journal
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = @payroll.health_insurance
-        detail.note = "個人負担保険料"
+        detail.note = '個人負担健康保険料'
       end
       ### 厚生年金
       if @payroll.welfare_pension > 0
@@ -119,7 +119,7 @@ module Auto::Journal
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
         detail.branch_id = branch_id
         detail.amount = @payroll.welfare_pension
-        detail.note = "個人負担保険料"
+        detail.note = '個人負担厚生年金'
       end
       ### 会社負担社会保険料の未払分
       detail = journal.journal_details.build
@@ -127,7 +127,7 @@ module Auto::Journal
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
       detail.branch_id = branch_id
-      detail.amount = tax.insurance_all.to_i - @payroll.health_insurance + tax.pension_all.to_i - @payroll.welfare_pension
+      detail.amount = tax.health_insurance_all.to_i - @payroll.health_insurance + tax.pension_all.to_i - @payroll.welfare_pension
       detail.note = "会社負担保険料の未払分"
       ### 雇用保険
       if @payroll.employment_insurance > 0

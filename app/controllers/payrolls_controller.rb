@@ -74,8 +74,11 @@ class PayrollsController < Base::HyaccController
   end
 
   def edit
-    p = Payroll.find(params[:id])
-    @payroll = Payroll.find_by_ym_and_employee_id(p.ym, p.employee_id)
+    @payroll = Payroll.find(params[:id])
+  end
+
+  def edit_bonus
+    @payroll = Payroll.find(params[:id])
   end
 
   def update

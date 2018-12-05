@@ -38,6 +38,11 @@ class Payroll < ApplicationRecord
     ym % 100
   end
 
+  # 臨時の給与
+  def temporary_salary
+    is_bonus? ? base_salary : 0
+  end
+  
   # 給与小計
   def salary_subtotal
     base_salary + extra_pay + commuting_allowance + housing_allowance

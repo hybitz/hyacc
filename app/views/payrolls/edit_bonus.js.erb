@@ -1,0 +1,6 @@
+var options = {
+  title: '<%= title.present? ? title + '　編集' : '編集' %>',
+  submit: '更新'
+};
+
+hyacc.current_dialog(options).show('<%=j render 'form_bonus' %>');

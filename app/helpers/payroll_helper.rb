@@ -82,17 +82,16 @@ module PayrollHelper
       payroll.temporary_salary = salary.to_i
     else
       payroll.base_salary = salary.to_i
-    end
-    payroll.extra_pay = extra_pay.to_i
-    payroll.commuting_allowance = commuting_allowance.to_i
-    payroll.housing_allowance = housing_allowance.to_i
+      payroll.extra_pay = extra_pay.to_i
+      payroll.commuting_allowance = commuting_allowance.to_i
+      payroll.housing_allowance = housing_allowance.to_i
 
-    # 標準報酬月額の取得
-    payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(ym, e, payroll.salary_total)
+      payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(ym, e, payroll.salary_total)
+    end
 
     # 社会保険
     payroll.calc_social_insurance
-    
+
     # 雇用保険
     payroll.calc_employment_insurance
 

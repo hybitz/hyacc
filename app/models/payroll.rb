@@ -94,15 +94,17 @@ class Payroll < ApplicationRecord
     exemption ? exemption.family_members.size : 0 # 扶養親族
   end
   
+  # 月給の社会保険料は、標準報酬月額を基準に計算
+  # 賞与の社会保険料は、支給額に率を掛けて計算
   def calc_social_insurance
     # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
     # 折半額の端数は個人負担
     if care_applicable?
-      self.health_insurance = (social_insurance_model.health_insurance_half_care - 0.01).round
+      self.health_insurance = (health_insurance_model.health_insurance_half_care - 0.01).round
     else
-      self.health_insurance = (social_insurance_model.health_insurance_half - 0.01).round
+      self.health_insurance = (health_insurance_model.health_insurance_half - 0.01).round
     end
-    self.welfare_pension = (social_insurance_model.welfare_pension_insurance_half - 0.01).round
+    self.welfare_pension = (welfare_pension_model.welfare_pension_insurance_half - 0.01).round
   end
 
   def calc_employment_insurance
@@ -133,28 +135,52 @@ class Payroll < ApplicationRecord
   
   def health_insurance_all
     if care_applicable?
-      social_insurance_model.health_insurance_all_care.truncate
+      health_insurance_model.health_insurance_all_care.truncate
     else
-      social_insurance_model.health_insurance_all.truncate
+      health_insurance_model.health_insurance_all.truncate
     end
   end
   
   def pension_all
-    social_insurance_model.welfare_pension_insurance_all.truncate
+    welfare_pension_model.welfare_pension_insurance_all.truncate
   end
 
   private
 
-  # 社会保険
+  # 事業所の都道府県コード
+  def prefecture_code
+    employee.business_office.prefecture_code
+  end
+  
   def social_insurance_model
     if @social_insurance_model.nil?
-      # 事業所の都道府県コード
-      prefecture_code = employee.business_office.prefecture_code
       @social_insurance_model = TaxUtils.get_social_insurance(ym, prefecture_code, monthly_standard)
     end
     @social_insurance_model
   end
   
+  def health_insurance_model
+    if @health_insurance_model.nil?
+      if is_bonus?
+        @health_insurance_model = TaxUtils.get_health_insurance(ym, prefecture_code, salary_total)
+      else
+        @health_insurance_model = social_insurance_model
+      end
+    end
+    @health_insurance_model
+  end
+
+  def welfare_pension_model
+    if @welfare_pension_model.nil?
+      if is_bonus?
+        @welfare_pension_model = TaxUtils.get_welfare_pension(ym, salary_total)
+      else
+        @welfare_pension_model = social_insurance_model
+      end
+    end
+    @welfare_pension_model
+  end
+
   def make_journals
     user = User.find(self.update_user_id)
     param = Auto::Journal::PayrollParam.new(self, user)

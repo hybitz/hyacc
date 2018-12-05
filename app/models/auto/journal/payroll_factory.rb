@@ -280,6 +280,7 @@ module Auto::Journal
     end
 
     def commissions_required?
+      return false if @payroll.is_bonus?
       return calc_commissions > 0
     end
     

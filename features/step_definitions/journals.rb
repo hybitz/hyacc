@@ -5,19 +5,27 @@ end
 もし /^任意の振替伝票の(編集|削除)をクリックする$/ do |action|
   assert has_selector?('#journals_table tr')
 
-  all('#journals_table tr').each do |tr|
-    next unless tr.has_link?(action)
+  all('#journals_table tbody tr').each do |tr|
     within tr do
       case action
       when '削除'
         accept_confirm do
-          click_on action
+          find('td a').click
         end
-      else
-        click_on action
+      when '編集'
+        find('td a').click
       end
     end
-    break
+    
+    assert has_dialog?(/振替伝票.*/)
+    assert has_selector?('.ui-dialog-buttonset')
+    within '.ui-dialog-buttonset' do
+      if has_selector?('button', text: action)
+        find('button', text: action).click
+      else
+        next
+      end
+    end
   end
 end
 

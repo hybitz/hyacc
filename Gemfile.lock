@@ -227,7 +227,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor
-    itamae-plugin-recipe-daddy (0.1.5)
+    itamae-plugin-recipe-daddy (0.1.6)
       itamae (~> 1.9, >= 1.9.12)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)

@@ -7,21 +7,21 @@ end
 
   all('#journals_table tbody tr').each do |tr|
     within tr do
-      case action
-      when '削除'
-        accept_confirm do
-          find('td a').click
-        end
-      when '編集'
-        find('td a').click
-      end
+      find('td a').click
     end
     
     assert has_dialog?(/振替伝票.*/)
     assert has_selector?('.ui-dialog-buttonset')
     within '.ui-dialog-buttonset' do
       if has_selector?('button', text: action)
-        find('button', text: action).click
+        case action
+        when '削除'
+          accept_confirm do
+            find('button', text: action).click
+          end
+        when '編集'
+          find('button', text: action).click
+        end
       else
         next
       end

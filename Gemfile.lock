@@ -485,7 +485,7 @@ GEM
     wmi-lite (1.0.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zengin_code (1.0.1.20181209)
+    zengin_code (1.0.1.20181210)
 
 PLATFORMS
   ruby

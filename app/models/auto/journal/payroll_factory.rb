@@ -33,7 +33,11 @@ module Auto::Journal
       journal.ym = @payroll.ym
       journal.day = employee.company.payroll_day(@payroll.ym)
       # 摘要の設定
-      journal.remarks = "#{salary_account.name}　#{employee.fullname}　#{@payroll.ym%100}月分"
+      if @payroll.is_bonus?
+        journal.remarks = "給与（賞与）　#{employee.fullname}　#{@payroll.year}年#{@payroll.month}月分"
+      else
+        journal.remarks = "給与　#{employee.fullname}　#{@payroll.month}月分"
+      end
       journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal.create_user_id = @user.id
       journal.update_user_id = @user.id
@@ -43,8 +47,6 @@ module Auto::Journal
 
       ## デフォルト部門の取得
       branch_id = employee.default_branch.id
-      # 保険料と所得税の取得
-      tax = get_tax(@payroll.ym, employee.id, @payroll.base_salary, @payroll.extra_pay, @payroll.commuting_allowance, @payroll.housing_allowance, @payroll.monthly_standard)
       # 勘定科目の取得
       deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
       advance_money = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
@@ -61,7 +63,7 @@ module Auto::Journal
         detail.amount = @payroll.salary_total
       end
       ### 法定福利費.健康保険料
-      insurance_half = tax.insurance_all.to_i - @payroll.health_insurance
+      insurance_half = @payroll.health_insurance_all.to_i - @payroll.health_insurance
       if insurance_half != 0
         account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
@@ -72,10 +74,10 @@ module Auto::Journal
         detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = insurance_half
-        detail.note = "会社負担保険料"
+        detail.note = '会社負担健康保険料'
       end
       ### 法定福利費.厚生年金
-      pension_half = tax.pension_all.to_i - @payroll.welfare_pension
+      pension_half = @payroll.pension_all.to_i - @payroll.welfare_pension
       if pension_half != 0
         account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
@@ -86,7 +88,7 @@ module Auto::Journal
         detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
         detail.branch_id = branch_id
         detail.amount = pension_half
-        detail.note = "会社負担保険料"
+        detail.note = '会社負担厚生年金'
       end
       ### 源泉所得税
       if @payroll.income_tax > 0
@@ -108,7 +110,7 @@ module Auto::Journal
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = @payroll.health_insurance
-        detail.note = "個人負担保険料"
+        detail.note = '個人負担健康保険料'
       end
       ### 厚生年金
       if @payroll.welfare_pension > 0
@@ -119,7 +121,7 @@ module Auto::Journal
         detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
         detail.branch_id = branch_id
         detail.amount = @payroll.welfare_pension
-        detail.note = "個人負担保険料"
+        detail.note = '個人負担厚生年金'
       end
       ### 会社負担社会保険料の未払分
       detail = journal.journal_details.build
@@ -127,7 +129,7 @@ module Auto::Journal
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
       detail.branch_id = branch_id
-      detail.amount = tax.insurance_all.to_i - @payroll.health_insurance + tax.pension_all.to_i - @payroll.welfare_pension
+      detail.amount = @payroll.health_insurance_all.to_i - @payroll.health_insurance + @payroll.pension_all.to_i - @payroll.welfare_pension
       detail.note = "会社負担保険料の未払分"
       ### 雇用保険
       if @payroll.employment_insurance > 0
@@ -198,7 +200,11 @@ module Auto::Journal
       journal = @payroll.build_pay_journal
       journal.company_id = employee.company.id
       journal.date = @payroll.pay_day
-      journal.remarks = "給与支給、立替費用の精算　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
+      if @payroll.is_bonus?
+        journal.remarks = "給与（賞与）支給　#{employee.fullname}　#{@payroll.year}年#{@payroll.month}月分"
+      else
+        journal.remarks = "給与支給、立替費用の精算　#{employee.fullname}　#{@payroll.month}月分"
+      end
       journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal.create_user_id = @user.id
       journal.update_user_id = @user.id
@@ -274,6 +280,7 @@ module Auto::Journal
     end
 
     def commissions_required?
+      return false if @payroll.is_bonus?
       return calc_commissions > 0
     end
     
@@ -300,7 +307,11 @@ module Auto::Journal
       journal = @payroll.build_commission_journal
       journal.company_id = employee.company.id
       journal.date = @payroll.pay_day
-      journal.remarks = "給与支給、振込手数料　" + employee.fullname + "　" + (@payroll.ym%100).to_s + "月分"
+      if @payroll.is_bonus?
+        journal.remarks = "給与（賞与）振込手数料　#{employee.fullname}　#{@payroll.year}年#{@payroll.month}月分"
+      else
+        journal.remarks = "給与振込手数料　#{employee.fullname}　#{@payroll.month}月分"
+      end
       journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal.create_user_id = @user.id
       journal.update_user_id = @user.id

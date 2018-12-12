@@ -18,18 +18,31 @@ class PayrollsController < Base::HyaccController
     end
   end
 
+  def new_bonus
+    ym = params[:ym]
+    employee_id = params[:employee_id]
+    previous_payroll = Payroll.get_previous(ym, employee_id)
+    raise '前月の給与がない場合の計算には対応していません' unless previous_payroll.present?
+
+    salary = previous_payroll.base_salary
+    monthly_standard = previous_payroll.monthly_standard
+
+    @payroll = get_tax(ym, employee_id, salary, 0, 0, 0, monthly_standard, is_bonus: true)
+    @payroll.pay_day = get_pay_day(ym, employee_id)
+  end
+
   def new
     ym = params[:ym]
     employee_id = params[:employee_id]
 
     previous_payroll = Payroll.get_previous(ym, employee_id)
-    base_salary = previous_payroll.try(:base_salary)
+    salary = previous_payroll.try(:base_salary)
     extra_pay = previous_payroll.try(:extra_pay)
     commuting_allowance = previous_payroll.try(:commuting_allowance)
     housing_allowance = previous_payroll.try(:housing_allowance)
     monthly_standard = previous_payroll.try(:monthly_standard)
 
-    @payroll = get_tax(ym, employee_id, base_salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
+    @payroll = get_tax(ym, employee_id, salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
 
     # 初期値の設定
     @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
@@ -56,13 +69,16 @@ class PayrollsController < Base::HyaccController
 
     rescue ActiveRecord::RecordInvalid => e
       handle(e)
-      render 'new'
+      render @payroll.is_bonus? ? 'new_bonus' : 'new'
     end
   end
 
   def edit
-    p = Payroll.find(params[:id])
-    @payroll = Payroll.find_by_ym_and_employee_id(p.ym, p.employee_id)
+    @payroll = Payroll.find(params[:id])
+  end
+
+  def edit_bonus
+    @payroll = Payroll.find(params[:id])
   end
 
   def update
@@ -90,7 +106,7 @@ class PayrollsController < Base::HyaccController
 
     rescue ActiveRecord::RecordInvalid => e
       handle(e)
-      render 'edit'
+      render @payroll.is_bonus? ? 'edit_bonus' : 'edit'
     end
   end
 
@@ -114,12 +130,13 @@ class PayrollsController < Base::HyaccController
     # 保険料の検索
     ym = params[:payroll][:ym]
     employee_id = params[:payroll][:employee_id]
-    base_salary = params[:payroll][:base_salary]
+    salary = params[:payroll][:base_salary].to_i + params[:payroll][:temporary_salary].to_i 
     extra_pay = params[:payroll][:extra_pay]
     commuting_allowance = params[:payroll][:commuting_allowance]
     housing_allowance = params[:payroll][:housing_allowance]
     monthly_standard = params[:payroll][:monthly_standard]
-    payroll = get_tax(ym, employee_id, base_salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
+    is_bonus = params[:payroll][:is_bonus].present?
+    payroll = get_tax(ym, employee_id, salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard, is_bonus: is_bonus)
 
     render json: {
       health_insurance: payroll.health_insurance,
@@ -153,9 +170,9 @@ class PayrollsController < Base::HyaccController
 
   def payroll_params
     ret = params.require(:payroll).permit(
-        :ym, :employee_id,
+        :ym, :employee_id, :is_bonus,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
-        :base_salary, :extra_pay, :commuting_allowance, :housing_allowance, :monthly_standard,
+        :base_salary, :extra_pay, :temporary_salary, :commuting_allowance, :housing_allowance, :monthly_standard,
         :health_insurance, :welfare_pension, :income_tax, :employment_insurance,
         :inhabitant_tax, :accrued_liability, :annual_adjustment, :pay_day)
 

@@ -9,46 +9,36 @@
   });
 </script>
 
-<div class="container">
-  <div class="row">
-    <table id="journals_table" class="table table-striped table-hover">
-      <thead>
-        <tr>
-          <th class="text-center">年月</th>
-          <th class="text-center">日</th>
-          <th class="text-center">伝票区分</th>
-          <th>摘要</th>
-          <th>金額</th>
-          <th class="text-center">領収書</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @journals.each do |jh| %>
-          <tr>
-            <td class="yearMonth"><%= jh.ym %></td>
-            <td class="day"><%= jh.day %></td>
-            <td class="slipType"><%= jh.slip_type_name %></td>
-            <td><%= link_to jh.remarks, journal_path(jh), class: 'show', remote: true %></td>
-            <td class="amount"><%= to_amount( jh.amount ) %></td>
-            <td class="text-center">
-              <% if jh.receipt.present? %>
-                <%= link_to '(電子)', receipt_path(jh.receipt), data: {turbolinks: false} %>
-              <% end %>
-            </td>
-            <td class="nowrap">
-              <%= link_to '編集', edit_journal_path(jh), remote: true if can_edit(jh) %>
-              <% if can_delete( jh ) %>
-                <%= link_to '削除', journal_path(jh, lock_version: jh.lock_version),
-                      data: {confirm: '伝票を削除します。よろしいですか？'}, method: :delete %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>  
-    </table>
-    
-    <%= will_paginate @journals %>
-    <%= link_to '追加', {action: 'new'}, class: 'add btn btn-light', remote: true %>
-  </div>
+<div class="px-2">
+<table id="journals_table" class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th class="text-center">年月</th>
+      <th class="text-center">日</th>
+      <th class="text-center">伝票区分</th>
+      <th>摘要</th>
+      <th>金額</th>
+      <th class="text-center">領収書</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @journals.each do |jh| %>
+      <tr>
+        <td class="yearMonth"><%= jh.ym %></td>
+        <td class="day"><%= jh.day %></td>
+        <td class="slipType"><%= jh.slip_type_name %></td>
+        <td><%= link_to jh.remarks, journal_path(jh), class: 'show', remote: true %></td>
+        <td class="amount"><%= to_amount( jh.amount ) %></td>
+        <td class="text-center">
+          <% if jh.receipt.present? %>
+            <%= link_to '(電子)', receipt_path(jh.receipt), data: {turbolinks: false} %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>  
+</table>
+
+<%= will_paginate @journals %>
+<%= link_to '追加', {action: 'new'}, class: 'add btn btn-light', remote: true %>
 </div>

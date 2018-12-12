@@ -482,6 +482,7 @@ ActiveRecord::Schema.define(version: 2018_12_12_103603) do
     t.integer "monthly_standard", default: 0, null: false
     t.integer "housing_allowance", default: 0, null: false
     t.integer "extra_pay", default: 0, null: false
+    t.integer "temporary_salary", default: 0, null: false
     t.index ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true
   end
 

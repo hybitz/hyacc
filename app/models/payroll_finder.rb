@@ -21,31 +21,26 @@ class PayrollFinder < Base::Finder
     
     # 賞与を取得
     bonus_list = Payroll.list_bonus(ym_range, @employee_id)
-    # 賞与1のセット
-    if bonus_list[0].nil?
-      ret['b1'] = Payroll.new
-    else
-      ret['b1'] = Payroll.get_bonus_info(bonus_list[0].id)
+    first_half, second_half = ym_range.each_slice(6).to_a
+    bonus_list.each do |b|
+      ret['b1'] = b if first_half.include?(b.ym)
+      ret['b2'] = b if second_half.include?(b.ym)
     end
-    
-    # 賞与2のセット
-    if bonus_list[1].nil?
-      ret['b2'] = Payroll.new
-    else
-      ret['b2'] = Payroll.get_bonus_info(bonus_list[1].id)
-    end
+    ret['b1'] ||= Payroll.new
+    ret['b2'] ||= Payroll.new
     
     # 年間合計の設定
     sum = Payroll.new
     ret.values.each do |p|
-      sum.income_tax += p.income_tax
+      sum.base_salary += p.base_salary
+      sum.commuting_allowance += p.commuting_allowance
+      sum.housing_allowance += p.housing_allowance
+      sum.extra_pay += p.extra_pay
+      sum.temporary_salary += p.temporary_salary
       sum.health_insurance += p.health_insurance
       sum.welfare_pension += p.welfare_pension
       sum.employment_insurance += p.employment_insurance
-      sum.base_salary += p.base_salary
-      sum.extra_pay += p.extra_pay
-      sum.commuting_allowance += p.commuting_allowance
-      sum.housing_allowance += p.housing_allowance
+      sum.income_tax += p.income_tax
       sum.inhabitant_tax += p.inhabitant_tax
       sum.accrued_liability += p.accrued_liability
     end

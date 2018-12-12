@@ -3,7 +3,8 @@ class Payroll < ApplicationRecord
 
   validates :employee_id, presence: true
   validates :ym, presence: true
-  validates :base_salary, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  validates :base_salary, presence: true, numericality: { only_integer: true, greater_than: 0 }, :unless => :is_bonus?
+  validates :temporary_salary, presence: true, numericality: { only_integer: true, greater_than: 0 }, :if => :is_bonus?
   validates :commuting_allowance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :health_insurance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :welfare_pension, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
@@ -25,8 +26,6 @@ class Payroll < ApplicationRecord
   before_save :make_journals
                             
   # フィールド
-  attr_accessor :insurance_all
-  attr_accessor :pension_all
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
 
@@ -45,7 +44,7 @@ class Payroll < ApplicationRecord
 
   # 給与合計
   def salary_total
-    salary_subtotal
+    salary_subtotal + temporary_salary
   end
 
   # 社会保険料（健康保険＋厚生年金）
@@ -53,7 +52,7 @@ class Payroll < ApplicationRecord
     health_insurance + welfare_pension
   end
 
-  # 保険料合計
+  # 保険料合計（社会保険＋雇用保険）
   def insurance_total
     social_insurance + employment_insurance
   end
@@ -74,7 +73,7 @@ class Payroll < ApplicationRecord
     # 1月の場合、-1年(-100)+11月
     past_ym = ym.to_i - 89 if ym.to_i%100 == 1
 
-    Payroll.where(ym: past_ym, employee_id: employee_id, is_bonus: false).order('ym').first
+    Payroll.where(ym: past_ym, employee_id: employee_id, is_bonus: false).first
   end
 
   def self.find_by_ym_and_employee_id(ym, employee_id)
@@ -85,23 +84,27 @@ class Payroll < ApplicationRecord
     payroll
   end
 
-  # Payrollから賞与情報を取得
+  # 賞与
   def self.list_bonus(ym_range, employee_id)
-    Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.first, ym_range.last, true).order('ym desc')
+    Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.first, ym_range.last, true)
   end
 
-  # 賃金台帳表示用の賞与情報を取得する
-  def self.get_bonus_info(id)
-    # 賞与情報を取得
-    payroll = Payroll.find(id)
-    payroll ||= Payroll.new
-
-    payroll
-  end
-  
   def num_of_dependent
     exemption = employee.exemptions.order("yyyy desc").first
     exemption ? exemption.family_members.size : 0 # 扶養親族
+  end
+  
+  # 月給の社会保険料は、標準報酬月額を基準に計算
+  # 賞与の社会保険料は、支給額に率を掛けて計算
+  def calc_social_insurance
+    # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
+    # 折半額の端数は個人負担
+    if care_applicable?
+      self.health_insurance = (health_insurance_model.health_insurance_half_care - 0.01).round
+    else
+      self.health_insurance = (health_insurance_model.health_insurance_half - 0.01).round
+    end
+    self.welfare_pension = (welfare_pension_model.welfare_pension_insurance_half - 0.01).round
   end
 
   def calc_employment_insurance
@@ -111,12 +114,72 @@ class Payroll < ApplicationRecord
   
   def calc_income_tax
     date = Date.new(ym.to_i/100, ym.to_i%100, -1) # 対象月の末日を基準
-    salary = salary_total - social_insurance - commuting_allowance
+    salary = salary_total - insurance_total - commuting_allowance
 
-    self.income_tax = WithheldTax.find_by_date_and_pay_and_dependent(date, salary, num_of_dependent)
+    if is_bonus?
+      previous = self.class.get_previous(ym, employee_id)
+      previous_salary = previous.salary_total - previous.insurance_total - previous.commuting_allowance
+      tax_ratio = WithheldTax.find_bonus_tax_ratio_by_date_and_salary_and_dependent(date, previous_salary, num_of_dependent)
+      self.income_tax = (salary * tax_ratio).to_i
+    else
+      self.income_tax = WithheldTax.find_by_date_and_salary_and_dependent(date, salary, num_of_dependent)
+    end
+  end
+
+  # 介護保険は40歳の誕生日前日の月から65歳の誕生日前日の月の前月までが対象
+  def care_applicable?
+    care_from = (employee.birth + 40.years - 1.day).strftime("%Y%m").to_i 
+    care_to = (employee.birth + 65.years - 1.day).strftime("%Y%m").to_i 
+    ym >= care_from && ym < care_to
+  end
+  
+  def health_insurance_all
+    if care_applicable?
+      health_insurance_model.health_insurance_all_care.truncate
+    else
+      health_insurance_model.health_insurance_all.truncate
+    end
+  end
+  
+  def pension_all
+    welfare_pension_model.welfare_pension_insurance_all.truncate
   end
 
   private
+
+  # 事業所の都道府県コード
+  def prefecture_code
+    employee.business_office.prefecture_code
+  end
+  
+  def social_insurance_model
+    if @social_insurance_model.nil?
+      @social_insurance_model = TaxUtils.get_social_insurance(ym, prefecture_code, monthly_standard)
+    end
+    @social_insurance_model
+  end
+  
+  def health_insurance_model
+    if @health_insurance_model.nil?
+      if is_bonus?
+        @health_insurance_model = TaxUtils.get_health_insurance(ym, prefecture_code, salary_total)
+      else
+        @health_insurance_model = social_insurance_model
+      end
+    end
+    @health_insurance_model
+  end
+
+  def welfare_pension_model
+    if @welfare_pension_model.nil?
+      if is_bonus?
+        @welfare_pension_model = TaxUtils.get_welfare_pension(ym, salary_total)
+      else
+        @welfare_pension_model = social_insurance_model
+      end
+    end
+    @welfare_pension_model
+  end
 
   def make_journals
     user = User.find(self.update_user_id)

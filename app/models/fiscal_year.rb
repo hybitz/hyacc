@@ -37,7 +37,7 @@ class FiscalYear < ApplicationRecord
 
   # 期首の年月を取得
   def start_year_month
-    ret = HyaccDateUtil.get_start_year_month_of_fiscal_year( fiscal_year, company.start_month_of_fiscal_year )
+    ret = HyaccDateUtil.get_start_year_month_of_fiscal_year(fiscal_year, company.start_month_of_fiscal_year)
 
     # 初年度の場合を考慮
     founded_year_month = HyaccDateUtil.to_int(company.founded_date) / 100
@@ -57,9 +57,19 @@ class FiscalYear < ApplicationRecord
     end
   end
 
-  # 期末の年月を取得
+  # 中間決算期の年月
+  def first_half_end_year_month
+    ym = (Date.strptime("#{end_year_month}01", '%Y%m%d') - 6.months)
+    ym.year * 100 + ym.month
+  end
+
+  # 期末の年月
   def end_year_month
     HyaccDateUtil.get_end_year_month_of_fiscal_year(fiscal_year, company.start_month_of_fiscal_year)
+  end
+
+  def end_day
+    Date.strptime("#{end_year_month}01", '%Y%m%d').end_of_month
   end
 
   # 期首から期末までの年月を配列で取得

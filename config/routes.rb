@@ -37,6 +37,10 @@ Rails.application.routes.draw do
     collection do
       get 'auto_calc'
       get 'get_branch_employees'
+      get 'new_bonus'
+    end
+    member do
+      get 'edit_bonus'
     end
   end
 

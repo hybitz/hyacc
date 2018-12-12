@@ -70,49 +70,38 @@ module PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, base_salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
+  def get_tax(ym, employee_id, salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard, options = {})
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
-    care_from = (e.birth + 40.years - 1.day).strftime("%Y%m").to_i   # 40歳の誕生日前日の月から対象
-    care_to = (e.birth + 65.years - 1.day).strftime("%Y%m").to_i - 1 # 65歳の誕生日前日の月の前月までが対象
 
     payroll.ym = ym
     payroll.employee = e
-    payroll.base_salary = base_salary.to_i
-    payroll.extra_pay = extra_pay.to_i
-    payroll.commuting_allowance = commuting_allowance.to_i
-    payroll.housing_allowance = housing_allowance.to_i
+    payroll.is_bonus = options.fetch(:is_bonus, false)
+    if payroll.is_bonus?
+      payroll.temporary_salary = salary.to_i
+    else
+      payroll.base_salary = salary.to_i
+      payroll.extra_pay = extra_pay.to_i
+      payroll.commuting_allowance = commuting_allowance.to_i
+      payroll.housing_allowance = housing_allowance.to_i
+
+      payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(ym, e, payroll.salary_total)
+    end
+
+    # 社会保険
+    payroll.calc_social_insurance
 
     # 雇用保険
     payroll.calc_employment_insurance
 
-    # 標準報酬月額の取得
-    payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(ym, e, payroll.salary_total)
-
-    # 社会保険料
-    prefecture_code = e.business_office.prefecture_code # 事業所の都道府県コード
-    insurance = TaxUtils.get_social_insurance(ym, prefecture_code, payroll.monthly_standard)
-
-    # 事業主が、給与から被保険者負担分を控除する場合、被保険者負担分の端数が50銭以下の場合は切り捨て、50銭を超える場合は切り上げて1円となる
-    # 折半額の端数は個人負担
-    if ym.to_i >= care_from && ym.to_i <= care_to
-      payroll.health_insurance = (insurance.health_insurance_half_care - 0.01).round
-      payroll.insurance_all = insurance.health_insurance_all_care.truncate
-    else
-      payroll.health_insurance = (insurance.health_insurance_half - 0.01).round
-      payroll.insurance_all = insurance.health_insurance_all.truncate
-    end
-    payroll.welfare_pension = (insurance.welfare_pension_insurance_half - 0.01).round
-    payroll.pension_all = insurance.welfare_pension_insurance_all.truncate
-    
     # 源泉徴収税
     payroll.calc_income_tax
 
     payroll
   end
 
-  def get_pay_day(ym, employee_id = nil)
+  def get_pay_day(ym, employee_id)
     company = Employee.find(employee_id).company
     company.get_actual_pay_day_for(ym)
   end

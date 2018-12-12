@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_16_032257) do
+ActiveRecord::Schema.define(version: 2018_12_12_103603) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -321,6 +321,10 @@ ActiveRecord::Schema.define(version: 2018_11_16_032257) do
     t.integer "previous_withholding_tax"
     t.integer "previous_social_insurance"
     t.text "remarks"
+    t.integer "care_insurance_new"
+    t.integer "care_insurance_old"
+    t.integer "private_pension_insurance_new"
+    t.integer "private_pension_insurance_old"
   end
 
   create_table "financial_statement_headers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

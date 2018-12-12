@@ -32,11 +32,23 @@
       <th rowspan="2"><%= Exemption.human_attribute_name :life_insurance_premium %></th>
       <th><%= f.label :life_insurance_premium_old %></th>
       <td><%= f.text_field :life_insurance_premium_old, :class => 'amount' %></td>
-      <th colspan="2">地震保険料</th><td><%= f.text_field :earthquake_insurance_premium, :class => 'amount' %></td>
+      <th rowspan="2">個人年金保険料</th>
+      <th><%= f.label :private_pension_insurance_old %></th>
+      <td><%= f.text_field :private_pension_insurance_old, :class => 'amount' %></td>
     </tr>
+    <tr>
       <th><%= f.label :life_insurance_premium_new %></th>
       <td><%= f.text_field :life_insurance_premium_new, :class => 'amount' %></td>
+      <th><%= f.label :private_pension_insurance_new %></th>
+      <td><%= f.text_field :private_pension_insurance_new, :class => 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">介護医療保険料</th><td><%= f.text_field :care_insurance_premium, :class => 'amount' %></td>
+      <th colspan="2">地震保険料</th><td><%= f.text_field :earthquake_insurance_premium, :class => 'amount' %></td>
+    </tr>
+    <tr>
       <th colspan="2">配偶者特別控除</th><td><%= f.text_field :special_tax_for_spouse, :class => 'amount' %></td>
+      <th colspan="2"></th><td></td>
     </tr>
     <tr>
       <th colspan="2">配偶者控除</th><td><%= f.text_field :spouse, :class => 'amount' %></td>

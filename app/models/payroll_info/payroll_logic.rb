@@ -137,9 +137,9 @@ module PayrollInfo
       e = get_exemptions
       # 社会保険料等の控除額＋基礎控除等
       total = get_health_insurance + get_employee_pention +
-                e.small_scale_mutual_aid.to_i + e.life_insurance_premium.to_i + e.earthquake_insurance_premium.to_i +
-                e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i + e.disabled_persons.to_i + e.basic.to_i +
-                e.previous_social_insurance.to_i
+                e.small_scale_mutual_aid.to_i + e.life_insurance_deduction.to_i +
+                e.earthquake_insurance_premium.to_i + e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i +
+                e.disabled_persons.to_i + e.basic.to_i + e.previous_social_insurance.to_i
       return total
     end
 

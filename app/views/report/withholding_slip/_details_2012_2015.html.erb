@@ -76,7 +76,7 @@
     		<td width="15">-</td>
     		<td><br></td>
     		<td colspan="2"><%= number_to_currency(@data.social_insurance, :format=>"%n") %></td>
-    		<td colspan="2"><%= number_to_currency(@data.life_insurance_deduction, :format=>"%n") %></td>
+    		<td colspan="2"><%= number_to_currency(@data.exemption.life_insurance_deduction, :format=>"%n") %></td>
     		<td colspan="2">0</td>
     		<td colspan="2">0</td>
   		</tr>

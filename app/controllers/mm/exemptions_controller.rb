@@ -82,6 +82,7 @@ class Mm::ExemptionsController < Base::HyaccController
   def exempiton_params
     permitted = [:employee_id, :yyyy, :small_scale_mutual_aid,
       :life_insurance_premium_old, :life_insurance_premium_new,
+      :care_insurance_premium, :private_pension_insurance_old, :private_pension_insurance_new,
       :earthquake_insurance_premium, :special_tax_for_spouse, :spouse,
       :dependents, :disabled_persons, :basic, :mortgage_deduction,
       :num_of_house_loan, :max_mortgage_deduction, :date_of_start_living_1,

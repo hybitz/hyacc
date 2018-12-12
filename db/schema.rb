@@ -321,8 +321,7 @@ ActiveRecord::Schema.define(version: 2018_12_12_103603) do
     t.integer "previous_withholding_tax"
     t.integer "previous_social_insurance"
     t.text "remarks"
-    t.integer "care_insurance_new"
-    t.integer "care_insurance_old"
+    t.integer "care_insurance_premium"
     t.integer "private_pension_insurance_new"
     t.integer "private_pension_insurance_old"
   end

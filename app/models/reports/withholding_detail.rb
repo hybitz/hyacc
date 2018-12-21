@@ -11,5 +11,8 @@ module Reports
     attr_accessor :social_insurance # 社会保険料等の金額
     attr_accessor :life_insurance_deduction # 生命保険料の控除額
     attr_accessor :exemption # 控除情報
+    attr_accessor :employment_or_retirement_date # 入退社日（レポート出力対象のみ設定）
+    attr_accessor :employment_year # 入社年？
+    attr_accessor :retirement_year # 退社年？
   end
 end

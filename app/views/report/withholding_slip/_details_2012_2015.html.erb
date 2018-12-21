@@ -147,11 +147,11 @@
     		<td width="27"><br></td>
     		<td width="27"><br></td>
     		<td width="27"><br></td>
-    		<td width="27"><br></td>
-    		<td width="27"><br></td>
-    		<td colspan="2" width="54"><br></td>
-    		<td width="27"><br></td>
-    		<td width="27"><br></td>
+    		<td colspan="1"><%= "○" if @data.employment_year %></td>
+    		<td colspan="1"><%= "○" if @data.retirement_year %></td>
+    		<td colspan="2" width="54"><%= to_wareki(@data.employment_or_retirement_date.year, :only_year => true) if @data.employment_or_retirement_date.present? %></td>
+    		<td colspan="1"><%= @data.employment_or_retirement_date.month if @data.employment_or_retirement_date.present? %></td>
+    		<td colspan="1"><%= @data.employment_or_retirement_date.day if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="4" width="100"><%= to_wareki(@data.employee.birth.year) %></td>
     		<td width="27"><%= @data.employee.birth.month %></td>
     		<td width="27"><%= @data.employee.birth.day %></td>

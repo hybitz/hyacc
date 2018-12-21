@@ -10,13 +10,22 @@ module Reports
       model.calendar_year = @finder.calendar_year
       model.company = Company.find(@finder.company_id)
       model.head_business_office = model.company.head_branch.business_office_on("#{model.calendar_year}-12-31")
-      model.employee = Employee.find(@finder.employee_id)
+      employee = Employee.find(@finder.employee_id)
+      model.employee = employee
       model.total_salary = get_total_salary                       # 支払金額
       model.exemption_amount = get_total_exemption                # 所得控除の額の合計
       model.after_deduction = get_after_deduction                 # 給与所得控除後の金額
       model.withholding_tax = get_withholding_tax                 # 源泉徴収税額
       model.social_insurance = get_social_insurance               # 社会保険料等の金額
       model.exemption = get_exemptions                            # 配偶者控除額
+      if employee.retirement_date.present? && employee.retirement_date.year == @finder.calendar_year.to_i
+        model.employment_or_retirement_date = employee.retirement_date   # 入退社日
+        model.retirement_year = true
+      end
+      if employee.employment_date.present? && employee.employment_date.year == @finder.calendar_year.to_i
+        model.employment_or_retirement_date = employee.employment_date   # 入退社日
+        model.employment_year = true
+      end
       model
     end
     

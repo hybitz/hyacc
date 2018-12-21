@@ -298,10 +298,10 @@
     		<td colspan="1"><%= to_wareki(@data.employment_or_retirement_date.year, :only_year => true) if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="1"><%= @data.employment_or_retirement_date.month if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="1"><%= @data.employment_or_retirement_date.day if @data.employment_or_retirement_date.present? %></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
+    		<td colspan="1"><%= "○" if meiji?(@data.employee.birth) %></td>
+    		<td colspan="1"><%= "○" if taisyo?(@data.employee.birth) %></td>
+    		<td colspan="1"><%= "○" if syowa?(@data.employee.birth) %></td>
+    		<td colspan="1"><%= "○" if heisei?(@data.employee.birth) %></td>
     		<td colspan="1"><%= to_wareki(@data.employee.birth.year, :only_year => true) %></td>
     		<td colspan="1"><%= @data.employee.birth.month %></td>
     		<td colspan="1"><%= @data.employee.birth.day %></td>

@@ -14,8 +14,8 @@
     </tr>
     <tr>
       <td>1</td>
-      <td><%= number_to_currency(@data.total_salary, :format=>"%n") %></td>
-      <td><%= number_to_currency(@data.withholding_tax, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.total_salary_except_previous, :format=>"%n") %></td>
+      <td><%= number_to_currency(@data.withholding_tax_except_previous, :format=>"%n") %></td>
     </tr>
     <tr>
       <td style="background-color: lightgrey;">#</td>

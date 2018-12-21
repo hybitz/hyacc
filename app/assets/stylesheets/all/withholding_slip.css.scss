@@ -3,6 +3,20 @@ tr.item, td.item {
   font-size: x-small;
 }
 
+#withholding_detail_table {
+  margin-bottom: 10px;
+
+  th {
+    border: solid 1px;
+    padding: 0.2em 0.4em;
+    text-align: center;
+  }
+  td {
+    border: solid 1px;
+    padding: 0.2em 0.4em;
+  }
+}
+
 @media print{
   #print_type {
 	display:none;

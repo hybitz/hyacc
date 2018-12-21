@@ -136,7 +136,7 @@ module PayrollInfo
       # 控除額の取得
       e = get_exemptions
       # 社会保険料等の控除額＋基礎控除等
-      total = get_health_insurance + get_employee_pention +
+      total = get_health_insurance + get_employee_pention + get_employment_insurance + 
                 e.small_scale_mutual_aid.to_i + e.life_insurance_deduction.to_i +
                 e.earthquake_insurance_premium.to_i + e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i +
                 e.disabled_persons.to_i + e.basic.to_i + e.previous_social_insurance.to_i
@@ -168,13 +168,6 @@ module PayrollInfo
       total_tax = (total_tax/100).to_i * 100
 
       total_tax
-    end
-
-    # 源泉所得税(前職を含む)
-    def get_withholding_tax_include_previous
-      wt = get_withholding_tax
-      e = get_exemptions
-      wt + e.previous_withholding_tax.to_i
     end
 
     # 健康保険料
@@ -215,6 +208,29 @@ module PayrollInfo
         # 厚生年金保険料(立替金)
         p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
                                                         :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_WELFARE_PENSION)).each do |d|
+          total_expense = total_expense + d.amount
+        end
+
+      end
+
+      total_expense
+    end
+
+    # 雇用保険料
+    def get_employment_insurance
+      total_expense = 0
+      # calendar_year期間に支払われた給与明細を取得
+      list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
+
+      list.each do |p|
+        # 雇用保険料(預り金)
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
+                                                        :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)).each do |d|
+          total_expense = total_expense + d.amount
+        end
+        # 雇用保険料(立替金)
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
+                                                        :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)).each do |d|
           total_expense = total_expense + d.amount
         end
 

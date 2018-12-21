@@ -1,14 +1,14 @@
 <%= render 'print_type' %>
 <br />
-<div  style="margin: 10px;">
-    <table class="none_border" width="900">
+<div style="margin: 10px;">
+    <table class="none_border" width="1000">
       <tr>
         <td class="none_border" align="center"><b><%= to_wareki(@data.calendar_year) %>年分　給与所得の源泉徴収</b></td>
       </tr>
     </table>
     <br/>
 
-    <table width="">
+    <table width="1000" id="withholding_detail_table">
     	<tr>
     		<td colspan="2" rowspan="5" class="item">支払<br/>を受け<br/>る者</td>
     		<td colspan="1" rowspan="5" class="item">住<br/>所<br/>又<br/>は<br/>居<br/>所</td>

@@ -8,7 +8,10 @@ module Reports
     attr_accessor :exemption_amount # 控除額金額
     attr_accessor :after_deduction # 控除後金額
     attr_accessor :withholding_tax # 源泉徴収税額
+    attr_accessor :mortgage_deduction # 住宅ローン控除額
+    attr_accessor :mortgage_deductible # 住宅ローン控除可能額
     attr_accessor :social_insurance # 社会保険料等の金額
+    attr_accessor :small_scale_mutual_aid # 小規模共済掛金の金額
     attr_accessor :life_insurance_deduction # 生命保険料の控除額
     attr_accessor :exemption # 控除情報
     attr_accessor :employment_or_retirement_date # 入退社日（レポート出力対象のみ設定）

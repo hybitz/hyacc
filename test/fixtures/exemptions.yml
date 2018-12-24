@@ -13,7 +13,7 @@
   spouse
   dependents
   disabled_persons
-  mortgage_deduction
+  max_mortgage_deduction
   basic
 }.each do |column| %>
   <%= column %>: <%= line[column] %>

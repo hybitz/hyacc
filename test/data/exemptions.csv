@@ -1,4 +1,4 @@
-id,company_id,employee_id,yyyy,small_scale_mutual_aid,life_insurance_premium_old,earthquake_insurance_premium,special_tax_for_spouse,spouse,dependents,disabled_persons,mortgage_deduction,basic
+id,company_id,employee_id,yyyy,small_scale_mutual_aid,life_insurance_premium_old,earthquake_insurance_premium,special_tax_for_spouse,spouse,dependents,disabled_persons,max_mortgage_deduction,basic
 17,1,1,2007,0,0,0,0,0,0,0,0,380000
 18,1,1,2008,360000,50000,0,0,0,0,0,0,380000
 19,1,1,2009,720000,30000,0,0,0,0,0,0,380000

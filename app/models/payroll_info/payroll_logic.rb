@@ -145,6 +145,21 @@ module PayrollInfo
 
     # 源泉所得税
     def get_withholding_tax
+      total_tax = get_withholding_tax_before_mortgage_deduction
+      e = get_exemptions
+      
+      # 住宅借入金控除
+      total_tax = total_tax - e.max_mortgage_deduction.to_i < 0 ? 0 : total_tax - e.max_mortgage_deduction.to_i
+
+      # 復興特別税（H25以降）
+      total_tax = total_tax * 1.021 if @calendar_year >= 2013
+      total_tax = (total_tax/100).to_i * 100
+
+      total_tax
+    end
+
+    # 源泉所得税（住宅ローン控除前）
+    def get_withholding_tax_before_mortgage_deduction
       total_tax = 0
       # 給与所得控除後 - 基礎控除等
       b = get_after_deduction - get_exemption
@@ -156,17 +171,15 @@ module PayrollInfo
       if b <= 1_950_000
         total_tax = b * 0.05
       elsif b <= 3_300_000
-        total_tax = b * 0.1 - 97500
+        total_tax = b * 0.1 - 97_500
+      elsif b <= 6_950_000
+        total_tax = b * 0.2 - 427_500
+      elsif b <= 9_000_000
+        total_tax = b * 0.23 - 636_000
+      elsif b <= 17_420_000
+        total_tax = b * 0.33 - 1_536_000
       end
       
-      # 住宅借入金控除
-      e = get_exemptions
-      total_tax = total_tax - e.mortgage_deduction.to_i < 0 ? 0 : total_tax - e.mortgage_deduction.to_i
-
-      # 復興特別税（H25以降）
-      total_tax = total_tax * 1.021 if @calendar_year >= 2013
-      total_tax = (total_tax/100).to_i * 100
-
       total_tax
     end
 

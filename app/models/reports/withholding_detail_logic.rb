@@ -16,8 +16,12 @@ module Reports
       model.exemption_amount = get_total_exemption                # 所得控除の額の合計
       model.after_deduction = get_after_deduction                 # 給与所得控除後の金額
       model.withholding_tax = get_withholding_tax                 # 源泉徴収税額
+      model.mortgage_deduction = get_mortgage_deduction
+      model.mortgage_deductible = get_mortgage_deductible
       model.social_insurance = get_social_insurance               # 社会保険料等の金額
-      model.exemption = get_exemptions                            # 配偶者控除額
+      e = get_exemptions
+      model.exemption = e                                         # 配偶者控除額
+      model.small_scale_mutual_aid = e.small_scale_mutual_aid     # 小規模共済掛金
       if employee.retirement_date.present? && employee.retirement_date.year == @finder.calendar_year.to_i
         model.employment_or_retirement_date = employee.retirement_date   # 入退社日
         model.retirement_year = true
@@ -73,5 +77,20 @@ module Reports
       logic.get_health_insurance + logic.get_employee_pention + logic.get_employment_insurance + e.small_scale_mutual_aid.to_i + e.previous_social_insurance.to_i
     end
 
+    def get_mortgage_deduction
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
+      e = logic.get_exemptions
+      mortgage_deductible = e.max_mortgage_deduction
+      withholding_tax_before_deduction = logic.get_withholding_tax_before_mortgage_deduction
+      mortgage_deductible > withholding_tax_before_deduction ? withholding_tax_before_deduction : mortgage_deductible
+    end
+    
+    def get_mortgage_deductible
+      logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
+      e = logic.get_exemptions
+      mortgage_deductible = e.max_mortgage_deduction
+      withholding_tax_before_deduction = logic.get_withholding_tax_before_mortgage_deduction
+      mortgage_deductible > withholding_tax_before_deduction ? mortgage_deductible : nil
+    end
   end
 end

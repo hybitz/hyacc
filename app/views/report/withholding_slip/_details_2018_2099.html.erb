@@ -83,10 +83,10 @@
     		<td colspan="5">住宅借入金等特別控除の額</td>
   		</tr>
        <tr>
-    		<td colspan="6"><%= number_to_currency(@data.social_insurance, :format=>"%n") %></td>
+    		<td colspan="6">（内　<%= number_to_currency(@data.small_scale_mutual_aid, :format=>"%n") %> ）<br/><%= number_to_currency(@data.social_insurance, :format=>"%n") %></td>
     		<td colspan="6"><%= number_to_currency(@data.exemption.life_insurance_deduction, :format=>"%n") %></td>
     		<td colspan="6"><%= number_to_currency(@data.exemption.earthquake_insurance_premium, :format=>"%n") %></td>
-    		<td colspan="5"><%= number_to_currency(@data.exemption.mortgage_deduction, :format=>"%n") %></td>
+    		<td colspan="5"><%= number_to_currency(@data.mortgage_deduction, :format=>"%n") %></td>
   		</tr>
     	<tr>
     		<td colspan="23" class="item">摘要</td>
@@ -122,7 +122,7 @@
        </tr>
        <tr>
     		<td colspan="2" class="item">住宅借入金等<br>特別控除可能額</td>
-    		<td colspan="2"><%= number_to_currency(@data.exemption.max_mortgage_deduction, :format=>"%n") %></td>
+    		<td colspan="2"><%= number_to_currency(@data.mortgage_deductible, :format=>"%n") if @data.mortgage_deductible.present? %></td>
     		<td colspan="2" class="item">居住開始年月<br>日（2回目）</td>
     		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_2.year, :only_year => true) if @data.exemption.date_of_start_living_2 %></td>
     		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mon if @data.exemption.date_of_start_living_2 %></td>

@@ -68,7 +68,6 @@ end
       select branch.name, from: 'simple_slip_branch_id'
       fill_in 'simple_slip_amount_increase', with: @slip.amount_increase
       fill_in 'simple_slip_amount_decrease', with: @slip.amount_decrease
-      find('#simple_slip_amount_increase').click # blur
 
       unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
         assert has_field?('simple_slip_tax_rate_percent', with: /[0-9]+/)

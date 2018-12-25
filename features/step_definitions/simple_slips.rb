@@ -59,18 +59,15 @@ end
     branch = Branch.find(@slip.branch_id)
 
     within form_selector do
-      fill_in 'simple_slip_ym', :with => @slip.ym
-      fill_in 'simple_slip_day', :with => @slip.day
-      fill_in 'simple_slip_remarks', :with => @slip.remarks
-      select account.code_and_name, :from => 'simple_slip_account_id', :match => :first
+      fill_in 'simple_slip_ym', with: @slip.ym
+      fill_in 'simple_slip_day', with: @slip.day
+      fill_in 'simple_slip_remarks', with: @slip.remarks
+      find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+      assert has_select?('simple_slip_sub_account_id') if account.has_sub_accounts?
 
-      if account.has_sub_accounts?
-        assert has_selector?('#simple_slip_sub_account_id option', :minimum => 1)
-      end
-
-      select branch.name, :from => 'simple_slip_branch_id'
-      fill_in 'simple_slip_amount_increase', :with => @slip.amount_increase
-      fill_in 'simple_slip_amount_decrease', :with => @slip.amount_decrease
+      select branch.name, from: 'simple_slip_branch_id'
+      fill_in 'simple_slip_amount_increase', with: @slip.amount_increase
+      fill_in 'simple_slip_amount_decrease', with: @slip.amount_decrease
       find('#simple_slip_amount_increase').click # blur
 
       unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE

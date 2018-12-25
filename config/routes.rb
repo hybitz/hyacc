@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => 'users/omniauth_callbacks' }
   mount Nostalgic::Engine => '/nostalgic', :as => 'nostalgic'
+  mount TaxJp::Engine, at: '/tax_jp', as: 'tax_jp'
 
   resources :accounts
   resources :bank_offices, :only => 'index'

@@ -1,6 +1,7 @@
 class JournalDetail < ApplicationRecord
   include HyaccConstants
   include HyaccErrors
+  include TaxRateAware
 
   attr_accessor :input_amount
   attr_accessor :tax_amount
@@ -69,19 +70,6 @@ class JournalDetail < ApplicationRecord
 
   def credit_amount
     self.dc_type == DC_TYPE_CREDIT ? self.amount : 0
-  end
-
-  def tax_rate_percent
-    return self.tax_rate unless self.tax_rate.present?
-    (self.tax_rate.to_f * 100.0).to_i
-  end
-
-  def tax_rate_percent=(value)
-    if value.present?
-      self.tax_rate = value.to_f / 100.0
-    else
-      self.tax_rate = value
-    end
   end
 
   def tax_type_exclusive?
@@ -153,7 +141,7 @@ class JournalDetail < ApplicationRecord
 
     # 仕訳登録可能な勘定科目かどうか
     unless account.journalizable
-      logger.warn ERR_NOT_JOURNALIZABLE_ACCOUNT + " account_id=#{account_id}"
+      Rails.logger.warn ERR_NOT_JOURNALIZABLE_ACCOUNT + " account_id=#{account_id}"
       errors.add(:account, ERR_NOT_JOURNALIZABLE_ACCOUNT)
     end
 

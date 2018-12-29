@@ -12,7 +12,7 @@ hyacc.SimpleSlip.prototype._init = function() {
       this.set_my_sub_account_id(this.options.my_sub_account_id);
     }
 
-    this.update_tax_amount($('#simple_slip_tax_amount_increase').val(), $('#simple_slip_tax_amount_decrease').val());
+    this.update_tax_amount($(this.selector).find('#simple_slip_tax_amount_increase').val(), $(this.selector).find('#simple_slip_tax_amount_decrease').val());
 
     var that = this;
 

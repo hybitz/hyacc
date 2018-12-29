@@ -2,6 +2,8 @@ class SimpleSlip
   include ActiveModel::Model
   include HyaccConstants
   include HyaccErrors
+  include JournalDate
+  include TaxRateAware
 
   attr_accessor :id, :company_id, :lock_version
   attr_accessor :my_account_id, :my_sub_account_id
@@ -9,7 +11,7 @@ class SimpleSlip
   attr_accessor :ym, :day, :remarks
   attr_accessor :account_id, :sub_account_id, :branch_id
   attr_accessor :amount_increase, :amount_decrease, :slip_amount_increase, :slip_amount_decrease
-  attr_accessor :tax_type, :tax_rate_percent, :tax_amount_increase, :tax_amount_decrease
+  attr_accessor :tax_type, :tax_rate, :tax_amount_increase, :tax_amount_decrease
   attr_accessor :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day
   attr_accessor :asset_id, :asset_code, :asset_lock_version
   attr_accessor :social_expense_number_of_people, :settlement_type

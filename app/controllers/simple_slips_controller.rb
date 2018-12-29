@@ -83,7 +83,7 @@ class SimpleSlipsController < Base::HyaccController
     @simple_slip ||= setup_new_slip
 
     # 登録済み伝票を検索
-    @slips = finder.list(:per_page => current_user.slips_per_page)
+    @slips = finder.list(per_page: current_user.slips_per_page)
 
     # 表示伝票直前までの累計金額、現在の累計金額の取得
     if @slips.empty?
@@ -267,6 +267,9 @@ class SimpleSlipsController < Base::HyaccController
     account = @frequencies.present? ? Account.find(@frequencies.first.input_value) : @accounts.first
     ret.account_id = account.id
     ret.tax_type = current_company.get_tax_type_for(account)
+    if ret.tax_type != TAX_TYPE_NONTAXABLE
+      ret.tax_rate = TaxJp.rate_on(ret.date)
+    end
 
     ret.branch_id = current_user.employee.default_branch.id
     ret

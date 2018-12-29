@@ -16,7 +16,7 @@
   <% end %>
 </div>
 
-<%= form_for @simple_slip, :html => {:id => 'edit_simple_slip', :remote => true} do |f| %>
+<%= form_with model: @simple_slip, id: 'edit_simple_slip' do |f| %>
   <%= render 'common/message' %>
   <table class="slipTable">
     <tr>
@@ -31,12 +31,4 @@
     </tr>
     <%= render 'form', :f => f %>
   </table>
-<% end %>
-
-<% if action_name == 'show' %>
-  <script>
-    $(document).ready(function() {
-      $('#edit_simple_slip :input').attr('disabled', true);
-    });
-  </script>
 <% end %>

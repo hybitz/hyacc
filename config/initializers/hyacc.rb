@@ -1,4 +1,5 @@
 ActiveSupport.on_load :active_record do
+  ActiveRecord::Base.logger = nil if Rails.env.development?
   include HyaccConstants
 end
 

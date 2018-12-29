@@ -1,6 +1,7 @@
 class Journal < ApplicationRecord
   include HyaccConstants
   include HyaccErrors
+  include JournalDate
 
   belongs_to :company
   belongs_to :depreciation, inverse_of: 'journals', optional: true
@@ -20,7 +21,7 @@ class Journal < ApplicationRecord
   validates_format_of :ym, :with => /[0-9]{6}/ # TODO 月をもっと正確にチェック
   validates_with JournalValidator
 
-  has_one :receipt, -> { where :deleted => false }, :inverse_of => 'journal'
+  has_one :receipt, -> { where deleted: false }, inverse_of: 'journal'
   accepts_nested_attributes_for :receipt,
       :reject_if => proc {|attrs| attrs['id'].blank? && attrs['file'].blank? && attrs['file_cache'].blank? }
 
@@ -39,24 +40,6 @@ class Journal < ApplicationRecord
   def update_user_name
     @update_user ||= User.find_by_id(update_user_id)
     @update_user && @update_user.name
-  end
-
-  # 伝票の年月日を取得
-  def date
-    Date.new(year, month, day)
-  end
-  
-  def date=(value)
-    self.ym = value.strftime('%Y%m')
-    self.day = value.day
-  end
-
-  def year
-    ym / 100
-  end
-
-  def month
-    ym % 100
   end
 
   def get_normal_detail_count

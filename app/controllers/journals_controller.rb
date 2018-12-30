@@ -139,7 +139,7 @@ class JournalsController < Base::HyaccController
     if request.xhr?
       head :ok
     else
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     end
   end
 

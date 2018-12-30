@@ -2,7 +2,7 @@
   <td class="yearMonth">
     <%= f.hidden_field :my_sub_account_id %>
     <%= f.hidden_field :lock_version %>
-    <%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText', :onchange => "simple_slip.update_tax_amount();" %>
+    <%= f.text_field :ym, maxlength: 6, class: 'yearMonthText' %>
   </td>
   <td><%= f.text_field :day, :maxlength => 2, :class => 'dayText' %></td>
   <td><%= render 'form_remarks', :f => f %></td>

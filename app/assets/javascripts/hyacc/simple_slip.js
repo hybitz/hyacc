@@ -12,9 +12,10 @@ hyacc.SimpleSlip.prototype._init = function() {
       this.set_my_sub_account_id(this.options.my_sub_account_id);
     }
 
-    this.update_tax_amount($(this.selector).find('#simple_slip_tax_amount_increase').val(), $(this.selector).find('#simple_slip_tax_amount_decrease').val());
-
     var that = this;
+
+    this._init_ym();
+    this._init_day();
 
     $(this.selector).find('.accountSelect').change(function() {
       $.getJSON($(this).attr('accounts_path') + '/'+ $(this).val(), {order: 'code'}, function(account) {
@@ -29,6 +30,7 @@ hyacc.SimpleSlip.prototype._init = function() {
       );
     });
 
+    this.update_tax_amount($(this.selector).find('#simple_slip_tax_amount_increase').val(), $(this.selector).find('#simple_slip_tax_amount_decrease').val());
     $(this.selector).find('.taxTypeSelect').change(function() {
       that.update_tax_amount();
     });
@@ -37,8 +39,6 @@ hyacc.SimpleSlip.prototype._init = function() {
       return that.validate_slip();
     });
 
-    this._init_ym();
-    this._init_day();
     this.get_day().focus().select();
   }
 };
@@ -94,6 +94,12 @@ hyacc.SimpleSlip.prototype._init_ym = function() {
 
         $(this).val(ym.toString());
       }
+
+      $(this).change();
+    }
+  }).change(function() {
+    if ($(this).val().length == 6) {
+      that.update_tax_amount();
     }
   });
 };

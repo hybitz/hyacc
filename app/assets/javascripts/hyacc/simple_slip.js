@@ -30,7 +30,6 @@ hyacc.SimpleSlip.prototype._init = function() {
       );
     });
 
-    this.update_tax_amount($(this.selector).find('#simple_slip_tax_amount_increase').val(), $(this.selector).find('#simple_slip_tax_amount_decrease').val());
     $(this.selector).find('.taxTypeSelect').change(function() {
       that.update_tax_amount();
     });

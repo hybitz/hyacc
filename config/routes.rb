@@ -2,7 +2,7 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
-  devise_for :users, :controllers => { :omniauth_callbacks => 'users/omniauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   mount Nostalgic::Engine => '/nostalgic', :as => 'nostalgic'
   mount TaxJp::Engine, at: '/tax_jp', as: 'tax_jp'
 
@@ -62,16 +62,16 @@ Rails.application.routes.draw do
       get 'copy'
     end
   end
-  get 'simple/:account_code', :to => 'simple_slips#index'
+  get 'simple/:account_code', to: 'simple_slips#index'
 
   resources :social_expenses, :only => 'index'
   resources :sub_accounts, :only => 'index'
   resources :taxes, :only => ['index', 'update']
 
-  get 'closing', :to => 'closing#index'
-  get 'journal_admin', :to => 'journal_admin#index'
-  get 'mv', :to => 'mv#index'
-  get 'report', :to => 'report#index'
+  get 'closing', to: 'closing#index'
+  get 'journal_admin', to: 'journal_admin#index'
+  get 'mv', to: 'mv#index'
+  get 'report', to: 'report#index'
   
   authenticate :user do
     mount Sidekiq::Web => '/sidekiq'

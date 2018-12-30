@@ -2,9 +2,9 @@
 <td class="day"><%= slip.day %></td>
 <td class="remarks">
   <% if slip.editable? %>
-    <%= link_to slip.remarks, {:action => :show, :id => slip.id, :account_code => params[:account_code]}, :remote => true %>
+    <%= link_to slip.remarks, simple_slip_path(slip.id, account_code: params[:account_code]), class: 'show', remote: true %>
   <% else %>
-    <%= link_to slip.remarks, journal_path(slip.id), :remote => true %>
+    <%= link_to slip.remarks, journal_path(slip.id), class: 'show', remote: true %>
   <% end %>
 </td>
 <td class="accountName"><%= slip.account_code + ":" if slip.account_code != HyaccConstants::ACCOUNT_CODE_VARIOUS %> <%= slip.account_name %></td>

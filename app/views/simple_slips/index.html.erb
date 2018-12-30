@@ -10,6 +10,14 @@
       my_sub_account_id: $('#finder_sub_account_id').val()
     });
   });
+
+  $(document).ready(function() {
+    $('#slipTable tbody').delegate('tr', 'dblclick', function(e) {
+      if($(e.target).is(':not(a)')) {
+        $(this).find('a.show')[0].click();
+      }
+    });
+  });
 </script>
 
 <%= form_with model: @simple_slip, id: 'new_simple_slip', local: true do |f| %>

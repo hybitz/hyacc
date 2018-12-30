@@ -105,17 +105,13 @@ end
   assert has_selector?('.ui-dialog-buttonset')
 
   within '.ui-dialog-buttonset' do
-    if has_selector?('button', text: action)
-      case action
-      when '削除'
-        accept_confirm do
-          find('button', text: action).click
-        end
-      when '編集'
+    case action
+    when '削除'
+      accept_confirm do
         find('button', text: action).click
       end
-    else
-      next
+    when '編集'
+      find('button', text: action).click
     end
   end
 end

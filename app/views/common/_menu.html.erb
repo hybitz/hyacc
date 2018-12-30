@@ -54,9 +54,9 @@
 <div class="menu">
   <%= render 'common/simple_slip_menu' %>
   
-  <%= link_to '振替伝票', journals_path(purified_params), :class => style_for_menu('journals') %>
+  <%= link_to '振替伝票', journals_path(purified_params), class: style_for_menu('journals') %>
   |
-  <%= link_to '伝票管理', journal_admin_path(purified_params), :class => style_for_menu(journal_admin_controllers) %>
+  <%= link_to '伝票管理', journal_admin_path(purified_params), class: style_for_menu(journal_admin_controllers) %>
   |
 
   <% if available?('payrolls') %>

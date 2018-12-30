@@ -84,9 +84,7 @@
         <%= @simple_slip.auto_journal_month || '--' %> 月
         <%= @simple_slip.auto_journal_day || '--' %> 日
       </td>
-
-      <%# 一覧画面の表示かどうかで列数を調整 %>
-      <td colspan="<%= define_colspan_of_receipt %>"></td>
+      <td colspan="5"></td>
     </tr>
   </table>
 <% end %>

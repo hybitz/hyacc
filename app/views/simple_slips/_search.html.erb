@@ -12,16 +12,21 @@
       </div>
     <% end %>
 
-    <div style="margin: 10px;">
-      年月：<%= text_field 'finder', 'ym', :class => 'ympicker' %>
-      <a href='#' onclick='$("#finder_ym").val("");return false;'>×</a>
-
-      摘要：<%= text_field 'finder', 'remarks', class: 'form-control' %>
-      <a href='#' onclick='$("#finder_remarks").val("");return false;'>×</a>
-
-      部門：<%= collection_select('finder', 'branch_id', @branches, "id", "name", {:include_blank=>true}) %>
-
-      <%= submit_tag '表示', class: 'btn btn-default' %>
+    <div class="m-1">
+      <span class="mx-2">
+        年月：<%= text_field 'finder', 'ym', class: 'form-control mr-1 ympicker', style: 'width: 6em;' %>
+        <a href='#' onclick='$("#finder_ym").val(""); return false;'>×</a>
+      </span>
+      <span class="mx-2">
+        摘要：<%= text_field 'finder', 'remarks', class: 'form-control' %>
+        <a href='#' onclick='$("#finder_remarks").val(""); return false;'>×</a>
+      </span>
+      <span class="mx-2">
+        部門：<%= collection_select('finder', 'branch_id', @branches, "id", "name", {include_blank: true}, class: 'form-control') %>
+      </span>
+      <span class="mx-2">
+        <%= submit_tag '表示', class: 'btn btn-light' %>
+      </span>
     </div>
   <% end %>
 </div>

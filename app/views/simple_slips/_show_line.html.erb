@@ -13,28 +13,16 @@
 <td class="amountIncrease"><%= to_amount( slip.slip_amount_increase ) %></td>
 <td class="amountDecrease"><%= to_amount( slip.slip_amount_decrease ) %></td>
 <td class="amountSum"></td>
-<td class="center">
-  <%= '自振' if slip.has_auto_transfers %>
-</td>
-<td class="center">
-  <%= link_to '(電子)', receipt_path(slip.journal.receipt) if slip.journal.receipt.present? %>
-</td>
-<td class="action" style="border-left: none; border-right: none;">
-  <%# 編集可能な伝票の場合は簡易登録画面を表示 %>
-  <% if slip.editable? %>
-    <%= link_to '編集', {:action => :edit, :id => slip.id, :account_code => params[:account_code]}, :remote => true %>
-  <%# 編集不可能なら振替伝票画面を表示 %>
-  <% else %>
-    <%= link_to '編集', edit_journal_path(slip.id), :remote => true %>
+<td class="text-center">
+  <%= image_tag 'transform.png', title: '自動振替' if slip.has_auto_transfers %>
+  <% if slip.journal.receipt.present? %>
+    <%= link_to receipt_path(slip.journal.receipt) do %>
+      <%= image_tag 'attachment.png', title: "領収書: #{slip.journal.receipt.original_filename}" %>
+    <% end %>
   <% end %>
-</td>
-<td class="action" style="border-left: none; border-right: none;">
   <% if slip.editable? %>
-    <%= link_to '削除', {action: :destroy, id: slip.id, lock_version: slip.lock_version, account_code: params[:account_code]}, data: {confirm: '削除します。よろしいですか？'}, method: :delete %>
-  <% end %>
-</td>
-<td class="action" style="border-left: none;">
-  <% if slip.editable? %>
-    <%= link_to 'ｺﾋﾟｰ', {:action => 'copy', :id => slip.id, :account_code => params[:account_code]}, :onclick => 'simple_slips.copy(this); return false;' %>
+    <%= link_to copy_simple_slip_path(slip.id, account_code: params[:account_code]), onclick: 'simple_slips.copy(this); return false;' do %>
+      <%= image_tag 'file_copy.png', title: '伝票をコピー' %>
+    <% end %>
   <% end %>
 </td>

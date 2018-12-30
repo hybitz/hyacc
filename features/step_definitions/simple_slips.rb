@@ -78,7 +78,7 @@ end
   click_on action
 end
 
-もし /^任意の簡易伝票の(編集|削除|コピー)をクリックする$/ do |action|
+もし /^任意の簡易伝票の(コピー)をクリックする$/ do |action|
   assert @account = Account.find_by_name(page.title)
 
   assert tr = first('#slipTable tbody tr')
@@ -87,12 +87,35 @@ end
     @slip.id = tr['slip_id'].to_i
     @slip.remarks = find('td.remarks').text
 
-    if action == '削除'
-      accept_confirm do
-        click_on action
+    click_on action
+  end
+end
+
+もし /^任意の簡易伝票の(編集|削除)をクリックする$/ do |action|
+  assert @account = Account.find_by_name(page.title)
+
+  assert tr = first('#slipTable tbody tr')
+  within tr do
+    @slip = Slips::Slip.new(:account_code => @account.code)
+    @slip.id = tr['slip_id'].to_i
+    @slip.remarks = find('td.remarks').text
+    find('td a.show').click
+  end
+  assert has_dialog?(/#{@account.name}.*/)
+  assert has_selector?('.ui-dialog-buttonset')
+
+  within '.ui-dialog-buttonset' do
+    if has_selector?('button', text: action)
+      case action
+      when '削除'
+        accept_confirm do
+          find('button', text: action).click
+        end
+      when '編集'
+        find('button', text: action).click
       end
     else
-      click_on action
+      next
     end
   end
 end

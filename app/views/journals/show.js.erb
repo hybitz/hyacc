@@ -48,7 +48,6 @@ options.buttons.push(
         var result = $.post('<%= url_for journal_path(@journal) %>', params);
         result.then(
           function() {
-            hyacc.current_dialog().close();
             location.reload();
           },
           function() {

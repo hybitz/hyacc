@@ -68,6 +68,10 @@ class SimpleSlip
     Slips::SlipUtils.editable_as_simple_slip(journal, my_account_id)
   end
 
+  def deletable?
+    editable?
+  end
+
   def persisted?
     id.present?
   end

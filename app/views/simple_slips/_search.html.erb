@@ -3,12 +3,11 @@
     <%= hidden_field_tag 'account_code', @finder.account_code %>
 
     <% if @account.has_sub_accounts? %>
-      <div style="margin: 10px 0;">
+      <div class="mx-1">
         <span class="selected"><%= @account.sub_account_type_name %></span>：
         <% sub_accounts = @finder.deleted.to_i == 0 ? @account.sub_accounts : @account.sub_accounts_all %>
-        <%= collection_select("finder", "sub_account_id", sub_accounts, "id", "name",
-                      {}, { :onchange=>"submit();" }) %>
-        <%= check_box 'finder', 'deleted', :onchange=>"submit();" %>全て
+        <%= collection_select "finder", "sub_account_id", sub_accounts, "id", "name", {}, class: 'form-control', onchange: "submit();" %>
+        <%= check_box 'finder', 'deleted', onchange: "submit();" %>全て
       </div>
     <% end %>
 

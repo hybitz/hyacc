@@ -1,5 +1,5 @@
 <div style="margin: 10px;">
-  <%= form_tag({:action => 'index', :account_code => @finder.account_code}, method: 'get', class: 'form-inline') do %>
+  <%= form_tag({action: 'index', account_code: @finder.account_code}, method: 'get', class: 'form-inline') do %>
     <%= hidden_field_tag 'account_code', @finder.account_code %>
 
     <% if @account.has_sub_accounts? %>

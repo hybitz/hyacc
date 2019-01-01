@@ -4,7 +4,7 @@
   var simple_slip;
 
   $(document).on('turbolinks:load', function() {
-    simple_slips.calc_sum();
+    simple_slips.calc_sum({only_color: <%= @finder.remarks.present? %>});
 
     simple_slip = new hyacc.SimpleSlip('#new_simple_slip', {
       my_sub_account_id: $('#finder_sub_account_id').val()
@@ -47,7 +47,7 @@
         <td></td>
         <td></td>
         <td></td>
-        <td class="amountSum" <%= 'style="color: red;"' if @pre_sum_amount < 0 %>><%= to_amount(@pre_sum_amount, :show_zero => true) %></td>
+        <td class="amountSum" <%= 'style="color: red;"' if @pre_sum_amount < 0 %>><%= to_amount(@pre_sum_amount, show_zero: true) %></td>
         <td class="text-center">
           <%= link_to '△', {:action => 'index', :account_code => @finder.account_code, 'finder[offset]' => @finder.prev_offset, 'finder[keep_paging]' => true} if @finder.prev_offset %>
         </td>
@@ -72,13 +72,13 @@
         <td></td>
         <td></td>
         <td></td>
-        <td class="amountSum" <%= 'style="color: red;"' if @sum_amount < 0 %>><%= to_amount( @sum_amount, :show_zero => true ) %></td>
+        <td class="amountSum" <%= 'style="color: red;"' if @sum_amount < 0 %>><%= to_amount(@sum_amount, show_zero: true ) %></td>
         <td class="text-center">
           <%= link_to '▽', {action: 'index', account_code: @finder.account_code, 'finder[offset]' => @finder.next_offset, 'finder[keep_paging]' => true} if @finder.next_offset %>
         </td>
       </tr>
 
-      <%= render 'form', :f => f %>
+      <%= render 'form', f: f %>
     </tfoot>
   </table>
 <% end %>

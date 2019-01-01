@@ -24,8 +24,8 @@ class HyaccDateUtilTest < ActiveSupport::TestCase
   
   def test_get_ym_list
     list = HyaccDateUtil.get_ym_list( 2007, 2, 3 )
-    assert_equal( 2005, list.first )
-    assert_equal( 2010, list.last )
+    assert_equal( 2010, list.first )
+    assert_equal( 2005, list.last )
   end
   
   def test_last_day_of_month

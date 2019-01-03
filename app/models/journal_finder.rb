@@ -35,7 +35,7 @@ class JournalFinder < Base::Finder
       @page = 1 if @page == 0
     end
 
-    Journal.where(conditions).paginate(:page => @page, :per_page => per_page).order('ym, day, created_at')
+    Journal.where(conditions).paginate(page: @page, per_page: per_page).order('ym, day, created_at')
   end
 
   private
@@ -63,7 +63,15 @@ class JournalFinder < Base::Finder
 
     # 摘要
     if @remarks.present?
-      sql.append('and remarks like ?', '%' + JournalUtil.escape_search(@remarks) + '%')
+      remarks_query = ['remarks like ?', '%' + JournalUtil.escape_search(@remarks) + '%']
+      
+      sql.append('and (')
+      sql.append(*remarks_query)
+      amount = @remarks.gsub(',', '').to_i
+      if amount > 0
+        sql.append('  or amount = ?', amount)
+      end
+      sql.append(')')
     end
 
     sql.to_a

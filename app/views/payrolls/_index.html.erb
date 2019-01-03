@@ -274,6 +274,15 @@
       <td></td>
     </tr>
     <tr>
+      <td colspan="2">還付金</td>
+      <% @finder.get_ym_range.each do |ym| %>
+        <td class="text-center"><%= to_amount(@pd[ym].annual_adjustment) %></td>
+      <% end %>
+      <td></td>
+      <td></td>
+      <td class="text-right"><%= to_amount(@pd[:sum].annual_adjustment) %></td>
+    </tr>
+    <tr>
       <td colspan="2">経費精算</td>
       <% @finder.get_ym_range.each do |ym| %>
         <td class="text-center"><%= to_amount(@pd[ym].accrued_liability) %></td>

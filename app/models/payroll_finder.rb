@@ -11,12 +11,12 @@ class PayrollFinder < Base::Finder
   #  ym: 年月のyyyymm
   #  pay: 給与
   def list_monthly_pay
+    ret = {}
     ym_range = get_ym_range
 
-    # データの受け皿の準備
-    ret = {}
+    payrolls = Hash[*Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', @employee_id, ym_range.first, ym_range.last, false).map{|p| [p.ym, p] }.flatten]
     ym_range.each do |ym|
-      ret[ym] = Payroll.find_by_ym_and_employee_id(ym, @employee_id)
+      ret[ym] = payrolls[ym] || Payroll.new(ym: ym, employee_id: @employee_id)
     end
     
     # 賞与を取得
@@ -42,6 +42,7 @@ class PayrollFinder < Base::Finder
       sum.employment_insurance += p.employment_insurance
       sum.income_tax += p.income_tax
       sum.inhabitant_tax += p.inhabitant_tax
+      sum.annual_adjustment += p.annual_adjustment
       sum.accrued_liability += p.accrued_liability
     end
     ret[:sum] = sum

@@ -80,17 +80,17 @@
       <% unless @payroll.employee.executive? %>
         <tr>
           <th>雇用保険料</th>
-          <td><%= f.text_field :employment_insurance, :maxlength => 10 %></td>
+          <td><%= f.text_field :employment_insurance, maxlength: 10 %></td>
         </tr>
       <% end %>
       <tr>
         <th>所得税</th>
-        <td><%= f.text_field :income_tax, :maxlength => 10 %></td>
+        <td><%= f.text_field :income_tax, maxlength: 10 %></td>
       </tr>
       <tr>
         <th><%= f.label :inhabitant_tax %></th>
         <td>
-          <%= f.text_field :inhabitant_tax, :maxlength => 10 %>
+          <%= f.text_field :inhabitant_tax, maxlength: 10 %>
         </td>
       </tr>
       <tr>

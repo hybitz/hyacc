@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_24_050410) do
+ActiveRecord::Schema.define(version: 2019_01_03_103103) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2018_12_24_050410) do
     t.integer "is_tax_account", limit: 1, default: 0, null: false
     t.integer "parent_id"
     t.boolean "system_required", default: false, null: false
-    t.boolean "sub_account_editable", default: true, null: false
+    t.boolean "sub_account_editable", default: false, null: false
     t.index ["code"], name: "index_accounts_on_code", unique: true
     t.index ["name"], name: "index_accounts_on_name", unique: true
   end

@@ -3,7 +3,7 @@ class Account < ApplicationRecord
   include HyaccErrors
   include Accounts::SubAccountsSupport
 
-  acts_as_tree :order => 'display_order'
+  acts_as_tree order: 'display_order'
 
   validates_presence_of :name, :code
   validate :validate_account_type, :validate_dc_type
@@ -11,9 +11,10 @@ class Account < ApplicationRecord
   validates_with Validators::UniqueSubAccountsValidator
 
   before_save :update_path
+  before_save :set_sub_account_editable
 
   def self.expenses
-    where(:account_type => ACCOUNT_TYPE_EXPENSE)
+    where(account_type: ACCOUNT_TYPE_EXPENSE)
   end
 
   # 仕訳可能な勘定科目のみ取得する
@@ -190,5 +191,14 @@ class Account < ApplicationRecord
     end
 
     ret
+  end
+  
+  def set_sub_account_editable
+    case sub_account_type
+    when SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
+      self.sub_account_editable = true
+    else
+      self.sub_account_editable = false
+    end
   end
 end

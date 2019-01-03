@@ -12,7 +12,7 @@
     </td>
     <td id="<%= account.code %>_amount" align="right">
       <%= link_to_if account.journalizable,
-          to_amount( @sum[account.code][:amount], :show_zero => true ),
+          to_amount( @sum[account.code][:amount], show_zero: true ),
           { :controller => 'ledgers',
             :finder=>{
               :fiscal_year=>@finder.fiscal_year,
@@ -40,7 +40,7 @@
 
   <%# 子科目を再帰的に表示 %>
   <% account.children.each do |child| %>
-    <%= render 'line_bs_yearly', :account=>child %>
+    <%= render 'line_bs_yearly', account: child %>
   <% end %>
 
   <%# 合計行を表示する %>

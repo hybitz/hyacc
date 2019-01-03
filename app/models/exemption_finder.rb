@@ -14,10 +14,6 @@ class ExemptionFinder
     Employee.where(:company_id => company_id, :deleted => false)
   end
 
-  def calendar_year_options
-    {:include_blank => true}
-  end
-
   private
 
   def conditions

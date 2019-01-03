@@ -8,7 +8,7 @@
 
     <% if @finder.respond_to?(:calendar_year) %>
       <div class="mx-2">
-        暦年：<%= select 'finder', 'calendar_year', calendar_years, finder.calendar_year_options, {}, class: 'form-control' %>
+        暦年：<%= select 'finder', 'calendar_year', calendar_years, {include_blank: true}, class: 'form-control' %>
       </div>
     <% end %>
     

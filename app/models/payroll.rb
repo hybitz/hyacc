@@ -62,9 +62,13 @@ class Payroll < ApplicationRecord
     salary_total - insurance_total
   end
 
-  # 差引合計額（保険料と税金を控除後の金額）
+  # 差引支給額（保険料と税金を控除後の金額）
   def after_deduction
     after_insurance_deduction - income_tax - inhabitant_tax
+  end
+  
+  def pay_total
+    after_deduction + annual_adjustment + accrued_liability
   end
 
   def self.get_previous(ym, employee_id)

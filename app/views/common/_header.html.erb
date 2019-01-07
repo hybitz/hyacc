@@ -1,30 +1,28 @@
-<div class="header">
+<div class="header px-2">
   <% if current_company.logo.present? %>
     <div class="logo">
       <%= link_to root_path do %>
         <%= image_tag show_logo_mm_company_path(current_company, :version => 'icon') %>
       <% end %>
     </div>
-    <div style="float: left; vertical-align: top;">
-      <%= current_company.current_fiscal_year_int %>年度
-    </div>
   <% else %>
-    <div style="float: left; margin-left: 10px;">
+    <div class="mx-1" style="float: left;">
       <%= link_to current_company.name, root_path %>
+    </div>
+    <div class="mx-1" style="float: left;">
       |
-      <%= current_company.current_fiscal_year_int %>年度
     </div>
   <% end %>
-  <div style="float: left; margin-left: 0px;">
-    （<%= format_wareki_year_month(current_company.current_fiscal_year.start_year_month) %>～<%= format_wareki_year_month(current_company.current_fiscal_year.end_year_month) %>）
+  <div class="mx-1" style="float: left;">
+    <%= current_company.current_fiscal_year_int %> 年度
+    （第 <%= current_company.current_fiscal_year.fiscal_period %> 期
+    : <%= format_wareki_year_month(current_company.current_fiscal_year.start_year_month) %>～<%= format_wareki_year_month(current_company.current_fiscal_year.end_year_month) %>）
   </div>
-  <div style="text-align: right;">
-    <nobr>
-        <%= link_to "#{current_user.employee.fullname} さん", edit_profile_path(current_user) %>
-          |
-          所属部門：<%= current_user.employee.default_branch_name %>
-          |
-        <%= link_to 'ログアウト', destroy_session_path(current_user), :method => 'delete' %>
-    </nobr>
+  <div class="mx-1 text-right">
+    <%= link_to "#{current_user.employee.fullname} さん", edit_profile_path(current_user) %>
+      |
+      所属部門：<%= current_user.employee.default_branch_name %>
+      |
+    <%= link_to 'ログアウト', destroy_session_path(current_user), method: 'delete' %>
   </div>
 </div>

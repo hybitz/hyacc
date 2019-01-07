@@ -26,7 +26,7 @@ module Auto::Journal
       jh.create_user_id = @user.id
       jh.update_user_id = @user.id
 
-      tax_rate = TaxJp.rate_on(jh.date)
+      tax_rate = TaxJp::ConsumptionTax.rate_on(jh.date)
       
        # 明細の作成
        ## 借方有価証券

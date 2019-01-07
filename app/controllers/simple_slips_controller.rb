@@ -271,7 +271,7 @@ class SimpleSlipsController < Base::HyaccController
     ret.account_id = account.id
     ret.tax_type = current_company.get_tax_type_for(account)
     if ret.tax_type != TAX_TYPE_NONTAXABLE
-      ret.tax_rate = TaxJp.rate_on(ret.date)
+      ret.tax_rate = TaxJp::ConsumptionTax.rate_on(ret.date)
     end
 
     ret.branch_id = current_user.employee.default_branch.id

@@ -56,7 +56,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     ansi (1.5.0)
     arel (9.0.0)
-    autoprefixer-rails (9.4.3)
+    autoprefixer-rails (9.4.4)
       execjs
     backports (3.11.4)
     bcrypt (3.1.12)
@@ -214,7 +214,7 @@ GEM
     hashie (3.6.0)
     highline (2.0.0)
     holiday_jp (0.7.0)
-    i18n (1.4.0)
+    i18n (1.5.1)
       concurrent-ruby (~> 1.0)
     i18n-js (3.2.0)
       i18n (>= 0.8.0, < 2)
@@ -266,7 +266,7 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
-    mixlib-cli (1.7.0)
+    mixlib-cli (2.0.1)
     mixlib-config (2.2.18)
       tomlrb
     mixlib-log (2.0.9)
@@ -285,7 +285,7 @@ GEM
     net-ssh (5.1.0)
     net-telnet (0.1.1)
     nio4r (2.3.1)
-    nokogiri (1.9.1)
+    nokogiri (1.10.0)
       mini_portile2 (~> 2.4.0)
     nostalgic (0.5.1)
       rails (>= 4.2, < 6)
@@ -385,7 +385,7 @@ GEM
     rubyzip (1.2.2)
     rufus-scheduler (3.5.2)
       fugit (~> 1.1, >= 1.1.5)
-    sass (3.7.2)
+    sass (3.7.3)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -452,7 +452,7 @@ GEM
       activesupport (>= 4.2, < 6)
       railties (>= 4.2, < 6)
     systemu (2.6.5)
-    tax_jp (0.5.6)
+    tax_jp (0.6.0)
       bootstrap (~> 4.2.1)
       bootstrap4-datetime-picker-rails
       font-awesome-rails

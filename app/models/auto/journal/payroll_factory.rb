@@ -317,7 +317,7 @@ module Auto::Journal
       journal.update_user_id = @user.id
 
       # 消費税率
-      tax_rate = TaxJp.rate_on(journal.date)
+      tax_rate = TaxJp::ConsumptionTax.rate_on(journal.date)
       Rails.logger.debug "tax_rate=#{tax_rate}, date=#{journal.date}"
 
       # 明細の作成

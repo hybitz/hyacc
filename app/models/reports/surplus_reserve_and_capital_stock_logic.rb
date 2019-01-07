@@ -8,7 +8,7 @@ module Reports
     def get_surplus_reserve_and_capital_stock
       ret = SurplusReserveAndCapitalStockModel.new
       
-      accounts = Account.where(:is_revenue_reserve_account => true)
+      accounts = Account.where(is_revenue_reserve_account: true)
       accounts.each_with_index do |a, index|
         sr = SurplusReserveModel.new
         sr.no = index + 1

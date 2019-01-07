@@ -1,24 +1,23 @@
-<div  style="margin: 10px;">
-    <table class="none_border">
+<div class="m-2">
+    <table class="none_border m-2">
       <tr>
         <td class="none_border"><b>有価証券の内訳書</b></td>
       </tr>
     </table>
-    <br/>
-    <table>
+    <table class="table">
       <thead>
         <tr>
-          <th rowspan="3" width="100">区分／種類／銘柄</th>
-          <th colspan="2">期末現在高</th>
-          <th colspan="4">期中増（減）の明細</th>
-          <th rowspan="3" width="100">摘要</th>
+          <th rowspan="3" class="align-middle text-center">区分／種類／銘柄</th>
+          <th colspan="2" class="text-center">期末現在高</th>
+          <th colspan="4" class="text-center">期中増（減）の明細</th>
+          <th rowspan="3" class="align-middle text-center">摘要</th>
         </tr>
         <tr>
-          <th rowspan="2">数量</th>
-          <th rowspan="2">金額</th>
+          <th rowspan="2" class="text-center">数量</th>
+          <th rowspan="2" class="text-center">金額</th>
           <th>異動年月日</th>
-          <th rowspan="2">数量</th>
-          <th rowspan="2">金額</th>
+          <th rowspan="2" class="text-center">数量</th>
+          <th rowspan="2" class="text-center">金額</th>
           <th>売却(買入)先の名称(氏名)</th>
         </tr>
         <tr>
@@ -32,9 +31,9 @@
           <td rowspan="2"><%= investment[:formal_name] %></td>
           <td rowspan="2" class="quantity"><%= to_amount(investment[:last_shares]) %></td>
           <td rowspan="2" class="amount"><%= to_amount(investment[:last_trading_value]) %></td>
-          <td><%= format_wareki_year_month_day(investment[:ymd]) %></td>
-          <td rowspan="2" class="quantity"><%= to_amount(investment[:shares]) %></td>
-          <td rowspan="2" class="amount"><%= to_amount(investment[:trading_value]) %></td>
+          <td><%= format_wareki_year_month_day(investment[:ymd]) if investment[:ymd].present? %></td>
+          <td rowspan="2" class="quantity"><%= to_amount(investment[:shares], show_zero: true) %></td>
+          <td rowspan="2" class="amount"><%= to_amount(investment[:trading_value], show_zero: true) %></td>
           <td><%= investment[:bank_name] %></td>
           <td rowspan="2"><%= investment[:etc] %></td>
         </tr>

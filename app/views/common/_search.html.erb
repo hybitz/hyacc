@@ -80,9 +80,13 @@
     <% end %>
     
     <% if @report_types %>
-      帳票様式：<%= collection_select("finder", "report_type", @report_types, "value", "name") %>
+      <div class="mx-2">
+        帳票様式：<%= collection_select "finder", "report_type", @report_types, "value", "name", {}, class: 'form-control' %>
+      </div>
     <% elsif @finder.respond_to?(:report_type) %>
-      帳票様式：<%= collection_select('finder', 'report_type', @finder.report_types, 'value', 'name') %>
+      <div class="mx-2">
+        帳票様式：<%= collection_select 'finder', 'report_type', @finder.report_types, 'value', 'name', {}, class: 'form-control' %>
+      </div>
     <% end %>
      
     <% if @report_styles %>

@@ -59,7 +59,7 @@ module Base
       stock = Account.find_by_code(ACCOUNT_CODE_CAPITAL_STOCK)
 
       rf = ReportFinder.new(current_user)
-      rf.setup_from_params(:fiscal_year => fiscal_year)
+      rf.setup_from_params(fiscal_year: fiscal_year)
       rf.get_net_sum(stock)
     end
   end

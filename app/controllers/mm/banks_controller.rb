@@ -96,9 +96,15 @@ class Mm::BanksController < Base::HyaccController
   
   def bank_params
     permitted = [
-      :name, :code,
+      :name, :name_effective_at,
+      names_attributes: [:id, :_destroy],
       bank_offices_attributes: [:id, :code, :name, :address, :disabled]
     ]
+
+    case action_name
+    when 'create'
+      permitted << :code
+    end
 
     ret = params.require(:bank).permit(*permitted)
 

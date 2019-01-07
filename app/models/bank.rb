@@ -1,5 +1,6 @@
 class Bank < ApplicationRecord
   belongs_to :company
+  nostalgic_attr :name
 
   TO_SAME_OFFICE = 1
   TO_OTHER_OFFICE = 2
@@ -8,7 +9,7 @@ class Bank < ApplicationRecord
   validates :code, presence: true
   validates :name, presence: true
 
-  has_many :bank_offices
+  has_many :bank_offices, inverse_of: 'bank'
   accepts_nested_attributes_for :bank_offices
   
   def get_commission(amount, to)

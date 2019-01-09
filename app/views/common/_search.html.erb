@@ -90,7 +90,9 @@
     <% end %>
      
     <% if @report_styles %>
-      <%= select 'finder', 'report_style', @report_styles, {}, class: 'form-control' %>
+      <div class="mx-2">
+        <%= select 'finder', 'report_style', @report_styles, {}, class: 'form-control' %>
+      </div>
     <% end %>
 
     <% if @bank_accounts %>

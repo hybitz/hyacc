@@ -191,7 +191,11 @@ class SimpleSlip
     if my_detail.dc_type == my_detail.account.dc_type
       self.amount_increase = target_detail.input_amount
       self.tax_amount_increase = target_detail.tax_amount
-      self.slip_amount_increase = target_detail.input_amount
+      if target_detail.tax_type_exclusive?
+        self.slip_amount_increase = target_detail.input_amount + target_detail.tax_amount
+      else
+        self.slip_amount_increase = target_detail.input_amount
+      end
       self.amount_decrease = nil
       self.tax_amount_decrease = nil
       self.slip_amount_decrease = nil
@@ -201,7 +205,11 @@ class SimpleSlip
       self.slip_amount_increase = nil
       self.amount_decrease = target_detail.input_amount
       self.tax_amount_decrease = target_detail.tax_amount
-      self.slip_amount_decrease = target_detail.input_amount
+      if target_detail.tax_type_exclusive?
+        self.slip_amount_decrease = target_detail.input_amount + target_detail.tax_amount
+      else
+        self.slip_amount_decrease = target_detail.input_amount
+      end
     end
 
     # 接待交際費の参加人数

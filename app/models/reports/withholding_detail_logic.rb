@@ -80,7 +80,7 @@ module Reports
     def get_mortgage_deduction
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions
-      mortgage_deductible = e.max_mortgage_deduction
+      mortgage_deductible = e.max_mortgage_deduction.to_i
       withholding_tax_before_deduction = logic.get_withholding_tax_before_mortgage_deduction
       mortgage_deductible > withholding_tax_before_deduction ? withholding_tax_before_deduction : mortgage_deductible
     end
@@ -88,7 +88,7 @@ module Reports
     def get_mortgage_deductible
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions
-      mortgage_deductible = e.max_mortgage_deduction
+      mortgage_deductible = e.max_mortgage_deduction.to_i
       withholding_tax_before_deduction = logic.get_withholding_tax_before_mortgage_deduction
       mortgage_deductible > withholding_tax_before_deduction ? mortgage_deductible : nil
     end

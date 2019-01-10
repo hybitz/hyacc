@@ -17,7 +17,7 @@
   </tr>
   
   <% @account.sub_accounts_all.each_with_index do |sa, i| %>
-    <%= render 'sub_account_fields', :sub_account => sa, :index => i %>
+    <%= render 'sub_account_fields', sub_account: sa, index: i %>
   <% end %>
   
   <tr>

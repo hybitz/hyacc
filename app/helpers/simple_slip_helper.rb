@@ -14,16 +14,6 @@ module SimpleSlipHelper
     "green"
   end
   
-  def define_colspan_of_receipt
-    if @simple_slip.new_record?
-      ret = 8
-    else
-      ret = 5
-    end
-
-    ret
-  end
-  
   # 検索条件の補助科目のセレクトボックス名を取得する
   def get_sub_account_select_name( account )
     case account.sub_account_type

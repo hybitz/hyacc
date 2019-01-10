@@ -123,7 +123,7 @@ class Mm::AccountsController < Base::HyaccController
 
   def account_params
     permitted = [
-      :name, :dc_type, :account_type, :sub_account_type, :tax_type,
+      :name, :dc_type, :account_type, :tax_type,
       :description, :short_description, :trade_type, :is_settlement_report_account,
       :depreciation_method, :is_trade_account_payable, :journalizable,
       :depreciable, :is_revenue_reserve_account, :is_tax_account
@@ -133,7 +133,7 @@ class Mm::AccountsController < Base::HyaccController
 
     case action_name
     when 'create'
-      ret = ret.permit(permitted, :code, :parent_id)
+      ret = ret.permit(permitted, :code, :parent_id, :sub_account_type)
     when 'update'
       ret = ret.permit(permitted)
     end
@@ -144,11 +144,6 @@ class Mm::AccountsController < Base::HyaccController
   def check_sub_account_type_editable(account, sub_account_type_old)
     # 変更されていなければ何も問題ない
     return if account.sub_account_type == sub_account_type_old
-
-    # 補助科目の変更可でなければエラー
-    unless account.sub_account_editable?
-      raise HyaccException.new(ERR_SUB_ACCOUNT_TYPE_NOT_EDITABLE)
-    end
 
     # 既に伝票が起票されていた場合は補助科目区分の変更不可
     # ただし、通常の補助科目の設定でまだ補助科目がマスタ登録されていない（ようするにデフォルト状態）場合は変更可

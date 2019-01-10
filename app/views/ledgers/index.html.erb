@@ -18,11 +18,6 @@
 
   function calcSum(dcType) {
     var container = $('#ledgerContainer');
-    if (container.find('tbody tr').length == 0) {
-      container.hide();
-      return;
-    }
-
     var yearMonth = 0;
     var monthlySum = 0;
     var sum = toInt(container.find('#ledger_row_last_year').find('.amountSum').text());
@@ -65,59 +60,61 @@
   }  
 </script>
 
-<table id="ledgerContainer">
-  <thead>
-    <tr>
-      <th class="yearMonth">年月</th>
-      <th class="day">日</th>
-      <th class="remarks">摘要</th>
-      <th class="accountName">相手勘定科目</th>
-      <th class="branchName">相手計上部門</th>
-      <th class="amountDebit">借方</th>
-      <th class="amountCredit">貸方</th>
-      <th class="amountMonthlySum">月別累計</th>
-      <th class="amountSum">累計</th>
-      <th class="nowrap"></th>
-    </tr>
-
-    <% if finder.get_last_year_balance %>
-      <tr id="ledger_row_last_year" style="background-color: papayawhip;">
-        <td class="yearMonth"></td>
-        <td class="day"></td>
-        <td class="remarks">前期末残高</td>
-        <td class="accountName"></td>
-        <td class="branchName"></td>
-        <td class="amountDebit"></td>
-        <td class="amountCredit"></td>
-        <td class="amountMonthlySum"></td>
-        <td class="amountSum"><%= to_amount(finder.get_last_year_balance) %></td>
-        <td class="nowrap"></td>
+<% if @ledgers.present? %>
+  <table id="ledgerContainer">
+    <thead>
+      <tr>
+        <th class="yearMonth">年月</th>
+        <th class="day">日</th>
+        <th class="remarks">摘要</th>
+        <th class="accountName">相手勘定科目</th>
+        <th class="branchName">相手計上部門</th>
+        <th class="amountDebit">借方</th>
+        <th class="amountCredit">貸方</th>
+        <th class="amountMonthlySum">月別累計</th>
+        <th class="amountSum">累計</th>
+        <th class="nowrap"></th>
       </tr>
-    <% end %>
-  </thead>
-
-  <tbody>
-    <% @ledgers.each do |ledger| %>
-      <% if ledger.is_a?(MonthlyLedger) %>
-        <tr id="ledger_row_<%= ledger.ym %>" class="ledgerRow" style="background-color: papayawhip;">
-          <td class="yearMonth"><%= ledger.ym %></td>
+  
+      <% if finder.get_last_year_balance %>
+        <tr id="ledger_row_last_year" style="background-color: papayawhip;">
+          <td class="yearMonth"></td>
           <td class="day"></td>
-          <td class="remarks"></td>
+          <td class="remarks">前期末残高</td>
           <td class="accountName"></td>
           <td class="branchName"></td>
-          <td class="amountDebit"><%= to_amount( ledger.amount_debit, :show_zero => true ) %></td>
-          <td class="amountCredit"><%= to_amount( ledger.amount_credit, :show_zero => true ) %></td>
+          <td class="amountDebit"></td>
+          <td class="amountCredit"></td>
           <td class="amountMonthlySum"></td>
-          <td class="amountSum"></td>
-          <td class="nowrap">
-            <% if ledger.has_amount %>
-              <%= link_to '伝票表示', ledger_path(ledger.ym), :onclick => 'show_journals(this); return false;' %>
-            <% end %>
-          </td>
+          <td class="amountSum"><%= to_amount(finder.get_last_year_balance) %></td>
+          <td class="nowrap"></td>
         </tr>
-      <% else %>
-        <%= render 'line_journal', :ledger => ledger %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+  
+    <tbody>
+      <% @ledgers.each do |ledger| %>
+        <% if ledger.is_a?(MonthlyLedger) %>
+          <tr id="ledger_row_<%= ledger.ym %>" class="ledgerRow" style="background-color: papayawhip;">
+            <td class="yearMonth"><%= ledger.ym %></td>
+            <td class="day"></td>
+            <td class="remarks"></td>
+            <td class="accountName"></td>
+            <td class="branchName"></td>
+            <td class="amountDebit"><%= to_amount( ledger.amount_debit, :show_zero => true ) %></td>
+            <td class="amountCredit"><%= to_amount( ledger.amount_credit, :show_zero => true ) %></td>
+            <td class="amountMonthlySum"></td>
+            <td class="amountSum"></td>
+            <td class="nowrap">
+              <% if ledger.has_amount %>
+                <%= link_to '伝票表示', ledger_path(ledger.ym), :onclick => 'show_journals(this); return false;' %>
+              <% end %>
+            </td>
+          </tr>
+        <% else %>
+          <%= render 'line_journal', ledger: ledger %>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

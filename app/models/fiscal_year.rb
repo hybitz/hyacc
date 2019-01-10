@@ -3,10 +3,15 @@ class FiscalYear < ApplicationRecord
 
   belongs_to :company
   validates_presence_of :company_id, :fiscal_year
-  validates_uniqueness_of :fiscal_year, :scope => :company_id
+  validates_uniqueness_of :fiscal_year, scope: :company_id
 
   after_create :create_sequence_for_asset_code
 
+  # 期
+  def fiscal_period
+    fiscal_year - company.founded_fiscal_year.fiscal_year + 1
+  end
+  
   def get_deemed_tax_journals
     Journal.find_closing_journals(self, SLIP_TYPE_DEEMED_TAX)
   end

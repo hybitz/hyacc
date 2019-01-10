@@ -59,19 +59,15 @@ end
     branch = Branch.find(@slip.branch_id)
 
     within form_selector do
-      fill_in 'simple_slip_ym', :with => @slip.ym
-      fill_in 'simple_slip_day', :with => @slip.day
-      fill_in 'simple_slip_remarks', :with => @slip.remarks
-      select account.code_and_name, :from => 'simple_slip_account_id', :match => :first
+      fill_in 'simple_slip_ym', with: @slip.ym
+      fill_in 'simple_slip_day', with: @slip.day
+      fill_in 'simple_slip_remarks', with: @slip.remarks
+      find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
+      assert has_select?('simple_slip_sub_account_id') if account.has_sub_accounts?
 
-      if account.has_sub_accounts?
-        assert has_selector?('#simple_slip_sub_account_id option', :minimum => 1)
-      end
-
-      select branch.name, :from => 'simple_slip_branch_id'
-      fill_in 'simple_slip_amount_increase', :with => @slip.amount_increase
-      fill_in 'simple_slip_amount_decrease', :with => @slip.amount_decrease
-      find('#simple_slip_amount_increase').click # blur
+      select branch.name, from: 'simple_slip_branch_id'
+      fill_in 'simple_slip_amount_increase', with: @slip.amount_increase
+      fill_in 'simple_slip_amount_decrease', with: @slip.amount_decrease
 
       unless current_company.get_tax_type_for(account) == TAX_TYPE_NONTAXABLE
         assert has_field?('simple_slip_tax_rate_percent', with: /[0-9]+/)
@@ -82,7 +78,7 @@ end
   click_on action
 end
 
-もし /^任意の簡易伝票の(編集|削除|コピー)をクリックする$/ do |action|
+もし /^任意の簡易伝票の(コピー)をクリックする$/ do |action|
   assert @account = Account.find_by_name(page.title)
 
   assert tr = first('#slipTable tbody tr')
@@ -91,12 +87,31 @@ end
     @slip.id = tr['slip_id'].to_i
     @slip.remarks = find('td.remarks').text
 
-    if action == '削除'
+    click_on action
+  end
+end
+
+もし /^任意の簡易伝票の(編集|削除)をクリックする$/ do |action|
+  assert @account = Account.find_by_name(page.title)
+
+  assert tr = first('#slipTable tbody tr')
+  within tr do
+    @slip = Slips::Slip.new(:account_code => @account.code)
+    @slip.id = tr['slip_id'].to_i
+    @slip.remarks = find('td.remarks').text
+    find('td a.show').click
+  end
+  assert has_dialog?(/#{@account.name}.*/)
+  assert has_selector?('.ui-dialog-buttonset')
+
+  within '.ui-dialog-buttonset' do
+    case action
+    when '削除'
       accept_confirm do
-        click_on action
+        find('button', text: action).click
       end
-    else
-      click_on action
+    when '編集'
+      find('button', text: action).click
     end
   end
 end

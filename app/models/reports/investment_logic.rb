@@ -4,28 +4,41 @@ module Reports
     def get_investments_report
       reports = []
       get_total_shares_and_trading_values.each do |last_investment|
-        reports.concat(get_investments(last_investment))
+        reports += get_investments(last_investment)
       end
-      return reports
+      reports
     end
 
     private
 
     def get_investments(last)
       reports = []
-      Investment.where(customer_id: last['customer_id'],
-                       bank_account_id: last['bank_account_id'],
-                       ym: @finder.get_ym_range).order(:ym).each_with_index do |inv, index|
-        reports << {:formal_name => index == 0 ? inv.customer.formal_name : '',
-                    :last_shares => index == 0 ? last['shares'] : '',
-                    :last_trading_value => index == 0 ? last['trading_value'] : '',
-                    :ymd => inv.ym.to_s + "%02d"%inv.day,
-                    :reason => inv.buying? ? '購入' : '売却',
-                    :shares => inv.buying? ? inv.shares : inv.shares * -1,
-                    :trading_value => inv.buying? ? inv.trading_value : inv.trading_value * -1,
-                    :bank_name => index == 0 ? inv.bank_account.bank_name : '',
-                    :address => index == 0 ? inv.bank_account.bank_office && inv.bank_account.bank_office.address : '',
-                    :etc => ''}
+      deals = Investment.where(customer_id: last['customer_id'], bank_account_id: last['bank_account_id'], ym: @finder.get_ym_range).order(:ym)
+      if deals.size == 0 and last['shares'] > 0
+        c = Customer.find(last['customer_id'])
+        ba = BankAccount.find(last['bank_account_id'])
+        reports << {
+          formal_name: c.formal_name,
+          last_shares: last['shares'],
+          last_trading_value: last['trading_value'],
+          shares: 0,
+          trading_value: 0,
+          bank_name: ba.bank_name,
+          address: ba.bank_office.try(:address)
+         }
+      else
+        deals.each_with_index do |inv, i|
+          reports << {:formal_name => i == 0 ? inv.customer.formal_name : '',
+                      :last_shares => i == 0 ? last['shares'] : '',
+                      :last_trading_value => i == 0 ? last['trading_value'] : '',
+                      :ymd => inv.ym.to_s + "%02d"%inv.day,
+                      :reason => inv.buying? ? '購入' : '売却',
+                      :shares => inv.buying? ? inv.shares : inv.shares * -1,
+                      :trading_value => inv.buying? ? inv.trading_value : inv.trading_value * -1,
+                      :bank_name => i == 0 ? inv.bank_account.bank_name : '',
+                      :address => i == 0 ? inv.bank_account.bank_office && inv.bank_account.bank_office.address : '',
+                      :etc => ''}
+        end
       end
       reports
     end

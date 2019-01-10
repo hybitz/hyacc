@@ -49,19 +49,14 @@
     mm/simple_slip_templates
   }
 
-  # マスタビューア機能一覧 
-  mv_controllers = %w{
-    mv
-    mv/social_insurances
-  }
 %>
 
 <div class="menu">
   <%= render 'common/simple_slip_menu' %>
   
-  <%= link_to '振替伝票', journals_path(purified_params), :class => style_for_menu('journals') %>
+  <%= link_to '振替伝票', journals_path(purified_params), class: style_for_menu('journals') %>
   |
-  <%= link_to '伝票管理', journal_admin_path(purified_params), :class => style_for_menu(journal_admin_controllers) %>
+  <%= link_to '伝票管理', journal_admin_path(purified_params), class: style_for_menu(journal_admin_controllers) %>
   |
 
   <% if available?('payrolls') %>
@@ -79,8 +74,6 @@
   |
   <%= link_to 'マスタメンテ', mm_path(purified_params), :class => style_for_menu(mm_controllers) %>
   |
-  <%= link_to 'マスタビューア', mv_path(purified_params), :class => style_for_menu(mv_controllers) %>
-  |
   <%= link_to 'TaxJP', tax_jp_path(purified_params), target: '_blank' %>
 </div>
 
@@ -89,5 +82,4 @@
 <%= render 'common/sub_menu', :controllers => report_controllers %>
 <%= render 'common/sub_menu', :controllers => bs_controllers %>
 <%= render 'common/sub_menu', :controllers => mm_controllers %>
-<%= render 'common/sub_menu', :controllers => mv_controllers %>
 

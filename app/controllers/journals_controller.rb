@@ -2,7 +2,7 @@ class JournalsController < Base::HyaccController
   include JournalHelper
   include AssetUtil
 
-  view_attribute :finder, :class => JournalFinder, :only => :index
+  view_attribute :finder, class: JournalFinder, only: :index
 
   before_action :setup_view_attributes, :only => ['index', 'new', 'show', 'edit', 'add_detail']
 
@@ -139,7 +139,7 @@ class JournalsController < Base::HyaccController
     if request.xhr?
       head :ok
     else
-      redirect_to :action => 'index'
+      redirect_to action: 'index'
     end
   end
 

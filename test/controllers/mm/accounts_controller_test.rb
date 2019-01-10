@@ -107,44 +107,21 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
   def test_補助科目が重複
     a = Account.find(@first_id)
 
-    patch mm_account_path(@first_id), :params => {
-      :commit => '更新',
-      :account => {:name => a.name, :sub_account_type => a.sub_account_type,
-                   :account_type => a.account_type, :tax_type => a.tax_type,
-                   :dc_type => a.dc_type, :trade_type => a.trade_type},
+    patch mm_account_path(@first_id), xhr: true, params: {
+      :account => {name: a.name, account_type: a.account_type, tax_type: a.tax_type, dc_type: a.dc_type, trade_type: a.trade_type},
       :sub_accounts => {"1"=>{:id=>'28',:name=>'補助科目１',:code=>'100',:deleted=>'false'},
                         "2"=>{:id=>'29',:name=>'補助科目２',:code=>'200',:deleted=>'false'},
                         "3"=>{:id=>'30',:name=>'補助科目３',:code=>'200',:deleted=>'false'}}
-    },
-   :xhr => true
+    }
     
     assert_response :success
     assert_template 'edit'
     assert_nil assigns(:notice)
   end
 
-  def test_補助科目変更不可の勘定科目で_補助科目区分が変更できないこと
-    id = 65
-    a = Account.find(id)
-    assert_equal SUB_ACCOUNT_TYPE_CORPORATE_TAX, a.sub_account_type
-    assert_not a.sub_account_editable?
-    
-    patch mm_account_path(id), :params => {
-        :account => {:sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL},
-        :sub_accounts => {"1"=>{:id=>28,:name=>'補助科目１',:code=>'100',:deleted=>'false'},
-                          "2"=>{:id=>29,:name=>'補助科目２',:code=>'200',:deleted=>'false'},
-                          "3"=>{:id=>30,:name=>'補助科目３',:code=>'300',:deleted=>'false'}}
-    },
-    :xhr => true
-    
-    assert_response :success
-    assert_template 'edit'
-    assert_equal ERR_SUB_ACCOUNT_TYPE_NOT_EDITABLE, flash[:notice]
-  end
-
   def test_削除
     assert_nothing_raised do
-      delete mm_account_path(@first_id), :xhr => true
+      delete mm_account_path(@first_id), xhr: true
       assert_response :success
       assert_template 'common/reload'
     end
@@ -155,7 +132,7 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
   # システム必須の勘定科目は削除できないこと
   def test_destroy_fail
     assert_raise HyaccException do
-      delete mm_account_path(Account.find_by_code(ACCOUNT_CODE_CASH)), :xhr => true
+      delete mm_account_path(Account.find_by_code(ACCOUNT_CODE_CASH)), xhr: true
     end
   end
   
@@ -166,7 +143,7 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
     assert JournalDetail.where(:account_id => account.id).present?
 
     assert_raise HyaccException do
-      delete mm_account_path(account), :xhr => true
+      delete mm_account_path(account), xhr: true
     end
   end
   
@@ -200,9 +177,8 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, Account.find_by_code(6666).sub_accounts_all.size
     
     # 補助科目なしで更新
-    patch mm_account_path(Account.find_by_code(6666)), :params => {
+    patch mm_account_path(Account.find_by_code(6666)), params: {
       :account=>{
-        :sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL,
         :name=>"テスト科目",
         :is_settlement_report_account=>"true",
         :account_type=>"2",

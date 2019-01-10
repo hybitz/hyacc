@@ -2,7 +2,7 @@
   <td class="yearMonth">
     <%= f.hidden_field :my_sub_account_id %>
     <%= f.hidden_field :lock_version %>
-    <%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText', :onchange => "simple_slip.update_tax_amount();" %>
+    <%= f.text_field :ym, maxlength: 6, class: 'yearMonthText' %>
   </td>
   <td><%= f.text_field :day, :maxlength => 2, :class => 'dayText' %></td>
   <td><%= render 'form_remarks', :f => f %></td>
@@ -24,15 +24,13 @@
   <td class="branchName">
     <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect', :style => 'width: 100%;' %>
   </td>
-  <td class="amount"><%= f.text_field :amount_increase, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount();' %></td>
-  <td class="amount"><%= f.text_field :amount_decrease, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount();' %></td>
+  <td class="amount"><%= f.text_field :amount_increase, class: 'amountText', onchange: 'simple_slip.update_tax_amount();' %></td>
+  <td class="amount"><%= f.text_field :amount_decrease, class: 'amountText', onchange: 'simple_slip.update_tax_amount();' %></td>
 
   <%# 一覧画面での表示の場合 %>
   <% if @simple_slip.new_record? %>
-    <td></td>
-    <td colspan="2"></td>
-    <td rowspan="4" colspan="3" valign="middle" align="center">
-      <%= f.submit %>
+    <td rowspan="4" colspan="2" class="text-center" valign="middle">
+      <%= f.submit class: 'btn btn-lg btn-light' %>
     </td>
   <% end %>
 </tr>
@@ -59,11 +57,6 @@
   <td class="amount">
     <%= f.text_field :tax_amount_decrease, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount(null, this.value);' %>
   </td>
-  <%# 一覧画面の表示かどうかで列数を調整 %>
-  <% if @simple_slip.new_record? %>
-    <td rowspan="2"></td>
-    <td rowspan="2" colspan="2"></td>
-  <% end %>
 </tr>
 <tr>
   <td align="center" style="border-right-style: none;">
@@ -87,7 +80,5 @@
       <%= f.text_field :auto_journal_month, :maxlength => 2, :class => 'month' %> 月
       <%= f.text_field :auto_journal_day, :maxlength => 2, :class => 'day' %> 日
   </td>
-
-  <%# 一覧画面の表示かどうかで列数を調整 %>
-  <td colspan="<%= define_colspan_of_receipt %>"></td>
+  <td colspan="5"></td>
 </tr>

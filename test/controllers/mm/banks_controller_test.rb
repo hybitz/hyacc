@@ -51,14 +51,14 @@ class Mm::BanksControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, :params => {:id => bank.id, :bank => valid_bank_params}, :xhr => true
+    patch :update, params: {id: bank.id, bank: valid_bank_params.except(:code)}, xhr: true
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_更新_入力エラー
     sign_in admin
-    patch :update, :params => {:id => bank.id, :bank => invalid_bank_params}, :xhr => true
+    patch :update, params: {id: bank.id, bank: invalid_bank_params.except(:code)}, xhr: true
     assert_response :success
     assert_template 'edit'
   end

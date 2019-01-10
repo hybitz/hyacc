@@ -3,8 +3,10 @@
 
 <script>
   $(document).ready(function() {
-    $('#journals_table tbody').delegate('tr', 'dblclick', function() {
-      $(this).find('a.show')[0].click();
+    $('#journals_table tbody').delegate('tr', 'dblclick', function(e) {
+      if($(e.target).is(':not(a)')) {
+        $(this).find('a.show')[0].click();
+      }
     });
   });
 </script>

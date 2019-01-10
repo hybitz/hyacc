@@ -171,11 +171,20 @@ end
 
   @remarks.each do |remark|
     with_capture do
-      fill_in 'finder_ym', :with => '2013-08'
-      fill_in 'finder_remarks', :with => remark
+      fill_in 'finder_ym', with: '2013-08'
+      fill_in 'finder_remarks', with: remark
       click_on '表示'
       
-      click_on '編集'
+      assert tr = first('#slipTable tbody tr')
+      within tr do
+        find('td a.show').click
+      end
+      assert has_dialog?(/#{account.name}.*/)
+
+      within_dialog do
+        find('button', text: '編集').click
+      end
+
       within_dialog do
         find(:select, 'simple_slip_account_id').first(:option, account.code_and_name).select_option
         assert has_select?('simple_slip_sub_account_id') if account.has_sub_accounts?

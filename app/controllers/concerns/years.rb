@@ -13,7 +13,7 @@ module Years
     if @_fiscal_years.nil?
       first = current_company.founded_fiscal_year.fiscal_year
       last = current_company.fiscal_years.order(:fiscal_year).last.fiscal_year
-      @_fiscal_years = HyaccDateUtil.get_ym_list( first, 0, last - first )
+      @_fiscal_years = HyaccDateUtil.get_ym_list(first, 0, last - first)
     end
 
     @_fiscal_years
@@ -24,7 +24,7 @@ module Years
     if @_calendar_years.nil?
       first = current_company.founded_fiscal_year.fiscal_year
       last = Date.today.year
-      @_calendar_years = HyaccDateUtil.get_ym_list( first, 0, last - first )
+      @_calendar_years = HyaccDateUtil.get_ym_list(first, 0, last - first)
     end
 
     @_calendar_years

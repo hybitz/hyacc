@@ -77,7 +77,7 @@ module HyaccDateUtil
   # @param before 前何年分かを指定
   # @param after 後何年分かを指定
   def self.get_ym_list(ym, before, after)
-    ym - before .. ym + after
+    (ym - before .. ym + after).to_a.reverse
   end
  
   # 月末の日を取得します。

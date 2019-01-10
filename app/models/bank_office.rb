@@ -1,3 +1,3 @@
 class BankOffice < ApplicationRecord
-  belongs_to :bank
+  belongs_to :bank, inverse_of: 'bank_offices'
 end

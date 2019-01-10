@@ -1,4 +1,49 @@
-var title = '<%= @account.name %>　参照';
-var html = '<%=j render 'show' %>';
+var options = {
+  title: '<%= @account.name %>　参照'
+};
 
-hyacc.current_dialog({title: title}).show(html);
+options.buttons = [];
+
+<% if @simple_slip.editable? %>
+  options.buttons.push(
+    {
+      text: '編集',
+      class: 'btn btn-light',
+      click: function() {
+        hyacc.current_dialog().close();
+        $.get('<%= url_for edit_simple_slip_path(@simple_slip.id, account_code: @account.code) %>');
+      }
+    }
+  );
+<% end %>
+
+<% if @simple_slip.deletable? %>
+  options.buttons.push(
+    {
+      text: '削除',
+      class: 'btn btn-light',
+      click: function() {
+        if (!confirm('伝票を削除します。よろしいですか？')) {
+          return;
+        }
+  
+        var params = {
+          authenticity_token: '<%= form_authenticity_token %>',
+          _method: 'delete',
+          lock_version: <%= @simple_slip.lock_version %>
+        };
+        var result = $.post('<%= url_for simple_slip_path(@simple_slip.id) %>', params);
+        result.then(
+          function() {
+            location.reload();
+          },
+          function() {
+            alert('エラーが発生しました。');
+          }
+        );
+      }
+    }
+  );
+<% end %>
+
+hyacc.current_dialog(options).show('<%=j render 'show' %>');

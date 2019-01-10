@@ -25,7 +25,7 @@ simple_slips.copy = function(trigger) {
   });
 };
 
-simple_slips.calc_sum = function() {
+simple_slips.calc_sum = function(options) {
   var table = $('#slipTable');
   var rows = table.find('tr[slip_id]');
 
@@ -35,15 +35,17 @@ simple_slips.calc_sum = function() {
     $(before).css('color', 'red');
   }
 
-  table.find('tr[slip_id]').each(function() {
-    sum += toInt($(this).find('.amountIncrease').text());
-    sum -= toInt($(this).find('.amountDecrease').text());
-    $(this).find('.amountSum').text(toAmount(sum));
+  if (!options.only_color) {
+    table.find('tr[slip_id]').each(function() {
+      sum += toInt($(this).find('.amountIncrease').text());
+      sum -= toInt($(this).find('.amountDecrease').text());
+      $(this).find('.amountSum').text(toAmount(sum));
 
-    if (sum < 0) {
-      $(this).find('.amountSum').css('color', 'red');
-    }
-  });
+      if (sum < 0) {
+        $(this).find('.amountSum').css('color', 'red');
+      }
+    });
+  }
 
   var after = table.find('tfoot tr').first().find('.amountSum');
   var sum = toInt(after.text()); // 過去伝票をページングして参照しているかもしれないので画面の計算値に依存しない

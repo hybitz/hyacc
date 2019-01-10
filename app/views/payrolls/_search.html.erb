@@ -9,13 +9,17 @@
     }).change();
   });
 </script>
-<div id="search" style="margin: 15px;">
-  <%= form_with(scope: 'finder', url: {action: 'index'}, local: true, method: 'get') do |f| %>
-    年度：<%= f.select :fiscal_year, fiscal_years %>
 
-    部門：<%= f.collection_select :branch_id, @branches, :id, :name %>
-    <span id="branch_employees"></span>
+<%= form_with(scope: 'finder', url: {action: 'index'}, local: true, method: 'get', class: 'form') do |f| %>
+  <div id="search" class="form-inline">
+    <span class="m-2">
+      年度：<%= f.select :fiscal_year, fiscal_years, {}, class: 'form-control' %>
+    </span>
+    <span class="m-2">
+      部門：<%= f.collection_select :branch_id, @branches, :id, :name, {}, class: 'form-control' %>
+    </span>
+    <span id="branch_employees" class="m-2"></span>
 
-    <%= f.submit -'表示' %>
-  <% end %>
-</div>
+    <%= f.submit '表示', class: 'btn btn-light' %>
+  </div>
+<% end %>

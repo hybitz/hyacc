@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: rent_statement_logic.rb 2278 2010-09-29 12:22:20Z ichy $
-# Product: hyacc
-# Copyright 2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module Reports
   class IncomeLogic < BaseLogic
     

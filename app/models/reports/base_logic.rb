@@ -2,6 +2,8 @@ module Reports
   class BaseLogic
     include HyaccConstants
 
+    attr_reader :finder, :start_ym, :end_ym
+
     def initialize(finder)
       @finder = finder
       @start_ym = HyaccDateUtil.get_start_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)

@@ -84,16 +84,16 @@
   
       <% if finder.get_last_year_balance %>
         <tr id="ledger_row_last_year">
-          <td class="yearMonth"></td>
-          <td class="day"></td>
-          <td class="remarks">前期末残高</td>
-          <td class="accountName"></td>
-          <td class="branchName"></td>
-          <td class="amountDebit"></td>
-          <td class="amountCredit"></td>
-          <td class="amountMonthlySum"></td>
-          <td class="amountSum"><%= to_amount(finder.get_last_year_balance) %></td>
-          <td class="nowrap"></td>
+          <th class="yearMonth"></th>
+          <th class="day"></th>
+          <th class="remarks">前期末残高</th>
+          <th class="accountName"></th>
+          <th class="branchName"></th>
+          <th class="amountDebit"></th>
+          <th class="amountCredit"></th>
+          <th class="amountMonthlySum"></th>
+          <th class="amountSum text-right"><%= to_amount(finder.get_last_year_balance) %></th>
+          <th class="nowrap"></th>
         </tr>
       <% end %>
     </thead>

@@ -222,13 +222,6 @@ class JournalsController < Base::HyaccController
 
     # 部門選択用リスト
     @branches = Branch.not_deleted
-
-    # 新規コピーのリンクを表示するかどうか
-    @copy_link = false
-    if action_name == 'show'
-      @copy_link = true
-      @copy_link = params[:copy_link] == 'true' unless params[:copy_link].nil?
-    end
   end
 
 end

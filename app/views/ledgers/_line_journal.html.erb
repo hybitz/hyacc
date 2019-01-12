@@ -1,14 +1,12 @@
-<tr id="ledger_row_<%= ledger.ym %>_<%= ledger.id %>" class="ledgerRow">
+<tr id="ledger_row_<%= ledger.ym %>_<%= ledger.id %>" class="ledgerRow journal">
   <td class="yearMonth"><%= ledger.ym %></td>
   <td class="day"><%= ledger.day %></td>
-  <td class="remarks"><%= ledger.remarks %></td>
+  <td class="remarks"><%= link_to ledger.remarks, journal_path(ledger.id), class: 'show', remote: true %></td>
   <td class="accountName"><%= ledger.account_name %></td>
   <td class="branchName"><%= ledger.branch_name %></td>
   <td class="amountDebit"><%= to_amount( ledger.amount_debit ) %></td>
   <td class="amountCredit"><%= to_amount( ledger.amount_credit ) %></td>
   <td class="amountMonthlySum"></td>
   <td class="amountSum"></td>
-  <td class="nowrap center">
-    <%= link_to '参照', journal_path(ledger.id, :copy_link => 'false'), :remote => true %>
-  </td>
+  <td></td>
 </tr>

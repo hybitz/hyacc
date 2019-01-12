@@ -17,14 +17,14 @@ options.buttons.push(
 );
 <% end %>
 
-<% if @copy_link %>
+<% if can_copy(@journal) %>
   options.buttons.push(
     {
       text: 'コピーを追加',
       class: 'btn btn-light',
       click: function() {
         hyacc.current_dialog().close();
-        $.get('<%= url_for new_journal_path(:copy_id => @journal) %>');
+        $.get('<%= url_for new_journal_path(copy_id: @journal) %>');
       }
     }
   );

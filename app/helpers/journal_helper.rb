@@ -1,8 +1,7 @@
 module JournalHelper
   include HyaccConstants
 
-  # 編集可能か
-  def can_edit( jh )
+  def can_edit(jh)
     # 台帳登録は編集不可
     if jh.slip_type == SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       return false
@@ -12,9 +11,12 @@ module JournalHelper
     ! jh.auto?
   end
 
-  # 削除可能か
-  def can_delete( jh )
-    return can_edit( jh )
+  def can_delete(jh)
+    can_edit(jh)
+  end
+  
+  def can_copy(jh)
+    can_edit(jh)
   end
 
   def style_for_detail(jd)

@@ -18,9 +18,7 @@
         <td><%= jd.journal.remarks %></td>
         <td><%= jd.account_name %></td>
         <td class="amount"><%= to_amount(jd.journal.amount) %></td>
-        <td><%= link_to '参照',
-              journal_path(jd.journal.id, :copy_link => false),
-              :remote => true %></td>
+        <td><%= link_to '参照', journal_path(jd.journal.id), remote: true %></td>
         <td><%= link_to '関連付け', relate_investments_path(journal_id: jd.journal.id), remote: true %></td>
     </tr>
     <% end %>

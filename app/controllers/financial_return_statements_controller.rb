@@ -5,8 +5,6 @@ class FinancialReturnStatementsController < Base::HyaccController
 
   def index
     case finder.report_type.to_i
-    when REPORT_TYPE_INCOME
-      render_income
     when REPORT_TYPE_RENT
       render_rent
     when REPORT_TYPE_SOCIAL_EXPENSE
@@ -31,12 +29,6 @@ class FinancialReturnStatementsController < Base::HyaccController
   end
 
   private
-
-  def render_income
-    logic = Reports::IncomeLogic.new(finder)
-    @model = logic.get_income_model
-    render :income
-  end
 
   def render_rent
     logic = Reports::RentStatementLogic.new(finder)

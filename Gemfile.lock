@@ -148,7 +148,7 @@ GEM
       railties (>= 4, < 6)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
-    daddy (0.7.7)
+    daddy (0.7.8)
       highline
       holiday_jp
       i18n

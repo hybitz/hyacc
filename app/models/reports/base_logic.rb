@@ -9,6 +9,14 @@ module Reports
       @start_ym = HyaccDateUtil.get_start_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)
       @end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)
     end
+    
+    def start_ymd
+      "#{start_ym}01"
+    end
+    
+    def end_ymd
+      Date.new(end_ym.to_i / 100, end_ym.to_i % 100, 1).end_of_month.strftime("%Y%m%d")
+    end
 
     # 期首時点での累計金額を取得する
     def get_amount_at_start(account_id, sub_account_id = nil)

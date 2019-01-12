@@ -22,7 +22,20 @@ class FinancialReturnStatementsController < Base::HyaccController
     else
       logic = "Reports::#{finder.report_type.camelize}Logic".constantize.new(finder)
       @model = logic.build_model
-      render finder.report_type
+
+      template_dir = File.join(Rails.root, 'app', 'views', 'financial_return_statements', finder.report_type) 
+      if Dir.exist? template_dir
+        template = nil
+        Dir[File.join(template_dir, '*.html.erb')].sort.reverse.each do |t|
+          ymd = File.basename(t).split('.').first
+          next if ymd > logic.end_ymd
+          template = ymd
+          break
+        end
+        render "financial_return_statements/#{finder.report_type}/#{template}"
+      else
+        render finder.report_type
+      end
     end if finder.commit
   end
 

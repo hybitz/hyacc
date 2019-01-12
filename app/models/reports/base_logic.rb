@@ -11,14 +11,19 @@ module Reports
     end
 
     # 期首時点での累計金額を取得する
-    def get_amount_at_start(account_id)
-      last_year_end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year( @finder.fiscal_year - 1, @finder.start_month_of_fiscal_year )
-      VMonthlyLedger.get_net_sum_amount(nil, last_year_end_ym, account_id, 0, @finder.branch_id)
+    def get_amount_at_start(account_id, sub_account_id = nil)
+      last_year_end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(finder.fiscal_year - 1, finder.start_month_of_fiscal_year )
+      VMonthlyLedger.get_net_sum_amount(nil, last_year_end_ym, account_id, sub_account_id, finder.branch_id)
     end
     
+    # 期末時点での累計金額を取得する
+    def get_amount_at_end(account_id, sub_account_id = nil)
+      VMonthlyLedger.get_net_sum_amount(nil, end_ym, account_id, sub_account_id, finder.branch_id)
+    end
+
     # 当期に増減した金額を取得する
-    def get_this_term_amount(account_id)
-      VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, account_id, 0, @finder.branch_id)
+    def get_this_term_amount(account_id, sub_account_id = nil)
+      VMonthlyLedger.get_net_sum_amount(start_ym, end_ym, account_id, sub_account_id, finder.branch_id)
     end
 
     # 売上総利益を取得する

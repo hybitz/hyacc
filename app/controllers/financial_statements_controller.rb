@@ -6,19 +6,19 @@ class FinancialStatementsController < Base::HyaccController
 
   def index
     if finder.commit
-      if finder.report_type == REPORT_TYPE_BS
+      if finder.report_type.to_i == REPORT_TYPE_BS
         if finder.report_style == REPORT_STYLE_MONTHLY
           render_bs_monthly
         elsif finder.report_style == REPORT_STYLE_YEARLY
           render_bs_yearly
         end
-      elsif finder.report_type == REPORT_TYPE_PL
+      elsif finder.report_type.to_i == REPORT_TYPE_PL
         if finder.report_style == REPORT_STYLE_MONTHLY
           render_pl_monthly
         elsif finder.report_style == REPORT_STYLE_YEARLY
           render_pl_yearly
         end
-      elsif finder.report_type == REPORT_TYPE_CF
+      elsif finder.report_type.to_i == REPORT_TYPE_CF
         if finder.report_style == REPORT_STYLE_MONTHLY
           # TODO 月別のCF
         elsif finder.report_style == REPORT_STYLE_YEARLY

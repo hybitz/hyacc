@@ -4,7 +4,7 @@ class FinancialReturnStatementsController < Base::HyaccController
   view_attribute :report_types
 
   def index
-    case finder.report_type
+    case finder.report_type.to_i
     when REPORT_TYPE_INCOME
       render_income
     when REPORT_TYPE_RENT
@@ -23,6 +23,10 @@ class FinancialReturnStatementsController < Base::HyaccController
       render_dividend_received
     when REPORT_TYPE_INVESTMENT_SECURITIES
       render_investment_securities
+    else
+      logic = "Reports::#{finder.report_type.camelize}Logic".constantize.new(finder)
+      @model = logic.build_model
+      render finder.report_type
     end if finder.commit
   end
 

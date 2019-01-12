@@ -189,8 +189,8 @@ module HyaccConstants
     REPORT_TYPE_BS = 1 => '貸借対照表',
     REPORT_TYPE_PL = 2 => '損益計算書',
     REPORT_TYPE_CF = 3 => 'キャッシュフロー計算書',
-    REPORT_TYPE_TRADE_ACCOUNT_PAYABLE = 4 => '⑨　買掛金の内訳書',
-    REPORT_TYPE_RENT = 5 => '⑮　地代家賃等の内訳書',
+    REPORT_TYPE_TRADE_ACCOUNT_PAYABLE = 4 => '⑨買掛金の内訳書',
+    REPORT_TYPE_RENT = 5 => '⑮地代家賃等の内訳書',
     REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK = 6 => '別表5(1)　利益積立金額及び資本金等の計算に関する明細書',
     REPORT_TYPE_TAX_AND_DUES = 7 => '別表5(2)　租税公課の納付状況等に関する明細書',
     REPORT_TYPE_SOCIAL_EXPENSE = 8 => '別表15　交際費等の損金算入に関する明細書',
@@ -199,8 +199,9 @@ module HyaccConstants
     REPORT_TYPE_WITHHOLDING_SUMMARY = 20 => '給与所得の源泉徴収等の法定調書合計表',
     REPORT_TYPE_WITHHOLDING_DETAILS = 21 => '給与所得の源泉徴収票',
     REPORT_TYPE_WITHHOLDING_CALC = 22 => '給与所得・退職所得等の所得税徴収高計算書',
-    REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE = 23 => '③　売掛金（未収入金）の内訳書',
-    REPORT_TYPE_INVESTMENT_SECURITIES = 24 => '⑥　有価証券の内訳書',
+    REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE = 23 => '③売掛金（未収入金）の内訳書',
+    REPORT_TYPE_INVESTMENT_SECURITIES = 24 => '⑥有価証券の内訳書',
+    REPORT_TYPE_SUSPENSE_RECEIPT = 'suspense_receipt' => '⑩仮受金の内訳書、源泉所得税預り金の内訳',
   }
 
   # 帳票様式

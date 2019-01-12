@@ -1,0 +1,31 @@
+<div class="m-2">
+  <div><h4><strong>仮受金(前受金・預り金)の内訳書</strong></h4></div>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th rowspan="2" class="align-middle"><%= justify('科目') %></th>
+        <th colspan="3"><%= justify('相手先') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('期末現在高') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('取引の内容') %></th>
+      </tr>
+      <tr>
+        <th>名称（氏名）</th>
+        <th>所在地（住所）</th>
+        <th>法人・代表者との関係</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% 12.times do |i| %>
+        <% d = @model.details[i] || @model.new_detail %>
+        <tr>
+          <td><%= d.account_name %></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-right"><%= to_amount(d.amount_at_end) %></td>
+          <td><%= d.note %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

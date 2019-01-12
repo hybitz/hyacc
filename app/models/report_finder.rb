@@ -7,12 +7,11 @@ class ReportFinder < Base::Finder
   def setup_from_params( params )
     super(params)
     if params
-      @report_type = params[:report_type].to_i
+      @report_type = params[:report_type]
       @report_style = params[:report_style].to_i
     end
   end
 
-  
   def list_monthly
     sum = {}
     max_node_level = 0

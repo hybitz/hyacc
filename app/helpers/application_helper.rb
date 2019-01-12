@@ -60,7 +60,7 @@ module ApplicationHelper
   end
 
   def justify(text)
-    span_text = text.chars.map{|x| "<span>#{x}</span>" }.join
+    span_text = ([' '] + text.chars + [' ']).map{|x| "<span>#{x}</span>" }.join
     raw "<div class=\"justify\">#{span_text}</div>"
   end
 

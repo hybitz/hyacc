@@ -2,7 +2,16 @@
 <%= render 'search' %>
 
 <% if @accounts %>
-  <table class="table table-striped table-hover">
+  <script>
+    $(document).ready(function() {
+      $('.accounts tbody').delegate('tr', 'dblclick', function(e) {
+          if($(e.target).is(':not(a)')) {
+            $(this).find('a.show')[0].click();
+          }
+      });
+    });
+  </script>
+  <table class="accounts table table-striped table-hover">
     <thead>
       <tr>
         <th class="text-center">勘定科目コード</th>
@@ -27,7 +36,7 @@
       <% @accounts.each do |a| %>
       <tr style="<%= 'color: red;' if a.deleted %>">
         <td class="text-center"><%= a.code %></td>
-        <td><%= a.name %></td>
+        <td><%= link_to a.name, mm_account_path(a), class: 'show', remote: true %></td>
         <td class="text-center"><%= a.sub_account_type_name %></td>
         <td class="text-center"><%= image_tag 'check.png' if a.journalizable? %></td>
         <td class="text-center"><%= a.tax_type_name %></td>
@@ -42,7 +51,6 @@
         <% end %>
     
         <td>
-          <%= link_to '参照', {:action => 'show', :id => a}, :remote => true %>
           <%= link_to '編集', {:action => 'edit', :id => a}, :remote => true %>
           <%= link_to '子科目追加', {:action => 'new', :parent_id => a}, :remote => true %>
         </td>

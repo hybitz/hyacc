@@ -1,7 +1,7 @@
-<table width="900">
+<table width="900" class="border">
   <tr>
-    <td rowspan="2" colspan="3" align="center" width=""><b>別表8　受取配当等の益金不算入に関する明細書</b></td>
-    <td rowspan="2" colspan="2" align="center" width="">事業<br/>年度</td>
+    <td rowspan="2" colspan="3" align="center"><b>①　受取配当等の益金不算入に関する明細書</b></td>
+    <td rowspan="2" colspan="2" align="center">事業<br/>年度</td>
     <td width=""><%= format_wareki_year_month_day(@finder.start_year_month_day_of_fiscal_year) %></td>
     <td rowspan="2" align="center" width="">法人名</td>
     <td rowspan="2" colspan="2" width=""><%= current_company.name %></td>
@@ -10,7 +10,7 @@
     <td><%= format_wareki_year_month_day(@finder.end_year_month_day_of_fiscal_year) %></td>
   </tr>
 </table>
-<table width="900">
+<table width="900" class="border">
   <tr>
     <td colspan="5">当年度実績により負債利子等の額を計算する場合</td>
     <td colspan="5">基準年度実績により負債利子等の額を計算する場合</td>
@@ -18,7 +18,7 @@
   <tr>
       <td colspan="3">完全子法人株式等に係る受取配当等の額<br/>(38の計)</td>
       <td>1</td>
-      <td><%= number_to_currency(@models.fully_owned_stocks_amount, :format=>"%n") %></td>
+      <td><%= number_to_currency(@model.fully_owned_stocks_amount, :format=>"%n") %></td>
       <td colspan="3">完全子法人株式等に係る受取配当等の額<br/>(38の計)</td>
       <td>16</td>
       <td></td>
@@ -27,7 +27,7 @@
       <td rowspan="10">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
       <td colspan="2">受取配当等の額<br/>(41の計)</td>
       <td>2</td>
-      <td><%= number_to_currency(@models.partially_stocks_amount, :format=>"%n") %></td>
+      <td><%= number_to_currency(@model.partially_stocks_amount, :format=>"%n") %></td>
       <td rowspan="10">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
       <td colspan="2">受取配当等の額<br/>(41の計)</td>
       <td>17</td>
@@ -111,7 +111,7 @@
       <td rowspan="4">そ<br/>の<br/>他<br/>株<br/>式<br/>等</td>
       <td colspan="2">受取配当等の額<br/>(45の計)</td>
       <td>12</td>
-      <td><%= number_to_currency(@models.etc_stocks_amount, :format=>"%n") %></td>
+      <td><%= number_to_currency(@model.etc_stocks_amount, :format=>"%n") %></td>
       <td rowspan="4">そ<br/>の<br/>他<br/>株<br/>式<br/>等</td>
       <td colspan="2">受取配当等の額<br/>(45の計)</td>
       <td>27</td>
@@ -284,7 +284,7 @@
       <td>44</td>
       <td>45</td>
   </tr>
-  <% @models.etc_stocks.each do |jd| %>
+  <% @model.etc_stocks.each do |jd| %>
   <tr>
       <td><%= jd.note || "不明" %></td>
       <td colspan="3"></td>

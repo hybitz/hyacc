@@ -17,8 +17,6 @@ class FinancialReturnStatementsController < Base::HyaccController
       render_trade_account_payable
     when REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE
       render_trade_account_receivable
-    when REPORT_TYPE_DIVIDEND_RECEIVED
-      render_dividend_received
     when REPORT_TYPE_INVESTMENT_SECURITIES
       render_investment_securities
     else
@@ -79,13 +77,6 @@ class FinancialReturnStatementsController < Base::HyaccController
     logic = Reports::TradeAccountReceivableLogic.new
     @report = logic.get_trade_account_receivable_model(finder)
     render :trade_account_receivable
-  end
-
-  # 受取配当
-  def render_dividend_received
-    logic = Reports::DividendReceivedLogic.new
-    @models = logic.get_dividend_received_model(finder)
-    render :dividend_received
   end
 
   # 有価証券

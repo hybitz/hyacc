@@ -1,17 +1,15 @@
 module Reports
-  class DividendReceivedLogic
+  class DividendReceivedLogic < BaseLogic
 
-    def get_dividend_received_model(finder)
-      model = DividendReceivedModel.new
-      ym_start = HyaccDateUtil.get_start_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year)
-      ym_end = HyaccDateUtil.get_end_year_month_of_fiscal_year( finder.fiscal_year, finder.start_month_of_fiscal_year)
-      model.fully_owned_stocks = get_fully_owned_stocks(ym_start, ym_end)
-      model.fully_owned_stocks_amount = model.fully_owned_stocks.inject(0){|sum, d| sum + d.amount}
-      model.partially_stocks = get_partially_owned_stocks(ym_start, ym_end)
-      model.partially_stocks_amount = model.partially_stocks.inject(0){|sum, d| sum + d.amount}
-      model.etc_stocks = get_etc_stocks(ym_start, ym_end)
-      model.etc_stocks_amount = model.etc_stocks.inject(0){|sum, d| sum + d.amount}
-      model
+    def build_model
+      ret = DividendReceivedModel.new
+      ret.fully_owned_stocks = get_fully_owned_stocks(start_ym, end_ym)
+      ret.fully_owned_stocks_amount = ret.fully_owned_stocks.inject(0){|sum, d| sum + d.amount}
+      ret.partially_stocks = get_partially_owned_stocks(start_ym, end_ym)
+      ret.partially_stocks_amount = ret.partially_stocks.inject(0){|sum, d| sum + d.amount}
+      ret.etc_stocks = get_etc_stocks(start_ym, end_ym)
+      ret.etc_stocks_amount = ret.etc_stocks.inject(0){|sum, d| sum + d.amount}
+      ret
     end
     
     def get_fully_owned_stocks(ym_start, ym_end)
@@ -29,5 +27,14 @@ module Reports
     def get_stocks(ym_start, ym_end, sub_account_id)
       stocks = JournalDetail.where(account_id: Account.where(code: ACCOUNT_CODE_DIVIDEND_RECEIVED), sub_account_id: sub_account_id).joins(:journal).where("journals.ym >= ? and journals.ym <= ?", ym_start, ym_end)      
     end
+  end
+
+  class DividendReceivedModel
+    attr_accessor :fully_owned_stocks
+    attr_accessor :partially_stocks
+    attr_accessor :etc_stocks
+    attr_accessor :fully_owned_stocks_amount
+    attr_accessor :partially_stocks_amount
+    attr_accessor :etc_stocks_amount
   end
 end

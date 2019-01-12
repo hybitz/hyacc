@@ -2,21 +2,22 @@
 <%= render 'search' %>
 
 <% if @accounts %>
-  <table>
+  <table class="table table-striped table-hover">
     <thead>
       <tr>
-        <th>勘定科目コード</th>
+        <th class="text-center">勘定科目コード</th>
         <th>勘定科目名</th>
-        <th>補助科目区分</th>
-        <th>仕訳登録可能</th>
-        <th>税区分</th>
+        <th class="text-center">補助科目区分</th>
+        <th class="text-center">仕訳登録可能</th>
+        <th class="text-center">税区分</th>
 
         <% if finder.account_type_debt? %>
-          <th>買掛金科目</th>
+          <th class="text-center">買掛金科目</th>
+          <th class="text-center">仮受金科目</th>
         <% end %>
     
         <% if finder.account_type_capital? %>
-          <th>利益積立金科目</th>
+          <th class="text-center">利益積立金科目</th>
         <% end %>
     
         <th></th>
@@ -24,19 +25,20 @@
     </thead>
     <tbody>
       <% @accounts.each do |a| %>
-      <tr class="hover" style="<%= 'color: red;' if a.deleted %>">
-        <td align="center"><%= a.code %></td>
+      <tr style="<%= 'color: red;' if a.deleted %>">
+        <td class="text-center"><%= a.code %></td>
         <td><%= a.name %></td>
-        <td align="center"><%= a.sub_account_type_name %></td>
-        <td align="center"><%= a.journalizable ? 'はい' : 'いいえ' %></td>
-        <td align="center"><%= a.tax_type_name %></td>
+        <td class="text-center"><%= a.sub_account_type_name %></td>
+        <td class="text-center"><%= image_tag 'check.png' if a.journalizable? %></td>
+        <td class="text-center"><%= a.tax_type_name %></td>
 
         <% if finder.account_type_debt? %>
-          <td align="center"><%= a.is_trade_account_payable ? 'はい' : 'いいえ' %></td>
+          <td class="text-center"><%= image_tag 'check.png' if a.is_trade_account_payable? %></td>
+          <td class="text-center"><%= image_tag 'check.png' if a.is_suspense_receipt_account? %></td>
         <% end %>
     
         <% if @finder.account_type_capital? %>
-          <td align="center"><%= a.is_revenue_reserve_account ? 'はい' : 'いいえ' %></td>
+          <td class="text-center"><%= image_tag 'check.png' if a.is_revenue_reserve_account? %></td>
         <% end %>
     
         <td>

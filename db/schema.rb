@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_07_082556) do
+ActiveRecord::Schema.define(version: 2019_01_12_055822) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_01_07_082556) do
     t.integer "parent_id"
     t.boolean "system_required", default: false, null: false
     t.boolean "sub_account_editable", default: false, null: false
+    t.boolean "is_suspense_receipt_account", default: false, null: false
     t.index ["code"], name: "index_accounts_on_code", unique: true
     t.index ["name"], name: "index_accounts_on_name", unique: true
   end

@@ -1,6 +1,6 @@
-<table class="table">
+<table class="table table-bordered my-0">
   <tr>
-    <td rowspan="2" colspan="3" class="align-middle text-center"><h4><strong>①　受取配当等の益金不算入に関する明細書</strong></h4></td>
+    <td rowspan="2" colspan="3" class="align-middle text-center" style="width: 45%;"><h4><strong>①　受取配当等の益金不算入に関する明細書</strong></h4></td>
     <td rowspan="2" colspan="2" class="align-middle text-center">事業<br/>年度</td>
     <td class="align-middle text-center"><strong><%= format_wareki_year_month_day(@finder.start_year_month_day_of_fiscal_year) %></strong></td>
     <td rowspan="2" class="align-middle text-center">法人名</td>
@@ -10,301 +10,300 @@
     <td class="align-middle text-center"><strong><%= format_wareki_year_month_day(@finder.end_year_month_day_of_fiscal_year) %></strong></td>
   </tr>
 </table>
-<table class="table">
+<table class="table table-bordered my-0">
   <tr>
-    <td colspan="5">当年度実績により負債利子等の額を計算する場合</td>
-    <td colspan="5">基準年度実績により負債利子等の額を計算する場合</td>
+    <td colspan="5" class="text-center" style="width: 50%;"><strong>当年度実績により負債利子等の額を計算する場合</strong></td>
+    <td colspan="5" class="text-center" style="width: 50%;"><strong>基準年度実績により負債利子等の額を計算する場合</strong></td>
   </tr>
   <tr>
-      <td colspan="3">完全子法人株式等に係る受取配当等の額<br/>(38の計)</td>
-      <td>1</td>
-      <td><%= number_to_currency(@model.fully_owned_stocks_amount, :format=>"%n") %></td>
-      <td colspan="3">完全子法人株式等に係る受取配当等の額<br/>(38の計)</td>
+      <td colspan="3" class="text-center"><%= justify('完全子法人株式等に係る受取配当等の額') %>(31の計)</td>
+      <td class="text-center" style="width: 1em;">1</td>
+      <td style="width: 10%;"><%= to_amount(@model.fully_owned_stocks_amount) %></td>
+      <td colspan="3" class="text-center"><%= justify('完全子法人株式等に係る受取配当等の額') %>(31の計)</td>
+      <td class="text-center" style="width: 1em;">14</td>
+      <td style="width: 10%;"></td>
+  </tr>
+  <tr>
+      <td rowspan="9" style="width: 1em;">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
+      <td colspan="2" class="text-center"><%= justify('受取配当等の額') %>(34の計)</td>
+      <td class="text-center">2</td>
+      <td><%= to_amount(@model.partially_stocks_amount) %></td>
+      <td rowspan="9" style="width: 1em;">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
+      <td colspan="2" class="text-center"><%= justify('受取配当等の額') %>(34の計)</td>
+      <td>15</td>
+      <td></td>
+  </tr>
+  <tr>
+      <td rowspan="8" style="width: 1em;">負<br/>債<br/>利<br/>子<br/>等<br/>の<br/>額<br/>の<br/>計<br/>算</td>
+      <td width="240">当期に支払う負債利子等の額</td>
+      <td class="text-center">3</td>
+      <td></td>
+      <td rowspan="8" style="width: 1em;">負<br/>債<br/>利<br/>子<br/>等<br/>の<br/>額<br/>の<br/>計<br/>算</td>
+      <td width="240">当期に支払う負債利子等の額</td>
       <td>16</td>
       <td></td>
   </tr>
   <tr>
-      <td rowspan="10">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
-      <td colspan="2">受取配当等の額<br/>(41の計)</td>
-      <td>2</td>
-      <td><%= number_to_currency(@model.partially_stocks_amount, :format=>"%n") %></td>
-      <td rowspan="10">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
-      <td colspan="2">受取配当等の額<br/>(41の計)</td>
+      <td>連結法人に支払う負債利子等の額</td>
+      <td class="text-center">4</td>
+      <td></td>
+      <td style="font-size: 50%;">国外支配株主等に係る負債の利子等の損金不算入額又は関連者等に係る支払利子等の損金不算入額(別表十七(一)「35」と別表十七(二の二)「25」のうち多い金額又は別表十七(二の二)「30」と別表十七の三(二)「17」のうち多い金額)</td>
       <td>17</td>
       <td></td>
   </tr>
   <tr>
-      <td rowspan="9">負<br/>債<br/>利<br/>子<br/>等<br/>の<br/>額<br/>の<br/>計<br/>算</td>
-      <td width="240">当期に支払う負債利子等の額</td>
-      <td>3</td>
+      <td style="font-size: 50%;">国外支配株主等に係る負債の利子等の損金不算入額又は関連者等に係る支払利子等の損金不算入額(別表十七(一)「35」と別表十七(二の二)「25」のうち多い金額又は別表十七(二の二)「30」と別表十七の三(二)「17」のうち多い金額)</td>
+      <td class="text-center">5</td>
       <td></td>
-      <td rowspan="9">負<br/>債<br/>利<br/>子<br/>等<br/>の<br/>額<br/>の<br/>計<br/>算</td>
-      <td width="240">当期に支払う負債利子等の額</td>
+      <td class="text-center"><%= justify('超過利子額の損金算入額') %>(別表十七(二の三)「10」)</td>
       <td>18</td>
       <td></td>
   </tr>
   <tr>
-      <td>連結法人に支払う負債利子等の額</td>
-      <td>4</td>
+      <td class="text-center"><%= justify('超過利子額の損金算入額') %>(別表十七(二の三)「10」)</td>
+      <td class="text-center">6</td>
       <td></td>
-      <td>特別利子の額</td>
+      <td class="text-center">計<br>(16)－(17)＋(18)</td>
       <td>19</td>
       <td></td>
   </tr>
   <tr>
-      <td>特別利子の額</td>
-      <td>5</td>
+      <td class="text-center">計<br>(3)－(4)－(5)＋(6)</td>
+      <td class="text-center">7</td>
       <td></td>
-      <td style="font-size: 50%;">国外支配株主等に係る負債の利子等の損金不算入額又は関連者等に係る支払利子等の損金不算入額(別表十七(一)「35」と別表十七(二の二)「25」のうち多い金額)</td>
-      <td>19</td>
-      <td></td>
-  </tr>
-  <tr>
-      <td style="font-size: 50%;">国外支配株主等に係る負債の利子等の損金不算入額又は関連者等に係る支払利子等の損金不算入額(別表十七(一)「35」と別表十七(二の二)「25」のうち多い金額)</td>
-      <td>6</td>
-      <td></td>
-      <td>超過利子額の損金算入額<br/>(別表十七(二の三)「10」)</td>
+      <td style="font-size: 50%;">平成27年４月１日から平成29年３月31日までの間に開始した各事業年度の負債利子等の額の合計額</td>
       <td>20</td>
       <td></td>
   </tr>
   <tr>
-      <td>超過利子額の損金算入額<br/>(別表十七(二の三)「10」)</td>
-      <td>7</td>
+      <td class="text-center"><%= justify('総資産価額') %>(29の計)</td>
+      <td class="text-center">8</td>
       <td></td>
-      <td>計<br/>(18)－(19)－(20)＋(21)</td>
+      <td style="font-size: 50%;">同上の各事業年度の関連法人株式等に係る負債利子等の額の合計額</td>
       <td>21</td>
       <td></td>
   </tr>
   <tr>
-      <td>計<br/>(3)－(4)－(5)－(6)＋(7)</td>
-      <td>8</td>
-      <td></td>
-      <td style="font-size: 50%;">平成22年４月１日から平成24年３月31日までの間に開始した各事業年度の負債利子等の額の合計額</td>
-      <td>23</td>
-      <td></td>
+    <td class="text-center"><%= justify('期末関連法人株式等の帳簿価額') %>(30の計)</td>
+    <td class="text-center">9</td>
+    <td></td>
+    <td class="text-center"><%= justify('負債利子控除割合') %>(21)／(22)<div class="small">(小数点以下３位未満切捨て)</div></td>
+    <td>22</td>
+    <td></td>
   </tr>
   <tr>
-      <td>総資産価額<br/>(34の計)</td>
-      <td>9</td>
-      <td></td>
-      <td style="font-size: 50%;">同上の各事業年度の関係法人株式等に係る負債利子等の額の合計額</td>
-      <td>24</td>
-      <td></td>
+    <td class="text-center"><span class="small">受取配当等の額から控除する負債利子等の額</span><br/>(7) x (9)／(8)</td>
+    <td class="text-center">10</td>
+    <td></td>
+    <td class="text-center"><div class="small"><%= justify('受取配当等の額から控除する負債利子等の額') %>(19) x (22)</td>
+    <td>23</td>
+    <td></td>
   </tr>
   <tr>
-      <td>期末関係法人株式等の帳簿価額<br/>(35の計)</td>
-      <td>10</td>
-      <td></td>
-      <td style="font-size: 50%;">負債利子控除割合<br/>(24)／(23) (小数点以下３位未満切捨て)</td>
-      <td>25</td>
-      <td></td>
+    <td colspan="3" class="text-center"><%= justify('その他株式等に係る受取配当等の額') %>(37の計)</td>
+    <td class="text-center">11</td>
+    <td></td>
+    <td colspan="3" class="text-center"><%= justify('その他株式等に係る受取配当等の額') %>(37の計)</td>
+    <td>24</td>
+    <td></td>
   </tr>
   <tr>
-      <td>受取配当等の額から控除する負債利子等の額<br/>(8) x (10)／(9)</td>
-      <td>11</td>
-      <td></td>
-      <td>受取配当等の額から控除する負債利子等の額<br/>(22) x (25)</td>
-      <td>26</td>
-      <td></td>
+    <td colspan="3" class="text-center"><%= justify('非支配目的株式等に係る受取配当等の額') %>(43の計)</td>
+    <td class="text-center">12</td>
+    <td class="align-middle text-right"><%= to_amount(@model.etc_stocks_amount) %></td>
+    <td colspan="3" class="text-center"><%= justify('非支配目的株式等に係る受取配当等の額') %>(43の計)</td>
+    <td>25</td>
+    <td></td>
   </tr>
   <tr>
-      <td rowspan="4">そ<br/>の<br/>他<br/>株<br/>式<br/>等</td>
-      <td colspan="2">受取配当等の額<br/>(45の計)</td>
-      <td>12</td>
-      <td><%= number_to_currency(@model.etc_stocks_amount, :format=>"%n") %></td>
-      <td rowspan="4">そ<br/>の<br/>他<br/>株<br/>式<br/>等</td>
-      <td colspan="2">受取配当等の額<br/>(45の計)</td>
-      <td>27</td>
-      <td></td>
-  </tr>
-  <tr>
-      <td rowspan="3">負<br/>債<br/>利<br/>子<br/>等<br/>の<br/>額<br/>の<br/>計<br/>算</td>
-      <td>期末その他株式等の帳簿価額<br/>(36の計)＋(37の計)</td>
-      <td>13</td>
-      <td></td>
-      <td rowspan="3">負<br/>債<br/>利<br/>子<br/>等<br/>の<br/>額<br/>の<br/>計<br/>算</td>
-      <td>(23)の各事業年度のその他株式等に係る負債利子等<br/>の額の合計額</td>
-      <td>28</td>
-      <td></td>
-  </tr>
-  <tr>
-      <td rowspan="2">受取配当等の額から控除する負債利子等の額<br/>(8) x (13)／(9)</td>
-      <td rowspan="2">14</td>
-      <td rowspan="2"></td>
-      <td>負債利子控除割合<br/>(28)／(23) (小数点以下３位未満切捨て)</td>
-      <td>29</td>
-      <td></td>
-  </tr>
-  <tr>
-      <td>受取配当等の額から控除する負債利子等の額<br/>(22) x (29)</td>
-      <td>30</td>
-      <td></td>
-  </tr>
-  <tr>
-      <td colspan="3">受取配当等の益金不算入額<br/>(1)＋((2)－(11))＋((12)－(14))×50％</td>
-      <td>15</td>
-      <td></td>
-      <td colspan="3">受取配当等の益金不算入額<br/>(16)＋((17)－(26))＋((27)－(30))×50％</td>
-      <td>31</td>
-      <td></td>
+    <td colspan="3" class="text-center"><%= justify('受取配当等の益金不算入額') %>(1)＋((2)－(10))＋(11)×50％＋(12)×<br>(●20%又は○40%)</td>
+    <td class="text-center">13</td>
+    <td></td>
+    <td colspan="3" class="text-center"><%= justify('受取配当等の益金不算入額') %>(14)＋((15)－(23))＋(24)×50％＋(25)×<br>(●20%又は○40%)</td>
+    <td class="text-center">26</td>
+    <td></td>
   </tr>
 </table>
-<table class="table">
+<table class="table table-bordered my-0">
   <tr>
-    <td colspan="7">当年度実績による場合の総資産価額等の計算</td>
+    <td colspan="5" class="text-center"><strong>当年度実績による場合の総資産価額等の計算</strong></td>
   </tr>
   <tr>
-      <td rowspan="3">区分</td>
-      <td rowspan="2">総資産の帳簿価額</td>
-      <td rowspan="2">連結法人に支払う<br/>負債利子等の元本<br/>の負債の額等</td>
-      <td rowspan="2">総資産価額<br/>(32)－(33)</td>
-      <td rowspan="2">期末関係法人株式等の<br/>帳簿価額</td>
-      <td colspan="2">期末その他株式等の帳簿価額</td>
+    <td rowspan="2" class="align-middle"><%= justify('区　分') %></td>
+    <td class="align-middle" style="width: 21%;">総資産の帳簿価額</td>
+    <td class="align-middle" style="width: 21%;">連結法人に支払う負債利子等の元本の負債の額等</td>
+    <td class="text-center" style="width: 21%;"><%= justify('総資産価額') %>(27)－(28)</td>
+    <td class="align-middle" style="width: 21%;">期末関連法人株式等の帳簿価額</td>
   </tr>
   <tr>
-      <td>株式及び出資等</td>
-      <td>受益権の帳簿価額<br/> x 50又は25／100</td>
+    <td class="text-center">27</td>
+    <td class="text-center">28</td>
+    <td class="text-center">29</td>
+    <td class="text-center">30</td>
   </tr>
   <tr>
-      <td>32</td>
-      <td>33</td>
-      <td>34</td>
-      <td>35</td>
-      <td>36</td>
-      <td>37</td>
+    <td>前期末現在額</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
-      <td>前期末現在額</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <td>当期末現在額</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
-      <td>当期末現在額</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-  </tr>
-  <tr>
-      <td>計</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <td>計</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
 </table>
-<table class="table">
+<table class="table table-bordered my-0">
   <tr>
-    <td colspan="8">受取配当等の額の明細</td>
+    <td colspan="5" class="text-center"><strong>受取配当等の額の明細</strong></td>
   </tr>
   <tr>
-      <td rowspan="5">完<br/>全<br/>子<br/>法<br/>人<br/>株<br/>式<br/>等</td>
-      <td rowspan="2">法人名</td>
-      <td rowspan="2" colspan="3">本店の所在地</td>
-      <td rowspan="2">受取配当等の額の計算期間</td>
-      <td colspan="2">受取配当等の額</td>
+    <td rowspan="5" style="width: 1em;">完<br/>全<br/>子<br/>法<br/>人<br/>株<br/>式<br/>等</td>
+    <td rowspan="2" style="width: 22%;">法人名</td>
+    <td rowspan="2" style="width: 22%;">本店の所在地</td>
+    <td rowspan="2" style="width: 22%;">受取配当等の額の計算期間</td>
+    <td>受取配当等の額</td>
   </tr>
   <tr>
-      <td colspan="2">38</td>
+    <td class="text-center">31</td>
   </tr>
   <tr>
-      <td></td>
-      <td colspan="3"></td>
-      <td>平成・・<br/>平成・・</td>
-      <td colspan="2"></td>
+    <td></td>
+    <td></td>
+    <td>平成・・<br>平成・・</td>
+    <td></td>
   </tr>
   <tr>
-      <td></td>
-      <td colspan="3"></td>
-      <td>平成・・<br/>平成・・</td>
-      <td colspan="2"></td>
+    <td></td>
+    <td></td>
+    <td>平成・・<br>平成・・</td>
+    <td></td>
   </tr>
   <tr>
-      <td colspan="5">合計</td>
-      <td colspan="2"></td>
+    <td colspan="3" class="text-center">計</td>
+    <td></td>
+  </tr>
+</table>
+<table class="table table-bordered my-0">
+  <tr>
+    <td rowspan="5" style="width: 1em;">関<br/>連<br/>法<br/>人<br/>株<br/>式<br/>等</td>
+    <td rowspan="2">法人名</td>
+    <td rowspan="2">本店の所在地</td>
+    <td rowspan="2">受取配当等の額の計算期間</td>
+    <td rowspan="2">保有割合</td>
+    <td>受取配当等の額</td>
+    <td>左のうち益金の額に算入される金額</td>
+    <td class="text-center"><%= justify('益金不算入の対象となる金額') %>(32) - (33)</td>
   </tr>
   <tr>
-      <td rowspan="5">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
-      <td rowspan="2">法人名</td>
-      <td rowspan="2">本店の所在地</td>
-      <td rowspan="2">効力発生<br/>日までの<br/>保有期間</td>
-      <td rowspan="2">保有割合</td>
-      <td>受取配当等の額</td>
-      <td>左のうち益金の額に<br/>算入される金額</td>
-      <td>益金不算入の対象となる金額<br/>(39) - (40)</td>
+    <td class="text-center" style="width: 15%;">32</td>
+    <td class="text-center" style="width: 15%;">33</td>
+    <td class="text-center" style="width: 15%;">34</td>
   </tr>
   <tr>
-      <td>39</td>
-      <td>40</td>
-      <td>41</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <td colspan="4" class="text-center">計</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+<table class="table table-bordered my-0">
+  <tr>
+    <td rowspan="5" style="width: 1em;">そ<br/>の<br/>他<br/>株<br/>式<br/>等</td>
+    <td rowspan="2">法人名又は銘柄</td>
+    <td rowspan="2">本店の所在地</td>
+    <td>受取配当等の額</td>
+    <td>左のうち益金の額に算入される金額</td>
+    <td class="text-center"><%= justify('益金不算入の対象となる金額') %>(35) - (36)</td>
   </tr>
   <tr>
-      <td colspan="4">計</td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <td class="text-center" style="width: 15%;">35</td>
+    <td class="text-center" style="width: 15%;">36</td>
+    <td class="text-center" style="width: 15%;">37</td>
   </tr>
   <tr>
-      <td rowspan="5">そ<br/>の<br/>他<br/>株<br/>式<br/>等</td>
-      <td rowspan="2">法人名又は銘柄</td>
-      <td colspan="3">本店の所在地</td>
-      <td>受取配当等の額</td>
-      <td>左のうち益金の額に<br/>算入される金額</td>
-      <td>益金不算入の対象となる金額<br/>算入される金額</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
   <tr>
-      <td colspan="3">42</td>
-      <td>43</td>
-      <td>44</td>
-      <td>45</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="2" class="text-center">計</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+<table class="table table-bordered my-0">
+  <tr>
+    <td rowspan="<%= 3 + @model.etc_stocks.size %>" style="width: 1em;">非<br>支<br>配<br>目<br>的<br>株<br>式<br>等</td>
+    <td rowspan="2">法人名又は銘柄</td>
+    <td>本店の所在地</td>
+    <td>基準日</td>
+    <td>保有割合</td>
+    <td>受取配当等の額</td>
+    <td>左のうち益金の額に算入される金額</td>
+    <td class="text-center"><%= justify('益金不算入の対象となる金額') %>(41) - (42)</td>
+  </tr>
+  <tr>
+    <td class="text-center">38</td>
+    <td class="text-center">39</td>
+    <td class="text-center">40</td>
+    <td class="text-center" style="width: 15%;">41</td>
+    <td class="text-center" style="width: 15%;">42</td>
+    <td class="text-center" style="width: 15%;">43</td>
   </tr>
   <% @model.etc_stocks.each do |jd| %>
-  <tr>
-      <td><%= jd.note || "不明" %></td>
-      <td colspan="3"></td>
-      <td><%= number_to_currency(jd.amount, :format=>"%n") %></td>
+    <tr>
+      <td><%= jd.note %></td>
       <td></td>
       <td></td>
-  </tr>
+      <td></td>
+      <td class="text-right"><%= to_amount(jd.amount) %></td>
+      <td class="text-right"></td>
+      <td class="text-right"><%= to_amount(jd.amount) %></td>
+    </tr>
   <% end %>
   <tr>
-      <td></td>
-      <td colspan="3"></td>
-      <td></td>
-      <td></td>
-      <td></td>
-  </tr>
-  <tr>
-      <td colspan="5">合計</td>
-      <td colspan="2"></td>
+    <td colspan="4" class="text-center">計</td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tr>
 </table>
-
-
-

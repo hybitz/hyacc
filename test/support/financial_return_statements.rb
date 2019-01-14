@@ -12,8 +12,8 @@ module FinancialReturnStatements
   def income_finder(current_user = nil)
     current_user ||= user
     {
-      :fiscal_year => current_user.employee.company.current_fiscal_year_int,
-      :report_type => REPORT_TYPE_INCOME
+      fiscal_year: current_user.employee.company.current_fiscal_year_int,
+      report_type: REPORT_TYPE_INCOME
     }
   end
   

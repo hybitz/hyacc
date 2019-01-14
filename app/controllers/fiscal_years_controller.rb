@@ -71,7 +71,7 @@ class FiscalYearsController < Base::HyaccController
 
   def fiscal_year_params
     params.require(:fiscal_year).permit(
-        :company_id, :fiscal_year, :closing_status,
+        :fiscal_year, :closing_status,
         :tax_management_type, :consumption_entry_type,
         :accepted_amount_of_excess_depreciation, :approved_loss_amount_of_business_tax)
   end

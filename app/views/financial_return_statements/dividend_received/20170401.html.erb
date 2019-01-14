@@ -272,7 +272,7 @@
 </table>
 <table class="table table-bordered my-0">
   <tr>
-    <td rowspan="<%= 3 + @model.etc_stocks.size %>" style="width: 1em;">非<br>支<br>配<br>目<br>的<br>株<br>式<br>等</td>
+    <td rowspan="<%= 3 + @model.non_dominant_stocks.size %>" style="width: 1em;">非<br>支<br>配<br>目<br>的<br>株<br>式<br>等</td>
     <td rowspan="2">法人名又は銘柄</td>
     <td>本店の所在地</td>
     <td>基準日</td>
@@ -289,21 +289,21 @@
     <td class="text-center" style="width: 15%;">42</td>
     <td class="text-center" style="width: 15%;">43</td>
   </tr>
-  <% @model.etc_stocks.each do |jd| %>
+  <% @model.non_dominant_stocks.each do |jd| %>
     <tr>
       <td><%= jd.note %></td>
       <td></td>
       <td></td>
       <td></td>
       <td class="text-right"><%= to_amount(jd.amount) %></td>
-      <td class="text-right"></td>
-      <td class="text-right"><%= to_amount(jd.amount) %></td>
+      <td class="text-right"><%= to_amount(jd.profit_amount) %></td>
+      <td class="text-right"><%= to_amount(jd.total_amount) %></td>
     </tr>
   <% end %>
   <tr>
     <td colspan="4" class="text-center">計</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td class="text-right"><%= to_amount(@model.non_dominant_amount) %></td>
+    <td class="text-right"><%= to_amount(@model.non_dominant_profit_amount) %></td>
+    <td class="text-right"><%= to_amount(@model.non_dominant_total_amount) %></td>
   </tr>
 </table>

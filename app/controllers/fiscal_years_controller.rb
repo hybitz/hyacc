@@ -5,12 +5,12 @@ class FiscalYearsController < Base::HyaccController
   end
 
   def new
-    @fiscal_year = current_company.new_fiscal_year
+    @fiscal_year = current_company.build_fiscal_year
   end
 
   def create
     begin
-      @fiscal_year = FiscalYear.new(fiscal_year_params)
+      @fiscal_year = current_company.fiscal_years.build(fiscal_year_params)
       @fiscal_year.transaction do
         @fiscal_year.save!
       end
@@ -25,11 +25,11 @@ class FiscalYearsController < Base::HyaccController
   end
 
   def edit
-    @fiscal_year = FiscalYear.find(params[:id])
+    @fiscal_year = current_company.fiscal_years.find(params[:id])
   end
 
   def update
-    @fiscal_year = FiscalYear.find(params[:id])
+    @fiscal_year = current_company.fiscal_years.find(params[:id])
     cjm = ClosingJobManager.new(@fiscal_year)
 
     begin
@@ -72,7 +72,8 @@ class FiscalYearsController < Base::HyaccController
   def fiscal_year_params
     params.require(:fiscal_year).permit(
         :company_id, :fiscal_year, :closing_status,
-        :tax_management_type, :consumption_entry_type)
+        :tax_management_type, :consumption_entry_type,
+        :accepted_amount_of_excess_depreciation)
   end
 
   def update_current_fiscal_year_params

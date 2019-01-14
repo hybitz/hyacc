@@ -5,7 +5,7 @@ class FiscalYearsController < Base::HyaccController
   end
 
   def new
-    @fiscal_year = current_company.build_fiscal_year
+    @fiscal_year = current_company.fiscal_years.build
   end
 
   def create

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_14_102803) do
+ActiveRecord::Schema.define(version: 2019_01_14_112518) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -358,6 +358,7 @@ ActiveRecord::Schema.define(version: 2019_01_14_102803) do
     t.integer "lock_version", default: 0, null: false
     t.integer "consumption_entry_type", limit: 1
     t.integer "accepted_amount_of_excess_depreciation", default: 0, null: false
+    t.integer "approved_loss_amount_of_business_tax", default: 0, null: false
     t.index ["company_id", "fiscal_year"], name: "index_fiscal_yeras_on_company_id_and_fiscal_year", unique: true
   end
 

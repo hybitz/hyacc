@@ -5,7 +5,7 @@ class FiscalYearsController < Base::HyaccController
   end
 
   def new
-    @fiscal_year = current_company.fiscal_years.build
+    @fiscal_year = current_company.new_fiscal_year
   end
 
   def create
@@ -73,7 +73,7 @@ class FiscalYearsController < Base::HyaccController
     params.require(:fiscal_year).permit(
         :company_id, :fiscal_year, :closing_status,
         :tax_management_type, :consumption_entry_type,
-        :accepted_amount_of_excess_depreciation)
+        :accepted_amount_of_excess_depreciation, :approved_loss_amount_of_business_tax)
   end
 
   def update_current_fiscal_year_params

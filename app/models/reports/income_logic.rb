@@ -81,19 +81,64 @@ module Reports
       pretax_profit_outflow_amount + increase_outflow_amount - decrease_outflow_amount
     end
 
+    # 合計
+    def total_amount
+      provisional_amount
+    end
+    
+    # 合計（留保）
+    def total_retained_amount
+      provisional_retained_amount
+    end
+
+    # 合計（社外流出）
+    def total_outflow_amount
+      provisional_outflow_amount
+    end
+
+    # 総計
+    def grand_total_amount
+      total_amount
+    end
+    
+    # 総計（留保）
+    def grand_total_retained_amount
+      total_retained_amount
+    end
+
+    # 総計（社外流出）
+    def grand_total_outflow_amount
+      total_outflow_amount
+    end
+
+    # 差引計
+    def balance_amount
+      grand_total_amount
+    end
+    
+    # 差引計（留保）
+    def balance_retained_amount
+      grand_total_retained_amount
+    end
+
+    # 差引計（社外流出）
+    def balance_outflow_amount
+      grand_total_outflow_amount
+    end
+
     # 所得金額又は欠損金額
     def income_amount
-      provisional_amount
+      balance_amount
     end
     
     # 所得金額又は欠損金額（留保）
     def income_retained_amount
-      provisional_retained_amount
+      balance_retained_amount
     end
 
     # 所得金額又は欠損金額（社外流出）
     def income_outflow_amount
-      provisional_outflow_amount
+      balance_outflow_amount
     end
 
   end

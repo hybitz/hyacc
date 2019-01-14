@@ -118,7 +118,7 @@
   <tr>
     <td colspan="3" class="text-center"><%= justify('受取配当等の益金不算入額') %>(1)＋((2)－(10))＋(11)×50％＋(12)×<br>(●20%又は○40%)</td>
     <td class="text-center">13</td>
-    <td class="align-middle text-right"><%= to_amount(@model.non_dominant_amount * 0.2) %></td>
+    <td class="align-middle text-right"><%= to_amount(@model.non_deductible_amount) %></td>
     <td colspan="3" class="text-center"><%= justify('受取配当等の益金不算入額') %>(14)＋((15)－(23))＋(24)×50％＋(25)×<br>(●20%又は○40%)</td>
     <td class="text-center">26</td>
     <td></td>
@@ -237,7 +237,7 @@
 </table>
 <table class="table table-bordered my-0">
   <tr>
-    <td rowspan="5" style="width: 1em;">そ<br/>の<br/>他<br/>株<br/>式<br/>等</td>
+    <td rowspan="<%= 3 + @model.etc_stocks.size %>" style="width: 1em;">そ<br/>の<br/>他<br/>株<br/>式<br/>等</td>
     <td rowspan="2">法人名又は銘柄</td>
     <td rowspan="2">本店の所在地</td>
     <td>受取配当等の額</td>
@@ -249,25 +249,20 @@
     <td class="text-center" style="width: 15%;">36</td>
     <td class="text-center" style="width: 15%;">37</td>
   </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
+  <% @model.etc_stocks.each do |jd| %>
+    <tr>
+      <td><%= jd.note %></td>
+      <td></td>
+      <td class="text-right"><%= to_amount(jd.amount) %></td>
+      <td class="text-right"><%= to_amount(jd.profit_amount) %></td>
+      <td class="text-right"><%= to_amount(jd.total_amount) %></td>
+    </tr>
+  <% end %>
   <tr>
     <td colspan="2" class="text-center">計</td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td class="text-right"><%= to_amount(@model.etc_amount) %></td>
+    <td class="text-right"><%= to_amount(@model.etc_profit_amount) %></td>
+    <td class="text-right"><%= to_amount(@model.etc_total_amount) %></td>
   </tr>
 </table>
 <table class="table table-bordered my-0">

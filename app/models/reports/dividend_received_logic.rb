@@ -8,7 +8,6 @@ module Reports
       ret.partially_stocks = get_partially_owned_stocks(start_ym, end_ym)
       ret.partially_stocks_amount = ret.partially_stocks.inject(0){|sum, d| sum + d.amount}
       ret.etc_stocks = get_etc_stocks(start_ym, end_ym)
-      ret.etc_stocks_amount = ret.etc_stocks.inject(0){|sum, d| sum + d.amount}
       ret.non_dominant_stocks = get_non_dominant_stocks(start_ym, end_ym)
       ret
     end
@@ -22,7 +21,17 @@ module Reports
     end
     
     def get_etc_stocks(ym_start, ym_end)
-      get_stocks(ym_start, ym_end, SubAccount.where(code: SUB_ACCOUNT_CODE_ETC_STOCKS))
+      stocks = get_stocks(ym_start, ym_end, SubAccount.where(code: SUB_ACCOUNT_CODE_ETC_STOCKS))
+
+      ret = []
+      [stocks.size, 2].max.times do |i|
+        jd = stocks[i]
+        detail = DividendReceivedDetailModel.new
+        detail.amount = jd.try(:amount) || 0
+        detail.profit_amount = 0
+        ret << detail
+      end
+      ret
     end
     
     def get_non_dominant_stocks(ym_start, ym_end)
@@ -47,8 +56,20 @@ module Reports
   class DividendReceivedModel
     attr_accessor :fully_owned_stocks, :fully_owned_stocks_amount
     attr_accessor :partially_stocks, :partially_stocks_amount
-    attr_accessor :etc_stocks, :etc_stocks_amount
+    attr_accessor :etc_stocks
     attr_accessor :non_dominant_stocks
+
+    def etc_amount
+      etc_stocks.inject(0){|sum, d| sum + d.amount}
+    end
+    
+    def etc_profit_amount
+      etc_stocks.inject(0){|sum, d| sum + d.profit_amount}
+    end
+
+    def etc_total_amount
+      etc_stocks.inject(0){|sum, d| sum + d.total_amount}
+    end
 
     def non_dominant_amount
       non_dominant_stocks.inject(0){|sum, d| sum + d.amount}
@@ -60,6 +81,11 @@ module Reports
 
     def non_dominant_total_amount
       non_dominant_stocks.inject(0){|sum, d| sum + d.total_amount}
+    end
+
+    # 損金不算入額
+    def non_deductible_amount
+      etc_total_amount * 0.5 + non_dominant_total_amount * 0.2
     end
   end
 

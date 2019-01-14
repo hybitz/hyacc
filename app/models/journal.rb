@@ -29,7 +29,7 @@ class Journal < ApplicationRecord
   after_save :update_tax_admin_info
 
   def self.find_closing_journals(fiscal_year, slip_type)
-    where(:company_id => fiscal_year.company_id, :fiscal_year_id => fiscal_year.id, :slip_type => slip_type)
+    where(company_id: fiscal_year.company_id, slip_type: slip_type).where('ym >= ? and ym <= ?', fiscal_year.start_year_month, fiscal_year.end_year_month)
   end
 
   def create_user_name

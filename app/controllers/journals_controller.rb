@@ -155,7 +155,7 @@ class JournalsController < Base::HyaccController
 
   def journal_params
     permitted = [
-      :ym, :day, :remarks, :amount, :lock_version, :fiscal_year_id,
+      :ym, :day, :remarks, :amount, :lock_version,
       :journal_details_attributes => [
           :id, :_destroy, :dc_type, :account_id, :branch_id, :sub_account_id,
           :input_amount, :tax_type, :tax_rate_percent, :tax_amount,

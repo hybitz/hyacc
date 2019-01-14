@@ -61,7 +61,6 @@ module Auto::Journal
       
       jh = Journal.new(auto: true)
       jh.company_id = @fiscal_year.company.id
-      jh.fiscal_year_id = @fiscal_year.id
       jh.ym = ym
       jh.day = HyaccDateUtil.last_day_of_month(ym)
       jh.slip_type = SLIP_TYPE_DEEMED_TAX

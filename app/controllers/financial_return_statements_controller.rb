@@ -9,8 +9,6 @@ class FinancialReturnStatementsController < Base::HyaccController
       render_rent
     when REPORT_TYPE_SOCIAL_EXPENSE
       render_social_expense
-    when REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK
-      render_surplus_reserve_and_capital_stock
     when REPORT_TYPE_TAX_AND_DUES
       render_tax_and_dues
     when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
@@ -45,12 +43,6 @@ class FinancialReturnStatementsController < Base::HyaccController
     logic = Reports::RentStatementLogic.new(finder)
     @rents = logic.get_rent_statement
     render :rent
-  end
-
-  def render_surplus_reserve_and_capital_stock
-    logic = Reports::SurplusReserveAndCapitalStockLogic.new(finder)
-    @model = logic.get_surplus_reserve_and_capital_stock
-    render :surplus_reserve_and_capital_stock
   end
 
   def render_tax_and_dues

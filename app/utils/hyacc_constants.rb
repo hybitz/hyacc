@@ -192,7 +192,7 @@ module HyaccConstants
     REPORT_TYPE_TRADE_ACCOUNT_PAYABLE = 4 => '⑨買掛金の内訳書',
     REPORT_TYPE_RENT = 5 => '⑮地代家賃等の内訳書',
     REPORT_TYPE_INCOME = 'income' => '別表4　所得の金額の計算に関する明細書',
-    REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK = 6 => '別表5(1)　利益積立金額及び資本金等の計算に関する明細書',
+    REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK = 'profit_and_capital' => '別表5(1)　利益積立金額及び資本金等の計算に関する明細書',
     REPORT_TYPE_TAX_AND_DUES = 7 => '別表5(2)　租税公課の納付状況等に関する明細書',
     REPORT_TYPE_DIVIDEND_RECEIVED = 'dividend_received' => '別表8　受取配当等の益金不算入に関する明細書',
     REPORT_TYPE_SOCIAL_EXPENSE = 8 => '別表15　交際費等の損金算入に関する明細書',

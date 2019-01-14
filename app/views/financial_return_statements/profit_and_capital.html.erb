@@ -1,0 +1,188 @@
+<table class="my-0 table table-hover table-bordered">
+    <tr>
+        <td colspan="3" style="border: none;"><b>利益積立金額及び資本金等の額の計算に<br/>関する明細書</b></td>
+        <td width="70px" style="border-left: none;"></td>
+        <td align="center" width="50px">事業<br/>年度</td>
+        <td align="center"></td>
+        <td align="center" width="50px">法人名</td>
+        <td colspan="2" align="center"><%= current_company.name %></td>
+    </tr>
+</table>
+<table class="my-0 table table-hover table-bordered">
+  <thead>
+    <tr>
+      <td colspan="7" class="align-middle"><strong><%= justify('　　　　I 利益積立金額の計算に関する明細書　　　　') %></strong></td>
+    </tr>
+    <tr>
+      <td rowspan="3" colspan="3" class="align-middle"><%= justify('区分') %></td>
+      <td rowspan="2" class="align-middle"><%= justify('期首現在') %><%= justify('利益積立金額') %></td>
+      <td colspan="2" class="align-middle"><%= justify('当期の増減') %></td>
+      <td rowspan="2" class="align-middle text-center"><%= justify('差引翌期首現在') %><%= justify('利益積立金額') %>①－②＋③</td>
+    </tr>
+    <tr>
+      <td>減</td>
+      <td>増</td>
+    </tr>
+    <tr>
+      <td style="width: 15%;">①</td>
+      <td style="width: 15%;">②</td>
+      <td style="width: 15%;">③</td>
+      <td style="width: 15%;">④</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @model.surplus_reserves.each do |sr| %>
+    <tr>
+        <td colspan="2"><%= sr.name %></td>
+        <td class="text-center" style="width: 1em;"><%= sr.no %></td>
+        <td align="right"><%= to_amount(sr.amount_at_start) %></td>
+        <td align="right"><%= to_amount(sr.amount_decrease) %></td>
+        <td align="right"><%= to_amount(sr.amount_increase) %></td>
+        <td align="right"><%= to_amount(sr.amount_at_end) %></td>
+    </tr>
+    <% end %>
+    
+    <tr>
+        <td colspan="2">未収還付法人税</td>
+        <td align="center">23</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2">未収還付道府県民税</td>
+        <td align="center">24</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2">未収還付市町村民税</td>
+        <td align="center">25</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2">繰越損益金（損は赤）</td>
+        <td align="center">26</td>
+        <td></td>
+        <td align="right"><%= to_amount(@model.loss_carried_forward) %></td>
+        <td align="right"><%= to_amount(@model.profit_carried_forward) %></td>
+        <td align="right"><%= to_amount(@model.profit_carried_forward - @model.loss_carried_forward) %></td>
+    </tr>
+    <tr>
+        <td colspan="2">納税充当金</td>
+        <td align="center">27</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td rowspan="6" width="30px">未納法人税等</td>
+        <td rowspan="2">未納法人税<br/>(附帯税を除く｡)</td>
+        <td rowspan="2" align="center">28</td>
+        <td rowspan="2">△</td>
+        <td rowspan="2">△</td>
+        <td>中間 △</td>
+        <td rowspan="2">△</td>
+    </tr>
+    <tr>
+      <td>確定 △</td>
+    </tr>
+    <tr>
+        <td rowspan="2">未納道府県民税<br/>(均等割額及び利子割額を含む｡)</td>
+        <td rowspan="2" align="center">29</td>
+        <td rowspan="2">△</td>
+        <td rowspan="2">△</td>
+        <td>中間 △</td>
+        <td rowspan="2">△</td>
+    </tr>
+    <tr>
+      <td>確定 △</td>
+    </tr>
+    <tr>
+        <td rowspan="2">未納市町村民税<br/>(均等割額を含む｡)</td>
+        <td rowspan="2" align="center">30</td>
+        <td rowspan="2">△</td>
+        <td rowspan="2">△</td>
+        <td>中間 △</td>
+        <td rowspan="2">△</td>
+    </tr>
+    <tr>
+      <td>確定 △</td>
+    </tr>
+    <tr>
+        <td colspan="2">差引合計額</td>
+        <td align="center">31</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td colspan="7"><strong><%= justify('　　　　Ⅱ 　資 本 金 等 の 額 の 計 算 に 関 す る 明 細 書　　　　') %></strong></td>
+    </tr>
+    <tr align="center">
+        <td rowspan="3" colspan="3">区分</td>
+        <td rowspan="2">期首現在<br/>資本金等の額</td>
+        <td colspan="2">当期の増減</td>
+        <td rowspan="2">差引翌期首現在<br/>資本金等の額<br/>①－②＋③</td>
+    </tr>
+    <tr align="center">
+        <td>減</td>
+        <td colspan="2">増</td>
+    </tr>
+    <tr align="center">
+        <td>①</td>
+        <td>②</td>
+        <td>③</td>
+        <td>④</td>
+    </tr>
+    <tr>
+        <td colspan="2">資本金又は出資金</td>
+        <td align="center">32</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2">資本準備金</td>
+        <td align="center">33</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+        <td align="center">34</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+        <td align="center">35</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="2">差引合計額</td>
+        <td align="center">36</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+  </tbody>
+</table>

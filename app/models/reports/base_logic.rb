@@ -2,21 +2,36 @@ module Reports
   class BaseLogic
     include HyaccConstants
 
+    attr_reader :finder, :start_ym, :end_ym
+
     def initialize(finder)
       @finder = finder
       @start_ym = HyaccDateUtil.get_start_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)
       @end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)
     end
-
-    # 期首時点での累計金額を取得する
-    def get_amount_at_start(account_id)
-      last_year_end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year( @finder.fiscal_year - 1, @finder.start_month_of_fiscal_year )
-      VMonthlyLedger.get_net_sum_amount(nil, last_year_end_ym, account_id, 0, @finder.branch_id)
+    
+    def start_ymd
+      "#{start_ym}01"
     end
     
+    def end_ymd
+      Date.new(end_ym.to_i / 100, end_ym.to_i % 100, 1).end_of_month.strftime("%Y%m%d")
+    end
+
+    # 期首時点での累計金額を取得する
+    def get_amount_at_start(account_id, sub_account_id = nil)
+      last_year_end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(finder.fiscal_year - 1, finder.start_month_of_fiscal_year )
+      VMonthlyLedger.get_net_sum_amount(nil, last_year_end_ym, account_id, sub_account_id, finder.branch_id)
+    end
+    
+    # 期末時点での累計金額を取得する
+    def get_amount_at_end(account_id, sub_account_id = nil)
+      VMonthlyLedger.get_net_sum_amount(nil, end_ym, account_id, sub_account_id, finder.branch_id)
+    end
+
     # 当期に増減した金額を取得する
-    def get_this_term_amount(account_id)
-      VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, account_id, 0, @finder.branch_id)
+    def get_this_term_amount(account_id, sub_account_id = nil)
+      VMonthlyLedger.get_net_sum_amount(start_ym, end_ym, account_id, sub_account_id, finder.branch_id)
     end
 
     # 売上総利益を取得する
@@ -60,23 +75,22 @@ module Reports
       
       operating_income_amount + non_operating_profit_amount - non_operating_expense_amount
     end
-    
+
     # 税引前当期利益を取得する
     def get_pretax_profit_amount
-      # 経常利益
-      ordinary_income_amount = get_ordinary_income_amount
-      
-      # 特別収益
-      extraordinary_profit = Account.find_by_code(ACCOUNT_CODE_EXTRAORDINARY_PROFIT)
-      extraordinary_profit_amount = VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, extraordinary_profit.id, 0, @finder.branch_id)
-
-      # 特別費用
-      extraordinary_expense = Account.find_by_code(ACCOUNT_CODE_EXTRAORDINARY_EXPENSE)
-      extraordinary_expense_amount = VMonthlyLedger.get_net_sum_amount(@start_ym, @end_ym, extraordinary_expense.id, 0, @finder.branch_id)
-      
-      ordinary_income_amount + extraordinary_profit_amount - extraordinary_expense_amount
+      profit_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_PROFIT).first
+      expense_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_EXPENSE).first
+      profit = VMonthlyLedger.get_net_sum_amount(start_ym, end_ym, profit_account.id, nil, finder.branch_id)
+      expense = VMonthlyLedger.get_net_sum_amount(start_ym, end_ym, expense_account.id, nil, finder.branch_id)
+      profit - expense
     end
     
+    # 法人税を取得する
+    def get_corporate_tax_amount
+      account = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
+      VMonthlyLedger.get_net_sum_amount(start_ym, end_ym, account.id, nil, finder.branch_id)
+    end
+
     # 資本金を取得する
     def get_capital_stock_amount
       capital_stock = Account.find_by_code( ACCOUNT_CODE_CAPITAL_STOCK )

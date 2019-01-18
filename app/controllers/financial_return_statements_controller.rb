@@ -4,46 +4,45 @@ class FinancialReturnStatementsController < Base::HyaccController
   view_attribute :report_types
 
   def index
-    case finder.report_type
-    when REPORT_TYPE_INCOME
-      render_income
+    case finder.report_type.to_i
     when REPORT_TYPE_RENT
       render_rent
     when REPORT_TYPE_SOCIAL_EXPENSE
       render_social_expense
-    when REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK
-      render_surplus_reserve_and_capital_stock
     when REPORT_TYPE_TAX_AND_DUES
       render_tax_and_dues
     when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
       render_trade_account_payable
     when REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE
       render_trade_account_receivable
-    when REPORT_TYPE_DIVIDEND_RECEIVED
-      render_dividend_received
     when REPORT_TYPE_INVESTMENT_SECURITIES
       render_investment_securities
+    else
+      logic = "Reports::#{finder.report_type.camelize}Logic".constantize.new(finder)
+      @model = logic.build_model
+
+      template_dir = File.join(Rails.root, 'app', 'views', 'financial_return_statements', finder.report_type) 
+      if Dir.exist? template_dir
+        template = nil
+        Dir[File.join(template_dir, '*.html.erb')].sort.reverse.each do |t|
+          ymd = File.basename(t).split('.').first
+          next if ymd > logic.end_ymd
+          template = ymd
+          break
+        end
+        render "financial_return_statements/#{finder.report_type}/#{template}"
+      else
+        render finder.report_type
+      end
     end if finder.commit
   end
 
   private
 
-  def render_income
-    logic = Reports::IncomeLogic.new(finder)
-    @model = logic.get_income_model
-    render :income
-  end
-
   def render_rent
     logic = Reports::RentStatementLogic.new(finder)
     @rents = logic.get_rent_statement
     render :rent
-  end
-
-  def render_surplus_reserve_and_capital_stock
-    logic = Reports::SurplusReserveAndCapitalStockLogic.new(finder)
-    @model = logic.get_surplus_reserve_and_capital_stock
-    render :surplus_reserve_and_capital_stock
   end
 
   def render_tax_and_dues
@@ -83,13 +82,6 @@ class FinancialReturnStatementsController < Base::HyaccController
     logic = Reports::TradeAccountReceivableLogic.new
     @report = logic.get_trade_account_receivable_model(finder)
     render :trade_account_receivable
-  end
-
-  # 受取配当
-  def render_dividend_received
-    logic = Reports::DividendReceivedLogic.new
-    @models = logic.get_dividend_received_model(finder)
-    render :dividend_received
   end
 
   # 有価証券

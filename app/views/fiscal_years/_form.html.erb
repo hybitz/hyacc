@@ -1,22 +1,36 @@
-<%= form_for @fiscal_year, :remote => true do |f| %>
+<%= form_with model: @fiscal_year do |f| %>
   <%= flash_notice %>
-  <%= f.hidden_field :company_id %>
+  <%= f.hidden_field :fiscal_year %>
 
-  <table style="margin:5px;">
-    <tr>
-      <th>会計年度</th>
-      <th>締め状態</th>
-      <th>消費税</th>
-      <th>消費税申告</th>
-    </tr>
-    <tr>
-      <td align="center">
-        <%= @fiscal_year.fiscal_year %>
-        <%= f.hidden_field :fiscal_year %>
-      </td>
-      <td align="center"><%= f.select :closing_status, closing_status %></td>
-      <td align="center"><%= f.select :tax_management_type, tax_management_types %></td>
-      <td align="center"><%= f.select :consumption_entry_type, consumption_entry_types, :include_blank => true %></td>
-    </tr>  
+  <h5><%= @fiscal_year.fiscal_year %>年度</h5>
+  <table class="table table-hover">
+    <hhead>
+      <tr>
+        <th>締め状態</th>
+        <th>消費税</th>
+        <th>消費税申告</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td align="center"><%= f.select :closing_status, closing_status %></td>
+        <td align="center"><%= f.select :tax_management_type, tax_management_types %></td>
+        <td align="center"><%= f.select :consumption_entry_type, consumption_entry_types, :include_blank => true %></td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h5>確定申告</h5>
+  <table class="table table-hover">
+    <tbody>
+      <tr>
+        <th>減価償却超過額の当期認容額</th>
+        <td><%= f.text_field :accepted_amount_of_excess_depreciation, class: 'form-control text-right' %></td> 
+      </tr>
+      <tr>
+        <th>事業税認定損</th>
+        <td><%= f.text_field :approved_loss_amount_of_business_tax, class: 'form-control text-right' %></td> 
+      </tr>
+    </tbody>
   </table>
 <% end %>

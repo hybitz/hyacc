@@ -155,7 +155,7 @@ class JournalsController < Base::HyaccController
 
   def journal_params
     permitted = [
-      :ym, :day, :remarks, :amount, :lock_version, :fiscal_year_id,
+      :ym, :day, :remarks, :amount, :lock_version,
       :journal_details_attributes => [
           :id, :_destroy, :dc_type, :account_id, :branch_id, :sub_account_id,
           :input_amount, :tax_type, :tax_rate_percent, :tax_amount,
@@ -222,13 +222,6 @@ class JournalsController < Base::HyaccController
 
     # 部門選択用リスト
     @branches = Branch.not_deleted
-
-    # 新規コピーのリンクを表示するかどうか
-    @copy_link = false
-    if action_name == 'show'
-      @copy_link = true
-      @copy_link = params[:copy_link] == 'true' unless params[:copy_link].nil?
-    end
   end
 
 end

@@ -35,7 +35,7 @@ EOS
   # ネット累計金額を取得する
   # ym_from 累計対象となる最初の年月（inclusive）
   # ym_to 累計対象となる最後の年月（inclusive）
-  def self.get_net_sum_amount(ym_from=nil, ym_to=nil, account_id=0, sub_account_id=0, branch_id=0, options = {})
+  def self.get_net_sum_amount(ym_from=nil, ym_to=nil, account_id = nil, sub_account_id = nil, branch_id=0, options = {})
     # 勘定科目は必須
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
 
@@ -52,7 +52,7 @@ EOS
     end
     
     # 補助科目
-    if sub_account_id > 0
+    if sub_account_id.to_i > 0
       sql[0] << "and sub_account_id = ? "
       sql << sub_account_id
     end

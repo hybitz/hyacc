@@ -3,6 +3,12 @@
 <script>
   $(document).ready(function() {
     calcSum(<%= @account.dc_type if @account %>);
+
+    $('#ledgerContainer tbody').delegate('tr.journal', 'dblclick', function(e) {
+        if($(e.target).is(':not(a)')) {
+          $(this).find('a.show')[0].click();
+        }
+    });
   });
 
   function show_journals(trigger) {
@@ -61,7 +67,7 @@
 </script>
 
 <% if @ledgers.present? %>
-  <table id="ledgerContainer">
+  <table id="ledgerContainer" class="table table-striped table-hover">
     <thead>
       <tr>
         <th class="yearMonth">年月</th>
@@ -77,17 +83,17 @@
       </tr>
   
       <% if finder.get_last_year_balance %>
-        <tr id="ledger_row_last_year" style="background-color: papayawhip;">
-          <td class="yearMonth"></td>
-          <td class="day"></td>
-          <td class="remarks">前期末残高</td>
-          <td class="accountName"></td>
-          <td class="branchName"></td>
-          <td class="amountDebit"></td>
-          <td class="amountCredit"></td>
-          <td class="amountMonthlySum"></td>
-          <td class="amountSum"><%= to_amount(finder.get_last_year_balance) %></td>
-          <td class="nowrap"></td>
+        <tr id="ledger_row_last_year">
+          <th class="yearMonth"></th>
+          <th class="day"></th>
+          <th class="remarks">前期末残高</th>
+          <th class="accountName"></th>
+          <th class="branchName"></th>
+          <th class="amountDebit"></th>
+          <th class="amountCredit"></th>
+          <th class="amountMonthlySum"></th>
+          <th class="amountSum text-right"><%= to_amount(finder.get_last_year_balance) %></th>
+          <th class="nowrap"></th>
         </tr>
       <% end %>
     </thead>

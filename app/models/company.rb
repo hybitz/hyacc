@@ -43,14 +43,14 @@ class Company < ApplicationRecord
     fiscal_years.order("fiscal_year desc").first
   end
 
-  def get_fiscal_year( yyyymmORyyyy )
+  def get_fiscal_year(yyyymmORyyyy)
     if yyyymmORyyyy > 10000
       yyyy = get_fiscal_year_int( yyyymmORyyyy )
     else
       yyyy = yyyymmORyyyy
     end
 
-    fiscal_years.where(:fiscal_year => yyyy).first
+    fiscal_years.where(fiscal_year: yyyy).first
   end
 
   def get_fiscal_year_int( ym )
@@ -87,7 +87,7 @@ class Company < ApplicationRecord
   end
 
   def new_fiscal_year
-    ret = FiscalYear.new(:company_id => self.id)
+    ret = fiscal_years.build
     ret.fiscal_year = last_fiscal_year.fiscal_year + 1
     ret.tax_management_type = last_fiscal_year.tax_management_type
     ret.consumption_entry_type = last_fiscal_year.consumption_entry_type

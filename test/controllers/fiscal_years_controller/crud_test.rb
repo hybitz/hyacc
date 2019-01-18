@@ -27,8 +27,10 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
   end
 
   def test_更新
-    patch :update, :xhr => true, :params => {:id => current_company.current_fiscal_year.id,
-        :fiscal_year => valid_fiscal_year_params(:user => user)}
+    patch :update, xhr: true, params: {
+        id: current_company.current_fiscal_year.id,
+        fiscal_year: valid_fiscal_year_params(user: user).except(:fiscal_year)
+    }
     assert_response :success
     assert_template 'common/reload'
   end

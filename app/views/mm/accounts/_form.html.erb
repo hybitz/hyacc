@@ -94,13 +94,15 @@
     <tr>
       <th><%= f.label :sub_account_type %></th>
       <td>
-        <% if @account.sub_account_editable? %>
+        <% if @account.new_record? %>
           <%= f.select :sub_account_type, sub_account_types, {} %>
+        <% else %>
+          <%= @account.sub_account_type_name %>
+        <% end %>
+        <% if @account.sub_account_editable? %>
           <div id="form_sub_accounts">
             <%= render 'sub_accounts_fields' %>
           </div>
-        <% else %>
-    	    <%= @account.sub_account_type_name %>
         <% end %>
       </td>
     </tr>

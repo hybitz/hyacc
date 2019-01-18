@@ -126,9 +126,9 @@
             <td class="remarks"><%= debt.remarks %></td>
             <td class="nowrap center"><%= debt.branch_name %></td>
             <td class="nowrap center"><%= debt.opposite_branch_name %></td>
-            <td class="amountSum"><%= number_to_currency(debt.amount, :unit => '', :precision => 0) %></td>
+            <td class="amountSum"><%= number_to_currency(debt.amount, unit: '', precision: 0) %></td>
             <td class="center">
-              <%= link_to '参照', journal_path(debt.transfer_from_id, copy_link: 'false'), remote: true %>
+              <%= link_to '参照', journal_path(debt.transfer_from_id), remote: true %>
             </td>
             <td class="center">
               <div id="status_<%= debt.id.to_s %>">

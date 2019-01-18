@@ -126,7 +126,7 @@ class Mm::AccountsController < Base::HyaccController
       :name, :dc_type, :account_type, :tax_type,
       :description, :short_description, :trade_type, :is_settlement_report_account,
       :depreciation_method, :is_trade_account_payable, :journalizable,
-      :depreciable, :is_revenue_reserve_account, :is_tax_account
+      :depreciable, :is_revenue_reserve_account, :is_tax_account, :sub_account_type
     ]
 
     ret = params.require(:account)

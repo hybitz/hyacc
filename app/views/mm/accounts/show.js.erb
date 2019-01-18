@@ -4,9 +4,22 @@ var options = {
     <% unless @account.deleted or @account.system_required? %>
       {
         text: '削除',
+        class: 'btn btn-light',
         click: function() {
           if (confirm('削除します。よろしいですか？')) {
-            $.post('<%= mm_account_path(@account) %>', {'_method': 'delete'});
+            var params = {
+              authenticity_token: '<%= form_authenticity_token %>',
+              _method: 'delete'
+            };
+            var result = $.post('<%= mm_account_path(@account) %>', params);
+            result.then(
+              function() {
+                location.reload();
+              },
+              function() {
+                alert('エラーが発生しました。');
+              }
+            );
           }
         }
       }

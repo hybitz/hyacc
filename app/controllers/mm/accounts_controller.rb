@@ -99,7 +99,7 @@ class Mm::AccountsController < Base::HyaccController
       raise HyaccException.new(ERR_ACCOUNT_ALREADY_USED) and return
     end
 
-    @account.update_attributes(:deleted => true)
+    @account.update_attributes(deleted: true)
     render 'common/reload'
   end
 

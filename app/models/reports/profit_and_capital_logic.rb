@@ -4,12 +4,11 @@ module Reports
     def build_model
       ret = ProfitAndCapitalModel.new
 
-      a = Account.where(code: ACCOUNT_CODE_REVENUE_RESERVE, deleted: false).first
       d = ret.new_detail
       d.no = 1
       d.name = '利益準備金'
-      d.amount_at_start = get_amount_at_start(a.id)
-      d.amount_increase = get_this_term_amount(a.id)
+      d.amount_at_start = get_amount_at_start(ACCOUNT_CODE_REVENUE_RESERVE)
+      d.amount_increase = get_this_term_amount(ACCOUNT_CODE_REVENUE_RESERVE)
 
       d = ret.new_detail
       d.no = 2
@@ -39,18 +38,16 @@ module Reports
       ret.pretax_profit_amount = get_pretax_profit_amount
 
       # 未納法人税、未納道府県民税、市町村民税
-      a = Account.where(code: ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, deleted: false).first
-      ret.corporate_taxes_payable_amount = get_amount_at_end(a.id, CORPORATE_TAX_TYPE_CORPORATE_TAX)
-      ret.corporate_taxes_payable_amount += get_amount_at_end(a.id, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
-      ret.perfectual_tax_payable_amount = get_amount_at_end(a.id, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
-      ret.municipal_tax_payable_amount = get_amount_at_end(a.id, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
+      ret.corporate_taxes_payable_amount = get_amount_at_end(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_CORPORATE_TAX)
+      ret.corporate_taxes_payable_amount += get_amount_at_end(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      ret.perfectual_tax_payable_amount = get_amount_at_end(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
+      ret.municipal_tax_payable_amount = get_amount_at_end(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
 
-      a = Account.where(code: ACCOUNT_CODE_CAPITAL_STOCK, deleted: false).first
       d = ret.new_capital_stock_detail
       d.no = 32
       d.name = '資本金又は出資金'
-      d.amount_at_start = get_amount_at_start(a.id)
-      d.amount_increase = get_this_term_amount(a.id)
+      d.amount_at_start = get_amount_at_start(ACCOUNT_CODE_CAPITAL_STOCK)
+      d.amount_increase = get_this_term_amount(ACCOUNT_CODE_CAPITAL_STOCK)
       
       d = ret.new_capital_stock_detail
       d.no = 33

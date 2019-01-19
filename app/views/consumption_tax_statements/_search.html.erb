@@ -1,4 +1,4 @@
-<div id="search" class="search">
+<div>
   <%= form_tag({action: action_name}, method: 'get', class: 'form form-inline') do %>
     <div class="mx-2">
       年度：<%= select 'finder', 'fiscal_year', fiscal_years, {}, class: 'form-control' %>

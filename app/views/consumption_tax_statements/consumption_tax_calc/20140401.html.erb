@@ -1,0 +1,202 @@
+<div class="m-2 row">
+  <span class="col-md-12">第28-(1)号様式</span>
+</div>
+<div class="m-2 row">
+  <span class="col-md-10">付表２　課税売上割合・控除対象仕入税額等の計算表</span>
+  <span class="col-md-2 text-right">一般</span>
+</div>
+
+<table class="my-0 table table-bordered table-hover">
+  <tbody>
+    <tr>
+      <td style="width: 40%;"></td>
+      <td>課税期間</td>
+      <td>
+        <%= format_wareki_year_month_day(@model.fiscal_year.start_day.strftime('%Y%m%d')) %>
+        <span>～</span>
+        <%= format_wareki_year_month_day(@model.fiscal_year.end_day.strftime('%Y%m%d')) %>
+      </td>
+      <td>氏名又は名称</td>
+      <td><%= @model.company_name %></td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="my-0 table table-bordered table-hover">
+  <tbody>
+    <tr>
+      <td colspan="4">項目</td>
+      <td>金額</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>課税売上額（税抜き）</td>
+      <td class="align-middle text-center">①</td>
+      <td class="align-middle text-right"><%= to_amount(@model.sale_amount) %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center">⑤</td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center">⑥</td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td colspan="2">資産の譲渡等の対価の額（⑤＋⑥）</td>
+      <td class="align-middle text-center">⑦</td>
+      <td class="align-middle text-right"><%= to_amount(@model.total_sale_amount) %></td>
+    </tr>
+    <tr>
+      <td colspan="4">課税売上割合（④／⑦）</td>
+      <td class="align-middle text-center">【 100.00 % 】 ※端数切捨て</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td colspan="2">課税仕入れに係る支払対価の額（税込み）</td>
+      <td class="align-middle text-center">⑧</td>
+      <td class="align-middle text-right"><%= to_amount(@model.expense_amount) %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="align-middle text-center"></td>
+      <td class="align-middle text-right"></td>
+    </tr>
+  </tbody>
+</table>

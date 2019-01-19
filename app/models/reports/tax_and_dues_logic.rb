@@ -15,12 +15,15 @@ module Reports
       
       model.corporate_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_CORPORATE_TAX)
       model.corporate_tax_payable_at_start_second += net_sum_until(CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      model.corporate_tax_payable_at_start_second += net_sum_until(CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
       
       model.corporate_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_CORPORATE_TAX)
       model.corporate_tax_at_half += net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      model.corporate_tax_at_half += net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
 
       model.corporate_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_CORPORATE_TAX)
       model.corporate_tax_at_full += net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      model.corporate_tax_at_full += net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
       
       model.prefectural_tax_payable_at_start_first = nil
       model.prefectural_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
@@ -40,15 +43,15 @@ module Reports
     private
 
     def net_sum_until(sub_account_id)
-      VTax.net_sum_until(@finder.start_year_month_of_fiscal_year, @corporate_tax_payable.id, sub_account_id)
+      VTax.net_sum_until(start_ym, @corporate_tax_payable.id, sub_account_id)
     end
     
     def net_sum(settlement_type, sub_account_id)
       sum = nil
       
       @corporate_taxes.each do |ct|
-        amount = VTax.net_sum(@finder.start_year_month_of_fiscal_year, @finder.end_year_month_of_fiscal_year, settlement_type, ct.id, sub_account_id)
-        sum = sum.to_i + amount.to_i if amount
+      amount = VTax.net_sum(start_ym, end_ym, settlement_type, ct.id, sub_account_id)
+        sum = sum.to_i + amount.to_i
       end
 
       sum

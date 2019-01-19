@@ -45,7 +45,7 @@ class Company < ApplicationRecord
 
   def get_fiscal_year(yyyymmORyyyy)
     if yyyymmORyyyy > 10000
-      yyyy = get_fiscal_year_int( yyyymmORyyyy )
+      yyyy = get_fiscal_year_int(yyyymmORyyyy)
     else
       yyyy = yyyymmORyyyy
     end

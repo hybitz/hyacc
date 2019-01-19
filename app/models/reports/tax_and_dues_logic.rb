@@ -47,7 +47,7 @@ module Reports
     end
     
     def net_sum(settlement_type, sub_account_id)
-      sum = nil
+      sum = 0
       
       @corporate_taxes.each do |ct|
       amount = VTax.net_sum(start_ym, end_ym, settlement_type, ct.id, sub_account_id)

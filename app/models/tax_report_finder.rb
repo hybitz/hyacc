@@ -4,6 +4,7 @@ class TaxReportFinder
   include CompanyAware
   include BranchAware
 
+  attr_accessor :report_type
   attr_accessor :fiscal_year
   
   def list

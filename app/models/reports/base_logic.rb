@@ -7,12 +7,12 @@ module Reports
     def initialize(finder)
       @finder = finder
       @company = Company.find(finder.company_id)
-      @start_ym = HyaccDateUtil.get_start_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)
-      @end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(@finder.fiscal_year, @finder.start_month_of_fiscal_year)
+      @start_ym = HyaccDateUtil.get_start_year_month_of_fiscal_year(@finder.fiscal_year, @company.start_month_of_fiscal_year)
+      @end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(@finder.fiscal_year, @company.start_month_of_fiscal_year)
     end
     
     def fiscal_year
-      @fiscal_year ||= company.get_fiscal_year(finder.fiscal_year)
+      @fiscal_year ||= company.get_fiscal_year(finder.fiscal_year.to_i)
     end
     
     def branch

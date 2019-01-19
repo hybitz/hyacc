@@ -2,23 +2,22 @@ class ConsumptionTaxStatementsController < Base::HyaccController
   helper_method :finder
 
   def index
-  end
+    if params[:commit]
+      report_type = finder.report_type
+      
+      logic = "Reports::#{report_type.camelize}Logic".constantize.new(finder)
+      @model = logic.build_model
   
-  def show
-    report_name = File.basename(params[:id])
-    
-    logic = "Reports::#{report_name.camelize}Logic".constantize.new(finder)
-    @model = logic.build_model
-
-    template = nil
-    Dir[File.join(Rails.root, 'app', 'views', controller_name, report_name, '*.html.erb')].sort.reverse.each do |t|
-      ymd = File.basename(t).split('.').first
-      next if ymd > logic.end_ymd
-      template = ymd
-      break
+      template = nil
+      Dir[File.join(Rails.root, 'app', 'views', controller_name, report_type, '*.html.erb')].sort.reverse.each do |t|
+        ymd = File.basename(t).split('.').first
+        next if ymd > logic.end_ymd
+        template = ymd
+        break
+      end
+  
+      render "#{controller_name}/#{report_type}/#{template}"
     end
-
-    render "#{controller_name}/#{report_name}/#{template}"
   end
 
   private
@@ -33,10 +32,7 @@ class ConsumptionTaxStatementsController < Base::HyaccController
   
   def finder_params
     if params[:finder]
-      params.require(:finder).permit(
-        :fiscal_year,
-        :branch_id
-      )
+      params.require(:finder).permit(:fiscal_year, :branch_id, :report_type)
     end
   end
 

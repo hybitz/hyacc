@@ -9,7 +9,7 @@
     </div>
       
     <div class="mx-2">
-      帳票様式：<%= select_tag :id, options_for_select(finder.report_types), class: 'form-control' %>
+      帳票様式：<%= select 'finder', 'report_type', finder.report_types, {}, class: 'form-control' %>
     </div>
 
     <%= submit_tag '表示', class: 'btn btn-light' %>

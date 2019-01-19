@@ -3,6 +3,7 @@ class VTax
   
   VIEW = <<EOS
     select
+      jh.company_id,
       jh.ym,
       jd.dc_type,
       jd.account_id,
@@ -14,20 +15,19 @@ class VTax
     from journal_details jd
     inner join journals jh on (jh.id = jd.journal_id)
     inner join accounts a on (a.id = jd.account_id)
-    where a.is_tax_account = 1
-    group by jh.ym, jd.dc_type, jd.account_id, jd.sub_account_id, jd.branch_id, jd.settlement_type
+    group by jh.company_id, jh.ym, jd.dc_type, jd.account_id, jd.sub_account_id, jd.branch_id, jd.settlement_type
 EOS
 
   # 指定年月までのネット累計金額を取得する
   # ym 累計対象となる最後の年月（exclusive）
-  def self.net_sum_until(ym, account_id=0, sub_account_id=0, branch_id=0, include_children=true)
+  def self.net_sum_until(ym, account_id, sub_account_id=0, branch_id=0, include_children=true)
     self.net_sum(nil, HyaccDateUtil.last_month(ym), 0, account_id, sub_account_id, branch_id, include_children)
   end
   
   # ネット累計金額を取得する
   # ym_from 累計対象となる最初の年月（inclusive）
   # ym_to 累計対象となる最後の年月（inclusive）
-  def self.net_sum(ym_from=nil, ym_to=nil, settlement_type=0, account_id=0, sub_account_id=0, branch_id=0, include_children=true)
+  def self.net_sum(ym_from, ym_to, settlement_type, account_id, sub_account_id=0, branch_id=0, include_children=true)
     # 勘定科目は必須
     raise ArgumentError.new("勘定科目の指定がありません。") unless account_id > 0
 

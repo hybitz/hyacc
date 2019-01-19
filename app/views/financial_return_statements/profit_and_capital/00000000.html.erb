@@ -32,14 +32,14 @@
   </thead>
   <tbody>
     <% @model.surplus_reserves.each do |sr| %>
-    <tr>
+      <tr>
         <td colspan="2"><%= sr.name %></td>
         <td class="text-center" style="width: 1em;"><%= sr.no %></td>
-        <td align="right"><%= to_amount(sr.amount_at_start) %></td>
-        <td align="right"><%= to_amount(sr.amount_decrease) %></td>
-        <td align="right"><%= to_amount(sr.amount_increase) %></td>
-        <td align="right"><%= to_amount(sr.amount_at_end) %></td>
-    </tr>
+        <td class="text-right"><%= to_amount(sr.amount_at_start) %></td>
+        <td class="text-right"><%= to_amount(sr.amount_decrease) %></td>
+        <td class="text-right"><%= to_amount(sr.amount_increase) %></td>
+        <td class="text-right"><%= to_amount(sr.amount_at_end, show_zero: sr.has_change?) %></td>
+      </tr>
     <% end %>
     
     <tr>

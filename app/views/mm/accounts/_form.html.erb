@@ -84,13 +84,6 @@
       </tr>
     <% end %>
 
-    <% if @account.capital? %>
-      <tr>
-        <th><%= f.label :is_revenue_reserve_account %></th>
-        <td><%= f.select :is_revenue_reserve_account, {'はい' => true, 'いいえ' => false} %></td>
-      </tr>
-    <% end %>
-
     <tr>
       <th><%= f.label :sub_account_type %></th>
       <td>

@@ -3,27 +3,38 @@ module Reports
 
     def build_model
       ret = ProfitAndCapitalModel.new
-      
-      accounts = Account.where(is_revenue_reserve_account: true)
-      accounts.each_with_index do |a, index|
-        sr = ProfitAndCapitalDetailModel.new
-        sr.no = index + 1
-        sr.name = a.name
-        sr.amount_at_start = get_amount_at_start(a.id)
-        
-        this_term_amount = get_this_term_amount(a.id)
-        if this_term_amount >= 0
-          sr.amount_increase = this_term_amount
-        else
-          sr.amount_decrease = this_term_amount * -1
-        end
 
-        ret.surplus_reserves << sr
+      # 利益準備金
+      a = Account.where(code: ACCOUNT_CODE_REVENUE_RESERVE, deleted: false).first
+      d = ret.new_detail
+      d.no = 1
+      d.name = a.name
+      d.amount_at_start = get_amount_at_start(a.id)
+      d.amount = get_this_term_amount(a.id)
+
+      # 積立金
+      d = ret.new_detail
+      d.no = 2
+      d.name = '積立金'
+      
+      d = ret.new_detail
+      d.no = 3
+      if fiscal_year.approved_loss_amount_of_business_tax > 0
+        d.name = '未払い事業税'
+        d.amount_at_start = fiscal_year.approved_loss_amount_of_business_tax
+        d.amount = fiscal_year.approved_loss_amount_of_business_tax * -1
       end
-      (22 - accounts.count).times do |i|
-        sr = ProfitAndCapitalDetailModel.new
-        sr.no = accounts.size + i + 1
-        ret.surplus_reserves << sr
+
+      d = ret.new_detail
+      d.no = 4
+      if fiscal_year.accepted_amount_of_excess_depreciation > 0
+        d.name = '減価償却認容分'
+        d.amount = fiscal_year.accepted_amount_of_excess_depreciation * -1
+      end
+
+      5.upto(22).each do |i|
+        d = ret.new_detail
+        d.no = i
       end
       
       # 繰越損益金
@@ -52,23 +63,39 @@ module Reports
       @profit_carried_forward = 0
       @loss_carried_forward = 0
     end
+    
+    def new_detail
+      ret = ProfitAndCapitalDetailModel.new
+      @surplus_reserves << ret
+      ret
+    end
   end
   
   class ProfitAndCapitalDetailModel
     attr_accessor :no
     attr_accessor :name
     attr_accessor :amount_at_start
-    attr_accessor :amount_increase
-    attr_accessor :amount_decrease
+    attr_accessor :amount
     
     def initialize
       @amount_at_start = 0
-      @amount_increase = 0
-      @amount_decrease = 0
+      @amount = 0
     end
     
+    def has_change?
+      @amount_at_start != 0 || @amount != 0
+    end
+    
+    def amount_increase
+      @amount > 0 ? @amount : 0
+    end
+    
+    def amount_decrease
+      @amount > 0 ? 0 : @amount * -1
+    end
+
     def amount_at_end
-      @amount_at_start + @amount_increase - @amount_decrease
+      @amount_at_start + @amount
     end
   end
 end

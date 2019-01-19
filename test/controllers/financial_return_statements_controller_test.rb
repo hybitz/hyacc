@@ -41,7 +41,7 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
     sign_in user
     get :index, params: {commit: true, finder: profit_and_capital_finder}
     assert_response :success
-    assert_template 'financial_return_statements/profit_and_capital'
+    assert_template 'financial_return_statements/profit_and_capital/00000000'
   end
 
   def test_別表5_2_租税公課の納付状況等に関する明細書

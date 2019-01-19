@@ -41,7 +41,6 @@ ja:
         system_required: システム必須
         is_settlement_report_account: 決算書出力
         is_trade_account_payable: 買掛金科目
-        is_revenue_reserve_account: 利益積立金科目
         journalizable: 仕訳登録可否
         sub_account_type: 補助科目区分
         tax_type: 税区分

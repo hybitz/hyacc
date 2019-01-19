@@ -46,10 +46,6 @@
           <td class="text-center"><%= image_tag 'check.png' if a.is_suspense_receipt_account? %></td>
         <% end %>
     
-        <% if @finder.account_type_capital? %>
-          <td class="text-center"><%= image_tag 'check.png' if a.is_revenue_reserve_account? %></td>
-        <% end %>
-    
         <td>
           <%= link_to '編集', {:action => 'edit', :id => a}, :remote => true %>
           <%= link_to '子科目追加', {:action => 'new', :parent_id => a}, :remote => true %>

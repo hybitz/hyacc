@@ -1,0 +1,17 @@
+<div id="search" class="search">
+  <%= form_tag({action: action_name}, method: 'get', class: 'form form-inline') do %>
+    <div class="mx-2">
+      年度：<%= select 'finder', 'fiscal_year', fiscal_years, {}, class: 'form-control' %>
+    </div>
+
+    <div class="mx-2">
+      部門：<%= select 'finder', 'branch_id', to_options(finder.branches), {include_blank: true}, class: 'form-control' %>
+    </div>
+      
+    <div class="mx-2">
+      帳票様式：<%= select_tag :id, options_for_select(finder.report_types), class: 'form-control' %>
+    </div>
+
+    <%= submit_tag '表示', class: 'btn btn-light' %>
+  <% end %>
+</div>

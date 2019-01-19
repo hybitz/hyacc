@@ -202,6 +202,7 @@ module HyaccConstants
     REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE = 23 => '③売掛金（未収入金）の内訳書',
     REPORT_TYPE_INVESTMENT_SECURITIES = 24 => '⑥有価証券の内訳書',
     REPORT_TYPE_SUSPENSE_RECEIPT = 'suspense_receipt' => '⑩仮受金の内訳書、源泉所得税預り金の内訳',
+    REPORT_TYPE_CONSUMPTION_TAX_CACL = 'consumption_tax_calc' => '付表2　課税売上割合・控除対象仕入税額等の計算書'
   }
 
   # 帳票様式

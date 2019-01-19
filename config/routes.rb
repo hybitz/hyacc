@@ -7,14 +7,15 @@ Rails.application.routes.draw do
   mount TaxJp::Engine, at: '/tax_jp', as: 'tax_jp'
 
   resources :accounts
-  resources :bank_offices, :only => 'index'
+  resources :bank_offices, only: 'index'
   resources :careers
-  resources :career_statements, :only => ['index', 'show']
+  resources :career_statements, only: ['index', 'show']
+  resources :consumption_tax_statements, only: ['index', 'show']
   resources :deemed_taxes
   resources :debts
-  resources :financial_return_statements, :only => 'index'
-  resources :financial_statements, :only => 'index'
-  resources :first_boot, :only => ['index', 'create']
+  resources :financial_return_statements, only: 'index'
+  resources :financial_statements, only: 'index'
+  resources :first_boot, only: ['index', 'create']
 
   resources :fiscal_years do
     collection do

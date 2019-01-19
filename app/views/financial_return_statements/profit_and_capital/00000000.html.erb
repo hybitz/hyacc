@@ -1,11 +1,13 @@
 <table class="my-0 table table-hover table-bordered">
     <tr>
-        <td colspan="3" style="border: none;"><b>利益積立金額及び資本金等の額の計算に<br/>関する明細書</b></td>
-        <td width="70px" style="border-left: none;"></td>
-        <td align="center" width="50px">事業<br/>年度</td>
-        <td align="center"></td>
-        <td align="center" width="50px">法人名</td>
-        <td colspan="2" align="center"><%= current_company.name %></td>
+        <td colspan="3" class="align-middle"><b>利益積立金額及び資本金等の額の計算に関する明細書</b></td>
+        <td class="text-center" width="50px">事業<br/>年度</td>
+        <td class="text-center">
+          <div><%= format_wareki_year_month_day(@finder.start_year_month_day_of_fiscal_year) %></div>
+          <div><%= format_wareki_year_month_day(@finder.end_year_month_day_of_fiscal_year) %></div>
+        </td>
+        <td class="align-middle text-center">法人名</td>
+        <td colspan="2" class="align-middle text-center"><%= current_company.name %></td>
     </tr>
 </table>
 <table class="my-0 table table-hover table-bordered">

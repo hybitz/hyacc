@@ -31,13 +31,13 @@ ja:
       account:
         code: 勘定科目コード
         name: 勘定科目名
-        dc_type: "貸借区分"
-        account_type: "勘定科目区分"
+        dc_type: 貸借区分
+        account_type: 勘定科目区分
         depreciable: 減価償却可否
         depreciation_method: 減価償却方法
-        deleted: "を削除"
-        display_order: "の表示順"
-        path: 道
+        deleted: 削除フラグ
+        display_order: 表示順
+        path: パス
         system_required: システム必須
         is_settlement_report_account: 決算書出力
         is_trade_account_payable: 買掛金科目

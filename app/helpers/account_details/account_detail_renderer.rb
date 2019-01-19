@@ -16,9 +16,12 @@ module AccountDetails
       elsif account.depreciable
         FixedAssetRenderer.new( account )
       elsif account.is_corporate_tax
-        CorporateTaxRenderer.new( account )
+        SettlementTypeRenderer.new(account)
       else
-        nil
+        case account.code
+        when ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE
+          SettlementTypeRenderer.new(account)
+        end
       end
     end
   end

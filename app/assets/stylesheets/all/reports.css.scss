@@ -1,0 +1,12 @@
+.profit_and_capital {
+  vertical-align: middle !important;
+
+  div {
+    width: 50%;
+    display: inline-block;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}

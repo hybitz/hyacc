@@ -98,8 +98,8 @@ module Reports
 
     # 資本金を取得する
     def get_capital_stock_amount
-      capital_stock = Account.find_by_code( ACCOUNT_CODE_CAPITAL_STOCK )
-      VMonthlyLedger.get_net_sum_amount(nil, @end_ym, capital_stock.id, 0, @finder.branch_id)
+      capital_stock = Account.find_by_code(ACCOUNT_CODE_CAPITAL_STOCK)
+      VMonthlyLedger.get_net_sum_amount(nil, end_ym, capital_stock.id, nil, finder.branch_id)
     end
   end
 end

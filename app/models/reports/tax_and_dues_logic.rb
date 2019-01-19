@@ -12,9 +12,16 @@ module Reports
       model = TaxAndDuesModel.new
       model.company_name = Company.find(@finder.company_id).name
       model.corporate_tax_payable_at_start_first = nil
+      
       model.corporate_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_CORPORATE_TAX)
+      model.corporate_tax_payable_at_start_second += net_sum_until(CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      
       model.corporate_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_CORPORATE_TAX)
+      model.corporate_tax_at_half += net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+
       model.corporate_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_CORPORATE_TAX)
+      model.corporate_tax_at_full += net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      
       model.prefectural_tax_payable_at_start_first = nil
       model.prefectural_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
       model.prefectural_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)

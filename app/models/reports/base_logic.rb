@@ -66,6 +66,18 @@ module Reports
       VMonthlyLedger.get_net_sum_amount(start_ym, end_ym, a.id, sub_account_id, branch_id)
     end
 
+    # 当期の借方金額を取得する
+    def get_this_term_debit_amount(account_code, sub_account_id = nil)
+      a = Account.where(code: account_code, deleted: false).first
+      VMonthlyLedger.get_debit_sum_amount(start_ym, end_ym, a.id, sub_account_id, branch_id)
+    end
+
+    # 当期の貸方金額を取得する
+    def get_this_term_credit_amount(account_code, sub_account_id = nil)
+      a = Account.where(code: account_code, deleted: false).first
+      VMonthlyLedger.get_credit_sum_amount(start_ym, end_ym, a.id, sub_account_id, branch_id)
+    end
+
     # 売上総利益を取得する
     def get_gross_profit_amount
       # 売上高

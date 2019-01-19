@@ -156,9 +156,16 @@ class Account < ApplicationRecord
     path.include? ACCOUNT_CODE_SOCIAL_EXPENSE
   end
 
-  # 法人税かどうか
-  def is_corporate_tax
-    sub_account_type == SUB_ACCOUNT_TYPE_CORPORATE_TAX
+  # 決算区分が必要かどうか
+  def settlement_type_required?
+    return true if sub_account_type == SUB_ACCOUNT_TYPE_CORPORATE_TAX
+
+    case code
+    when ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE
+      true
+    else
+      false
+    end
   end
 
   private

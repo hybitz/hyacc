@@ -33,17 +33,63 @@ EOS
   end
 
   # ネット累計金額を取得する
-  # ym_from 累計対象となる最初の年月（inclusive）
-  # ym_to 累計対象となる最後の年月（inclusive）
-  def self.get_net_sum_amount(ym_from=nil, ym_to=nil, account_id = nil, sub_account_id = nil, branch_id=0, options = {})
+  def self.get_net_sum_amount(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=0, options={})
     # 勘定科目は必須
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
 
     account = Account.find(account_id)
+    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, options)
+    
+    # 貸借区分用の条件文を用意
+    sql[0] << "and dc_type = ? "
+
+    # 借方合計
+    sql << DC_TYPE_DEBIT
+    amount_debit = JournalDetail.find_by_sql(sql)[0].amount.to_i
+
+    # 貸方合計
+    sql[-1] = DC_TYPE_CREDIT
+    amount_credit = JournalDetail.find_by_sql(sql)[0].amount.to_i
+    
+    if account.dc_type == DC_TYPE_DEBIT
+      amount_debit - amount_credit
+    else
+      amount_credit - amount_debit
+    end
+  end
   
+  # 借方合計金額を取得する
+  def self.get_debit_sum_amount(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=0, options={})
+    # 勘定科目は必須
+    raise '勘定科目の指定がありません。' unless account_id.to_i > 0
+  
+    account = Account.find(account_id)
+    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, options)
+    
+    # 借方合計
+    sql[0] << "and dc_type = ? "
+    sql << DC_TYPE_DEBIT
+    JournalDetail.find_by_sql(sql)[0].amount.to_i
+  end
+
+  # 貸方合計金額を取得する
+  def self.get_credit_sum_amount(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=0, options={})
+    # 勘定科目は必須
+    raise '勘定科目の指定がありません。' unless account_id.to_i > 0
+  
+    account = Account.find(account_id)
+    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, options)
+    
+    # 貸方合計
+    sql[0] << "and dc_type = ? "
+    sql << DC_TYPE_CREDIT
+    JournalDetail.find_by_sql(sql)[0].amount.to_i
+  end
+
+  def self.make_condition(ym_from, ym_to, account, sub_account_id, branch_id, options)
     sql = ["select sum(amount) as amount from (#{VIEW}) as monthly_ledger "]
 
-    if options[:include_children] or not options.has_key?(:include_children)
+    if options.fetch(:include_children, true)
       sql[0] << "where path like ? "
       sql << '%' + account.path + '%'
     else
@@ -74,7 +120,7 @@ EOS
       else
         sql[0] << "and ym <= ? "
       end
-    	 sql << ym_to
+       sql << ym_to
     end
 
     # 計上部門
@@ -83,22 +129,8 @@ EOS
       sql << branch_id
     end
     
-    # 貸借区分用の条件文を用意
-    sql[0] << "and dc_type = ? "
-
-    # 借方合計
-    sql << DC_TYPE_DEBIT
-    amount_debit = JournalDetail.find_by_sql(sql)[0].amount.to_i
-
-    # 貸方合計
-    sql[-1] = DC_TYPE_CREDIT
-    amount_credit = JournalDetail.find_by_sql(sql)[0].amount.to_i
-    
-    if account.dc_type == DC_TYPE_DEBIT
-      amount_debit - amount_credit
-    else
-      amount_credit - amount_debit
-    end
+    sql
   end
-  
+  private_class_method :make_condition
+
 end

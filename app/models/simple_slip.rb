@@ -287,7 +287,7 @@ class SimpleSlip
     jd2.social_expense_number_of_people = account.is_social_expense ? social_expense_number_of_people : nil
 
     # 法人税の決算区分
-    jd2.settlement_type = account.is_corporate_tax ? settlement_type : nil
+    jd2.settlement_type = account.settlement_type_required? ? settlement_type : nil
 
     # 資産の楽観ロック
     # TODO asset_id の使い道は？

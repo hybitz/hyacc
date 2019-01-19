@@ -155,7 +155,7 @@ class JournalDetail < ApplicationRecord
     end
 
     # 法人税等の場合は決算区分必須
-    if account.is_corporate_tax
+    if account.settlement_type_required?
       if settlement_type.to_i == 0
         errors.add(:settlement_type, ERR_REQUIRED_SETTLEMENT_TYPE)
       end

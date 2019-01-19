@@ -15,13 +15,10 @@ module AccountDetails
         SocialExpenseRenderer.new( account )
       elsif account.depreciable
         FixedAssetRenderer.new( account )
-      elsif account.is_corporate_tax
+      elsif account.settlement_type_required?
         SettlementTypeRenderer.new(account)
       else
-        case account.code
-        when ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE
-          SettlementTypeRenderer.new(account)
-        end
+        nil
       end
     end
   end

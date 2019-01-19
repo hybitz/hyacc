@@ -17,7 +17,7 @@ module Reports
       
       d = ret.new_detail
       d.no = 3
-      if fiscal_year.approved_loss_amount_of_business_tax > 0
+      if as_company? and fiscal_year.approved_loss_amount_of_business_tax > 0
         d.name = '未払い事業税'
         d.amount_at_start = fiscal_year.approved_loss_amount_of_business_tax
         d.amount_increase = fiscal_year.approved_loss_amount_of_business_tax * -1
@@ -25,7 +25,7 @@ module Reports
 
       d = ret.new_detail
       d.no = 4
-      if fiscal_year.accepted_amount_of_excess_depreciation > 0
+      if as_company? and fiscal_year.accepted_amount_of_excess_depreciation > 0
         d.name = '減価償却認容分'
         d.amount_increase = fiscal_year.accepted_amount_of_excess_depreciation * -1
       end
@@ -92,16 +92,6 @@ module Reports
       ret
     end
 
-    # 繰越利益
-    def profit_carried_forward
-      @pretax_profit_amount > 0 ? @pretax_profit_amount : 0
-    end
-
-    # 繰越損失
-    def loss_carried_forward
-      @pretax_profit_amount > 0 ? 0 : @pretax_profit_amount * -1
-    end
-    
     def total_amount_at_start
       surplus_reserves.inject(0){|sum, d| sum + d.amount_at_start }
     end

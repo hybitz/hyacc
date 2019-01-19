@@ -15,6 +15,26 @@ module Reports
       @fiscal_year ||= company.get_fiscal_year(finder.fiscal_year)
     end
     
+    def branch
+      if @branch.nil?
+        if finder.branch_id.to_i > 0
+          @branch = Branch.find(finder.branch_id)
+        else
+          @branch = false
+        end
+      end
+      
+      @branch
+    end
+    
+    def as_company?
+      ! as_branch?
+    end
+    
+    def as_branch?
+      branch
+    end
+    
     def start_ymd
       "#{start_ym}01"
     end

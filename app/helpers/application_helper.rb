@@ -130,7 +130,7 @@ module ApplicationHelper
     if renderer
       render renderer.get_template(controller.controller_name), locals
     else
-      render :plain => ''
+      render plain: ''
     end
   end
 

@@ -41,6 +41,10 @@ module HyaccViewHelper
     zero_pad = ( year_month_day % 100 ) < 10 ? '0' : ''
     format_wareki_year_month( year_month_day / 100 ) + zero_pad + ( year_month_day % 100 ).to_s + "日"
   end
+
+  def to_wareki_day(date)
+    TaxJp::Gengou.to_wareki(date.year) + date.strftime('年%m月%d日')
+  end
   
   def dc_types
     revert_and_sort( DC_TYPES )

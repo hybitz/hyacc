@@ -123,7 +123,11 @@ class ReportFinder < Base::Finder
     sql.append('inner join accounts a on (a.id = jd.account_id)')
     sql.append('where jh.ym >= ? and jh.ym <= ?', start_year_month_of_fiscal_year, end_year_month_of_fiscal_year)
     sql.append('  and a.path like ?', '%' + account.path + '%')
-    sql.append('  and jd.branch_id = ?', branch_id) if branch_id > 0
+    if branch_id > 0
+      sql.append('  and jd.branch_id = ?', branch_id)
+    else
+      sql.append('  and a.trade_type = ?', TRADE_TYPE_EXTERNAL)
+    end
     sql.append('group by jd.dc_type')
     JournalDetail.find_by_sql(sql.to_a).each do |row|
       if row.dc_type == account.dc_type

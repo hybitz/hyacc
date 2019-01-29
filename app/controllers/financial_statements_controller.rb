@@ -157,7 +157,7 @@ class FinancialStatementsController < Base::HyaccController
     # 各科目の月別累計を取得
     @sum = {}
     trees.each do | tree |
-      @sum.update( list_yearly_sum( tree ) )
+      @sum.update(list_yearly_sum(tree))
     end
 
     # 最大ノードレベルを算出
@@ -166,7 +166,7 @@ class FinancialStatementsController < Base::HyaccController
     render :pl_yearly
   end
 
-  def list_yearly_sum( account )
+  def list_yearly_sum(account)
     ret = {}
 
     # 自身の累計を取得

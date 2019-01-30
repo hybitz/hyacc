@@ -101,7 +101,7 @@ GEM
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
     carrierwave-i18n (0.2.0)
-    chef-config (14.9.13)
+    chef-config (14.10.9)
       addressable
       fuzzyurl
       mixlib-config (>= 2.2.12, < 3.0)
@@ -226,7 +226,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor
-    itamae-plugin-recipe-daddy (0.1.9)
+    itamae-plugin-recipe-daddy (0.1.10)
       itamae (~> 1.10, >= 1.10.2)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)
@@ -470,12 +470,12 @@ GEM
     turbolinks (5.2.0)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    two_factor_authentication (2.1.1)
+    two_factor_authentication (2.2.0)
       devise
       encryptor
       rails (>= 3.1.1)
       randexp
-      rotp (>= 3.2.0)
+      rotp (>= 4.0.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.1.20)

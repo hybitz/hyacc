@@ -8,7 +8,7 @@ class WithholdingSlipFinder
   attr_accessor :employee_id
 
   def employees
-    Employee.where(:company_id => company_id, :deleted => false)
+    Employee.where(company_id: company_id, deleted: false)
   end
 
   def report_types

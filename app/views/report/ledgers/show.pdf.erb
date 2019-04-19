@@ -16,7 +16,7 @@
     <table account_code="<%= a.code %>" dc_type="<%= a.dc_type %>" class="ledger">
       <thead>
         <tr>
-          <th colspan="3"><%= to_wareki(@fiscal_year.fiscal_year) %>年　<%= a.code_and_name %></th>
+          <th colspan="3"><%= @fiscal_year.fiscal_year %>年度　<%= a.code_and_name %></th>
         </tr>
         <tr>
           <th class="yearMonth">年月</th>

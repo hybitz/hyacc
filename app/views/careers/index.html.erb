@@ -13,7 +13,7 @@
     
     <% @careers.each do |c| %>
       <tr class="hover">
-        <td><%= format_date(c.start_from) %> ～ <%= format_date(c.end_to) %></td>
+        <td><%= c.start_from %> ～ <%= c.end_to %></td>
         <td><%= c.employee.fullname %></td>
         <td><%= c.customer_name %></td>
         <td><%= c.project_name %></td>

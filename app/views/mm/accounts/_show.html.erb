@@ -45,10 +45,10 @@
 </p>
 <% end %>
 <p>
-  <b>登録日時:</b> <%= format_datetime( @account.created_at ) %>
+  <b>登録日時:</b> <%= @account.created_at %>
 </p>
 <p>
-  <b>更新日時:</b> <%= format_datetime( @account.updated_at ) %>
+  <b>更新日時:</b> <%= @account.updated_at %>
 </p>
 <% if @account.journalizable %>
 <p>

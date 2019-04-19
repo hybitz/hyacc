@@ -47,7 +47,7 @@
       <th colspan="3">摘要</th>
     </tr>
     <tr>
-      <td><%= render_ymd(@asset) %></td>
+      <td><%= @asset.date %></td>
       <td>
         <% if @asset.status_created? %>
           <%= f.select :depreciation_method, depreciation_methods, :class => 'depreciationMethodSelect' %>

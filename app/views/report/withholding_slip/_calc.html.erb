@@ -2,7 +2,7 @@
 <div  style="margin: 10px;">
     <table class="none_border" width="400">
       <tr>
-        <td class="none_border" align="center"><b><%= to_wareki(@data.calendar_year) %>年分　給与所得・退職所得等の所得税徴収高計算書</b></td>
+        <td class="none_border" align="center"><b><%= to_wareki_year(@data.calendar_year) %>年分　給与所得・退職所得等の所得税徴収高計算書</b></td>
       </tr>
     </table>
     <br/>
@@ -17,7 +17,7 @@
       </tr>
   <% @data.total_salarys.each do |yyyymmdd, amoount| %>
     <tr class="hover">
-      <td><%= @data.calendar_year %>(<%= to_wareki(@data.calendar_year) %>)年<%= yyyymmdd.slice(4, 2) %>月<%= yyyymmdd.slice(6, 2) %>日</td>
+      <td><%= @data.calendar_year %>(<%= to_wareki(Date.strptime(yyyymmdd.to_s, '%Y%m%d'), format: '%y') %>)年<%= yyyymmdd.slice(4, 2) %>月<%= yyyymmdd.slice(6, 2) %>日</td>
       <td><%= number_to_currency(@data.total_salarys[yyyymmdd], :format=>"%n") %></td>
       <td><%= number_to_currency(@data.withholding_taxes[yyyymmdd], :format=>"%n") %></td>
     </tr>
@@ -38,7 +38,7 @@
     </tr>
     <% @data.total_bonuses.each do |yyyymmdd, bonus| %>
     <tr class="hover">
-      <td><%= @data.calendar_year %>(<%= to_wareki(@data.calendar_year) %>)年<%= yyyymmdd.slice(4, 2) %>月<%= yyyymmdd.slice(6, 2) %>日</td>
+      <td><%= @data.calendar_year %>(<%= to_wareki_year(@data.calendar_year) %>)年<%= yyyymmdd.slice(4, 2) %>月<%= yyyymmdd.slice(6, 2) %>日</td>
       <td><%= number_to_currency(@data.total_bonuses[yyyymmdd], :format=>"%n") %></td>
       <td><%= number_to_currency(@data.withholding_taxes_of_bonus[yyyymmdd], :format=>"%n") %></td>
     </tr>

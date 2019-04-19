@@ -25,7 +25,7 @@
         <td><%= asset.account.name %></td>
         <td><%= asset.sub_account.name if asset.sub_account %></td>
         <td><%= asset.branch.name %></td>
-        <td align="center"><%= render_ymd(asset) %></td>
+        <td class="text-center"><%= asset.date %></td>
         <td align="center"><%= asset.depreciation_method_name %></td>
         <td align="center"><%= "#{asset.durable_years}年" if asset.durable_years.to_i > 0 %></td>
         <td class="amount"><%= to_amount(asset.amount) %></td>

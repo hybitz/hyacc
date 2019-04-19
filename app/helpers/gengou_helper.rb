@@ -1,26 +1,34 @@
 module GengouHelper
 
-  def to_wareki(year, only_year: false)
-    TaxJp::Gengou.to_wareki(year.to_i, :only_year => only_year)
+  def to_wareki(date, only_date: false, format: nil)
+    if format
+      TaxJp::Gengou.to_wareki(date, only_date: only_date, format: format)
+    else
+      TaxJp::Gengou.to_wareki(date, only_date: only_date)
+    end
+  end
+
+  def to_wareki_year(year, only_date: false)
+    TaxJp::Gengou.to_wareki(Date.new(year.to_i, 12, 31), only_date: only_date, format: '%y')
   end
 
   def to_seireki(gengou, wareki)
     TaxJp::Gengou.to_seireki(gengou, wareki) 
   end
 
-  def heisei?(d)
-    TaxJp::Gengou.to_wareki(d.year.to_i).start_with?("平成")
+  def heisei?(date)
+    TaxJp::Gengou.to_wareki(date).start_with?("平成")
   end
 
-  def syowa?(d)
-    TaxJp::Gengou.to_wareki(d.year.to_i).start_with?("昭和")
+  def syowa?(date)
+    TaxJp::Gengou.to_wareki(date).start_with?("昭和")
   end
   
-  def taisyo?(d)
-    TaxJp::Gengou.to_wareki(d.year.to_i).start_with?("大正")
+  def taisyo?(date)
+    TaxJp::Gengou.to_wareki(date).start_with?("大正")
   end
   
-  def meiji?(d)
-    TaxJp::Gengou.to_wareki(d.year.to_i).start_with?("明治")
+  def meiji?(date)
+    TaxJp::Gengou.to_wareki(date).start_with?("明治")
   end
 end

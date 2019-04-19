@@ -2,12 +2,12 @@
   <tr>
     <td rowspan="2" colspan="3" class="align-middle text-center" style="width: 45%;"><h4><strong>①　受取配当等の益金不算入に関する明細書</strong></h4></td>
     <td rowspan="2" colspan="2" class="align-middle text-center">事業<br/>年度</td>
-    <td class="align-middle text-center"><strong><%= format_wareki_year_month_day(@finder.start_year_month_day_of_fiscal_year) %></strong></td>
+    <td class="align-middle text-center"><strong><%= to_wareki(@finder.start_day) %></strong></td>
     <td rowspan="2" class="align-middle text-center">法人名</td>
     <td rowspan="2" colspan="2" class="align-middle text-center"><strong><%= current_company.name %></strong></td>
   </tr>
   <tr>
-    <td class="align-middle text-center"><strong><%= format_wareki_year_month_day(@finder.end_year_month_day_of_fiscal_year) %></strong></td>
+    <td class="align-middle text-center"><strong><%= to_wareki(@finder.end_day) %></strong></td>
   </tr>
 </table>
 <table class="table table-bordered my-0">

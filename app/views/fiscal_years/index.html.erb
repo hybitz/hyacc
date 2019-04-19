@@ -21,7 +21,7 @@
       <% @fiscal_years.each do |fy| %>
         <tr>
           <td><%= fy.fiscal_year %></td>
-          <td><%= format_year_month( fy.start_year_month ) %> ～ <%= format_year_month( fy.end_year_month ) %></td>
+          <td><%= fy.start_year_month %> ～ <%= fy.end_year_month %></td>
           <td><%= fy.tax_management_type_name %></td>
           <td><%= fy.consumption_entry_type_name %></td>
           <td><%= fy.closing_status_name %></td>

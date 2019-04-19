@@ -3,8 +3,8 @@
         <td colspan="3" class="align-middle"><b>利益積立金額及び資本金等の額の計算に関する明細書</b></td>
         <td class="text-center" width="50px">事業<br/>年度</td>
         <td class="text-center">
-          <div><%= format_wareki_year_month_day(@finder.start_year_month_day_of_fiscal_year) %></div>
-          <div><%= format_wareki_year_month_day(@finder.end_year_month_day_of_fiscal_year) %></div>
+          <div><%= to_wareki(@finder.start_day) %></div>
+          <div><%= to_wareki(@finder.end_day) %></div>
         </td>
         <td class="align-middle text-center">法人名</td>
         <td colspan="2" class="align-middle text-center"><%= current_company.name %></td>

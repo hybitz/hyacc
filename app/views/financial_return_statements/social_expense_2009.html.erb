@@ -2,12 +2,12 @@
   <tr>
     <td rowspan="2" colspan="3" align="center" width="310"><b>交際費等の損金算入に関する明細書</b></td>
     <td rowspan="2" colspan="2" align="center" width="60">事業<br/>年度</td>
-    <td width="130"><%= format_wareki_year_month_day(@finder.start_year_month_day_of_fiscal_year) %></td>
+    <td width="130"><%= to_wareki(@finder.start_day) %></td>
     <td rowspan="2" align="center" width="60">法人名</td>
     <td rowspan="2" colspan="2" width="220"><%= current_company.name %></td>
   </tr>
   <tr>
-    <td width="130"><%= format_wareki_year_month_day(@finder.end_year_month_day_of_fiscal_year) %></td>
+    <td width="130"><%= to_wareki(@finder.end_day) %></td>
   </tr>
   <tr>
     <td width="220">支出交際費等の額<br/>（７の計）</td>

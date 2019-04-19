@@ -4,8 +4,8 @@
       <td class="align-middle"><b>所得の金額の計算に関する明細書</b></td>
       <th class="text-center">事業<br/>年度</th>
       <th class="text-center">
-        <div><%= to_wareki_day(@model.fiscal_year.start_day) %></div>
-        <div><%= to_wareki_day(@model.fiscal_year.end_day) %></div>
+        <div><%= to_wareki(@model.fiscal_year.start_day) %></div>
+        <div><%= to_wareki(@model.fiscal_year.end_day) %></div>
       </th>
       <th class="align-middle text-center">法人名</th>
       <th class="align-middle text-center"><b><%= @model.company_name %></b></th>

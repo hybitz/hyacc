@@ -60,8 +60,8 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_equal 'test_create', u.employee.last_name
     assert_equal 'a', u.employee.first_name
     assert_equal 'M', u.employee.sex
-    assert_equal '2009/01/01', format_date(u.employee.employment_date)
-    assert_equal '2000/01/01', format_date(u.employee.birth)
+    assert_equal '2009-01-01', u.employee.employment_date.to_s
+    assert_equal '2000-01-01', u.employee.birth.to_s
   end
 
   def test_編集

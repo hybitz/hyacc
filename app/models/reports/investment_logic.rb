@@ -31,7 +31,7 @@ module Reports
           reports << {:formal_name => i == 0 ? inv.customer.formal_name : '',
                       :last_shares => i == 0 ? last['shares'] : '',
                       :last_trading_value => i == 0 ? last['trading_value'] : '',
-                      :ymd => inv.ym.to_s + "%02d"%inv.day,
+                      :deal_date => inv.deal_date,
                       :reason => inv.buying? ? '購入' : '売却',
                       :shares => inv.buying? ? inv.shares : inv.shares * -1,
                       :trading_value => inv.buying? ? inv.trading_value : inv.trading_value * -1,

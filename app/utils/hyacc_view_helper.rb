@@ -1,51 +1,6 @@
 module HyaccViewHelper
   include HyaccConstants
   
-  def format_datetime( date, format=nil )
-    return '' if date.nil?
-    
-    format = '%Y/%m/%d %H:%M:%S' unless format
-    date.strftime(format)
-  end
-
-  def format_date( date )
-    if date.nil?
-      ''
-    else
-      date.strftime('%Y/%m/%d')
-    end
-  end
-
-  def format_year_month( year_month )
-    zero_pad = (year_month % 100) < 10 ? '0' : '' 
-    (year_month / 100).to_s + '/' + zero_pad + (year_month % 100).to_s
-  end
-  
-  def format_ymd( ym, day )
-    zero_pad = day < 10 ? '0' : '' 
-    format_year_month(ym) + '/' + zero_pad + day.to_s
-  end
-
-  def format_year_month_day( year_month_day )
-    format_year_month( year_month_day / 100 ) + '/' + (year_month_day % 100).to_s
-  end
-
-  def format_wareki_year_month( year_month )
-    year_month = year_month.to_i
-    zero_pad = ( year_month % 100 ) < 10 ? '0' : ''
-    TaxJp::Gengou.to_wareki( year_month / 100 ) + "年" + zero_pad + ( year_month % 100 ).to_s + "月"
-  end
-  
-  def format_wareki_year_month_day( year_month_day )
-    year_month_day = year_month_day.to_i
-    zero_pad = ( year_month_day % 100 ) < 10 ? '0' : ''
-    format_wareki_year_month( year_month_day / 100 ) + zero_pad + ( year_month_day % 100 ).to_s + "日"
-  end
-
-  def to_wareki_day(date)
-    TaxJp::Gengou.to_wareki(date.year) + date.strftime('年%m月%d日')
-  end
-  
   def dc_types
     revert_and_sort( DC_TYPES )
   end

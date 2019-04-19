@@ -12,9 +12,9 @@
       <td style="width: 40%;"></td>
       <td>課税期間</td>
       <td>
-        <%= format_wareki_year_month_day(@model.fiscal_year.start_day.strftime('%Y%m%d')) %>
+        <%= to_wareki(@model.fiscal_year.start_day) %>
         <span>～</span>
-        <%= format_wareki_year_month_day(@model.fiscal_year.end_day.strftime('%Y%m%d')) %>
+        <%= to_wareki(@model.fiscal_year.end_day) %>
       </td>
       <td>氏名又は名称</td>
       <td><%= @model.company_name %></td>

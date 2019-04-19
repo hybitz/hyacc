@@ -3,7 +3,7 @@
 <div style="margin: 10px;">
   <table class="none_border" width="1000">
     <tr>
-      <td class="none_border" align="center"><b><%= to_wareki(@data.calendar_year) %>年分　給与所得の源泉徴収</b></td>
+      <td class="none_border" align="center"><b><%= to_wareki_year(@data.calendar_year) %>年分　給与所得の源泉徴収</b></td>
     </tr>
   </table>
   <br/>
@@ -112,7 +112,7 @@
     		<td colspan="2" class="item">住宅借入金等<br>特別控除適用数</td>
     		<td colspan="2"><%= @data.exemption.num_of_house_loan %></td>
     		<td colspan="2" class="item">居住開始年月<br>日（1回目）</td>
-    		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_1.year, :only_year => true) if @data.exemption.date_of_start_living_1 %></td>
+    		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_1, only_date: true, format: '%y') if @data.exemption.date_of_start_living_1 %></td>
     		<td colspan="2"><%= @data.exemption.date_of_start_living_1.mon if @data.exemption.date_of_start_living_1 %></td>
     		<td colspan="2"><%= @data.exemption.date_of_start_living_1.mday if @data.exemption.date_of_start_living_1 %></td>
     		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（1回目）</td>
@@ -124,7 +124,7 @@
     		<td colspan="2" class="item">住宅借入金等<br>特別控除可能額</td>
     		<td colspan="2"><%= number_to_currency(@data.mortgage_deductible, :format=>"%n") if @data.mortgage_deductible.present? %></td>
     		<td colspan="2" class="item">居住開始年月<br>日（2回目）</td>
-    		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_2.year, :only_year => true) if @data.exemption.date_of_start_living_2 %></td>
+    		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_2, only_date: true, format: '%y') if @data.exemption.date_of_start_living_2 %></td>
     		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mon if @data.exemption.date_of_start_living_2 %></td>
     		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mday if @data.exemption.date_of_start_living_2 %></td>
     		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（2回目）</td>
@@ -295,14 +295,14 @@
     		<td colspan="1"></td>
     		<td colspan="1"><%= "○" if @data.employment_year %></td>
     		<td colspan="1"><%= "○" if @data.retirement_year %></td>
-    		<td colspan="1"><%= to_wareki(@data.employment_or_retirement_date.year, :only_year => true) if @data.employment_or_retirement_date.present? %></td>
+    		<td colspan="1"><%= to_wareki(@data.employment_or_retirement_date, only_date: true, format: '%y') if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="1"><%= @data.employment_or_retirement_date.month if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="1"><%= @data.employment_or_retirement_date.day if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="1"><%= "○" if meiji?(@data.employee.birth) %></td>
     		<td colspan="1"><%= "○" if taisyo?(@data.employee.birth) %></td>
     		<td colspan="1"><%= "○" if syowa?(@data.employee.birth) %></td>
     		<td colspan="1"><%= "○" if heisei?(@data.employee.birth) %></td>
-    		<td colspan="1"><%= to_wareki(@data.employee.birth.year, :only_year => true) %></td>
+    		<td colspan="1"><%= to_wareki(@data.employee.birth, only_date: true, format: '%y') %></td>
     		<td colspan="1"><%= @data.employee.birth.month %></td>
     		<td colspan="1"><%= @data.employee.birth.day %></td>
      </tr>

@@ -16,7 +16,7 @@
   <div class="mx-1" style="float: left;">
     <%= current_company.current_fiscal_year_int %> 年度
     （第 <%= current_company.current_fiscal_year.fiscal_period %> 期
-    : <%= format_wareki_year_month(current_company.current_fiscal_year.start_year_month) %>～<%= format_wareki_year_month(current_company.current_fiscal_year.end_year_month) %>）
+    : <%= to_wareki(current_company.current_fiscal_year.start_day) %>～<%= to_wareki(current_company.current_fiscal_year.end_day) %>）
   </div>
   <div class="mx-1 text-right">
     <%= link_to "#{current_user.employee.fullname} さん", edit_profile_path(current_user) %>

@@ -79,5 +79,13 @@ module Base
       d = Date.new(yyyymm / 100, yyyymm % 100, 1).end_of_month
       d.strftime("%Y%m%d").to_i
     end
+    
+    def start_day
+      Date.strptime(start_year_month_day_of_fiscal_year.to_s, '%Y%m%d')
+    end
+
+    def end_day
+      Date.strptime(end_year_month_day_of_fiscal_year.to_s, '%Y%m%d')
+    end
   end
 end

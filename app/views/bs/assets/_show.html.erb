@@ -25,7 +25,7 @@
     <th colspan="3">摘要</th>
   </tr>
   <tr>
-    <td><%= render_ymd(@asset) %></td>
+    <td><%= @asset.date %></td>
     <td><%= @asset.depreciation_method_name %></td>
     <td align="center"><%= @asset.durable_years %>年</td>
     <td class="amount"><%= @asset.depreciation_limit %></td>

@@ -61,7 +61,7 @@ GEM
     backports (3.13.0)
     bcrypt (3.1.12)
     bindex (0.7.0)
-    bootsnap (1.4.3)
+    bootsnap (1.4.4)
       msgpack (~> 1.0)
     bootstrap (4.3.1)
       autoprefixer-rails (>= 9.1.0)
@@ -88,7 +88,7 @@ GEM
     capistrano-sidekiq (1.0.2)
       capistrano (>= 3.9.0)
       sidekiq (>= 3.4)
-    capybara (3.17.0)
+    capybara (3.18.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -101,7 +101,7 @@ GEM
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
     carrierwave-i18n (0.2.0)
-    chef-config (14.12.3)
+    chef-config (14.12.9)
       addressable
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
@@ -175,7 +175,7 @@ GEM
       activemodel
     encryptor (3.0.0)
     erubi (1.8.0)
-    et-orbi (1.1.8)
+    et-orbi (1.2.0)
       tzinfo
     excon (0.64.0)
     execjs (2.7.0)
@@ -184,7 +184,7 @@ GEM
     ffi (1.10.0)
     ffi-yajl (2.3.1)
       libyajl2 (~> 1.2)
-    fog-aws (3.4.0)
+    fog-aws (3.5.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
@@ -203,7 +203,7 @@ GEM
     font-awesome-rails (4.7.0.5)
       railties (>= 3.2, < 6.1)
     formatador (0.2.5)
-    fugit (1.1.10)
+    fugit (1.2.0)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.1)
     fullcalendar-rails (3.9.0.0)
@@ -270,7 +270,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     mixlib-cli (2.0.3)
-    mixlib-config (2.2.18)
+    mixlib-config (3.0.1)
       tomlrb
     mixlib-log (3.0.1)
     mixlib-shellout (2.4.4)
@@ -290,7 +290,7 @@ GEM
     net-ssh (5.2.0)
     net-telnet (0.1.1)
     nio4r (2.3.1)
-    nokogiri (1.10.2)
+    nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
     nostalgic (0.5.1)
       rails (>= 4.2, < 6)
@@ -388,8 +388,8 @@ GEM
     ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.2)
-    rufus-scheduler (3.5.2)
-      fugit (~> 1.1, >= 1.1.5)
+    rufus-scheduler (3.6.0)
+      fugit (~> 1.1, >= 1.1.6)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -404,18 +404,18 @@ GEM
     sassc (2.0.1)
       ffi (~> 1.9)
       rake
-    sassc-rails (2.1.0)
+    sassc-rails (2.1.1)
       railties (>= 4.0.0)
       sassc (>= 2.0)
       sprockets (> 3.0)
       sprockets-rails
       tilt
     schash (0.1.2)
-    selenium-webdriver (3.141.5926)
+    selenium-webdriver (3.142.0)
       childprocess (>= 0.5, < 2.0)
       rubyzip (~> 1.2, >= 1.2.2)
     sfl (2.3)
-    sidekiq (5.2.6)
+    sidekiq (5.2.7)
       connection_pool (~> 2.2, >= 2.2.2)
       rack (>= 1.5.0)
       rack-protection (>= 1.5.0)
@@ -458,7 +458,7 @@ GEM
       activesupport (>= 4.2, < 6)
       railties (>= 4.2, < 6)
     systemu (2.6.5)
-    tax_jp (1.0.0)
+    tax_jp (1.0.1)
       bootstrap (~> 4.2, >= 4.2.1)
       bootstrap4-datetime-picker-rails
       font-awesome-rails

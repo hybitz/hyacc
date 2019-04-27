@@ -9,7 +9,7 @@ module CurrentCompany
 
   def current_company
     return false unless user_signed_in?
-    current_user.employee && current_user.employee.company
+    current_user.employee.try(:company)
   end
 
 end

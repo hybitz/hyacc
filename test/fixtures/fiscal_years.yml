@@ -1,6 +1,6 @@
 <% require 'csv' %>
-<% CSV.foreach('test/data/fiscal_years.csv', headers: true) do |row| %>
-<%= $. %>:
+<% CSV.read('test/data/fiscal_years.csv', headers: true).each_with_index do |row, i| %>
+<%= i + 1 %>:
 <% row.headers.each do |column| %>
   <%= column %>: <%= row[column] %>
 <% end %>

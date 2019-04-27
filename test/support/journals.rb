@@ -4,7 +4,7 @@ module Journals
   def journal
     unless @_journal
       assert c = Company.first
-      assert fy = c.fiscal_years.where(tax_management_type: TAX_MANAGEMENT_TYPE_EXCLUSIVE).first
+      assert fy = c.fiscal_years.where(tax_management_type: TAX_MANAGEMENT_TYPE_EXCLUSIVE).order(:fiscal_year).first
       assert @_journal = Journal.where('company_id = ? and ym >= ? and ym <= ?', c.id, fy.start_year_month, fy.end_year_month).first
     end
     @_journal

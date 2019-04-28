@@ -14,7 +14,8 @@ branches:
     - master
 before_install:
   - cp -f travis/database.yml config/
-  - bundle update --bundler
+  - gem update --system
+  - gem install bundler
 script:
   - bundle exec rake dad:db:create DAD_MYSQL_NO_ROOT_PASSWORD=true
   - bin/rails db:schema:load RAILS_ENV=test

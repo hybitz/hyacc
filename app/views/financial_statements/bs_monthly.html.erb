@@ -1,9 +1,10 @@
-<table id="bsContainer" border="1"">
+<div class="mx-2">
+<table id="bsContainer" class="table table-sm table-hover table-bordered">
   <%# 見出し %>
   <tr>
     <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
     <% @finder.get_ym_range.each do |ym| %>
-    <th align="center"><%= ym %></th>
+    <th class="text-center"><%= ym %></th>
     <% end %>
   </tr>
 
@@ -26,6 +27,7 @@
     <% end %>
   </tr>
 </table>
+</div>
 
 <script>
   $(document).ready(function() {

@@ -27,12 +27,12 @@
 
 <div id="bsContainer">
   <div style="float: left;">
-    <table id="debit_table" border="1">
+    <table id="debit_table" class="table table-sm table-hover table-bordered">
       <%# 見出し %>
       <tr>
         <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
-        <th align="center">金額</th>
-        <th align="center">構成比（％）</th>
+        <th class="text-center">金額</th>
+        <th class="text-center">構成比（％）</th>
       </tr>
     
       <%# 資産の部 %>
@@ -40,12 +40,12 @@
     </table>
   </div>
   <div style="float: left; margin-left: 10px;">
-    <table id="credit_table" border="1">
+    <table id="credit_table" class="table table-sm table-hover table-bordered">
       <%# 見出し %>
       <tr>
         <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
-        <th align="center">金額</th>
-        <th align="center">構成比（％）</th>
+        <th class="text-center">金額</th>
+        <th class="text-center">構成比（％）</th>
       </tr>
     
       <%# 負債の部 %>

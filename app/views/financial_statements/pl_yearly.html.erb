@@ -11,12 +11,13 @@
   }  
 </script>
 
-<table id="plContainer" border="1">
+<div class="px-2 col-md-4">
+<table id="plContainer" class="table table-sm table-hover table-bordered">
   <%# 見出し %>
   <tr>
     <th colspan="<%= colspan( 2 ) %>">勘定科目</th>
-    <th align="center">金額</th>
-    <th align="center">構成比（％）</th>
+    <th class="text-center">金額</th>
+    <th class="text-center">構成比（％）</th>
   </tr>
 
   <%# 売上高 %>
@@ -142,6 +143,7 @@
     <td id="profit_ratio" align="right"></td>
   </tr>
 </table>
+</div>
 
 <script>
   $(document).ready(function() {

@@ -5,8 +5,8 @@ rvm:
   - 2.6.3
   - 2.5.5
 env:
-  - DRIVER=chrome
-  - DRIVER=firefox
+  - PLATFORM=Linux DRIVER=chrome
+  - PLATFORM="Windows 10" DRIVER=firefox
 addons:
   sauce_connect: true
 branches:

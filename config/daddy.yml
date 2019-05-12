@@ -1,9 +1,7 @@
-application: hyacc
-
-cucumber:
-  use_feature_name: false
-  title: Hyacc
-
+application:
+  name: hyacc
+  env: development
+  root: <%= File.expand_path('..', __FILE__) %>
 web:
   server_name: localhost
 app:

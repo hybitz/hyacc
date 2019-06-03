@@ -17,12 +17,17 @@ class Company < ApplicationRecord
   mount_uploader :logo, LogoUploader
 
   has_many :banks, -> { where deleted: false }
+  has_many :bank_accounts, -> { where deleted: false }
 
   attr_accessor :day_of_payday
   attr_accessor :month_of_payday
 
   after_initialize :load_payday
 
+  def bank_account_for_payroll
+    bank_accounts.find_by(for_payroll: true)
+  end
+  
   def current_fiscal_year
     fiscal_years.where(:fiscal_year => fiscal_year).first
   end

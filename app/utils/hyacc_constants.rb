@@ -46,9 +46,6 @@ module HyaccConstants
     AUTO_JOURNAL_TYPE_INVESTMENT = 13 => 'Journal::InvestmentFactory',
   }
 
-  # 給与振込口座
-  BANK_ACCOUNT_ID_FOR_PAY = 1
-
   # 締め状態
   CLOSING_STATUS = {
     CLOSING_STATUS_OPEN = 1 => '通常',

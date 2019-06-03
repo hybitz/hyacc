@@ -1,13 +1,16 @@
 1:
   id: 1
+  company_id: 1
   bank_id: 1
   bank_office_id: 1
   code: 100
   name: 北海道銀行
   holder_name: 株式会社テストA
   financial_account_type: 1
+  for_payroll: true
 2:
   id: 2
+  company_id: 1
   bank_id: 4
   code: 200
   name: みずほ銀行

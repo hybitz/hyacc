@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_19_120119) do
+ActiveRecord::Schema.define(version: 2019_06_03_135528) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -111,6 +111,8 @@ ActiveRecord::Schema.define(version: 2019_01_19_120119) do
     t.integer "bank_id", null: false
     t.integer "bank_office_id"
     t.integer "financial_account_type", default: 0, null: false
+    t.boolean "for_payroll", default: false, null: false
+    t.integer "company_id", null: false
     t.index ["name"], name: "index_bank_accounts_on_name", unique: true
   end
 

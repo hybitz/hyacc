@@ -57,6 +57,7 @@ ja:
         bank_office_id: 支店
         code: 口座番号
         financial_account_type: 区分
+        for_payroll: 給与支払口座
         holder_name: 口座名義
         name: 口座名
 

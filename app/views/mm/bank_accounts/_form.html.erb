@@ -1,4 +1,4 @@
-<%= form_for [:mm, @bank_account], :remote => true do |f| %>
+<%= form_for [:mm, @bank_account], remote: true do |f| %>
   <%= flash_notice %>
 
   <script>
@@ -39,6 +39,10 @@
     <tr>
       <th><%= f.label :holder_name %></th>
       <td><%= f.text_field :holder_name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :for_payroll %></th>
+      <td><%= f.check_box :for_payroll %></td>
     </tr>
   </table>
 <% end %>

@@ -259,7 +259,7 @@ module Auto::Journal
       detail.detail_no = journal.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = account
-      detail.sub_account_id = BANK_ACCOUNT_ID_FOR_PAY
+      detail.sub_account_id = journal.company.bank_account_for_payroll.id
       detail.branch_id = branch_id
       detail.note = "口座引落し額"
       detail.amount = 0
@@ -290,7 +290,7 @@ module Auto::Journal
       employee = Employee.find(@payroll.employee_id)
       return ret if employee.employee_bank_account.nil?
 
-      ba = BankAccount.find(BANK_ACCOUNT_ID_FOR_PAY)
+      ba = employee.company.bank_account_for_payroll
       if ba.bank_id == employee.employee_bank_account.bank_id
         if ba.bank_office_id == employee.employee_bank_account.bank_office_id
           ret = ba.bank.get_commission(@credit_amount, Bank::TO_SAME_OFFICE)
@@ -374,7 +374,7 @@ module Auto::Journal
       detail.detail_no = journal.journal_details.size
       detail.dc_type = DC_TYPE_CREDIT
       detail.account = account
-      detail.sub_account_id = BANK_ACCOUNT_ID_FOR_PAY
+      detail.sub_account_id = journal.company.bank_account_for_payroll.id
       detail.branch_id = branch_id
       detail.note = "口座引落し額"
       detail.amount = 0

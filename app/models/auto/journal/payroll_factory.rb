@@ -285,20 +285,23 @@ module Auto::Journal
     end
     
     def calc_commissions
-      commission = 0
+      ret = 500
+
       employee = Employee.find(@payroll.employee_id)
+      return ret if employee.employee_bank_account.nil?
+
       ba = BankAccount.find(BANK_ACCOUNT_ID_FOR_PAY)
-      return 500 if employee.employee_bank_account.nil?
       if ba.bank_id == employee.employee_bank_account.bank_id
         if ba.bank_office_id == employee.employee_bank_account.bank_office_id
-          commission = ba.bank.get_commission(@credit_amount, Bank::TO_SAME_OFFICE)
+          ret = ba.bank.get_commission(@credit_amount, Bank::TO_SAME_OFFICE)
         else
-          commission = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_OFFICE)
+          ret = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_OFFICE)
         end
       else
-        commission = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_BANK)
+        ret = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_BANK)
       end
-      return commission
+
+      ret
     end
     
     def make_commission

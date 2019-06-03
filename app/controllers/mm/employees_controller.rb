@@ -12,6 +12,7 @@ class Mm::EmployeesController < Base::HyaccController
 
   def new
     @e = new_employee
+    @e.build_employee_bank_account(bank: current_company.banks.first)
   end
   
   def create
@@ -28,7 +29,7 @@ class Mm::EmployeesController < Base::HyaccController
 
     rescue => e
       handle(e)
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -89,6 +90,7 @@ class Mm::EmployeesController < Base::HyaccController
       :num_of_dependents_attributes => [:id, :_destroy],
       :zip_codes_attributes => [:id, :_destroy],
       :addresses_attributes => [:id, :_destroy],
+      :employee_bank_account_attributes => [:id, :bank_id, :bank_office_id, :code],
       :branch_employees_attributes => [:id, :deleted, :branch_id, :default_branch]
     ]
 

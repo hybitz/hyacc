@@ -16,7 +16,9 @@ class Employee < ApplicationRecord
   has_many :branches, through: :branch_employees
   has_many :careers, -> { order('start_from, end_to') }, dependent: :destroy
   has_many :exemptions, dependent: :destroy
-  has_one :employee_bank_account, dependent: :destroy
+
+  has_one :employee_bank_account
+  accepts_nested_attributes_for :employee_bank_account
 
   def self.name_is(name)
     where('last_name = ? or first_name = ? or concat(last_name, first_name) = ?', name, name, name)

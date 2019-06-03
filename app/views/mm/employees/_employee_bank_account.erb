@@ -1,12 +1,20 @@
-<%= fields_for @e.employee_bank_account do |f| %>
+<script>
+  $(document).ready(function() {
+    $('#employee_employee_bank_account_attributes_bank_id').change(function() {
+      bank_accounts.update_bank_offices(this, '#employee_employee_bank_account_attributes_bank_office_id');
+    });
+  });
+</script>
+<%= fields_for "employee[employee_bank_account_attributes]",@e.employee_bank_account do |f| %>
+  <%= f.hidden_field :id %>
   <table class="table">
     <tr>
       <th>金融機関名称</th>
-      <td><%= f.text_field :bank_name %></td>
+      <td><%= f.collection_select :bank_id, current_company.banks, :id, :name, {}, href: bank_offices_path %></td>
     </tr>
     <tr>
       <th>支店名称</th>
-      <td><%= f.text_field :bank_office_name %></td>
+      <td><%= f.collection_select :bank_office_id, f.object.bank.bank_offices, :id, :name %></td>
     </tr>
     <tr>
       <th>口座番号</th>

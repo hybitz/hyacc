@@ -5,13 +5,11 @@ class EmployeeBankAccount < ApplicationRecord
   
 
   def bank_name
-    return nil unless bank
-    bank.name
+    bank.try(:name)
   end
   
   def bank_office_name
-    return nil unless bank_office
-    bank_office.name
+    bank_office.try(:name)
   end
   
 end

@@ -35,6 +35,8 @@ class Mm::EmployeesController < Base::HyaccController
 
   def edit
     @e = Employee.find(params[:id])
+    eba = @e.employee_bank_account
+    eba ||= @e.build_employee_bank_account(bank: current_company.banks.first)
   end
   
   def update

@@ -301,7 +301,7 @@ module Auto::Journal
         ret = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_BANK)
       end
 
-      ret
+      ret || 500
     end
     
     def make_commission

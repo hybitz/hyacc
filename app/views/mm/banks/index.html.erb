@@ -7,9 +7,9 @@
       <th rowspan="2" class="align-middle"><%= Bank.human_attribute_name :code %></th>
       <th rowspan="2" class="align-middle"><%= Bank.human_attribute_name :name %></th>
       <th rowspan="2" class="align-middle text-center"><%= Bank.human_attribute_name :disabled %></th>
-      <th colspan="3" class="text-center">振込手数料（3万円未満）</th>
-      <th colspan="3" class="text-center">振込手数料（3万円以上）</th>
-      <th rowspan="2" class="align-middle"></th>
+      <th colspan="3" class="text-center" style="width: 20%;">振込手数料（3万円未満）</th>
+      <th colspan="3" class="text-center" style="width: 20%;">振込手数料（3万円以上）</th>
+      <th rowspan="2" class="align-middle" style="width: 10%;"></th>
     </tr>
     <tr>
       <th class="text-center">同じ支店</th>
@@ -33,8 +33,8 @@
         <td class="text-center"><%= bank.ge_30k_other_office %></td>
         <td class="text-center"><%= bank.ge_30k_other_bank %></td>
         <td class="text-center">
-          <%= link_to '編集', edit_mm_bank_path(bank), :remote => true %>
-          <%= link_to '削除', mm_bank_path(bank), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %>
+          <%= link_to '編集', edit_mm_bank_path(bank), remote: true %>
+          <%= link_to '削除', mm_bank_path(bank), data: {confirm: '削除します。よろしいですか？'}, method: :delete %>
         </td>
       </tr>
     <% end %>
@@ -45,7 +45,7 @@
         <%= will_paginate @banks if @banks.present? %>
       </td>
       <td class="text-center">
-        <%= link_to '追加', new_mm_bank_path, :class => 'btn btn-light add', remote: true %>
+        <%= link_to '追加', new_mm_bank_path, class: 'btn btn-light add', remote: true %>
       </td>
     </tr>
   </tfoot>

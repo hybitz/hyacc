@@ -1,21 +1,46 @@
 <%= form_with model: [:mm, @bank] do |f| %>
   <%= flash_notice %>
 
-  <% if @bank.new_record? %>
-    <p>
-      <%= f.label :code %><br>
-      <%= f.text_field :code %>
-    </p>
-  <% else %>
-    <p>
-      <%= f.label :code %>：<%= @bank.code %>
-    </p>
-  <% end %>
-
-  <p>
-    <%= f.label :name %><br>
-    <%= f.nostalgic_text_field :name %>
-  </p>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th rowspan="2" class="align-middle"><%= f.label :code %></th>
+        <th rowspan="2" class="align-middle"><%= f.label :name %></th>
+        <th colspan="3" class="text-center" style="width: 25%;">振込手数料（3万円未満）</th>
+        <th colspan="3" class="text-center" style="width: 25%;">振込手数料（3万円以上）</th>
+      </tr>
+      <tr>
+        <th class="text-center">同じ支店</th>
+        <th class="text-center">他の支店</th>
+        <th class="text-center">他の機関</th>
+        <th class="text-center">同じ支店</th>
+        <th class="text-center">他の支店</th>
+        <th class="text-center">他の機関</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <% if @bank.new_record? %>
+            <%= f.text_field :code %>
+          <% else %>
+            <%= @bank.code %>
+          <% end %>
+        </td>
+        <td><%= f.nostalgic_text_field :name %></td>
+        <% %w{
+          lt_30k_same_office
+          lt_30k_other_office
+          lt_30k_other_bank
+          ge_30k_same_office
+          ge_30k_other_office
+          ge_30k_other_bank
+        }.each do |colomn| %>
+          <td class="text-center"><%= f.text_field colomn, class: 'text-center', style: 'width: 50%;' %></td>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
 
   <%= render 'bank_offices_fields', :bank_offices => @bank.bank_offices %>
 <% end %>

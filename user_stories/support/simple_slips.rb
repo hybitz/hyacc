@@ -8,7 +8,7 @@ module SimpleSlips
     assert has_title?(options[:account].name)
 
     if options[:branch]
-      select options[:branch].name, :from => 'finder[branch_id]'
+      select options[:branch].name, from: 'finder[branch_id]'
       click_on '表示'
     end
 
@@ -18,7 +18,7 @@ module SimpleSlips
 
   def create_simple_slip(simple_slip)
     with_capture do
-      visit_simple_slip(:account => simple_slip.my_account, :branch => simple_slip.branch)
+      visit_simple_slip(:account => simple_slip.my_account, branch: simple_slip.branch)
 
       within '#new_simple_slip' do
         fill_in 'simple_slip_ym', :with => simple_slip.ym

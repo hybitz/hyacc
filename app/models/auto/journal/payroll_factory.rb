@@ -280,28 +280,7 @@ module Auto::Journal
     end
 
     def commissions_required?
-      return false if @payroll.is_bonus?
-      return calc_commissions > 0
-    end
-    
-    def calc_commissions
-      ret = 500
-
-      employee = Employee.find(@payroll.employee_id)
-      return ret if employee.employee_bank_account.nil?
-
-      ba = employee.company.bank_account_for_payroll
-      if ba.bank_id == employee.employee_bank_account.bank_id
-        if ba.bank_office_id == employee.employee_bank_account.bank_office_id
-          ret = ba.bank.get_commission(@credit_amount, Bank::TO_SAME_OFFICE)
-        else
-          ret = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_OFFICE)
-        end
-      else
-        ret = ba.bank.get_commission(@credit_amount, Bank::TO_OTHER_BANK)
-      end
-
-      ret || 500
+      return @payroll.transfer_fee > 0
     end
     
     def make_commission
@@ -332,9 +311,6 @@ module Auto::Journal
       fy = employee.company.get_fiscal_year(journal.ym)
       raise HyaccException.new(ERR_FISCAL_YEAR_NOT_EXISTS) unless fy
 
-      ## 支払明細
-      commission = calc_commissions
-      
       ### 支払手数料
       account = Account.find_by_code(ACCOUNT_CODE_COMMISSION_PAID)
       sub_account = account.sub_accounts.find{|sa| sa.name == '振込手数料' }
@@ -348,10 +324,10 @@ module Auto::Journal
       if fy.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
         detail.tax_type = TAX_TYPE_INCLUSIVE
         detail.tax_rate = tax_rate
-        detail.amount = commission
+        detail.amount = @payroll.transfer_fee
       else
         detail.tax_type = TAX_TYPE_NONTAXABLE
-        detail.amount = (commission * (1 + tax_rate)).to_i
+        detail.amount = (@payroll.transfer_fee * (1 + tax_rate)).to_i
       end
 
       ### 支払手数料の消費税
@@ -363,7 +339,7 @@ module Auto::Journal
         detail.tax_type = TAX_TYPE_NONTAXABLE
         detail.account = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
         detail.branch_id = branch_id
-        detail.amount = (commission * tax_rate).to_i
+        detail.amount = (@payroll.transfer_fee * tax_rate).to_i
         detail.note = "振込手数料の消費税"
         detail.main_detail = journal.journal_details.first
       end

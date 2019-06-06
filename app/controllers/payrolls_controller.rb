@@ -36,13 +36,13 @@ class PayrollsController < Base::HyaccController
     employee_id = params[:employee_id]
 
     previous_payroll = Payroll.get_previous(ym, employee_id)
-    salary = previous_payroll.try(:base_salary)
-    extra_pay = previous_payroll.try(:extra_pay)
-    commuting_allowance = previous_payroll.try(:commuting_allowance)
-    housing_allowance = previous_payroll.try(:housing_allowance)
-    monthly_standard = previous_payroll.try(:monthly_standard)
+    base_salary = previous_payroll.try(:base_salary).to_i
+    extra_pay = previous_payroll.try(:extra_pay).to_i
+    commuting_allowance = previous_payroll.try(:commuting_allowance).to_i
+    housing_allowance = previous_payroll.try(:housing_allowance).to_i
+    monthly_standard = previous_payroll.try(:monthly_standard).to_i
 
-    @payroll = get_tax(ym, employee_id, salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
+    @payroll = get_tax(ym, employee_id, base_salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
 
     # 初期値の設定
     @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
@@ -51,6 +51,7 @@ class PayrollsController < Base::HyaccController
     # 住民税マスタより住民税額を取得
     @payroll.inhabitant_tax = get_inhabitant_tax(employee_id, ym)
     @payroll.pay_day = get_pay_day(ym, employee_id)
+    @payroll.transfer_fee = @payroll.employee.calc_payroll_transfer_fee(base_salary)
 
     # 従業員への未払費用
     @payroll.accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee_id)
@@ -174,7 +175,7 @@ class PayrollsController < Base::HyaccController
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :extra_pay, :temporary_salary, :commuting_allowance, :housing_allowance, :monthly_standard,
         :health_insurance, :welfare_pension, :income_tax, :employment_insurance,
-        :inhabitant_tax, :accrued_liability, :annual_adjustment, :pay_day)
+        :inhabitant_tax, :accrued_liability, :annual_adjustment, :pay_day, :transfer_fee)
 
     case action_name
     when 'create'

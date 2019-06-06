@@ -79,4 +79,22 @@ class Employee < ApplicationRecord
     end
   end
 
+  def calc_payroll_transfer_fee(transfer_amount)
+    ret = 500
+    return ret if employee_bank_account.nil?
+  
+    ba = company.bank_account_for_payroll
+    if ba.bank_id == employee_bank_account.bank_id
+      if ba.bank_office_id == employee_bank_account.bank_office_id
+        ret = ba.bank.get_commission(transfer_amount, Bank::TO_SAME_OFFICE)
+      else
+        ret = ba.bank.get_commission(transfer_amount, Bank::TO_OTHER_OFFICE)
+      end
+    else
+      ret = ba.bank.get_commission(transfer_amount, Bank::TO_OTHER_BANK)
+    end
+  
+    ret || 500
+  end
+
 end

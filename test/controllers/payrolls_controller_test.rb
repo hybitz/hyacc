@@ -21,7 +21,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in user
-    get :new, :params => {ym: 200904, employee_id: 2}, :xhr => true
+    get :new, xhr: true, params: {ym: 200904, employee_id: 2}
     assert_response :success
     assert_template 'new'
   end

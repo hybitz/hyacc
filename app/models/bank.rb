@@ -14,11 +14,11 @@ class Bank < ApplicationRecord
   
   def get_commission(amount, to)
     case to
-    when TO_SAME_OFFICE then
+    when TO_SAME_OFFICE
       return amount < 30000 ? lt_30k_same_office : ge_30k_same_office
-    when TO_OTHER_OFFICE then
+    when TO_OTHER_OFFICE
       return amount < 30000 ? lt_30k_other_office : ge_30k_other_office
-    when TO_OTHER_BANK then
+    when TO_OTHER_BANK
       return  amount < 30000 ? lt_30k_other_bank : ge_30k_other_bank
     else
       raise HyaccException.new("無効な振込先です")

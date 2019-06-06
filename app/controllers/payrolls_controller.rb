@@ -41,6 +41,7 @@ class PayrollsController < Base::HyaccController
     commuting_allowance = previous_payroll.try(:commuting_allowance).to_i
     housing_allowance = previous_payroll.try(:housing_allowance).to_i
     monthly_standard = previous_payroll.try(:monthly_standard).to_i
+    accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee_id)
 
     @payroll = get_tax(ym, employee_id, base_salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
 
@@ -51,10 +52,13 @@ class PayrollsController < Base::HyaccController
     # 住民税マスタより住民税額を取得
     @payroll.inhabitant_tax = get_inhabitant_tax(employee_id, ym)
     @payroll.pay_day = get_pay_day(ym, employee_id)
-    @payroll.transfer_fee = @payroll.employee.calc_payroll_transfer_fee(base_salary)
 
     # 従業員への未払費用
-    @payroll.accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee_id)
+    @payroll.accrued_liability = accrued_liability
+    
+    # 振込手数料の想定額
+    estimated_transfer_amount = base_salary + extra_pay + commuting_allowance + housing_allowance + accrued_liability
+    @payroll.transfer_fee = @payroll.employee.calc_payroll_transfer_fee(estimated_transfer_amount)
   end
 
   def create

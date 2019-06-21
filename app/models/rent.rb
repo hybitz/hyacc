@@ -3,11 +3,11 @@ class Rent < ApplicationRecord
   
   belongs_to :customer
 
-  validates_presence_of :rent_type, :usage_type, :ymd_start, :status, :name, :message => "は必須です。"
-  validates_format_of :ymd_start, :ymd_end, :allow_nil=>true, :with=>/[0-9]{8}/, :message=>"は数値８桁で入力して下さい。"
+  validates_presence_of :rent_type, :usage_type, :status, :name, message: "は必須です。"
+  validates :start_from, presence: true
   validates_format_of :zip_code, :with=>/[0-9]{7}/, :allow_nil=>true, :message=>'は数字7桁で入力してください。'
 
-  validate :validate_ymd_end
+  validate :validate_end_to
 
   attr_accessor :total_amount
   attr_accessor :remarks
@@ -18,9 +18,9 @@ class Rent < ApplicationRecord
 
   private
 
-  def validate_ymd_end
-    if ymd_end.present? && ymd_start.present? && ymd_start > ymd_end
-      errors.add(:ymd_end, "は契約開始日以降を指定してください。")
+  def validate_end_to
+    if start_from.present? && end_to.present? && start_from > end_to
+      errors.add(:end_to, "は契約開始日以降を指定してください。")
     end
   end
   

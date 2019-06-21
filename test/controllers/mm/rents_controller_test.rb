@@ -25,7 +25,7 @@ class Mm::RentsControllerTest < ActionController::TestCase
           :rent_type => "1", :usage_type => "1",
           :address => "住所", :customer_id => "1",
           :name => "表示名",
-          :status => "1", :ymd_start => "20071010"
+          status: "1", start_from: "2007-10-10"
         }
       }
     end
@@ -39,22 +39,22 @@ class Mm::RentsControllerTest < ActionController::TestCase
         :rent_type => "", :usage_type => "",
         :address => "住所", :customer_id => "1",
         :name => "",
-        :status => "", :ymd_start => "", :ymd_end => "2009010"
+        status: "", start_from: "", end_to: "2009-01-0"
       }
     }
     
     assert_response :success
-    assert_equal 6, assigns(:rent).errors.size
+    assert_equal 5, assigns(:rent).errors.size
     assert_template 'new'
   end
   
   def test_should_get_edit
-    get :edit, :xhr => true, :params => {:id => rents(:rent_00005).id}
+    get :edit, xhr: true, params: {id: rents(:rent_00005).id}
     assert_response :success
   end
 
   def test_should_update_rent
-    patch :update, :params => {:id => rents(:rent_00005).id, :format => 'js',
+    patch :update, xhr: true, params: {id: rents(:rent_00005).id, format: 'js',
                               :rent => {:rent_type => "1", :usage_type => "1",
                                         :address => "住所", :customer_id => "1",
                                         :name => "表示名",

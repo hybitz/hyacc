@@ -23,13 +23,13 @@
         <td rowspan="2"><%= HyaccConstants::RENT_TYPES[ rent.rent_type ] %></td>
         <td height="40"><%= HyaccConstants::RENT_USAGE_TYPES[ rent.usage_type ] %></td>
         <td><%= rent.customer.formal_name %></td>
-        <td><%= to_wareki(rent.ymd_start) %>～<%= to_wareki(rent.ymd_end) %></td>
+        <td><%= to_wareki(rent.start_from) %>～<%= to_wareki(rent.end_to) %></td>
         <td rowspan="2"><%= rent.remarks %></td>
       </tr>
       <tr>
         <td height="40"><%= rent.address %></td>
         <td><%= rent.customer.address %> </td>
-        <td><%= number_to_currency(rent.total_amount, :unit => "￥",:precision => 0, :format => "%u%n") %></td>
+        <td><%= number_to_currency(rent.total_amount, unit: "￥", precision: 0, format: "%u%n") %></td>
       </tr>
       <% end %>
     </table>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_06_100039) do
+ActiveRecord::Schema.define(version: 2019_06_21_060903) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -504,11 +504,11 @@ ActiveRecord::Schema.define(version: 2019_06_06_100039) do
     t.integer "rent_type", null: false
     t.integer "usage_type", null: false
     t.string "address"
-    t.integer "ymd_start", null: false
-    t.integer "ymd_end"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "zip_code", limit: 7
+    t.date "start_from", null: false
+    t.date "end_to"
   end
 
   create_table "sequences", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|

@@ -1,22 +1,15 @@
 module Reports
   class RentStatementLogic < BaseLogic
 
-    def initialize(finder)
-      super(finder)
-    end
-    
     def get_rent_statement
       rents = {}
-      ymd_start = (@start_ym.to_s + '01').to_i
-      ymd_end = (@end_ym.to_s + HyaccDateUtil.get_days_of_month(@end_ym/100, @end_ym%100).to_s).to_i
+      start_from = Date.strptime(@start_ym.to_s + '01', '%Y%m%d')
+      end_to = Date.strptime(@end_ym.to_s + HyaccDateUtil.get_days_of_month(@end_ym/100, @end_ym%100).to_s, '%Y%m%d')
 
-      Rent.order('status desc, ymd_end, ymd_start').each do |rent|
+      Rent.order('status desc, end_to, start_from').each do |rent|
         rent.total_amount = 0
-        rent.ymd_start = ymd_start if rent.ymd_start < ymd_start
-        rent.ymd_end = ymd_end if rent.ymd_end.nil? || rent.ymd_end > ymd_end
-        if rent.ymd_start > rent.ymd_end
-          rent.remarks = "契約期間外の伝票"
-        end
+        rent.start_from = start_from if rent.start_from < start_from
+        rent.end_to = end_to if rent.end_to.nil? || rent.end_to > end_to
         rents[rent.id] = rent
       end
 

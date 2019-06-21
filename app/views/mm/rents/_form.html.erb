@@ -1,4 +1,4 @@
-<%= form_for [:mm, @rent], :remote => true do |f| %>
+<%= form_for [:mm, @rent], remote: true do |f| %>
   <%= flash_notice %>
 
   <p>
@@ -13,17 +13,17 @@
 
   <p>
     <b>契約開始日</b><br />
-    <%= f.text_field :ymd_start, :maxlength=>8 %>(YYYYMMDD)
+    <%= f.text_field :start_from, class: 'datepicker' %>
   </p>
 
   <p>
     <b>契約終了日</b><br />
-    <%= f.text_field :ymd_end, :maxlength=>8 %>(YYYYMMDD)
+    <%= f.text_field :end_to, class: 'datepicker' %>
   </p>
 
   <p>
     <b>郵便番号</b><br />
-    <%= f.text_field :zip_code, :maxlength=>7 %>
+    <%= f.text_field :zip_code, maxlength: 7 %>
   </p>
 
   <p>

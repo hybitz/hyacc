@@ -201,13 +201,13 @@ ja:
         file: 領収書
 
       rent:
+        end_to: 契約終了日
         rent_type: "家賃のタイプ"
         usage_type: "使い方タイプ"
         address: "住所"
         name: "名前"
-        status: "地位"
-        ymd_start: "契約開始日"
-        ymd_end: "契約終了日"
+        start_from: 契約開始日
+        status: 地位
 
       simple_slip_setting:
         shortcut_key: ショートカットキー

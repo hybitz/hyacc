@@ -1,7 +1,7 @@
 <%= render 'common/search' %>
 <%= flash_notice %>
 
-<table class="rents">
+<table class="table table-hover rents">
   <tr>
     <th>地代/家賃</th>
     <th>表示名</th>
@@ -20,14 +20,14 @@
       <td><%= HyaccConstants::RENT_TYPES[ r.rent_type ] %></td>
       <td><%= r.name %></td>
       <td><%= HyaccConstants::RENT_USAGE_TYPES[ r.usage_type ] %></td>
-      <td><%= r.ymd_start %></td>
-      <td><%= r.ymd_end %></td>
+      <td><%= r.start_from %></td>
+      <td><%= r.end_to %></td>
       <td><%= r.zip_code %></td>
       <td><%= r.address %></td>
       <td><%= r.customer.formal_name %></td>
       <td><%= HyaccConstants::RENT_STATUS_TYPES[ r.status ] %></td>
-      <td><%= link_to '編集', edit_mm_rent_path(r), :remote => true %></td>
-      <td><%= link_to '削除', [:mm, r], data: {confirm: '削除しますか？'}, :method => :delete %></td>
+      <td><%= link_to '編集', edit_mm_rent_path(r), remote: true %></td>
+      <td><%= link_to '削除', [:mm, r], data: {confirm: '削除しますか？'}, method: :delete %></td>
     </tr>
   <% end %>
 </table>

@@ -74,7 +74,7 @@ class Mm::RentsController < Base::HyaccController
   end
 
   def rent_params
-    params.require(:rent).permit(:name, :status, :customer_id, :rent_type, :usage_type, :address, :ymd_start, :ymd_end, :zip_code)
+    params.require(:rent).permit(:name, :status, :customer_id, :rent_type, :usage_type, :address, :start_from, :end_to, :zip_code)
   end
 
   def finder

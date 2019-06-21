@@ -2,7 +2,7 @@ class RentFinder < Daddy::Model
   include HyaccConstants
   
   def list
-    Rent.where(conditions).order('status, ymd_end desc').paginate(:page => page, :per_page => per_page)
+    Rent.where(conditions).order('status, end_to desc').paginate(page: page, per_page: per_page)
   end
 
   def deleted?

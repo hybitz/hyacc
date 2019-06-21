@@ -10,7 +10,7 @@ module Reports
       ymd_start = (@start_ym.to_s + '01').to_i
       ymd_end = (@end_ym.to_s + HyaccDateUtil.get_days_of_month(@end_ym/100, @end_ym%100).to_s).to_i
 
-      Rent.order('status desc, ymd_end, ymd_start').each{|rent|
+      Rent.order('status desc, ymd_end, ymd_start').each do |rent|
         rent.total_amount = 0
         rent.ymd_start = ymd_start if rent.ymd_start < ymd_start
         rent.ymd_end = ymd_end if rent.ymd_end.nil? || rent.ymd_end > ymd_end
@@ -18,12 +18,10 @@ module Reports
           rent.remarks = "契約期間外の伝票"
         end
         rents[rent.id] = rent
-      }
+      end
 
       # 端境期対応（通常は補助科目必須とする）
-      rents['etc'] = Rent.new(:total_amount => 0, :address => '不明',
-                              :remarks => '補助科目が指定されていない伝票',
-                              :customer => Customer.new)
+      rents['etc'] = Rent.new(total_amount: 0, address: '不明', remarks: '補助科目が指定されていない伝票', customer: Customer.new)
       Journal.where(conditions(@finder.branch_id)).includes(:journal_details).each do |jh|
         jh.journal_details.each do |jd|
           if jd.account.code == ACCOUNT_CODE_RENT

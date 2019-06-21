@@ -3,8 +3,8 @@ module Reports
 
     def get_rent_statement
       rents = {}
-      start_from = Date.strptime(@start_ym.to_s + '01', '%Y%m%d')
-      end_to = Date.strptime(@end_ym.to_s + HyaccDateUtil.get_days_of_month(@end_ym/100, @end_ym%100).to_s, '%Y%m%d')
+      start_from = Date.strptime(start_ym.to_s + '01', '%Y%m%d')
+      end_to = Date.strptime(end_ym.to_s + HyaccDateUtil.get_days_of_month(end_ym/100, end_ym%100).to_s, '%Y%m%d')
 
       Rent.order('status desc, end_to, start_from').each do |rent|
         rent.total_amount = 0
@@ -36,7 +36,7 @@ module Reports
     def conditions(branch_id)
       sql = SqlBuilder.new
       sql.append('deleted = ?', false)
-      sql.append('and ym >= ? and ym <= ?', @start_ym, @end_ym)
+      sql.append('and ym >= ? and ym <= ?', start_ym, end_ym)
       sql.append('and finder_key rlike ?', JournalUtil.build_rlike_condition(ACCOUNT_CODE_RENT, 0, branch_id))
       sql.to_a
     end

@@ -24,7 +24,7 @@ user3:
   email: user3@example.com
   encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
   salt: 0.158920068742378
-  otp_secret_key: <%= ROTP::Base32.random_base32 %>
+  otp_secret_key: <%= ROTP::Base32.random %>
   use_two_factor_authentication: true
 
 user4:

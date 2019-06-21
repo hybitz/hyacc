@@ -29,6 +29,7 @@
     financial_return_statements
     consumption_tax_statements
     report/withholding_slip
+    report/employment_insurances
     report/ledgers
   }
 
@@ -78,9 +79,9 @@
   <%= link_to 'TaxJP', tax_jp_path(purified_params), target: '_blank' %>
 </div>
 
-<%= render 'common/sub_menu', :controllers => journal_admin_controllers %>
-<%= render 'common/sub_menu', :controllers => closing_controllers %>
-<%= render 'common/sub_menu', :controllers => report_controllers %>
-<%= render 'common/sub_menu', :controllers => bs_controllers %>
-<%= render 'common/sub_menu', :controllers => mm_controllers %>
+<%= render 'common/sub_menu', controllers: journal_admin_controllers %>
+<%= render 'common/sub_menu', controllers: closing_controllers %>
+<%= render 'common/sub_menu', controllers: report_controllers %>
+<%= render 'common/sub_menu', controllers: bs_controllers %>
+<%= render 'common/sub_menu', controllers: mm_controllers %>
 

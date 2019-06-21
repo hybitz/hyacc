@@ -1,0 +1,10 @@
+<div id="search">
+  <%= form_tag({action: 'index'}, method: 'get', class: 'form form-inline') do %>
+    <span class="mx-2">
+      暦年：<%= select 'finder', 'calendar_year', calendar_years, {}, class: 'form-control' %>
+    </span>
+    <span class="mx-2">
+      <%= submit_tag '表示', class: 'btn btn-light' %>
+    </span>
+  <% end %>
+</div>

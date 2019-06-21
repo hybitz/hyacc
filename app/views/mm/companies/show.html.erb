@@ -4,12 +4,12 @@
   var company = new hyacc.Company({selector: 'table.company'});
 </script>
 
-<div class="table-responsive col-md-4">
+<div class="my-4 table-responsive col-md-5">
   <table class="table company">
     <tr>
-      <th><%= company_label(@company.type_of) %></th>
+      <th style="width: 15em;"><%= company_label(@company.type_of) %></th>
       <td><%= @company.name %></td>
-      <td></td>
+      <td style="width: 10em;"></td>
     </tr>
 
     <% unless @company.personal? %>
@@ -28,16 +28,16 @@
     <tr>
       <th>ロゴ</th>
       <td><%= image_tag(show_logo_mm_company_path(@company)) if @company.logo.present? %></td>
-      <td>
+      <td class="text-center">
         <%= link_to '変更', edit_mm_company_path(@company, field: 'logo'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
-        <%= button_tag '更新', onclick: 'company.update(this);' %>
-        <%= button_tag 'キャンセル', onclick: 'company.cancel(this)' %>
+        <%= button_tag '更新', onclick: 'company.update(this);', class: 'btn btn-light btn-small' %>
+        <%= button_tag 'キャンセル', onclick: 'company.cancel(this)', class: 'btn btn-light btn-small' %>
       </td>
     </tr>
     <tr>
       <th>管理者メールアドレス</th>
       <td><%= @company.admin_email %></td>
-      <td>
+      <td class="text-center">
         <%= link_to '変更', edit_mm_company_path(@company, field: 'admin'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
         <%= button_tag '更新', :onclick => 'company.update(this);' %>
         <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
@@ -48,10 +48,10 @@
       <tr>
         <th>法人番号</th>
         <td><%= @company.enterprise_number %></td>
-        <td>
-        <%= link_to '変更', edit_mm_company_path(@company, field: 'enterprise_number'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
-        <%= button_tag '更新', :onclick => 'company.update(this);' %>
-        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+        <td class="text-center">
+          <%= link_to '変更', edit_mm_company_path(@company, field: 'enterprise_number'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+          <%= button_tag '更新', :onclick => 'company.update(this);' %>
+          <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
         </td>
       </tr>
       <tr>
@@ -71,10 +71,10 @@
       <tr>
         <th>給与支払日</th>
         <td><%= @company.payday_jp %></td>
-        <td>
-        <%= link_to '変更', edit_mm_company_path(@company, field: 'payday'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
-        <%= button_tag '更新', :onclick => 'company.update(this);' %>
-        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+        <td class="text-center">
+          <%= link_to '変更', edit_mm_company_path(@company, field: 'payday'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+          <%= button_tag '更新', :onclick => 'company.update(this);' %>
+          <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
         </td>
       </tr>
     <% end %>
@@ -82,7 +82,7 @@
     <tr>
       <th>事業区分</th>
       <td><%= @company.business_type_name %></td>
-      <td>
+      <td class="text-center">
         <%= link_to '変更', edit_mm_company_path(@company, field: 'business_type'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
         <%= button_tag '更新', :onclick => 'company.update(this);' %>
         <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
@@ -91,7 +91,7 @@
     <tr>
       <th>雇用保険の事業区分</th>
       <td><%= @company.employment_insurance_type_name %></td>
-      <td>
+      <td class="text-center">
         <%= link_to '変更', edit_mm_company_path(@company, field: 'employment_insurance_type'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
         <%= button_tag '更新', :onclick => 'company.update(this);' %>
         <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>

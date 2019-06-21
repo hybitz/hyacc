@@ -21,6 +21,7 @@ ja:
     mm/bank_accounts: 金融口座
     mm/banks: 金融機関
     mm/branches: 部門
+    mm/business_offices: 事業所
     mm/companies: 会社
     mm/customers: 取引先
     mm/employees: 従業員

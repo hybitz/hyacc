@@ -4,7 +4,7 @@ class JournalsController < Base::HyaccController
 
   view_attribute :finder, class: JournalFinder, only: :index
 
-  before_action :setup_view_attributes, :only => ['index', 'new', 'show', 'edit', 'add_detail']
+  before_action :setup_view_attributes, only: ['index', 'new', 'show', 'edit', 'add_detail']
 
   # 勘定科目ごとの詳細入力部分を取得する
   def get_account_detail

@@ -47,20 +47,20 @@
     </div>
   </td>
   <td nowrap align="right">
-    <%= f.select :tax_type, tax_types, {}, :class => 'taxTypeSelect' %>
-    <%= f.text_field :tax_rate_percent, :class => 'taxRatePercentText', :onchange => 'simple_slip.update_tax_amount();' %>
+    <%= f.select :tax_type, tax_types, {}, class: 'taxTypeSelect' %>
+    <%= f.text_field :tax_rate_percent, class: 'taxRatePercentText', onchange: 'simple_slip.update_tax_amount();' %>
     <span>%</span>
   </td>
   <td class="amount">
-    <%= f.text_field :tax_amount_increase, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount(this.value, null);' %>
+    <%= f.text_field :tax_amount_increase, class: 'amountText', onchange: 'simple_slip.update_tax_amount(this.value, null);' %>
   </td>
   <td class="amount">
-    <%= f.text_field :tax_amount_decrease, :class => 'amountText', :onchange => 'simple_slip.update_tax_amount(null, this.value);' %>
+    <%= f.text_field :tax_amount_decrease, class: 'amountText', onchange: 'simple_slip.update_tax_amount(null, this.value);' %>
   </td>
 </tr>
 <tr>
   <td align="center" style="border-right-style: none;">
-    <%= f.check_box :auto_journal_type, {:include_hidden => false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>
+    <%= f.check_box :auto_journal_type, {include_hidden: false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>
   </td>
   <td style="border-left-style: none;">&nbsp;前月</td>
   <td align="right"><b>合計</b></td>
@@ -76,9 +76,9 @@
     <%= f.check_box :auto_journal_type, {include_hidden: false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
   </td>
   <td nowrap style="border-left-style: none;">
-      &nbsp;<%= f.text_field :auto_journal_year, :maxlength => 4, :class => 'year' %> 年
-      <%= f.text_field :auto_journal_month, :maxlength => 2, :class => 'month' %> 月
-      <%= f.text_field :auto_journal_day, :maxlength => 2, :class => 'day' %> 日
+      &nbsp;<%= f.text_field :auto_journal_year, maxlength: 4, class: 'year' %> 年
+      <%= f.text_field :auto_journal_month, maxlength: 2, class: 'month' %> 月
+      <%= f.text_field :auto_journal_day, maxlength: 2, class: 'day' %> 日
   </td>
   <td colspan="5"></td>
 </tr>

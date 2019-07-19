@@ -27,6 +27,7 @@ ja:
     mm/employees: 従業員
     mm/exemptions: 所得税控除
     mm/inhabitant_taxes: 住民税
+    mm/qualifications: 資格
     mm/rents: 地代家賃
     mm/simple_slip_templates: 簡易入力テンプレート
     mv: マスタビューア

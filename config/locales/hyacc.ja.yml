@@ -197,6 +197,10 @@ ja:
         welfare_pension: 厚生年金保険料
         ym: 年月
 
+      qualification:
+        name: 資格名
+        allowance: 手当単価
+
       receipt:
         file: 領収書
 

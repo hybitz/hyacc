@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'mm', :to => 'mm#index'
+  get 'mm', to: 'mm#index'
 
   namespace :mm do
     resources :accounts do
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     resources :branches
     resources :business_offices
 
-    resources :companies, :only => ['index', 'show', 'edit', 'update'] do
+    resources :companies, only: ['index', 'show', 'edit', 'update'] do
       member do
         get 'show_logo'
       end
@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       end
     end
    
+    resources :qualifications
     resources :rents
 
     resources :simple_slip_templates do

@@ -1,0 +1,14 @@
+<%= form_with model: [:mm, @qualification] do |f| %>
+  <%= flash_notice %>
+
+  <table class="m-2">
+    <tr>
+      <th><%= f.label :name %></th>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :allowance %></th>
+      <td><%= f.text_field :allowance %></td>
+    </tr>
+  </table>
+<% end %>

@@ -20,6 +20,8 @@ class Company < ApplicationRecord
   has_many :banks, -> { where deleted: false }
   has_many :bank_accounts, -> { where deleted: false }
 
+  has_many :qualifications, -> { where deleted: false }, inverse_of: 'company'
+
   attr_accessor :day_of_payday
   attr_accessor :month_of_payday
 

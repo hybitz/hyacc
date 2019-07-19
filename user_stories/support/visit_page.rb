@@ -19,7 +19,7 @@ module VisitPage
     assert has_title?('減価償却')
 
     if options[:branch]
-      select options[:branch].name, :from => 'finder[branch_id]'
+      select options[:branch].name, from: 'finder[branch_id]'
       click_on '表示'
     end
 
@@ -72,6 +72,15 @@ module VisitPage
     assert has_button?('表示')
     assert has_no_selector?('.notice')
     assert has_no_selector?('#payroll_table')
+  end
+  
+  def visit_qualifications
+    assert current_user || sign_in(User.first)
+
+    visit '/'
+    click_on 'マスタメンテ'
+    click_on Qualification.model_name.human
+    assert has_title?(Qualification.model_name.human)
   end
 
   def visit_users

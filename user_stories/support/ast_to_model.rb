@@ -1,5 +1,19 @@
 module AstToModel
 
+  def to_qualifications(ast_table)
+    table = normalize_table(ast_table)
+    
+    ret = []
+    table[1..-1].each do |row|
+      q = Qualification.new
+      q.name = row[0]
+      q.allowance = row[1].to_ai
+      ret << q
+    end
+
+    ret
+  end
+  
   def to_user(ast_table)
     table = normalize_table(ast_table)
     

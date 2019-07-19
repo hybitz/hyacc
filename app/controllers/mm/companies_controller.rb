@@ -29,7 +29,7 @@ class Mm::CompaniesController < Base::HyaccController
 
   def edit
     @company = Company.find(current_company.id)
-    render "edit_#{params[:field]}", :layout => false
+    render "edit_#{params[:field]}", layout: false
   end
 
   def update
@@ -53,7 +53,7 @@ class Mm::CompaniesController < Base::HyaccController
 
   def company_params
     permitted = [
-      :logo, :admin_email, :business_type_id, :day_of_payday, :month_of_payday, :enterprise_number, :employment_insurance_type
+      :logo, :admin_email, :business_type_id, :day_of_payday, :month_of_payday, :enterprise_number, :labor_insurance_number, :employment_insurance_type
     ]
    
     ret = params.require(:company).permit(permitted)

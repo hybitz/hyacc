@@ -44,11 +44,17 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
   end
 
   def test_法人番号の編集
-    get :edit, :xhr => true, :params => {:id => current_company.id, :field => 'enterprise_number'}
+    get :edit, xhr: true, params: {id: current_company.id, field: 'enterprise_number'}
     assert_response :success
     assert_template :edit_enterprise_number
   end
   
+  def test_労働番号の編集
+    get :edit, xhr: true, params: {id: current_company.id, field: 'labor_insurance_number'}
+    assert_response :success
+    assert_template :edit_labor_insurance_number
+  end
+
   def test_給与支払日の編集
     get :edit, :xhr => true, :params => {:id => current_company.id, :field => 'payday'}
     assert_response :success
@@ -56,7 +62,7 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
   end
   
   def test_更新
-    patch :update, :xhr => true, :params => {:id => current_company.id, company: company_params}
+    patch :update, xhr: true, params: {id: current_company.id, company: company_params}
     assert_response :success
     assert_equal 'document.location.reload();', @response.body
   end

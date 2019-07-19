@@ -55,6 +55,15 @@
         </td>
       </tr>
       <tr>
+        <th>労働保険番号</th>
+        <td><%= @company.labor_insurance_number %></td>
+        <td class="text-center">
+          <%= link_to '変更', edit_mm_company_path(@company, field: 'labor_insurance_number'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+          <%= button_tag '更新', onclick: 'company.update(this);' %>
+          <%= button_tag 'キャンセル', onclick: 'company.cancel(this)' %>
+        </td>
+      </tr>
+      <tr>
         <th>資本金</th>
         <td>
           <% if @capital.to_i > 0 %>

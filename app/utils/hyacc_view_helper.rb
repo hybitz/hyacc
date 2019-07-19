@@ -129,7 +129,7 @@ module HyaccViewHelper
         ''
       end
     else
-      number_to_currency(amount, :unit => options.fetch(:unit, ''), :precision => options.fetch(:precision, 0) )
+      number_to_currency(amount, unit: options.fetch(:unit, ''), precision: options.fetch(:precision, 0) )
     end
   end
   

@@ -2,3 +2,44 @@
   <div><h4><strong><%= to_wareki_year(finder.calendar_year) %>年度　確定保険料・一般拠出金算定基礎賃金集計表</strong></h4></div>
   <div>（算定期間　<%= to_wareki(@model.start_day, format: '%y年%m月') %> ～ <%= to_wareki(@model.end_day, format: '%y年%m月') %>）</div>  
 </div>
+
+<div class="p-2">
+  <div class="float-left">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th class="align-middle" rowspan="2">労働保険<br>番　　号</th>
+          <th>府県</th>
+          <th>所掌</th>
+          <th>管轄</th>
+          <th>基幹番号</th>
+          <th>枝番号</th>
+        </tr>
+        <tr>
+          <td class="text-center"><%= current_company.head_branch.business_office.prefecture_code %></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="ml-3 float-left">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th colspan="2">出向者の有無</th>
+        </tr>
+        <tr>
+          <th class="text-center">受</th>
+          <td class="text-right">名</td>
+        </tr>
+        <tr>
+          <th class="text-center">出</th>
+          <td class="text-right">名</td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+</div>

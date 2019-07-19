@@ -1,43 +1,38 @@
-<div class="container">
-  <div class="row">
-    <%= flash_notice %>
-  </div>
-  <div class="row">
-    <%= link_to '追加', new_mm_user_path, :class => 'btn btn-light', :remote => true %>
-    <%= link_to '追加（従業員情報のみ）', new_mm_employee_path, class: 'btn btn-light', remote: true %>
-  </div>
-  <div class="row">
-    <table class="table table-striped table-hover employees">
-      <thead>
+<div class="m-4 col-md-8">
+  <%= flash_notice %>
+  <table class="table table-striped table-hover employees">
+    <thead>
+      <tr>
+        <th style="width: 30%;">氏名</th>
+        <th style="width: 30%;">所属部門</th>
+        <th class="text-center" style="width: 15%;">業務経歴</th>
+        <th class="text-center" style="width: 15%;">状態</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @employees.each do |e| %>
         <tr>
-          <th>氏名</th>
-          <th>所属部門</th>
-          <th>業務経歴</th>
-          <th>状態</th>
-          <th></th>
+          <td><%= e.fullname %></td>
+          <td><%= e.default_branch_name %></td>
+          <td class="center">
+            <% if e.years_of_career > 0 %>
+              <%= link_to "#{e.years_of_career}年", career_statement_path(e) %>
+            <% else %>
+              <span>なし</span>
+            <% end %>
+          </td>
+          <td class="center"><%= e.deleted_name %></td>
+          <td class="center">
+            <%= link_to '編集', edit_mm_employee_path(e), :remote => true, class: 'btn btn-sm btn-light' %>
+            <%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, method: 'delete', class: 'btn btn-sm btn-light' %>
+          </td>
         </tr>
-      </thead>
-      <tbody>
-        <% @employees.each do |e| %>
-          <tr>
-            <td><%= e.fullname %></td>
-            <td><%= e.default_branch_name %></td>
-            <td class="center">
-              <% if e.years_of_career > 0 %>
-                <%= link_to "#{e.years_of_career}年", career_statement_path(e) %>
-              <% else %>
-                <span>なし</span>
-              <% end %>
-            </td>
-            <td class="center"><%= e.deleted_name %></td>
-            <td class="center">
-              <%= link_to '編集', edit_mm_employee_path(e), :remote => true, class: 'btn btn-sm btn-light' %>
-              <%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, method: 'delete', class: 'btn btn-sm btn-light' %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= will_paginate @employees %>
-  </div>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate @employees %>
+  <%= link_to '追加', new_mm_user_path, class: 'btn btn-light', remote: true %>
+  <span class="mx-2"></span>
+  <%= link_to '追加（従業員情報のみ）', new_mm_employee_path, class: 'btn btn-light', remote: true %>
 </div>

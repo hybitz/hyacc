@@ -13,6 +13,7 @@ class Company < ApplicationRecord
   validates :founded_date, presence: true
   validates :admin_email, email: {allow_blank: true}
   validates :enterprise_number, numericality: {allow_blank: true}
+  validates :labor_insurance_number, numericality: {allow_blank: true}, length: {is: 14, allow_blank: true}
 
   mount_uploader :logo, LogoUploader
 

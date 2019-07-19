@@ -26,6 +26,20 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal( 2007, companies(:b).get_fiscal_year( 200704 ).fiscal_year )
   end
 
+  def test_労働保険番号は14桁
+    c = new_company
+    assert c.valid?
+    
+    c.labor_insurance_number = 'abcdeabcdeabcd'
+    assert c.invalid?
+
+    c.labor_insurance_number = '1234567890123'
+    assert c.invalid?
+
+    c.labor_insurance_number = '12345678901234'
+    assert c.valid?
+  end
+  
   def test_new_fiscal_year
     assert c = Company.first
     assert fy = c.new_fiscal_year

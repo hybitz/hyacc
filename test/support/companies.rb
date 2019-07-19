@@ -50,8 +50,12 @@ module Companies
     }
   end
   
+  def new_company(options = {})
+    Company.new(company_params.merge(founded_date: Date.today - rand(3).years, name: 'テスト会社', start_month_of_fiscal_year: rand(12) + 1))
+  end
+  
   def create_company(options = {})
-    ret = Company.new(company_params.merge(founded_date: Date.today - rand(3).years, name: 'テスト会社', start_month_of_fiscal_year: rand(12) + 1))
+    ret = new_company(options)
     assert ret.save, ret.errors.full_messages
     ret
   end

@@ -22,13 +22,13 @@
       <td align="center"><%= ba.holder_name %></td>
       <td class="text-center"><%= ba.for_payroll? %></td>
       <td>
-        <%= link_to '編集', edit_mm_bank_account_path(ba), :remote => true %>
-        <%= link_to '削除', mm_bank_account_path(ba), data: {confirm: '削除します。よろしいですか？'}, method: :delete %>
+        <%= link_to '編集', edit_mm_bank_account_path(ba), remote: true %>
+        <%= link_to '削除', mm_bank_account_path(ba), data: {confirm: "#{ba.name} を削除します。\nよろしいですか？"}, method: :delete %>
       </td>
     </tr>
   <% end %>
 </table>
 
 <div style="margin: 10px;">
-  <%= link_to '追加', new_mm_bank_account_path, remote: true %>
+  <%= link_to '追加', new_mm_bank_account_path, class: 'btn btn-light', remote: true %>
 </div>

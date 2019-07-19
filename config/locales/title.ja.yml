@@ -4,7 +4,6 @@ ja:
     bs/assets: 減価償却
     bs/investments: 有価証券
     career_statements: 業務経歴書
-    careers: 業務経歴
     closing: 締め処理
     consumption_tax_statements: 消費税
     debts: 仮負債精算
@@ -22,6 +21,7 @@ ja:
     mm/banks: 金融機関
     mm/branches: 部門
     mm/business_offices: 事業所
+    mm/careers: 業務経歴
     mm/companies: 会社
     mm/customers: 取引先
     mm/employees: 従業員

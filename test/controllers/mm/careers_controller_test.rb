@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CareersControllerTest < ActionController::TestCase
+class Mm::CareersControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in user
@@ -11,28 +11,28 @@ class CareersControllerTest < ActionController::TestCase
 
   def test_追加
     sign_in user
-    get :new, :xhr => true
+    get :new, xhr: true
     assert_response :success
     assert_template :new
   end
 
   def test_登録
     sign_in user
-    post :create, :xhr => true, :params => {:career => valid_career_params}
+    post :create, xhr: true, params: {career: valid_career_params}
     assert_response :success
     assert_template 'common/reload'
   end
 
   def test_登録_入力エラー
     sign_in user
-    post :create, :xhr => true, :params => {:career => invalid_career_params}
+    post :create, xhr: true, params: {career: invalid_career_params}
     assert_response :success
     assert_template :new
   end
 
   def test_編集
     sign_in user
-    get :edit, :xhr => true, :params => {:id => career.id}
+    get :edit, xhr: true, params: {id: career.id}
     assert_response :success
     assert_template :edit
   end

@@ -17,21 +17,21 @@
         <td><%= c.employee.fullname %></td>
         <td><%= c.customer_name %></td>
         <td><%= c.project_name %></td>
-        <td><%= link_to '編集', edit_career_path(c), :remote => true %></td>
-        <td><%= link_to '削除', career_path(c), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
+        <td><%= link_to '編集', edit_mm_career_path(c), remote: true %></td>
+        <td><%= link_to '削除', mm_career_path(c), data: {confirm: '削除します。よろしいですか？'}, method: :delete %></td>
       </tr>
     <% end %>
   </table>
   <%= will_paginate @careers %>
-  <%= link_to '追加', new_career_path, :class => 'add', :remote => true if @customers.present? %>
+  <%= link_to '追加', new_mm_career_path, class: 'add', remote: true if @customers.present? %>
 <% elsif @careers %>
   <div>該当するデータが見つかりませんでした。</div>
   <% if @customers.present? %>
-    <%= link_to '追加', new_career_path, :class => 'add', :remote => true %>
+    <%= link_to '追加', new_mm_career_path, class: 'add', remote: true %>
   <% else %>
     業務経歴を追加するには受注先の登録が必要です。
     <div>
-      <%= link_to '取引先管理へ', customers_path %>
+      <%= link_to '取引先管理へ', mm_customers_path %>
     </div>
   <% end %>
 <% end %>

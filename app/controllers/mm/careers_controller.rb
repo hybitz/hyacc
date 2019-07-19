@@ -1,4 +1,4 @@
-class CareersController < Base::HyaccController
+class Mm::CareersController < Base::HyaccController
   view_attribute :customers, :conditions => ['is_order_entry=?', true]
 
   helper_method :finder

@@ -8,7 +8,6 @@ Rails.application.routes.draw do
 
   resources :accounts
   resources :bank_offices, only: 'index'
-  resources :careers
   resources :career_statements, only: ['index', 'show']
   resources :consumption_tax_statements, only: 'index'
   resources :deemed_taxes

@@ -3,6 +3,7 @@ self:
 
 current_user:
   mm/: admin?
+  mm/careers: true
 
 current_company:
   deemed_taxes: tax_simplified?

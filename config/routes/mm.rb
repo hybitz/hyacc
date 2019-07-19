@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     resources :branches
     resources :business_offices
+    resources :careers
 
     resources :companies, only: ['index', 'show', 'edit', 'update'] do
       member do

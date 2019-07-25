@@ -124,6 +124,11 @@ ja:
         bank_office_name: 支店名称
         code: 口座番号
         
+      employee_qualification:
+        employee_id: 従業員
+        qualification_id: 資格
+        qualified_on: 資格取得日
+
       employee:
         address: 住所
         base_salary: 基本給

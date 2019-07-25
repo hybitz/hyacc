@@ -1,0 +1,6 @@
+<div class="search">
+  <%= form_with model: finder, url: {action: 'index'}, local: true, method: 'get', class: 'form form-inline' do |f| %>
+    従業員：<%= f.collection_select :employee_id, finder.employees, :id, :fullname, {include_blank: true}, class: 'form-control' %>
+    <%= f.submit '表示', class: 'btn btn-light mx-2' %>
+  <% end %>
+</div>

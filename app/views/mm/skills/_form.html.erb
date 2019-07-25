@@ -1,0 +1,23 @@
+<script>
+  $(document).ready(function() {
+    hyacc.init_datepicker();
+  });
+</script>
+<%= form_with model: [:mm, @skill] do |f| %>
+  <%= flash_notice %>
+  <%= f.hidden_field :employee_id %>
+
+  <table class="m-2">
+    <tr>
+      <th><%= f.label :qualification_id %></th>
+      <td>
+        <%= f.hidden_field :qualification_id %>
+        <%= f.object.qualification.name %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= f.label :qualified_on %></th>
+      <td><%= f.text_field :qualified_on, class: 'datepicker' %></td>
+    </tr>
+  </table>
+<% end %>

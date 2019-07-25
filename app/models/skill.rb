@@ -1,0 +1,2 @@
+class Skill < EmployeeQualification
+end

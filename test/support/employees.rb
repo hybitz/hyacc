@@ -24,7 +24,7 @@ module Employees
   end
   
   def invalid_employee_params
-    employee_params.merge(:last_name => '')
+    employee_params.merge(last_name: '')
   end
 
   def new_employee(options = {})

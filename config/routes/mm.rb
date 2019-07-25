@@ -50,6 +50,7 @@ Rails.application.routes.draw do
    
     resources :qualifications
     resources :rents
+    resources :skills
 
     resources :simple_slip_templates do
       collection do

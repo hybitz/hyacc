@@ -1,4 +1,4 @@
-もし /^推奨する資格を登録$/ do |ast_table|
+もし /^会社として奨励する資格を規程$/ do |ast_table|
   @qualifications = to_qualifications(ast_table)
 
   with_capture do

@@ -58,4 +58,18 @@ class Mm::SkillsControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal skill.qualified_on, @skill.qualified_on
   end
 
+  def test_削除
+    assert skill = Skill.find_by(employee_id: employee.id, qualification_id: qualification.id)
+    assert_not skill.deleted?
+
+    assert_no_difference 'EmployeeQualification.count' do
+      delete mm_skill_path(skill), xhr: true
+    end
+
+    assert @skill = assigns(:skill)
+    assert @skill.deleted?
+    assert_response :success
+    assert_template 'common/reload'
+  end
+
 end

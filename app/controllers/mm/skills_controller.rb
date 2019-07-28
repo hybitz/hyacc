@@ -35,9 +35,15 @@ class Mm::SkillsController < Base::HyaccController
     
     render 'common/reload'
   end
-  
-  # TODO
-  def detroy
+
+  def destroy
+    @skill = Skill.find(params[:id])
+
+    @skill.transaction do
+      @skill.destroy_logically!
+    end
+
+    render 'common/reload'
   end
 
   private

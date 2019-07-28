@@ -21,7 +21,7 @@
                 <%= link_to '追加', new_mm_skill_path(employee_id: finder.employee_id, qualification_id: s.qualification.id), class: 'btn btn-sm btn-light', remote: true %>
               <% else %>
                 <%= link_to '編集', edit_mm_skill_path(s),  class: 'btn btn-sm btn-light', remote: true %>
-                <%= link_to '削除', mm_skill_path(s), method: 'delete',  class: 'btn btn-sm btn-light' %>
+                <%= link_to '削除', mm_skill_path(s), method: 'delete',  class: 'btn btn-sm btn-light', remote: true %>
               <% end %>
             </td>
           </tr>

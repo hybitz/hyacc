@@ -21,12 +21,19 @@ class Mm::SkillsController < Base::HyaccController
     render 'common/reload'
   end
 
-  # TODO  
   def edit
+    @skill = Skill.find(params[:id])
   end
   
-  # TODO
   def update
+    @skill = Skill.find(params[:id])
+    @skill.attributes = skill_params
+    
+    @skill.transaction do
+      @skill.save!
+    end
+    
+    render 'common/reload'
   end
   
   # TODO
@@ -50,7 +57,13 @@ class Mm::SkillsController < Base::HyaccController
   end
   
   def skill_params
-    permitted = [:employee_id, :qualification_id, :qualified_on]
+    permitted = [:qualified_on]
+
+    case action_name
+    when 'create'
+      permitted += [:employee_id, :qualification_id]
+    end
+
     params.require(:skill).permit(*permitted)
   end
 end

@@ -5,13 +5,15 @@
 </script>
 <%= form_with model: [:mm, @skill] do |f| %>
   <%= flash_notice %>
-  <%= f.hidden_field :employee_id %>
+  <% if @skill.new_record? %>
+    <%= f.hidden_field :employee_id %>
+    <%= f.hidden_field :qualification_id %>
+  <% end %>
 
   <table class="m-2">
     <tr>
       <th><%= f.label :qualification_id %></th>
       <td>
-        <%= f.hidden_field :qualification_id %>
         <%= f.object.qualification.name %>
       </td>
     </tr>

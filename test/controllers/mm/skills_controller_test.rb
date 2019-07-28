@@ -33,4 +33,29 @@ class Mm::SkillsControllerTest < ActionDispatch::IntegrationTest
     assert_template 'common/reload'
   end
   
+  def test_編集
+    assert skill = Skill.find_by(employee_id: employee.id, qualification_id: qualification.id)
+    
+    get edit_mm_skill_path(skill), xhr: true
+    assert_response :success
+    assert_equal "/mm/skills/#{skill.id}/edit", path
+  end
+
+  def test_更新
+    assert skill = Skill.find_by(employee_id: employee.id, qualification_id: qualification.id)
+
+    assert_no_difference 'EmployeeQualification.count' do
+      patch mm_skill_path(skill), xhr: true, params: {
+        skill: {
+          qualified_on: skill.qualified_on - 1.day
+        }
+      }
+    end
+
+    assert_response :success
+    assert_template 'common/reload'
+    assert @skill = assigns(:skill)
+    assert_not_equal skill.qualified_on, @skill.qualified_on
+  end
+
 end

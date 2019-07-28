@@ -1,0 +1,4 @@
+1:
+  employee_id: 1
+  qualification_id: 1
+  qualified_on: <%= 3.years.ago %>

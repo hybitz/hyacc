@@ -88,7 +88,7 @@ GEM
     capistrano-sidekiq (1.0.2)
       capistrano (>= 3.9.0)
       sidekiq (>= 3.4)
-    capybara (3.27.0)
+    capybara (3.28.0)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -101,7 +101,7 @@ GEM
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
     carrierwave-i18n (0.2.0)
-    chef-config (15.1.36)
+    chef-config (15.2.20)
       addressable
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
@@ -112,7 +112,7 @@ GEM
     choice (0.2.0)
     ci_reporter (2.0.0)
       builder (>= 2.1.2)
-    closer (0.9.4)
+    closer (0.9.5)
       capybara (>= 3.0)
       cucumber (>= 3.0, <= 4.0)
       selenium-webdriver (~> 3.0)
@@ -140,20 +140,21 @@ GEM
       cucumber-tag_expressions (~> 1.1.0)
       gherkin (~> 5.0)
     cucumber-expressions (6.0.1)
-    cucumber-rails (1.7.0)
-      capybara (>= 2.3.0, < 4)
+    cucumber-rails (1.8.0)
+      capybara (>= 2.12, < 4)
       cucumber (>= 3.0.2, < 4)
-      mime-types (>= 1.17, < 4)
+      mime-types (>= 2.0, < 4)
       nokogiri (~> 1.8)
       railties (>= 4.2, < 7)
     cucumber-tag_expressions (1.1.1)
     cucumber-wire (0.0.1)
-    daddy (0.8.0)
+    daddy (0.8.1)
       docker-api
       highline
       i18n
       itamae
       itamae-plugin-recipe-daddy
+      itamae-plugin-recipe-redmine
       itamae-plugin-resource-pip
       ohai
     dalli (2.7.10)
@@ -177,7 +178,7 @@ GEM
     erubi (1.8.0)
     et-orbi (1.2.1)
       tzinfo
-    excon (0.65.0)
+    excon (0.66.0)
     execjs (2.7.0)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -230,6 +231,11 @@ GEM
       thor
     itamae-plugin-recipe-daddy (0.1.15)
       itamae (~> 1.10, >= 1.10.2)
+    itamae-plugin-recipe-postgresql (0.0.1)
+      itamae (~> 1.10, >= 1.10.2)
+    itamae-plugin-recipe-redmine (0.0.3)
+      itamae (~> 1.10, >= 1.10.2)
+      itamae-plugin-recipe-postgresql (~> 0, >= 0.0.1)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)
     jbuilder (2.9.1)
@@ -278,7 +284,7 @@ GEM
     momentjs-rails (2.20.1)
       railties (>= 3.1)
     mousetrap-rails (1.4.6)
-    msgpack (1.3.0)
+    msgpack (1.3.1)
     multi_json (1.13.1)
     multi_test (0.1.2)
     multi_xml (0.6.0)
@@ -289,7 +295,7 @@ GEM
     net-ssh (5.2.0)
     net-telnet (0.1.1)
     nio4r (2.4.0)
-    nokogiri (1.10.3)
+    nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     nostalgic (0.5.1)
       rails (>= 4.2, < 6)
@@ -299,7 +305,7 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    ohai (15.1.5)
+    ohai (15.2.5)
       chef-config (>= 12.8, < 16)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
@@ -360,7 +366,7 @@ GEM
       activesupport (>= 4.2)
       choice (~> 0.2.0)
       ruby-graphviz (~> 1.2)
-    rails-html-sanitizer (1.0.4)
+    rails-html-sanitizer (1.2.0)
       loofah (~> 2.2, >= 2.2.2)
     rails-i18n (5.1.3)
       i18n (>= 0.7, < 2)
@@ -451,7 +457,7 @@ GEM
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
     sqlite3 (1.3.13)
-    sshkit (1.19.1)
+    sshkit (1.20.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
     strong_actions (0.1.1)

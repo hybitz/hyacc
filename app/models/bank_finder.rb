@@ -1,15 +1,20 @@
-class BankFinder < Daddy::Model
+class BankFinder
+  include ActiveModel::Model
+  include Pagination
+  include CompanyAware
   include HyaccConstants
 
+  attr_accessor :disabled
+  
   def disable_types
     DISABLE_TYPES.invert
   end
 
   def list
     if conditions.first.present?
-      Bank.where(conditions).order('code').paginate(:page => page, :per_page => per_page || DEFAULT_PER_PAGE)
+      Bank.where(conditions).order('code').paginate(page: page, per_page: per_page || DEFAULT_PER_PAGE)
     else
-      Bank.order('code').paginate(:page => page, :per_page => per_page || DEFAULT_PER_PAGE)
+      Bank.order('code').paginate(page: page, per_page: per_page || DEFAULT_PER_PAGE)
     end
   end
 

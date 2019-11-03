@@ -26,7 +26,6 @@
         }
 
         form.find('[name*="\[tax_type\]"]').val(item.tax_type);
-        form.find('[name*="\[tax_rate_percent\]"]').val(item.tax_rate_percent);
 
         if (item.increase_or_decrease == 'increase') {
           form.find('[name*="\[amount_increase\]"]').val(item.amount);
@@ -39,7 +38,12 @@
 
         $('#account_detail').html(item.account_detail);
 
-        simple_slip.update_tax_amount(form.find('[name*="\[tax_amount_increase\]"]').val(), form.find('[name*="\[tax_amount_decrease\]"]').val());
+        if (item.tax_rate_percent) {
+          form.find('[name*="\[tax_rate_percent\]"]').val(item.tax_rate_percent);
+          simple_slip.update_tax_amount();
+        } else {
+          simple_slip.update_tax_rate();
+        }
 
         var focus = item.focus_on_complete;
         if (focus == 'amount' || focus == 'tax_amount') {

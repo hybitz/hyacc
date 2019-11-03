@@ -66,7 +66,7 @@ class SimpleSlipsController < Base::HyaccController
           "increase_or_decrease":"#{increase_or_decrease}",
           "amount":"#{amount}",
           "tax_type":"#{tax_type.to_s}",
-          "tax_rate_percent":"#{t.tax_rate_percent.to_s}",
+          "tax_rate_percent":"#{t.tax_rate_percent > 0 ? t.tax_rate_percent.to_s : nil}",
           "tax_amount":"#{tax_amount.to_s}",
           "focus_on_complete":"#{t.focus_on_complete.to_s}",
           "sub_accounts":#{account.sub_accounts.collect{|sa| sa = {:id=>sa.id, :name=>sa.name}}.to_json},

@@ -48,7 +48,7 @@
   </td>
   <td nowrap align="right">
     <%= f.select :tax_type, tax_types, {}, class: 'taxTypeSelect' %>
-    <%= f.text_field :tax_rate_percent, class: 'taxRatePercentText', onchange: 'simple_slip.update_tax_amount();' %>
+    <%= f.text_field :tax_rate_percent, class: 'taxRatePercentText' %>
     <span>%</span>
   </td>
   <td class="amount">

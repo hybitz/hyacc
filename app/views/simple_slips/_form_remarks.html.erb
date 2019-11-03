@@ -1,11 +1,11 @@
 <% if @simple_slip.persisted? %>
-  <%= f.text_field :remarks, :class => 'remarksText' %>
+  <%= f.text_field :remarks, class: 'remarksText' %>
 <% else %>
   <div>
-    <%= f.text_field :remarks, :class=>'remarksText autocomplete' %>
+    <%= f.text_field :remarks, class: 'remarksText autocomplete' %>
     <script>
       function get_templates(req, res) {
-        var url = '<%= url_for :action => 'get_templates', :account_code => @simple_slip.my_account.code %>';
+        var url = '<%= url_for action: 'get_templates', account_code: @simple_slip.my_account.code %>';
         var params = {format: 'json', query: req.term};
         $.getJSON(url, params, function(json) {
           res(json);

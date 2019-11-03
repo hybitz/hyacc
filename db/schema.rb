@@ -573,7 +573,7 @@ ActiveRecord::Schema.define(version: 2019_11_03_085703) do
     t.boolean "deleted", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.decimal "tax_rate", precision: 4, scale: 3, default: "0.0", null: false
+    t.decimal "tax_rate", precision: 4, scale: 3
     t.index ["remarks"], name: "index_simple_slip_templates_on_remarks"
   end
 

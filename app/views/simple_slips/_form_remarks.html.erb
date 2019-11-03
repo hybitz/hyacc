@@ -26,6 +26,7 @@
         }
 
         form.find('[name*="\[tax_type\]"]').val(item.tax_type);
+        form.find('[name*="\[tax_rate_percent\]"]').val(item.tax_rate_percent);
 
         if (item.increase_or_decrease == 'increase') {
           form.find('[name*="\[amount_increase\]"]').val(item.amount);

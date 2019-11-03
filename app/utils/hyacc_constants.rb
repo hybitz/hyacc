@@ -135,6 +135,7 @@ module HyaccConstants
     FOCUS_ON_COMPLETE_AMOUNT = 'amount' => '金額',
     FOCUS_ON_COMPLETE_TAX_AMOUNT = 'tax_amount' => '消費税額',
     FOCUS_ON_COMPLETE_TAX_TYPE = 'tax_type' => '消費税区分',
+    FOCUS_ON_COMPLETE_TAX_RATE = 'tax_rate_percent' => '消費税率',
   }
 
   # 入力区分

@@ -24,54 +24,66 @@
     });
   </script>
 
-
-  <%= form_for [:mm, @simple_slip_template], :remote => true do |f| %>
+  <%= form_with model: [:mm, @simple_slip_template] do |f| %>
     <%= flash_notice %>
 
     <%= f.hidden_field :owner_type %>
     <%= f.hidden_field :owner_id %>
 
-    <table>
+    <table class="table">
       <tr>
         <th>摘要</th>
-        <td colspan="5" align="center">
-          <%= f.text_field :remarks, :style => 'width:99%;' %>
+        <td class="text-center">
+          <%= f.text_field :remarks, class: 'form-control' %>
         </td>
-        <td colspan="2" align="center">
+        <td class="text-center">
           <input type="button" value="キーワード生成"/>
         </td>
       </tr>
       <tr>
         <th>説明</th>
-        <td colspan="7" align="center">
-          <%= f.text_field :description, :style=>'width:99%;' %>
+        <td colspan="2" class="text-center">
+          <%= f.text_field :description, class: 'form-control' %>
         </td>
       </tr>
       <tr>
         <th>キーワード</th>
-        <td colspan="7" align="center">
-          <%= f.text_field :keywords, :style=>'width:99%;' %>
+        <td colspan="2" class="text-center">
+          <%= f.text_field :keywords, class: 'form-control' %>
         </td>
       </tr>
+    </table>
+    <table class="table">
       <tr>
-        <th class="accountName">勘定科目</th>
-        <th class="subAccountName">補助科目</th>
-        <th class="branchName">計上部門</th>
-        <th>貸借区分</th>
-        <th>消費税区分</th>
-        <th class="amount">金額</th>
-        <th class="taxAmount">消費税額</th>
-        <th>フォーカス項目</th>
+        <th class="text-center">勘定科目</th>
+        <th class="text-center">補助科目</th>
+        <th class="text-center">計上部門</th>
+        <th class="text-center">貸借区分</th>
       </tr>
       <tr>
         <td><%= collection_select_code_and_name 'simple_slip_template', 'account_id', finder.accounts, :id, :name, {}, class: 'accountSelect' %></td>
-        <td width="100px;"></td>
+        <td></td>
         <td><%= f.collection_select :branch_id, current_company.branches, :id, :name, {include_blank: true}, class: 'branchSelect' %></td>
         <td><%= f.select :dc_type, dc_types, {include_blank: true}, class: 'dcTypeSelect' %></td>
-        <td><%= f.select :tax_type, tax_types, {include_blank: true}, class: 'taxTypeSelect' %></td>
-        <td><%= f.text_field :amount, :class => 'amountText' %></td>
-        <td><%= f.text_field :tax_amount, :class => 'amountText' %></td>
-        <td><%= f.select :focus_on_complete, focus_on_completes, {:include_blank=>true}, {:class=>'focusOnCompleteSelect'} %></td>
+      </tr>
+    </table>
+    <table class="table">
+      <tr>
+        <th class="text-center">消費税区分</th>
+        <th class="text-center">消費税率</th>
+        <th class="text-center">金額</th>
+        <th class="text-center">消費税額</th>
+        <th class="text-center">フォーカス</th>
+      </tr>
+      <tr>
+        <td><%= f.select :tax_type, tax_types, {include_blank: true}, class: 'form-control' %></td>
+        <td class="text-center" style="width: 6em;">
+          <%= f.text_field :tax_rate_percent, class: 'form-control text-center float-left', style: 'width: 3em;' %>
+          <div>%</div>
+        </td>
+        <td><%= f.text_field :amount, class: 'form-control text-right', style: 'width: 10em;' %></td>
+        <td><%= f.text_field :tax_amount, class: 'form-control text-right', style: 'width: 8em;' %></td>
+        <td><%= f.select :focus_on_complete, focus_on_completes, {include_blank: true}, class: 'form-control' %></td>
       </tr>
     </table>
   <% end %>

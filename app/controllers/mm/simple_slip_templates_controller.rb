@@ -131,7 +131,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   def simple_slip_template_params
     params.require(:simple_slip_template).permit(
         :remarks, :owner_type, :owner_id, :description, :keywords,
-        :account_id, :branch_id, :sub_account_id, :dc_type, :amount, :tax_type, :tax_amount, :focus_on_complete)
+        :account_id, :branch_id, :sub_account_id, :dc_type, :amount, :tax_type, :tax_rate_percent, :tax_amount, :focus_on_complete)
   end
 
 end

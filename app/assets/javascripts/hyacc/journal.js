@@ -211,6 +211,10 @@ hyacc.Journal.prototype._get_tax_type = function(detail) {
   return $(detail).find('select[name*="\\[tax_type\\]"]').val();
 };
 
+hyacc.Journal.prototype._set_tax_type = function(detail, tax_type) {
+  $(detail).find('select[name*="\\[tax_type\\]"]').val(tax_type);
+};
+
 hyacc.Journal.prototype._hide_detail = function(detail) {
   $(detail).nextUntil('tr[data-detail_id]').hide();
   if (this._is_deleted(detail)) {
@@ -226,7 +230,7 @@ hyacc.Journal.prototype._init = function() {
     this._init_shortcut();
     this._init_validation();
     this._init_event_handlers();
-    this._refresh_tax_amount_all({visibility_only: true});
+    this._refresh_tax_rate_all({visibility_only: true});
     this._refresh_total_amount();
   }
 };
@@ -257,7 +261,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
 
     $.getJSON(that.options.get_tax_type_path, params, function(json) {
       that._set_tax_type(detail, json.tax_type);
-      that._refresh_tax_amount(detail);
+      that._refresh_tax_rate(detail);
     });
 
     $.get(that.options.get_account_detail_path, params, function(html) {
@@ -291,13 +295,13 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     that._refresh_tax_amount(this);
   })
   .delegate('[name*="\\[tax_type\\]"]', 'change', function() {
-    that._refresh_tax_amount(this);
+    that._refresh_tax_rate(this);
   })
   .delegate('[name*="\\[tax_amount\\]"]', 'change', function() {
     that._refresh_total_amount();
   })
   .delegate('[name*="\\[ym\\]"]', 'change', function() {
-    that._refresh_tax_amount_all();
+    that._refresh_tax_rate_all();
   });
 };
 
@@ -350,6 +354,32 @@ hyacc.Journal.prototype._refresh_allocation = function(detail) {
   });
 };
 
+hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options) {
+  options = options || {};
+
+  var detail = $(trigger).closest('tr[data-detail_id]');
+  var taxAmountField = detail.find('input[name*="\\[tax_amount\\]"]');
+  var taxRatePercentField = detail.find('input[name*="\\[tax_rate_percent\\]"]');
+  var taxType = this._get_tax_type(detail);
+
+  // 内税／外税の場合は消費税を計算
+  if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
+    if (!options.visibility_only) {
+      var ymField = $('input[name="journal\\[ym\\]"]');
+      var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
+      var taxRate = tax.getRateOn(date);
+
+      taxRatePercentField.val(parseInt(taxRate * 100));
+    }
+
+    taxRatePercentField.prop('disabled', false);
+  } else {
+    taxRatePercentField.val('').prop('disabled', true);
+  }
+
+  this._refresh_tax_amount(trigger, options);
+};
+
 hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   options = options || {};
 
@@ -362,32 +392,23 @@ hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
     if (!options.visibility_only) {
       var amount = this._get_input_amount(detail);
-      var ymField = $('input[name="journal\\[ym\\]"]');
-      var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
-
       var taxRate = taxRatePercentField.val() * 0.01;
-      if (! $(trigger).is('input[name*="\\[tax_rate_percent\\]"]')) {
-        taxRate = tax.getRateOn(date);
-      }
 
-      taxRatePercentField.val(parseInt(taxRate * 100));
       taxAmountField.val(tax.calcTaxAmount(taxType, taxRate, amount));
     }
 
-    taxRatePercentField.prop('disabled', false);
     taxAmountField.prop('disabled', false);
   } else {
-    taxRatePercentField.val('').prop('disabled', true);
     taxAmountField.val('').prop('disabled', true);
   }
 
   this._refresh_total_amount();
 };
 
-hyacc.Journal.prototype._refresh_tax_amount_all = function(options) {
+hyacc.Journal.prototype._refresh_tax_rate_all = function(options) {
   var that = this;
   this._get_details().each(function() {
-    that._refresh_tax_amount(this, options);
+    that._refresh_tax_rate(this, options);
   });
 };
 
@@ -429,10 +450,6 @@ hyacc.Journal.prototype._remove_detail = function(trigger) {
   var detail = $(trigger).closest('tr[data-detail_id]');
   this._set_deleted(detail, true);
   this._hide_detail(detail);
-};
-
-hyacc.Journal.prototype._set_tax_type = function(detail, tax_type) {
-  $(detail).find('select[name*="\\[tax_type\\]"]').val(tax_type);
 };
 
 hyacc.Journal.prototype._show_detail = function(detail) {

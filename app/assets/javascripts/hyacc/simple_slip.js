@@ -43,7 +43,6 @@ hyacc.SimpleSlip.prototype._init = function() {
       return that.validate_slip();
     });
 
-    this.get_ym().change();
     this.get_day().focus().select();
   }
 };

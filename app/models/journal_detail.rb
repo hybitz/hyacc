@@ -76,6 +76,10 @@ class JournalDetail < ApplicationRecord
     self.tax_type.to_i == TAX_TYPE_EXCLUSIVE
   end
 
+  def tax_type_inclusive?
+    self.tax_type.to_i == TAX_TYPE_INCLUSIVE
+  end
+
   def tax_type_nontaxable?
     self.tax_type.to_i == TAX_TYPE_NONTAXABLE
   end

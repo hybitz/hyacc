@@ -27,7 +27,7 @@ class PayrollsController < Base::HyaccController
     salary = previous_payroll.base_salary
     monthly_standard = previous_payroll.monthly_standard
 
-    @payroll = get_tax(ym, employee_id, salary, 0, 0, 0, monthly_standard, is_bonus: true)
+    @payroll = get_tax(ym, employee_id, monthly_standard, salary, 0, 0, 0, 0, is_bonus: true)
     @payroll.pay_day = get_pay_day(ym, employee_id)
   end
 
@@ -36,14 +36,14 @@ class PayrollsController < Base::HyaccController
     employee_id = params[:employee_id]
 
     previous_payroll = Payroll.get_previous(ym, employee_id)
+    monthly_standard = previous_payroll.try(:monthly_standard).to_i
     base_salary = previous_payroll.try(:base_salary).to_i
     extra_pay = previous_payroll.try(:extra_pay).to_i
     commuting_allowance = previous_payroll.try(:commuting_allowance).to_i
     housing_allowance = previous_payroll.try(:housing_allowance).to_i
-    monthly_standard = previous_payroll.try(:monthly_standard).to_i
-    accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee_id)
+    qualification_allowance = previous_payroll.try(:qualification_allowance).to_i
 
-    @payroll = get_tax(ym, employee_id, base_salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard)
+    @payroll = get_tax(ym, employee_id, monthly_standard, base_salary, extra_pay, commuting_allowance, housing_allowance, qualification_allowance)
 
     # 初期値の設定
     @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
@@ -54,11 +54,10 @@ class PayrollsController < Base::HyaccController
     @payroll.pay_day = get_pay_day(ym, employee_id)
 
     # 従業員への未払費用
-    @payroll.accrued_liability = accrued_liability
+    @payroll.accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee_id)
     
     # 振込手数料の想定額
-    estimated_transfer_amount = base_salary + extra_pay + commuting_allowance + housing_allowance + accrued_liability
-    @payroll.transfer_fee = @payroll.employee.calc_payroll_transfer_fee(estimated_transfer_amount)
+    @payroll.transfer_fee = @payroll.employee.calc_payroll_transfer_fee(@payroll.pay_total)
   end
 
   def create
@@ -135,13 +134,14 @@ class PayrollsController < Base::HyaccController
     # 保険料の検索
     ym = params[:payroll][:ym]
     employee_id = params[:payroll][:employee_id]
+    monthly_standard = params[:payroll][:monthly_standard]
     salary = params[:payroll][:base_salary].to_i + params[:payroll][:temporary_salary].to_i 
     extra_pay = params[:payroll][:extra_pay]
     commuting_allowance = params[:payroll][:commuting_allowance]
     housing_allowance = params[:payroll][:housing_allowance]
-    monthly_standard = params[:payroll][:monthly_standard]
+    qualification_allowance = params[:payroll][:qualification_allowance]
     is_bonus = params[:payroll][:is_bonus].present?
-    payroll = get_tax(ym, employee_id, salary, extra_pay, commuting_allowance, housing_allowance, monthly_standard, is_bonus: is_bonus)
+    payroll = get_tax(ym, employee_id, monthly_standard, salary, extra_pay, commuting_allowance, housing_allowance, qualification_allowance, is_bonus: is_bonus)
 
     render json: {
       health_insurance: payroll.health_insurance,

@@ -1,5 +1,9 @@
-class RentFinder < Daddy::Model
+class RentFinder
+  include ActiveModel::Model
   include HyaccConstants
+  include Pagination
+  
+  attr_accessor :deleted
   
   def list
     Rent.where(conditions).order('status, end_to desc').paginate(page: page, per_page: per_page)

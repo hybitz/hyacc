@@ -123,7 +123,7 @@
         <td class="text-right"><%= to_amount(@pd[:sum].extra_pay) %></td>
       </tr>
       <tr>
-        <td rowspan="3">手当</td>
+        <td rowspan="4">手当</td>
         <td>通勤手当</td>
         <% @finder.get_ym_range.each do |ym| %>
           <td class="center"><%= to_amount(@pd[ym].commuting_allowance) %></td>
@@ -140,6 +140,15 @@
         <td><%= to_amount(@pd["b1"].housing_allowance) %></td>
         <td><%= to_amount(@pd["b2"].housing_allowance) %></td>
         <td class="right"><%= to_amount(@pd[:sum].housing_allowance) %></td>
+      </tr>
+      <tr>
+        <td>資格手当</td>
+        <% @finder.get_ym_range.each do |ym| %>
+          <td class="text-center"><%= to_amount(@pd[ym].qualification_allowance) %></td>
+        <% end %>
+        <td><%= to_amount(@pd["b1"].qualification_allowance) %></td>
+        <td><%= to_amount(@pd["b2"].qualification_allowance) %></td>
+        <td class="right"><%= to_amount(@pd[:sum].qualification_allowance) %></td>
       </tr>
       <tr>
         <td>時間外手当</td>

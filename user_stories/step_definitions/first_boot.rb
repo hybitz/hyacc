@@ -1,5 +1,5 @@
 もし /^Hyaccインストール後の最初のアクセス時に、初期設定が表示される$/ do
-  system('rake db:seed')
+  system('bundle exec rake db:seed')
   assert_visit '/'
 end
 
@@ -52,8 +52,8 @@ end
 もし /^ログイン画面が表示されるので、登録したログインIDとパスワードでログイン$/ do
   assert @user
 
-  fill_in 'ログインID', :with => @user.login_id
-  fill_in 'パスワード', :with => @user.password
+  fill_in 'ログインID', with: @user.login_id
+  fill_in 'パスワード', with: @user.password
   capture
 
   click_on 'ログイン'

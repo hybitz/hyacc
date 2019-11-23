@@ -33,27 +33,27 @@ class PayrollsController < Base::HyaccController
 
   def new
     ym = params[:ym]
-    employee_id = params[:employee_id]
+    employee = current_company.employees.find(params[:employee_id])
 
-    previous_payroll = Payroll.get_previous(ym, employee_id)
+    previous_payroll = Payroll.get_previous(ym, employee.id)
     monthly_standard = previous_payroll.try(:monthly_standard).to_i
     salary = previous_payroll.try(:base_salary).to_i
     commuting_allowance = previous_payroll.try(:commuting_allowance).to_i
     housing_allowance = previous_payroll.try(:housing_allowance).to_i
-    qualification_allowance = previous_payroll.try(:qualification_allowance).to_i
+    qualification_allowance = employee.skills.map(&:qualification).map(&:allowance).reduce(:+)
 
-    @payroll = get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance)
+    @payroll = get_tax(ym, employee.id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance)
 
     # 初期値の設定
     @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
     @payroll.hours_of_work = @payroll.days_of_work * 8
 
     # 住民税マスタより住民税額を取得
-    @payroll.inhabitant_tax = get_inhabitant_tax(employee_id, ym)
-    @payroll.pay_day = get_pay_day(ym, employee_id)
+    @payroll.inhabitant_tax = get_inhabitant_tax(employee.id, ym)
+    @payroll.pay_day = get_pay_day(ym, employee.id)
 
     # 従業員への未払費用
-    @payroll.accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee_id)
+    @payroll.accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee.id)
     
     # 振込手数料の想定額
     @payroll.transfer_fee = @payroll.employee.calc_payroll_transfer_fee(@payroll.pay_total)

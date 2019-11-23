@@ -19,7 +19,7 @@ class Mm::SkillsControllerTest < ActionDispatch::IntegrationTest
   end
   
   def test_登録
-    assert_difference 'EmployeeQualification.count', 1 do
+    assert_difference 'Skill.count', 1 do
       post mm_skills_path, xhr: true, params: {
         skill: {
           employee_id: employee.id,
@@ -44,7 +44,7 @@ class Mm::SkillsControllerTest < ActionDispatch::IntegrationTest
   def test_更新
     assert skill = Skill.find_by(employee_id: employee.id, qualification_id: qualification.id)
 
-    assert_no_difference 'EmployeeQualification.count' do
+    assert_no_difference 'Skill.count' do
       patch mm_skill_path(skill), xhr: true, params: {
         skill: {
           qualified_on: skill.qualified_on - 1.day
@@ -62,7 +62,7 @@ class Mm::SkillsControllerTest < ActionDispatch::IntegrationTest
     assert skill = Skill.find_by(employee_id: employee.id, qualification_id: qualification.id)
     assert_not skill.deleted?
 
-    assert_no_difference 'EmployeeQualification.count' do
+    assert_no_difference 'Skill.count' do
       delete mm_skill_path(skill), xhr: true
     end
 

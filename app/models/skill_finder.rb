@@ -7,10 +7,13 @@ class SkillFinder
     return [] unless employee
 
     qualifications = company.qualifications.order(:name)
-    ret = Hash[*qualifications.map{|q| [q.name => Skill.new(employee: employee, qualification: q)] }.flatten]
+    ret = {}
+    company.qualifications.order(:name).each do |q|
+      ret[q.name] = Skill.new(employee: employee, qualification: q)
+    end
 
-    Array(employee.employee_qualifications).each do |eq|
-      ret[eq.qualification.name] = eq
+    Array(employee.skills).each do |s|
+      ret[s.qualification.name] = s
     end
     
     ret.values

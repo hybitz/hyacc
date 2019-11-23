@@ -20,8 +20,8 @@ class Employee < ApplicationRecord
   has_one :employee_bank_account
   accepts_nested_attributes_for :employee_bank_account
 
-  has_many :employee_qualifications, -> {where deleted: false}, inverse_of: 'employee'
-  accepts_nested_attributes_for :employee_qualifications
+  has_many :skills, -> {where deleted: false}, inverse_of: 'employee'
+  accepts_nested_attributes_for :skills
 
   def self.name_is(name)
     where('last_name = ? or first_name = ? or concat(last_name, first_name) = ?', name, name, name)

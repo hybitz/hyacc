@@ -1,7 +1,7 @@
 class Mm::QualificationsController < Base::HyaccController
   
   def index
-    @qualifications = current_company.qualifications.page(params[:page] || 1)
+    @qualifications = current_company.qualifications.paginate(page: params[:page] || 1, per_page: 10)
   end
 
   def new

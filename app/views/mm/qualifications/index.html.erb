@@ -1,8 +1,7 @@
-<div class="m-2 col-md-6">
-  <%= render 'common/search' %>
+<div class="mt-4 col-md-6">
   <%= flash_notice %>
 
-  <table class="table table-hover">
+  <table class="table table-sm table-hover">
     <thead>
       <tr>
         <th style="width: 60%;"><%= Qualification.human_attribute_name :name %></th>
@@ -13,19 +12,20 @@
     <tbody>
       <% @qualifications.each do |q| %>
         <tr>
-          <td><%= q.name %></td>
-          <td class="text-center"><%= to_amount(q.allowance, show_zero: true) %></td>
-          <td class="center">
+          <td class="align-middle"><%= q.name %></td>
+          <td class="text-center align-middle"><%= to_amount(q.allowance, show_zero: true) %></td>
+          <td class="text-center">
             <%= link_to '編集', edit_mm_qualification_path(q), class: 'btn btn-small btn-light', remote: true %>
             <%= link_to '削除', [:mm, q], data: {confirm: "資格 #{q.name} を削除します。\nよろしいですか？"}, class: 'btn btn-small btn-light', method: :delete %>
           </td>
         </tr>
       <% end %>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2" class="align-middle"><%= will_paginate @qualifications %></td>
+        <td class="text-center"><%= link_to '追加', new_mm_qualification_path, class: 'btn btn-light', remote: true %></td>
+      </tr>
+    </tfoot>
   </table>
-  
-  <%= will_paginate @qualifications %>
-  <div class="m-3">
-  	<%= link_to '追加', new_mm_qualification_path, class: 'btn btn-light', remote: true %>
-  </div>
 </div>

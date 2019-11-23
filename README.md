@@ -21,22 +21,22 @@ $ cd hyacc
 ```
 ### 各種ミドルウェアのインストール
 ```
-$ bundle install
-$ rake dad:setup
+$ bundle
+$ bundle exec rake dad:setup
 ```
 ### DBの初期化
 ```
-$ rake dad:db:create
-$ rails db:reset
+$ bundle exec rake dad:db:create
+$ bundle exec rails db:reset
 ```
 ### テスト
 ```
-$ rails test
-$ rake dad:setup:test
-$ rake dad:test
+$ bundle exec rails test
+$ bundle exec rake dad:setup:test
+$ bundle exec rake dad:test
 ```
 ### 起動
 ```
 $ sudo systemctl restart nginx
 ```
-ブラウザから "http://localhost":http://localhost にアクセスして動作を確認します。
+ブラウザから "http://localhost" にアクセスして動作を確認します。

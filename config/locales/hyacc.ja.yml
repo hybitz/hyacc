@@ -193,7 +193,8 @@ ja:
         income_tax: 所得税
         insurance: 健康保険料
         monthly_standard: 標準報酬月額
-        pay_day: "給与支払日"
+        pay_day: 給与支払日
+        qualification_allowance: 資格手当
         temporary_salary: 賞与
         welfare_pension: 厚生年金保険料
         ym: 年月

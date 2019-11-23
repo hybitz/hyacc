@@ -21,7 +21,7 @@ module Auto::Journal
 
     # 給与明細の取得
     def make_payroll
-      employee = Employee.find(@payroll.employee_id)
+      employee = @payroll.employee
       salary_account = employee.executive? ?
           Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)

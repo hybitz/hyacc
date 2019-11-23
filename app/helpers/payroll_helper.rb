@@ -70,19 +70,18 @@ module PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, monthly_standard, salary, extra_pay, commuting_allowance, housing_allowance, qualification_allowance, options = {})
+  def get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, is_bonus: false)
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
 
     payroll.ym = ym
     payroll.employee = e
-    payroll.is_bonus = options.fetch(:is_bonus, false)
+    payroll.is_bonus = is_bonus
     if payroll.is_bonus?
       payroll.temporary_salary = salary.to_i
     else
       payroll.base_salary = salary.to_i
-      payroll.extra_pay = extra_pay.to_i
       payroll.commuting_allowance = commuting_allowance.to_i
       payroll.housing_allowance = housing_allowance.to_i
       payroll.qualification_allowance = qualification_allowance.to_i

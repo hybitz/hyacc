@@ -8,6 +8,7 @@ ja:
     consumption_tax_statements: 消費税
     debts: 仮負債精算
     deemed_taxes: みなし消費税
+    devise/sessions: ログイン
     financial_return_statements: 確定申告
     financial_statements: 決算書
     first_boot: 初期設定

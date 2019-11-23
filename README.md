@@ -39,4 +39,4 @@ $ bundle exec rake dad:test
 ```
 $ sudo systemctl restart nginx
 ```
-ブラウザから "http://localhost" にアクセスして動作を確認します。
+ブラウザから http://localhost にアクセスして動作を確認します。

@@ -94,15 +94,11 @@
       <tr>
         <th>従業員への未払費用</th>
         <td><%= f.text_field :accrued_liability, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
-      </tr>
-  
-      <% if @payroll.ym.to_s.slice(4,2) == "12" %>
-        <tr>
+        <% if @payroll.ym.to_s.slice(4,2) == "12" %>
           <th>年末調整額（過払分）</th>
           <td><%= f.text_field :annual_adjustment, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
-        </tr>
-      <% end %>
-  
+        <% end %>
+      </tr>
       <tr>
         <th>給与支払日</th>
         <td class="text-center align-middle"><%= f.text_field :pay_day, class: 'datepicker' %></td>

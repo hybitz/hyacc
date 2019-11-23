@@ -37,69 +37,69 @@
     <table class="table">
       <tr>
         <th>年月</th>
-        <td class="text-center"><%= f.hidden_field :ym %><%= f.object.year %> 年 <%= f.object.month %> 月</td>
+        <td class="text-center align-middle"><%= f.hidden_field :ym %><%= f.object.year %> 年 <%= f.object.month %> 月</td>
         <th>労働日数</th>
-        <td><%= f.text_field :days_of_work, maxlength: 2, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :days_of_work, maxlength: 2, class: 'form-control form-control-sm text-right' %></td>
       </tr>
       <tr>
         <th><%= f.label :base_salary %></th>
-        <td><%= f.text_field :base_salary, maxlength: 10, class: 'salary form-control text-right' %></td>
+        <td><%= f.text_field :base_salary, maxlength: 10, class: 'salary form-control form-control-sm text-right' %></td>
         <th>労働時間</th>
-        <td><%= f.text_field :hours_of_work, maxlength: 5, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :hours_of_work, maxlength: 5, class: 'form-control form-control-sm text-right' %></td>
       </tr>
       <tr>
         <th><%= f.label :extra_pay %></th>
-        <td><%= f.text_field :extra_pay, maxlength: 10, class: 'salary form-control text-right' %></td>
+        <td><%= f.text_field :extra_pay, maxlength: 10, class: 'salary form-control form-control-sm text-right' %></td>
         <th>休日労働時間数</th>
-        <td><%= f.text_field :hours_of_day_off_work, maxlength: 5, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :hours_of_day_off_work, maxlength: 5, class: 'form-control form-control-sm text-right' %></td>
       </tr>
       <tr>
         <th><%= f.label :commuting_allowance %></th>
-        <td><%= f.text_field :commuting_allowance, maxlength: 6, class: 'salary form-control text-right' %></td>
+        <td><%= f.text_field :commuting_allowance, maxlength: 6, class: 'salary form-control form-control-sm text-right' %></td>
         <th>早出残業時間数</th>
-        <td><%= f.text_field :hours_of_early_work, maxlength: 5, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :hours_of_early_work, maxlength: 5, class: 'form-control form-control-sm text-right' %></td>
       </tr>
       <tr>
         <th><%= f.label :housing_allowance %></th>
-        <td><%= f.text_field :housing_allowance, maxlength: 6, class: 'salary form-control text-right' %></td>
+        <td><%= f.text_field :housing_allowance, maxlength: 6, class: 'salary form-control form-control-sm text-right' %></td>
         <th>深夜労働時間数</th>
-        <td><%= f.text_field :hours_of_late_night_work, maxlength: 5, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :hours_of_late_night_work, maxlength: 5, class: 'form-control form-control-sm text-right' %></td>
       </tr>
       <tr>
         <th><%= f.label :qualification_allowance %></th>
-        <td><%= f.text_field :qualification_allowance, maxlength: 10, class: 'salary form-control text-right' %></td>
+        <td><%= f.text_field :qualification_allowance, maxlength: 10, class: 'salary form-control form-control-sm text-right' %></td>
       </tr>
       <tr>
         <th><%= f.label :monthly_standard %></th>
-        <td><%= f.text_field :monthly_standard, maxlength: 10, class: 'salary form-control text-right' %></td>
+        <td><%= f.text_field :monthly_standard, maxlength: 10, class: 'salary form-control form-control-sm text-right' %></td>
       </tr>
       <tr>
         <th>健康保険料</th>
-        <td><%= f.text_field :health_insurance, maxlength: 10, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :health_insurance, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
         <th>厚生年金保険料</th>
-        <td><%= f.text_field :welfare_pension, maxlength: 10, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :welfare_pension, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
       </tr>
       <% unless @payroll.employee.executive? %>
         <tr>
           <th>雇用保険料</th>
-          <td><%= f.text_field :employment_insurance, maxlength: 10, class: 'form-control text-right' %></td>
+          <td><%= f.text_field :employment_insurance, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
         </tr>
       <% end %>
       <tr>
         <th>所得税</th>
-        <td><%= f.text_field :income_tax, maxlength: 10, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :income_tax, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
         <th><%= f.label :inhabitant_tax %></th>
-        <td><%= f.text_field :inhabitant_tax, maxlength: 10, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :inhabitant_tax, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
       </tr>
       <tr>
         <th>従業員への未払費用</th>
-        <td><%= f.text_field :accrued_liability, maxlength: 10, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :accrued_liability, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
       </tr>
   
       <% if @payroll.ym.to_s.slice(4,2) == "12" %>
         <tr>
           <th>年末調整額（過払分）</th>
-          <td><%= f.text_field :annual_adjustment, maxlength: 10, class: 'form-control text-right' %></td>
+          <td><%= f.text_field :annual_adjustment, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
         </tr>
       <% end %>
   
@@ -107,7 +107,7 @@
         <th>給与支払日</th>
         <td class="text-center align-middle"><%= f.text_field :pay_day, class: 'datepicker' %></td>
         <th>振込手数料</th>
-        <td><%= f.text_field :transfer_fee, maxlength: 10, class: 'form-control text-right' %></td>
+        <td><%= f.text_field :transfer_fee, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
       </tr>
     </table>
   <% end %>

@@ -5,8 +5,10 @@ rvm:
   - 2.6.3
   - 2.5.5
 env:
-  - PLATFORM=Linux DRIVER=chrome
-  - PLATFORM="Windows 10" DRIVER=firefox
+  - PLATFORM=Linux DRIVER=chrome FEATURE=features/01.簡易伝票
+  - PLATFORM=Linux DRIVER=chrome FEATURE=features/01.簡易伝票
+  - PLATFORM="Windows 10" DRIVER=firefox FEATURE=features/02.振替伝票
+  - PLATFORM="Windows 10" DRIVER=firefox FEATURE=features/02.振替伝票
 services:
   - mysql
 addons:
@@ -21,4 +23,5 @@ before_install:
 script:
   - bundle exec rake dad:db:create DAD_MYSQL_NO_ROOT_PASSWORD=true
   - bin/rails db:schema:load RAILS_ENV=test
-  - bundle exec rake dad:test user_stories
+  - bin/rails test
+  - bundle exec rake dad:test ${FEATURE}

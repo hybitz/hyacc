@@ -58,7 +58,7 @@ class JournalTest < ActiveSupport::TestCase
     Journal.all.each {|jh| assert jh.save }
 
     journals = Journal.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,1-.*')
-    assert_equal 2, journals.count
+    assert_equal 1, journals.count
 
     # 検索条件がすべて１つの明細のものでなければヒットしない
     journals = Journal.where('id <= ? and finder_key rlike ?', 10, '.*-8322,[0-9]*,2-.*')

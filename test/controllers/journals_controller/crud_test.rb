@@ -293,40 +293,31 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
   end
 
-  def test_更新
+  def test_更新_領収書添付
     jh = Journal.find(1)
     assert ! jh.receipt
     assert_not_equal user.id, jh.create_user_id
+    assert_equal 2, jh.journal_details.size
+
     sign_in user
 
-    patch :update, :xhr => true, :params => {:id => jh.id,
-      :journal => {
-        :ym=>200703,
-        :day=>4,
-        :remarks=>'摘要',
-        :lock_version=>jh.lock_version,
-        :journal_details_attributes => {
-          '0' => {
-            :dc_type => '1',
-            :account_id => '2',
-            :branch_id => '1',
-            :input_amount => '1000',
-          },
-          '1' => {
-            :dc_type => '2',
-            :account_id => '2',
-            :branch_id => '1',
-            :input_amount => '1000',
-          }
+    patch :update, xhr: true, params: {
+      id: jh.id,
+      journal: {
+        ym: 200703, day: 4, remarks: '摘要', lock_version: jh.lock_version,
+        journal_details_attributes: {
+          '0' => jh.journal_details[0].attributes.slice('id', 'dc_type', 'account_id', 'branch_id').merge(input_amount: 12345),
+          '1' => jh.journal_details[1].attributes.slice('id', 'dc_type', 'account_id', 'branch_id').merge(input_amount: 12345)
         },
-        :receipt_attributes => {
-          :file => upload_file('inhabitant_tax.csv')
-        }
+        receipt_attributes: {file: upload_file('inhabitant_tax.csv')}
       }
     }
 
+    assert @journal = assigns(:journal)
+    assert @journal.errors.empty?, @journal.errors.full_messages.join("\n")
     assert_response :success
     assert_template 'common/reload'
+
     assert @journal = Journal.find(jh.id)
     assert_equal jh.create_user_id, @journal.create_user_id
     assert_equal user.id, @journal.update_user_id
@@ -419,27 +410,13 @@ class JournalsController::CrudTest < ActionController::TestCase
   def test_更新_楽観的ロックエラー
     jh = Journal.find(1)
 
-    patch :update, :xhr => true, :params => {:id => jh.id,
-      :journal => {
-        :ym => 200703,
-        :day => 8,
-        :remarks => '落款ロック更新',
-        :lock_version => jh.lock_version - 1,
-        :journal_details_attributes => {
-          '1' => {
-            :id => jh.normal_details[0].id,
-            :dc_type => '1',
-            :account_id => '2',
-            :branch_id => '1',
-            :input_amount => '1000'
-          },
-          '2' => {
-            :id => jh.normal_details[1].id,
-            :dc_type => '2',
-            :account_id => '2',
-            :branch_id => '1',
-            :input_amount => '1000'
-          }
+    patch :update, xhr: true, params: {
+      id: jh.id,
+      journal: {
+        ym: 200703, day: 8, remarks: '楽観ロック更新', lock_version: jh.lock_version - 1,
+        journal_details_attributes: {
+          '1' => {id: jh.normal_details[0].id, dc_type: '1', account_id: '2', branch_id: '1', input_amount: '1000'},
+          '2' => {id: jh.normal_details[1].id, dc_type: '2', account_id: '2', branch_id: '1', input_amount: '1000'}
         }
       }
     }

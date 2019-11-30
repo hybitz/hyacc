@@ -12,17 +12,17 @@
   });
 </script>
 
-<%= form_with model: @journal, :html => {:id => 'journal_form', :enctype => 'multipart/form-data'} do |f| %>
+<%= form_with model: @journal, html: {id: 'journal_form', enctype: 'multipart/form-data'} do |f| %>
   <%= flash_notice %>
   <%= f.hidden_field 'lock_version' %>
 
   <table class="journalTable">
     <tr>
-      <th>年月</th>
-      <th>日</th>
-      <th>摘　　要</th>
-      <th>借方金額</th>
-      <th>貸方金額</th>
+      <th><%= justify('年月') %></th>
+      <th><%= justify('日') %></th>
+      <th><%= justify('摘要') %></th>
+      <th><%= justify('借方金額') %></th>
+      <th><%= justify('貸方金額') %></th>
     </tr>
     <tr>
       <td><%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText' %></td>
@@ -61,7 +61,7 @@
       <tr>
         <td colspan="8"></td>
         <td align="center" colspan="2">
-          <%= link_to '明細追加', '#', :onclick => 'journal.add_detail(this); return false;' %>
+          <%= link_to '明細追加', '#', onclick: 'journal.add_detail(this); return false;' %>
         </td>
       </tr>
     </tfoot>

@@ -8,13 +8,13 @@ class Journal < ApplicationRecord
   belongs_to :payroll, optional: true
 
   has_many :journal_details, inverse_of: 'journal', dependent: :destroy
-  accepts_nested_attributes_for :journal_details, :allow_destroy => true
+  accepts_nested_attributes_for :journal_details, allow_destroy: true
 
   has_many :transfer_journals, :foreign_key => :transfer_from_id, # 外部キーは所有される側にあるので、fromとしている
-    :class_name => 'Journal', :dependent => :destroy
+    :class_name => 'Journal', dependent: :destroy
   accepts_nested_attributes_for :transfer_journals
 
-  has_one :tax_admin_info, :dependent => :destroy
+  has_one :tax_admin_info, dependent: :destroy
   accepts_nested_attributes_for :tax_admin_info
 
   validates_presence_of :company_id, :ym, :day, :remarks

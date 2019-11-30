@@ -22,7 +22,7 @@ class Company < ApplicationRecord
 
   has_many :qualifications, -> { where deleted: false }, inverse_of: 'company'
 
-  has_many :journals, -> { where deleted: falase }
+  has_many :journals, -> { where deleted: false }
 
   attr_accessor :day_of_payday
   attr_accessor :month_of_payday

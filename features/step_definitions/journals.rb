@@ -1,4 +1,4 @@
-前提 /^振替伝票の一覧を表示している$/ do
+前提 /^振替伝票を表示している$/ do
   assert_visit '/journals'
 end
 

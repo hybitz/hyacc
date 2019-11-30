@@ -1,24 +1,17 @@
 前提 /^(.*?)が(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |user_name, account_name|
-  sign_in :name => user_name
-  assert has_no_title?(account_name)
+  assert a = Account.find_by_name(account_name)
+
+  sign_in name: user_name
+  assert has_no_title?(a.name)
 
   with_capture do
-    assert has_link?(account_name)
+    assert has_link?(a.name)
     within '.menu' do
-      click_on account_name
+      click_on a.name
     end
-    assert has_title?(account_name)
+    assert has_title?(a.name)
     assert has_selector?('#slipTable')
   end
-end
-
-前提 /^(小口現金|普通預金|未払金（従業員）)の一覧を表示している$/ do |account_name|
-  sign_in user unless current_user
-
-  within '.menu' do
-    click_on account_name
-  end
-  assert has_title?(account_name)
 end
 
 もし /^以下の簡易入力伝票(を|に)(登録|更新)する$/ do |prefix, action, ast_table|
@@ -121,7 +114,7 @@ end
 
   assert tr = first('#slipTable tbody tr')
   within tr do
-    @slip = Slips::Slip.new(:account_code => @account.code)
+    @slip = Slips::Slip.new(account_code: @account.code)
     @slip.id = tr['slip_id'].to_i
     @slip.remarks = find('td.remarks').text
 

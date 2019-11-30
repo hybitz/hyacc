@@ -1,15 +1,15 @@
 前提 /^(.*?)がログインしている$/ do |name|
-  sign_in :name => name
+  sign_in name: name
 end
 
 前提 /^(.*?)が(.*?)を表示している$/ do |name, page|
-  sign_in :name => name
+  sign_in name: name
   click_on page
   assert has_title?(page)
   capture
 end
 
-もし /^(.*?)を表示している$/ do |page|
+前提 /^(.*?)を表示している$/ do |page|
   begin
     sign_in user unless current_user
     click_on page

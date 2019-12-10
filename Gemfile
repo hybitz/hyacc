@@ -54,7 +54,7 @@ gem 'zengin_code'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'puma', '~> 3.11'
+  gem 'puma', '~> 4.3'
 end
 
 group :development do

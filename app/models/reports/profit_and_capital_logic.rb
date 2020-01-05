@@ -34,6 +34,10 @@ module Reports
         d.no = i
       end
       
+      # 未収還付法人税等
+      ret.income_taxes_receivable_amount = get_amount_at_end(ACCOUNT_CODE_INCOME_TAXES_RECEIVABLE, CORPORATE_TAX_TYPE_CORPORATE_TAX)
+      ret.income_taxes_receivable_amount += get_amount_at_end(ACCOUNT_CODE_INCOME_TAXES_RECEIVABLE, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+
       # 繰越損益金
       ret.pretax_profit_amount = get_pretax_profit_amount
 
@@ -64,6 +68,7 @@ module Reports
 
   class ProfitAndCapitalModel
     attr_accessor :surplus_reserves
+    attr_accessor :income_taxes_receivable_amount
     attr_accessor :pretax_profit_amount
     attr_accessor :corporate_taxes_payable_amount
     attr_accessor :perfectual_tax_payable_amount
@@ -72,6 +77,7 @@ module Reports
     
     def initialize
       @surplus_reserves = []
+      @income_taxes_receivable_amount = 0
       @pretax_profit_amount = 0
       @corporate_taxes_payable_amount = 0
       @capital_stocks = []
@@ -99,6 +105,7 @@ module Reports
 
     def total_amount_increase
       ret = surplus_reserves.inject(0){|sum, d| sum + d.amount_increase }
+      ret += income_taxes_receivable_amount
       ret += pretax_profit_amount
       ret -= corporate_taxes_payable_amount
       ret -= perfectual_tax_payable_amount

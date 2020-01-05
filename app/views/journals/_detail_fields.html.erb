@@ -14,10 +14,10 @@
     </td>
     <td>
       <%= f.collection_select :sub_account_id, jd.account.sub_accounts, :id, :name, {},
-            :class => 'subAccountSelect', :style => ('display: none;' unless jd.account.sub_accounts.present?) %>
+            class: 'subAccountSelect', style: ('display: none;' unless jd.account.sub_accounts.present?) %>
     </td>
     <td>
-      <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect' %>
+      <%= f.collection_select :branch_id, @branches, :id, :name, {}, class: 'branchSelect' %>
     </td>
     <td class="amount">
       <%= f.text_field :input_amount, :class => 'amountText' %>

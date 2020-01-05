@@ -31,13 +31,13 @@ class JournalDetail < ApplicationRecord
   has_many :transfer_journals, :foreign_key => :transfer_from_detail_id, :class_name => 'Journal', :dependent => :destroy
   accepts_nested_attributes_for :transfer_journals
 
-  validates :account_id, :presence => true
+  validates :account_id, presence: true
   validate :validate_account_and_sub_account
   validates_with Validators::SubAccountPresenceValidator
-  validates :branch_id, :presence => true
-  validates_format_of :social_expense_number_of_people, :with => /[0-9]{0,3}/
-  validates_format_of :settlement_type, :with => /[0-9]{0,1}/
-  validates :amount, :presence => true
+  validates :branch_id, presence: true
+  validates_format_of :social_expense_number_of_people, with: /[0-9]{0,3}/
+  validates_format_of :settlement_type, with: /[0-9]{0,1}/
+  validates :amount, presence: true
   validates_with Validators::TaxRateValidator
 
   before_save :set_asset

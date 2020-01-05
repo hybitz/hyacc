@@ -18,3 +18,5 @@ id,code,name,account_id,sub_account_type,social_expense_number_of_people_require
 17,300,その他,31,1,0
 18,500,雇用保険料,39,1,0
 19,500,雇用保険料,40,1,0
+20,100,法人事業税,38,1,0
+21,900,その他,38,1,0

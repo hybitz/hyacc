@@ -56,14 +56,14 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     ansi (1.5.0)
     arel (9.0.0)
-    autoprefixer-rails (9.7.2)
+    autoprefixer-rails (9.7.3)
       execjs
     backports (3.15.0)
     bcrypt (3.1.13)
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
-    bootstrap (4.3.1)
+    bootstrap (4.4.1)
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
@@ -463,7 +463,7 @@ GEM
       activesupport (>= 4.2, < 6)
       railties (>= 4.2, < 6)
     systemu (2.6.5)
-    tax_jp (1.1.2)
+    tax_jp (1.1.3)
       bootstrap (~> 4.2, >= 4.2.1)
       bootstrap4-datetime-picker-rails
       font-awesome-rails
@@ -504,7 +504,7 @@ GEM
     wmi-lite (1.0.2)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zengin_code (1.0.1.20191119)
+    zengin_code (1.0.1.20191228)
 
 PLATFORMS
   ruby

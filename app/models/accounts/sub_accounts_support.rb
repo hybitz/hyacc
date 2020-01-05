@@ -9,7 +9,7 @@ module Accounts::SubAccountsSupport
 
     case sub_account_type
     when SUB_ACCOUNT_TYPE_NORMAL
-      SubAccount.where(:account_id => self.id).each do |sa|
+      SubAccount.where(account_id: self.id).order(:code).each do |sa|
         @sub_accounts_cache << sa unless sa.deleted?
         @sub_accounts_all_cache << sa
       end
@@ -29,12 +29,12 @@ module Accounts::SubAccountsSupport
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_SAVING_ACCOUNT
-      BankAccount.where(:financial_account_type => FINANCIAL_ACCOUNT_TYPE_SAVING).each do |ba|
+      BankAccount.where(financial_account_type: FINANCIAL_ACCOUNT_TYPE_SAVING).each do |ba|
         @sub_accounts_cache << ba unless ba.deleted?
         @sub_accounts_all_cache << ba
       end
     when SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT
-      BankAccount.where(:financial_account_type => FINANCIAL_ACCOUNT_TYPE_GENERAL).each do |ba|
+      BankAccount.where(financial_account_type: FINANCIAL_ACCOUNT_TYPE_GENERAL).each do |ba|
         @sub_accounts_cache << ba unless ba.deleted?
         @sub_accounts_all_cache << ba
       end
@@ -44,29 +44,29 @@ module Accounts::SubAccountsSupport
         @sub_accounts_all_cache << r
       end
     when SUB_ACCOUNT_TYPE_ORDER_ENTRY
-      Customer.where(:is_order_entry => true).each do |c|
+      Customer.where(is_order_entry: true).each do |c|
         @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
-      Customer.where(:is_order_placement => true).each do |c|
+      Customer.where(is_order_placement: true).each do |c|
         @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_INVESTMENT
-      Customer.where(:is_investment => true).each do |c|
+      Customer.where(is_investment: true).each do |c|
         @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
-      SubAccount.where(:account_id => self.id).each do |sa|
+      SubAccount.where(account_id: self.id).order(:code).each do |sa|
         @sub_accounts_cache << sa unless sa.deleted?
         @sub_accounts_all_cache << sa
       end
     when SUB_ACCOUNT_TYPE_CORPORATE_TAX
       list = []
       CORPORATE_TAX_TYPES.each {|key, value|
-        tax = CorporateTax.new(:id => key, :code => key, :name => value)
+        tax = CorporateTax.new(id: key, code: key, name: value)
         @sub_accounts_cache << tax
         @sub_accounts_all_cache << tax
       }

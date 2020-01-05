@@ -15,7 +15,7 @@ module Reports
 
     def get_social_expense_detail_model
       ret = SocialExpenseDetailModel.new
-      ret.account = Account.find_by_code( ACCOUNT_CODE_SOCIAL_EXPENSE )
+      ret.account = Account.find_by_code(ACCOUNT_CODE_SOCIAL_EXPENSE)
 
       Journal.where(conditions).includes(:journal_details).each do |jh|
         jh.journal_details.each do |jd|
@@ -35,12 +35,12 @@ module Reports
               ret.amount += amount
               ret.deduction_amount += deduction_amount
               ret.social_expense_amount += social_expense_amount
-              ret.differential += social_expense_amount if jd.sub_account_id.to_s == SUB_ACCOUNT_CODE_DRINKING
+              ret.differential += social_expense_amount if jd.sub_account.code == SUB_ACCOUNT_CODE_DRINKING
             else
               ret.amount -= amount
               ret.deduction_amount -= deduction_amount
               ret.social_expense_amount -= social_expense_amount
-              ret.differential -= social_expense_amount if jd.sub_account_id.to_s == SUB_ACCOUNT_CODE_DRINKING
+              ret.differential -= social_expense_amount if jd.sub_account.code == SUB_ACCOUNT_CODE_DRINKING
             end
           end
         end
@@ -52,7 +52,7 @@ module Reports
     def conditions
       sql = SqlBuilder.new
       sql.append('deleted = ?', false)
-      sql.append('and ym >= ? and ym <= ?', @start_ym, @end_ym)
+      sql.append('and ym >= ? and ym <= ?', start_ym, end_ym)
       sql.append('and finder_key rlike ?', JournalUtil.finder_key_rlike(ACCOUNT_CODE_SOCIAL_EXPENSE, 0, @finder.branch_id))
       sql.to_a
     end

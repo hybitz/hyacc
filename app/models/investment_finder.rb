@@ -21,7 +21,7 @@ class InvestmentFinder
   
   def is_not_related_to_journal_detail
     journal_details_for_investment.each do |jd|
-      if not Investment.exists?(:journal_detail_id => jd.id)
+      if not Investment.exists?(journal_detail_id: jd.id)
         return true
       end
     end
@@ -31,7 +31,7 @@ class InvestmentFinder
   def journal_details_not_related
     journal_details = []
     journal_details_for_investment.each do |jd|
-      if not Investment.exists?(:journal_detail_id => jd.id)
+      if not Investment.exists?(journal_detail_id: jd.id)
         journal_details << jd
       end
     end
@@ -72,10 +72,10 @@ class InvestmentFinder
   def conditions
     ym_range = get_ym_range
     sql = SqlBuilder.new
-    sql.append('bank_account_id = ? and ym <= ?', self.bank_account_id, ym_range.last)
+    sql.append('bank_account_id = ? and ym >= ? and ym <= ?', self.bank_account_id, ym_range.first, ym_range.last)
     sql.to_a
   end
-  
+
   # 会計年度内の年月を12ヶ月分、yyyymmの配列として取得する。
   def get_ym_range
     start_year_month = HyaccDateUtil.get_start_year_month_of_fiscal_year(fiscal_year, company.start_month_of_fiscal_year)

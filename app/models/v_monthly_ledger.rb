@@ -33,7 +33,7 @@ EOS
   end
 
   # ネット累計金額を取得する
-  def self.get_net_sum_amount(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=0, options={})
+  def self.net_sum(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=0, options={})
     # 勘定科目は必須
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
 

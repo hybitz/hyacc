@@ -29,14 +29,17 @@ module Reports
       model.prefectural_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
       model.prefectural_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
       model.prefectural_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
+
       model.municipal_inhabitants_tax_payable_at_start_first = nil
       model.municipal_inhabitants_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
       model.municipal_inhabitants_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
       model.municipal_inhabitants_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
+
       model.business_tax_payable_at_start_first = nil
       model.business_tax_payable_at_start_second = nil
       model.business_tax_at_half = nil
-      model.business_tax_at_full = nil
+      model.business_tax_at_full = get_corporate_enterprise_tax_amount
+
       model
     end
 

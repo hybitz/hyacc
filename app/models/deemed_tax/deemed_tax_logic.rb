@@ -76,7 +76,7 @@ module DeemedTax
       amount = 0
   
       unless profit_account.tax_type == TAX_TYPE_NONTAXABLE
-        amount += VMonthlyLedger.get_net_sum_amount(ym_from, ym_to, profit_account.id, 0, 0, :include_children => false)
+        amount += VMonthlyLedger.net_sum(ym_from, ym_to, profit_account.id, 0, 0, :include_children => false)
       end
       
       profit_account.children.each do |a|

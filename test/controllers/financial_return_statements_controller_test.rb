@@ -46,14 +46,14 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
 
   def test_別表5_2_租税公課の納付状況等に関する明細書
     sign_in user
-    get :index, :params => {:commit => true, :finder => tax_and_dues_finder}
+    get :index, params: {commit: true, finder: tax_and_dues_finder}
     assert_response :success
-    assert_template :tax_and_dues
+    assert_template 'financial_return_statements/tax_and_dues/00000000'
   end
 
   def test_別表15_交際費等の損金算入に関する明細書
     sign_in user
-    get :index, :params => {:commit => true, :finder => social_expense_finder}
+    get :index, params: {commit: true, finder: social_expense_finder}
     assert_response :success
     assert_template :social_expense
   end

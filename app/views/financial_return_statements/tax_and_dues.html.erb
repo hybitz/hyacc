@@ -1,11 +1,13 @@
 <table class="table table-bordered table-hover">
     <tr>
-        <td colspan="7"><b>租税公課の納付状況等に関する明細書</b></td>
-        <td align="center">事業<br/>年度</td>
-        <td colspan="3" align="center"></td>
-        <td align="center">法人名</td>
-        <td colspan="2" align="center"><b><%= @model.company_name %></b></td>
+        <td><b>租税公課の納付状況等に関する明細書</b></td>
+        <td class="text-center">事業<br/>年度</td>
+        <td class="text-center"></td>
+        <td class="text-center">法人名</td>
+        <td class="text-center"><b><%= @model.company_name %></b></td>
     </tr>
+</table>    
+<table class="table table-bordered table-hover">
     <tr>
         <td rowspan="3" colspan="4" align="center">税目及び事業年度</td>
         <td rowspan="2" width="120px" align="center">期首現在<br/>未納税額</td>

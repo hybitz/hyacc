@@ -9,8 +9,6 @@ class FinancialReturnStatementsController < Base::HyaccController
       render_rent
     when REPORT_TYPE_SOCIAL_EXPENSE
       render_social_expense
-    when REPORT_TYPE_TAX_AND_DUES
-      render_tax_and_dues
     when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
       render_trade_account_payable
     when REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE
@@ -43,12 +41,6 @@ class FinancialReturnStatementsController < Base::HyaccController
     logic = Reports::RentStatementLogic.new(finder)
     @rents = logic.get_rent_statement
     render :rent
-  end
-
-  def render_tax_and_dues
-    logic = Reports::TaxAndDuesLogic.new(finder)
-    @model = logic.get_tax_and_dues_model
-    render :tax_and_dues
   end
 
   def render_social_expense

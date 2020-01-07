@@ -77,6 +77,7 @@ class Bs::InvestmentsController < Base::HyaccController
       @finder = InvestmentFinder.new(finder_params)
       @finder.company_id = current_company.id
       @finder.fiscal_year ||= current_company.fiscal_year
+      @finder.order = 'ym desc, day desc'
     end
     
     @finder

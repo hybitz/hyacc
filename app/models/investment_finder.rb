@@ -5,13 +5,18 @@ class InvestmentFinder
   include BankAccountAware
 
   attr_accessor :fiscal_year
+  attr_accessor :order
 
   def list
-    Investment.where(conditions).order('ym, day')
+    Investment.where(conditions).order(order)
   end
   
   def fiscal_years
     company.fiscal_years.map{|fy| fy.fiscal_year }.sort
+  end
+  
+  def order
+    @order || 'ym, day'
   end
   
   def is_not_related_to_journal_detail

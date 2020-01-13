@@ -1,10 +1,10 @@
 class BusinessOffice < ApplicationRecord
-  belongs_to :company, :inverse_of => 'business_offices'
+  belongs_to :company, inverse_of: 'business_offices'
 
   nostalgic_attr :name
-  validates :name, :presence => true, :uniqueness => {:scope  => :company_id}
+  validates :name, presence: true, uniqueness: {scope: :company_id}
 
-  validates :prefecture_code, :presence => true
+  validates :prefecture_code, presence: true
 
   before_save :set_prefecture_name
 

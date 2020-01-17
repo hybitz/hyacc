@@ -223,13 +223,13 @@ class SimpleSlipsController < Base::HyaccController
       :lock_version
     ]
 
-    ret = params.require(:simple_slip).permit(*permitted).merge(:my_account_id => @account.id)
+    ret = params.require(:simple_slip).permit(*permitted).merge(my_account_id: @account.id)
 
     case action_name
     when 'create'
-      ret = ret.merge(:create_user_id => current_user.id, :company_id => current_company.id)
+      ret = ret.merge(create_user_id: current_user.id, company_id: current_company.id)
     when 'update'
-      ret = ret.merge(:update_user_id => current_user.id)
+      ret = ret.merge(update_user_id: current_user.id)
       ret[:auto_journal_type] ||= nil
     end
 
@@ -246,7 +246,7 @@ class SimpleSlipsController < Base::HyaccController
   end
 
   def new_slip(hash = {})
-    SimpleSlip.new(hash.merge(:my_account_id => @account.id))
+    SimpleSlip.new(hash.merge(my_account_id: @account.id))
   end
 
   def save_input_frequencies(slip)

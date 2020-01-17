@@ -48,7 +48,7 @@ module Reports
       sql = SqlBuilder.new
       sql.append('select customer_id, bank_account_id, sum(shares) as shares, sum(trading_value) as trading_value')
       sql.append('from investments')
-      sql.append('where ym <= ?', @end_ym)
+      sql.append('where ym <= ?', end_ym)
       sql.append('group by customer_id, bank_account_id')
 
       Investment.connection.select_all(Investment.__send__(:sanitize_sql_array, sql.to_a))

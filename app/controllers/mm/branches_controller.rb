@@ -65,12 +65,12 @@ class Mm::BranchesController < Base::HyaccController
       ret = ret.permit(permitted)
     end
 
-    ret = ret.merge(:company_id => current_company.id)
+    ret = ret.merge(company_id: current_company.id)
     ret
   end
 
   def load_branch
-    Branch.where(:company_id => current_company.id, :deleted => false).find(params[:id])
+    Branch.where(company_id: current_company.id, deleted: false).find(params[:id])
   end
 
 end

@@ -1,4 +1,4 @@
-<%= form_for [:mm, @bo], :remote => true do |f| %>
+<%= form_with model: [:mm, @bo] do |f| %>
   <%= flash_notice %>
 
   <table>
@@ -8,11 +8,11 @@
     </tr>
     <tr>
       <th><%= f.label :zip_code %></th>
-      <td><%= f.text_field :zip_code, :class => 'zip_code' %></td>
+      <td><%= f.text_field :zip_code, class: 'zip_code' %></td>
     </tr>
     <tr>
       <th><%= f.label :prefecture_code %></th>
-      <td><%= f.collection_select :prefecture_code, @prefectures, 'code', 'name' %></td>
+      <td><%= f.collection_select :prefecture_code, @prefectures, :code, :name %></td>
     </tr>
     <tr>
       <th><%= f.label :address1 %></th>
@@ -24,7 +24,11 @@
     </tr>
     <tr>
       <th><%= f.label :tel %></th>
-      <td><%= f.text_field :tel, :class => 'tel' %></td>
+      <td><%= f.text_field :tel, class: 'tel' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :responsible_person_id %></th>
+      <td><%= f.nostalgic_collection_select :responsible_person_id, current_company.employees, :id, :fullname %></td>
     </tr>
   </table>
 <% end %>

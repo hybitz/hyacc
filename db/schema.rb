@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_05_143038) do
+ActiveRecord::Schema.define(version: 2020_01_13_055320) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -180,6 +180,7 @@ ActiveRecord::Schema.define(version: 2020_01_05_143038) do
     t.string "prefecture_code", limit: 2, null: false
     t.string "zip_code", limit: 8
     t.boolean "deleted", default: false, null: false
+    t.integer "responsible_person_id"
   end
 
   create_table "business_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|

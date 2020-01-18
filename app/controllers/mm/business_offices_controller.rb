@@ -62,15 +62,16 @@ class Mm::BusinessOfficesController < Base::HyaccController
   def business_office_params
     permitted = [
       :name, :name_effective_at, :prefecture_code, :zip_code,
-      :address1, :address2, :tel, :lock_version,
+      :address1, :address2, :tel, :responsible_person_id, :responsible_person_id_effective_at, :lock_version,
       :names_attributes => [:id, :_destroy],
+      :responsible_person_ids_attributes => [:id, :_destroy]
     ]
 
     ret = params.require(:business_office).permit(permitted)
 
     case action_name
     when 'create'
-      ret = ret.merge(:company_id => current_company.id)
+      ret = ret.merge(company_id: current_company.id)
     end
 
     ret

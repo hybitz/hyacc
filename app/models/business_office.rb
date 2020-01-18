@@ -1,5 +1,6 @@
 class BusinessOffice < ApplicationRecord
   belongs_to :company, inverse_of: 'business_offices'
+  belongs_to :responsible_person, nostalgic: true, class_name: 'Employee', optional: true
 
   nostalgic_attr :name
   validates :name, presence: true, uniqueness: {scope: :company_id}

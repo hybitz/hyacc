@@ -140,6 +140,7 @@ module Base::ViewAttributeHandler
         REPORT_TYPE_INVESTMENT_SECURITIES,
         REPORT_TYPE_TRADE_ACCOUNT_PAYABLE,
         REPORT_TYPE_SUSPENSE_RECEIPT,
+        REPORT_TYPE_SALE,
         REPORT_TYPE_RENT,
       ]
     else

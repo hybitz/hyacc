@@ -1,0 +1,36 @@
+<div><strong>売上高等の事業所別の内訳書</strong></div>
+<table class="table table-bordered table-hover">
+  <tr>
+    <th class="align-middle"><%= justify('事業所の名称') %></td>
+    <th class="align-middle">責任者氏名</th>
+    <th class="align-middle text-center" rowspan="2">事業等の内容</th>
+    <th class="align-middle text-center" rowspan="2">売　上　高</th>
+    <th class="align-middle text-center" rowspan="2">期末棚卸高</th>
+    <th class="align-middle">期末従<br>業員数</th>
+    <th class="align-middle" rowspan="2">源泉所得<br>税納付署</th>
+    <th class="align-middle" rowspan="2"><%= justify('摘要') %></th>
+  </tr>
+  <tr>
+    <th class="align-middle"><%= justify('所在地') %></th>
+    <th class="align-middle">代表者との関係</th>
+    <th class="align-middle">使用建物<br>の延面積</th>
+  </tr>
+  
+  <% @model.details.each do |d| %>
+    <tr>
+      <td><%= d.business_office.name %></td>
+      <td><%= d.responsible_person_name %></td>
+      <td rowspan="2"></td>
+      <td class="align-middle text-center" rowspan="2"><%= to_amount(d.sale_amount, show_zero: true) %></td>
+      <td rowspan="2"></td>
+      <td></td>
+      <td rowspan="2"></td>
+      <td rowspan="2"></td>
+    </tr>
+    <tr>
+      <td><%= d.business_office.address %></td>
+      <td><%= d.responsible_person_relation %></td>
+      <td></td>
+    </tr>
+  <% end %>
+</table>

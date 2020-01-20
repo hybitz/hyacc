@@ -32,8 +32,33 @@ EOS
     find_by_sql(sql)[0].__send__(column)
   end
 
+  def self.term_net_sums_by_branch(ym_from, ym_to, company, account, sub_account: nil)
+    sql = SqlBuilder.new
+    sql.append("select branch_id, dc_type, sum(amount) as amount from (#{VIEW}) as monthly_ledger")
+    sql.append('where company_id = ?', company.id)
+    sql.append('  and ym >= ?', ym_from)
+    sql.append('  and ym <= ?', ym_to)
+    sql.append('  and account_id = ? ', account.id)
+    sql.append('  and sub_account_id = ?', sub_account.id) if sub_account
+    sql.append('group by branch_id, dc_type')
+
+    sums = find_by_sql(sql.to_a)
+  
+    ret = {}
+    sums.each do |sum|
+      ret[sum.branch_id] ||= 0
+      if sum.dc_type == account.dc_type
+        ret[sum.branch_id] += sum.amount
+      else
+        ret[sum.branch_id] -= sum.amount
+      end
+    end
+  
+    ret
+  end
+
   # ネット累計金額を取得する
-  def self.net_sum(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=0, options={})
+  def self.net_sum(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=nil, options={})
     # 勘定科目は必須
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
 
@@ -59,7 +84,7 @@ EOS
   end
   
   # 借方合計金額を取得する
-  def self.get_debit_sum_amount(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=0, options={})
+  def self.get_debit_sum_amount(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=nil, options={})
     # 勘定科目は必須
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
   
@@ -73,7 +98,7 @@ EOS
   end
 
   # 貸方合計金額を取得する
-  def self.get_credit_sum_amount(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=0, options={})
+  def self.get_credit_sum_amount(ym_from, ym_to, account_id, sub_account_id=nil, branch_id=nil, options={})
     # 勘定科目は必須
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
   
@@ -86,10 +111,10 @@ EOS
     JournalDetail.find_by_sql(sql)[0].amount.to_i
   end
 
-  def self.make_condition(ym_from, ym_to, account, sub_account_id, branch_id, options)
+  def self.make_condition(ym_from, ym_to, account, sub_account_id, branch_id, include_children: true)
     sql = ["select sum(amount) as amount from (#{VIEW}) as monthly_ledger "]
 
-    if options.fetch(:include_children, true)
+    if include_children
       sql[0] << "where path like ? "
       sql << '%' + account.path + '%'
     else
@@ -105,26 +130,18 @@ EOS
     
     # 開始年月
     if ym_from.to_i > 0
-      if options[:ym_from_exclusive]
-        sql[0] << "and ym > ? "
-      else
-        sql[0] << "and ym >= ? "
-      end
+      sql[0] << "and ym >= ? "
       sql << ym_from
     end
 
     # 終了年月
     if ym_to.to_i > 0
-      if options[:ym_to_exclusive]
-        sql[0] << "and ym < ? "
-      else
-        sql[0] << "and ym <= ? "
-      end
-       sql << ym_to
+      sql[0] << "and ym <= ? "
+      sql << ym_to
     end
 
     # 計上部門
-    if branch_id > 0
+    if branch_id.to_i > 0
       sql[0] << "and branch_id = ? "
       sql << branch_id
     end

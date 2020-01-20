@@ -11,7 +11,7 @@ class Mm::BusinessOfficesControllerTest < ActionController::TestCase
 
   def test_登録
     sign_in admin
-    post :create, :xhr => true, :params => {:business_office => valid_business_office_params}
+    post :create, xhr: true, params: {business_office: business_office_params}
     assert_response :success
     assert_template 'common/reload'
     assert @bo = assigns(:bo)
@@ -34,7 +34,7 @@ class Mm::BusinessOfficesControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, :xhr => true, :params => {:id => business_office.id, :business_office => valid_business_office_params}
+    patch :update, xhr: true, params: {id: business_office.id, business_office: business_office_params}
     assert_response :success
     assert_template 'common/reload'
   end

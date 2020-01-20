@@ -1,4 +1,4 @@
-<div class="table-responsive col-md-8">
+<div class="table-responsive">
   <h4>事業所</h4>
   <table class="table table-striped">
     <thead>
@@ -9,6 +9,7 @@
         <th>所在地</th>
         <th>電話番号</th>
         <th>責任者</th>
+        <th><%= BusinessOffice.human_attribute_name :business_outline %></th>
         <th></th>
       </tr>
     </thead>
@@ -21,7 +22,8 @@
           <td><%= bo.address1 %><%= bo.address2 %></td>
           <td><%= bo.tel %></td>
           <td><%= bo.responsible_person&.fullname %></td>
-          <td>
+          <td><%= bo.business_outline %></td>
+          <td class="text-right">
             <%= link_to '編集', edit_mm_business_office_path(bo), class: 'btn btn-light btn-small', remote: true %>
             <%= link_to '削除', mm_business_office_path(bo), class: 'btn btn-light btn-small', data: {confirm: '削除します。よろしいですか？'}, method: 'delete' %>
           </td>
@@ -30,7 +32,7 @@
     </tbody>	
     <tfoot>
       <tr>
-        <td colspan="7" align="right">
+        <td colspan="8" class="text-right">
           <%= link_to '追加', new_mm_business_office_path, class: 'btn btn-light', remote: true %>
         </td>
       </tr>

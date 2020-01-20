@@ -88,6 +88,7 @@ ja:
       business_office:
         address1: 住所１
         address2: 住所２
+        business_outline: 事業等の内容
         name: 事業所名
         prefecture_code: 都道府県
         responsible_person_id: 責任者

@@ -12,7 +12,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
         @bo.save!
       end
 
-      flash[:notice] = "{@bo.name} を登録しました。"
+      flash[:notice] = "#{@bo.name} を登録しました。"
       render 'common/reload'
 
     rescue => e
@@ -33,7 +33,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
         @bo.save!
       end
 
-      flash[:notice] = "{@bo.name} を更新しました。"
+      flash[:notice] = "#{@bo.name} を更新しました。"
       render 'common/reload'
     rescue => e
       handle(e)
@@ -62,7 +62,8 @@ class Mm::BusinessOfficesController < Base::HyaccController
   def business_office_params
     permitted = [
       :name, :name_effective_at, :prefecture_code, :zip_code,
-      :address1, :address2, :tel, :responsible_person_id, :responsible_person_id_effective_at, :lock_version,
+      :address1, :address2, :tel, :responsible_person_id, :responsible_person_id_effective_at, :business_outline,
+      :lock_version,
       :names_attributes => [:id, :_destroy],
       :responsible_person_ids_attributes => [:id, :_destroy]
     ]

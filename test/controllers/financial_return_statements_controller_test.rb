@@ -18,9 +18,9 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
 
   def test_15_地代家賃等の内訳書
     sign_in user
-    get :index, :params => {:commit => true, :finder => rent_finder}
+    get :index, params: {commit: true, finder: rent_finder}
     assert_response :success
-    assert_template :rent
+  assert_template 'financial_return_statements/rent/00000000'
   end
 
   def test_別表四_所得の金額の計算に関する明細書

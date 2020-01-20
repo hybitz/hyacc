@@ -50,8 +50,11 @@ module Reports
   class RentModel
     attr_accessor :details
   
+    def initialize
+      @details = []
+    end
+
     def add_detail(detail)
-      self.details ||= []
       self.details << detail
     end
   end
@@ -61,7 +64,7 @@ module Reports
     attr_accessor :total_amount
     attr_accessor :start_from
     attr_accessor :end_to
-    
+
     def initialize
       @total_amount = 0
     end

@@ -5,8 +5,6 @@ class FinancialReturnStatementsController < Base::HyaccController
 
   def index
     case finder.report_type.to_i
-    when REPORT_TYPE_RENT
-      render_rent
     when REPORT_TYPE_SOCIAL_EXPENSE
       render_social_expense
     when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
@@ -36,12 +34,6 @@ class FinancialReturnStatementsController < Base::HyaccController
   end
 
   private
-
-  def render_rent
-    logic = Reports::RentStatementLogic.new(finder)
-    @rents = logic.get_rent_statement
-    render :rent
-  end
 
   def render_social_expense
     logic = Reports::SocialExpenseLogic.new(finder)

@@ -1,4 +1,4 @@
-<div  style="margin: 10px;">
+<div style="margin: 10px;">
     <table class="none_border" width="1050">
       <tr>
         <td class="none_border"><b>地代家賃の内訳書</b></td>
@@ -18,18 +18,18 @@
         <td>貸主の所在地（住所）</td>
         <td>支払賃借料</td>
       </tr>
-      <% @rents.each do |id,rent| %>
+      <% @model.details.each do |d| %>
       <tr>
-        <td rowspan="2"><%= HyaccConstants::RENT_TYPES[ rent.rent_type ] %></td>
-        <td height="40"><%= HyaccConstants::RENT_USAGE_TYPES[ rent.usage_type ] %></td>
-        <td><%= rent.customer.formal_name %></td>
-        <td><%= to_wareki(rent.start_from) %>～<%= to_wareki(rent.end_to) %></td>
-        <td rowspan="2"><%= rent.remarks %></td>
+        <td rowspan="2"><%= RENT_TYPES[ d.rent.rent_type ] %></td>
+        <td height="40"><%= RENT_USAGE_TYPES[ d.rent.usage_type ] %></td>
+        <td><%= d.rent.customer.formal_name %></td>
+        <td><%= to_wareki(d.start_from) %>～<%= to_wareki(d.end_to) %></td>
+        <td rowspan="2"><%= d.rent.remarks %></td>
       </tr>
       <tr>
-        <td height="40"><%= rent.address %></td>
-        <td><%= rent.customer.address %> </td>
-        <td><%= number_to_currency(rent.total_amount, unit: "￥", precision: 0, format: "%u%n") %></td>
+        <td height="40"><%= d.rent.address %></td>
+        <td><%= d.rent.customer.address %> </td>
+        <td><%= number_to_currency(d.total_amount, unit: "￥", precision: 0, format: "%u%n") %></td>
       </tr>
       <% end %>
     </table>

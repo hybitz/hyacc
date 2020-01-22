@@ -22,9 +22,9 @@ class ReportFinder < Base::Finder
       header.financial_statements.each do |pl|
         account = Account.find(pl.account_id)
         if sum[account.code].nil?
-          sum[account.code] = {:account => account, :ym => [{:ym => pl.ym, :amount => pl.amount}]}
+          sum[account.code] = {account: account, ym: [{ym: pl.ym, amount: pl.amount}]}
         else
-          sum[account.code][:ym] << {:ym => pl.ym, :amount => pl.amount}
+          sum[account.code][:ym] << {ym: pl.ym, amount: pl.amount}
         end
         max_node_level = header.max_node_level
       end
@@ -166,7 +166,11 @@ class ReportFinder < Base::Finder
     sql.append('inner join accounts a on (a.id = jd.account_id)')
     sql.append('where ym <= ?', ym_range.first)
     sql.append('  and path like ?', '%' + account.path + '%')
-    sql.append('  and branch_id = ?', branch_id) if branch_id > 0
+    if branch_id > 0
+      sql.append('  and jd.branch_id = ?', branch_id)
+    else
+      sql.append('  and a.trade_type = ?', TRADE_TYPE_EXTERNAL)
+    end
     sql.append('group by jh.ym, jd.dc_type')
     JournalDetail.find_by_sql(sql.to_a).each do |row|
       if row.dc_type == account.dc_type
@@ -187,7 +191,11 @@ class ReportFinder < Base::Finder
     sql.append('inner join accounts a on (a.id = jd.account_id)')
     sql.append('where ym > ? and ym <= ?', ym_range.first, ym_range.last)
     sql.append('  and path like ?', '%' + account.path + '%')
-    sql.append('  and branch_id = ?', branch_id) if branch_id > 0
+    if branch_id > 0
+      sql.append('  and jd.branch_id = ?', branch_id)
+    else
+      sql.append('  and a.trade_type = ?', TRADE_TYPE_EXTERNAL)
+    end
     sql.append('group by jh.ym, jd.dc_type')
     JournalDetail.find_by_sql(sql.to_a).each do |row|
       # 年月からデータを格納する配列のインデックスを算出

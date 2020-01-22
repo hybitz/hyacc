@@ -91,10 +91,6 @@ class FinancialStatementsController < Base::HyaccController
         revenue = profit[i][:amount] - expense[i][:amount]
         @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index][:amount] += revenue
       end
-
-      if HyaccLogger.debug?
-        HyaccLogger.debug("年月：[#{ym}] 収益：[#{profit[index][:amount]}] 費用：[#{expense[index][:amount]}] 繰越利益：[#{@sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index][:amount]}]")
-      end
     end
 
     # 最大ノードレベルを算出

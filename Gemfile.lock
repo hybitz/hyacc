@@ -293,7 +293,7 @@ GEM
     net-ssh (5.2.0)
     net-telnet (0.1.1)
     nio4r (2.5.2)
-    nokogiri (1.10.7)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     nostalgic (0.5.2)
       rails (>= 4.2, < 6)

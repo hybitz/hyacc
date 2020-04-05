@@ -1,32 +1,32 @@
 <%= flash_notice %>
 
 <%= form_for @profile do |f| %>
-  <div style="margin:0px 5px 5px 0px;">
-    <%= f.submit %>
+  <div class="my-2">
+    <%= f.submit class: 'btn btn-light' %>
   </div>
   <div>
     <div style="float: left;">
-      <table>
+      <table class="table">
         <tr>
           <th><%= f.label :login_id %></th>
           <td><%= @profile.login_id %></td>
         </tr>
         <tr>
           <th><%= f.label :password %></th>
-          <td><%= f.password_field :password %></td>
+          <td><%= f.password_field :password, class: 'form-control' %></td>
         </tr>
 
         <tr>
           <th><%= f.label :email %></th>
-          <td><%= f.text_field :email %></td>
+          <td><%= f.text_field :email, class: 'form-control' %></td>
         </tr>
         <tr>
           <th><%= f.label :slips_per_page %></th>
-          <td><%= f.number_field :slips_per_page, :maxlength => 3 %></td>
+          <td><%= f.number_field :slips_per_page, maxlength: 3, class: 'form-control', style: 'width: 5rem;' %></td>
         </tr>
         <tr>
           <th><%= f.label :account_count_of_frequencies %></th>
-          <td><%= f.number_field :account_count_of_frequencies, :maxlength => 2 %></td>
+          <td><%= f.number_field :account_count_of_frequencies, maxlength: 2, class: 'form-control', style: 'width: 5rem;' %></td>
         </tr>
         <tr>
           <th><%= f.label :show_details, '振替伝票の表示モード' %></th>
@@ -37,11 +37,11 @@
         </tr>
         <tr>
           <th><%= f.label :google_account, 'Googleアカウント' %></th>
-          <td><%= f.text_field :google_account %></td>
+          <td><%= f.text_field :google_account, class: 'form-control' %></td>
         </tr>
         <tr>
           <th><%= f.label :yahoo_api_app_id, 'YahooAPIアプID' %></th>
-          <td><%= f.text_field :yahoo_api_app_id %></td>
+          <td><%= f.text_field :yahoo_api_app_id, class: 'form-control' %></td>
         </tr>
       </table>
     </div>

@@ -1,12 +1,12 @@
-<table class="simple_slip_settings">
+<table class="table simple_slip_settings">
   <thead>
     <tr>
       <th colspan="3">簡易入力設定</th>
     </tr>
     <tr>
-      <th>削除</th>
       <th>勘定科目</th>
       <th>ショートカットキー</th>
+      <th>削除</th>
     </tr>
   </thead>
 
@@ -18,9 +18,8 @@
 
   <tfoot>
     <tr>
-      <td colspan="3" style="text-align: right;">
-        <%= link_to '勘定科目追加', {:action => 'add_simple_slip_setting'},
-                :onclick => 'simple_slip_settings.add_simple_slip_setting(this); return false;' %>
+      <td colspan="3" class="text-right">
+        <%= link_to '勘定科目追加', {action: 'add_simple_slip_setting'}, class: 'btn btn-light', onclick: 'simple_slip_settings.add_simple_slip_setting(this); return false;' %>
       </td>
     </tr>
   </tfoot>

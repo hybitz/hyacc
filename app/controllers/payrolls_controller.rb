@@ -1,9 +1,9 @@
 class PayrollsController < Base::HyaccController
   include PayrollHelper
 
-  view_attribute :finder, :class => PayrollFinder, :only => :index
-  view_attribute :branches, :only => :index, :include => :deleted
-  view_attribute :employees, :only => :index, :scope => :branch
+  view_attribute :finder, class: PayrollFinder, only: :index
+  view_attribute :branches, only: :index, include: :deleted
+  view_attribute :employees, only: :index, scope: :branch
 
   # 賃金台帳一覧の表示
   def index

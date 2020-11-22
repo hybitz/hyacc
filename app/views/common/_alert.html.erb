@@ -1,0 +1,8 @@
+<% if flash[:notice].present? %>
+  <div class="alert alert-success alert-dismissible" role="alert">
+    <%= flash_notice_in_span %>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% end %>

@@ -75,14 +75,14 @@
     		<td colspan="2"><br></td>
     		<td><br></td>
     		<td colspan="2"><br></td>
-  		</tr>
-       <tr class="item">
+      </tr>
+      <tr class="item">
     		<td colspan="6">社会保険料等の金額</td>
     		<td colspan="6">生命保険料の控除額</td>
     		<td colspan="6">地震保険料の控除額</td>
     		<td colspan="5">住宅借入金等特別控除の額</td>
-  		</tr>
-       <tr>
+      </tr>
+      <tr>
     		<td colspan="6">（内　<%= number_to_currency(@data.small_scale_mutual_aid, :format=>"%n") %> ）<br/><%= number_to_currency(@data.social_insurance, :format=>"%n") %></td>
     		<td colspan="6"><%= number_to_currency(@data.exemption.life_insurance_deduction, :format=>"%n") %></td>
     		<td colspan="6"><%= number_to_currency(@data.exemption.earthquake_insurance_premium, :format=>"%n") %></td>

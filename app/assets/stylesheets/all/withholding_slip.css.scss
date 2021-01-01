@@ -1,9 +1,10 @@
 tr.item, td.item {
   background-color: lightgrey;
   font-size: x-small;
+  text-align: center;
 }
 
-#withholding_detail_table {
+.withholding_detail_table {
   margin-bottom: 10px;
 
   th {
@@ -19,6 +20,6 @@ tr.item, td.item {
 
 @media print{
   #print_type {
-	display:none;
+    display:none;
   }
 }

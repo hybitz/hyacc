@@ -1,8 +1,8 @@
 <div id="search">
-  <%= form_tag({action: 'index'}, method: 'get') do %>
-    暦年：<%= select 'finder', 'calendar_year', calendar_years %>
-    従業員：<%= collection_select('finder', 'employee_id', finder.employees, 'id', 'fullname', :include_blank => true) %>
-    帳票様式：<%= collection_select('finder', 'report_type', finder.report_types, 'value', 'name') %>
-    <%= submit_tag '表示' %>
+  <%= form_tag({action: 'index'}, method: 'get', class: 'form-inline') do %>
+    <span class="mx-2">暦年：<%= select 'finder', 'calendar_year', calendar_years, {}, class: 'form-control' %></span>
+    <span class="mx-2">従業員：<%= collection_select('finder', 'employee_id', finder.employees, 'id', 'fullname', {include_blank: true}, class: 'form-control') %></span>
+    <span class="mx-2">帳票様式：<%= collection_select('finder', 'report_type', finder.report_types, 'value', 'name', {}, class: 'form-control') %></span>
+    <%= submit_tag '表示', class: 'btn btn-light' %>
   <% end %>
 </div>

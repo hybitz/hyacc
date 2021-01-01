@@ -11,8 +11,8 @@
   <table class="table table-bordered">
     <tbody>
     	<tr>
-    		<td colspan="1" rowspan="5" class="item">支払<br>を受け<br>る者</td>
-    		<td colspan="1" rowspan="5" class="item">住<br>所<br>又<br>は<br>居<br>所</td>
+    		<th rowspan="5" class="text-center align-middle">支払<br>を受け<br>る者</th>
+    		<th rowspan="5" class="text-center align-middle">住<br>所<br>又<br>は<br>居<br>所</th>
     		<td colspan="12" rowspan="5"><%= @data.employee.address_at(year_end(@data.calendar_year)) %></td>
     		<td colspan="9">（受給者番号）</td>
   		</tr>
@@ -23,7 +23,7 @@
   			<td colspan="9">（役職名）<%= @data.employee.position %></td>
   		</tr>
   		<tr>
-  			<td colspan="1" rowspan="2" class="item">氏<br>名</td>
+  			<th rowspan="2" class="text-center align-middle">氏<br>名</th>
   			<td colspan="8">（フリガナ）<%=  %></td>
   		</tr>
   		<tr>

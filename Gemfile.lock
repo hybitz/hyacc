@@ -381,7 +381,7 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.19.0, < 2.0)
-    rake (13.0.1)
+    rake (13.0.3)
     randexp (0.1.7)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)

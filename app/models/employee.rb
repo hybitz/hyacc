@@ -53,11 +53,11 @@ class Employee < ApplicationRecord
   end
 
   def fullname(separetor = ' ')
-    last_name + separetor + first_name
+    "#{last_name}#{separetor}#{first_name}"
   end
   
   def fullname_kana(separetor = ' ')
-    last_name_kana + separetor + first_name_kana
+    "#{last_name_kana}#{separetor}#{first_name_kana}"
   end
 
   # 補助科目として表示する際の名称

@@ -280,10 +280,7 @@
     		<td colspan="1" class="item">年</td>
     		<td colspan="1" class="item">月</td>
     		<td colspan="1" class="item">日</td>
-    		<td colspan="1" class="item">明</td>
-    		<td colspan="1" class="item">大</td>
-    		<td colspan="1" class="item">昭</td>
-    		<td colspan="1" class="item">平</td>
+    		<td colspan="4" class="item">元号</td>
     		<td colspan="1" class="item">年</td>
     		<td colspan="1" class="item">月</td>
     		<td colspan="1" class="item">日</td>
@@ -305,10 +302,7 @@
     		<td colspan="1"><%= to_wareki(@data.employment_or_retirement_date, only_date: true, format: '%y') if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="1"><%= @data.employment_or_retirement_date.month if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="1"><%= @data.employment_or_retirement_date.day if @data.employment_or_retirement_date.present? %></td>
-    		<td colspan="1" class="text-center"><%= "○" if meiji?(@data.employee.birth) %></td>
-    		<td colspan="1" class="text-center"><%= "○" if taisyo?(@data.employee.birth) %></td>
-    		<td colspan="1" class="text-center"><%= "○" if syowa?(@data.employee.birth) %></td>
-    		<td colspan="1" class="text-center"><%= "○" if heisei?(@data.employee.birth) %></td>
+    		<td colspan="4" class="text-center"><%= to_wareki(@data.employee.birth, format: '%y')[0..1] %></td>
     		<td colspan="1" class="text-center"><%= to_wareki(@data.employee.birth, only_date: true, format: '%y') %></td>
     		<td colspan="1" class="text-center"><%= @data.employee.birth.month %></td>
     		<td colspan="1" class="text-center"><%= @data.employee.birth.day %></td>

@@ -168,16 +168,35 @@ module PayrollInfo
       # 1,000円未満切り捨て
       b = (b/1000).to_i * 1000
 
-      if b <= 1_950_000
-        total_tax = b * 0.05
-      elsif b <= 3_300_000
-        total_tax = b * 0.1 - 97_500
-      elsif b <= 6_950_000
-        total_tax = b * 0.2 - 427_500
-      elsif b <= 9_000_000
-        total_tax = b * 0.23 - 636_000
-      elsif b <= 17_420_000
-        total_tax = b * 0.33 - 1_536_000
+      case @calendar_year
+      when 0..2019
+        if b <= 1_950_000
+          total_tax = b * 0.05
+        elsif b <= 3_300_000
+          total_tax = b * 0.1 - 97_500
+        elsif b <= 6_950_000
+          total_tax = b * 0.2 - 427_500
+        elsif b <= 9_000_000
+          total_tax = b * 0.23 - 636_000
+        elsif b <= 17_420_000
+          total_tax = b * 0.33 - 1_536_000
+        end
+      else
+        # https://www.nta.go.jp/publication/pamph/gensen/nencho2020/pdf/nencho_all.pdf
+        # P93
+        if b <= 1_950_000
+          total_tax = b * 0.05
+        elsif b <= 3_300_000
+          total_tax = b * 0.1 - 97_500
+        elsif b <= 6_950_000
+          total_tax = b * 0.2 - 427_500
+        elsif b <= 9_000_000
+          total_tax = b * 0.23 - 636_000
+        elsif b <= 18_000_000
+          total_tax = b * 0.33 - 1_536_000
+        elsif b <= 18_050_000
+          total_tax = b * 0.40 - 2_796_000
+        end
       end
       
       total_tax

@@ -34,7 +34,7 @@ class Company < ApplicationRecord
   end
   
   def current_fiscal_year
-    fiscal_years.where(:fiscal_year => fiscal_year).first
+    fiscal_years.where(fiscal_year: fiscal_year).first
   end
 
   def current_fiscal_year_int

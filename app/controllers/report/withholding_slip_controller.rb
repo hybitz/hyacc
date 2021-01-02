@@ -29,7 +29,7 @@ class Report::WithholdingSlipController < ReportController
     if @finder.nil?
       @finder = WithholdingSlipFinder.new(finder_params)
       @finder.company_id = current_company.id
-      @finder.calendar_year ||= Date.today.year
+      @finder.calendar_year ||= current_company.current_fiscal_year_int
       @finder.employee_id ||= current_user.employee.id
     end
 

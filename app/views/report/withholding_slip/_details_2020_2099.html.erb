@@ -13,35 +13,35 @@
     	<tr>
     		<th rowspan="5" class="text-center align-middle">支払<br>を受け<br>る者</th>
     		<th rowspan="5" class="text-center align-middle">住<br>所<br>又<br>は<br>居<br>所</th>
-    		<td colspan="12" rowspan="5"><%= @data.employee.address_at(year_end(@data.calendar_year)) %></td>
-    		<td colspan="9">（受給者番号）</td>
+    		<td colspan="11" rowspan="5"><%= @data.employee.address_at(year_end(@data.calendar_year)) %></td>
+    		<td colspan="10">（受給者番号）</td>
   		</tr>
   		<tr>
-  			<td colspan="9"><div class="secret">（個人番号）<%= @data.employee.my_number %></div></td>
+  			<td colspan="10"><div class="secret">（個人番号）<%= @data.employee.my_number %></div></td>
   		</tr>
   		<tr>
-  			<td colspan="9">（役職名）<%= @data.employee.position %></td>
+  			<td colspan="10">（役職名）<%= @data.employee.position %></td>
   		</tr>
   		<tr>
   			<th rowspan="2" class="text-center align-middle">氏<br>名</th>
-  			<td colspan="8">（フリガナ）<%=  %></td>
+  			<td colspan="9">（フリガナ）<%= @data.employee.fullname_kana('　') %></td>
   		</tr>
   		<tr>
-  			<td colspan="8"><%= @data.employee.fullname('　') %></td>
+  			<td colspan="10">　　　　　　<%= @data.employee.fullname('　') %></td>
   		</tr>
     	<tr class="item">
     		<td colspan="3"><%= justify('種別') %></td>
     		<td colspan="5"><%= justify('支払金額') %></td>
-    		<td colspan="5"><%= justify('給与所得控除後の金額') %><%= justify('（ 調 整 控 除 後 ）') %></td>
+    		<td colspan="5"><%= justify('給与所得控除後の金額') %><%= justify('（調整控除後）') %></td>
     		<td colspan="5"><%= justify('所得控除の額の合計') %></td>
     		<td colspan="5"><%= justify('源泉徴収税額') %></td>
   		</tr>
     	<tr>
     		<td colspan="3">給与</td>
-    		<td colspan="5"><%= number_to_currency(@data.total_salary, :format=>"%n") %></td>
-    		<td colspan="5"><%= number_to_currency(@data.after_deduction, :format=>"%n") %></td>
-    		<td colspan="5"><%= number_to_currency(@data.exemption_amount, :format=>"%n") %></td>
-    		<td colspan="5"><%= number_to_currency(@data.withholding_tax, :format=>"%n") %></td>
+    		<td colspan="5" class="text-right"><%= to_amount(@data.total_salary, show_zero: true) %></td>
+    		<td colspan="5" class="text-right"><%= to_amount(@data.after_deduction, show_zero: true) %></td>
+    		<td colspan="5" class="text-right"><%= to_amount(@data.exemption_amount, show_zero: true) %></td>
+    		<td colspan="5" class="text-right"><%= to_amount(@data.withholding_tax, show_zero: true) %></td>
   		</tr>
     	<tr class="item">
     		<td colspan="6"><%= justify('(源泉)控除対象配偶者') %><%= justify('の有無等') %></td>
@@ -49,7 +49,7 @@
     		<td colspan="6"><%= justify('控除対象扶養親族の数') %><%= justify('　（配偶者を除く。）　') %></td>
     		<td colspan="2" rowspan="2">16歳未満<br/>扶養家族<br/>の数</td>
     		<td colspan="3"><%= justify('障害者の数') %><%= justify('（本人を除く。）') %></td>
-    		<td colspan="2" rowspan="2">非居住者<br/>である<br/>親族の数</td>
+    		<td colspan="2" rowspan="2"><%= justify('非居住者') %><%= justify('である') %><%= justify('親族の数') %></td>
   		</tr>
     	<tr class="item">
     		<td colspan="2">有</td>
@@ -84,10 +84,10 @@
     		<td colspan="5">住宅借入金等特別控除の額</td>
       </tr>
       <tr>
-    		<td colspan="6">（内　<%= number_to_currency(@data.small_scale_mutual_aid, :format=>"%n") %> ）<br/><%= number_to_currency(@data.social_insurance, :format=>"%n") %></td>
-    		<td colspan="6"><%= number_to_currency(@data.exemption.life_insurance_deduction, :format=>"%n") %></td>
-    		<td colspan="6"><%= number_to_currency(@data.exemption.earthquake_insurance_premium, :format=>"%n") %></td>
-    		<td colspan="5"><%= number_to_currency(@data.mortgage_deduction, format: "%n") %></td>
+    		<td colspan="6" class="text-right">（内　<%= to_amount(@data.small_scale_mutual_aid, show_zero: true) %> ）<br><%= to_amount(@data.social_insurance, show_zero: true) %> 　</td>
+    		<td colspan="6" class="text-right"><br><%= to_amount(@data.exemption.life_insurance_deduction, show_zero: true) %></td>
+    		<td colspan="6" class="text-right"><br><%= to_amount(@data.exemption.earthquake_insurance_premium, show_zero: true) %></td>
+    		<td colspan="5" class="text-right"><br><%= to_amount(@data.mortgage_deduction, show_zero: true) %></td>
   		</tr>
     	<tr>
     		<td colspan="23" class="item">摘要</td>

@@ -1,4 +1,5 @@
 module Reports
+  # 給与所得の源泉徴収票
   class WithholdingDetailLogic
 
     def initialize(finder)

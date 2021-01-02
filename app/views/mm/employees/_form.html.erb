@@ -1,4 +1,4 @@
-<%= form_with model: [:mm, @e], :remote => true do |f| %>
+<%= form_with model: [:mm, @e] do |f| %>
   <%= flash_notice %>
 
   <div class="container">
@@ -7,11 +7,15 @@
         <table class="table">
           <tr>
             <th class="nowrap"><%= f.label :last_name %><%= f.label :first_name %></th>
-            <td><%= f.text_field :last_name %><%= f.text_field :first_name %></td>
+            <td class="input-group"><%= f.text_field :last_name, class: 'form-control' %><%= f.text_field :first_name, class: 'form-control' %></td>
+          </tr>
+          <tr>
+            <th class="nowrap"><%= f.label :name_kana %></th>
+            <td class="input-group"><%= f.text_field :last_name_kana, class: 'form-control' %><%= f.text_field :first_name_kana, class: 'form-control' %></td>
           </tr>
           <tr>
             <th><%= f.label :sex %></th>
-            <td><%= f.select :sex, sex_types %></td>
+            <td><%= f.select :sex, sex_types, {}, class: 'form-control', style: 'width: 5em;' %></td>
           </tr>
           <tr>
             <th><%= f.label :birth %></th>

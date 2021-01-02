@@ -25,7 +25,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     
   def test_登録
     sign_in admin
-    post :create, :params => {employee: employee_params}, :xhr => true
+    post :create, params: {employee: employee_params}, xhr: true
     assert_response :success
     assert_template 'common/reload'
   end
@@ -46,7 +46,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, :params => {:id => employee.id, :employee => employee_params}, :xhr => true
+    patch :update, params: {id: employee.id, employee: employee_params}, xhr: true
     assert_response :success
     assert_template 'common/reload'
   end

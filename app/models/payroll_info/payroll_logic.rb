@@ -94,24 +94,91 @@ module PayrollInfo
     def get_deduction
       # みなし給与で計算
       deemed_salary = get_total_deemed_salary
-      deduction = 650_000
-      case deemed_salary
-      when 0 .. 1_625_000
-        deduction = 650_000
-      when 1_625_001 .. 1_800_000
-        deduction = deemed_salary * 0.4
-      when 1_800_001 .. 3_600_000
-        deduction = deemed_salary * 0.3 + 180_000
-      when 3_600_001 .. 6_600_000
-        deduction = deemed_salary * 0.2 + 540_000
-      when 6_600_001 .. 10_000_000
-        deduction = deemed_salary * 0.1 + 1_200_000
-      when 10_000_001 ..
-        deduction = deemed_salary * 0.05 + 1_700_000
+      deduction = 0
+
+      case @calendar_year
+      when .. 2012
+        case deemed_salary
+        when 0 .. 1_800_000
+          deduction = deemed_salary * 0.4
+        when 1_800_001 .. 3_600_000
+          deduction = deemed_salary * 0.3 + 180_000
+        when 3_600_001 .. 6_600_000
+          deduction = deemed_salary * 0.2 + 540_000
+        when 6_600_001 .. 10_000_000
+          deduction = deemed_salary * 0.1 + 1_200_000
+        when 10_000_001 ..
+          deduction = deemed_salary * 0.05 + 1_700_000
+        end
+
+        deduction = 650_000 if deduction < 650_000
+      when 2013 .. 2015
+        case deemed_salary
+        when 0 .. 1_625_000
+          deduction = 650_000
+        when 1_625_001 .. 1_800_000
+          deduction = deemed_salary * 0.4
+        when 1_800_001 .. 3_600_000
+          deduction = deemed_salary * 0.3 + 180_000
+        when 3_600_001 .. 6_600_000
+          deduction = deemed_salary * 0.2 + 540_000
+        when 6_600_001 .. 10_000_000
+          deduction = deemed_salary * 0.1 + 1_200_000
+        when 10_000_001 .. 15_000_000
+          deduction = deemed_salary * 0.05 + 1_700_000
+        when 15_000_001 ..
+          deduction = 2_450_000
+        end
+      when 2016
+        case deemed_salary
+        when 0 .. 1_625_000
+          deduction = 650_000
+        when 1_625_001 .. 1_800_000
+          deduction = deemed_salary * 0.4
+        when 1_800_001 .. 3_600_000
+          deduction = deemed_salary * 0.3 + 180_000
+        when 3_600_001 .. 6_600_000
+          deduction = deemed_salary * 0.2 + 540_000
+        when 6_600_001 .. 10_000_000
+          deduction = deemed_salary * 0.1 + 1_200_000
+        when 10_000_001 .. 12_000_000
+          deduction = deemed_salary * 0.05 + 1_700_000
+        when 12_000_001 ..
+          deduction = 2_300_000
+        end
+      when 2017..2019
+        case deemed_salary
+        when 0 .. 1_625_000
+          deduction = 650_000
+        when 1_625_001 .. 1_800_000
+          deduction = deemed_salary * 0.4
+        when 1_800_001 .. 3_600_000
+          deduction = deemed_salary * 0.3 + 180_000
+        when 3_600_001 .. 6_600_000
+          deduction = deemed_salary * 0.2 + 540_000
+        when 6_600_001 .. 10_000_000
+          deduction = deemed_salary * 0.1 + 1_200_000
+        when 10_000_001 ..
+          deduction = 2_200_000
+        end
+      when 2020 ..
+        case deemed_salary
+        when 0 .. 1_625_000
+          deduction = 550_000
+        when 1_625_001 .. 1_800_000
+          deduction = deemed_salary * 0.4 - 100_000
+        when 1_800_001 .. 3_600_000
+          deduction = deemed_salary * 0.3 + 80_000
+        when 3_600_001 .. 6_600_000
+          deduction = deemed_salary * 0.2 + 440_000
+        when 6_600_001 .. 8_500_000
+          deduction = deemed_salary * 0.1 + 1_100_000
+        when 8_500_001 ..
+          deduction = 1_950_000
+        end
       end
 
-      deduction = 2_450_000 if deemed_salary > 15_000_000 && @calendar_year >= 2013
-      return deduction
+      deduction
     end
 
     # 給与所得控除後

@@ -5,7 +5,6 @@ ja:
     bs/investments: 有価証券
     career_statements: 業務経歴書
     closing: 締め処理
-    consumption_tax_statements: 消費税
     debts: 仮負債精算
     deemed_taxes: みなし消費税
     devise/sessions: ログイン
@@ -37,6 +36,7 @@ ja:
     mv/withheld_taxes: 源泉徴収税
     profiles: 個人設定
     report: 帳票出力
+    report/consumption_tax_statements: 消費税
     report/employment_insurances: 雇用保険
     report/ledgers: 元帳
     report/withholding_slip: 源泉徴収

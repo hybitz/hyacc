@@ -1,4 +1,4 @@
-class ConsumptionTaxStatementsController < Base::HyaccController
+class Report::ConsumptionTaxStatementsController < Base::HyaccController
   helper_method :finder
 
   def index
@@ -9,14 +9,14 @@ class ConsumptionTaxStatementsController < Base::HyaccController
       @model = logic.build_model
   
       template = nil
-      Dir[File.join(Rails.root, 'app', 'views', controller_name, report_type, '*.html.erb')].sort.reverse.each do |t|
+      Dir[File.join(Rails.root, 'app/views/report', controller_name, report_type, '*.html.erb')].sort.reverse.each do |t|
         ymd = File.basename(t).split('.').first
         next if ymd > logic.end_ymd
         template = ymd
         break
       end
   
-      render "#{controller_name}/#{report_type}/#{template}"
+      render "report/#{controller_name}/#{report_type}/#{template}"
     end
   end
 

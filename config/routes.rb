@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :accounts
   resources :bank_offices, only: 'index'
   resources :career_statements, only: ['index', 'show']
-  resources :consumption_tax_statements, only: 'index'
   resources :deemed_taxes
   resources :debts
   resources :financial_return_statements, only: 'index'
@@ -32,7 +31,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :ledgers, :only => ['index', 'show']
+  resources :ledgers, only: ['index', 'show']
 
   resources :payrolls do
     collection do
@@ -45,13 +44,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :profiles, :only => ['edit', 'update'] do
+  resources :profiles, only: ['edit', 'update'] do
     member do
       get 'add_simple_slip_setting'
     end
   end
 
-  resources :receipts, :only => 'show'
+  resources :receipts, only: 'show'
 
   resources :simple_slips, :except => 'index' do
     collection do

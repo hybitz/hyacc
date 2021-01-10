@@ -11,8 +11,8 @@ class User < ApplicationRecord
   validates :login_id, presence: true, uniqueness: true
   validates_format_of :login_id, :with=>/[a-zA-Z0-9._]*/
   validates_format_of :password, :with=>/[!-~]*/
-  validates_format_of :email, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
-  validates_format_of :google_account, :allow_nil=>true, :allow_blank=>true, :with => /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/
+  validates_format_of :email, allow_nil: true, allow_blank: true, with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/
+  validates_format_of :google_account, allow_nil: true, allow_blank: true, with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/
 
   has_many :simple_slip_settings, -> { order(:shortcut_key) }
   accepts_nested_attributes_for :simple_slip_settings, allow_destroy: true

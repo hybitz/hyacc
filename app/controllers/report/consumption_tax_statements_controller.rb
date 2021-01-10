@@ -5,7 +5,7 @@ class Report::ConsumptionTaxStatementsController < Base::HyaccController
     if params[:commit]
       report_type = finder.report_type
       
-      logic = "Reports::#{report_type.camelize}Logic".constantize.new(finder)
+      logic = "Reports::ConsumptionTax::#{report_type.camelize}Logic".constantize.new(finder)
       @model = logic.build_model
   
       template = nil

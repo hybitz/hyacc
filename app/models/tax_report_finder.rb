@@ -16,15 +16,7 @@ class TaxReportFinder
   end
 
   def report_types
-    types = [
-      REPORT_TYPE_CONSUMPTION_TAX_CACL
-    ]
-    
-    ret = []
-    types.each do |type|
-      ret << [REPORT_TYPES[type], type]
-    end
-    ret
+    CONSUMPTION_TAX_REPORT_TYPES.invert
   end
 
   private

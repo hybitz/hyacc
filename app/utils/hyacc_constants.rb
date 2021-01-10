@@ -68,7 +68,13 @@ module HyaccConstants
     COMPANY_TYPE_PRIVATE = 5 => '有限会社',
     COMPANY_TYPE_PERSONAL = 9 => '個人事業主',
   }
-  
+
+  # 消費税確定申告帳票区分
+  CONSUMPTION_TAX_REPORT_TYPES = {
+    CONSUMPTION_TAX_REPORT_TYPE_APPENDIX_1_3 = 'appendix1_b3' => '付表1-3 税率別消費税額計算表　兼　地方消費税の課税標準となる消費税額計算表',
+    CONSUMPTION_TAX_REPORT_TYPE_APPENDIX_2 = 'appendix2' => '付表2　課税売上割合・控除対象仕入税額等の計算書'
+  }
+
   # 法人税区分
   CORPORATE_TAX_TYPES = {
     CORPORATE_TAX_TYPE_CORPORATE_TAX = 1 => '法人税',
@@ -200,8 +206,7 @@ module HyaccConstants
     REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE = 23 => '③売掛金（未収入金）の内訳書',
     REPORT_TYPE_INVESTMENT_SECURITIES = 24 => '⑥有価証券の内訳書',
     REPORT_TYPE_SUSPENSE_RECEIPT = 'suspense_receipt' => '⑩仮受金の内訳書、源泉所得税預り金の内訳',
-    REPORT_TYPE_SALE = 'sale' => '⑬売上高等の事業所別内訳書',
-    REPORT_TYPE_CONSUMPTION_TAX_CACL = 'consumption_tax_calc' => '付表2　課税売上割合・控除対象仕入税額等の計算書'
+    REPORT_TYPE_SALE = 'sale' => '⑬売上高等の事業所別内訳書'
   }
 
   # 帳票様式

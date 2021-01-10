@@ -1,4 +1,4 @@
-class Reports::ConsumptionTax::Appendix2Logic < Reports::BaseLogic
+class Reports::ConsumptionTax::Appendix2Logic < Reports::ConsumptionTax::BaseLogic
 
   def build_model
     ret = ConsumptionTaxCalcModel.new

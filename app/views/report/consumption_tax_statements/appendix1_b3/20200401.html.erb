@@ -35,34 +35,129 @@
     </thead>
     <tbody>
       <tr>
-        <th colspan="3" class="text-center align-middle">　<br>課　税　標　準　額<br>　</th>
+        <th colspan="3" class="text-center align-middle">課　税　標　準　額</th>
         <th class="text-center align-middle">①</th>
         <td class="text-right align-middle">0</td>
-        <td class="text-right align-middle"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
-        <td class="text-right align-middle"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.standard_sale_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.standard_sale_amount, show_zero: true) %></td>
       </tr>
       <tr>
         <th class="text-center">①<br>の<br>内<br>訳</th>
-        <th colspan="2" class="text-center align-middle">課税資産 の 譲 渡 等<br>の 対 価 の 額</th>
+        <th colspan="2" class="text-center align-middle">課 税 資 産 の 譲 渡 等<br>の 対 価 の 額</th>
         <th class="text-center align-middle">①<br>-<br>1</th>
         <td class="text-right align-middle">0</td>
-        <td class="text-right align-middle">0</td>
-        <td class="text-right align-middle">0</td>
+        <td class="text-right align-middle"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
       </tr>
       <tr>
         <th class="text-center">①<br>の<br>内<br>訳</th>
-        <th colspan="2" class="text-center align-middle">特定課税仕入 れ に<br>係 る 支 払 対 価 の 額</th>
+        <th colspan="2" class="text-center align-middle">特 定 課 税 仕 入 れ に<br>係 る 支 払 対 価 の 額</th>
         <th class="text-center align-middle">①<br>-<br>2</th>
         <th class="text-right align-middle"></th>
-        <td class="text-right align-middle">0</td>
-        <td class="text-right align-middle">0</td>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
       </tr>
       <tr>
-        <th colspan="3" class="text-center align-middle">　<br>消　費　税　額<br>　</th>
+        <th colspan="3" class="text-center align-middle">消　費　税　額</th>
         <th class="text-center align-middle">②</th>
         <td class="text-right align-middle">0</td>
         <td class="text-right align-middle"><%= to_amount(@model.sale_tax_amount, show_zero: true) %></td>
         <td class="text-right align-middle"><%= to_amount(@model.sale_tax_amount, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th colspan="3" class="text-center align-middle">控 除 過 大 調 整 税 額</th>
+        <th class="text-center align-middle">③</th>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+      </tr>
+      <tr>
+        <th rowspan="6" class="text-center align-middle">控<br>除<br>税<br>額</th>
+        <th colspan="2" class="text-center align-middle">控 除 対 象 仕 入 税 額</th>
+        <th class="text-center align-middle">④</th>
+        <td class="text-right align-middle"><%= to_amount(@model.reduced_taxable_purchase_tax_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.taxable_purchase_tax_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="text-center align-middle">返 還 等 対 価<br>に 係 る 税 額</th>
+        <th class="text-center align-middle">⑤</th>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+      </tr>
+      <tr>
+        <th rowspan="2" class="text-center align-middle">⑤<br>の<br>内<br>訳</th>
+        <th class="align-middle"><%= justify('売 上 げ の 返 還 等') %><%= justify('対 価 に 係 る 税 額') %></th>
+        <th class="text-center align-middle">⑤<br>-<br>1</th>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+      </tr>
+      <tr>
+        <th class="align-middle"><%= justify('特定課税仕入れ') %><%= justify('の返還等対価') %><%= justify('に 係 る 税 額') %></th>
+        <th class="text-center align-middle">⑤<br>-<br>2</th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="text-center align-middle"><%= justify('貸倒れに係る税額') %></th>
+        <th class="text-center align-middle">⑥</th>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+        <td class="text-right align-middle"></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="text-center align-middle"><%= justify('控除税額小計') %><div>（④＋⑤＋⑥）</div></th>
+        <th class="text-center align-middle">⑦</th>
+        <td class="text-right align-middle"><%= to_amount(@model.reduced_taxable_purchase_tax_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.taxable_purchase_tax_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th colspan="3" class="text-center align-middle"><%= justify('控除不足還付税額') %><div>（⑦－②－③）</div></th>
+        <th class="text-center align-middle">⑧</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"></td>
+      </tr>
+      <tr>
+        <th colspan="3" class="text-center align-middle"><%= justify('差引税額') %><div>（②＋③－⑦）</div></th>
+        <th class="text-center align-middle">⑨</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th rowspan="2" class="text-center">地準<br>方と<br>消な<br>費る<br>税消<br>の費<br>課税<br>税額<br>標　</th>
+        <th colspan="2" class="text-center align-middle">控除不足還付税額<br>（⑧）</th>
+        <th class="text-center align-middle">⑩</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="text-center align-middle">差引税額<br>（⑨）</th>
+        <th class="text-center align-middle">⑪</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th rowspan="2" class="text-center">譲<br>渡<br>割<br>額</th>
+        <th colspan="2" class="text-center align-middle">還付額</th>
+        <th class="text-center align-middle">⑫</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="text-center align-middle">納税額</th>
+        <th class="text-center align-middle">⑬</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"><%= to_amount(@model.total_local_tax_amount, show_zero: true) %></td>
       </tr>
     </tbody>
   </table>

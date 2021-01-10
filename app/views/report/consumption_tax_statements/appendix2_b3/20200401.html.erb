@@ -1,0 +1,116 @@
+<div class="m-2 row">
+  <span class="col-md-12">第4-(10)号様式</span>
+</div>
+<div class="m-2 row">
+  <span class="col-md-11">付表2-3　課税売上割合・控除対象仕入税額等の計算表</span>
+  <span class="col-md-1 text-center border">一般</span>
+</div>
+
+<div class="mx-2 my-0 row">
+  <table class="col-md-8 table table-bordered table-hover text-center">
+    <tbody>
+      <tr>
+        <td>課税期間</td>
+        <td>
+          <%= to_wareki(@model.fiscal_year.start_day) %>
+          <span>～</span>
+          <%= to_wareki(@model.fiscal_year.end_day) %>
+        </td>
+        <td>氏名又は名称</td>
+        <td><%= @model.company_name %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="mx-2 my-0 row">
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th colspan="4" class="align-middle" style="width: 25%;"><%= justify('項　目') %></th>
+        <th class="text-center" style="width: 25%;">税　率　6.24％　適　用　分<br>Ａ</th>
+        <th class="text-center" style="width: 25%;">税　率　7.8％　適　用　分<br>Ｂ</th>
+        <th class="text-center" style="width: 25%;">合　計　Ｃ<br>(Ａ＋Ｂ)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th></th>
+        <th colspan="2" class="text-center align-middle">課 税 売 上 額 （ 税 抜 き ）</th>
+        <th class="text-center align-middle">①</th>
+        <td class="text-right align-middle">0</td>
+        <td class="text-right align-middle"><%= to_amount(@model.sale_amount_without_tax, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.sale_amount_without_tax, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th></th>
+        <th colspan="2" class="text-center align-middle">免税売上額</th>
+        <th class="text-center align-middle">②</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle">0</td>
+      </tr>
+      <tr>
+        <th></th>
+        <th colspan="2" class="text-center align-middle">非課税資産 の 輸出等 の 金 額 、<br>海外支店等 へ 移 送 し た 資 産 の 価 額</th>
+        <th class="text-center align-middle">③</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle">0</td>
+      </tr>
+      <tr>
+        <th colspan="3"><%= justify('課税資産の譲渡等の対価の額 （ ① ＋ ② ＋ ③ ）') %></th>
+        <th class="text-center align-middle">④</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"><%= to_amount(@model.sale_amount_without_tax, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th></th>
+        <th colspan="2" class="text-center align-middle">課税資産 の 譲渡等 の 対 価 の 額 （ ④ の 金 額 ）</th>
+        <th class="text-center align-middle">⑤</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"><%= to_amount(@model.sale_amount_without_tax, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th></th>
+        <th colspan="2" class="text-center align-middle">非課税 売 上 額</th>
+        <th class="text-center align-middle">⑥</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle">0</td>
+      </tr>
+      <tr>
+        <th colspan="3"><%= justify('資産の譲渡等の対価の額 （ ⑤ ＋ ⑥ ）') %></th>
+        <th class="text-center align-middle">⑦</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle"><%= to_amount(@model.sale_amount_without_tax, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th colspan="3"><%= justify('課税売上割合 （ ④ ／ ⑦ ）') %></th>
+        <th class="text-center align-middle">⑧</th>
+        <th class="text-right align-middle"></th>
+        <th class="text-right align-middle"></th>
+        <td class="text-right align-middle">[100 %]</td>
+      </tr>
+      <tr>
+        <th></th>
+        <th colspan="2" class="text-center align-middle">課税仕入 れ に 係 る 支 払 対 価 の 額 （ 税 込 み ）</th>
+        <th class="text-center align-middle">⑨</th>
+        <td class="text-right align-middle">0</td>
+        <td class="text-right align-middle"><%= to_amount(@model.taxable_purchase_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.taxable_purchase_amount, show_zero: true) %></td>
+      </tr>
+      <tr>
+        <th></th>
+        <th colspan="2" class="text-center align-middle">課税仕入 れ に 係 る 消 費 税 額</th>
+        <th class="text-center align-middle">⑩</th>
+        <td class="text-right align-middle">0</td>
+        <td class="text-right align-middle"><%= to_amount(@model.taxable_purchase_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.taxable_purchase_amount, show_zero: true) %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

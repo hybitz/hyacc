@@ -1,7 +1,7 @@
 module Reports
   # TODO TaxJp から消費税率を取得する
   module ConsumptionTax
-    class Appendix2B3Logic < Reports::ConsumptionTax::BaseLogic
+    class Appendix2B3Logic < BaseLogic
     
       def build_model
         ret = Appendix2B3Model.new
@@ -17,14 +17,8 @@ module Reports
 
     end
     
-    class Appendix2B3Model
-      attr_accessor :company, :fiscal_year
-      attr_accessor :sale_amount, :reduced_sale_amount
+    class Appendix2B3Model < BaseModel
       attr_accessor :taxable_purchase_amount, :reduced_taxable_purchase_amount
-    
-      def company_name
-        company.name
-      end
 
       def taxable_purchase_tax_amount
         (taxable_purchase_amount * 0.078).to_i
@@ -42,10 +36,6 @@ module Reports
         reduced_taxable_purchase_amount + reduced_taxable_purchase_tax_amount
       end
 
-      def total_sale_amount
-        sale_amount + reduced_sale_amount
-      end
-    
       def total_taxable_purchase_amount
         taxable_purchase_amount + reduced_taxable_purchase_amount
       end

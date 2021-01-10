@@ -1,9 +1,9 @@
 module Reports
   module ConsumptionTax
-    class Appendix1B3Logic < BaseLogic
+    class Form2Logic < BaseLogic
 
       def build_model
-        ret = Appendix1B3Model.new
+        ret = Form2Model.new
     
         ret.company = Company.find(finder.company_id)
         ret.fiscal_year = fiscal_year
@@ -16,7 +16,7 @@ module Reports
 
     end
 
-    class Appendix1B3Model < BaseModel
+    class Form2Model < BaseModel
     end
 
   end

@@ -160,5 +160,12 @@ module Reports
       capital_stock = Account.find_by_code(ACCOUNT_CODE_CAPITAL_STOCK)
       VMonthlyLedger.net_sum(nil, end_ym, capital_stock.id, nil, branch_id)
     end
+
+    protected
+
+    def execute_query(*sql_array)
+      sanitized_sql = ActiveRecord::Base.__send__(:sanitize_sql_array, sql_array)
+      ActiveRecord::Base.connection.select_all(sanitized_sql)
+    end
   end
 end

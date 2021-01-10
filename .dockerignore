@@ -1,0 +1,12 @@
+.bundle
+.capistrano
+.git
+.github
+.settings
+log
+node_modules
+public/packs*
+tmp
+travis
+Dockerfile*
+Jenkinsfile

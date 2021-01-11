@@ -1,3 +1,5 @@
+require 'reports/consumption_tax/base_logic'
+
 module Reports
   module ConsumptionTax
     class Appendix1B3Logic < BaseLogic

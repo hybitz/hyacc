@@ -1,10 +1,3 @@
-# -*- encoding : utf-8 -*-
-#
-# $Id: deemed_tax_model.rb 2475 2011-03-23 15:28:31Z ichy $
-# Product: hyacc
-# Copyright 2010 by Hybitz.co.ltd
-# ALL Rights Reserved.
-#
 module DeemedTax
   class DeemedTaxModel
     # 会計年度（AR）

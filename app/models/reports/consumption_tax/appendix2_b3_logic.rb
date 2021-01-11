@@ -1,3 +1,5 @@
+require 'reports/consumption_tax/base_logic'
+
 module Reports
   # TODO TaxJp から消費税率を取得する
   module ConsumptionTax

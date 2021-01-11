@@ -18,6 +18,7 @@ module Reports
     end
 
     class Form1Model < BaseModel
+      attr_accessor :interim_tax_amount
     end
 
   end

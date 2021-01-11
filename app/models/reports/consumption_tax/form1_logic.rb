@@ -1,8 +1,9 @@
 module Reports
   module ConsumptionTax
+
     class Form1Logic < BaseLogic
 
-      def build_model
+        def build_model
         ret = Form1Model.new
     
         ret.company = Company.find(finder.company_id)

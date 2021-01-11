@@ -5,6 +5,21 @@ module Reports
 
       protected
 
+      # 当期の中間申告した金額を取得する
+      def get_this_term_interim_amount(account_code)
+        query = <<EOF
+          select sum(jd.amount) as amount from journal_details jd
+          inner join journals j on (j.id = jd.journal_id)
+          inner join accounts a on (a.id = jd.account_id)
+          where j.ym >= ? and j.ym <= ?
+            and a.code = ?
+            and jd.dc_type = a.dc_type
+            and jd.settlement_type = ?
+EOF
+        result = execute_query(query, start_ym, end_ym, account_code, SETTLEMENT_TYPE_HALF)
+        result.first['amount']
+      end
+
       def get_taxable_purchase_amount(tax_rate)
         query = <<EOF
           select jd.dc_type as dc_type, sum(jd.amount) as amount from journal_details jd
@@ -15,7 +30,7 @@ module Reports
             and jd.tax_rate = ?
           group by jd.dc_type
 EOF
-        result = execute_query(query, fiscal_year.start_year_month, fiscal_year.end_year_month, ACCOUNT_TYPE_EXPENSE, tax_rate)
+        result = execute_query(query, start_ym, end_ym, ACCOUNT_TYPE_EXPENSE, tax_rate)
         
         ret = 0
         result.each do |hash|

@@ -14,6 +14,7 @@ module Reports
         ret.reduced_sale_amount = 0
         ret.taxable_purchase_amount = get_taxable_purchase_amount(0.1)
         ret.reduced_taxable_purchase_amount = get_taxable_purchase_amount(0.08)
+        ret.interim_tax_amount = get_this_term_interim_amount(ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE)
         ret
       end
 
@@ -21,6 +22,10 @@ module Reports
 
     class Form1Model < BaseModel
       attr_accessor :interim_tax_amount
+
+      def tax_payment_amount
+        total_tax_amount - interim_tax_amount
+      end
     end
 
   end

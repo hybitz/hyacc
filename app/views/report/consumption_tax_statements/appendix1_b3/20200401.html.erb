@@ -39,7 +39,7 @@
         <th class="text-center align-middle">①</th>
         <td class="text-right align-middle"></td>
         <td class="text-right align-middle"><%= to_amount(@model.standard_sale_amount, show_zero: true) %></td>
-        <td class="text-right align-middle"><%= to_amount(@model.standard_sale_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.total_standard_sale_amount, show_zero: true) %></td>
       </tr>
       <tr>
         <th class="text-center">①<br>の<br>内<br>訳</th>
@@ -47,7 +47,7 @@
         <th class="text-center align-middle">①<br>-<br>1</th>
         <td class="text-right align-middle"></td>
         <td class="text-right align-middle"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
-        <td class="text-right align-middle"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
+        <td class="text-right align-middle"><%= to_amount(@model.total_sale_amount, show_zero: true) %></td>
       </tr>
       <tr>
         <th class="text-center">①<br>の<br>内<br>訳</th>

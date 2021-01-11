@@ -47,7 +47,7 @@
           <tr>
             <td colspan="2" class="align-middle"><%= justify('控除税額小計') %><div>（④＋⑤＋⑥）</div></td>
             <td class="align-middle">⑦</td>
-            <td class="text-right"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
+            <td class="align-middle text-right"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('控除不足還付税額') %><div>（⑦－②－③）</div></td>
@@ -57,17 +57,17 @@
           <tr>
             <td colspan="3"><%= justify('差引税額') %><div>（②＋③－⑦）</div></td>
             <td class="align-middle">⑨</td>
-            <td class="text-right"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
+            <td class="align-middle text-right"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('中間納付税額') %></td>
             <td class="align-middle">⑩</td>
-            <td class="text-right"></td>
+            <td class="text-right"><%= to_amount(@model.interim_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('納付税額') %><div>（⑨－⑩）</div></td>
             <td class="align-middle">⑪</td>
-            <td class="text-right"></td>
+            <td class="align-middle text-right"><%= to_amount(@model.tax_payment_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('中間納付還付税額') %><div>（⑩－⑨）</div></td>

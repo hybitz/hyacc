@@ -14,28 +14,6 @@ module SimpleSlipHelper
     "green"
   end
   
-  # 検索条件の補助科目のセレクトボックス名を取得する
-  def get_sub_account_select_name( account )
-    case account.sub_account_type
-    when SUB_ACCOUNT_TYPE_NORMAL
-      'sub_account_id'
-    when SUB_ACCOUNT_TYPE_EMPLOYEE
-      'employee_id'
-    when SUB_ACCOUNT_TYPE_CUSTOMER
-      'customer_id'
-    when SUB_ACCOUNT_TYPE_SAVING_ACCOUNT
-      'bank_account_id'
-    when SUB_ACCOUNT_TYPE_RENT
-      'rent_id'
-    when SUB_ACCOUNT_TYPE_ORDER_ENTRY
-      'customer_id'
-    when SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
-      'customer_id'
-    else
-      raise HyaccException.new(ERR_INVALID_SUB_ACCOUNT_TYPE)
-    end
-  end
-
   def get_sub_account_title( account )
     case account.sub_account_type
     when SUB_ACCOUNT_TYPE_NORMAL

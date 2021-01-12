@@ -98,12 +98,15 @@ EOF
       end
 
       def total_tax_amount
-        sale_tax_amount - total_taxable_purchase_tax_amount
+        ret = sale_tax_amount - total_taxable_purchase_tax_amount
+        ret -= ret % 100
+        ret
       end
     
       def total_local_tax_amount
-        local_tax_amount = (total_tax_amount * 22 / 78).to_i
-        local_tax_amount - local_tax_amount / 100
+        ret = (total_tax_amount * 22 / 78).to_i
+        ret -= ret % 100
+        ret
       end
     end
 

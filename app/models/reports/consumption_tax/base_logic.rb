@@ -21,6 +21,7 @@ EOF
         result.first['amount']
       end
 
+      # 課税仕入額（税抜）
       def get_taxable_purchase_amount(tax_rate)
         query = <<EOF
           select jd.dc_type as dc_type, sum(jd.amount) as amount from journal_details jd
@@ -42,7 +43,7 @@ EOF
           end
         end
 
-        ret * 1.1
+        ret
       end
 
     end

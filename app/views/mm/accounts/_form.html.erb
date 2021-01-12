@@ -26,7 +26,7 @@
     </tr>
     <tr>
       <th><%= f.label :code %></th>
-      <td><%= f.text_field :code, :disabled => ! @account.new_record?, :class=>'codeText' %></td>
+      <td><%= f.text_field :code, disabled: @account.persisted?, class: 'codeText' %></td>
     </tr>
     <tr>
       <th><%= f.label :name %></th>

@@ -72,9 +72,8 @@ module HyaccConstants
   # 消費税確定申告帳票区分
   CONSUMPTION_TAX_REPORT_TYPES = {
     CONSUMPTION_TAX_REPORT_TYPE_FORM_1 = 'form1' => '第一表　消費税及び地方消費税の申告書（一般用）',
-    CONSUMPTION_TAX_REPORT_TYPE_FORM_2 = 'form2' => '第二表　消費税及び地方消費税の申告書（一般用）',
+    CONSUMPTION_TAX_REPORT_TYPE_FORM_2 = 'form2' => '第二表　課税標準額等の内訳書',
     CONSUMPTION_TAX_REPORT_TYPE_APPENDIX_1_3 = 'appendix1_b3' => '付表1-3　税率別消費税額計算表　兼　地方消費税の課税標準となる消費税額計算表',
-    CONSUMPTION_TAX_REPORT_TYPE_APPENDIX_2 = 'appendix2' => '付表2　課税売上割合・控除対象仕入税額等の計算書',
     CONSUMPTION_TAX_REPORT_TYPE_APPENDIX_2_3 = 'appendix2_b3' => '付表2-3　課税売上割合・控除対象仕入税額等の計算表',
   }
 

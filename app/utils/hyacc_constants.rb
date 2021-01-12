@@ -78,6 +78,12 @@ module HyaccConstants
     CONSUMPTION_TAX_REPORT_TYPE_APPENDIX_2_3 = 'appendix2_b3' => '付表2-3　課税売上割合・控除対象仕入税額等の計算表',
   }
 
+  # 消費税区分
+  CONSUMPTION_TAX_TYPES = {
+    CONSUMPTION_TAX_TYPE_NATIONAL = 1 => '消費税',
+    CONSUMPTION_TAX_TYPE_LOCAL = 2 => '地方消費税'
+  }
+
   # 法人税区分
   CORPORATE_TAX_TYPES = {
     CORPORATE_TAX_TYPE_CORPORATE_TAX = 1 => '法人税',
@@ -286,6 +292,7 @@ module HyaccConstants
     SUB_ACCOUNT_TYPE_CORPORATE_TAX = 10 => '法人税',
     SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT = 11 => '一般口座',
     SUB_ACCOUNT_TYPE_INVESTMENT = 12 => '投資先',
+    SUB_ACCOUNT_TYPE_CONSUMPTION_TAX = 13 => '消費税'
   }
 
   # 消費税取り扱い区分

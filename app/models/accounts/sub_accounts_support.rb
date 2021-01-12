@@ -70,6 +70,13 @@ module Accounts::SubAccountsSupport
         @sub_accounts_cache << tax
         @sub_accounts_all_cache << tax
       }
+    when SUB_ACCOUNT_TYPE_CONSUMPTION_TAX
+      list = []
+      CONSUMPTION_TAX_TYPES.each {|key, value|
+        tax = ConsumptionTax.new(id: key, code: key, name: value)
+        @sub_accounts_cache << tax
+        @sub_accounts_all_cache << tax
+      }
     else
       raise HyaccException.new(ERR_INVALID_SUB_ACCOUNT_TYPE)
     end

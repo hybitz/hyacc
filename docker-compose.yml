@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: [bundle, exec, rails, s]
+    environment:
+      MYSQL_HOST: mysql
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/var/app/current
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: hyacc_dev
+      MYSQL_USER: hyacc
+      MYSQL_PASSWORD: hyacc

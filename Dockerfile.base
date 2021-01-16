@@ -1,0 +1,12 @@
+FROM hybitz-centos:latest
+
+RUN sudo yum -y install sqlite-devel
+
+ADD Gemfile Gemfile.lock Rakefile ./
+RUN sudo chown -R ${USER}:${USER} ./ && \
+    bundle config --local without development:test && \
+    bundle install -j2
+
+ADD package.json yarn.lock ./
+RUN sudo chown -R ${USER}:${USER} ./ && \
+    yarn install

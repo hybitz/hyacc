@@ -25,7 +25,7 @@ module Reports
           trading_value: 0,
           gains: 0,
           bank_name: ba.bank_name,
-          address: ba.bank_office.try(:address)
+          address: ba.bank_office&.address
          }
       else
         deals.each_with_index do |inv, i|
@@ -34,11 +34,11 @@ module Reports
                       :last_trading_value => i == 0 ? last['trading_value'] : '',
                       :deal_date => inv.deal_date,
                       :reason => inv.buying? ? '購入' : '売却',
-                      :shares => inv.buying? ? inv.shares : inv.shares * -1,
-                      :trading_value => inv.buying? ? inv.trading_value : inv.trading_value * -1,
-                      :gains => inv.buying? ? inv.gains : inv.gains * -1,
+                      :shares => inv.shares,
+                      :trading_value => inv.trading_value,
+                      :gains => inv.gains,
                       :bank_name => i == 0 ? inv.bank_account.bank_name : '',
-                      :address => i == 0 ? inv.bank_account.bank_office && inv.bank_account.bank_office.address : '',
+                      :address => i == 0 ? inv.bank_account.bank_office&.address : '',
                       :etc => ''}
         end
       end

@@ -29,11 +29,11 @@
       <% @investments.each do |investment| %>
         <tr>
           <td rowspan="2"><%= investment[:formal_name] %></td>
-          <td rowspan="2" class="quantity"><%= to_amount(investment[:last_shares]) %></td>
-          <td rowspan="2" class="amount"><%= to_amount(investment[:last_trading_value]) %></td>
+          <td rowspan="2" class="align-bottom quantity"><%= to_amount(investment[:last_shares]) %></td>
+          <td rowspan="2" class="align-bottom amount"><%= to_amount(investment[:last_trading_value]) %></td>
           <td><%= to_wareki(investment[:deal_date]) if investment[:deal_date].present? %></td>
-          <td rowspan="2" class="quantity"><%= to_amount(investment[:shares], show_zero: true) %></td>
-          <td rowspan="2" class="amount"><%= to_amount(investment[:trading_value] + investment[:gains], show_zero: true) %></td>
+          <td rowspan="2" class="align-bottom quantity"><%= to_amount(investment[:shares]) %></td>
+          <td rowspan="2" class="align-bottom amount"><%= to_amount(investment[:trading_value] + investment[:gains]) %></td>
           <td><%= investment[:bank_name] %></td>
           <td rowspan="2"><%= investment[:etc] %></td>
         </tr>

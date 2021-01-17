@@ -45,7 +45,7 @@ class Investment < ApplicationRecord
   end
 
   def set_trading_value
-    if buying_or_selling == '0'
+    if selling?
       self.shares = self.shares * -1
       self.trading_value = self.trading_value * -1
     end

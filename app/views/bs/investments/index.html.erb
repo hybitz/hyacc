@@ -24,12 +24,9 @@
           <td class="center"><%= inv.deal_date %></td>
           <td><%= inv.bank_account.name %></td>
           <td><%= inv.customer.formal_name %></td>
-          <td class="right"><%= to_amount(inv.shares) if inv.buying_or_selling == "1" %></td>
-          <td class="right"><%= to_amount(inv.shares) if inv.buying_or_selling == "0" %></td>
-          <td class="right">
-          	 <%= '△' + to_amount(inv.trading_value) if inv.buying_or_selling == "0" && inv.trading_value > 0 %>
-          	 <%= to_amount(inv.trading_value) if inv.buying_or_selling == "1" %>
-          </td>
+          <td class="right"><%= to_amount(inv.shares) if inv.buying? %></td>
+          <td class="right"><%= to_amount(inv.shares) if inv.selling? %></td>
+          <td class="right"><%= '△' if inv.selling? %><%= to_amount(inv.trading_value + inv.gains) %></td>
           <td class="center">
             <%= link_to '編集', edit_bs_investment_path(inv), remote: true, class: 'btn btn-light btn-sm' %>
             <%= link_to '削除', bs_investment_path(inv),

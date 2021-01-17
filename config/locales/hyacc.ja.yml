@@ -149,13 +149,24 @@ ja:
         fiscal_year: 会計年度
         tax_management_type: 消費税管理区分
 
-      insurance:
-        grade: 等級
-
       inhabitant_tax:
         amount: 金額
         employee_id: 従業員
         ym: 年月
+
+      insurance:
+        grade: 等級
+
+      investment:
+        yyyymmdd: "年月日"
+        bank_account_id: "証券口座"
+        charges: 手数料
+        customer_name: "投資先名"
+        buying_or_selling: "売買区分"
+        for_what: "投資目的"
+        gains: 売却益
+        shares: 株数
+        trading_value: "取引金額"
 
       journal_detail: &journal_detail
         account_id: 勘定科目
@@ -252,16 +263,6 @@ ja:
         branches_users: "支店のユーザー"
         simple_slip_settings:
           shortcut_key: ショートカットキー
-
-      investment:
-        yyyymmdd: "年月日"
-        bank_account_id: "証券口座"
-        customer_name: "投資先名"
-        buying_or_selling: "売買区分"
-        for_what: "投資目的"
-        shares: "株数"
-        trading_value: "取引金額"
-        charges: "手数料"
 
       exemption:
         employee_id: 従業員

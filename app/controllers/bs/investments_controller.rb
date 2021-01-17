@@ -89,7 +89,7 @@ class Bs::InvestmentsController < Base::HyaccController
 
   def investment_params
     params.require(:investment).permit(:name, :yyyymmdd, :sub_account_id, :customer_id, :buying_or_selling, :for_what,
-                                       :shares, :trading_value, :bank_account_id, :charges, :journal_detail_id)
+                                       :shares, :trading_value, :bank_account_id, :charges, :gains, :journal_detail_id)
   end
   
   def check_if_related

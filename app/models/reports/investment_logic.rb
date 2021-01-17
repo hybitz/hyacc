@@ -23,6 +23,7 @@ module Reports
           last_trading_value: last['trading_value'],
           shares: 0,
           trading_value: 0,
+          gains: 0,
           bank_name: ba.bank_name,
           address: ba.bank_office.try(:address)
          }
@@ -35,6 +36,7 @@ module Reports
                       :reason => inv.buying? ? '購入' : '売却',
                       :shares => inv.buying? ? inv.shares : inv.shares * -1,
                       :trading_value => inv.buying? ? inv.trading_value : inv.trading_value * -1,
+                      :gains => inv.buying? ? inv.gains : inv.gains * -1,
                       :bank_name => i == 0 ? inv.bank_account.bank_name : '',
                       :address => i == 0 ? inv.bank_account.bank_office && inv.bank_account.bank_office.address : '',
                       :etc => ''}

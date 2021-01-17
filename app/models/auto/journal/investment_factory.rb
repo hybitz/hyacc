@@ -58,7 +58,7 @@ module Auto::Journal
       jd.account_id = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX).id
       jd.branch_id = branch_id
       jd.detail_type = DETAIL_TYPE_TAX
-      jd.amount = (@investment.charges * tax_rate).ceil
+      jd.amount = @investment.charges - (@investment.charges / (1 + tax_rate)).ceil
       jd.tax_type = TAX_TYPE_NONTAXABLE
       tax_detail = jd
        
@@ -68,7 +68,7 @@ module Auto::Journal
       jd.dc_type = DC_TYPE_DEBIT
       jd.account_id = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id
       jd.branch_id = branch_id
-      jd.amount = @investment.charges - tax_detail.amount
+      jd.amount = (@investment.charges / (1 + tax_rate)).ceil
       jd.tax_type = TAX_TYPE_INCLUSIVE
       jd.tax_rate_percent = tax_rate * 100
       jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN

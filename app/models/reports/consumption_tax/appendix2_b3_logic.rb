@@ -27,7 +27,7 @@ module Reports
       end
 
       def taxable_purchase_amount_with_tax
-        taxable_purchase_amount + taxable_purchase_tax_amount
+        (taxable_purchase_amount + (taxable_purchase_amount * 0.1)).to_i
       end
 
       def reduced_taxable_purchase_tax_amount
@@ -35,7 +35,7 @@ module Reports
       end
 
       def reduced_taxable_purchase_amount_with_tax
-        reduced_taxable_purchase_amount + reduced_taxable_purchase_tax_amount
+        (reduced_taxable_purchase_amount + (reduced_taxable_purchase_amount * 0.08)).to_i
       end
 
       def total_taxable_purchase_amount

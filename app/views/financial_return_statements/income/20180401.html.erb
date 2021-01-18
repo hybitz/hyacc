@@ -60,10 +60,11 @@
       <td class="bg-light"></td>
     </tr>
     <tr>
+      <% title = "法人税: #{to_amount(@model.corporate_tax_amount, show_zero: true)}\n法人事業税: #{to_amount(@model.corporate_enterprise_tax_amount, show_zero: true)}" %>
       <td>損金経理をした納税充当金</td>
       <td class="text-center">4</td>
-      <td class="text-right"><%= to_amount(@model.corporate_tax_amount) %></td>
-      <td class="text-right"><%= to_amount(@model.corporate_tax_amount) %></td>
+      <td class="text-right" title="<%= title %>"><%= to_amount(@model.total_corporate_tax_amount) %></td>
+      <td class="text-right" title="<%= title %>"><%= to_amount(@model.total_corporate_tax_amount) %></td>
       <td class="bg-light"></td>
       <td class="bg-light"></td>
     </tr>

@@ -13,9 +13,9 @@ module Reports
       model.company_name = Company.find(@finder.company_id).name
       model.corporate_tax_payable_at_start_first = nil
       
-      model.corporate_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_CORPORATE_TAX)
-      model.corporate_tax_payable_at_start_second += net_sum_until(CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
-      model.corporate_tax_payable_at_start_second += net_sum_until(CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
+      model.corporate_tax_payable_at_start_second = corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_CORPORATE_TAX)
+      model.corporate_tax_payable_at_start_second += corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      model.corporate_tax_payable_at_start_second += corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
       
       model.corporate_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_CORPORATE_TAX)
       model.corporate_tax_at_half += net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
@@ -26,12 +26,12 @@ module Reports
       model.corporate_tax_at_full += net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
       
       model.prefectural_tax_payable_at_start_first = nil
-      model.prefectural_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
+      model.prefectural_tax_payable_at_start_second = corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
       model.prefectural_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
       model.prefectural_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
 
       model.municipal_inhabitants_tax_payable_at_start_first = nil
-      model.municipal_inhabitants_tax_payable_at_start_second = net_sum_until(CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
+      model.municipal_inhabitants_tax_payable_at_start_second = corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
       model.municipal_inhabitants_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
       model.municipal_inhabitants_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
 
@@ -45,7 +45,7 @@ module Reports
 
     private
 
-    def net_sum_until(sub_account_id)
+    def corporate_tax_payable_net_sum_until(sub_account_id)
       VTax.net_sum_until(start_ym, @corporate_tax_payable.id, sub_account_id)
     end
     
@@ -85,7 +85,7 @@ module Reports
       @corporate_tax_payable_at_start_first.to_i + @corporate_tax_payable_at_start_second.to_i
     end
     
-    def corporate_tax_at_total
+    def total_corporate_tax
       return nil unless @corporate_tax_at_half or @corporate_tax_at_full
       @corporate_tax_at_half.to_i + @corporate_tax_at_full.to_i
     end

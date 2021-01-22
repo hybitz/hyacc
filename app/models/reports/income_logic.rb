@@ -41,16 +41,12 @@ module Reports
       0
     end
 
-    def total_corporate_tax_amount
-      corporate_tax_amount + corporate_enterprise_tax_amount
-    end
-
     def increase_amount
-      total_corporate_tax_amount
+      corporate_tax_amount
     end
     
     def increase_retained_amount
-      total_corporate_tax_amount
+      corporate_tax_amount
     end
 
     def increase_outflow_amount

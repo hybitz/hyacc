@@ -18,12 +18,12 @@ module Reports
       model.corporate_tax_payable_at_start_second += corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
       
       model.corporate_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_CORPORATE_TAX)
-      model.corporate_tax_at_half += net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
-      model.corporate_tax_at_half += net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
+      model.regional_corporate_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      model.reconstruction_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
 
       model.corporate_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_CORPORATE_TAX)
-      model.corporate_tax_at_full += net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
-      model.corporate_tax_at_full += net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
+      model.regional_corporate_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      model.reconstruction_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
       
       model.prefectural_tax_payable_at_start_first = nil
       model.prefectural_tax_payable_at_start_second = corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
@@ -66,7 +66,11 @@ module Reports
     attr_accessor :corporate_tax_payable_at_start_first
     attr_accessor :corporate_tax_payable_at_start_second
     attr_accessor :corporate_tax_at_half
+    attr_accessor :regional_corporate_tax_at_half
+    attr_accessor :reconstruction_tax_at_half
     attr_accessor :corporate_tax_at_full
+    attr_accessor :regional_corporate_tax_at_full
+    attr_accessor :reconstruction_tax_at_full
     attr_accessor :prefectural_tax_payable_at_start_first
     attr_accessor :prefectural_tax_payable_at_start_second
     attr_accessor :prefectural_tax_at_half
@@ -80,14 +84,20 @@ module Reports
     attr_accessor :business_tax_at_half
     attr_accessor :business_tax_at_full
     
-    def corporate_tax_payable_at_start_total
-      return nil unless @corporate_tax_payable_at_start_first or @corporate_tax_payable_at_start_second
+    def total_corporate_tax_payable_at_start
       @corporate_tax_payable_at_start_first.to_i + @corporate_tax_payable_at_start_second.to_i
     end
+
+    def total_corporate_tax_at_half
+      corporate_tax_at_half + regional_corporate_tax_at_half + reconstruction_tax_at_half
+    end
     
+    def total_corporate_tax_at_full
+      corporate_tax_at_full + regional_corporate_tax_at_full + reconstruction_tax_at_full
+    end
+
     def total_corporate_tax
-      return nil unless @corporate_tax_at_half or @corporate_tax_at_full
-      @corporate_tax_at_half.to_i + @corporate_tax_at_full.to_i
+      total_corporate_tax_at_half + total_corporate_tax_at_full
     end
     
     def prefectural_tax_payable_at_start_total

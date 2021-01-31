@@ -84,7 +84,7 @@ class FinancialStatementsController < Base::HyaccController
     ym_range.each_index do |index|
       ym = ym_range[index]
       @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD] ||= {}
-      @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index] = {:ym => ym, :amount => 0}
+      @sum[ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD][:ym][index] = {ym: ym, amount: 0}
 
       # 繰越利益剰余に利益を設定
       (index + 1).times do |i|

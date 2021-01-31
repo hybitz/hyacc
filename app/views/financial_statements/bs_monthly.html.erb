@@ -4,7 +4,7 @@
   <tr>
     <th colspan="<%= colspan( 1 ) %>">勘定科目</th>
     <% @finder.get_ym_range.each do |ym| %>
-    <th class="text-center"><%= ym %></th>
+      <th class="text-center"><%= ym %></th>
     <% end %>
   </tr>
 
@@ -23,7 +23,7 @@
       負債および純資産合計
     </td>
     <% @finder.get_ym_range.each do |ym| %>
-    <td id="credit_sum_<%= ym %>_amount" align="right"></td>
+      <td id="credit_sum_<%= ym %>_amount" class="text-right"></td>
     <% end %>
   </tr>
 </table>

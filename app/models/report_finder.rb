@@ -13,27 +13,11 @@ class ReportFinder < Base::Finder
   end
 
   def list_monthly
-    sum = {}
-    max_node_level = 0
-    header = FinancialStatementHeader.where(company_id: company_id, branch_id: branch_id, report_type: REPORT_TYPE_PL,
-                                   report_style: REPORT_STYLE_MONTHLY, fiscal_year: fiscal_year).order(created_at: :desc).first
-    
-    if header
-      header.financial_statements.each do |pl|
-        account = Account.find(pl.account_id)
-        if sum[account.code].nil?
-          sum[account.code] = {account: account, ym: [{ym: pl.ym, amount: pl.amount}]}
-        else
-          sum[account.code][:ym] << {ym: pl.ym, amount: pl.amount}
-        end
-        max_node_level = header.max_node_level
-      end
-    else
-      fy = FiscalYear.find_by_company_id_and_fiscal_year(company_id, fiscal_year)
-      caj = ClosingAccountJob.new
-      sum = caj.pl_monthly(fy, branch_id)
-      max_node_level = caj.calc_max_node_level(sum)
-    end
+    fy = FiscalYear.find_by_company_id_and_fiscal_year(company_id, fiscal_year)
+    caj = ClosingAccountJob.new
+    sum = caj.pl_monthly(fy, branch_id)
+    max_node_level = caj.calc_max_node_level(sum)
+
     [sum, max_node_level]
   end
   

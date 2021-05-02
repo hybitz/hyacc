@@ -30,12 +30,10 @@ class FiscalYearsController < Base::HyaccController
 
   def update
     @fiscal_year = current_company.fiscal_years.find(params[:id])
-    cjm = ClosingJobManager.new(@fiscal_year)
 
     begin
       @fiscal_year.transaction do
         @fiscal_year.update_attributes!(fiscal_year_params)
-        cjm.perform(@fiscal_year.closing_status)
       end
       
       flash[:notice] = '会計年度を更新しました。'

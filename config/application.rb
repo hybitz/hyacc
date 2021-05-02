@@ -23,8 +23,6 @@ module Hyacc
 
     config.action_controller.action_on_unpermitted_parameters = :raise
 
-    config.active_job.queue_adapter = :sidekiq
-
     config.paths['config/routes.rb'] = Dir[Rails.root.join('config/routes/*.rb')] + config.paths['config/routes.rb']
 end
 end

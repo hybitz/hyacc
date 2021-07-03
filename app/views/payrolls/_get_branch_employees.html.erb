@@ -1,5 +1,6 @@
 <% if @employees.present? %>
-  <span class="m-2">
-    従業員：<%= collection_select 'finder', 'employee_id', @employees, 'id', 'name', {}, class: 'form-control' %>
-  </span>
+  <div class="input-group">
+    <div class="input-group-text">従業員</div>
+    <%= collection_select 'finder', 'employee_id', @employees, 'id', 'name', {}, class: 'form-select' %>
+  </div>
 <% end %>

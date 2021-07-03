@@ -28,7 +28,11 @@ a.selected {
   }
 }
 
-input[type="text"], select, select.form-control {
+a.input-group-text {
+  text-decoration: none;
+}
+
+input[type="text"], select, select.form-select {
   background: #FFFAFA;
 
   &:disabled {

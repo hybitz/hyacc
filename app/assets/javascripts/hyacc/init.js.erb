@@ -7,9 +7,7 @@ hyacc.init_datepicker_within = function(parent) {
       changeYear: true,
       changeMonth: true,
       buttonImage: '<%= image_path('calendar.gif') %>',
-      buttonText: '',
       buttonImageOnly: true,
-      showOn: 'button',
       beforeShow: function() {
         if ($(this).attr('readonly')) { return false; }
       }
@@ -21,9 +19,7 @@ hyacc.init_datepicker_within = function(parent) {
       dateFormat: 'yy-mm',
       changeYear: true,
       buttonImage: '<%= image_path('calendar.gif') %>',
-      buttonText: '',
       buttonImageOnly: true,
-      showOn: 'button',
       beforeShow: function() {
         if ($(this).attr('readonly')) { return false; }
       }

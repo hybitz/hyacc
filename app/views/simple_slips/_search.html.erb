@@ -1,31 +1,42 @@
-<div style="margin: 10px;">
-  <%= form_tag({action: 'index', account_code: @finder.account_code}, method: 'get', class: 'form-inline') do %>
-    <%= hidden_field_tag 'account_code', @finder.account_code %>
+<%= form_tag({action: 'index', account_code: @finder.account_code}, method: 'get', class: 'row align-items-center') do %>
+  <%= hidden_field_tag 'account_code', @finder.account_code %>
 
-    <% if @account.has_sub_accounts? %>
-      <div class="mx-1">
-        <span class="selected"><%= @account.sub_account_type_name %></span>：
-        <% sub_accounts = @finder.deleted.to_i == 0 ? @account.sub_accounts : @account.sub_accounts_all %>
-        <%= collection_select "finder", "sub_account_id", sub_accounts, "id", "name", {}, class: 'form-control', onchange: "submit();" %>
-        <%= check_box 'finder', 'deleted', onchange: "submit();" %>全て
+  <% if @account.has_sub_accounts? %>
+    <% sub_accounts = @finder.deleted.to_i == 0 ? @account.sub_accounts : @account.sub_accounts_all %>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text"><%= @account.sub_account_type_name %></div>
+        <%= collection_select "finder", "sub_account_id", sub_accounts, "id", "name", {}, class: 'form-select', onchange: "submit();" %>
       </div>
-    <% end %>
-
-    <div class="m-1">
-      <span class="mx-2">
-        年月：<%= text_field 'finder', 'ym', class: 'form-control mr-1 ympicker', style: 'width: 6em;' %>
-        <a href='#' onclick='$("#finder_ym").val(""); return false;'>×</a>
-      </span>
-      <span class="mx-2">
-        摘要：<%= text_field 'finder', 'remarks', class: 'form-control' %>
-        <a href='#' onclick='$("#finder_remarks").val(""); return false;'>×</a>
-      </span>
-      <span class="mx-2">
-        部門：<%= collection_select('finder', 'branch_id', @branches, "id", "name", {include_blank: true}, class: 'form-control') %>
-      </span>
-      <span class="mx-2">
-        <%= submit_tag '表示', class: 'btn btn-light' %>
-      </span>
+    </div>
+    <div class="col-auto form-check">
+      <%= check_box 'finder', 'deleted', onchange: "submit();", class: "form-check-input" %>
+      <label class="form-check-label" for="finder_deleted">全て</label>
     </div>
   <% end %>
-</div>
+
+  <div class="col-auto">
+    <div class="input-group">
+      <div class="input-group-text">年月</div>
+      <%= text_field 'finder', 'ym', class: 'form-control ympicker', style: "width: 6em;" %>
+      <a href='#' onclick='$("#finder_ym").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="input-group">
+      <label class="input-group-text">部門</label>
+      <%= collection_select('finder', 'branch_id', @branches, "id", "name", {include_blank: true}, class: 'form-select') %>
+      <a href='#' onclick='$("#finder_branch_id").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="input-group">
+      <label class="input-group-text">摘要</label>
+      <%= text_field 'finder', 'remarks', class: 'form-control' %>
+      <a href="#" onclick='$("#finder_remarks").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </div>
+  <div class="col-auto">
+    <%= submit_tag '表示', class: 'btn btn-light' %>
+  </div>
+<% end %>

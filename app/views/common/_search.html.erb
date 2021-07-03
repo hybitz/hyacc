@@ -1,71 +1,90 @@
 <div id="search" class="search">
-  <%= form_tag({action: action_name}, method: 'get', class: 'form form-inline') do %>
+  <%= form_tag({action: action_name}, method: 'get', class: 'row') do %>
     <% if @finder.respond_to?(:fiscal_year) %>
-      <div class="mx-2">
-        年度：<%= select 'finder', 'fiscal_year', fiscal_years, {}, class: 'form-control' %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">年度</div>
+          <%= select 'finder', 'fiscal_year', fiscal_years, {}, class: 'form-select' %>
+        </div>
       </div>
     <% end %>
 
     <% if @finder.respond_to?(:calendar_year) %>
-      <div class="mx-2">
-        暦年：<%= select 'finder', 'calendar_year', calendar_years, {include_blank: true}, class: 'form-control' %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">暦年</div>
+          <%= select 'finder', 'calendar_year', calendar_years, {include_blank: true}, class: 'form-selectt' %>
+        </div>
       </div>
     <% end %>
     
     <% if @prefectures %>
-      <div class="mx-2">
-        都道府県：<%= select 'finder', 'prefecture_code', to_options(@prefectures), {}, class: 'form-control' %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">都道府県</div>
+          <%= select 'finder', 'prefecture_code', to_options(@prefectures), {}, class: 'form-select' %>
+        </div>
       </div>
     <% end %>
 
     <% if @business_offices %>
-      <div class="mx-2">
-        事業所：<%= select 'finder', 'business_office_id', to_options(@business_offices), {}, class: 'form-control' %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">事業所</div>
+          <%= select 'finder', 'business_office_id', to_options(@business_offices), {}, class: 'form-control' %>
+        </div>
       </div>
     <% end %>
 
     <% if @branches %>
-      <div class="mx-2">
-        部門：<%= select 'finder', 'branch_id', to_options( @branches ), {include_blank: true}, class: 'form-control' %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">部門</div>
+          <%= select 'finder', 'branch_id', to_options( @branches ), {include_blank: true}, class: 'form-select' %>
+          <a href='#' onclick='$("#finder_branch_id").val(""); return false;' class="input-group-text">×</a>
+        </div>
       </div>
     <% end %>
       
     <% if @accounts %>
-      <div class="mx-2">
-       勘定科目：
-       <%= collection_select_code_and_name "finder", "account_id", @accounts, "id", "name", {include_blank: true}, class: 'form-control' %>
-       <script>
-         $(document).ready(function() {
-           $('#finder_account_id').change(function() {
-             var params = {
-               account_id: $(this).val(),
-               order: 'code'
-             };
-             $.get('<%= sub_accounts_path(:format => 'json') %>', params, function(json) {
-                   reloadSubAccounts(json);
-                 }
-             );
-           });
-         });
-       </script>
-     
-     </div>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">勘定科目</div>
+          <%= collection_select_code_and_name "finder", "account_id", @accounts, "id", "name", {include_blank: true}, class: 'form-select' %>
+          <script>
+            $(document).ready(function() {
+              $('#finder_account_id').change(function() {
+                var params = {
+                  account_id: $(this).val(),
+                  order: 'code'
+                };
+                $.get('<%= sub_accounts_path(:format => 'json') %>', params, function(json) {
+                  reloadSubAccounts(json);
+                });
+              });
+            });
+          </script>
+          <a href='#' onclick='$("#finder_account_id").val(""); return false;' class="input-group-text">×</a>
+        </div>
+      </div>
       
       <% if @sub_accounts %>
-       <div class="mx-2">
-         <span id="finder_sub_account_id_title" style="display: <%= @sub_accounts.empty? ? 'none' : '' %>;">補助科目：</span>
-         <%= collection_select "finder", "sub_account_id", @sub_accounts, "id", "name", {include_blank: true}, class: 'form-control', style: "display: #{@sub_accounts.empty? ? 'none' : ''};" %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div id="finder_sub_account_id_title" class="input-group-text" style="display: <%= @sub_accounts.empty? ? 'none' : '' %>;">補助科目</div>
+          <%= collection_select "finder", "sub_account_id", @sub_accounts, "id", "name", {include_blank: true}, class: 'form-select', style: "display: #{@sub_accounts.empty? ? 'none' : ''};" %>
  
-         <script>
-           function reloadSubAccounts(data){
-             replace_options('#finder_sub_account_id', data, true);
-             var subAccount = $('#finder_sub_account_id');
-             if (subAccount != null) {
-               $('#finder_sub_account_id_title').css('display', subAccount.css('display'));
+           <script>
+             function reloadSubAccounts(data){
+               replace_options('#finder_sub_account_id', data, true);
+               var subAccount = $('#finder_sub_account_id');
+               if (subAccount != null) {
+                 $('#finder_sub_account_id_title').css('display', subAccount.css('display'));
+               }
              }
-           }
-         </script>
-       </div>
+           </script>
+        </div>
+      </div>
       <% end %>
     <% end %>
     
@@ -80,18 +99,24 @@
     <% end %>
     
     <% if @report_types %>
-      <div class="mx-2">
-        帳票様式：<%= collection_select "finder", "report_type", @report_types, "value", "name", {}, class: 'form-control' %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">帳票様式</div>
+          <%= collection_select "finder", "report_type", @report_types, "value", "name", {}, class: 'form-select' %>
+        </div>
       </div>
     <% elsif @finder.respond_to?(:report_type) %>
-      <div class="mx-2">
-        帳票様式：<%= collection_select 'finder', 'report_type', @finder.report_types, 'value', 'name', {}, class: 'form-control' %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">帳票様式</div>
+          <%= collection_select 'finder', 'report_type', @finder.report_types, 'value', 'name', {}, class: 'form-select' %>
+        </div>
       </div>
     <% end %>
      
     <% if @report_styles %>
-      <div class="mx-2">
-        <%= select 'finder', 'report_style', @report_styles, {}, class: 'form-control' %>
+      <div class="col-auto">
+        <%= select 'finder', 'report_style', @report_styles, {}, class: 'form-select' %>
       </div>
     <% end %>
 
@@ -99,7 +124,9 @@
       証券口座：<%= select('finder', 'bank_account_id', to_options(@bank_accounts) ) %>
     <% end %>
 
-    <%= submit_tag '表示', class: 'btn btn-light' %>
+    <div class="col-auto">
+      <%= submit_tag '表示', class: 'btn btn-light' %>
+    </div>
   <% end %>
   
 </div>

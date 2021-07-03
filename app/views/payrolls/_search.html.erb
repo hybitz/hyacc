@@ -1,25 +1,34 @@
-<script>
-  $(document).on('turbolinks:load', function() {
-    $('select[name="finder\\[branch_id\\]"]').change(function() {
-      var url = '<%= url_for :action=>'get_branch_employees' %>';
-      var params = {branch_id: $(this).val(), format: 'html'};
-      $.get(url, params, function(html) {
-        $('#branch_employees').html(html);
-      });
-    }).change();
-  });
-</script>
+<div id="search">
+  <script>
+    $(document).on('turbolinks:load', function() {
+      $('select[name="finder\\[branch_id\\]"]').change(function() {
+        var url = '<%= url_for :action=>'get_branch_employees' %>';
+        var params = {branch_id: $(this).val(), format: 'html'};
+        $.get(url, params, function(html) {
+          $('#branch_employees').html(html);
+        });
+      }).change();
+    });
+  </script>
 
-<%= form_with(scope: 'finder', url: {action: 'index'}, local: true, method: 'get', class: 'form') do |f| %>
-  <div id="search" class="form-inline">
-    <span class="m-2">
-      年度：<%= f.select :fiscal_year, fiscal_years, {}, class: 'form-control' %>
-    </span>
-    <span class="m-2">
-      部門：<%= f.collection_select :branch_id, @branches, :id, :name, {}, class: 'form-control' %>
-    </span>
-    <span id="branch_employees" class="m-2"></span>
-
-    <%= f.submit '表示', class: 'btn btn-light' %>
-  </div>
-<% end %>
+  <%= form_with(scope: 'finder', url: {action: 'index'}, local: true, method: 'get', class: 'row') do |f| %>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">年月</div>
+        <%= f.select :fiscal_year, fiscal_years, {}, class: 'form-select' %>
+        <a href='#' onclick='$("#finder_ym").val(""); return false;' class="input-group-text">×</a>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">部門</div>
+        <%= f.collection_select :branch_id, @branches, :id, :name, {}, class: 'form-select' %>
+      </div>
+    </div>
+    <div id="branch_employees" class="col-auto"></div>
+  
+    <div class="col-auto">
+      <%= f.submit '表示', class: 'btn btn-light' %>
+    </div>
+  <% end %>
+</div>

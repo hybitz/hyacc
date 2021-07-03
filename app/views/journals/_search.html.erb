@@ -1,19 +1,33 @@
-<%= form_tag({action: 'index'}, method: 'get', class: 'form') do %>
-  <div class="form-inline">
-    <span class="m-2">
-      年月：<%= text_field 'finder', 'ym', class: 'form-control mr-1 ympicker', style: 'width: 6em;' %>
-    </span>
-    <span class="m-2">
-      勘定科目：<%= collection_select_code_and_name "finder", "account_id", @accounts, "id", "name", {include_blank: true}, class: 'form-control' %>
-    </span>
-    <span class="m-2">
-      部門：<%= select 'finder', 'branch_id', to_options(@branches), {include_blank: true}, class: 'form-control' %>
-    </span>
-    <span class="m-2">
-      摘要：<%= text_field 'finder', 'remarks', class: 'form-control' %>
-    </span>
-  </div>
-	<div class="m-2 form-inline">
+<%= form_tag({action: 'index'}, method: 'get', class: 'row') do %>
+  <span class="col-auto">
+    <div class="input-group">
+      <label class="input-group-text">年月</label>
+      <%= text_field 'finder', 'ym', class: 'form-control mr-1 ympicker', style: 'width: 6em;' %>
+      <a href='#' onclick='$("#finder_ym").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </span>
+  <span class="col-auto">
+    <div class="input-group">
+      <label class="input-group-text">部門</label>
+      <%= select 'finder', 'branch_id', to_options(@branches), {include_blank: true}, class: 'form-select' %>
+      <a href='#' onclick='$("#finder_branch_id").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </span>
+  <span class="col-auto">
+    <div class="input-group">
+      <label class="input-group-text">勘定科目</label>
+      <%= collection_select_code_and_name "finder", "account_id", @accounts, "id", "name", {include_blank: true}, class: 'form-select' %>
+      <a href='#' onclick='$("#finder_account_id").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </span>
+  <span class="col-md-3">
+    <div class="input-group">
+      <label class="input-group-text">摘要</label>
+      <%= text_field 'finder', 'remarks', class: 'form-control' %>
+      <a href="#" onclick='$("#finder_remarks").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </span>
+	<div class="m-2">
       伝票区分：<%= render 'common/slip_type_selection' %>
       <%= submit_tag '検索', class: 'btn btn-light' %>
     </div>

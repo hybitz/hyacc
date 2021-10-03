@@ -27,7 +27,7 @@ def test() {
     sh 'bundle exec rake dad:setup:test'
     sh 'bundle exec rails db:schema:load'
     sh 'rm -Rf coverage'
-    sh 'bundle exec rake test'
+    sh 'bundle exec rails test'
     sh 'bundle exec rake dad:test'
     sh 'bundle exec rake dad:test user_stories'
   }

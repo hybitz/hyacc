@@ -1,6 +1,13 @@
 <div class="search">
-  <%= form_with model: finder, url: {action: 'index'}, local: true, method: 'get', class: 'form form-inline' do |f| %>
-    従業員：<%= f.collection_select :employee_id, finder.employees, :id, :fullname, {include_blank: true}, class: 'form-control' %>
-    <%= f.submit '表示', class: 'btn btn-light mx-2' %>
+  <%= form_with model: finder, url: {action: 'index'}, local: true, method: 'get', class: 'row' do |f| %>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">従業員</div>
+        <%= f.collection_select :employee_id, finder.employees, :id, :fullname, {include_blank: true}, class: 'form-select' %>
+      </div>
+    </div>
+    <div class="col-auto">
+      <%= f.submit '表示', class: 'btn btn-light' %>
+    </div>
   <% end %>
 </div>

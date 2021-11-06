@@ -28,7 +28,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
   def test_登録
     sign_in user
-    post :create, :params => {:payroll => payroll_params.merge(ym: 200904)}, xhr: true
+    post :create, params: {payroll: payroll_params.merge(ym: 200904)}, xhr: true
     assert assigns(:payroll).errors.empty?
     assert_response :success
     assert_template 'common/reload'

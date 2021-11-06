@@ -19,19 +19,19 @@
           </tr>
           <tr>
             <th><%= f.label :birth %></th>
-            <td><%= f.date_select :birth, :start_year => Time.now.year - 65, :end_year => Time.now.year - 18, :default => 30.years.ago, :include_blank => true %></td>
+            <td><%= f.date_select :birth, start_year: Time.now.year - 65, end_year: Time.now.year - 18, default: 30.years.ago, include_blank: true %></td>
           </tr>
           <tr>
             <th><%= f.label :zip_code %></th>
-            <td><%= f.nostalgic_text_field :zip_code, :class => 'zip_code' %></td>
+            <td><%= f.nostalgic_text_field :zip_code, class: 'zip_code' %></td>
           </tr>
           <tr>
             <th><%= f.label :address %></th>
-            <td><%= f.nostalgic_text_field :address, :class => 'address' %></td>
+            <td><%= f.nostalgic_text_field :address, class: 'address' %></td>
           </tr>
           <tr>
             <th class="nowrap"><%= f.label :my_number %></th>
-            <td><%= f.text_field :my_number, :class => 'my_number' %></td>
+            <td><%= f.text_field :my_number, class: 'my_number' %></td>
           </tr>
           <tr>
             <th><%= f.label :num_of_dependent %></th>

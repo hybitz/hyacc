@@ -91,11 +91,11 @@ class FirstBootController < ApplicationController
   end
 
   def employee_params
-    params.require(:e).permit(:last_name, :first_name, :sex, :birth).merge(:executive => true)
+    params.require(:e).permit(:last_name, :first_name, :sex, :birth).merge(executive: true)
   end
 
   def user_params
-    params.require(:u).permit(:login_id, :password, :email).merge(:admin => true)
+    params.require(:u).permit(:login_id, :password, :email).merge(admin: true)
   end
 
   # 初期データロード

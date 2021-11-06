@@ -21,7 +21,7 @@
   </thead>
   <tbody>
     <% @e.branch_employees.each_with_index do |be, i| %>
-      <%= render 'branch_employee_fields', :be => be, :index => i %>
+      <%= render 'branch_employee_fields', be: be, index: i %>
     <% end %>
   </tbody>
   <tfoot>

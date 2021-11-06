@@ -2,3 +2,7 @@
   employee_id: 1
   qualification_id: 1
   qualified_on: <%= 3.years.ago %>
+2:
+  employee_id: 10
+  qualification_id: 1
+  qualified_on: <%= 1.year.ago %>

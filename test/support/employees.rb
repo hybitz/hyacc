@@ -2,9 +2,13 @@ module Employees
   include HyaccConstants
 
   def employee
-    @_employee ||= Employee.first
+    @_employee ||= Employee.where(executive: false).first
   end
   
+  def executive
+    @_executive ||= Employee.where(executive: true).first
+  end
+
   def employee_params(options = {})
     {
       last_name: options[:last_name] || '山田',

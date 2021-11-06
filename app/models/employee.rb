@@ -104,4 +104,12 @@ class Employee < ApplicationRecord
     ret || 500
   end
 
+  def qualification_allowance
+    if executive
+      0
+    else
+      skills.map(&:qualification).map(&:allowance).reduce(:+)
+    end
+  end
+
 end

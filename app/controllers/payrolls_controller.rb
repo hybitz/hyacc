@@ -40,7 +40,7 @@ class PayrollsController < Base::HyaccController
     salary = previous_payroll.try(:base_salary).to_i
     commuting_allowance = previous_payroll.try(:commuting_allowance).to_i
     housing_allowance = previous_payroll.try(:housing_allowance).to_i
-    qualification_allowance = employee.skills.map(&:qualification).map(&:allowance).reduce(:+)
+    qualification_allowance = employee.qualification_allowance
 
     @payroll = get_tax(ym, employee.id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance)
 

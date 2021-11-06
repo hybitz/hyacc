@@ -14,7 +14,7 @@ class PayrollsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'index'
 
-    get :index, :params =>  {:commit => "表示", :finder => {:fiscal_year => 2009, :branch_id => 2, :employee_id => 2}}
+    get :index, params: {commit: "表示", finder: {fiscal_year: 2009, branch_id: 2, employee_id: 2}}
     assert_response :success
     assert_template 'index'
   end
@@ -28,7 +28,7 @@ class PayrollsControllerTest < ActionController::TestCase
 
   def test_登録
     sign_in user
-    post :create, :params => {:payroll => payroll_params.merge(ym: 200904)}, :xhr => true
+    post :create, :params => {:payroll => payroll_params.merge(ym: 200904)}, xhr: true
     assert assigns(:payroll).errors.empty?
     assert_response :success
     assert_template 'common/reload'
@@ -42,7 +42,7 @@ class PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    get :edit, :params => {:id => 45}, :xhr => true
+    get :edit, params: {id: 45}, xhr: true
     assert_response :success
     assert_template 'edit'
   end

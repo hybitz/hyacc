@@ -105,7 +105,7 @@ class Employee < ApplicationRecord
   end
 
   def qualification_allowance
-    if executive
+    if executive?
       0
     else
       skills.map(&:qualification).map(&:allowance).reduce(:+)

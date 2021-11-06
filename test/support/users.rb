@@ -2,11 +2,11 @@ module Users
   include HyaccConstants
 
   def admin
-    @_admin ||= User.where(:admin => true).first
+    @_admin ||= User.where(admin: true).first
   end
 
   def user
-    @_user ||= User.where(:admin => false).first
+    @_user ||= User.where(admin: false).first
   end
 
   def freelancer

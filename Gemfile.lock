@@ -237,7 +237,7 @@ GEM
       itamae-plugin-resource-pip (~> 1.1)
     itamae-plugin-recipe-passenger (0.1.3)
       itamae (~> 1.10, >= 1.10.4)
-    itamae-plugin-recipe-selenium (0.3.0)
+    itamae-plugin-recipe-selenium (0.3.2)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)

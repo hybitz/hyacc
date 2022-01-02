@@ -13,7 +13,8 @@
       <div class="col-auto">
         <div class="input-group">
           <div class="input-group-text">暦年</div>
-          <%= select 'finder', 'calendar_year', calendar_years, {include_blank: true}, class: 'form-selectt' %>
+          <%= select 'finder', 'calendar_year', calendar_years, {include_blank: true}, class: 'form-select' %>
+          <a href='#' onclick='$("#finder_calendar_year").val(""); return false;' class="input-group-text">×</a>
         </div>
       </div>
     <% end %>
@@ -89,13 +90,19 @@
     <% end %>
     
     <% if @finder.respond_to?(:disable_types) %>
-      状態：<%= select('finder', 'disabled', @finder.disable_types, :include_blank => true) %>
+      状態：<%= select('finder', 'disabled', @finder.disable_types, include_blank: true) %>
     <% end %>
 
     <% if @finder.respond_to?(:employee_id_enabled?) and @finder.employee_id_enabled? and @employees %>
-      従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'fullname', :include_blank => true) %>
+      従業員：<%= collection_select('finder', 'employee_id', @employees, 'id', 'fullname', include_blank: true) %>
     <% elsif @finder.respond_to?(:employees) %>
-      従業員：<%= collection_select('finder', 'employee_id', @finder.employees, 'id', 'fullname', :include_blank => true) %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">従業員</div>
+          <%= collection_select('finder', 'employee_id', @finder.employees, 'id', 'fullname', {include_blank: true}, class: 'form-select') %>
+          <a href='#' onclick='$("#finder_employee_id").val(""); return false;' class="input-group-text">×</a>
+        </div>
+      </div>
     <% end %>
     
     <% if @report_types %>

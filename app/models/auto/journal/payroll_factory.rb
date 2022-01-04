@@ -63,32 +63,36 @@ module Auto::Journal
         detail.amount = @payroll.salary_total
       end
       ### 法定福利費.健康保険料
-      insurance_half = @payroll.health_insurance_all.to_i - @payroll.health_insurance
-      if insurance_half != 0
-        account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
+      if @payroll.health_insurance > 0
+        insurance_half = @payroll.health_insurance_all.to_i - @payroll.health_insurance
+        if insurance_half != 0
+          account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
-        detail = journal.journal_details.build
-        detail.detail_no = journal.journal_details.size
-        detail.dc_type = DC_TYPE_DEBIT
-        detail.account = account
-        detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
-        detail.branch_id = branch_id
-        detail.amount = insurance_half
-        detail.note = '会社負担健康保険料'
+          detail = journal.journal_details.build
+          detail.detail_no = journal.journal_details.size
+          detail.dc_type = DC_TYPE_DEBIT
+          detail.account = account
+          detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
+          detail.branch_id = branch_id
+          detail.amount = insurance_half
+          detail.note = '会社負担健康保険料'
+        end
       end
       ### 法定福利費.厚生年金
-      pension_half = @payroll.pension_all.to_i - @payroll.welfare_pension
-      if pension_half != 0
-        account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
+      if @payroll.welfare_pension > 0
+        pension_half = @payroll.pension_all.to_i - @payroll.welfare_pension
+        if pension_half != 0
+          account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
 
-        detail = journal.journal_details.build
-        detail.detail_no = journal.journal_details.size
-        detail.dc_type = DC_TYPE_DEBIT
-        detail.account = account
-        detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
-        detail.branch_id = branch_id
-        detail.amount = pension_half
-        detail.note = '会社負担厚生年金'
+          detail = journal.journal_details.build
+          detail.detail_no = journal.journal_details.size
+          detail.dc_type = DC_TYPE_DEBIT
+          detail.account = account
+          detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
+          detail.branch_id = branch_id
+          detail.amount = pension_half
+          detail.note = '会社負担厚生年金'
+        end
       end
       ### 源泉所得税
       if @payroll.income_tax > 0
@@ -124,13 +128,18 @@ module Auto::Journal
         detail.note = '個人負担厚生年金'
       end
       ### 会社負担社会保険料の未払分
-      detail = journal.journal_details.build
-      detail.detail_no = journal.journal_details.size
-      detail.dc_type = DC_TYPE_CREDIT
-      detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
-      detail.branch_id = branch_id
-      detail.amount = @payroll.health_insurance_all.to_i - @payroll.health_insurance + @payroll.pension_all.to_i - @payroll.welfare_pension
-      detail.note = "会社負担保険料の未払分"
+      accrued_expense_amount = 0
+      accrued_expense_amount += (@payroll.health_insurance_all.to_i - @payroll.health_insurance) if @payroll.health_insurance > 0
+      accrued_expense_amount += (@payroll.pension_all.to_i - @payroll.welfare_pension) if @payroll.welfare_pension > 0
+      if accrued_expense_amount > 0
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
+        detail.dc_type = DC_TYPE_CREDIT
+        detail.account = Account.find_by_code(ACCOUNT_CODE_ACCRUED_EXPENSE)
+        detail.branch_id = branch_id
+        detail.amount = accrued_expense_amount
+        detail.note = "会社負担保険料の未払分"
+      end
       ### 雇用保険
       if @payroll.employment_insurance > 0
         detail = journal.journal_details.build

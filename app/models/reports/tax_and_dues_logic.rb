@@ -99,7 +99,11 @@ module Reports
     def total_corporate_tax
       total_corporate_tax_at_half + total_corporate_tax_at_full
     end
-    
+
+    def total_corporate_tax_paid
+      total_corporate_tax_payable_at_start + total_corporate_tax_at_half
+    end
+
     def prefectural_tax_payable_at_start_total
       return nil unless @prefectural_tax_payable_at_start_first or @prefectural_tax_payable_at_start_second
       @prefectural_tax_payable_at_start_first.to_i + @prefectural_tax_payable_at_start_second.to_i

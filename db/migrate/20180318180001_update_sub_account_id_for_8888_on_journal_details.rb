@@ -1,5 +1,5 @@
 class UpdateSubAccountIdFor8888OnJournalDetails < ActiveRecord::Migration[5.1]
-  include HyaccConstants
+  include HyaccConst
   
   def up
     a = Account.find_by_code(ACCOUNT_CODE_ALLOCATED_COST)

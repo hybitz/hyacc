@@ -1,5 +1,5 @@
 module FiscalYears
-  include HyaccConstants
+  include HyaccConst
 
   def valid_fiscal_year_params(options = {})
     {

@@ -1,5 +1,5 @@
 module Depreciation::DepreciationUtil
-  include HyaccConstants
+  include HyaccConst
 
   def self.create_depreciations(asset)
     get_strategy(asset.depreciation_method).create_depreciations(asset)

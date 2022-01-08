@@ -1,5 +1,5 @@
 module HyaccViewHelper
-  include HyaccConstants
+  include HyaccConst
   
   def dc_types
     revert_and_sort( DC_TYPES )

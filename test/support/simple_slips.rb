@@ -1,5 +1,5 @@
 module SimpleSlips
-  include HyaccConstants
+  include HyaccConst
 
   def valid_simple_slip_params(options = {})
     account = Account.find_by_code(ACCOUNT_CODE_SOCIAL_EXPENSE)

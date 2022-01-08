@@ -1,5 +1,5 @@
 module Accounts
-  include HyaccConstants
+  include HyaccConst
 
   def account
     @_account ||= Account.not_deleted.first

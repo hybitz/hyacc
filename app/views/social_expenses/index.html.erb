@@ -48,8 +48,8 @@
           <td></td>
           <td><%= jd.account_name %></td>
           <td><%= jd.branch_name %></td>
-          <td class="amount_debit"><%= to_amount(jd.amount) if jd.dc_type == HyaccConstants::DC_TYPE_DEBIT %></td>
-          <td class="amount_credit"><%= to_amount(jd.amount) if jd.dc_type == HyaccConstants::DC_TYPE_CREDIT %></td>
+          <td class="amount_debit"><%= to_amount(jd.amount) if jd.dc_type == HyaccConst::DC_TYPE_DEBIT %></td>
+          <td class="amount_credit"><%= to_amount(jd.amount) if jd.dc_type == HyaccConst::DC_TYPE_CREDIT %></td>
           <td class="center number_of_people"><%= jd.social_expense_number_of_people %></td>
           <td class="right deduction"></td>
           <td class="right social_expense"></td>

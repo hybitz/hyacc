@@ -1,5 +1,5 @@
 class ReportFinder < Base::Finder
-  include HyaccConstants
+  include HyaccConst
 
   attr_reader :report_type
   attr_reader :report_style

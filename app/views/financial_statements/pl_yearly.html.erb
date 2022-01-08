@@ -21,10 +21,10 @@
   </tr>
 
   <%# 売上高 %>
-  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_SALE, :style=>'font-weight: bold;' %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConst::ACCOUNT_CODE_SALE, :style=>'font-weight: bold;' %>
     
   <%# 売上原価 %>
-  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_COST_OF_SALES %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConst::ACCOUNT_CODE_COST_OF_SALES %>
   
   <%# 売上総利益 %>
   <tr id="grossProfit" style="font-weight: bold;">
@@ -40,12 +40,12 @@
   </tr>
 
   <%# 販売費および一般管理費に関する科目 %>
-  <% @sum[HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:account].children.each do |child| %>
-    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:amount], :account_code=>child.code %>
+  <% @sum[HyaccConst::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:account].children.each do |child| %>
+    <%= render 'line_pl_yearly', :total_amount=>@sum[HyaccConst::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:amount], :account_code=>child.code %>
   <% end %>
 
   <%# 販売費および一般管理費 %>
-  <%= render 'line_pl_yearly', :account_code=>HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE, :style=>'font-weight: bold;' %>
+  <%= render 'line_pl_yearly', :account_code=>HyaccConst::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE, :style=>'font-weight: bold;' %>
 
   <%# 営業利益 %>
   <tr id="operatingIncome" style="font-weight: bold;">

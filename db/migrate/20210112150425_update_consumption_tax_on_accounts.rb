@@ -1,5 +1,5 @@
 class UpdateConsumptionTaxOnAccounts < ActiveRecord::Migration[5.2]
-  include HyaccConstants
+  include HyaccConst
 
   def up
     a = Account.find_by(code: ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE)

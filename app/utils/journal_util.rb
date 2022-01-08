@@ -1,5 +1,5 @@
 module JournalUtil
-  include HyaccConstants
+  include HyaccConst
   include HyaccErrors
 
   def self.build_rlike_condition(account_code, sub_account_id, branch_id)

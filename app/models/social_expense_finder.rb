@@ -1,6 +1,6 @@
 class SocialExpenseFinder
   include ActiveModel::Model
-  include HyaccConstants
+  include HyaccConst
   include CompanyAware
   include BranchAware
 

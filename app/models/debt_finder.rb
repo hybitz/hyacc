@@ -1,5 +1,5 @@
 class DebtFinder < Base::Finder
-  include HyaccConstants
+  include HyaccConst
 
   def list
     ret = []

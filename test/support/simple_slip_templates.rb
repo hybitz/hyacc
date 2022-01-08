@@ -1,5 +1,5 @@
 module SimpleSlipTemplates
-  include HyaccConstants
+  include HyaccConst
 
   def simple_slip_template
     @_simple_slip_template ||= SimpleSlipTemplate.where(:owner_type => OWNER_TYPE_COMPANY, :owner_id => current_company.id).first

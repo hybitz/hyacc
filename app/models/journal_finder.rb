@@ -1,5 +1,5 @@
 class JournalFinder < Base::Finder
-  include HyaccConstants
+  include HyaccConst
   include SlipTypes
 
   attr_accessor :slip_type_selection

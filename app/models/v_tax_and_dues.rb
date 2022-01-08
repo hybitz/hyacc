@@ -1,5 +1,5 @@
 class VTaxAndDues
-  include HyaccConstants
+  include HyaccConst
   
   VIEW = <<EOS
     select

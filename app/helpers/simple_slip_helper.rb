@@ -1,5 +1,5 @@
 module SimpleSlipHelper
-  include HyaccConstants
+  include HyaccConst
 
   # アクション名からフォームのPOST先を決定する
   def define_action

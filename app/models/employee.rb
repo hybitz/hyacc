@@ -1,6 +1,5 @@
 class Employee < ApplicationRecord
   include HyaccErrors
-  include HyaccConstants
   
   belongs_to :company
   belongs_to :user, optional: true

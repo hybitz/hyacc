@@ -1,6 +1,6 @@
 module Reports
   class TradeAccountPayableLogic
-    include HyaccConstants
+    include HyaccConst
 
     def get_trade_account_payable_model(finder)
       ret = Reports::TradeAccountPayableModel.new

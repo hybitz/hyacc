@@ -1,5 +1,5 @@
 module BankAccounts
-  include HyaccConstants
+  include HyaccConst
 
   def bank_account
     @_bank_account_cache ||= BankAccount.first

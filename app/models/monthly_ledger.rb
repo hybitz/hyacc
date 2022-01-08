@@ -1,5 +1,5 @@
 class MonthlyLedger
-    include HyaccConstants
+    include HyaccConst
 
     attr_accessor :ym
     attr_accessor :amount_debit

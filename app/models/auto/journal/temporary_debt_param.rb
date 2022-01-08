@@ -5,7 +5,7 @@ module Auto::Journal
     attr_reader :user
     
     def initialize( params, user )
-      super( HyaccConstants::AUTO_JOURNAL_TYPE_TEMPORARY_DEBT )
+      super( HyaccConst::AUTO_JOURNAL_TYPE_TEMPORARY_DEBT )
       @params = params
       @user = user
     end

@@ -50,8 +50,8 @@
         <td><%= jd.account_name %></td>
         <td><%= jd.sub_account_name %></td>
         <td><%= jd.branch_name %></td>
-        <td align="right"><%= to_amount(jd.dc_type == HyaccConstants::DC_TYPE_DEBIT ? jd.amount : nil) %></td>
-        <td align="right"><%= to_amount(jd.dc_type == HyaccConstants::DC_TYPE_CREDIT ? jd.amount : nil) %></td>
+        <td align="right"><%= to_amount(jd.dc_type == HyaccConst::DC_TYPE_DEBIT ? jd.amount : nil) %></td>
+        <td align="right"><%= to_amount(jd.dc_type == HyaccConst::DC_TYPE_CREDIT ? jd.amount : nil) %></td>
         <td></td>
         <td></td>
       </tr>

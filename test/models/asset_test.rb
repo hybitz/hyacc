@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AssetTest < ActiveSupport::TestCase
-  include HyaccConstants
+  include HyaccConst
   
   def test_code_required
 

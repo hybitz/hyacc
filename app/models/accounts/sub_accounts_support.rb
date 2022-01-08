@@ -1,5 +1,5 @@
 module Accounts::SubAccountsSupport
-  include HyaccConstants
+  include HyaccConst
   
   def initialize_sub_accounts_support
     return if @sub_accounts_cache and @sub_accounts_all_cache

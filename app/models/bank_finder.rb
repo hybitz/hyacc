@@ -2,7 +2,7 @@ class BankFinder
   include ActiveModel::Model
   include Pagination
   include CompanyAware
-  include HyaccConstants
+  include HyaccConst
 
   attr_accessor :disabled
   

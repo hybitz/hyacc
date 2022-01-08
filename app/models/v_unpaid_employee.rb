@@ -1,5 +1,5 @@
 class VUnpaidEmployee
-  include HyaccConstants
+  include HyaccConst
 
   VIEW = <<EOS
     select

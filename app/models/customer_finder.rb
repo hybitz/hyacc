@@ -1,6 +1,6 @@
 class CustomerFinder
   include ActiveModel::Model
-  include HyaccConstants
+  include HyaccConst
   include Pagination
 
   attr_accessor :disabled

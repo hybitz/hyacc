@@ -1,5 +1,5 @@
 class ClosingAccountJob < ActiveJob::Base
-  include HyaccConstants
+  include HyaccConst
   queue_as :default
   
   def perform(fiscal_year)

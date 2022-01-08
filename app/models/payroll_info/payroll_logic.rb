@@ -1,6 +1,6 @@
 module PayrollInfo
   class PayrollLogic
-    include HyaccConstants
+    include HyaccConst
 
     def initialize(calendar_year, employee_id)
       @calendar_year = calendar_year.to_i

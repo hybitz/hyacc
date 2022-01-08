@@ -1,5 +1,5 @@
 module FinancialStatements
-  include HyaccConstants
+  include HyaccConst
 
   def bs_monthly_finder
     {

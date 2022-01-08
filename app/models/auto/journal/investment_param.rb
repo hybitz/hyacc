@@ -4,7 +4,7 @@ module Auto::Journal
     attr_reader :investment
     
     def initialize( investment, user )
-      super(HyaccConstants::AUTO_JOURNAL_TYPE_INVESTMENT, user)
+      super(HyaccConst::AUTO_JOURNAL_TYPE_INVESTMENT, user)
       @investment = investment
     end
   end

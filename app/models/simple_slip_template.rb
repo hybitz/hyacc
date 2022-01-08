@@ -1,5 +1,5 @@
 class SimpleSlipTemplate < ApplicationRecord
-  include HyaccConstants
+  include HyaccConst
   include TaxRateAware
   
   belongs_to :account

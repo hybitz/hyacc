@@ -1,6 +1,6 @@
 module Slips
   class Slip
-    include HyaccConstants
+    include HyaccConst
     include AssetUtil
 
     # 入力フィールド

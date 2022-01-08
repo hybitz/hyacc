@@ -1,5 +1,5 @@
 class VMonthlyLedger
-  include HyaccConstants
+  include HyaccConst
 
   VIEW = <<EOS
     select

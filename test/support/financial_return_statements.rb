@@ -1,5 +1,5 @@
 module FinancialReturnStatements
-  include HyaccConstants
+  include HyaccConst
 
   def rent_finder(current_user = nil)
     current_user ||= user

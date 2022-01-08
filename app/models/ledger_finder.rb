@@ -1,6 +1,6 @@
 class LedgerFinder
   include ActiveModel::Model
-  include HyaccConstants
+  include HyaccConst
   include CompanyAware
 
   attr_accessor :account_id

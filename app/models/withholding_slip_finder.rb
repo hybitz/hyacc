@@ -1,6 +1,6 @@
 class WithholdingSlipFinder
   include ActiveModel::Model
-  include HyaccConstants
+  include HyaccConst
 
   attr_accessor :report_type
   attr_accessor :company_id

@@ -1,6 +1,6 @@
 class RentFinder
   include ActiveModel::Model
-  include HyaccConstants
+  include HyaccConst
   include Pagination
   
   attr_accessor :deleted

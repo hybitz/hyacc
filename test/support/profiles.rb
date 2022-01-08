@@ -1,5 +1,5 @@
 module Profiles
-  include HyaccConstants
+  include HyaccConst
 
   def valid_profile_params
     {

@@ -1,7 +1,7 @@
 require 'digest/md5'
 
 module HyaccUtil
-  include HyaccConstants
+  include HyaccConst
   include HyaccErrors
 
   def self.hashed_filename(filename)

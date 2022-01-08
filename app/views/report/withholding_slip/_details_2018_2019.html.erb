@@ -116,7 +116,7 @@
     		<td colspan="2"><%= @data.exemption.date_of_start_living_1.mon if @data.exemption.date_of_start_living_1 %></td>
     		<td colspan="2"><%= @data.exemption.date_of_start_living_1.mday if @data.exemption.date_of_start_living_1 %></td>
     		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（1回目）</td>
-    		<td colspan="2"><%= HyaccConstants::MORTGAGE_DEDUCTION_TYPES[ @data.exemption.mortgage_deduction_code_1 ] %></td>
+    		<td colspan="2"><%= HyaccConst::MORTGAGE_DEDUCTION_TYPES[ @data.exemption.mortgage_deduction_code_1 ] %></td>
     		<td colspan="2" class="item">住宅借入金等<br>年末残高（1回目）</td>
     		<td colspan="3"><%= number_to_currency(@data.exemption.year_end_balance_1, :format=>"%n") %></td>
      </tr>
@@ -128,7 +128,7 @@
     		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mon if @data.exemption.date_of_start_living_2 %></td>
     		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mday if @data.exemption.date_of_start_living_2 %></td>
     		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（2回目）</td>
-    		<td colspan="2"><%= HyaccConstants::MORTGAGE_DEDUCTION_TYPES[ @data.exemption.mortgage_deduction_code_2 ] %></td>
+    		<td colspan="2"><%= HyaccConst::MORTGAGE_DEDUCTION_TYPES[ @data.exemption.mortgage_deduction_code_2 ] %></td>
     		<td colspan="2" class="item">住宅借入金等<br>年末残高（2回目）</td>
     		<td colspan="3"><%= number_to_currency(@data.exemption.year_end_balance_2, :format=>"%n") %></td>
      </tr>

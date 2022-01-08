@@ -1,5 +1,5 @@
 module SlipTypes
-  include HyaccConstants
+  include HyaccConst
 
   def slip_types
     case slip_type_selection.to_i

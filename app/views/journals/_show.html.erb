@@ -47,7 +47,7 @@
     </tr>
 
     <% @journal.normal_details.each_with_index do |jd, i| %>
-      <%= render 'show_detail', :jd => jd, :index => i %>
+      <%= render 'show_detail', jd: jd, index: i %>
     <% end %>
   </table>
 </form>

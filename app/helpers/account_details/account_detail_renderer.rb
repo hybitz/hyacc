@@ -1,7 +1,7 @@
 module AccountDetails
 
   class AccountDetailRenderer
-    include HyaccConstants
+    include HyaccConst
 
     def initialize( account )
       @account = account

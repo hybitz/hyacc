@@ -1,5 +1,5 @@
 class UpdateIsSuspenseReceiptAccountOnAccounts < ActiveRecord::Migration[5.2]
-  include HyaccConstants
+  include HyaccConst
 
   def up
     [ACCOUNT_CODE_DEPOSITS_RECEIVED].each do |code|

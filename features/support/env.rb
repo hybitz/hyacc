@@ -1,6 +1,6 @@
 require 'daddy/cucumber/rails'
 
-include HyaccConstants
+include HyaccConst
 
 Dir[File.join(Rails.root, 'test', 'support', '*.rb')].each do |f|
   require f

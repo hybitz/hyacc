@@ -1,7 +1,7 @@
 module Auto::TransferJournal
   
   class InternalTradeParam < Auto::AutoJournalParam
-    include HyaccConstants
+    include HyaccConst
     
     attr_reader :journal
     

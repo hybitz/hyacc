@@ -1,5 +1,5 @@
 module FinancialStatementHelper
-  include HyaccConstants
+  include HyaccConst
 
   def colspan( node_level )
     @max_node_level - node_level + 1

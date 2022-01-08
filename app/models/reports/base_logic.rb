@@ -1,6 +1,6 @@
 module Reports
   class BaseLogic
-    include HyaccConstants
+    include HyaccConst
 
     attr_reader :finder, :company, :start_ym, :end_ym
 

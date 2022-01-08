@@ -1,5 +1,5 @@
 class JournalValidator < ActiveModel::Validator
-  include HyaccConstants
+  include HyaccConst
   include HyaccErrors
 
   def validate(record)

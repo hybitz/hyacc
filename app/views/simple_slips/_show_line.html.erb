@@ -7,7 +7,7 @@
     <%= link_to slip.remarks, journal_path(slip.id), class: 'show', remote: true %>
   <% end %>
 </td>
-<td class="accountName"><%= slip.account_code + ":" if slip.account_code != HyaccConstants::ACCOUNT_CODE_VARIOUS %> <%= slip.account_name %></td>
+<td class="accountName"><%= slip.account_code + ":" if slip.account_code != HyaccConst::ACCOUNT_CODE_VARIOUS %> <%= slip.account_name %></td>
 <td class="subAccountName"><%= slip.sub_account_name %></td>
 <td class="branchName"><%= slip.branch_name %></td>
 <td class="amountIncrease"><%= to_amount( slip.slip_amount_increase ) %></td>

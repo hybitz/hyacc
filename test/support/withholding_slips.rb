@@ -1,5 +1,5 @@
 module WithholdingSlips
-  include HyaccConstants
+  include HyaccConst
 
   def details_finder
     {

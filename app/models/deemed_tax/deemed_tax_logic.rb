@@ -1,6 +1,6 @@
 module DeemedTax
   class DeemedTaxLogic
-    include HyaccConstants
+    include HyaccConst
     
     def initialize(fiscal_year=nil)
       @fiscal_year = fiscal_year

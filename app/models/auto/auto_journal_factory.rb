@@ -1,6 +1,6 @@
 module Auto
   class AutoJournalFactory
-    include HyaccConstants
+    include HyaccConst
     include HyaccErrors
 
     def self.get_instance( auto_journal_param )

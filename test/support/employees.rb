@@ -1,5 +1,5 @@
 module Employees
-  include HyaccConstants
+  include HyaccConst
 
   def employee
     @_employee ||= Employee.where(executive: false).first

@@ -1,5 +1,5 @@
 module Auto::TransferJournal::TransferJournalUtil
-  include HyaccConstants
+  include HyaccConst
   include HyaccErrors
 
   def self.get_remarks(original_remarks, account_id)

@@ -1,6 +1,6 @@
 module Pagination
   extend ActiveSupport::Concern
-  include HyaccConstants
+  include HyaccConst
 
   def page
     @page.to_i > 0 ? @page.to_i : 1

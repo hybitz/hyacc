@@ -1,5 +1,5 @@
 class InsertSubAccountsOnTaxAndDues < ActiveRecord::Migration[5.2]
-  include HyaccConstants
+  include HyaccConst
 
   def up
     a = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES)

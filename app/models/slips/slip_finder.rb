@@ -1,7 +1,7 @@
 module Slips
 
   class SlipFinder < Base::Finder
-    include HyaccConstants
+    include HyaccConst
 
     attr_accessor :account_code
     attr_accessor :offset

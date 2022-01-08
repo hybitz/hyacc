@@ -77,7 +77,7 @@
   </tr>
 
   <%# 販売費および一般管理費に関する科目 %>
-  <% @sum[HyaccConstants::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:account].children.each do |child| %>
+  <% @sum[HyaccConst::ACCOUNT_CODE_SALES_AND_GENERAL_ADMINISTRATIVE_EXPENSE][:account].children.each do |child| %>
     <%= render 'line_pl_monthly', :account_code => child.code %>
   <% end %>
 
@@ -134,7 +134,7 @@
   </tr>
 
   <%# 特別利益に関する科目 %>
-  <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:account].children.each do |child| %>
+  <% @sum[HyaccConst::ACCOUNT_CODE_EXTRAORDINARY_PROFIT][:account].children.each do |child| %>
     <%= render 'line_pl_monthly', :account_code => child.code %>
   <% end %>
 
@@ -142,7 +142,7 @@
   <%= render 'line_pl_monthly', :account_code => ACCOUNT_CODE_EXTRAORDINARY_PROFIT %>
 
   <%# 特別費用に関する科目 %>
-  <% @sum[HyaccConstants::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:account].children.each do |child| %>
+  <% @sum[HyaccConst::ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:account].children.each do |child| %>
     <%= render 'line_pl_monthly', :account_code=> child.code %>
   <% end %>
 

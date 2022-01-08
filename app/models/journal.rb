@@ -1,5 +1,4 @@
 class Journal < ApplicationRecord
-  include HyaccConstants
   include HyaccErrors
   include JournalDate
 

@@ -1,5 +1,5 @@
 module JournalHelper
-  include HyaccConstants
+  include HyaccConst
 
   def can_edit(jh)
     # 台帳登録は編集不可

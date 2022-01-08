@@ -1,5 +1,5 @@
 module Users
-  include HyaccConstants
+  include HyaccConst
 
   def admin
     @_admin ||= User.where(admin: true).first

@@ -1,5 +1,5 @@
 class UpdateTransferFeeOnPayrolls < ActiveRecord::Migration[5.2]
-  include HyaccConstants
+  include HyaccConst
   
   def up
     Payroll.order('employee_id, ym').each do |p|

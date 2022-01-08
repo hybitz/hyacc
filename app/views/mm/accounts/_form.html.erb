@@ -57,7 +57,7 @@
       <td><%= f.select :trade_type, trade_types %></td>
     </tr>
 
-    <% if @account.path.include? HyaccConstants::ACCOUNT_CODE_FIXED_ASSET %>
+    <% if @account.path.include? HyaccConst::ACCOUNT_CODE_FIXED_ASSET %>
     <tr>
       <th><%= f.label :depreciable %></th>
       <td><%= f.select :depreciable, {'可' => true, '不可' => false} %></td>

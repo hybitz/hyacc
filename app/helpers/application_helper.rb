@@ -1,5 +1,5 @@
 module ApplicationHelper
-  include HyaccConstants
+  include HyaccConst
   include HyaccViewHelper
 
   def purified_params

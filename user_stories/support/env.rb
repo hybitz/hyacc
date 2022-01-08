@@ -9,7 +9,7 @@ end
 
 require 'daddy/cucumber'
 
-include HyaccConstants
+include HyaccConst
 
 Dir[File.join(Rails.root, 'features', 'support', '*_support.rb')].each do |f|
   require f

@@ -1,4 +1,4 @@
-module HyaccConstants
+module HyaccConst
 
   # 勘定科目区分
   ACCOUNT_TYPES = {

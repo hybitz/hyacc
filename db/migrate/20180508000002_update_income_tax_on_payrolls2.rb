@@ -1,5 +1,5 @@
 class UpdateIncomeTaxOnPayrolls2 < ActiveRecord::Migration[5.1]
-  include HyaccConstants
+  include HyaccConst
   
   CREDIT_ACCOUNT_TYPE_DEPOSITS_RECEIVED = '0'
   CREDIT_ACCOUNT_TYPE_ADVANCE_MONEY = '1'

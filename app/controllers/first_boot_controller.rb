@@ -1,7 +1,7 @@
 require 'csv'
 
 class FirstBootController < ApplicationController
-  include HyaccConstants
+  include HyaccConst
   include Base::ExceptionHandler
   include FirstBoot
 

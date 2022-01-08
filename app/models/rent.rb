@@ -1,6 +1,4 @@
 class Rent < ApplicationRecord
-  include HyaccConstants
-  
   belongs_to :customer
 
   validates_presence_of :rent_type, :usage_type, :status, :name, message: "は必須です。"

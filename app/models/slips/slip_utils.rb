@@ -1,5 +1,5 @@
 class Slips::SlipUtils
-  include HyaccConstants
+  include HyaccConst
 
   # 簡易入力機能で編集可能かどうか
   def self.editable_as_simple_slip(jh, target_account_id)

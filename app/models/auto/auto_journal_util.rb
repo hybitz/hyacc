@@ -1,6 +1,6 @@
 module Auto
   module  AutoJournalUtil
-    include HyaccConstants
+    include HyaccConst
   
     def self.do_auto_transfers(jh)
       clear_auto_journals(jh)

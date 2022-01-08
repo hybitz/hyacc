@@ -1,6 +1,6 @@
 class AccountFinder
   include ActiveModel::Model
-  include HyaccConstants
+  include HyaccConst
 
   attr_accessor :account_type
   attr_accessor :leaf_only

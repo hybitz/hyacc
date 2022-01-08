@@ -1,5 +1,5 @@
 module Journals
-  include HyaccConstants
+  include HyaccConst
 
   def journal
     unless @_journal

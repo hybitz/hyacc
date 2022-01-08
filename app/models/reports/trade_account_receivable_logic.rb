@@ -1,6 +1,6 @@
 module Reports
   class TradeAccountReceivableLogic
-    include HyaccConstants
+    include HyaccConst
 
     def get_trade_account_receivable_model(finder)
       res = []

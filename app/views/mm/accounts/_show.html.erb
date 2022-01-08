@@ -22,7 +22,7 @@
   <b>取引区分:</b> <%= @account.trade_type_name %>
 </p>
 
-<% if @account.path.include? HyaccConstants::ACCOUNT_CODE_FIXED_ASSET %>
+<% if @account.path.include? HyaccConst::ACCOUNT_CODE_FIXED_ASSET %>
   <p>
     <b>減価償却可能:</b> <%= @account.depreciable ? 'はい' : 'いいえ' %>
   </p>

@@ -20,20 +20,20 @@
 
 <p>
   <b>受注フラグ:</b>
-  <%= HyaccConstants::STATUS_TYPES[ @customer.is_order_entry ] %>
+  <%= HyaccConst::STATUS_TYPES[ @customer.is_order_entry ] %>
 </p>
 
 <p>
   <b>発注フラグ:</b>
-  <%= HyaccConstants::STATUS_TYPES[ @customer.is_order_placement ] %>
+  <%= HyaccConst::STATUS_TYPES[ @customer.is_order_placement ] %>
 </p>
 
 <p>
   <b>投資フラグ:</b>
-  <%= HyaccConstants::STATUS_TYPES[ @customer.is_investment ] %>
+  <%= HyaccConst::STATUS_TYPES[ @customer.is_investment ] %>
 </p>
 
 <p>
   <b>状態:</b>
-  <%= HyaccConstants::DELETED_TYPES[ @customer.deleted ] %>
+  <%= HyaccConst::DELETED_TYPES[ @customer.deleted ] %>
 </p>

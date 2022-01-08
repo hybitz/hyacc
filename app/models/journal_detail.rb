@@ -1,5 +1,4 @@
 class JournalDetail < ApplicationRecord
-  include HyaccConstants
   include HyaccErrors
   include TaxRateAware
 

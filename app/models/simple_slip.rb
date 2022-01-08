@@ -1,6 +1,6 @@
 class SimpleSlip
   include ActiveModel::Model
-  include HyaccConstants
+  include HyaccConst
   include HyaccErrors
   include JournalDate
   include TaxRateAware

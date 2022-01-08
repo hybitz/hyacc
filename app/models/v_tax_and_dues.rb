@@ -1,4 +1,4 @@
-class VTax
+class VTaxAndDues
   include HyaccConstants
   
   VIEW = <<EOS

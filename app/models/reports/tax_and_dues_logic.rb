@@ -35,6 +35,8 @@ module Reports
       model.municipal_inhabitants_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
       model.municipal_inhabitants_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
 
+      account = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES)
+      sub_account = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_CORPORATE_ENTERPRISE_TAX)
       model.business_tax_payable_at_start_first = nil
       model.business_tax_payable_at_start_second = nil
       model.business_tax_at_half = nil
@@ -46,14 +48,14 @@ module Reports
     private
 
     def corporate_tax_payable_net_sum_until(sub_account_id)
-      VTax.net_sum_until(start_ym, @corporate_tax_payable.id, sub_account_id)
+      VTaxAndDues.net_sum_until(start_ym, @corporate_tax_payable.id, sub_account_id)
     end
     
     def net_sum(settlement_type, sub_account_id)
       sum = 0
       
       @corporate_taxes.each do |ct|
-      amount = VTax.net_sum(start_ym, end_ym, settlement_type, ct.id, sub_account_id)
+      amount = VTaxAndDues.net_sum(start_ym, end_ym, settlement_type, ct.id, sub_account_id)
         sum = sum.to_i + amount.to_i
       end
 
@@ -165,13 +167,11 @@ module Reports
     end
     
     def business_tax_payable_at_start_total
-      return nil unless @business_tax_payable_at_start_first or @business_tax_payable_at_start_second
-      @business_tax_payable_at_start_first.to_i + @business_tax_payable_at_start_second.to_i
+      business_tax_payable_at_start_first.to_i + business_tax_payable_at_start_second.to_i
     end
     
     def business_tax_at_total
-      return nil unless @business_tax_at_half or @business_tax_at_full
-      @business_tax_at_half.to_i + @business_tax_at_full.to_i
+      business_tax_at_half.to_i + business_tax_at_full.to_i
     end
   end
 

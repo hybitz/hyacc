@@ -91,7 +91,7 @@ module Reports
     def total_corporate_tax_at_half
       corporate_tax_at_half + regional_corporate_tax_at_half + reconstruction_tax_at_half
     end
-    
+
     def total_corporate_tax_at_full
       corporate_tax_at_full + regional_corporate_tax_at_full + reconstruction_tax_at_full
     end
@@ -100,18 +100,58 @@ module Reports
       total_corporate_tax_at_half + total_corporate_tax_at_full
     end
 
+    # 法人税及び地方法人税、前前期、損金経理による納付
+    def corporate_tax_paid_at_start_first
+      corporate_tax_payable_at_start_first
+    end
+
+    # 法人税及び地方法人税、前期、損金経理による納付
+    def corporate_tax_paid_at_start_second
+      corporate_tax_payable_at_start_second
+    end
+
+    # 法人税及び地方法人税、当期分、中間、損金経理による納付
+    def total_corporate_tax_paid_at_half
+      total_corporate_tax_at_half
+    end
+  
+    # 法人税及び地方法人税、当期分、確定、損金経理による納付
+    def total_corporate_tax_paid_at_full
+      0
+    end
+
     def total_corporate_tax_paid
       total_corporate_tax_payable_at_start + total_corporate_tax_at_half
+    end
+
+    def prefectural_tax_paid_at_start_first
+      prefectural_tax_payable_at_start_first.to_i
+    end
+
+    def prefectural_tax_paid_at_start_second
+      prefectural_tax_payable_at_start_second.to_i
     end
 
     def prefectural_tax_payable_at_start_total
       return nil unless @prefectural_tax_payable_at_start_first or @prefectural_tax_payable_at_start_second
       @prefectural_tax_payable_at_start_first.to_i + @prefectural_tax_payable_at_start_second.to_i
     end
+  
+    def prefectural_tax_paid_at_half
+      prefectural_tax_at_half.to_i
+    end
+
+    def prefectural_tax_paid_at_full
+      0
+    end
     
     def prefectural_tax_at_total
       return nil unless @prefectural_tax_at_half or @prefectural_tax_at_full
       @prefectural_tax_at_half.to_i + @prefectural_tax_at_full.to_i
+    end
+
+    def prefectural_tax_paid_at_total
+      prefectural_tax_paid_at_start_first + prefectural_tax_paid_at_start_second + prefectural_tax_paid_at_half + prefectural_tax_paid_at_full
     end
     
     def municipal_inhabitants_tax_payable_at_start_total

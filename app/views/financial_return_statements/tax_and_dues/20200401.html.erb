@@ -47,29 +47,29 @@
           <td class="bg-light"></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
-          <td colspan="2" class="text-end"><%= to_amount(@model.corporate_tax_payable_at_start_second) %></td>
-          <td></td>
+          <td colspan="2" class="text-end"><%= to_amount(@model.corporate_tax_paid_at_start_second) %></td>
+          <td class="text-end"><%= to_amount(@model.corporate_tax_payable_at_start_second - @model.corporate_tax_paid_at_start_second, show_zero: true) %></td>
       </tr>
       <tr>
           <td width="40" rowspan="2">当期分</td>
           <td width="100" align="center">中間</td>
           <td align="center">3</td>
           <td class="bg-light"></td>
-          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_half) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_half, show_zero: true) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
-          <td colspan="2" class="text-end"><%= to_amount(@model.total_corporate_tax_at_half) %></td>
-          <td></td>
+          <td colspan="2" class="text-end"><%= to_amount(@model.total_corporate_tax_paid_at_half, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_half - @model.total_corporate_tax_paid_at_half, show_zero: true) %></td>
       </tr>
       <tr>
           <td align="center">確定</td>
           <td align="center">4</td>
           <td class="bg-light"></td>
-          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_full) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_full, show_zero: true) %></td>
           <td colspan="3" class="bg-light"></td>
           <td colspan="2" class="bg-light"></td>
           <td colspan="2" class="bg-light"></td>
-          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_full) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_full - @model.total_corporate_tax_paid_at_full, show_zero: true) %></td>
       </tr>
       <tr>
           <td colspan="2" align="center">計</td>
@@ -78,8 +78,8 @@
           <td class="text-end"><%= to_amount(@model.total_corporate_tax) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
-          <td colspan="2" class="text-end"><%= to_amount(@model.total_corporate_tax_paid) %></td>
-          <td class="text-end"><%= to_amount(@model.total_corporate_tax_payable_at_start + @model.total_corporate_tax - @model.total_corporate_tax_paid) %></td>
+          <td colspan="2" class="text-end"><%= to_amount(@model.total_corporate_tax_paid, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_payable_at_start + @model.total_corporate_tax - @model.total_corporate_tax_paid, show_zero: true) %></td>
       </tr>
       <tr>
           <td colspan="14"></td>
@@ -88,7 +88,7 @@
           <td rowspan="5" width="20px" class="text-center">道府県民税</td>
           <td colspan="2">令和　・　・<br/>令和　・　・</td>
           <td width="20" class="text-center">6</td>
-          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_first) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_first, show_zero: true) %></td>
           <td class="bg-light"></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
@@ -98,43 +98,43 @@
       <tr>
           <td colspan="2">平成　・　・<br/>令和　・　・</td>
           <td class="text-center">7</td>
-          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_second) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_second, show_zero: true) %></td>
           <td class="bg-light"></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
-          <td colspan="2"></td>
-          <td></td>
+          <td colspan="2" class="text-end"><%= to_amount(@model.prefectural_tax_paid_at_start_second, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_second - @model.prefectural_tax_paid_at_start_second, show_zero: true) %></td>
       </tr>
       <tr>
           <td width="40" rowspan="2">当期分</td>
           <td width="80" class="text-center">中間</td>
           <td class="text-center">8</td>
           <td class="bg-light"></td>
-          <td align="right"><%= to_amount(@model.prefectural_tax_at_half) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_at_half, show_zero: true) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
-          <td colspan="2"></td>
-          <td></td>
+          <td colspan="2" class="text-end"><%= to_amount(@model.prefectural_tax_paid_at_half, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_at_half - @model.prefectural_tax_paid_at_half, show_zero: true) %></td>
       </tr>
       <tr>
-          <td align="center">確定</td>
-          <td align="center">9</td>
+          <td class="text-end">確定</td>
+          <td class="text-end">9</td>
           <td class="bg-light"></td>
-          <td align="right"><%= to_amount(@model.prefectural_tax_at_full) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_at_full, show_zero: true) %></td>
           <td colspan="3" class="bg-light"></td>
           <td colspan="2" class="bg-light"></td>
           <td colspan="2" class="bg-light"></td>
-          <td></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_at_full - @model.prefectural_tax_paid_at_full, show_zero: true) %></td>
       </tr>
       <tr>
           <td colspan="2" class="text-center">計</td>
-          <td align="center">10</td>
-          <td align="right"><%= to_amount(@model.prefectural_tax_payable_at_start_total) %></td>
-          <td align="right"><%= to_amount(@model.prefectural_tax_at_total) %></td>
+          <td class="text-center">10</td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_total, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_at_total, show_zero: true) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
-          <td colspan="2"></td>
-          <td></td>
+          <td colspan="2" class="text-end"><%= to_amount(@model.prefectural_tax_paid_at_total, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_total + @model.prefectural_tax_at_total - @model.prefectural_tax_paid_at_total, show_zero: true) %></td>
       </tr>
       <tr>
           <td colspan="14"></td>

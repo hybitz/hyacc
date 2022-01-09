@@ -35,12 +35,11 @@ module Reports
       model.municipal_inhabitants_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
       model.municipal_inhabitants_tax_at_full = net_sum(SETTLEMENT_TYPE_FULL, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
 
-      account = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES)
-      sub_account = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_CORPORATE_ENTERPRISE_TAX)
+      # 事業税
       model.business_tax_payable_at_start_first = nil
-      model.business_tax_payable_at_start_second = nil
-      model.business_tax_at_half = nil
-      model.business_tax_at_full = get_corporate_enterprise_tax_amount
+      model.business_tax_payable_at_start_second = get_corporate_enterprise_tax_net_sum(SETTLEMENT_TYPE_FULL)
+      model.business_tax_at_half = get_corporate_enterprise_tax_net_sum(SETTLEMENT_TYPE_HALF)
+      model.business_tax_at_full = 0 #事業税を支払った時に処理する仕訳を想定（一般的ではない）
 
       model
     end
@@ -55,11 +54,18 @@ module Reports
       sum = 0
       
       @corporate_taxes.each do |ct|
-      amount = VTaxAndDues.net_sum(start_ym, end_ym, settlement_type, ct.id, sub_account_id)
+        amount = VTaxAndDues.net_sum(start_ym, end_ym, settlement_type, ct.id, sub_account_id)
         sum = sum.to_i + amount.to_i
       end
 
       sum
+    end
+  
+    def get_corporate_enterprise_tax_net_sum(settlement_type)
+      account = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES)
+      sub_account = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_CORPORATE_ENTERPRISE_TAX)
+
+      VTaxAndDues.net_sum(start_ym, end_ym, settlement_type, account.id, sub_account.id)
     end
   end
 
@@ -171,7 +177,7 @@ module Reports
     end
     
     def business_tax_at_total
-      business_tax_at_half.to_i + business_tax_at_full.to_i
+      business_tax_payable_at_start_total + business_tax_at_half.to_i + business_tax_at_full.to_i
     end
   end
 

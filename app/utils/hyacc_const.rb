@@ -291,7 +291,8 @@ module HyaccConst
     SUB_ACCOUNT_TYPE_CORPORATE_TAX = 10 => '法人税',
     SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT = 11 => '一般口座',
     SUB_ACCOUNT_TYPE_INVESTMENT = 12 => '投資先',
-    SUB_ACCOUNT_TYPE_CONSUMPTION_TAX = 13 => '消費税'
+    SUB_ACCOUNT_TYPE_CONSUMPTION_TAX = 13 => '消費税',
+    SUB_ACCOUNT_TYPE_TAX_AND_DUES = 14 => '租税公課'
   }
 
   # 消費税取り扱い区分

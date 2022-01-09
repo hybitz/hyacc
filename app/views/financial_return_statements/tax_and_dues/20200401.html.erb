@@ -207,23 +207,23 @@
       </tr>
       <tr>
           <td colspan="2">平成　・　・<br/>令和　・　・</td>
-          <td align="center">17</td>
+          <td class="text-center">17</td>
           <td></td>
-          <td class="text-end"></td>
+          <td class="text-end"><%= to_amount(@model.business_tax_payable_at_start_second, show_zero: true) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
           <td colspan="2"></td>
-          <td></td>
+          <td class="text-end"><%= to_amount(@model.business_tax_payable_at_start_second, show_zero: true) %></td>
       </tr>
       <tr>
           <td colspan="2" align="center">当期中間分</td>
-          <td align="center">18</td>
+          <td class="text-center">18</td>
           <td class="bg-light"></td>
-          <td class="text-end"></td>
+          <td class="text-end"><%= to_amount(@model.business_tax_at_half, show_zero: true) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
           <td colspan="2"></td>
-          <td></td>
+          <td class="text-end"><%= to_amount(@model.business_tax_at_half, show_zero: true) %></td>
       </tr>
       <tr>
           <td colspan="2" class="text-center">計</td>

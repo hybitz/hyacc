@@ -8,7 +8,7 @@ module Accounts::SubAccountsSupport
     @sub_accounts_all_cache = []
 
     case sub_account_type
-    when SUB_ACCOUNT_TYPE_NORMAL
+    when SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE, SUB_ACCOUNT_TYPE_TAX_AND_DUES
       SubAccount.where(account_id: self.id).order(:code).each do |sa|
         @sub_accounts_cache << sa unless sa.deleted?
         @sub_accounts_all_cache << sa
@@ -57,11 +57,6 @@ module Accounts::SubAccountsSupport
       Customer.where(is_investment: true).each do |c|
         @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
-      end
-    when SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
-      SubAccount.where(account_id: self.id).order(:code).each do |sa|
-        @sub_accounts_cache << sa unless sa.deleted?
-        @sub_accounts_all_cache << sa
       end
     when SUB_ACCOUNT_TYPE_CORPORATE_TAX
       list = []

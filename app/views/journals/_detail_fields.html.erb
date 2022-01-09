@@ -5,12 +5,12 @@
   <tr data-detail_id="<%= jd.id %>" data-index="<%= index %>" style="<%= 'display: none;' if jd.deleted? %>">
     <td nowrap>
       <%= f.hidden_field :id %>
-      <%= f.hidden_field :_destroy, :value => jd.deleted? %>
-      <%= f.select :dc_type, options_for_select(dc_types, jd.dc_type), {}, :class => 'dcTypeSelect' %>
+      <%= f.hidden_field :_destroy, value: jd.deleted? %>
+      <%= f.select :dc_type, options_for_select(dc_types, jd.dc_type), {}, class: 'dcTypeSelect' %>
     </td>
     <td>
       <%= collection_select_code_and_name(prefix, :account_id, @accounts, :id, :name,
-            {:selected => jd.account_id, :frequencies => @frequencies}, {:class=>"accountSelect"}) %>
+            {:selected => jd.account_id, :frequencies => @frequencies}, class: "accountSelect" ) %>
     </td>
     <td>
       <%= f.collection_select :sub_account_id, jd.account.sub_accounts, :id, :name, {},

@@ -3,11 +3,11 @@
 
   $(document).ready(function() {
     journal = new hyacc.Journal('#journal_form', {
-      add_detail_path: '<%= url_for :action => 'add_detail' %>',
-      get_account_detail_path: '<%= url_for :action => 'get_account_detail' %>',
-      get_allocation_path: '<%= url_for :action => 'get_allocation' %>',
-      get_tax_type_path: '<%= url_for :action => 'get_tax_type' %>',
-      sub_accounts_path: '<%= sub_accounts_path(:format => 'json') %>'
+      add_detail_path: '<%= url_for action: 'add_detail' %>',
+      get_account_detail_path: '<%= url_for action: 'get_account_detail' %>',
+      get_allocation_path: '<%= url_for action: 'get_allocation' %>',
+      get_tax_type_path: '<%= url_for action: 'get_tax_type' %>',
+      sub_accounts_path: '<%= sub_accounts_path(format: 'json') %>'
     });
   });
 </script>
@@ -54,7 +54,7 @@
     </thead>
     <tbody>
       <% @journal.normal_details.each_with_index do |jd, i| %>
-        <%= render 'detail_fields', :jd => jd, :index => i %>
+        <%= render 'detail_fields', jd: jd, index: i %>
       <% end %>
     </tbody>
     <tfoot>

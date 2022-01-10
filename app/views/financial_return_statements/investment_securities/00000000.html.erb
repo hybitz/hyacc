@@ -1,0 +1,61 @@
+<div class="m-2">
+    <table class="none_border m-2">
+      <tr>
+        <td class="none_border"><b>有価証券の内訳書</b></td>
+      </tr>
+    </table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th rowspan="3" class="align-middle text-center">区分／種類／銘柄</th>
+          <th colspan="2" class="text-center">期末現在高</th>
+          <th colspan="4" class="text-center">期中増（減）の明細</th>
+          <th rowspan="3" class="align-middle text-center">摘要</th>
+        </tr>
+        <tr>
+          <th rowspan="2" class="text-center">数量</th>
+          <th rowspan="2" class="text-center">金額</th>
+          <th>異動年月日</th>
+          <th rowspan="2" class="text-center">数量</th>
+          <th rowspan="2" class="text-center">金額</th>
+          <th>売却(買入)先の名称(氏名)</th>
+        </tr>
+        <tr>
+          <th>異動事由</th>
+          <th>売却(買入)先の所在地(住所)</th>
+        </tr>
+      </thead>
+
+      <% @model.details.each do |investment| %>
+        <tr>
+          <td rowspan="2"><%= investment[:formal_name] %></td>
+          <td rowspan="2" class="align-bottom quantity"><%= to_amount(investment[:last_shares]) %></td>
+          <td rowspan="2" class="align-bottom amount"><%= to_amount(investment[:last_trading_value]) %></td>
+          <td><%= to_wareki(investment[:deal_date]) if investment[:deal_date].present? %></td>
+          <td rowspan="2" class="align-bottom quantity"><%= to_amount(investment[:shares]) %></td>
+          <td rowspan="2" class="align-bottom amount"><%= to_amount(investment[:trading_value] + investment[:gains]) %></td>
+          <td><%= investment[:bank_name] %></td>
+          <td rowspan="2"><%= investment[:etc] %></td>
+        </tr>
+        <tr>
+          <td><%= investment[:reason] %></td>
+          <td><%= investment[:address] %></td>
+        </tr>
+      <% end %>
+
+      <tr>
+        <td rowspan="2">計</td>
+        <td rowspan="2" />
+        <td rowspan="2" />
+        <td />
+        <td rowspan="2" />
+        <td rowspan="2" />
+        <td />
+        <td rowspan="2" />
+      </tr>
+      <tr>
+        <td />
+        <td />
+      </tr>
+    </table>
+</div>

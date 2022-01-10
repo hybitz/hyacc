@@ -11,8 +11,6 @@ class FinancialReturnStatementsController < Base::HyaccController
       render_trade_account_payable
     when REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE
       render_trade_account_receivable
-    when REPORT_TYPE_INVESTMENT_SECURITIES
-      render_investment_securities
     else
       logic = "Reports::#{finder.report_type.camelize}Logic".constantize.new(finder)
       @model = logic.build_model
@@ -68,10 +66,4 @@ class FinancialReturnStatementsController < Base::HyaccController
     render :trade_account_receivable
   end
 
-  # 有価証券
-  def render_investment_securities
-    logic = Reports::InvestmentLogic.new(finder)
-    @investments = logic.get_investments_report
-    render :investment_securities
-  end
 end

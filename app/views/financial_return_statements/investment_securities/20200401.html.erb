@@ -7,7 +7,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th rowspan="3" class="align-middle text-center">区分／種類／銘柄</th>
+          <th rowspan="3" class="align-middle text-center">区分<br>種類<br>銘柄</th>
           <th colspan="2" class="text-center">期末現在高</th>
           <th colspan="4" class="text-center">期中増（減）の明細</th>
           <th rowspan="3" class="align-middle text-center">摘要</th>
@@ -26,11 +26,11 @@
         </tr>
       </thead>
 
-      <% @investments.each do |investment| %>
+      <% @model.details.each do |investment| %>
         <tr>
           <td rowspan="2"><%= investment[:formal_name] %></td>
-          <td rowspan="2" class="align-bottom quantity"><%= to_amount(investment[:last_shares]) %></td>
-          <td rowspan="2" class="align-bottom amount"><%= to_amount(investment[:last_trading_value]) %></td>
+          <td rowspan="2" class="align-bottom quantity"><%= to_amount(investment[:last_shares], show_zero: true) %></td>
+          <td rowspan="2" class="align-bottom amount"><%= to_amount(investment[:last_trading_value], show_zero: true) %></td>
           <td><%= to_wareki(investment[:deal_date]) if investment[:deal_date].present? %></td>
           <td rowspan="2" class="align-bottom quantity"><%= to_amount(investment[:shares]) %></td>
           <td rowspan="2" class="align-bottom amount"><%= to_amount(investment[:trading_value] + investment[:gains]) %></td>

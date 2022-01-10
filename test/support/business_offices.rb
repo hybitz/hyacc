@@ -1,4 +1,5 @@
 module BusinessOffices
+
   def business_office_params
     {
       name: '事業所' + time_string,
@@ -17,4 +18,5 @@ module BusinessOffices
   def business_office
     @_business_office_cache ||= BusinessOffice.first
   end
+
 end

@@ -18,7 +18,7 @@ module Reports
         detail = SaleDetailModel.new
         detail.business_office = bo
         detail.sale_amount = sale_by_business_office[bo.id]
-        detail.number_of__employees = 
+        detail.number_of_employees = bo.employees(end_day).count
         ret.add_detail(detail)
       end
       
@@ -39,7 +39,7 @@ module Reports
   class SaleDetailModel
     attr_accessor :business_office
     attr_accessor :sale_amount
-    attr_accessor :number_of__employees
+    attr_accessor :number_of_employees
 
     def responsible_person_name
       business_office.responsible_person&.fullname

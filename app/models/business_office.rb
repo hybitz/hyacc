@@ -13,6 +13,15 @@ class BusinessOffice < ApplicationRecord
     [address1, address2].compact.join
   end
 
+  def branches
+    company.branches.where(business_office_id: id).map{|b| b.self_and_descendants }.flatten
+  end
+
+  def employees(date)
+    ret = company.employees.where(['employment_date <= ? and (retirement_date >= ? or retirement_date is null)', date, date])
+    ret = ret.joins(:branch_employees).where(branch_employees: {branch_id: branches, default_branch: true})
+  end
+
   private
 
   def set_prefecture_name

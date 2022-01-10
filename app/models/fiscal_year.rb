@@ -95,10 +95,6 @@ class FiscalYear < ApplicationRecord
     TAX_MANAGEMENT_TYPES[tax_management_type]
   end
 
-  def employees
-    company.employees.where(['employment_date <= ? and (retirement_date >= ? or retirement_date is null)', end_day, end_day])
-  end
-
   private
 
   # 資産コード用のシーケンスを作成

@@ -19,10 +19,10 @@
     <tr>
       <td><%= d.business_office.name %></td>
       <td><%= d.responsible_person_name %></td>
-      <td class="align-middle" rowspan="2"><%= d.business_office.business_outline %></td>
-      <td class="align-middle text-center" rowspan="2"><%= to_amount(d.sale_amount, show_zero: true) %></td>
+      <td rowspan="2"><%= d.business_office.business_outline %></td>
+      <td class="text-center" rowspan="2"><%= to_amount(d.sale_amount, show_zero: true) %></td>
       <td rowspan="2"></td>
-      <td rowspan="2"></td>
+      <td rowspan="2" class="text-center"><%= d.number_of_employees %></td>
       <td rowspan="2"></td>
       <td rowspan="2"></td>
     </tr>

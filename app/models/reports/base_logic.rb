@@ -149,9 +149,9 @@ module Reports
     end
 
     # 法人事業税を取得する
-    def get_corporate_enterprise_tax_amount
+    def get_business_tax_amount
       account = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES)
-      sub_account = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_CORPORATE_ENTERPRISE_TAX)
+      sub_account = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_BUSINESS_TAX)
       VMonthlyLedger.net_sum(start_ym, end_ym, account.id, sub_account.id, branch_id)
     end
 

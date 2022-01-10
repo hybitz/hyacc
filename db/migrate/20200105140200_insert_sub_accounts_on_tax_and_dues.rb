@@ -3,13 +3,13 @@ class InsertSubAccountsOnTaxAndDues < ActiveRecord::Migration[5.2]
 
   def up
     a = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES)
-    [SUB_ACCOUNT_CODE_CORPORATE_ENTERPRISE_TAX, SUB_ACCOUNT_CODE_OTHERS].each do |code|
+    [SUB_ACCOUNT_CODE_BUSINESS_TAX, SUB_ACCOUNT_CODE_OTHERS].each do |code|
       sa = a.get_sub_account_by_code(code)
       next if sa
       
       sa = SubAccount.new(account_id: a.id, code: code, sub_account_type: SUB_ACCOUNT_TYPE_NORMAL)
       case sa.code
-      when SUB_ACCOUNT_CODE_CORPORATE_ENTERPRISE_TAX
+      when SUB_ACCOUNT_CODE_BUSINESS_TAX
         sa.name = '法人事業税'
       when SUB_ACCOUNT_CODE_OTHERS
         sa.name = 'その他'

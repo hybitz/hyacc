@@ -63,7 +63,7 @@ module Reports
   
     def get_corporate_enterprise_tax_net_sum(settlement_type)
       account = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES)
-      sub_account = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_CORPORATE_ENTERPRISE_TAX)
+      sub_account = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_BUSINESS_TAX)
 
       VTaxAndDues.net_sum(start_ym, end_ym, settlement_type, account.id, sub_account.id)
     end

@@ -30,7 +30,7 @@
       <td><%= to_amount(@model.partially_stocks_amount) %></td>
       <td rowspan="9" style="width: 1em;">関<br/>係<br/>法<br/>人<br/>株<br/>式<br/>等</td>
       <td colspan="2" class="text-center"><%= justify('受取配当等の額') %>(34の計)</td>
-      <td>15</td>
+      <td class="text-center">15</td>
       <td></td>
   </tr>
   <tr>
@@ -40,7 +40,7 @@
       <td></td>
       <td rowspan="8" style="width: 1em;">負<br/>債<br/>利<br/>子<br/>等<br/>の<br/>額<br/>の<br/>計<br/>算</td>
       <td width="240">当期に支払う負債利子等の額</td>
-      <td>16</td>
+      <td class="text-center">16</td>
       <td></td>
   </tr>
   <tr>
@@ -48,7 +48,7 @@
       <td class="text-center">4</td>
       <td></td>
       <td style="font-size: 50%;">国外支配株主等に係る負債の利子等の損金不算入額又は関連者等に係る支払利子等の損金不算入額(別表十七(一)「35」と別表十七(二の二)「25」のうち多い金額又は別表十七(二の二)「30」と別表十七の三(二)「17」のうち多い金額)</td>
-      <td>17</td>
+      <td class="text-center">17</td>
       <td></td>
   </tr>
   <tr>
@@ -56,7 +56,7 @@
       <td class="text-center">5</td>
       <td></td>
       <td class="text-center"><%= justify('超過利子額の損金算入額') %>(別表十七(二の三)「10」)</td>
-      <td>18</td>
+      <td class="text-center">18</td>
       <td></td>
   </tr>
   <tr>
@@ -64,7 +64,7 @@
       <td class="text-center">6</td>
       <td></td>
       <td class="text-center">計<br>(16)－(17)＋(18)</td>
-      <td>19</td>
+      <td class="text-center">19</td>
       <td></td>
   </tr>
   <tr>
@@ -72,7 +72,7 @@
       <td class="text-center">7</td>
       <td></td>
       <td style="font-size: 50%;">平成27年４月１日から平成29年３月31日までの間に開始した各事業年度の負債利子等の額の合計額</td>
-      <td>20</td>
+      <td class="text-center">20</td>
       <td></td>
   </tr>
   <tr>
@@ -80,7 +80,7 @@
       <td class="text-center">8</td>
       <td></td>
       <td style="font-size: 50%;">同上の各事業年度の関連法人株式等に係る負債利子等の額の合計額</td>
-      <td>21</td>
+      <td class="text-center">21</td>
       <td></td>
   </tr>
   <tr>
@@ -88,7 +88,7 @@
     <td class="text-center">9</td>
     <td></td>
     <td class="text-center"><%= justify('負債利子控除割合') %>(21)／(22)<div class="small">(小数点以下３位未満切捨て)</div></td>
-    <td>22</td>
+    <td class="text-center">22</td>
     <td></td>
   </tr>
   <tr>
@@ -96,7 +96,7 @@
     <td class="text-center">10</td>
     <td></td>
     <td class="text-center"><div class="small"><%= justify('受取配当等の額から控除する負債利子等の額') %>(19) x (22)</td>
-    <td>23</td>
+    <td class="text-center">23</td>
     <td></td>
   </tr>
   <tr>
@@ -104,7 +104,7 @@
     <td class="text-center">11</td>
     <td></td>
     <td colspan="3" class="text-center"><%= justify('その他株式等に係る受取配当等の額') %>(37の計)</td>
-    <td>24</td>
+    <td class="text-center">24</td>
     <td></td>
   </tr>
   <tr>
@@ -112,7 +112,7 @@
     <td class="text-center">12</td>
     <td class="align-middle text-end"><%= to_amount(@model.non_dominant_amount) %></td>
     <td colspan="3" class="text-center"><%= justify('非支配目的株式等に係る受取配当等の額') %>(43の計)</td>
-    <td>25</td>
+    <td class="text-center">25</td>
     <td></td>
   </tr>
   <tr>

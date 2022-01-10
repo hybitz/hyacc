@@ -38,10 +38,10 @@
   		</tr>
     	<tr>
     		<td colspan="3">給与</td>
-    		<td colspan="5" class="text-right"><%= to_amount(@data.total_salary, show_zero: true) %></td>
-    		<td colspan="5" class="text-right"><%= to_amount(@data.after_deduction, show_zero: true) %></td>
-    		<td colspan="5" class="text-right"><%= to_amount(@data.exemption_amount, show_zero: true) %></td>
-    		<td colspan="5" class="text-right"><%= to_amount(@data.withholding_tax, show_zero: true) %></td>
+    		<td colspan="5" class="text-end"><%= to_amount(@data.total_salary, show_zero: true) %></td>
+    		<td colspan="5" class="text-end"><%= to_amount(@data.after_deduction, show_zero: true) %></td>
+    		<td colspan="5" class="text-end"><%= to_amount(@data.exemption_amount, show_zero: true) %></td>
+    		<td colspan="5" class="text-end"><%= to_amount(@data.withholding_tax, show_zero: true) %></td>
   		</tr>
     	<tr class="item">
     		<td colspan="6"><%= justify('(源泉)控除対象配偶者') %><%= justify('の有無等') %></td>
@@ -84,10 +84,10 @@
     		<td colspan="5">住宅借入金等特別控除の額</td>
       </tr>
       <tr>
-    		<td colspan="6" class="text-right">（内　<%= to_amount(@data.small_scale_mutual_aid, show_zero: true) %> ）<br><%= to_amount(@data.social_insurance, show_zero: true) %> 　</td>
-    		<td colspan="6" class="text-right"><br><%= to_amount(@data.exemption.life_insurance_deduction, show_zero: true) %></td>
-    		<td colspan="6" class="text-right"><br><%= to_amount(@data.exemption.earthquake_insurance_premium, show_zero: true) %></td>
-    		<td colspan="5" class="text-right"><br><%= to_amount(@data.mortgage_deduction, show_zero: true) %></td>
+    		<td colspan="6" class="text-end">（内　<%= to_amount(@data.small_scale_mutual_aid, show_zero: true) %> ）<br><%= to_amount(@data.social_insurance, show_zero: true) %> 　</td>
+    		<td colspan="6" class="text-end"><br><%= to_amount(@data.exemption.life_insurance_deduction, show_zero: true) %></td>
+    		<td colspan="6" class="text-end"><br><%= to_amount(@data.exemption.earthquake_insurance_premium, show_zero: true) %></td>
+    		<td colspan="5" class="text-end"><br><%= to_amount(@data.mortgage_deduction, show_zero: true) %></td>
   		</tr>
     	<tr>
     		<td colspan="23" class="item">摘要</td>

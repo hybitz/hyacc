@@ -41,29 +41,29 @@
       </tr>
       <tr>
         <th><%= f.label :temporary_salary %></th>
-        <td><%= f.text_field :temporary_salary, maxlength: 10, class: 'salary form-control form-control-sm text-right' %></td>
+        <td><%= f.text_field :temporary_salary, maxlength: 10, class: 'salary form-control form-control-sm text-end' %></td>
       </tr>
       <tr>
         <th>健康保険料</th>
-        <td><%= f.text_field :health_insurance, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
+        <td><%= f.text_field :health_insurance, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
         <th>厚生年金保険料</th>
-        <td><%= f.text_field :welfare_pension, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
+        <td><%= f.text_field :welfare_pension, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
       </tr>
       <% unless @payroll.employee.executive? %>
         <tr>
           <th>雇用保険料</th>
-          <td><%= f.text_field :employment_insurance, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
+          <td><%= f.text_field :employment_insurance, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
         </tr>
       <% end %>
       <tr>
         <th>所得税</th>
-        <td><%= f.text_field :income_tax, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
+        <td><%= f.text_field :income_tax, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
       </tr>
       <tr>
         <th>給与支払日</th>
         <td class="text-center align-middle"><%= f.text_field :pay_day, class: 'datepicker' %></td>
         <th>振込手数料</th>
-        <td><%= f.text_field :transfer_fee, maxlength: 10, class: 'form-control form-control-sm text-right' %></td>
+        <td><%= f.text_field :transfer_fee, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
       </tr>
     </table>
   <% end %>

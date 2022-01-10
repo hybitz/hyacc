@@ -4,7 +4,7 @@
   </div>
   <div class="row">
     <span class="offset-md-3 col-md-6"><strong>課税期間分の消費税及び地方<br>消費税の（　　）申告書</strong></span>
-    <span class="col-md-3 text-right">第<br>二<br>表</span>
+    <span class="col-md-3 text-end">第<br>二<br>表</span>
   </div>
   
   <div class="mx-2 my-0 row">
@@ -13,122 +13,122 @@
         <tr>
           <td colspan="2"><%= justify('課税標準額') %><div>※申告書（第一表）の①欄へ</div></td>
           <td class="align-middle" style="width: 2em;">①</td>
-          <td class="align-middle text-right"><%= to_amount(@model.total_standard_sale_amount, show_zero: true) %></td>
+          <td class="align-middle text-end"><%= to_amount(@model.total_standard_sale_amount, show_zero: true) %></td>
         </tr>
         <tr>
           <td rowspan="6" class="align-middle border-right-0" style="width: 30%;">課税資産の<br>譲渡等の<br>対価の額<br>の合計額</td>
           <td class="align-middle" style="width: 30%;">３ ％適用分</td>
           <td class="align-middle">②</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">４ ％適用分</td>
           <td class="align-middle">③</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">6.3 ％適用分</td>
           <td class="align-middle">④</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">6.24 ％適用分</td>
           <td class="align-middle">⑤</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">7.8 ％適用分</td>
           <td class="align-middle">⑥</td>
-          <td class="text-right"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
         </tr>
         <tr>
           <td class="align-middle"></td>
           <td class="align-middle">⑦</td>
-          <td class="text-right border-left-0"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
+          <td class="text-end border-left-0"><%= to_amount(@model.sale_amount, show_zero: true) %></td>
         </tr>
         <tr>
           <td rowspan="3" class="align-middle border-right-0"><div>特定課税仕入れ<br>に係る支払対価<br>対の額の合計額</div><div class="float-right">（注1）</div></td>
           <td class="align-middle">6.3 ％適用分</td>
           <td class="align-middle">⑧</td>
-          <td class="text-right "></td>
+          <td class="text-end "></td>
         </tr>
         <tr>
           <td class="align-middle">7.8 ％適用分</td>
           <td class="align-middle">⑨</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="border-left-0"></td>
           <td class="align-middle">⑩</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td colspan="2"><%= justify('消費税額') %><div>※申告書（第一表）の②欄へ</div></td>
           <td class="align-middle">⑪</td>
-          <td class="align-middle text-right"><%= to_amount(@model.total_sale_tax_amount, show_zero: true) %></td>
+          <td class="align-middle text-end"><%= to_amount(@model.total_sale_tax_amount, show_zero: true) %></td>
         </tr>
         <tr>
           <td rowspan="5" class="align-middle">⑪の内訳</td>
           <td class="align-middle">３ ％適用分</td>
           <td class="align-middle">⑫</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">４ ％適用分</td>
           <td class="align-middle">⑬</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">6.3 ％適用分</td>
           <td class="align-middle">⑭</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">6.24 ％適用分</td>
           <td class="align-middle">⑮</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">7.8 ％適用分</td>
           <td class="align-middle">⑯</td>
-          <td class="text-right"><%= to_amount(@model.sale_tax_amount, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.sale_tax_amount, show_zero: true) %></td>
         </tr>
         <tr>
           <td colspan="2"><%= justify('返還等対価に係る税額') %><div>※申告書（第一表）の⑤欄へ</div></td>
           <td class="align-middle">⑰</td>
-          <td class="align-middle text-right"></td>
+          <td class="align-middle text-end"></td>
         </tr>
         <tr>
           <td rowspan="2" class="align-middle">⑰の内訳</td>
           <td class="align-middle">売上げの返還等対価に係る税額</td>
           <td class="align-middle">⑱</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">特定課税仕入れの返還等対価に係る税額<div class="float-right">（注1）</div></td>
           <td class="align-middle">⑲</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td rowspan="4" class="align-middle border-right-0"><div>地方消費税の<br>課税標準となる<br>消費税額</div><div class="float-right">（注2）</div></td>
           <td class="border-left-0"></td>
           <td class="align-middle">⑳</td>
-          <td class="text-right"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
         </tr>
         <tr>
           <td class="align-middle">4 ％適用分</td>
           <td class="align-middle">㉑</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">6,3 ％適用分</td>
           <td class="align-middle">㉒</td>
-          <td class="text-right"></td>
+          <td class="text-end"></td>
         </tr>
         <tr>
           <td class="align-middle">6.24％及び7.8％適用分</td>
           <td class="align-middle">㉓</td>
-          <td class="text-right"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
         </tr>
       </tbody>
     </table>

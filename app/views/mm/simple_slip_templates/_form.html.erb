@@ -81,8 +81,8 @@
           <%= f.text_field :tax_rate_percent, class: 'form-control text-center float-left', style: 'width: 3em;' %>
           <div>%</div>
         </td>
-        <td><%= f.text_field :amount, class: 'form-control text-right', style: 'width: 10em;' %></td>
-        <td><%= f.text_field :tax_amount, class: 'form-control text-right', style: 'width: 8em;' %></td>
+        <td><%= f.text_field :amount, class: 'form-control text-end', style: 'width: 10em;' %></td>
+        <td><%= f.text_field :tax_amount, class: 'form-control text-end', style: 'width: 8em;' %></td>
         <td><%= f.select :focus_on_complete, focus_on_completes, {include_blank: true}, class: 'form-control' %></td>
       </tr>
     </table>

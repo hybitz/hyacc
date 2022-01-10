@@ -43,7 +43,7 @@
       <tr>
           <td colspan="2">平成　・　・<br/>平成　・　・</td>
           <td align="center">2</td>
-          <td class="text-right"><%= to_amount(@model.corporate_tax_payable_at_start_second) %></td>
+          <td class="text-end"><%= to_amount(@model.corporate_tax_payable_at_start_second) %></td>
           <td class="bg-light"></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
@@ -65,21 +65,21 @@
           <td align="center">確定</td>
           <td align="center">4</td>
           <td class="bg-light"></td>
-          <td class="text-right"><%= to_amount(@model.total_corporate_tax_at_full) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_full) %></td>
           <td colspan="3" class="bg-light"></td>
           <td colspan="2" class="bg-light"></td>
           <td colspan="2" class="bg-light"></td>
-          <td class="text-right"><%= to_amount(@model.total_corporate_tax_at_full) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_full) %></td>
       </tr>
       <tr>
           <td colspan="2" align="center">計</td>
           <td align="center">5</td>
-          <td class="text-right"><%= to_amount(@model.total_corporate_tax_payable_at_start) %></td>
-          <td class="text-right"><%= to_amount(@model.total_corporate_tax) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_payable_at_start) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
           <td colspan="2"></td>
-          <td class="text-right"><%= to_amount(@model.total_corporate_tax_payable_at_start + @model.total_corporate_tax) %></td>
+          <td class="text-end"><%= to_amount(@model.total_corporate_tax_payable_at_start + @model.total_corporate_tax) %></td>
       </tr>
       <tr>
           <td colspan="14"></td>
@@ -88,7 +88,7 @@
           <td rowspan="5" width="20px" class="text-center">道府県民税</td>
           <td colspan="2">平成　・　・<br/>平成　・　・</td>
           <td width="20" class="text-center">6</td>
-          <td class="text-right"><%= to_amount(@model.prefectural_tax_payable_at_start_first) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_first) %></td>
           <td class="bg-light"></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
@@ -98,7 +98,7 @@
       <tr>
           <td colspan="2">平成　・　・<br/>平成　・　・</td>
           <td class="text-center">7</td>
-          <td class="text-right"><%= to_amount(@model.prefectural_tax_payable_at_start_second) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_second) %></td>
           <td class="bg-light"></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
@@ -209,7 +209,7 @@
           <td colspan="2">平成　・　・<br/>平成　・　・</td>
           <td align="center">17</td>
           <td></td>
-          <td class="text-right"><%= to_amount(@model.business_tax_at_full) %></td>
+          <td class="text-end"><%= to_amount(@model.business_tax_at_full) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
           <td colspan="2"></td>
@@ -229,7 +229,7 @@
           <td colspan="2" class="text-center">計</td>
           <td class="text-center">19</td>
           <td></td>
-          <td class="text-right"><%= to_amount(@model.business_tax_at_total) %></td>
+          <td class="text-end"><%= to_amount(@model.business_tax_at_total) %></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
           <td colspan="2"></td>

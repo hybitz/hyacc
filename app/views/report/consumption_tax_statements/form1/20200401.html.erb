@@ -4,7 +4,7 @@
   </div>
   <div class="row">
     <span class="offset-md-3 col-md-6"><strong><%= justify('課税期間分の消費税及び地方') %><%= justify('消費税の（　　）申告書') %></strong></span>
-    <span class="col-md-3 text-right">第<br>一<br>表</span>
+    <span class="col-md-3 text-end">第<br>一<br>表</span>
   </div>
   <div class="row">
     <div class="offset-md-1 col-md-6">
@@ -16,85 +16,85 @@
           <tr>
             <td colspan="3"><%= justify('課税標準額') %></td>
             <td class="text-center align-middle" style="width: 3em;">①</td>
-            <td class="text-right" style="width: 50%;"><%= to_amount(@model.total_standard_sale_amount, show_zero: true) %></td>
+            <td class="text-end" style="width: 50%;"><%= to_amount(@model.total_standard_sale_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('消費税額') %></td>
             <td class="align-middle">②</td>
-            <td class="text-right"><%= to_amount(@model.total_sale_tax_amount, show_zero: true) %></td>
+            <td class="text-end"><%= to_amount(@model.total_sale_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('控除過大調整税額') %></td>
             <td class="align-middle">③</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td rowspan="4" class="align-middle" style="width: 3em;">控<br>除<br>税<br>額</td>
             <td colspan="2" class="align-middle"><%= justify('控除対象仕入税額') %></td>
             <td class="align-middle">④</td>
-            <td class="text-right"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
+            <td class="text-end"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="2" class="align-middle"><%= justify('返還等対価') %><%= justify('に係る税額') %></td>
             <td class="align-middle">⑤</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td colspan="2" class="align-middle"><%= justify('貸倒れに係る税額') %></td>
             <td class="align-middle">⑥</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td colspan="2" class="align-middle"><%= justify('控除税額小計') %><div>（④＋⑤＋⑥）</div></td>
             <td class="align-middle">⑦</td>
-            <td class="align-middle text-right"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
+            <td class="align-middle text-end"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('控除不足還付税額') %><div>（⑦－②－③）</div></td>
             <td class="align-middle">⑧</td>
-            <td class="text-right"</td>
+            <td class="text-end"</td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('差引税額') %><div>（②＋③－⑦）</div></td>
             <td class="align-middle">⑨</td>
-            <td class="align-middle text-right"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
+            <td class="align-middle text-end"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('中間納付税額') %></td>
             <td class="align-middle">⑩</td>
-            <td class="text-right"><%= to_amount(@model.interim_tax_amount, show_zero: true) %></td>
+            <td class="text-end"><%= to_amount(@model.interim_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('納付税額') %><div>（⑨－⑩）</div></td>
             <td class="align-middle">⑪</td>
-            <td class="align-middle text-right"><%= to_amount(@model.tax_payment_amount, show_zero: true) %></td>
+            <td class="align-middle text-end"><%= to_amount(@model.tax_payment_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('中間納付還付税額') %><div>（⑩－⑨）</div></td>
             <td class="align-middle">⑫</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td rowspan="2" class="align-middle text-nowrap" colspan="2"><%= justify('この申告書') %><%= justify('が修正申告') %><%= justify('である場合') %></td>
             <td class="align-middle"><%= justify('既確定税額') %></td>
             <td class="align-middle">⑬</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td class="align-middle"><%= justify('差引納付税額') %></td>
             <td class="align-middle">⑭</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td rowspan="2" class="align-middle text-nowrap" colspan="2"><%= justify('課税売上') %><%= justify('割合') %></td>
             <td class="align-middle"><%= justify('課税資産の譲渡') %><%= justify('等の対価の額') %></td>
             <td class="align-middle">⑮</td>
-            <td class="align-middle text-right"><%= to_amount(@model.total_sale_amount, show_zero: true) %></td>
+            <td class="align-middle text-end"><%= to_amount(@model.total_sale_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td class="align-middle"><%= justify('資産の譲渡') %><%= justify('等の対価の額') %></td>
             <td class="align-middle">⑯</td>
-            <td class="align-middle text-right"><%= to_amount(@model.total_sale_amount, show_zero: true) %></td>
+            <td class="align-middle text-end"><%= to_amount(@model.total_sale_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="5"><%= justify('この申告書による地方消費税の税額の計算') %></td>
@@ -103,54 +103,54 @@
             <td rowspan="2" class="align-middle text-nowrap" colspan="2"><%= justify('地方消費税') %><%= justify('の課税標準') %><%= justify('となる消費') %><%= justify('税額') %></td>
             <td class="align-middle"><%= justify('控除不足還付税額') %></td>
             <td class="align-middle">⑰</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td class="align-middle"><%= justify('差引税額') %></td>
             <td class="align-middle">⑱</td>
-            <td class="align-middle text-right"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
+            <td class="align-middle text-end"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td rowspan="2" class="align-middle" style="width: 3em;">譲<br>渡<br>割<br>額</td>
             <td colspan="2" class="align-middle"><%= justify('還付額') %></td>
             <td class="align-middle">⑲</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td colspan="2" class="align-middle"><%= justify('納税額') %></td>
             <td class="align-middle">⑳</td>
-            <td class="text-right"><%= to_amount(@model.total_local_tax_amount, show_zero: true) %></td>
+            <td class="text-end"><%= to_amount(@model.total_local_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('中間納付譲渡割額') %></td>
             <td class="align-middle">㉑</td>
-            <td class="align-middle text-right"><%= to_amount(@model.interim_local_tax_amount, show_zero: true) %></td>
+            <td class="align-middle text-end"><%= to_amount(@model.interim_local_tax_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('納付譲渡割額') %><div>（⑳－㉑）</div></td>
             <td class="align-middle">㉒</td>
-            <td class="align-middle text-right"><%= to_amount(@model.local_tax_payment_amount, show_zero: true) %></td>
+            <td class="align-middle text-end"><%= to_amount(@model.local_tax_payment_amount, show_zero: true) %></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('中間納付還付譲渡割額') %><div>（㉑－⑳）</div></td>
             <td class="align-middle">㉓</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td rowspan="2" class="align-middle text-nowrap" colspan="2"><%= justify('この申告書') %><%= justify('が修正申告') %><%= justify('である場合') %></td>
             <td class="align-middle"><%= justify('既確定') %><%= justify('譲渡割額') %></td>
             <td class="align-middle">㉔</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td class="align-middle"><%= justify('差引納付') %><%= justify('譲渡割額') %></td>
             <td class="align-middle">㉕</td>
-            <td class="text-right"></td>
+            <td class="text-end"></td>
           </tr>
           <tr>
             <td colspan="3"><%= justify('消費税及び地方消費税の') %><%= justify('合計（納付又は還付）税額') %></td>
             <td class="align-middle">㉖</td>
-            <td class="text-right"><%= to_amount(@model.total_tax_payment_amount, show_zero: true) %></td>
+            <td class="text-end"><%= to_amount(@model.total_tax_payment_amount, show_zero: true) %></td>
           </tr>
         </tbody>
       </table>
@@ -212,7 +212,7 @@
           </tr>
           <tr>
             <td colspan="2" class="align-middle"><%= justify('基準期間の') %><%= justify('課税売上高') %></td>
-            <td colspan="5" class="text-right align-middle">千円</td>
+            <td colspan="5" class="text-end align-middle">千円</td>
           </tr>
         </tbody>
       </table>

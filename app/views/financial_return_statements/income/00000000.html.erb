@@ -27,7 +27,7 @@
     <tr>
       <td rowspan="2" colspan="2" class="align-middle">当期利益又は当期欠損の額</td>
       <td rowspan="2" class="align-middle text-center">1</td>
-      <td rowspan="2" colspan="2" class="align-middle text-right"><%= to_amount(@model.pretax_profit_amount) %></td>
+      <td rowspan="2" colspan="2" class="align-middle text-end"><%= to_amount(@model.pretax_profit_amount) %></td>
       <td rowspan="2"></td>
       <td>配当</td>
       <td colspan="2"></td>
@@ -56,8 +56,8 @@
     <tr>
       <td>損金経理をした納税充当金</td>
       <td class="text-center">4</td>
-      <td colspan="2" class="text-right"><%= to_amount(@model.corporate_tax_amount) %></td>
-      <td class="text-right"><%= to_amount(@model.corporate_tax_amount) %></td>
+      <td colspan="2" class="text-end"><%= to_amount(@model.corporate_tax_amount) %></td>
+      <td class="text-end"><%= to_amount(@model.corporate_tax_amount) %></td>
       <td></td>
       <td></td>
     </tr>

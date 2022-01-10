@@ -41,9 +41,9 @@
             <td class="remarks">前期末残高</td>
             <td class="accountName"></td>
             <td class="branchName"></td>
-            <td class="amountDebit text-right"></td>
-            <td class="amountCredit text-right"></td>
-            <td class="amountSum text-right"><%= to_amount(sum, show_zero: true) %></td>
+            <td class="amountDebit text-end"></td>
+            <td class="amountCredit text-end"></td>
+            <td class="amountSum text-end"><%= to_amount(sum, show_zero: true) %></td>
           </tr>
         <% end %>
 
@@ -54,9 +54,9 @@
             <td class="remarks"><%= ledger.remarks %></td>
             <td class="accountName"><%= ledger.account_name %></td>
             <td class="branchName"><%= ledger.branch_name %></td>
-            <td class="amountDebit text-right"><%= to_amount(ledger.amount_debit) %></td>
-            <td class="amountCredit text-right"><%= to_amount(ledger.amount_credit) %></td>
-            <td class="amountSum text-right"><%= to_amount(sum += ledger.net_amount, show_zero: true) %></td>
+            <td class="amountDebit text-end"><%= to_amount(ledger.amount_debit) %></td>
+            <td class="amountCredit text-end"><%= to_amount(ledger.amount_credit) %></td>
+            <td class="amountSum text-end"><%= to_amount(sum += ledger.net_amount, show_zero: true) %></td>
           </tr>
         <% end %>
       </tbody>

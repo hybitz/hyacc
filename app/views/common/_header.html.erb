@@ -18,7 +18,7 @@
     （第 <%= current_company.current_fiscal_year.fiscal_period %> 期
     : <%= to_wareki(current_company.current_fiscal_year.start_day) %>～<%= to_wareki(current_company.current_fiscal_year.end_day) %>）
   </div>
-  <div class="mx-1 text-right">
+  <div class="mx-1 text-end">
     <%= link_to "#{current_user.employee.fullname} さん", edit_profile_path(current_user) %>
       |
       所属部門：<%= current_user.employee.default_branch_name %>

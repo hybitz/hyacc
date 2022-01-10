@@ -34,7 +34,7 @@
       <tr>
         <td rowspan="2" colspan="2" class="align-middle"><%= justify('当期利益又は当期欠損の額') %></td>
         <td rowspan="2" class="align-middle text-center" style="width: 1em;">1</td>
-        <td rowspan="2" class="align-middle text-right" style="width: 18%;"><%= to_amount(@model.pretax_profit_amount) %></td>
+        <td rowspan="2" class="align-middle text-end" style="width: 18%;"><%= to_amount(@model.pretax_profit_amount) %></td>
         <td rowspan="2" style="width: 18%;"></td>
         <td class="text-nowrap text-center" style="width: 3em;">配当</td>
         <td style="width: 18%;"></td>
@@ -64,8 +64,8 @@
         <% title = "法人税: #{to_amount(@model.corporate_tax_amount, show_zero: true)}\n法人事業税: #{to_amount(@model.business_tax_amount, show_zero: true)}" %>
         <td>損金経理をした納税充当金</td>
         <td class="text-center">4</td>
-        <td class="text-right" title="<%= title %>"><%= to_amount(@model.corporate_tax_amount) %></td>
-        <td class="text-right" title="<%= title %>"><%= to_amount(@model.corporate_tax_amount) %></td>
+        <td class="text-end" title="<%= title %>"><%= to_amount(@model.corporate_tax_amount) %></td>
+        <td class="text-end" title="<%= title %>"><%= to_amount(@model.corporate_tax_amount) %></td>
         <td class="bg-light"></td>
         <td class="bg-light"></td>
       </tr>
@@ -120,17 +120,17 @@
       <tr>
         <td><%= justify('小計') %></td>
         <td class="text-center">11</td>
-        <td class="text-right"><%= to_amount(@model.increase_amount) %></td>
-        <td class="text-right"><%= to_amount(@model.increase_retained_amount) %></td>
+        <td class="text-end"><%= to_amount(@model.increase_amount) %></td>
+        <td class="text-end"><%= to_amount(@model.increase_retained_amount) %></td>
         <td></td>
-        <td class="text-right"><%= to_amount(@model.increase_outflow_amount) %></td>
+        <td class="text-end"><%= to_amount(@model.increase_outflow_amount) %></td>
       </tr>
       <tr>
         <td rowspan="10">減<br>算</td>
         <td><%= justify('減価償却超過額の当期認容額') %></td>
         <td class="text-center">12</td>
-        <td class="text-right"><%= to_amount(@model.fiscal_year.accepted_amount_of_excess_depreciation) %></td>
-        <td class="text-right"><%= to_amount(@model.fiscal_year.accepted_amount_of_excess_depreciation) %></td>
+        <td class="text-end"><%= to_amount(@model.fiscal_year.accepted_amount_of_excess_depreciation) %></td>
+        <td class="text-end"><%= to_amount(@model.fiscal_year.accepted_amount_of_excess_depreciation) %></td>
         <td class="bg-light"></td>
         <td class="bg-light"></td>
       </tr>
@@ -145,10 +145,10 @@
       <tr>
           <td class="text-center"><%= justify('受取配当等の益金不算入額') %>(別表八(一)｢13｣又は｢26｣)</td>
           <td class="align-middle text-center">14</td>
-          <td class="align-middle text-right"><%= to_amount(@model.dividend_received.non_deductible_amount) %></td>
+          <td class="align-middle text-end"><%= to_amount(@model.dividend_received.non_deductible_amount) %></td>
           <td class="align-middle bg-light"></td>
           <td class="align-middle text-center">※</td>
-          <td class="align-middle text-right"><%= to_amount(@model.dividend_received.non_deductible_amount) %></td>
+          <td class="align-middle text-end"><%= to_amount(@model.dividend_received.non_deductible_amount) %></td>
       </tr>
       <tr>
           <td class="text-center"><%= justify('外国子会社から受ける剰余金の配当等の益金不算入額') %>(別表八(二)｢26｣)</td>
@@ -193,26 +193,26 @@
       <tr>
         <td><strong><%= '事業税認定損' if @model.fiscal_year.approved_loss_amount_of_business_tax > 0 %></strong></td>
         <td class="text-center">20</td>
-        <td class="text-right"><%= to_amount(@model.fiscal_year.approved_loss_amount_of_business_tax) %></td>
-        <td class="text-right"><%= to_amount(@model.fiscal_year.approved_loss_amount_of_business_tax) %></td>
+        <td class="text-end"><%= to_amount(@model.fiscal_year.approved_loss_amount_of_business_tax) %></td>
+        <td class="text-end"><%= to_amount(@model.fiscal_year.approved_loss_amount_of_business_tax) %></td>
         <td></td>
         <td></td>
       </tr>
       <tr>
         <td><%= justify('小計') %></td>
         <td class="text-center">21</td>
-        <td class="text-right"><%= to_amount(@model.decrease_amount) %></td>
-        <td class="text-right"><%= to_amount(@model.decrease_retained_amount) %></td>
+        <td class="text-end"><%= to_amount(@model.decrease_amount) %></td>
+        <td class="text-end"><%= to_amount(@model.decrease_retained_amount) %></td>
         <td class="text-center">外※</td>
-        <td class="text-right"><%= to_amount(@model.decrease_outflow_amount) %></td>
+        <td class="text-end"><%= to_amount(@model.decrease_outflow_amount) %></td>
       </tr>
       <tr>
         <td colspan="2" class="align-middle text-center"><%= justify('仮　計') %>(1)＋(11)－(21)</td>
         <td class="align-middle text-center">22</td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_amount) %></td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_retained_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_retained_amount) %></td>
         <td class="align-middle text-center">外※</td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_outflow_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_outflow_amount) %></td>
       </tr>
       <tr>
         <td colspan="2" class="text-center"><%= justify('関連者等に係る支払利子等の損金不算入額') %>(別表十七(二の二)｢25｣又は｢30｣)</td>
@@ -233,10 +233,10 @@
       <tr>
         <td colspan="2" class="align-middle text-center"><%= justify('仮　計') %>((22)から(24)までの計)</td>
         <td class="align-middle text-center">25</td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_amount) %></td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_retained_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_retained_amount) %></td>
         <td class="align-middle text-center">外※</td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_outflow_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_outflow_amount) %></td>
       </tr>
       <tr>
         <td colspan="2" class="text-center"><%= justify('被合併法人等の最 終の事業年度の欠損金の損金算入額') %></td>
@@ -305,10 +305,10 @@
       <tr>
         <td colspan="2" class="text-center"><%= justify('合　計') %>(25)＋(26)＋(27)＋(28)＋(29)＋(30)＋(31)＋(32)±(33)</td>
         <td class="align-middle text-center">34</td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_amount) %></td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_retained_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_retained_amount) %></td>
         <td class="align-middle text-center">外※</td>
-        <td class="align-middle text-right"><%= to_amount(@model.provisional_outflow_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_outflow_amount) %></td>
       </tr>
       <tr>
         <td colspan="2" class="text-center"><%= justify('契約者配当の益金算入額') %>(別表九(一)「13」)</td>
@@ -425,10 +425,10 @@
       <tr>
         <td colspan="2"><%= justify('所得金額又は欠損金額') %></td>
         <td class="text-center">49</td>
-        <td class="text-right"><%= to_amount(@model.income_amount) %></td>
-        <td class="align-middle text-right"><%= to_amount(@model.income_retained_amount) %></td>
+        <td class="text-end"><%= to_amount(@model.income_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.income_retained_amount) %></td>
         <td class="align-middle text-center">外※</td>
-        <td class="align-middle text-right"><%= to_amount(@model.income_outflow_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.income_outflow_amount) %></td>
       </tr>
     </tbody>
   </table>

@@ -4,14 +4,14 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
 
   def test_6_有価証券の内訳書
     sign_in user
-    get :index, :params => {:commit => true, :finder => investment_finder}
+    get :index, params: {commit: true, finder: investment_finder}
     assert_response :success
-    assert_template :investment_securities
+    assert_template 'financial_return_statements/investment_securities/00000000'
   end
 
   def test_9_買掛金の内訳書
     sign_in user
-    get :index, :params => {:commit => true, :finder => trade_account_payable_finder}
+    get :index, params: {commit: true, finder: trade_account_payable_finder}
     assert_response :success
     assert_template :trade_account_payable
   end

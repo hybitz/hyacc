@@ -66,8 +66,11 @@ module Reports
   class InvestSecuritiesModel
     attr_accessor :details
 
+    def initialize
+      @details = []
+    end
+
     def add_detail(detail)
-      self.details ||= []
       self.details << detail
     end
   end

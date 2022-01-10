@@ -10,8 +10,19 @@ module Reports
       Rent.order('status desc, end_to, start_from').each do |rent|
         detail = RentDetailModel.new
         detail.rent = rent
-        detail.start_from = start_from if rent.start_from < start_from
-        detail.end_to = end_to if rent.end_to.nil? || rent.end_to > end_to
+
+          if rent.start_from < start_from
+          detail.start_from = start_from
+        else
+          detail.start_from = rent.start_from
+        end
+
+        if rent.end_to.nil? || rent.end_to > end_to
+          detail.end_to = end_to
+        else
+          detail.end_to = rent.end_to
+        end
+
         details[rent.id] = detail
       end
 

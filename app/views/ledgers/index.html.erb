@@ -107,13 +107,13 @@
             <td class="remarks"></td>
             <td class="accountName"></td>
             <td class="branchName"></td>
-            <td class="amountDebit"><%= to_amount( ledger.amount_debit, :show_zero => true ) %></td>
-            <td class="amountCredit"><%= to_amount( ledger.amount_credit, :show_zero => true ) %></td>
+            <td class="amountDebit"><%= to_amount(ledger.amount_debit, show_zero: true) %></td>
+            <td class="amountCredit"><%= to_amount(ledger.amount_credit, show_zero: true) %></td>
             <td class="amountMonthlySum"></td>
             <td class="amountSum"></td>
             <td class="nowrap">
               <% if ledger.has_amount %>
-                <%= link_to '伝票表示', ledger_path(ledger.ym), :onclick => 'show_journals(this); return false;' %>
+                <%= link_to '伝票表示', ledger_path(ledger.ym), onclick: 'show_journals(this); return false;' %>
               <% end %>
             </td>
           </tr>

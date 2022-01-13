@@ -79,8 +79,8 @@ class Ledger
 
   def detail_matches?( ledger_finder, jd )
     return false unless ledger_finder.account_id.to_i == jd.account_id 
-    return false unless ledger_finder.sub_account_id.blank? or ledger_finder.sub_account_id.to_i == jd.sub_account_id
-    return false unless ledger_finder.branch_id.blank? or ledger_finder.branch_id.to_i == jd.branch_id
+    return false unless ledger_finder.sub_account_id.to_i == 0 or ledger_finder.sub_account_id.to_i == jd.sub_account_id
+    return false unless ledger_finder.branch_id.to_i == 0 or ledger_finder.branch_id.to_i == jd.branch_id
     true
   end
 

@@ -68,7 +68,7 @@ class LedgerFinder
     ret = []
     details = JournalDetail.includes(:journal).references(:journal).select(:journal_id).where(conditions_for_journals(ym))
     ids = details.map(&:journal_id).uniq
-    Journal.where(:id => ids).order('ym, day, created_at').includes(:journal_details).each do |jh|
+    Journal.where(id: ids).order('ym, day, created_at').includes(:journal_details).each do |jh|
       ret << Ledger.new(jh, self)
     end
 

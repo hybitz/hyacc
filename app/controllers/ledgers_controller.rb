@@ -1,6 +1,6 @@
 class LedgersController < Base::HyaccController
-  view_attribute :accounts, :only => :index
-  view_attribute :branches, :only => :index
+  view_attribute :accounts, only: :index
+  view_attribute :branches, only: :index
 
   helper_method :finder
 

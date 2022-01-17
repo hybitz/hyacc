@@ -37,9 +37,11 @@ module Reports
 
       # 事業税
       model.business_tax_payable_at_start_first = nil
-      model.business_tax_payable_at_start_second = get_corporate_enterprise_tax_net_sum(SETTLEMENT_TYPE_FULL)
+      model.business_tax_payable_at_start_second = nil
+      model.business_tax_at_start_first = nil
+      model.business_tax_at_start_second = get_corporate_enterprise_tax_net_sum(SETTLEMENT_TYPE_FULL) # 事業税を支払った時に処理する仕訳を想定（一般的ではない）
       model.business_tax_at_half = get_corporate_enterprise_tax_net_sum(SETTLEMENT_TYPE_HALF)
-      model.business_tax_at_full = 0 #事業税を支払った時に処理する仕訳を想定（一般的ではない）
+      model.business_tax_at_full = 0 
 
       model
     end
@@ -89,6 +91,8 @@ module Reports
     attr_accessor :municipal_inhabitants_tax_at_full
     attr_accessor :business_tax_payable_at_start_first
     attr_accessor :business_tax_payable_at_start_second
+    attr_accessor :business_tax_at_start_first
+    attr_accessor :business_tax_at_start_second
     attr_accessor :business_tax_at_half
     attr_accessor :business_tax_at_full
     
@@ -172,12 +176,28 @@ module Reports
       @municipal_inhabitants_tax_at_half.to_i + @municipal_inhabitants_tax_at_full.to_i  
     end
     
-    def business_tax_payable_at_start_total
+    def business_tax_payable_at_total
       business_tax_payable_at_start_first.to_i + business_tax_payable_at_start_second.to_i
     end
-    
+
+    def business_tax_paid_at_start_first
+      business_tax_payable_at_start_first.to_i
+    end
+
+    def business_tax_paid_at_start_second
+      business_tax_at_start_second.to_i
+    end
+
+    def business_tax_paid_at_half
+      business_tax_at_half.to_i
+    end
+
+    def business_tax_paid_at_total
+      business_tax_paid_at_start_first + business_tax_paid_at_start_second + business_tax_paid_at_half
+    end
+
     def business_tax_at_total
-      business_tax_payable_at_start_total + business_tax_at_half.to_i + business_tax_at_full.to_i
+      business_tax_at_start_first.to_i + business_tax_at_start_second.to_i + business_tax_at_half.to_i + business_tax_at_full.to_i
     end
   end
 

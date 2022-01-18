@@ -60,7 +60,7 @@
     <% if @account.path.include? HyaccConst::ACCOUNT_CODE_FIXED_ASSET %>
     <tr>
       <th><%= f.label :depreciable %></th>
-      <td><%= f.select :depreciable, {'可' => true, '不可' => false} %></td>
+      <td><%= f.select :depreciable, {'可': true, '不可': false} %></td>
     </tr>
     <tr>
       <th><%= f.label :depreciation_method %></th>
@@ -70,17 +70,17 @@
 
     <tr>
       <th><%= f.label :is_settlement_report_account %></th>
-      <td><%= f.select :is_settlement_report_account, {'出力対象'=>true, '出力対象外'=>false} %></td>
+      <td><%= f.select :is_settlement_report_account, {'出力対象': true, '出力対象外': false} %></td>
     </tr>
     <tr>
       <th><%= f.label :journalizable %></th>
-      <td><%= f.select :journalizable, {'可' => true, '不可' => false} %></td>
+      <td><%= f.select :journalizable, {'可': true, '不可': false} %></td>
     </tr>
 
     <% if @account.debt? %>
       <tr>
         <th><%= f.label :is_trade_account_payable %></th>
-        <td><%= f.select :is_trade_account_payable, {'はい' => true, 'いいえ' => false} %></td>
+        <td><%= f.select :is_trade_account_payable, {'はい': true, 'いいえ': false} %></td>
       </tr>
     <% end %>
 

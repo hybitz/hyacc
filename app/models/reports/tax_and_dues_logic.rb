@@ -5,6 +5,7 @@ module Reports
     def initialize(finder)
       super(finder)
       @corporate_tax_payable = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE)
+      @corporate_tax_receivable = Account.find_by_code(ACCOUNT_CODE_INCOME_TAXES_RECEIVABLE)
       @corporate_taxes = Account.where(is_tax_account: true, dc_type: DC_TYPE_DEBIT, deleted: false)
     end
     
@@ -16,6 +17,9 @@ module Reports
       model.corporate_tax_payable_at_start_second = corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_CORPORATE_TAX)
       model.corporate_tax_payable_at_start_second += corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
       model.corporate_tax_payable_at_start_second += corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
+      model.corporate_tax_payable_at_start_second -= corporate_tax_receivable_net_sum_until(CORPORATE_TAX_TYPE_CORPORATE_TAX)
+      model.corporate_tax_payable_at_start_second -= corporate_tax_receivable_net_sum_until(CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      model.corporate_tax_payable_at_start_second -= corporate_tax_receivable_net_sum_until(CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
       
       model.corporate_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_CORPORATE_TAX)
       model.regional_corporate_tax_at_half = net_sum(SETTLEMENT_TYPE_HALF, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
@@ -39,8 +43,8 @@ module Reports
       model.business_tax_payable_at_start_first = nil
       model.business_tax_payable_at_start_second = nil
       model.business_tax_at_start_first = nil
-      model.business_tax_at_start_second = get_corporate_enterprise_tax_net_sum(SETTLEMENT_TYPE_FULL) # 事業税を支払った時に処理する仕訳を想定（一般的ではない）
-      model.business_tax_at_half = get_corporate_enterprise_tax_net_sum(SETTLEMENT_TYPE_HALF)
+      model.business_tax_at_start_second = get_business_tax_net_sum(SETTLEMENT_TYPE_FULL) # 事業税を支払った時に処理する仕訳を想定（一般的ではない）
+      model.business_tax_at_half = get_business_tax_net_sum(SETTLEMENT_TYPE_HALF)
       model.business_tax_at_full = 0 
 
       model
@@ -52,6 +56,10 @@ module Reports
       VTaxAndDues.net_sum_until(start_ym, @corporate_tax_payable.id, sub_account_id)
     end
     
+    def corporate_tax_receivable_net_sum_until(sub_account_id)
+      VTaxAndDues.net_sum_until(start_ym, @corporate_tax_receivable.id, sub_account_id)
+    end
+  
     def net_sum(settlement_type, sub_account_id)
       sum = 0
       
@@ -63,7 +71,7 @@ module Reports
       sum
     end
   
-    def get_corporate_enterprise_tax_net_sum(settlement_type)
+    def get_business_tax_net_sum(settlement_type)
       account = Account.find_by_code(ACCOUNT_CODE_TAX_AND_DUES)
       sub_account = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_BUSINESS_TAX)
 

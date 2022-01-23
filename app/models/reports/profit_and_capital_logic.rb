@@ -48,10 +48,16 @@ module Reports
       # 繰越損益金
       ret.pretax_profit_amount = get_pretax_profit_amount
 
-      # 未納法人税、未納道府県民税、市町村民税
+      # 未納法人税
       ret.corporate_taxes_payable_amount = get_amount_at_end(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_CORPORATE_TAX)
       ret.corporate_taxes_payable_amount += get_amount_at_end(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
-      ret.perfectual_tax_payable_amount = get_amount_at_end(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
+
+      # 未納道府県民税
+      ret.perfectual_tax_payable_amount_at_start = get_amount_at_start(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
+      ret.perfectual_tax_payable_amount_decrease = get_this_term_debit_amount(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
+      ret.perfectual_tax_payable_amount_increase = get_this_term_credit_amount(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_PREFECTURAL_TAX)
+
+      # 未納市町村民税
       ret.municipal_tax_payable_amount = get_amount_at_end(ACCOUNT_CODE_CORPORATE_TAXES_PAYABLE, CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
 
       d = ret.new_capital_stock_detail
@@ -77,7 +83,7 @@ module Reports
     attr_accessor :surplus_reserves
     attr_accessor :pretax_profit_amount
     attr_accessor :corporate_taxes_payable_amount
-    attr_accessor :perfectual_tax_payable_amount
+    attr_accessor :perfectual_tax_payable_amount_at_start, :perfectual_tax_payable_amount_decrease, :perfectual_tax_payable_amount_increase
     attr_accessor :municipal_tax_payable_amount
     attr_accessor :capital_stocks
     
@@ -87,6 +93,10 @@ module Reports
       @pretax_profit_amount = 0
       @corporate_taxes_payable_amount = 0
       @capital_stocks = []
+    end
+  
+    def perfectual_tax_payable_amount
+      perfectual_tax_payable_amount_at_start - perfectual_tax_payable_amount_decrease + perfectual_tax_payable_amount_increase
     end
     
     def new_detail
@@ -102,18 +112,22 @@ module Reports
     end
 
     def total_amount_at_start
-      surplus_reserves.inject(0){|sum, d| sum + d.amount_at_start }
+      ret = surplus_reserves.inject(0){|sum, d| sum + d.amount_at_start }
+      ret -= perfectual_tax_payable_amount_at_start
+      ret
     end
 
     def total_amount_decrease
-      surplus_reserves.inject(0){|sum, d| sum + d.amount_decrease }
+      ret =surplus_reserves.inject(0){|sum, d| sum + d.amount_decrease }
+      ret -= perfectual_tax_payable_amount_decrease
+      ret
     end
 
     def total_amount_increase
       ret = surplus_reserves.inject(0){|sum, d| sum + d.amount_increase }
       ret += pretax_profit_amount
       ret -= corporate_taxes_payable_amount
-      ret -= perfectual_tax_payable_amount
+      ret -= perfectual_tax_payable_amount_increase
       ret -= municipal_tax_payable_amount
       ret
     end

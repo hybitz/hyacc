@@ -95,11 +95,11 @@
     <tr>
       <td rowspan="2">未納道府県民税<br/>(均等割額及び利子割額を含む｡)</td>
       <td rowspan="2" class="align-middle text-center">29</td>
-      <td rowspan="2" class="align-middle">△</td>
-      <td rowspan="2" class="align-middle">△</td>
+      <td rowspan="2" class="profit_and_capital"><div>△</div><div><%= to_amount(@model.perfectual_tax_payable_amount_at_start) %></div></td>
+      <td rowspan="2" class="profit_and_capital"><div>△</div><div><%= to_amount(@model.perfectual_tax_payable_amount_decrease) %></div></td>
       <td>中間 △</td>
       <td rowspan="2" class="profit_and_capital">
-        <div>△</div><div><%= to_amount(@model.perfectual_tax_payable_amount) %></div>
+        <div>△</div><div><%= to_amount(@model.perfectual_tax_payable_amount_increase) %></div>
       </td>
     </tr>
     <tr>

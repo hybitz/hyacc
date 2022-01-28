@@ -93,7 +93,13 @@ class ClosingAccountJob < ActiveJob::Base
     sql.append('inner join accounts a on (a.id = jd.account_id)')
     sql.append('where ym >= ? and ym <= ?', ym_range.first, ym_range.last)
     sql.append('  and path like ?', '%' + account.path + '%')
-    sql.append('  and branch_id = ?', @branch_id) if @branch_id > 0
+
+    if @branch_id > 0
+      sql.append('  and jd.branch_id = ?', @branch_id)
+    else
+      sql.append('  and a.trade_type = ?', TRADE_TYPE_EXTERNAL)
+    end
+
     sql.append('group by jh.ym, jd.dc_type')
     JournalDetail.find_by_sql(sql.to_a).each do |row|
       # 年月からデータを格納する配列のインデックスを算出

@@ -96,15 +96,15 @@
   <% end %>
 
   <%# 特別利益 %>
-  <%= render 'line_pl_yearly', :account_code => ACCOUNT_CODE_EXTRAORDINARY_PROFIT %>
+  <%= render 'line_pl_yearly', account_code: ACCOUNT_CODE_EXTRAORDINARY_PROFIT %>
 
   <%# 特別費用に関する科目 %>
   <% @sum[ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:account].children.each do |child| %>
-    <%= render 'line_pl_yearly', :total_amount=>@sum[ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:amount], :account_code=> child.code %>
+    <%= render 'line_pl_yearly', total_amount: @sum[ACCOUNT_CODE_EXTRAORDINARY_EXPENSE][:amount], account_code: child.code %>
   <% end %>
 
-  <%# 特別費用 %>
-  <%= render 'line_pl_yearly', :account_code => ACCOUNT_CODE_EXTRAORDINARY_EXPENSE %>
+  <%# 特別損失 %>
+  <%= render 'line_pl_yearly', account_code: ACCOUNT_CODE_EXTRAORDINARY_EXPENSE %>
 
   <%# 税引前当期利益 %>
   <tr id="pretaxProfit" style="font-weight: bold;">

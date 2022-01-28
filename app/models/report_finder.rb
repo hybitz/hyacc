@@ -34,7 +34,7 @@ class ReportFinder < Base::Finder
     # データの受け皿の準備
     ret = []
     ym_range.each do | ym |
-      ret << {:ym => ym, :amount => 0}
+      ret << {ym: ym, amount: 0}
     end
     
     # 1期分の月別累計情報を検索

@@ -1,4 +1,4 @@
-<%= form_for [:mm, @customer], :html => {:class => 'customer'}, :remote => true do |f| %>
+<%= form_with model: [:mm, @customer], html: {class: 'customer'} do |f| %>
   <%= flash_notice %>
   <table>
     <% if @customer.new_record? %>
@@ -31,7 +31,7 @@
 
     <tr>
       <th><%= f.label :address %></th>
-      <td><%= f.nostalgic_text_field :address, :class => 'address' %></td>
+      <td><%= f.nostalgic_text_field :address, class: 'address' %></td>
     </tr>
     <tr>
       <th><%= f.label :is_order_entry %></th>

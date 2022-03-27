@@ -1,5 +1,5 @@
 <div class="m-2">
-  <%= form_tag({:action => 'index'}, method: 'get', class: 'form form-inline') do %>
+  <%= form_tag({action: 'index'}, method: 'get', class: 'form form-inline') do %>
     <label class="m-2">勘定科目区分：<%= select 'finder', 'account_type', finder.account_types, {}, class: 'form-control' %></label>
     <label class="m-2">リーフのみ表示：<%= check_box 'finder', 'leaf_only' %></label>
     <%= submit_tag '表示', class: 'btn btn-light' %>

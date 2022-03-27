@@ -63,7 +63,7 @@ EOS
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
 
     account = Account.find(account_id)
-    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, options)
+    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, **options)
     
     # 貸借区分用の条件文を用意
     sql[0] << "and dc_type = ? "
@@ -89,7 +89,7 @@ EOS
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
   
     account = Account.find(account_id)
-    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, options)
+    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, **options)
     
     # 借方合計
     sql[0] << "and dc_type = ? "
@@ -103,7 +103,7 @@ EOS
     raise '勘定科目の指定がありません。' unless account_id.to_i > 0
   
     account = Account.find(account_id)
-    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, options)
+    sql = make_condition(ym_from, ym_to, account, sub_account_id, branch_id, **options)
     
     # 貸方合計
     sql[0] << "and dc_type = ? "

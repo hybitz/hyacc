@@ -90,7 +90,12 @@
     <% end %>
     
     <% if @finder.respond_to?(:disable_types) %>
-      状態：<%= select('finder', 'disabled', @finder.disable_types, include_blank: true) %>
+      <div class="col-auto">
+        <div class="input-group">
+          <div class="input-group-text">状態</div>
+          <%= select('finder', 'disabled', @finder.disable_types, {include_blank: true}, class: 'form-select') %>
+        </div>
+      </div>
     <% end %>
 
     <% if @finder.respond_to?(:employee_id_enabled?) and @finder.employee_id_enabled? and @employees %>

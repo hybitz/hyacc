@@ -4,7 +4,7 @@ class Asset < ApplicationRecord
   belongs_to :branch
   belongs_to :journal_detail
 
-  has_many :depreciations, -> {order(:fiscal_year)}, :inverse_of => :asset, :dependent => :destroy
+  has_many :depreciations, -> {order(:fiscal_year)}, inverse_of: :asset, dependent: :destroy
   accepts_nested_attributes_for :depreciations
 
   validate :validate_durable_years, :validate_depreciation_limit

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_09_074153) do
+ActiveRecord::Schema.define(version: 2022_04_03_080334) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -433,7 +433,7 @@ ActiveRecord::Schema.define(version: 2022_01_09_074153) do
     t.integer "slip_type", null: false
     t.string "remarks", null: false
     t.integer "amount", null: false
-    t.string "finder_key"
+    t.string "finder_key", limit: 1023
     t.integer "transfer_from_id"
     t.integer "depreciation_id"
     t.integer "transfer_from_detail_id"

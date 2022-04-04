@@ -45,14 +45,14 @@
         <% end %>
         <th>
           <% if @pd['b1'].new_record? %>
-            <%= link_to '賞与１', {action: 'new_bonus', ym: current_company.current_fiscal_year.first_half_end_year_month, employee_id: @finder.employee_id}, remote: true %>
+            <%= link_to '賞与１', {action: 'new_bonus', ym: @finder.get_ym_range[5], employee_id: @finder.employee_id}, remote: true %>
           <% else %>
             <%= link_to '賞与１', edit_bonus_payroll_path(@pd['b1']), remote: true %>
           <% end %>
         </th>
         <th>
           <% if @pd['b2'].new_record? %>
-            <%= link_to '賞与２', {action: 'new_bonus', ym: current_company.current_fiscal_year.end_year_month, employee_id: @finder.employee_id}, remote: true %>
+            <%= link_to '賞与２', {action: 'new_bonus', ym: @finder.get_ym_range[11], employee_id: @finder.employee_id}, remote: true %>
           <% else %>
             <%= link_to '賞与２', edit_bonus_payroll_path(@pd['b2']), remote: true %>
           <% end %>

@@ -140,7 +140,7 @@ GEM
       cucumber-tag_expressions (~> 1.1.0)
       gherkin (~> 5.0)
     cucumber-expressions (6.0.1)
-    cucumber-rails (2.5.0)
+    cucumber-rails (2.5.1)
       capybara (>= 2.18, < 4)
       cucumber (>= 3.2, < 8)
       mime-types (~> 3.3)
@@ -182,7 +182,7 @@ GEM
       activemodel
     encryptor (3.0.0)
     erubi (1.10.0)
-    excon (0.92.2)
+    excon (0.92.3)
     execjs (2.8.1)
     faraday (0.12.2)
       multipart-post (>= 1.2, < 3)
@@ -223,7 +223,7 @@ GEM
     i18n-js (3.9.2)
       i18n (>= 0.6.6)
     ipaddress (0.8.3)
-    itamae (1.12.5)
+    itamae (1.12.6)
       ansi
       hashie
       schash (~> 0.1.0)
@@ -236,7 +236,7 @@ GEM
       itamae-plugin-resource-pip (~> 1.1)
     itamae-plugin-recipe-passenger (0.1.4)
       itamae (~> 1.10, >= 1.10.4)
-    itamae-plugin-recipe-selenium (0.3.3)
+    itamae-plugin-recipe-selenium (0.3.4)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)
@@ -283,14 +283,14 @@ GEM
     mixlib-config (3.0.9)
       tomlrb
     mixlib-log (3.0.9)
-    mixlib-shellout (3.2.6)
+    mixlib-shellout (3.2.7)
       chef-utils
     moment-timezone-rails (1.0.0)
       momentjs-rails (>= 2.10.5, <= 3.0.0)
     momentjs-rails (2.29.1.1)
       railties (>= 3.1)
     mousetrap-rails (1.4.6)
-    msgpack (1.4.5)
+    msgpack (1.5.1)
     multi_json (1.15.0)
     multi_test (0.1.2)
     multi_xml (0.6.0)
@@ -325,9 +325,9 @@ GEM
       plist (~> 3.1)
       train-core
       wmi-lite (~> 1.0)
-    omniauth (2.0.4)
+    omniauth (2.1.0)
       hashie (>= 3.4.6)
-      rack (>= 1.6.2, < 3)
+      rack (>= 2.2.3)
       rack-protection
     omniauth-google-oauth2 (1.0.1)
       jwt (>= 2.0)
@@ -343,7 +343,7 @@ GEM
     orm_adapter (0.5.0)
     plist (3.6.0)
     popper_js (2.9.3)
-    public_suffix (4.0.6)
+    public_suffix (4.0.7)
     puma (4.3.12)
       nio4r (~> 2.0)
     racc (1.6.0)
@@ -396,7 +396,7 @@ GEM
     redis (4.6.0)
     redis-namespace (1.8.2)
       redis (>= 3.0.4)
-    regexp_parser (2.2.1)
+    regexp_parser (2.3.1)
     remotipart (1.4.4)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -466,7 +466,7 @@ GEM
       actionpack (>= 5.2.4.3, < 6)
       activesupport (>= 5.2.4.3, < 6)
       railties (>= 5.2.4.3, < 6)
-    tax_jp (1.2.3)
+    tax_jp (1.2.4)
       bootstrap (~> 5.0)
       bootstrap4-datetime-picker-rails
       font-awesome-rails
@@ -477,7 +477,7 @@ GEM
     thread_safe (0.3.6)
     tilt (2.0.10)
     tomlrb (1.3.0)
-    train-core (3.8.9)
+    train-core (3.9.2)
       addressable (~> 2.5)
       ffi (!= 1.13.0)
       json (>= 1.8, < 3.0)
@@ -515,7 +515,7 @@ GEM
     wmi-lite (1.0.7)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zengin_code (1.0.1.20220328)
+    zengin_code (1.0.1.20220425)
 
 PLATFORMS
   ruby
@@ -588,7 +588,7 @@ DEPENDENCIES
   zengin_code
 
 RUBY VERSION
-   ruby 2.6.3p62
+   ruby 2.7.5p203
 
 BUNDLED WITH
-   2.3.10
+   2.3.12

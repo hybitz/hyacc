@@ -27,7 +27,7 @@ class Asset < ApplicationRecord
 
   def amount_at_start(fiscal_year)
     if depreciations.present?
-      depreciations.find_by_fiscal_year(fiscal_year).amount_at_start
+      depreciations.find{|d| d.fiscal_year == fiscal_year.to_i }.amount_at_start
     else
       amount
     end
@@ -35,7 +35,7 @@ class Asset < ApplicationRecord
 
   def amount_at_end(fiscal_year)
     if depreciations.present?
-      depreciations.find_by_fiscal_year(fiscal_year).amount_at_end
+      depreciations.find{|d| d.fiscal_year == fiscal_year.to_i }.amount_at_end
     else
       amount
     end

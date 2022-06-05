@@ -18,16 +18,16 @@ class JournalDetail < ApplicationRecord
   belongs_to :account
   belongs_to :branch
 
-  has_one :asset, :dependent => :destroy
+  has_one :asset, dependent: :destroy
   accepts_nested_attributes_for :asset
 
-  has_one :investment, :dependent => :destroy
+  has_one :investment, dependent: :destroy
   accepts_nested_attributes_for :investment
 
-  has_one :tax_detail, :foreign_key => :main_detail_id, :class_name => 'JournalDetail', :dependent => :destroy
-  belongs_to :main_detail, :class_name => 'JournalDetail', optional: true
+  has_one :tax_detail, foreign_key: :main_detail_id, class_name: 'JournalDetail', dependent: :destroy
+  belongs_to :main_detail, class_name: 'JournalDetail', optional: true
 
-  has_many :transfer_journals, :foreign_key => :transfer_from_detail_id, :class_name => 'Journal', :dependent => :destroy
+  has_many :transfer_journals, foreign_key: :transfer_from_detail_id, class_name: 'Journal', dependent: :destroy
   accepts_nested_attributes_for :transfer_journals
 
   validates :account_id, presence: true
@@ -187,7 +187,7 @@ class JournalDetail < ApplicationRecord
     asset = self.asset
 
     # 固定資産の場合は資産を設定
-    if account.depreciable
+    if account.depreciable?
       unless asset
         asset = build_asset
         asset.code = AssetUtil.create_asset_code(journal.company.get_fiscal_year_int(journal.ym))
@@ -203,7 +203,7 @@ class JournalDetail < ApplicationRecord
       asset.day = journal.day
       asset.amount = amount
     else
-      asset.mark_for_destruction if asset
+      asset&.mark_for_destruction
     end
   end
 

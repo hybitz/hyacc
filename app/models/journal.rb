@@ -22,7 +22,7 @@ class Journal < ApplicationRecord
 
   has_one :receipt, -> { where deleted: false }, inverse_of: 'journal'
   accepts_nested_attributes_for :receipt,
-      :reject_if => proc {|attrs| attrs['id'].blank? && attrs['file'].blank? && attrs['file_cache'].blank? }
+      reject_if: proc {|attrs| attrs['id'].blank? && attrs['file'].blank? && attrs['file_cache'].blank? }
 
   before_save :update_sum_info, :set_update_user_id
   after_save :update_tax_admin_info
@@ -154,7 +154,7 @@ class Journal < ApplicationRecord
       # 税抜経理方式で消費税があれば、消費税明細を自動仕訳
       if detail.tax_amount.to_i > 0
         tax_detail = journal_details.find{|jd| jd.persisted? and jd.main_detail_id == detail.id }
-        tax_detail ||= journal_details.build(:main_detail => detail)
+        tax_detail ||= journal_details.build(main_detail: detail)
         tax_detail.detail_type = DETAIL_TYPE_TAX
         tax_detail.dc_type = detail.dc_type
         tax_detail.tax_type = TAX_TYPE_NONTAXABLE

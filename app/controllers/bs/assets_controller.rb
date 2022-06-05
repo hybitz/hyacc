@@ -1,6 +1,6 @@
 class Bs::AssetsController < Base::HyaccController
-  view_attribute :branches, :only => :index
-  before_action :preload_accounts, :only => 'index'
+  view_attribute :branches, only: :index
+  before_action :preload_accounts, only: 'index'
 
   helper_method :finder
 

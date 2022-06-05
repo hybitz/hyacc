@@ -8,7 +8,7 @@ class AssetFinder
   attr_accessor :fiscal_year
 
   def list
-    Asset.where(conditions).order('code').includes([:account, :branch])
+    Asset.where(conditions).order('code').includes([:account, :branch, :depreciations])
         .paginate(:page => page, :per_page => per_page)
   end
 

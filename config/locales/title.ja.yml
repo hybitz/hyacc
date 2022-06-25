@@ -12,6 +12,7 @@ ja:
     financial_statements: 決算書
     first_boot: 初期設定
     fiscal_years: 会計年度
+    hr: 人事労務
     journal_admin: 伝票管理
     journals: 振替伝票
     ledgers: 元帳
@@ -34,6 +35,7 @@ ja:
     mv: マスタビューア
     mv/social_insurances: 社会保険料
     mv/withheld_taxes: 源泉徴収税
+    payrolls: 賃金台帳
     profiles: 個人設定
     report: 帳票出力
     report/consumption_tax_statements: 消費税

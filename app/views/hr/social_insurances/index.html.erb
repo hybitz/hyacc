@@ -25,6 +25,8 @@
   <%
     total_health_insurance_by_ym = finder.ym_range.map{|ym| [ym, 0] }.to_h
     total_welfare_pension_by_ym = finder.ym_range.map{|ym| [ym, 0] }.to_h
+    total_health_insurance_by_bonus = {bonus_1: 0, bonus_2: 0}
+    total_welfare_pension_by_bonus = {bonus_1: 0, bonus_2: 0}
   %>
   <tbody>
     <% @payrolls_by_employee.each do |employee, payrolls| %>
@@ -53,8 +55,8 @@
         <% payrolls.each do |p| %>
           <% if p.is_bonus? and p.ym == finder.ym_range[5] %>
             <%
-              total_health_insurance_by_ym[finder.ym_range[5]] += p.journaled_health_insurance_employee
-              total_welfare_pension_by_ym[finder.ym_range[5]] += p.journaled_welfare_pension_employee
+              total_health_insurance_by_bonus[:bonus_1] += p.journaled_health_insurance_employee
+              total_welfare_pension_by_bonus[:bonus_1] += p.journaled_welfare_pension_employee
             %>
             <td class="text-center"><%= to_amount(p.journaled_health_insurance_employee) %></td>
             <td class="text-center"><%= to_amount(p.journaled_welfare_pension_employee) %></td>
@@ -69,8 +71,8 @@
         <% payrolls.each do |p| %>
           <% if p.is_bonus? and p.ym == finder.ym_range[11] %>
             <%
-              total_health_insurance_by_ym[finder.ym_range[11]] += p.journaled_health_insurance_employee
-              total_welfare_pension_by_ym[finder.ym_range[11]] += p.journaled_welfare_pension_employee
+              total_health_insurance_by_bonus[:bonus_2] += p.journaled_health_insurance_employee
+              total_welfare_pension_by_bonus[:bonus_2] += p.journaled_welfare_pension_employee
             %>
             <td class="text-center"><%= to_amount(p.journaled_health_insurance_employee) %></td>
             <td class="text-center"><%= to_amount(p.journaled_welfare_pension_employee) %></td>
@@ -106,8 +108,8 @@
         <% payrolls.each do |p| %>
           <% if p.is_bonus? and p.ym == finder.ym_range[5] %>
             <%
-              total_health_insurance_by_ym[finder.ym_range[5]] += p.journaled_health_insurance_company
-              total_welfare_pension_by_ym[finder.ym_range[5]] += p.journaled_welfare_pension_company
+              total_health_insurance_by_bonus[:bonus_1] += p.journaled_health_insurance_company
+              total_welfare_pension_by_bonus[:bonus_1] += p.journaled_welfare_pension_company
             %>
             <td class="text-center"><%= to_amount(p.journaled_health_insurance_company) %></td>
             <td class="text-center"><%= to_amount(p.journaled_welfare_pension_company) %></td>
@@ -122,8 +124,8 @@
         <% payrolls.each do |p| %>
           <% if p.is_bonus? and p.ym == finder.ym_range[11] %>
             <%
-              total_health_insurance_by_ym[finder.ym_range[11]] += p.journaled_health_insurance_company
-              total_welfare_pension_by_ym[finder.ym_range[11]] += p.journaled_welfare_pension_company
+              total_health_insurance_by_bonus[:bonus_2] += p.journaled_health_insurance_company
+              total_welfare_pension_by_bonus[:bonus_2] += p.journaled_welfare_pension_company
             %>
             <td class="text-center"><%= to_amount(p.journaled_health_insurance_company) %></td>
             <td class="text-center"><%= to_amount(p.journaled_welfare_pension_company) %></td>
@@ -145,6 +147,10 @@
         <td class="text-center"><%= to_amount(total_health_insurance_by_ym[ym]) %></td>
         <td class="text-center"><%= to_amount(total_welfare_pension_by_ym[ym]) %></td>
       <% end %>
+      <td class="text-center"><%= to_amount(total_health_insurance_by_bonus[:bonus_1]) %></td>
+      <td class="text-center"><%= to_amount(total_welfare_pension_by_bonus[:bonus_1]) %></td>
+      <td class="text-center"><%= to_amount(total_health_insurance_by_bonus[:bonus_2]) %></td>
+      <td class="text-center"><%= to_amount(total_welfare_pension_by_bonus[:bonus_2]) %></td>
     </tr>
     <tr>
       <td colspan="2" class="nowrap text-center">児童手当</td>

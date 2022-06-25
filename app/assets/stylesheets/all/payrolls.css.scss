@@ -10,6 +10,7 @@
 
 #payroll_table {
   margin-bottom: 10px;
+  white-space: nowrap;
 
   th {
     border: solid 1px;
@@ -20,5 +21,9 @@
     border: solid 1px;
     padding: 0.2em 0.4em;
     min-width: 5em;
+  }
+  td.vertical-writing {
+    min-width: 1em;
+    text-align: center;
   }
 }

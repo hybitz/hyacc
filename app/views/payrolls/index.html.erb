@@ -125,7 +125,7 @@
         <td class="text-center"><%= to_amount(@pd[:sum].extra_pay) %></td>
       </tr>
       <tr>
-        <td rowspan="4">手当</td>
+        <td rowspan="4" class="vertical-writing">手<br>当</td>
         <td>通勤手当</td>
         <% @finder.get_ym_range.each do |ym| %>
           <td class="text-center"><%= to_amount(@pd[ym].commuting_allowance) %></td>
@@ -189,7 +189,7 @@
         <td class="text-center"><%= to_amount(@pd[:sum].salary_total) %></td>
       </tr>
       <tr>
-        <td rowspan="8">控除額</td>
+        <td rowspan="8" class="vertical-writing">控<br>除<br>額</td>
         <td>健康保険料</td>
         <% @finder.get_ym_range.each do |ym| %>
         <td class="text-center"><%= to_amount(@pd[ym].health_insurance) %></td>
@@ -278,15 +278,6 @@
         <td class="text-center"><%= to_amount(@pd["b1"].after_deduction) %></td>
         <td class="text-center"><%= to_amount(@pd["b2"].after_deduction) %></td>
         <td class="text-center"><%= to_amount(@pd[:sum].after_deduction) %></td>
-      </tr>
-      <tr>
-        <td colspan="2">実物給与</td>
-        <% @finder.get_ym_range.each do |ym| %>
-          <td></td>
-        <% end %>
-        <td></td>
-        <td></td>
-        <td></td>
       </tr>
       <tr>
         <td colspan="2">還付金</td>

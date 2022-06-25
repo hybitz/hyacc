@@ -3,7 +3,7 @@ require 'test_helper'
 class Hr::PayrollsControllerTest < ActionController::TestCase
 
   def test_一覧
-    sign_in user
+    sign_in admin
     get :index
     assert_response :success
     assert_template 'index'
@@ -14,14 +14,14 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_追加
-    sign_in user
+    sign_in admin
     get :new, xhr: true, params: {ym: 200904, employee_id: 2}
     assert_response :success
     assert_template 'new'
   end
 
   def test_登録
-    sign_in user
+    sign_in admin
     post :create, params: {payroll: payroll_params.merge(ym: 200904)}, xhr: true
     assert assigns(:payroll).errors.empty?
     assert_response :success
@@ -29,7 +29,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_編集
-    sign_in user
+    sign_in admin
 
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -43,7 +43,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
 
   # 前月の情報取得
   def test_should_get_new_pre_month
-    sign_in user
+    sign_in admin
 
     get :new, params: {ym: 200811, employee_id: 1}, xhr: true
 
@@ -54,7 +54,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_create_deposits_received
-    sign_in user
+    sign_in admin
 
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -63,15 +63,16 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
 
     ym = 200902
     employee_id = 2
-    post :create, :xhr => true, :params => {
-        :payroll => {:ym => ym, :employee_id => employee_id,
-                      :days_of_work => 28, :hours_of_work => 224,
-                      :hours_of_day_off_work => 100, :hours_of_early_work => 101,
-                      :hours_of_late_night_work => 102, :base_salary => '394000',
-                      :health_insurance => '10000', :welfare_pension => '20000',
-                      :income_tax => '1000', :inhabitant_tax => '8400',
-                      :accrued_liability => '120000', :pay_day => '2009-03-06'}
-                      }
+    post :create, xhr: true, params: {
+        payroll: {
+          :ym => ym, :employee_id => employee_id,
+          :days_of_work => 28, :hours_of_work => 224,
+          :hours_of_day_off_work => 100, :hours_of_early_work => 101,
+          :hours_of_late_night_work => 102, :base_salary => '394000',
+          :health_insurance => '10000', :welfare_pension => '20000',
+          :income_tax => '1000', :inhabitant_tax => '8400',
+          :accrued_liability => '120000', :pay_day => '2009-03-06'}
+        }
     assert_response :success
     assert assigns(:payroll).errors.empty?, assigns(:payroll).errors.full_messages.join("\n")
     assert_template 'common/reload'
@@ -94,7 +95,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_inhabitant_tax
-    sign_in user
+    sign_in admin
 
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -143,7 +144,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_create_with_errors
-    sign_in user
+    sign_in admin
 
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -165,7 +166,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_create_with_errors2
-    sign_in user
+    sign_in admin
 
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -189,7 +190,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_更新
-    sign_in user
+    sign_in admin
     patch :update, xhr: true, params: {id: payroll.id, payroll: payroll_params}
     assert assigns(:payroll).errors.empty?
     assert_response :success
@@ -197,7 +198,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_get_branch_employees
-    sign_in user
+    sign_in admin
     get :index
     get :get_branch_employees, :xhr => true, :params => {
           :finder => {:branch_id => current_company.branches.first.id}
@@ -207,7 +208,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_auto_calc
-    sign_in user
+    sign_in admin
 
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2009
@@ -225,14 +226,14 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_should_get_auto_calc_insurance
-    sign_in user
+    sign_in admin
 
     finder = PayrollFinder.new(current_user)
     finder.fiscal_year = 2008
     finder.employee_id = 1
     @request.session[PayrollFinder] = finder
 
-    get :auto_calc, :params => {:payroll => {:ym => 200811, :employee_id => 1, :base_salary => 424000 }}, :xhr => true
+    get :auto_calc, params: {payroll: {ym: 200811, employee_id: 1, base_salary: 424000 }}, xhr: true
 
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
@@ -240,7 +241,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   end
 
   def test_削除
-    sign_in user
+    sign_in admin
 
     @payroll = payroll
     assert @payroll.payroll_journal.present?

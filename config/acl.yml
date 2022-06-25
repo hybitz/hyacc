@@ -2,6 +2,7 @@ self:
   first_boot: true
 
 current_user:
+  hr/: admin?
   mm/: admin?
   mm/careers: true
 

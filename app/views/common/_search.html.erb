@@ -4,7 +4,11 @@
       <div class="col-auto">
         <div class="input-group">
           <div class="input-group-text">年度</div>
-          <%= select 'finder', 'fiscal_year', fiscal_years, {}, class: 'form-select' %>
+            <% if @finder.respond_to?(:fiscal_years) %>
+              <%= select 'finder', 'fiscal_year', finder.fiscal_years, {}, class: 'form-select' %>
+            <% else %>
+              <%= select 'finder', 'fiscal_year', fiscal_years, {}, class: 'form-select' %>
+            <% end %>
         </div>
       </div>
     <% end %>

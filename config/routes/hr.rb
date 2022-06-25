@@ -12,6 +12,8 @@ Rails.application.routes.draw do
         get 'edit_bonus'
       end
     end
+
+    resources :social_insurances, only: 'index'
   end
 
 end

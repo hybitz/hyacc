@@ -1,16 +1,10 @@
 class SocialInsuranceFinder
   include ActiveModel::Model
+  include CompanyAware
+  include FiscalYearAware
 
-  attr_accessor :ym
-  attr_accessor :prefecture_code
-  attr_accessor :base_salary
-  
-  def list
-    TaxUtils.get_social_insurances(prefecture_code, ym.gsub('-', ''), base_salary)
-  end
-
-  def prefectures
-    @prefectures ||= TaxJp::Prefecture.all.map{|x| [x.name, x.code] }
+  def list_payrolls_by_employee
+    Payroll.where("ym >= ? and ym <= ?", ym_range.first, ym_range.last).eager_load(:employee).order('is_bonus, ym').group_by(&:employee)
   end
 
 end

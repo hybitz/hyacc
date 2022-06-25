@@ -37,6 +37,10 @@ class Payroll < ApplicationRecord
     ym % 100
   end
 
+  def monthly_pay?
+    !is_bonus?
+  end
+
   # 給与小計
   def salary_subtotal
     base_salary + extra_pay + commuting_allowance + housing_allowance + qualification_allowance
@@ -149,7 +153,46 @@ class Payroll < ApplicationRecord
     welfare_pension_model.welfare_pension_insurance_all.truncate
   end
 
+  def journaled_health_insurance_company
+    if @_journaled_health_insurance_company.nil?
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_LEGAL_WELFARE, SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
+      @_journaled_health_insurance_company = jd&.amount || 0
+    end
+
+    @_journaled_health_insurance_company
+  end
+
+  def journaled_health_insurance_employee
+    if @_journaled_health_insurance_employee.nil?
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
+      @_journaled_health_insurance_employee = jd&.amount || 0
+    end
+
+    @_journaled_health_insurance_employee
+  end
+
+  def journaled_welfare_pension_company
+    if @_journaled_welfare_pension_company.nil?
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_LEGAL_WELFARE, SUB_ACCOUNT_CODE_WELFARE_PENSION)
+      @_journaled_welfare_pension_company = jd&.amount || 0
+    end
+
+    @_journaled_welfare_pension_company
+  end
+
+  def journaled_welfare_pension_employee
+    if @_journaled_welfare_pension_employee.nil?
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_WELFARE_PENSION)
+      @_journaled_welfare_pension_employee = jd&.amount || 0
+    end
+    @_journaled_welfare_pension_employee
+  end
+
   private
+
+  def find_payroll_journal_detail(account_code, sub_account_code)
+    payroll_journal.journal_details.find{|jd| jd.account.code == account_code and jd.sub_account.code == sub_account_code }
+  end
 
   # 事業所の都道府県コード
   def prefecture_code

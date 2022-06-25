@@ -14,6 +14,7 @@ ja:
     fiscal_years: 会計年度
     hr: 人事労務
     hr/payrolls: 賃金台帳
+    hr/social_insurances: 社会保険
     journal_admin: 伝票管理
     journals: 振替伝票
     ledgers: 元帳

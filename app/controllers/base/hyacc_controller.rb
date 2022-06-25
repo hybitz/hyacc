@@ -7,7 +7,6 @@ module Base
     include YmdInputState
     include Years
 
-    before_action :check_first_boot
     before_action :load_view_attributes
 
     protected
@@ -47,13 +46,6 @@ module Base
       @finder
     end
   
-    # インストールほやほやかどうかチェックする
-    def check_first_boot
-      if User.count == 0 and Company.count == 0
-        redirect_to controller: 'first_boot' and return
-      end
-    end
-
     # 資本金を取得する
     def get_capital_stock( fiscal_year )
       stock = Account.find_by_code(ACCOUNT_CODE_CAPITAL_STOCK)

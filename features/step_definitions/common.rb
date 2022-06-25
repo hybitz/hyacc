@@ -81,3 +81,8 @@ end
   assert has_selector?('.ui-dialog')
   capture
 end
+
+もし /^(.*?)のメニューから(.*?)をクリックする$/ do |menu, sub_menu|
+  click_on menu
+  click_on sub_menu
+end

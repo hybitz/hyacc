@@ -54,12 +54,12 @@ class JournalsController::CrudTest < ActionController::TestCase
     remarks = '振替伝票テスト' + Time.now.to_s
 
     assert_difference 'Journal.count', 1 do
-      post :create, :xhr => true, :params => {
-        :journal => {
-          :ym => '200803',
-          :day => '04',
-          :remarks => remarks,
-          :journal_details_attributes => {
+      post :create, xhr: true, params: {
+        journal: {
+          ym: '200803',
+          day: '04',
+          remarks: remarks,
+          journal_details_attributes: {
             '1' => {
               :dc_type => '1',
               :account_id => '2',
@@ -73,8 +73,8 @@ class JournalsController::CrudTest < ActionController::TestCase
               :input_amount => '1030'
             }
           },
-          :receipt_attributes => {
-            :file => upload_file('inhabitant_tax.csv')
+          receipt_attributes: {
+            file: upload_file('inhabitant_tax.csv')
           }
         }
       }

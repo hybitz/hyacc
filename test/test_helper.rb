@@ -39,7 +39,7 @@ class ActionController::TestCase
 
   def upload_file(filename)
     path = File.join('test', 'upload_files', filename)
-    Rack::Test::UploadedFile.new(path, MimeMagic.by_path(path).to_s)
+    Rack::Test::UploadedFile.new(path, MimeMagic.by_path(path))
   end
 
 end

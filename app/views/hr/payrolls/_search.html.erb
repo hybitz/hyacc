@@ -14,7 +14,7 @@
   <%= form_with(scope: 'finder', url: {action: 'index'}, local: true, method: 'get', class: 'row') do |f| %>
     <div class="col-auto">
       <div class="input-group">
-        <div class="input-group-text">年月</div>
+        <div class="input-group-text">年度</div>
         <%= f.select :fiscal_year, fiscal_years, {}, class: 'form-select' %>
       </div>
     </div>

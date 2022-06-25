@@ -24,14 +24,14 @@
 <%= flash_notice %>
 
 <% if @payroll.persisted? %>
-  （<%= link_to '明細削除', payroll_path(@payroll.id), method: 'delete', remote: true,
+  （<%= link_to '明細削除', hr_payroll_path(@payroll.id), method: 'delete', remote: true,
                           data: {confirm: '明細を削除します。よろしいですか？'} %>）
 <% end %>
 
 <br>
 
 <div class="payroll_form">
-  <%= form_with model: @payroll do |f| %>
+  <%= form_with model: [:hr, @payroll] do |f| %>
     <%= f.hidden_field :employee_id %>
 
     <table class="table">

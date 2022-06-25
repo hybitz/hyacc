@@ -23,7 +23,7 @@
 <%= flash_notice %>
 
 <% if @payroll.persisted? %>
-  （<%= link_to '明細削除', payroll_path(@payroll), method: 'delete', remote: true,
+  （<%= link_to '明細削除', hr_payroll_path(@payroll), method: 'delete', remote: true,
                           data: {confirm: '明細を削除します。よろしいですか？'} %>）
 <% end %>
 

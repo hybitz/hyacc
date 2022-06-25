@@ -29,13 +29,6 @@ class Report::WithholdingSlipControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_個人事業主は利用不可
-    sign_in freelancer
-    get :index
-    assert_response :forbidden
-  end
-
-
   def test_源泉徴収票表示_所得税控除情報なし
     sign_in user
     get :index, :params => {:commit => true, :finder => no_exemption_details_finder}

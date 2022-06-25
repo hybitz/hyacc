@@ -1,4 +1,4 @@
-module PayrollHelper
+module Hr::PayrollHelper
 
   # 標準報酬月額の計算
   def get_standard_remuneration(ym, employee, salary)

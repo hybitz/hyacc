@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PayrollHelperTest < ActionView::TestCase
+class Hr::PayrollHelperTest < ActionView::TestCase
   
   def test_get_pay_day
     assert_equal '20150123', get_pay_day("201501",1).strftime("%Y%m%d") # payday:0,25

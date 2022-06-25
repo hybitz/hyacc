@@ -2,12 +2,6 @@ require 'test_helper'
 
 class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
-  def test_個人事業主は利用不可
-    sign_in freelancer
-    get :index
-    assert_response :forbidden
-  end
-
   def test_一覧
     sign_in admin
     get :index, :params => {:commit => '表示', :finder => {:year=>'2009'}}

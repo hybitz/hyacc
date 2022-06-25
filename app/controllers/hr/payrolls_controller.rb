@@ -1,5 +1,5 @@
-class PayrollsController < Base::HyaccController
-  include PayrollHelper
+class Hr::PayrollsController < Base::HyaccController
+  include Hr::PayrollHelper
 
   view_attribute :finder, class: PayrollFinder, only: :index
   view_attribute :branches, only: :index, include: :deleted

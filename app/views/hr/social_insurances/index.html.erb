@@ -31,6 +31,59 @@
   <tbody>
     <% @payrolls_by_employee.each do |employee, payrolls| %>
       <tr>
+        <th>会社負担</th>
+        <% finder.ym_range.each do |ym| %>
+          <% found = false %>
+          <% payrolls.each do |p| %>
+            <% if p.monthly_pay? and p.ym == ym %>
+              <%
+                total_health_insurance_by_ym[ym] += p.journaled_health_insurance_company
+                total_welfare_pension_by_ym[ym] += p.journaled_welfare_pension_company
+              %>
+              <td class="text-center"><%= to_amount(p.journaled_health_insurance_company) %></td>
+              <td class="text-center"><%= to_amount(p.journaled_welfare_pension_company) %></td>
+              <% found = true and break %>
+            <% end %>
+          <% end %>
+          <% unless found %>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+          <% end %>
+        <% end %>
+        <% found = false %>
+        <% payrolls.each do |p| %>
+          <% if p.is_bonus? and p.ym == finder.ym_range[5] %>
+            <%
+              total_health_insurance_by_bonus[:bonus_1] += p.journaled_health_insurance_company
+              total_welfare_pension_by_bonus[:bonus_1] += p.journaled_welfare_pension_company
+            %>
+            <td class="text-center"><%= to_amount(p.journaled_health_insurance_company) %></td>
+            <td class="text-center"><%= to_amount(p.journaled_welfare_pension_company) %></td>
+            <% found = true and break %>
+          <% end %>
+        <% end %>
+        <% unless found %>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        <% end %>
+        <% found = false %>
+        <% payrolls.each do |p| %>
+          <% if p.is_bonus? and p.ym == finder.ym_range[11] %>
+            <%
+              total_health_insurance_by_bonus[:bonus_2] += p.journaled_health_insurance_company
+              total_welfare_pension_by_bonus[:bonus_2] += p.journaled_welfare_pension_company
+            %>
+            <td class="text-center"><%= to_amount(p.journaled_health_insurance_company) %></td>
+            <td class="text-center"><%= to_amount(p.journaled_welfare_pension_company) %></td>
+            <% found = true and break %>
+          <% end %>
+        <% end %>
+        <% unless found %>
+          <td class="text-center"></td>
+          <td class="text-center"></td>
+        <% end %>
+      </tr>
+      <tr>
         <td rowspan="2" class="nowrap"><%= employee.fullname %></td>
         <td class="nowrap">個人負担</td>
         <% finder.ym_range.each do |ym| %>
@@ -76,59 +129,6 @@
             %>
             <td class="text-center"><%= to_amount(p.journaled_health_insurance_employee) %></td>
             <td class="text-center"><%= to_amount(p.journaled_welfare_pension_employee) %></td>
-            <% found = true and break %>
-          <% end %>
-        <% end %>
-        <% unless found %>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        <% end %>
-      </tr>
-      <tr>
-        <th>会社負担</th>
-        <% finder.ym_range.each do |ym| %>
-          <% found = false %>
-          <% payrolls.each do |p| %>
-            <% if p.monthly_pay? and p.ym == ym %>
-              <%
-                total_health_insurance_by_ym[ym] += p.journaled_health_insurance_company
-                total_welfare_pension_by_ym[ym] += p.journaled_welfare_pension_company
-              %>
-              <td class="text-center"><%= to_amount(p.journaled_health_insurance_company) %></td>
-              <td class="text-center"><%= to_amount(p.journaled_welfare_pension_company) %></td>
-              <% found = true and break %>
-            <% end %>
-          <% end %>
-          <% unless found %>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-          <% end %>
-        <% end %>
-        <% found = false %>
-        <% payrolls.each do |p| %>
-          <% if p.is_bonus? and p.ym == finder.ym_range[5] %>
-            <%
-              total_health_insurance_by_bonus[:bonus_1] += p.journaled_health_insurance_company
-              total_welfare_pension_by_bonus[:bonus_1] += p.journaled_welfare_pension_company
-            %>
-            <td class="text-center"><%= to_amount(p.journaled_health_insurance_company) %></td>
-            <td class="text-center"><%= to_amount(p.journaled_welfare_pension_company) %></td>
-            <% found = true and break %>
-          <% end %>
-        <% end %>
-        <% unless found %>
-          <td class="text-center"></td>
-          <td class="text-center"></td>
-        <% end %>
-        <% found = false %>
-        <% payrolls.each do |p| %>
-          <% if p.is_bonus? and p.ym == finder.ym_range[11] %>
-            <%
-              total_health_insurance_by_bonus[:bonus_2] += p.journaled_health_insurance_company
-              total_welfare_pension_by_bonus[:bonus_2] += p.journaled_welfare_pension_company
-            %>
-            <td class="text-center"><%= to_amount(p.journaled_health_insurance_company) %></td>
-            <td class="text-center"><%= to_amount(p.journaled_welfare_pension_company) %></td>
             <% found = true and break %>
           <% end %>
         <% end %>

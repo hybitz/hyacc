@@ -10,7 +10,7 @@
       format: 'html'
     };
 
-    $.get('<%= url_for :action => 'add_dependent_family_member' %>', params, function(html) {
+    $.get('<%= url_for action: 'add_dependent_family_member' %>', params, function(html) {
       table.find('tbody').append(html);
     });
   }
@@ -25,7 +25,7 @@
       <th colspan="2">従業員</th><td><%= f.collection_select :employee_id, finder.employees, 'id', 'fullname' %></td>
     </tr>
     <tr>
-      <th colspan="2">基礎控除</th><td><%= f.text_field :basic, :value => 380000, :class => 'amount' %></td>
+      <th colspan="2">基礎控除</th><td><%= f.text_field :basic, class: 'amount' %></td>
       <th colspan="2">小規模共済掛金</th><td><%= f.text_field :small_scale_mutual_aid, :class => 'amount' %></td>
     </tr>
     <tr>

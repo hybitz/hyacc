@@ -9,7 +9,7 @@ gem 'rails', '~> 5.2.0'
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'bootstrap'
+gem 'bootstrap', '~> 5.1.3'
 gem 'carrierwave', '< 2.0.0'
 gem 'carrierwave-i18n'
 gem 'coffee-rails', '~> 4.2'

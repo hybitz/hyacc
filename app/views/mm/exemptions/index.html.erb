@@ -7,6 +7,7 @@
       <tr>
         <th class="text-center">暦年</th>
         <th>氏名</th>
+        <th class="text-center">基礎控除</th>
         <th class="text-center">小規模共済掛金</th>
         <th class="text-center">生命保険料</th>
         <th class="text-center">地震保険料</th>
@@ -14,7 +15,6 @@
         <th class="text-center">配偶者控除</th>
         <th class="text-center">扶養控除</th>
         <th class="text-center">住宅借入金控除</th>
-        <th class="text-center">基礎控除</th>
         <th colspan="2"></th>
       </tr>
     </thead>
@@ -23,6 +23,7 @@
         <tr>
           <td class="text-center"><%= c.yyyy %></td>
           <td><%= c.employee.fullname %></td>
+          <td class="text-center"><%= to_amount(c.basic) %></td>
           <td class="text-center"><%= to_amount(c.small_scale_mutual_aid) %></td>
           <td class="text-center"><%= to_amount(c.life_insurance_premium) %></td>
           <td class="text-center"><%= to_amount(c.earthquake_insurance_premium) %></td>
@@ -30,7 +31,6 @@
           <td class="text-center"><%= c.spouse %></td>
           <td class="text-center"><%= c.dependents %></td>
           <td class="text-center"><%= to_amount(c.max_mortgage_deduction) %></td>
-          <td class="text-center"><%= to_amount(c.basic) %></td>
           <td><%= link_to '編集', edit_mm_exemption_path(c), remote: true %></td>
           <td><%= link_to '削除', mm_exemption_path(c), data: {confirm: '削除します。よろしいですか？'}, method: :delete %></td>
         </tr>

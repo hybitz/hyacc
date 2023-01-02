@@ -468,7 +468,7 @@ GEM
       actionpack (>= 5.2.4.3, < 6)
       activesupport (>= 5.2.4.3, < 6)
       railties (>= 5.2.4.3, < 6)
-    tax_jp (1.2.5)
+    tax_jp (1.2.6)
       bootstrap (~> 5.0)
       bootstrap4-datetime-picker-rails
       font-awesome-rails

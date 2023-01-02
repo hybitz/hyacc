@@ -2,43 +2,43 @@
 <%= flash_notice %>
 
 <% if @exemptions.present? %>
-  <table class="table table-striped table-hover">
+  <table class="table table-sm table-striped table-hover">
     <thead>
       <tr>
-        <th>暦年</th>
+        <th class="text-center">暦年</th>
         <th>氏名</th>
-        <th>小規模共済掛金</th>
-        <th>生命保険料</th>
-        <th>地震保険料</th>
-        <th>配偶者特別控除</th>
-        <th>配偶者控除</th>
-        <th>扶養控除</th>
-        <th>住宅借入金控除</th>
-        <th>基礎控除</th>
+        <th class="text-center">小規模共済掛金</th>
+        <th class="text-center">生命保険料</th>
+        <th class="text-center">地震保険料</th>
+        <th class="text-center">配偶者特別控除</th>
+        <th class="text-center">配偶者控除</th>
+        <th class="text-center">扶養控除</th>
+        <th class="text-center">住宅借入金控除</th>
+        <th class="text-center">基礎控除</th>
         <th colspan="2"></th>
       </tr>
     </thead>
     <tbody>
       <% @exemptions.each do |c| %>
-        <tr class="hover">
-          <td><%= c.yyyy %></td>
+        <tr>
+          <td class="text-center"><%= c.yyyy %></td>
           <td><%= c.employee.fullname %></td>
-          <td><%= c.small_scale_mutual_aid %></td>
-          <td><%= c.life_insurance_premium %></td>
-          <td><%= c.earthquake_insurance_premium %></td>
-          <td><%= c.special_tax_for_spouse %></td>
-          <td><%= c.spouse %></td>
-          <td><%= c.dependents %></td>
-          <td><%= c.max_mortgage_deduction %></td>
-          <td><%= c.basic %></td>
-          <td><%= link_to '編集', edit_mm_exemption_path(c), :remote => true %></td>
-          <td><%= link_to '削除', mm_exemption_path(c), data: {confirm: '削除します。よろしいですか？'}, :method => :delete %></td>
+          <td class="text-center"><%= to_amount(c.small_scale_mutual_aid) %></td>
+          <td class="text-center"><%= to_amount(c.life_insurance_premium) %></td>
+          <td class="text-center"><%= to_amount(c.earthquake_insurance_premium) %></td>
+          <td class="text-center"><%= to_amount(c.special_tax_for_spouse) %></td>
+          <td class="text-center"><%= c.spouse %></td>
+          <td class="text-center"><%= c.dependents %></td>
+          <td class="text-center"><%= to_amount(c.max_mortgage_deduction) %></td>
+          <td class="text-center"><%= to_amount(c.basic) %></td>
+          <td><%= link_to '編集', edit_mm_exemption_path(c), remote: true %></td>
+          <td><%= link_to '削除', mm_exemption_path(c), data: {confirm: '削除します。よろしいですか？'}, method: :delete %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
   <%= will_paginate @exemptions %>
-  <%= link_to '追加', {:action => 'new', :exemption => {:employee_id => finder.employee_id, :yyyy => @finder.calendar_year}}, :class => 'add', :remote => true %>
+  <%= link_to '追加', {action: 'new', exemption: {employee_id: finder.employee_id, yyyy: @finder.calendar_year}}, class: 'add', remote: true %>
 <% elsif @exemptions %>
   <div>該当するデータが見つかりませんでした。</div>
 <% end %>

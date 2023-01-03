@@ -1,9 +1,17 @@
-<%= form_with scope: :finder, method: 'get', local: true, html: {class: 'form-inline'} do |f| %>
-  <span class="m-2">
-    年度：<%= f.select :fiscal_year, fiscal_years, {}, class: 'form-control' %>
-  </span>
-  <span class="m-2">
-    証券口座：<%= f.select :bank_account_id, to_options(securities_accounts), {}, class: 'form-control' %>
-  </span>
-  <%= f.submit '表示', class: 'btn btn-default' %>
+<%= form_with scope: :finder, method: 'get', local: true, html: {class: 'row'} do |f| %>
+  <div class="col-auto">
+    <div class="input-group">
+      <div class="input-group-text">年度</div>
+      <%= f.select :fiscal_year, fiscal_years, {}, class: 'form-select' %>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="input-group">
+      <div class="input-group-text">証券口座</div>
+      <%= f.select :bank_account_id, to_options(securities_accounts), {}, class: 'form-select' %>
+    </div>
+  </div>
+  <div class="col-auto">
+    <%= f.submit '表示', class: 'btn btn-light' %>
+  </div>
 <% end %>

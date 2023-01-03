@@ -53,7 +53,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
 
   def test_更新_入力エラー
     sign_in admin
-    patch :update, :params => {:id => employee.id, :employee => invalid_employee_params}, :xhr => true
+    patch :update, params: {id: employee.id, employee: invalid_employee_params}, xhr: true
     assert_response :success
     assert_template :edit
   end
@@ -62,14 +62,14 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert @employee = Employee.where('id <> ?', admin.employee.id).first
 
     sign_in admin
-    delete :destroy, :params => {:id => @employee.id}
+    delete :destroy, params: {id: @employee.id}
     assert_response :redirect
-    assert_redirected_to :action => 'index'
+    assert_redirected_to action: 'index'
   end
 
   def test_自分を削除
     sign_in admin
-    delete :destroy, :params => {:id => admin.employee.id}
+    delete :destroy, params: {id: admin.employee.id}
     assert_response :redirect
     assert_redirected_to root_path
   end

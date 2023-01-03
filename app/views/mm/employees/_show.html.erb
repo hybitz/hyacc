@@ -1,9 +1,7 @@
-<script>
-  $(document).ready(function() {
-    var employee_id = <%= @e.id %>;
-    $('#edit_employee_' + employee_id).find('input').attr('disabled', true);
-    $('#edit_employee_' + employee_id).find('select').attr('disabled', true);
-    $('#edit_employee_' + employee_id).find('a').remove();
-  });
-</script>
 <%= render 'form' %>
+<script>
+  var form = $('form[action="/mm/employees/<%= @e.id %>"]');
+  form.find('input, select').attr('disabled', true);
+  form.find('img').removeAttr('onclick');
+  form.find('a').removeAttr('onclick').on('click', (e) => { e.preventDefault(); });
+</script>

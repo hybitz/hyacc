@@ -129,6 +129,7 @@ ja:
       employee:
         address: 住所
         base_salary: 基本給
+        birth: 生年月日
         business_office_id: 所属する事業所
         employment_date: 入社日
         retirement_date: 退社日
@@ -141,7 +142,7 @@ ja:
         name_kana: 姓名（カナ）
         num_of_dependent: 扶養親族の数
         sex: 性別
-        birth: 生年月日
+        social_insurance_reference_number: 被保険者整理番号
         position: 役職
 
       fiscal_year:

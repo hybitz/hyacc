@@ -15,7 +15,7 @@
           </tr>
           <tr>
             <th><%= f.label :sex %></th>
-            <td><%= f.select :sex, sex_types, {}, class: 'form-control', style: 'width: 5em;' %></td>
+            <td><%= f.select :sex, sex_types, {}, class: 'form-control', style: 'width: 4em;' %></td>
           </tr>
           <tr>
             <th><%= f.label :birth %></th>
@@ -31,7 +31,11 @@
           </tr>
           <tr>
             <th class="nowrap"><%= f.label :my_number %></th>
-            <td><%= f.text_field :my_number, class: 'my_number' %></td>
+            <td><%= f.text_field :my_number, class: 'form-control text-center', style: 'width: 10em;' %></td>
+          </tr>
+          <tr>
+            <th class="nowrap"><%= f.label :social_insurance_reference_number %></th>
+            <td><%= f.text_field :social_insurance_reference_number, class: 'form-control text-center', style: 'width: 4em;' %></td>
           </tr>
           <tr>
             <th><%= f.label :num_of_dependent %></th>

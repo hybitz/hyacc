@@ -8,6 +8,7 @@ class Employee < ApplicationRecord
 
   validates_presence_of :last_name, :first_name, :birth, :employment_date, :sex
   validates :my_number, numericality: {allow_blank: true}
+  validates :social_insurance_reference_number, numericality: {allow_blank: true}
 
   has_many :branch_employees, -> { where deleted: false }
   accepts_nested_attributes_for :branch_employees

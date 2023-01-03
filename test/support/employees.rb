@@ -20,6 +20,7 @@ module Employees
       employment_date: '1990-01-01',
       retirement_date: '9999-12-31',
       my_number: '123456789012',
+      social_insurance_reference_number: '1',
       executive: false,
       zip_code: '0600042',
       zip_code_effective_at: Date.today - 3.years,

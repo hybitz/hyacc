@@ -2,16 +2,11 @@ class LedgerFinder
   include ActiveModel::Model
   include HyaccConst
   include CompanyAware
+  include FiscalYearAware
 
   attr_accessor :account_id
   attr_accessor :branch_id
-  attr_accessor :fiscal_year
   attr_accessor :sub_account_id
-
-  def fiscal_years
-    c = Company.find(company_id)
-    c.fiscal_years.map{|fy| fy.fiscal_year }.sort
-  end
 
   def branches
     Branch.get_branches(company_id)

@@ -1,5 +1,5 @@
 class FinancialStatementsController < Base::HyaccController
-  view_attribute :finder, :class => ReportFinder
+  view_attribute :finder, class: ReportFinder
   view_attribute :branches
   view_attribute :report_types
   view_attribute :report_styles

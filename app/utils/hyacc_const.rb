@@ -214,7 +214,8 @@ module HyaccConst
     REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE = 23 => '③売掛金（未収入金）の内訳書',
     REPORT_TYPE_INVESTMENT_SECURITIES = 'investment_securities' => '⑥有価証券の内訳書',
     REPORT_TYPE_SUSPENSE_RECEIPT = 'suspense_receipt' => '⑩仮受金の内訳書、源泉所得税預り金の内訳',
-    REPORT_TYPE_SALE = 'sale' => '⑬売上高等の事業所別内訳書'
+    REPORT_TYPE_SALE = 'sale' => '⑬売上高等の事業所別内訳書',
+    REPORT_TYPE_EXECUTIVE_SALARIES = 'executive_salaries' => '⑭役員給与等の内訳書'
   }
 
   # 帳票様式
@@ -369,7 +370,7 @@ module HyaccConst
   ACCOUNT_CODE_ALLOCATED_TAXES = '8988' # 配賦法人税等
   ACCOUNT_CODE_SHARED_COST = '8889' # 分担費用
   ACCOUNT_CODE_SHARED_TAXES = '8989' # 分担法人税等
-  ACCOUNT_CODE_DIRECTOR_SALARY = '8322' # 役員給与
+  ACCOUNT_CODE_EXECUTIVE_SALARY = '8322' # 役員給与
   ACCOUNT_CODE_SALARY = '8326' # 給与手当
   ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS = '3352' # 未払役員賞与
   ACCOUNT_CODE_LEGAL_WELFARE = '8441' # 法定福利費

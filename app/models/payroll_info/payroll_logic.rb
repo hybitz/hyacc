@@ -17,7 +17,7 @@ module PayrollInfo
 
       list.each do |p|
         # 役員給与
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY).id).each do |d|
           total_base_salary += d.amount
         end
         # 給与手当
@@ -49,7 +49,7 @@ module PayrollInfo
 
       list.each do |p|
         # 役員給与
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY).id).each do |d|
+        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY).id).each do |d|
           yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
         end

@@ -23,7 +23,7 @@ module Auto::Journal
     def make_payroll
       employee = @payroll.employee
       salary_account = employee.executive? ?
-          Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
+          Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
       journal = @payroll.build_payroll_journal
@@ -203,7 +203,7 @@ module Auto::Journal
     def make_pay
       employee = Employee.find(@payroll.employee_id)
       salary_account = employee.executive? ?
-          Account.find_by_code(ACCOUNT_CODE_DIRECTOR_SALARY) :
+          Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY) :
           Account.find_by_code(ACCOUNT_CODE_SALARY)
 
       journal = @payroll.build_pay_journal

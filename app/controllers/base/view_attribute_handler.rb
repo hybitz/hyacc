@@ -141,6 +141,7 @@ module Base::ViewAttributeHandler
         REPORT_TYPE_TRADE_ACCOUNT_PAYABLE,
         REPORT_TYPE_SUSPENSE_RECEIPT,
         REPORT_TYPE_SALE,
+        REPORT_TYPE_EXECUTIVE_SALARIES,
         REPORT_TYPE_RENT,
       ]
     else

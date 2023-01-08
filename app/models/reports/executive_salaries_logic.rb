@@ -7,11 +7,15 @@ module Reports
 
       company.employees.where(executive: true).each do |e|
         detail = ExecutiveSalariesDetailModel.new
+        detail.position = '代表取締役'
         detail.employee_name = e.fullname
+        detail.relationship = '本人'
+        detail.full_time = true
         detail.fixed_regular_salary_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_SALARY, e.id)
         ret.add_detail(detail)
       end
       
+      ret.fill_details(5)
       ret
     end
 
@@ -26,8 +30,14 @@ module Reports
       self.details << detail
     end
 
+    def fill_details(min_count)
+      (details.size ... min_count).each do
+        add_detail(ExecutiveSalariesDetailModel.new)
+      end
+    end
+
     def sorted_details
-      @sorted_details ||= details.sort{|a, b| a.salary_amount <=> b.salary_amount }.reverse
+      @sorted_details ||= details.sort{|a, b| a.salary_amount.to_i <=> b.salary_amount.to_i }.reverse
     end
   
     def total_executive_fixed_regular_salary_amount
@@ -45,9 +55,16 @@ module Reports
   end
   
   class ExecutiveSalariesDetailModel
+    attr_accessor :position
     attr_accessor :employee_name
+    attr_accessor :relationship
+    attr_accessor :full_time
     # 定期同額給与
     attr_accessor :fixed_regular_salary_amount
+
+    def full_time?
+      full_time
+    end
 
     def salary_amount
       fixed_regular_salary_amount

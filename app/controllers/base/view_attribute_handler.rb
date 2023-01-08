@@ -143,6 +143,7 @@ module Base::ViewAttributeHandler
         REPORT_TYPE_SALE,
         REPORT_TYPE_EXECUTIVE_SALARIES,
         REPORT_TYPE_RENT,
+        REPORT_TYPE_MISCELLANEOUS
       ]
     else
       raise HyaccException.new(ERR_INVALID_ACTION)

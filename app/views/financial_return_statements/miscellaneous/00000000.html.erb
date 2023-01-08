@@ -1,0 +1,41 @@
+<div><strong>雑益、雑損失等の内訳書</strong></div>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th rowspan="2" colspan="2">科目</th>
+      <th rowspan="2">取引の内容</th>
+      <th colspan="2">相手先</th>
+      <th rowspan="2" style="width: 20%">金額</th>
+    </tr>
+    <tr>
+      <th style="width: 20%">名称（氏名）</th>
+      <th style="width: 20%">所在地（住所）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @model.profit_details.each_with_index do |d, i| %>
+      <tr>
+        <% if i == 0 %>
+          <th rowspan="<%= @model.profit_details.size %>" style="width: 2em">雑<br>益<br>等</th>
+        <% end %>
+        <td><%= d.account_name %></td>
+        <td><%= d.remarks %></td>
+        <td></td>
+        <td></td>
+        <td class="text-end"><%= to_amount(d.amount) %></td>
+      </tr>
+    <% end %>
+    <% @model.loss_details.each_with_index do |d, i| %>
+      <tr>
+        <% if i == 0 %>
+          <th rowspan="<%= @model.loss_details.size %>" style="width: 2em">雑<br>損<br>失<br>等</th>
+        <% end %>
+        <td><%= d.account_name %></td>
+        <td><%= d.remarks %></td>
+        <td></td>
+        <td></td>
+        <td class="text-end"><%= to_amount(d.amount) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

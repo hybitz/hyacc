@@ -215,7 +215,8 @@ module HyaccConst
     REPORT_TYPE_INVESTMENT_SECURITIES = 'investment_securities' => '⑥有価証券の内訳書',
     REPORT_TYPE_SUSPENSE_RECEIPT = 'suspense_receipt' => '⑩仮受金の内訳書、源泉所得税預り金の内訳',
     REPORT_TYPE_SALE = 'sale' => '⑬売上高等の事業所別内訳書',
-    REPORT_TYPE_EXECUTIVE_SALARIES = 'executive_salaries' => '⑭役員給与等の内訳書'
+    REPORT_TYPE_EXECUTIVE_SALARIES = 'executive_salaries' => '⑭役員給与等の内訳書',
+    REPORT_TYPE_MISCELLANEOUS = 'miscellaneous' => '⑯雑益、雑損失等の内訳書'
   }
 
   # 帳票様式
@@ -343,6 +344,8 @@ module HyaccConst
   ACCOUNT_CODE_FIXED_ASSET = '2100' # 固定資産
   ACCOUNT_CODE_GAIN_ON_SALE_OF_SECURITIES = '6101' # 有価証券売却益
   ACCOUNT_CODE_HEAD_OFFICE = '4999' # 本店勘定
+  ACCOUNT_CODE_MISCELLANEOUS_LOSS = '8822' # 雑損失
+  ACCOUNT_CODE_MISCELLANEOUS_PROFIT = '4231' # 雑収益
   ACCOUNT_CODE_INCOME_TAXES_RECEIVABLE = '1861' # 未収還付法人税等
   ACCOUNT_CODE_NON_OPERATING_PROFIT = '6200' # 営業外収益
   ACCOUNT_CODE_NON_OPERATING_EXPENSE = '8800' # 営業外費用
@@ -382,6 +385,7 @@ module HyaccConst
   ACCOUNT_CODE_SECURITIES = '1400' # 有価証券
   ACCOUNT_CODE_TRADING_SECURITIES = '1410' # 売買目的有価証券
   ACCOUNT_CODE_INVESTMENT_SECURITIES = '1420' # 投資有価証券
+  
   
   # 補助科目コード
   SUB_ACCOUNT_CODE_DRINKING = '100' # 飲食等

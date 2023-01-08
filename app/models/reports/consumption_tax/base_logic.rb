@@ -61,6 +61,7 @@ EOF
         sale_amount + reduced_sale_amount
       end
 
+      # 課税標準額
       def standard_sale_amount
         sale_amount - sale_amount % 1000
       end

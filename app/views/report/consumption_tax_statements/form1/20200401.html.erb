@@ -212,7 +212,7 @@
           </tr>
           <tr>
             <td colspan="2" class="align-middle"><%= justify('基準期間の') %><%= justify('課税売上高') %></td>
-            <td colspan="5" class="text-end align-middle">千円</td>
+            <td colspan="5" class="text-end align-middle"><%= to_amount(@model.standard_sale_amount_of_base_period / 1000) %> 千円</td>
           </tr>
         </tbody>
       </table>

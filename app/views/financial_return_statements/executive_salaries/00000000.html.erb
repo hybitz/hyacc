@@ -1,29 +1,31 @@
 <div><strong>役員給与等の内訳書</strong></div>
 <table class="table table-bordered table-hover">
-  <tr>
-    <th colspan="11" class="align-middle"><%= justify('　役員給与等の内訳　') %></th>
-  </tr>
-  <tr>
-    <th rowspan="2" style="width: 6%"><%= justify('役職名') %></th>
-    <th rowspan="2"><%= justify('氏名') %></th>
-    <th rowspan="2" class="text-center" style="width: 5%">代表者と<br>の関係　</th>
-    <th rowspan="3" class="text-center" style="width: 5%">常勤・<br>非常勤<br>の別　</th>
-    <th rowspan="3" class="text-center" style="width: 8%">役員　<br>給与計</th>
-    <th colspan="5"><%= justify('　　左の内訳　　') %></th>
-    <th rowspan="3" style="width: 8%">退職給与</th>
-  </tr>
-  <tr>
-    <th rowspan="2" class="text-center" style="width: 8%">使用人<br>職務分</th>
-    <th colspan="4"><%= justify('　使用人職務分以外　') %></th>
-  </tr>
-  <tr>
-    <th><%= justify('担当業務') %></th>
-    <th colspan="2"><%= justify('住所') %></th>
-    <th class="text-center" style="width: 8%">定期同額<br>給　　与</th>
-    <th class="text-center" style="width: 8%">事前確定<br>届出給与</th>
-    <th class="text-center" style="width: 8%">業績連動<br>給　　与</th>
-    <th class="text-center" style="width: 8%">その他</th>
-  </tr>
+  <thead>
+    <tr>
+      <th colspan="11" class="align-middle"><%= justify('　役員給与等の内訳　') %></th>
+    </tr>
+    <tr>
+      <th rowspan="2" style="width: 6%"><%= justify('役職名') %></th>
+      <th rowspan="2"><%= justify('氏名') %></th>
+      <th rowspan="2" class="text-center" style="width: 5%">代表者と<br>の関係　</th>
+      <th rowspan="3" class="text-center" style="width: 5%">常勤・<br>非常勤<br>の別　</th>
+      <th rowspan="3" class="text-center" style="width: 8%">役員　<br>給与計</th>
+      <th colspan="5"><%= justify('　　左の内訳　　') %></th>
+      <th rowspan="3" style="width: 8%">退職給与</th>
+    </tr>
+    <tr>
+      <th rowspan="2" class="text-center" style="width: 8%">使用人<br>職務分</th>
+      <th colspan="4"><%= justify('　使用人職務分以外　') %></th>
+    </tr>
+    <tr>
+      <th><%= justify('担当業務') %></th>
+      <th colspan="2"><%= justify('住所') %></th>
+      <th class="text-center" style="width: 8%">定期同額<br>給　　与</th>
+      <th class="text-center" style="width: 8%">事前確定<br>届出給与</th>
+      <th class="text-center" style="width: 8%">業績連動<br>給　　与</th>
+      <th class="text-center" style="width: 8%">その他</th>
+    </tr>
+  </thead>
   <% @model.sorted_details.each_with_index do |d, i| %>
     <tr>
       <% if i == 0 %>
@@ -61,14 +63,16 @@
   </tr>
 </table>
 <table class="table table-bordered table-hover">
-  <tr>
-    <th colspan="4" class="align-middle"><%= justify('　人件費の内訳　') %></th>
-  </tr>
-  <tr>
-    <th colspan="2" style="width: 40%"><%= justify('　区　分　') %></th>
-    <th style="width: 30%"><%= justify('　総　額　') %></th>
-    <th style="width: 30%"><%= justify('総額のうち代表者及びその家族分') %></th>
-  </tr>
+  <thead>
+    <tr>
+      <th colspan="4" class="align-middle"><%= justify('　人件費の内訳　') %></th>
+    </tr>
+    <tr>
+      <th colspan="2" style="width: 40%"><%= justify('　区　分　') %></th>
+      <th style="width: 30%"><%= justify('　総　額　') %></th>
+      <th style="width: 30%"><%= justify('総額のうち代表者及びその家族分') %></th>
+    </tr>
+  </thead>
   <tr>
     <th colspan="2"><%= justify('　役　員　給　与　') %></th>
     <td class="text-end px-4"><%= to_amount(@model.total_executive_salary_amount, show_zero: true) %></td>

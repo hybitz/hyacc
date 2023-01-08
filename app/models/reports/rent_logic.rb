@@ -79,5 +79,9 @@ module Reports
     def initialize
       @total_amount = 0
     end
+
+    def customer_name
+      rent.customer.formal_name_on(end_to)
+    end
   end
 end

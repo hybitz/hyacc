@@ -1,0 +1,25 @@
+<div><strong>預貯金等の内訳書</strong></div>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>金融機関名</th>
+      <th>支店名</th>
+      <th>種類</th>
+      <th>口座番号</th>
+      <th>期末現在高</th>
+      <th>摘要</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @model.details.each do |d| %>
+      <tr>
+        <td><%= d.bank_name %></td>
+        <td><%= d.bank_office_name %></td>
+        <td><%= d.financial_account_type_name %></td>
+        <td><%= d.bank_account_code %></td>
+        <td class="text-end"><%= to_amount(d.amount) %></td>
+        <td></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

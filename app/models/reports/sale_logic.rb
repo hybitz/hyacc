@@ -22,6 +22,7 @@ module Reports
         ret.add_detail(detail)
       end
       
+      ret.fill_details(10)
       ret
     end
 
@@ -34,6 +35,20 @@ module Reports
       self.details ||= []
       self.details << detail
     end
+
+    def fill_details(min_count)
+      (details.size ... min_count).each do
+        add_detail(SaleDetailModel.new)
+      end
+    end
+
+    def total_sale_amount
+      details.inject(0){|sum, detail| sum += detail.sale_amount.to_i }
+    end
+
+    def total_number_of_employees
+      details.inject(0){|sum, detail| sum += detail.number_of_employees.to_i }
+    end
   end
   
   class SaleDetailModel
@@ -42,11 +57,11 @@ module Reports
     attr_accessor :number_of_employees
 
     def responsible_person_name
-      business_office.responsible_person&.fullname
+      business_office&.responsible_person&.fullname
     end
     
     def responsible_person_relation
-      business_office.responsible_person&.executive? ? '本人' : nil
+      business_office&.responsible_person&.executive? ? '本人' : nil
     end    
   end
 end

@@ -1,34 +1,49 @@
 <div><strong>売上高等の事業所別の内訳書</strong></div>
 <table class="table table-bordered table-hover">
-  <tr>
-    <th class="align-middle"><%= justify('　事業所の名称　') %></td>
-    <th class="align-middle">責任者氏名</th>
-    <th class="align-middle text-center" rowspan="2">事業等の内容</th>
-    <th class="align-middle text-center" rowspan="2"><%= justify('　売上高　') %></th>
-    <th class="align-middle text-center" rowspan="2">期末棚卸高</th>
-    <th class="align-middle" rowspan="2"><%= justify('期末従') %><br><%= justify('業員数') %></th>
-    <th class="align-middle" rowspan="2">源泉所得<br>税納付署</th>
-    <th class="align-middle" rowspan="2"><%= justify('　摘要　') %></th>
-  </tr>
-  <tr>
-    <th class="align-middle"><%= justify('　所在地　') %></th>
-    <th class="align-middle">代表者との関係</th>
-  </tr>
+  <thead>
+    <tr>
+      <th class="align-middle"><%= justify('　事業所の名称　') %></td>
+      <th class="align-middle">責任者氏名</th>
+      <th class="align-middle text-center" rowspan="2">事業等の内容</th>
+      <th class="align-middle text-center" rowspan="2"><%= justify('　売上高　') %></th>
+      <th class="align-middle text-center" rowspan="2">期末棚卸高</th>
+      <th class="align-middle" rowspan="2"><%= justify('期末従') %><br><%= justify('業員数') %></th>
+      <th class="align-middle" rowspan="2">源泉所得<br>税納付署</th>
+      <th class="align-middle" rowspan="2"><%= justify('　摘要　') %></th>
+    </tr>
+    <tr>
+      <th class="align-middle"><%= justify('　所在地　') %></th>
+      <th class="align-middle">代表者との関係</th>
+    </tr>
+  </thead>
   
   <% @model.details.each do |d| %>
     <tr>
-      <td><%= d.business_office.name %></td>
+      <td><%= d.business_office&.name %></td>
       <td><%= d.responsible_person_name %></td>
-      <td rowspan="2"><%= d.business_office.business_outline %></td>
-      <td class="text-center" rowspan="2"><%= to_amount(d.sale_amount, show_zero: true) %></td>
+      <td rowspan="2"><%= d.business_office&.business_outline %></td>
+      <td class="text-end px-4" rowspan="2"><%= to_amount(d.sale_amount) %></td>
       <td rowspan="2"></td>
       <td rowspan="2" class="text-center"><%= d.number_of_employees %></td>
       <td rowspan="2"></td>
       <td rowspan="2"></td>
     </tr>
     <tr>
-      <td><%= d.business_office.address %></td>
+      <td><%= d.business_office&.address %></td>
       <td><%= d.responsible_person_relation %></td>
     </tr>
   <% end %>
+
+  <tfoot>
+    <tr>
+      <th>計</th>
+      <td class="bg-light"></td>
+      <td></td>
+      <td class="text-end px-4"><%= to_amount(@model.total_sale_amount) %></td>
+      <td></td>
+      <td class="text-center"><%= @model.total_number_of_employees %></td>
+      <td class="bg-light"></td>
+      <td class="bg-light"></td>
+    </tr>
+  </tfoot>
 </table>

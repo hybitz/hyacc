@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 module Reports
   class TradeAccountPayableModel
     attr_accessor :details

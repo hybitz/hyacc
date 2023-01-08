@@ -6,7 +6,7 @@ class Company < ApplicationRecord
   accepts_nested_attributes_for :business_offices
 
   has_many :employees, -> { where deleted: false }
-  has_many :users, :through => 'employees'
+  has_many :users, through: 'employees'
   has_many :fiscal_years, -> { where deleted: false }
 
   validates :name, presence: true

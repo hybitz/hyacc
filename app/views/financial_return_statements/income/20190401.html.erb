@@ -15,32 +15,32 @@
   </table>
   <table class="my-0 table table-bordered table-hover">
     <thead>
-      <tr align="center">
-        <th rowspan="3" colspan="3" class="align-middle"><%= justify('区　分') %></th>
-        <th rowspan="2" class="align-middle"><%= justify('総　額') %></th>
-        <th colspan="3"><%= justify('処　分') %></th>
+      <tr>
+        <th rowspan="3" colspan="3" class="align-middle"><%= justify('　区　分　') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('　総　額　') %></th>
+        <th colspan="3"><%= justify('　処　分　') %></th>
       </tr>
-      <tr align="center">
-        <th><%= justify('留保') %></th>
-        <th colspan="2"><%= justify('社外流出') %></th>
+      <tr>
+        <th><%= justify('　留保　') %></th>
+        <th colspan="2"><%= justify('　社外流出　') %></th>
       </tr>
-      <tr align="center">
-        <th>①</th>
-        <th>②</th>
-        <th colspan="2">③</th>
+      <tr>
+        <th class="text-center">①</th>
+        <th class="text-center">②</th>
+        <th colspan="2" class="text-center">③</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td rowspan="2" colspan="2" class="align-middle"><%= justify('当期利益又は当期欠損の額') %></td>
         <td rowspan="2" class="align-middle text-center" style="width: 1em;">1</td>
-        <td rowspan="2" class="align-middle text-end" style="width: 18%;"><%= to_amount(@model.pretax_profit_amount) %></td>
-        <td rowspan="2" style="width: 18%;"></td>
+        <td rowspan="2" class="align-middle text-end" style="width: 15%;"><%= to_amount(@model.pretax_profit_amount) %></td>
+        <td rowspan="2" style="width: 15%;"></td>
         <td class="text-nowrap text-center" style="width: 3em;">配当</td>
-        <td style="width: 18%;"></td>
+        <td style="width: 15%;"></td>
       </tr>
       <tr>
-        <td class="text-nowrap" style="width: 3em;">その他</td>
+        <td class="text-center" style="width: 3em;">その他</td>
         <td></td>
       </tr>
       <tr>
@@ -74,7 +74,7 @@
         <td class="align-middle text-center">5</td>
         <td></td>
         <td class="bg-light"></td>
-        <td class="align-middle">その他</td>
+        <td class="align-middle text-center">その他</td>
         <td></td>
       </tr>
       <tr>
@@ -90,7 +90,7 @@
         <td class="text-center">7</td>
         <td></td>
         <td class="bg-light"></td>
-        <td>その他</td>
+        <td class="text-center">その他</td>
         <td></td>
       </tr>
       <tr>
@@ -98,7 +98,7 @@
         <td class="text-center">8</td>
         <td></td>
         <td class="bg-light"></td>
-        <td>その他</td>
+        <td class="text-center">その他</td>
         <td></td>
       </tr>
       <tr>
@@ -219,7 +219,7 @@
         <td class="text-center">23</td>
         <td></td>
         <td class="bg-light"></td>
-        <td>その他</td>
+        <td class="text-center">その他</td>
         <td></td>
       </tr>
       <tr>
@@ -267,7 +267,7 @@
         <td class="text-center">29</td>
         <td></td>
         <td class="bg-light"></td>
-        <td>その他</td>
+        <td class="text-center">その他</td>
         <td></td>
       </tr>
       <tr>
@@ -275,7 +275,7 @@
         <td class="text-center">30</td>
         <td></td>
         <td class="bg-light"></td>
-        <td>その他</td>
+        <td class="text-center">その他</td>
         <td></td>
       </tr>
       <tr>
@@ -283,7 +283,7 @@
         <td class="align-middle text-center">31</td>
         <td></td>
         <td class="bg-light"></td>
-        <td class="align-middle">その他</td>
+        <td class="align-middle text-center">その他</td>
         <td></td>
       </tr>
       <tr>
@@ -319,117 +319,111 @@
         <td class="bg-light"></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('特定目的会社等の支払配当又は特定目的信託に係る') %><%= justify('受託法人の利益の分配等の損金算入額') %>(別表十(八)「13」、別表十(九)「11」又は別表十(十)「16」若しくは「33」)</td>
         <td class="text-center">36</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>△</td>
+        <td>△</td>
+        <td class="bg-light"></td>
+        <td class="bg-light"></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2"><%= justify('中間申告における繰戻しによる還付に係る') %><%= justify('災害損失欠損金額の益金算入額') %></td>
         <td class="text-center">37</td>
         <td></td>
-        <td></td>
-        <td></td>
+        <td class="bg-light"></td>
+        <td class="text-center">※</td>
         <td></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2"><%= justify('非適格合併又は残余財産の全部分配等に') %><%= justify('よる移転資産等の譲渡利益額又は譲渡損失額') %></td>
         <td class="text-center">38</td>
         <td></td>
-        <td></td>
-        <td></td>
+        <td class="bg-light"></td>
+        <td class="text-center">※</td>
         <td></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('　差引計　') %>((34)から(38)までの計)</td>
         <td class="text-center">39</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_retained_amount) %></td>
+        <td class="align-middle text-center">外※</td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_outflow_amount) %></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
-        <td class="text-center">34</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td colspan="2" class="text-center"><%= justify('欠損金又は災害損失金等の当期控除額') %>(別表七(一)「4の計」+(別表七(二)「9」若しくは「21」又は別表七 (三)「10」))</td>
+        <td class="text-center">40</td>
+        <td>△</td>
+        <td class="bg-light"></td>
+        <td class="text-center">※</td>
+        <td>△</td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('　総　計　') %>(39)+(40)</td>
         <td class="text-center">41</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_amount) %></td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_retained_amount) %></td>
+        <td class="align-middle text-center">外※</td>
+        <td class="align-middle text-end"><%= to_amount(@model.provisional_outflow_amount) %></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('新鉱床探鉱費又は海外新鉱床探鉱費の特別控除額') %>(別表十(三)「43」)</td>
         <td class="text-center">42</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>△</td>
+        <td class="bg-light"></td>
+        <td class="text-center">※</td>
+        <td>△</td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('農業経営基盤強化準備金積立額の損金算入額') %>(別表十二(十四)「10」)</td>
         <td class="text-center">43</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>△</td>
+        <td>△</td>
+        <td class="bg-light"></td>
+        <td class="bg-light"></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('農用地等を取得した場合の圧縮額の損金算入額') %>(別表十二(十四)「43の計」)</td>
         <td class="text-center">44</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>△</td>
+        <td>△</td>
+        <td class="bg-light"></td>
+        <td class="bg-light"></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('関西国際空港用地整備準備金積立額、中部国際空港整備') %><%= justify('準備金積立額又は再投資等準備金積立額の損金算入額') %>(別表十二(十一)「15」、別表十二(十二)「10」又は別表十二(十五)「12」)</td>
         <td class="text-center">45</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>△</td>
+        <td>△</td>
+        <td class="bg-light"></td>
+        <td class="bg-light"></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('特別新事業開拓事業者に対し特定事業活動として出資をした場合') %><%= justify('の特別勘定繰入額の損金算入額又は特別勘定取崩額の益金算入額') %>(別表十(六)「14」-「11」)</td>
         <td class="text-center">46</td>
         <td></td>
-        <td></td>
-        <td></td>
+        <td class="bg-light"></td>
+        <td class="text-center">※</td>
         <td></td>
       </tr>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2" class="text-center"><%= justify('残余財産の確定の日の属する事業年度に係る') %><%= justify('事業税及び特別法人事業税の損金算入額') %></td>
         <td class="text-center">47</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td>△</td>
+        <td>△</td>
+        <td class="bg-light"></td>
+        <td class="bg-light"></td>
       </tr>
-      <tr>
-        <td colspan="2"></td>
-        <td class="text-center">48</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+    </tbody>
+    <tfoot>
       <tr>
         <td colspan="2"><%= justify('所得金額又は欠損金額') %></td>
-        <td class="text-center">49</td>
+        <td class="text-center">48</td>
         <td class="text-end"><%= to_amount(@model.income_amount) %></td>
         <td class="align-middle text-end"><%= to_amount(@model.income_retained_amount) %></td>
         <td class="align-middle text-center">外※</td>
         <td class="align-middle text-end"><%= to_amount(@model.income_outflow_amount) %></td>
       </tr>
-    </tbody>
+    </tfoot>
   </table>
 </div>

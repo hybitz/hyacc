@@ -212,7 +212,7 @@ GEM
       momentjs-rails (>= 2.9.0)
     fuzzyurl (0.9.0)
     gherkin (5.1.0)
-    globalid (1.0.0)
+    globalid (1.0.1)
       activesupport (>= 5.0)
     hashie (5.0.0)
     highline (2.1.0)

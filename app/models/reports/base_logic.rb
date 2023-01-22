@@ -142,10 +142,18 @@ module Reports
       profit - expense
     end
 
-    # 法人税を取得する
+    # 法人税及び地方法人税を取得する
     def get_corporate_tax_amount
       account = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
-      VMonthlyLedger.net_sum(start_ym, end_ym, account.id, nil, branch_id)
+      sub_account_ids = [account.get_sub_account_by_code(CORPORATE_TAX_TYPE_CORPORATE_TAX), account.get_sub_account_by_code(CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)].map(&:id)
+      VMonthlyLedger.net_sum(start_ym, end_ym, account.id, sub_account_ids, branch_id)
+    end
+
+    # 法人の道府県民税及び市町村民税を取得する
+    def get_corporate_inhabitant_tax_amount
+      account = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
+      sub_account_ids = [account.get_sub_account_by_code(CORPORATE_TAX_TYPE_PREFECTURAL_TAX), account.get_sub_account_by_code(CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)].map(&:id)
+      VMonthlyLedger.net_sum(start_ym, end_ym, account.id, sub_account_ids, branch_id)
     end
 
     # 法人事業税を取得する

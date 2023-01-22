@@ -123,9 +123,17 @@ EOS
     end
     
     # 補助科目
-    if sub_account_id.to_i > 0
-      sql[0] << "and sub_account_id = ? "
-      sql << sub_account_id
+    case sub_account_id
+    when Array
+      if sub_account_id.present?
+        sql[0] << 'and sub_account_id in(?)  '
+        sql << sub_account_id
+      end
+    else
+      if sub_account_id.to_i > 0
+        sql[0] << 'and sub_account_id = ? '
+        sql << sub_account_id
+    end
     end
     
     # 開始年月

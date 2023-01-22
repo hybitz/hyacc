@@ -7,6 +7,7 @@ module Reports
       ret.fiscal_year = ret.company.get_fiscal_year(finder.fiscal_year)
       ret.pretax_profit_amount = get_pretax_profit_amount
       ret.corporate_tax_amount = get_corporate_tax_amount
+      ret.corporate_inhabitant_tax_amount = get_corporate_inhabitant_tax_amount
       ret.business_tax_amount = get_business_tax_amount
       
       se_logic = SocialExpenseLogic.new(finder)
@@ -25,6 +26,7 @@ module Reports
     attr_accessor :fiscal_year
     attr_accessor :pretax_profit_amount
     attr_accessor :corporate_tax_amount
+    attr_accessor :corporate_inhabitant_tax_amount
     attr_accessor :business_tax_amount
     attr_accessor :non_deductible_social_expense_amount
     attr_accessor :dividend_received
@@ -42,11 +44,11 @@ module Reports
     end
 
     def increase_amount
-      corporate_tax_amount
+      corporate_tax_amount + corporate_inhabitant_tax_amount
     end
     
     def increase_retained_amount
-      corporate_tax_amount
+      corporate_tax_amount + corporate_inhabitant_tax_amount
     end
 
     def increase_outflow_amount

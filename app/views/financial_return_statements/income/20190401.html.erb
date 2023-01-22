@@ -118,7 +118,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><%= justify('小計') %></td>
+        <td><%= justify('　小　計　') %></td>
         <td class="text-center">11</td>
         <td class="text-end"><%= to_amount(@model.increase_amount) %></td>
         <td class="text-end"><%= to_amount(@model.increase_retained_amount) %></td>
@@ -199,7 +199,7 @@
         <td></td>
       </tr>
       <tr>
-        <td><%= justify('小計') %></td>
+        <td><%= justify('　小計　') %></td>
         <td class="text-center">21</td>
         <td class="text-end"><%= to_amount(@model.decrease_amount) %></td>
         <td class="text-end"><%= to_amount(@model.decrease_retained_amount) %></td>
@@ -207,7 +207,7 @@
         <td class="text-end"><%= to_amount(@model.decrease_outflow_amount) %></td>
       </tr>
       <tr>
-        <td colspan="2" class="align-middle text-center"><%= justify('仮　計') %>(1)＋(11)－(21)</td>
+        <td colspan="2" class="align-middle text-center"><%= justify('　仮　計　') %>(1)＋(11)－(21)</td>
         <td class="align-middle text-center">22</td>
         <td class="align-middle text-end"><%= to_amount(@model.provisional_amount) %></td>
         <td class="align-middle text-end"><%= to_amount(@model.provisional_retained_amount) %></td>
@@ -231,7 +231,7 @@
         <td>△</td>
       </tr>
       <tr>
-        <td colspan="2" class="align-middle text-center"><%= justify('仮　計') %>((22)から(24)までの計)</td>
+        <td colspan="2" class="align-middle text-center"><%= justify('　仮　計　') %>((22)から(24)までの計)</td>
         <td class="align-middle text-center">25</td>
         <td class="align-middle text-end"><%= to_amount(@model.provisional_amount) %></td>
         <td class="align-middle text-end"><%= to_amount(@model.provisional_retained_amount) %></td>
@@ -303,7 +303,7 @@
         <td></td>
       </tr>
       <tr>
-        <td colspan="2" class="text-center"><%= justify('合　計') %>(25)＋(26)＋(27)＋(28)＋(29)＋(30)＋(31)＋(32)±(33)</td>
+        <td colspan="2" class="text-center"><%= justify('　合　計　') %>(25)＋(26)＋(27)＋(28)＋(29)＋(30)＋(31)＋(32)±(33)</td>
         <td class="align-middle text-center">34</td>
         <td class="align-middle text-end"><%= to_amount(@model.provisional_amount) %></td>
         <td class="align-middle text-end"><%= to_amount(@model.provisional_retained_amount) %></td>

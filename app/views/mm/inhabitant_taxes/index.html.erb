@@ -1,7 +1,7 @@
 <script>
   $(document).ready(function() {
     $('#inhabitant_upload').submit(function() {
-      var input = document.createElement('input');
+      const input = document.createElement('input');
       input.setAttribute('type', 'hidden');
       input.setAttribute('name', 'finder[year]');
       input.setAttribute('value', $('#finder_year').val());
@@ -11,32 +11,34 @@
 </script>
 
 
-<%= flash_notice %>
-<div style="margin: 20px;"> 
-  <%= render 'search' %>
-</div>
-
-<% if @list.present? %>
-  <div class="basic_master">
-    <div>
-      <div class="div_th_yyyy">年月</div>
-      <div class="div_th_user">従業員</div>
-      <div class="div_th_money">金額</div>
-      <div class="div_th_link"></div>
-      <br clear="all" />
+<div class="m-2">
+  <%= flash_notice %>
+  <div>
+    <%= render 'search' %>
+  </div>
+  
+  <% if @list.present? %>
+    <div class="basic_master">
+      <div>
+        <div class="div_th_yyyy">年月</div>
+        <div class="div_th_user">従業員</div>
+        <div class="div_th_money">金額</div>
+        <div class="div_th_link"></div>
+        <br clear="all" />
+      </div>
+      
+      <% @list.each do |data| %>
+        <%= render 'line', data: data %>
+      <% end %>
     </div>
-    
-    <% @list.each do |data| %>
-      <%= render 'line', :data => data %>
+  <% end %>
+  
+  <div class="m-2">
+    <%= flash_notice %>
+    <%= form_tag({action: 'confirm'}, id: 'inhabitant_upload', multipart: true) do %>
+    CSVファイルをアップロード<br>
+    <%= file_field_tag(:file) %><br>
+    <%= submit_tag("アップロード") %>
     <% end %>
   </div>
-<% end %>
-
-<div style="margin: 20px;">
-  <%= flash_notice %>
-  <%= form_tag({:action => 'confirm'}, :id=>'inhabitant_upload', :multipart => true) do %>
-  アップロードファイル<br>
-  <%= file_field_tag(:file) %><br>
-  <%= submit_tag("アップロード") %>
-  <% end %>
 </div>

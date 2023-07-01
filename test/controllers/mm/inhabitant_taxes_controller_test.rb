@@ -18,7 +18,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
   def test_アップロード
     sign_in admin
-    post :confirm, :params => {:file => upload_file('inhabitant_tax.csv')}
+    post :confirm, params: {file: upload_file('inhabitant_tax.csv')}
     assert_template :confirm
     assert_equal 2, assigns(:list).size
   end
@@ -33,7 +33,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
       inhabitant[index] = {:employee_id => ic.employee_id, :amounts => ic.amounts}
     end
     post :create, :params => {:inhabitant_csv => inhabitant, :finder => finder}
-    assert_redirected_to :action => 'index',  :finder => finder, :commit => ''
+    assert_redirected_to action: 'index',  finder: finder
     assert_equal 14, InhabitantTax.where("ym like ?", "2016%").size
     assert_equal 10, InhabitantTax.where("ym like ?", "2017%").size
   end

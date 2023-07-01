@@ -1,3 +1,5 @@
+require 'csv'
+
 class InhabitantCsv
   
   attr_accessor :kanji_first_name
@@ -10,13 +12,14 @@ class InhabitantCsv
   def self.load(file, current_company)
     list = []
     linked = true
-    file.read.lines.each do |row|
-      csv_array = CSV.parse(NKF.nkf('-S -w', row))[0]
+    CSV.readlines(file.path).each do |row|
+      next unless row[5].present?
+
       model_array = []
-      model_array << csv_array[5]  # 漢字氏名
-      model_array << csv_array[3]  # 住所
-      model_array << csv_array[8..19].join(",")  # 金額
-      model_array << csv_array  # ROW
+      model_array << row[5]  # 漢字氏名
+      model_array << row[4]  # 住所
+      model_array << row[9..20].join(",")  # 金額
+      model_array << row
       ic = new_by_array(model_array, current_company)
       linked = false unless ic.employee_id
       list << ic

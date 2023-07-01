@@ -7,22 +7,21 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
     end
   end
 
-  def create
-    InhabitantCsv.create_csv(params)
-    redirect_to :action => 'index', :finder => {:year => finder.year}, :commit => ''
-  end
-  
   def confirm
     file = params[:file]
     @finder_year = params[:finder_year]
-    finder = {:year => @finder_year}
     if file.nil?
-      redirect_to :action => 'index', :finder => {:year => finder.year}, :commit => ''
+      redirect_to action: 'index', finder: {year: finder.year}
     else
       @list, @linked = InhabitantCsv.load(file, current_company)
     end
   end
 
+  def create
+    InhabitantCsv.create_csv(params)
+    redirect_to action: 'index', finder: {year: finder.year}
+  end
+  
   private
 
   def finder

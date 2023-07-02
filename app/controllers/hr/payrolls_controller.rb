@@ -151,13 +151,14 @@ class Hr::PayrollsController < Base::HyaccController
 
   # 部門を選択した時に、動的にユーザ選択リストを更新する
   def get_branch_employees
-    finder.branch_id = params[:branch_id].to_i
-
     # 従業員選択用
-    branch = Branch.find( finder.branch_id ) unless finder.branch_id == 0
-    @employees = branch.employees if branch
+    branch = Branch.find_by(id: params[:branch_id].to_i)
+    @employees = branch&.employees
+    
+    fiscal_year = current_company.fiscal_years.find_by(fiscal_year: params[:fiscal_year].to_i)
+    @employees = @employees.where('employment_date <= ? and (retirement_date is null or retirement_date >= ?)', fiscal_year.end_day, fiscal_year.start_day)
 
-    render :partial => 'get_branch_employees'
+    render partial: 'get_branch_employees'
   end
 
   private

@@ -200,9 +200,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
   def test_get_branch_employees
     sign_in admin
     get :index
-    get :get_branch_employees, :xhr => true, :params => {
-          :finder => {:branch_id => current_company.branches.first.id}
-          }
+    get :get_branch_employees, xhr: true, params: {fiscal_year: current_company.fiscal_year, branch_id: current_company.branches.first.id}
     assert_response :success
     assert_template 'payrolls/_get_branch_employees'
   end
@@ -215,7 +213,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
 
-    post :auto_calc, :params => {:payroll => {:ym => 200904, :employee_id => 2, :base_salary => 394000}}, :xhr => true
+    post :auto_calc, params: {payroll: {ym: 200904, employee_id: 2, base_salary: 394000}}, xhr: true
 
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)

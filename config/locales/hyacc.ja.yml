@@ -104,6 +104,7 @@ ja:
         logo: ロゴ
         name: 会社名
         users: ユーザ
+        social_insurance_number: 社会保険事業所整理番号
 
       customer:
         address: 住所

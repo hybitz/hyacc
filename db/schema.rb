@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_03_114030) do
+ActiveRecord::Schema.define(version: 2023_07_05_084827) do
 
   create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -231,6 +231,7 @@ ActiveRecord::Schema.define(version: 2023_01_03_114030) do
     t.string "enterprise_number", limit: 13
     t.integer "employment_insurance_type"
     t.string "labor_insurance_number", limit: 14
+    t.string "social_insurance_number"
   end
 
   create_table "customers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|

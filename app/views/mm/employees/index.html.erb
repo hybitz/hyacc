@@ -8,6 +8,7 @@
         <th>氏名</th>
         <th>所属部門</th>
         <th class="text-center"><%= Employee.human_attribute_name :social_insurance_reference_number %></th>
+        <th class="text-center"><%= Employee.human_attribute_name :social_insurance_birthday %></th>
         <th class="text-center">業務経歴</th>
         <th class="text-center">状態</th>
         <th></th>
@@ -19,6 +20,7 @@
           <td><%= link_to e.fullname, mm_employee_path(e), remote: true %></td>
           <td><%= e.default_branch_name %></td>
           <td class="text-center"><%= e.social_insurance_reference_number %></td>
+          <td class="text-center"><%= e.social_insurance_birthday %></td>
           <td class="text-center">
             <% if e.years_of_career > 0 %>
               <%= link_to "#{e.years_of_career}年", career_statement_path(e) %>

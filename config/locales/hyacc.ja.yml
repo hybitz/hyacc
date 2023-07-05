@@ -142,6 +142,7 @@ ja:
         name_kana: 姓名（カナ）
         num_of_dependent: 扶養親族の数
         sex: 性別
+        social_insurance_birthday: 被保険者生年月日
         social_insurance_reference_number: 被保険者整理番号
         position: 役職
 

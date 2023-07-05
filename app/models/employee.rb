@@ -72,6 +72,22 @@ class Employee < ApplicationRecord
   def sex_name
     SEX_TYPES[sex]
   end
+
+  def social_insurance_birthday
+    return nil unless birth
+
+    wareki = TaxJp::Gengou.to_wareki(birth, only_date: true, format: '%02y%m%d')
+    gengou = TaxJp::Gengou.to_wareki(birth)[0..1]
+
+    case gengou
+    when '昭和'
+      '5-' + wareki
+    when '平成'
+      '7-' + wareki
+    else
+      raise "未対応の元号 #{gengou} です"
+    end
+  end
   
   def years_of_career
     if has_careers?

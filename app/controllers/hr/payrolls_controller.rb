@@ -3,10 +3,11 @@ class Hr::PayrollsController < Base::HyaccController
 
   view_attribute :finder, class: PayrollFinder, only: :index
   view_attribute :branches, only: :index, include: :deleted
-  view_attribute :employees, only: :index, scope: :branch
 
   # 賃金台帳一覧の表示
   def index
+    @employees = load_employees(finder.fiscal_year, finder.branch_id)
+
     if finder.commit and finder.employee_id > 0
       @employee = Employee.find(finder.employee_id)
 
@@ -151,17 +152,20 @@ class Hr::PayrollsController < Base::HyaccController
 
   # 部門を選択した時に、動的にユーザ選択リストを更新する
   def get_branch_employees
-    # 従業員選択用
-    branch = Branch.find_by(id: params[:branch_id].to_i)
-    @employees = branch&.employees
-    
-    fiscal_year = current_company.fiscal_years.find_by(fiscal_year: params[:fiscal_year].to_i)
-    @employees = @employees.where('employment_date <= ? and (retirement_date is null or retirement_date >= ?)', fiscal_year.end_day, fiscal_year.start_day)
-
+    @employees = load_employees(params[:fiscal_year], params[:branch_id])
     render partial: 'get_branch_employees'
   end
 
   private
+
+  # 従業員選択用リスト
+  def load_employees(fiscal_year, branch_id)
+    branch = Branch.find_by(id: branch_id.to_i)
+    ret = branch&.employees
+    
+    fiscal_year = current_company.fiscal_years.find_by(fiscal_year: fiscal_year.to_i)
+    ret = ret.where('employment_date <= ? and (retirement_date is null or retirement_date >= ?)', fiscal_year.end_day, fiscal_year.start_day)
+  end
 
   def title
     case action_name

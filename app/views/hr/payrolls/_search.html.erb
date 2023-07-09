@@ -13,7 +13,7 @@
       };
 
       fiscal_year.change(get_branch_employee);
-      branch.change(get_branch_employee).change();
+      branch.change(get_branch_employee);
     });
   </script>
 
@@ -30,8 +30,10 @@
         <%= f.collection_select :branch_id, @branches, :id, :name, {}, class: 'form-select' %>
       </div>
     </div>
-    <div id="branch_employees" class="col-auto"></div>
-  
+    <div id="branch_employees" class="col-auto">
+      <%= render partial: 'get_branch_employees' %>
+    </div>
+
     <div class="col-auto">
       <%= f.submit '表示', class: 'btn btn-light' %>
     </div>

@@ -3,8 +3,8 @@ module Reports
     
     def build_model
       ret = EmploymentInsuranceModel.new
-      ret.start_day = start_day
-      ret.end_day = end_day
+      ret.start_day_estimate = start_day
+      ret.end_day_estimate = end_day
       ret
     end
 
@@ -19,7 +19,15 @@ module Reports
   end
 
   class EmploymentInsuranceModel
-    attr_accessor :start_day, :end_day
+    attr_accessor :start_day_estimate, :end_day_estimate
+
+    def start_day_fixed
+      start_day_estimate - 1.year
+    end
+
+    def end_day_fixed
+      end_day_estimate - 1.year
+    end
   end
   
 

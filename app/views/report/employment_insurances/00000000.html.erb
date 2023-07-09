@@ -1,19 +1,29 @@
 <div class="my-4 mx-2">
-  <div><h4><strong><%= to_wareki_year(finder.calendar_year) %>年度　確定保険料・一般拠出金算定基礎賃金集計表</strong></h4></div>
-  <div>（算定期間　<%= to_wareki(@model.start_day, format: '%y年%m月') %> ～ <%= to_wareki(@model.end_day, format: '%y年%m月') %>）</div>  
+  <table>
+    <tr>
+      <td><h4><%= to_wareki_year(finder.calendar_year.to_i - 1) %>年度　確定保険料・一般拠出金算定基礎賃金集計表</h4></td>
+      <td><h4>／</h4></td>
+      <td><h4><%= to_wareki_year(finder.calendar_year) %>年度　概算保険料（雇用保険分）算定内訳</h4></td>
+    </tr>
+    <tr>
+      <td>（算定期間　<%= to_wareki(@model.start_day_fixed, format: '%y年%1m月') %> ～ <%= to_wareki(@model.end_day_fixed, format: '%y年%1m月') %>）</td>
+      <td></td>
+      <td>（算定期間　<%= to_wareki(@model.start_day_estimate, format: '%y年%1m月') %> ～ <%= to_wareki(@model.end_day_estimate, format: '%y年%1m月') %>）</td>
+    </tr>
+  </table>
 </div>
 
-<div class="p-2">
-  <div class="float-left">
+<div class="p-2 row">
+  <div class="col-md-4">
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th class="align-middle" rowspan="2">労働保険<br>番　　号</th>
-          <th>府県</th>
-          <th>所掌</th>
-          <th>管轄</th>
-          <th>基幹番号</th>
-          <th>枝番号</th>
+          <th class="align-middle text-center" rowspan="2">労働保険<br>番　　号</th>
+          <th class="text-center">府県</th>
+          <th class="text-center">所掌</th>
+          <th class="text-center">管轄</th>
+          <th class="text-center">基幹番号</th>
+          <th class="text-center">枝番号</th>
         </tr>
         <tr>
           <td class="text-center"><%= current_company.labor_insurance_number.to_s[0..1] %></td>
@@ -25,9 +35,9 @@
       </thead>
     </table>
   </div>
-  <div class="ml-3 float-left">
+  <div class="ml-3 col-md-2">
     <table class="table table-bordered">
-      <thead>
+      <tbody>
         <tr>
           <th colspan="4" class="text-center">出向者の有無</th>
         </tr>
@@ -37,7 +47,27 @@
           <th class="text-center">出</th>
           <td class="text-end">名</td>
         </tr>
-      </thead>
+      </tbody>
+    </table>
+  </div>
+  <div class="ml-3 col-md-6">
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <th>事業の名称</th>
+          <td><%= current_company.name %></td>
+          <th>電話</th>
+          <td><%= current_company.head_branch.business_office.tel %></td>
+          <th class="text-center">具体的な業務又は作業の内容</th>
+        </tr>
+        <tr>
+          <th>事業の所在地</th>
+          <td><%= current_company.head_branch.business_office.address %></td>
+          <th>郵便番号</th>
+          <td><%= current_company.head_branch.business_office.zip_code %></td>
+          <td class="text-center"><%= current_company.head_branch.business_office.business_outline %></td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </div>

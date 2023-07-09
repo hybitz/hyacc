@@ -1,4 +1,4 @@
-<div class="my-4 mx-2">
+<div class="m-4">
   <table>
     <tr>
       <td><h4><%= to_wareki_year(finder.calendar_year.to_i - 1) %>年度　確定保険料・一般拠出金算定基礎賃金集計表</h4></td>
@@ -70,4 +70,59 @@
       </tbody>
     </table>
   </div>
+</div>
+
+<div class="p-2">
+  <table class="table table-sm table-bordered">
+    <thead>
+      <tr>
+        <th>月</th>
+        <th colspan="2" class="text-center">常用労働者</th>
+        <th colspan="2" class="text-center">役員で労働者扱いの人</th>
+        <th colspan="2" class="text-center">臨時労働者</th>
+        <th colspan="2" class="text-center">合計</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @model.details.each do |ym, d| %>
+        <tr>
+          <td><%= to_wareki(Date.strptime("#{ym}01", '%Y%m%d'), format: '%y年%1m月') %></td>
+          <td class="text-center"><%= d.employee_count %></td>
+          <td class="text-end"><%= to_amount(d.salary_total) %></td>
+          <td class="text-center"></td>
+          <td class="text-end"></td>
+          <td class="text-center"></td>
+          <td class="text-end"></td>
+          <td class="text-center"><%= d.employee_count %></td>
+          <td class="text-end"><%= to_amount(d.salary_total) %></td>
+        </tr>
+      <% end %>
+      <% @model.bonus_details.each do |ym, d| %>
+        <tr>
+          <td><%= to_wareki(Date.strptime("#{ym}01", '%Y%m%d'), format: '%y年%1m月') %></td>
+          <td class="text-center"></td>
+          <td class="text-end"><%= to_amount(d.salary_total) %></td>
+          <td class="text-center"></td>
+          <td class="text-end"></td>
+          <td class="text-center"></td>
+          <td class="text-end"></td>
+          <td class="text-center"></td>
+          <td class="text-end"><%= to_amount(d.salary_total) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>合計</td>
+        <td class="text-center"></td>
+        <td class="text-end"></td>
+        <td class="text-center"></td>
+        <td class="text-end"></td>
+        <td class="text-center"></td>
+        <td class="text-end"></td>
+        <td class="text-center"><%= @model.employee_count %></td>
+        <td class="text-end"><%= to_amount(@model.salary_total) %></td>
+      </tr>
+    </tfoot>
+  </table>
 </div>

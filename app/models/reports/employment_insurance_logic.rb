@@ -5,21 +5,53 @@ module Reports
       ret = EmploymentInsuranceModel.new
       ret.start_day_estimate = start_day
       ret.end_day_estimate = end_day
+
+      Payroll.joins(:employee).references(:employee).where(employees: {executive: false}).where('ym >= ? and ym <= ?', start_ym_fixed, end_ym_fixed).order(:ym).each do |p|
+        if p.is_bonus?
+          d = ret.get_bonus_detail(p.ym)
+        else
+          d = ret.get_detail(p.ym)
+        end
+        d.salary_total += p.salary_total
+        d.employee_count += 1
+      end
+
       ret
     end
 
     def start_ym
-      @start_ym ||= "#{finder.calendar_year}04"
+      start_ym_estimate
     end
     
     def end_ym
-      @end_ym ||= "#{finder.calendar_year.to_i + 1}03"
+      end_ym_estimate
     end
 
+    def start_ym_estimate
+      @start_ym_estimate ||= "#{finder.calendar_year}04"
+    end
+
+    def end_ym_estimate
+      @end_ym_estimate ||= "#{finder.calendar_year.to_i + 1}03"
+    end
+
+    def start_ym_fixed
+      @start_ym_fixed ||= "#{finder.calendar_year.to_i - 1}04"
+    end
+    
+    def end_ym_fixed
+      @end_ym_fixed ||= "#{finder.calendar_year}03"
+    end
   end
 
   class EmploymentInsuranceModel
     attr_accessor :start_day_estimate, :end_day_estimate
+    attr_reader :details, :bonus_details
+
+    def initialize
+      @details = {}
+      @bonus_details = {}
+    end
 
     def start_day_fixed
       start_day_estimate - 1.year
@@ -28,7 +60,33 @@ module Reports
     def end_day_fixed
       end_day_estimate - 1.year
     end
-  end
+
+    def get_detail(ym)
+      self.details[ym] ||= EmploymentInsuranceDetailModel.new
+    end
+
+    def get_bonus_detail(ym)
+      self.bonus_details[ym] ||= EmploymentInsuranceDetailModel.new
+    end
+
+    def employee_count
+      details.values.map{|d| d.employee_count }.sum
+    end
   
+    def salary_total
+      details.values.map{|d| d.salary_total }.sum + bonus_details.values.map{|d| d.salary_total }.sum
+    end
+  end
+
+  class EmploymentInsuranceDetailModel
+    attr_accessor :ym
+    attr_accessor :salary_total
+    attr_accessor :employee_count
+
+    def initialize
+      @salary_total = 0
+      @employee_count = 0
+    end
+  end
 
 end

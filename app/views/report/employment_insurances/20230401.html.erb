@@ -92,13 +92,13 @@
         <tr>
           <td class="text-end"><%= to_wareki(Date.strptime("#{ym}01", '%Y%m%d'), format: [1, 4].include?(ym % 100) ? '%y年%1m月' : '%1m月') %></td>
           <td class="text-center"><%= d.employee_count %></td>
-          <td class="text-end"><%= to_amount(d.salary_total) %></td>
+          <td class="text-end"><%= to_amount(d.salary_total, show_zero: true) %></td>
           <td class="text-center"></td>
           <td class="text-end"></td>
           <td class="text-center"></td>
           <td class="text-end"></td>
           <td class="text-center"><%= d.employee_count %></td>
-          <td class="text-end"><%= to_amount(d.salary_total) %></td>
+          <td class="text-end"><%= to_amount(d.salary_total, show_zero: true) %></td>
         </tr>
       <% end %>
       <% @model.bonus_details.each do |ym, d| %>

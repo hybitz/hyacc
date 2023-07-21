@@ -6,6 +6,8 @@ module Reports
       ret.start_day_estimate = start_day
       ret.end_day_estimate = end_day
 
+      ret.fill_details( HyaccDateUtil.get_year_months(start_ym_fixed, 12))
+
       Payroll.joins(:employee).references(:employee).where(employees: {executive: false}).where('ym >= ? and ym <= ?', start_ym_fixed, end_ym_fixed).order(:ym).each do |p|
         if p.is_bonus?
           d = ret.get_bonus_detail(p.ym)
@@ -28,19 +30,19 @@ module Reports
     end
 
     def start_ym_estimate
-      @start_ym_estimate ||= "#{finder.calendar_year}04"
+      @start_ym_estimate ||= "#{finder.calendar_year}04".to_i
     end
 
     def end_ym_estimate
-      @end_ym_estimate ||= "#{finder.calendar_year.to_i + 1}03"
+      @end_ym_estimate ||= "#{finder.calendar_year.to_i + 1}03".to_i
     end
 
     def start_ym_fixed
-      @start_ym_fixed ||= "#{finder.calendar_year.to_i - 1}04"
+      @start_ym_fixed ||= "#{finder.calendar_year.to_i - 1}04".to_i
     end
     
     def end_ym_fixed
-      @end_ym_fixed ||= "#{finder.calendar_year}03"
+      @end_ym_fixed ||= "#{finder.calendar_year}03".to_i
     end
   end
 
@@ -51,6 +53,12 @@ module Reports
     def initialize
       @details = {}
       @bonus_details = {}
+    end
+
+    def fill_details(year_months)
+      year_months.each do |ym|
+        self.details[ym] ||= EmploymentInsuranceDetailModel.new
+      end
     end
 
     def start_day_fixed

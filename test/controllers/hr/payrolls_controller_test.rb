@@ -199,7 +199,6 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
 
   def test_get_branch_employees
     sign_in admin
-    get :index
     get :get_branch_employees, xhr: true, params: {fiscal_year: current_company.fiscal_year, branch_id: current_company.branches.first.id}
     assert_response :success
     assert_template 'payrolls/_get_branch_employees'

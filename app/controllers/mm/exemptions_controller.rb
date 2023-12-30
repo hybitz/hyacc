@@ -7,7 +7,7 @@ class Mm::ExemptionsController < Base::HyaccController
 
   def new
     # 直近のデータを初期表示
-    @d = Exemption.where(employee_id: current_user.employee.id).order('yyyy desc').first
+    @d = Exemption.where(employee_id: current_user.employee.id).order(yyyy: 'desc').order(employee_id: 'asc').first
     # new_record? = true にするためdup
     @c = @d.dup
     @c.yyyy = Date.today.year

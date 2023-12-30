@@ -8,7 +8,11 @@ class ApplicationController < ActionController::Base
   include Title
   
   rescue_from StrongActions::ForbiddenAction do
-    render file: 'public/403.html', layout: false, status: :forbidden
+    if user_signed_in?
+      render file: 'public/403.html', layout: false, status: :forbidden
+    else
+      redirect_to root_path
+    end
   end
 
   private

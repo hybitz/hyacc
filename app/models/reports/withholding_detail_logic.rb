@@ -19,9 +19,10 @@ module Reports
       model.withholding_tax = get_withholding_tax                 # 源泉徴収税額
       model.mortgage_deduction = get_mortgage_deduction
       model.mortgage_deductible = get_mortgage_deductible
-      model.social_insurance = get_social_insurance               # 社会保険料等の金額
+      model.social_insurance = get_social_insurance               # 給与から控除された社会保険料等の金額
       e = get_exemptions
       model.exemption = e                                         # 配偶者控除額
+      model.social_insurance_premium = e.social_insurance_premium # 給与から控除していない社会保険料
       model.small_scale_mutual_aid = e.small_scale_mutual_aid     # 小規模共済掛金
       if employee.retirement_date.present? && employee.retirement_date.year == @finder.calendar_year.to_i
         model.employment_or_retirement_date = employee.retirement_date   # 入退社日
@@ -70,12 +71,12 @@ module Reports
       logic.get_withholding_tax
     end
     
-    # 社会保険料等の金額(健康保険料＋厚生年金保険料＋雇用保険料＋小規模共済＋前職分の社会保険料等の金額)
+    # 社会保険料等の金額(健康保険料＋厚生年金保険料＋雇用保険料＋前職分の社会保険料等の金額)
     def get_social_insurance
       logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
       e = logic.get_exemptions
 
-      logic.get_health_insurance + logic.get_employee_pention + logic.get_employment_insurance + e.small_scale_mutual_aid.to_i + e.previous_social_insurance.to_i
+      logic.get_health_insurance + logic.get_employee_pention + logic.get_employment_insurance + e.previous_social_insurance.to_i
     end
 
     def get_mortgage_deduction

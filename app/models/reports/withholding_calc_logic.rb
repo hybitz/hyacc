@@ -92,6 +92,7 @@ module Reports
       end
       return t
     rescue => e
+      Rails.logger.info e.message
       # 源泉徴収情報が未登録の場合はnil
       return nil
     end

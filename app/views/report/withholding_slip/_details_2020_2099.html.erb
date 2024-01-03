@@ -58,16 +58,16 @@
     		<td colspan="2">老人</td>
     		<td colspan="2">その他</td>
     		<td colspan="2">特別</td>
-    		<td colspan="1">その他</td>
+    		<td>その他</td>
   		</tr>
     	<tr>
     		<td colspan="2"><%= "★" if @data.exemption.spouse.to_i > 0 %></td>
     		<td colspan="2"><br></td>
     		<td colspan="2"><br></td>
     		<td colspan="4"><%= to_amount(@data.exemption.special_tax_for_spouse) %></td>
-    		<td colspan="1"><br></td>
     		<td><br></td>
-    		<td colspan="1"><br></td>
+    		<td><br></td>
+    		<td><br></td>
     		<td><br></td>
     		<td><br></td>
     		<td><br></td>
@@ -136,8 +136,8 @@
         <td colspan="2" rowspan="4" class="item">(源泉・特別)<br>控除対象<br/>配偶者</td>
         <td colspan="2" class="item">（フリガナ）</td>
         <td colspan="4"><%= @data.exemption.spouse_family_members[0]&.kana %></td>
-        <td colspan="1" rowspan="2" class="item">区<br/>分</td>
-        <td colspan="1" rowspan="2"><%= "○" if @data.exemption.spouse_family_members[0] && ! @data.exemption.spouse_family_members[0].live_in %></td>
+        <td rowspan="2" class="item">区<br/>分</td>
+        <td rowspan="2"><%= "○" if @data.exemption.spouse_family_members[0] && ! @data.exemption.spouse_family_members[0].live_in %></td>
         <td colspan="2" rowspan="4" class="item">配偶者の<br/>合計所得</td>
         <td colspan="3" rowspan="4"></td>
         <td colspan="2" rowspan="2" class="item">国民年金保険<br/>料等の金額</td>
@@ -153,7 +153,7 @@
     		<td colspan="2" rowspan="1" class="item">個人番号</td>
     		<td colspan="6" rowspan="1"><div class="secret"><%= @data.exemption.spouse_family_members[0]&.my_number %></div></td>
         <td colspan="2" rowspan="2" class="item">基礎控除の額</td>
-        <td colspan="2" rowspan="2"><%= to_amount(@data.exemption.basic, show_zero: true) %></td>
+        <td colspan="2" rowspan="2" class="text-end"><%= to_amount(@data.exemption.basic, show_zero: true) %></td>
         <td colspan="2" rowspan="2" class="item">所得金額<br>調整控除額</td>
         <td colspan="2" rowspan="2"></td>
       </tr>
@@ -161,18 +161,18 @@
         <td colspan="2" class="item"></td>
       </tr>
       <tr>
-    		<td colspan="1" rowspan="12" class="item">控<br/>除<br/>対<br/>象<br/>扶<br/>養<br/>親<br/>族</td>
-    		<td colspan="1" rowspan="3" class="item">1</td>
+    		<td rowspan="12" class="item">控<br/>除<br/>対<br/>象<br/>扶<br/>養<br/>親<br/>族</td>
+    		<td rowspan="3" class="item">1</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[0].kana if @data.exemption.family_members[0] %></td>
-    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[0] && ! @data.exemption.family_members[0].live_in %></td>
-    		<td colspan="1" rowspan="12" class="item">16<br/>歳<br/>未<br/>満<br/>の<br/>扶<br/>養<br/>親<br/>族</td>
-    		<td colspan="1" rowspan="3" class="item">1</td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.family_members[0] && ! @data.exemption.family_members[0].live_in %></td>
+    		<td rowspan="12" class="item">16<br/>歳<br/>未<br/>満<br/>の<br/>扶<br/>養<br/>親<br/>族</td>
+    		<td rowspan="3" class="item">1</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[0].kana if @data.exemption.under16_family_members[0] %></td>
-    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[0] && ! @data.exemption.under16_family_members[0].live_in %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.under16_family_members[0] && ! @data.exemption.under16_family_members[0].live_in %></td>
     		<td colspan="3" class="item">（備考）</td>
       </tr>
       <tr>
@@ -188,16 +188,16 @@
     		<td colspan="8" class="item"></td>
       </tr>
       <tr>
-    		<td colspan="1" rowspan="3" class="item">2</td>
+    		<td rowspan="3" class="item">2</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[1].kana if @data.exemption.family_members[1] %></td>
-    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[1] && ! @data.exemption.family_members[1].live_in %></td>
-    		<td colspan="1" rowspan="3" class="item">2</td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.family_members[1] && ! @data.exemption.family_members[1].live_in %></td>
+    		<td rowspan="3" class="item">2</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[1].kana if @data.exemption.under16_family_members[1] %></td>
-    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[1] && ! @data.exemption.under16_family_members[1].live_in %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.under16_family_members[1] && ! @data.exemption.under16_family_members[1].live_in %></td>
       </tr>
       <tr>
     		<td colspan="2" class="item">氏名</td>
@@ -211,16 +211,16 @@
     		<td colspan="8" class="item"></td>
       </tr>
       <tr>
-    		<td colspan="1" rowspan="3" class="item">3</td>
+    		<td rowspan="3" class="item">3</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[2]&.kana %></td>
-    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[2] && ! @data.exemption.family_members[2].live_in %></td>
-    		<td colspan="1" rowspan="3" class="item">3</td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.family_members[2] && ! @data.exemption.family_members[2].live_in %></td>
+    		<td rowspan="3" class="item">3</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[2]&.kana %></td>
-    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[2] && ! @data.exemption.under16_family_members[2].live_in %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.under16_family_members[2] && ! @data.exemption.under16_family_members[2].live_in %></td>
       </tr>
       <tr>
     		<td colspan="2" class="item">氏名</td>
@@ -235,16 +235,16 @@
     		<td colspan="8" class="item"></td>
       </tr>
       <tr>
-    		<td colspan="1" rowspan="3" class="item">4</td>
+    		<td rowspan="3" class="item">4</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[3].kana if @data.exemption.family_members[3] %></td>
-    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.family_members[3] && ! data.exemption.family_members[3].live_in %></td>
-    		<td colspan="1" rowspan="3" class="item">4</td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.family_members[3] && ! data.exemption.family_members[3].live_in %></td>
+    		<td rowspan="3" class="item">4</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[3].kana if @data.exemption.under16_family_members[3] %></td>
-    		<td colspan="1" rowspan="2" class="item">区<br/>分</td>
-    		<td colspan="1" rowspan="2"><%= "○" if @data.exemption.under16_family_members[3] && ! @data.exemption.under16_family_members[3].live_in %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.under16_family_members[3] && ! @data.exemption.under16_family_members[3].live_in %></td>
       </tr>
       <tr>
     		<td colspan="2" class="item">氏名</td>
@@ -258,56 +258,56 @@
     		<td colspan="8" class="item"></td>
       </tr>
       <tr>
-    		<td colspan="1" rowspan="2" class="item">未<br/>成<br/>年<br/>者</td>
-    		<td colspan="1" rowspan="2" class="item">外<br/>国<br/>人</td>
-    		<td colspan="1" rowspan="2" class="item">死<br/>亡<br/>退<br/>職</td>
-    		<td colspan="1" rowspan="2" class="item">災<br/>害<br/>者</td>
-    		<td colspan="1" rowspan="2" class="item">乙<br/>欄</td>
+    		<td rowspan="2" class="item">未<br/>成<br/>年<br/>者</td>
+    		<td rowspan="2" class="item">外<br/>国<br/>人</td>
+    		<td rowspan="2" class="item">死<br/>亡<br/>退<br/>職</td>
+    		<td rowspan="2" class="item">災<br/>害<br/>者</td>
+    		<td rowspan="2" class="item">乙<br/>欄</td>
     		<td colspan="2" class="item">本人が障害者</td>
-    		<td colspan="1" rowspan="2" class="item">募<br>婦</td>
-        <td colspan="1" rowspan="2" class="item">ひ<br>と<br>り<br>親</td>
-    		<td colspan="1" rowspan="2" class="item">勤<br/>労<br/>学<br/>生</td>
-        <td colspan="1" rowspan="2" class="item"></td>
+    		<td rowspan="2" class="item">募<br>婦</td>
+        <td rowspan="2" class="item">ひ<br>と<br>り<br>親</td>
+    		<td rowspan="2" class="item">勤<br/>労<br/>学<br/>生</td>
+        <td rowspan="2" class="item"></td>
     		<td colspan="5" class="item">中途就・退職</td>
     		<td colspan="7" class="item">受給者生年月日</td>
       </tr>
       <tr>
-    		<td colspan="1" class="item">特<br>別</td>
-    		<td colspan="1" class="item">そ<br>の<br>他</td>
-    		<td colspan="1" class="item">就職</td>
-    		<td colspan="1" class="item">退職</td>
-    		<td colspan="1" class="item">年</td>
-    		<td colspan="1" class="item">月</td>
-    		<td colspan="1" class="item">日</td>
+    		<td class="item">特<br>別</td>
+    		<td class="item">そ<br>の<br>他</td>
+    		<td class="item">就職</td>
+    		<td class="item">退職</td>
+    		<td class="item">年</td>
+    		<td class="item">月</td>
+    		<td class="item">日</td>
     		<td colspan="4" class="item">元号</td>
-    		<td colspan="1" class="item">年</td>
-    		<td colspan="1" class="item">月</td>
-    		<td colspan="1" class="item">日</td>
+    		<td class="item">年</td>
+    		<td class="item">月</td>
+    		<td class="item">日</td>
       </tr>
       <tr>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1"></td>
-    		<td colspan="1" class="text-center"><%= "○" if @data.employment_year %></td>
-    		<td colspan="1" class="text-center"><%= "○" if @data.retirement_year %></td>
-    		<td colspan="1"><%= to_wareki(@data.employment_or_retirement_date, only_date: true, format: '%y') if @data.employment_or_retirement_date.present? %></td>
-    		<td colspan="1"><%= @data.employment_or_retirement_date.month if @data.employment_or_retirement_date.present? %></td>
-    		<td colspan="1"><%= @data.employment_or_retirement_date.day if @data.employment_or_retirement_date.present? %></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td class="text-center"><%= "○" if @data.employment_year %></td>
+    		<td class="text-center"><%= "○" if @data.retirement_year %></td>
+    		<td class="text-center"><%= to_wareki(@data.employment_or_retirement_date, only_date: true, format: '%y') if @data.employment_or_retirement_date.present? %></td>
+    		<td class="text-center"><%= @data.employment_or_retirement_date.month if @data.employment_or_retirement_date.present? %></td>
+    		<td class="text-center"><%= @data.employment_or_retirement_date.day if @data.employment_or_retirement_date.present? %></td>
     		<td colspan="4" class="text-center"><%= to_wareki(@data.employee.birth, format: '%y')[0..1] %></td>
-    		<td colspan="1" class="text-center"><%= to_wareki(@data.employee.birth, only_date: true, format: '%y') %></td>
-    		<td colspan="1" class="text-center"><%= @data.employee.birth.month %></td>
-    		<td colspan="1" class="text-center"><%= @data.employee.birth.day %></td>
+    		<td class="text-center"><%= to_wareki(@data.employee.birth, only_date: true, format: '%y') %></td>
+    		<td class="text-center"><%= @data.employee.birth.month %></td>
+    		<td class="text-center"><%= @data.employee.birth.day %></td>
       </tr>
       <tr>
-    		<td colspan="1" rowspan="3" class="item">支<br>払<br>者</td>
+    		<td rowspan="3" class="item">支<br>払<br>者</td>
     		<td colspan="3" class="item">個人番号又は<br>法人番号</td>
     		<td colspan="8"><div class="secret"><%= @data.company.enterprise_number %></div></td>
     		<td colspan="11" class="item"></td>

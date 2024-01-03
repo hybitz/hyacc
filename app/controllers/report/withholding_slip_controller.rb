@@ -52,13 +52,13 @@ class Report::WithholdingSlipController < ReportController
   end
   
   def render_withholding_summary
-    logic = Reports::WithholdingSummaryLogic.new(finder)
+    logic = Reports::WithholdingTax::SummaryLogic.new(finder)
     @data = logic.get_withholding_info
     render :withholding_summary
   end
   
   def render_withholding_details
-    logic = Reports::WithholdingDetailLogic.new(finder)
+    logic = Reports::WithholdingTax::DetailLogic.new(finder)
 
     unless logic.has_exemption?
       @finder = finder
@@ -70,7 +70,7 @@ class Report::WithholdingSlipController < ReportController
   end
   
   def render_withholding_calc
-    logic = Reports::WithholdingCalcLogic.new(finder)
+    logic = Reports::WithholdingTax::CalcLogic.new(finder)
     @data = logic.get_withholding_info
     render :withholding_calc
   end

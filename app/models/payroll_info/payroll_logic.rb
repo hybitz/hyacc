@@ -189,7 +189,7 @@ module PayrollInfo
 
     def get_exemptions
      # 控除額の取得
-      e = Exemption.where(:employee_id => @employee_id, :yyyy => @calendar_year).first
+      e = Exemption.find_by(yyyy: @calendar_year, employee_id: @employee_id)
       unless e
         HyaccLogger.error "源泉徴収情報が登録されていません。"
         raise HyaccException.new("源泉徴収情報が登録されていません。雇用ID：" + @employee_id.to_s)

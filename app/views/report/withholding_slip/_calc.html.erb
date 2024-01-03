@@ -69,7 +69,7 @@
     <tr class="hover">
       <td>前期過払分</td>
       <td>-</td>
-      <td><%= number_to_currency(@data.overpayment, :format=>"%n") %></td>
+      <td><%= to_amount(@data.overpayment) %></td>
     </tr>
   <% end %>
     <tr style="background-color: lightgrey;">

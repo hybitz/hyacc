@@ -375,7 +375,7 @@ module PayrollInfo
     # 上期分の源泉所得税
    def get_all_withholding_taxes_1H
       amount = 0
-        # calendar_year期間に支払われた給与明細を取得
+      # calendar_year期間に支払われた給与明細を取得
       list = Payroll.joins(:pay_journal).where("journals.ym >= ? and journals.ym <= ?", @calendar_year.to_s + '01', @calendar_year.to_s + '06')
       list.each do |p|
         # 賞与
@@ -392,7 +392,7 @@ module PayrollInfo
     # 下期分の源泉所得税
     def get_all_withholding_taxes_2H
       amount = 0
-        # calendar_year期間に支払われた給与明細を取得
+      # calendar_year期間に支払われた給与明細を取得
       list = Payroll.joins(:pay_journal).where("journals.ym >= ? and journals.ym <= ?", @calendar_year.to_s + '07', @calendar_year.to_s + '12')
       list.each do |p|
         # 賞与

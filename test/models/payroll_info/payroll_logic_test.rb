@@ -28,10 +28,10 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     assert_equal 2_652_000 - 975_600, logic.get_after_deduction
   end
     
-  def test_get_exemption
+  def test_get_total_exemption
     logic = logic_builder(2008)
     # 3565000（基本給）
-    assert_equal 1_062_455, logic.get_exemption
+    assert_equal 1_062_455, logic.get_total_exemption
   end
     
   def test_get_withholding_tax

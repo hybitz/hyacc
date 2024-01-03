@@ -97,11 +97,11 @@
       <tr>
     		<td colspan="2" class="item">生命保険料<br>の金額の<br>内訳</td>
     		<td colspan="2" class="item">新生命保険料<br>の金額</td>
-    		<td colspan="2"><%= number_to_currency(@data.exemption.life_insurance_premium_new, :format=>"%n") %></td>
+    		<td colspan="2" class="text-end"><%= to_amount(@data.exemption.life_insurance_premium_new) %></td>
     		<td colspan="2" class="item">旧生命保険料<br>の金額</td>
     		<td colspan="2"><%= number_to_currency(@data.exemption.life_insurance_premium_old, :format=>"%n") %></td>
     		<td colspan="2" class="item">介護医療保<br>険料の金額</td>
-    		<td colspan="3"><%= number_to_currency(@data.exemption.care_insurance_premium, :format=>"%n") %></td>
+    		<td colspan="3" class="text-end"><%= to_amount(@data.exemption.care_insurance_premium) %></td>
     		<td colspan="2" class="item">新個人年金<br>保険料の金額</td>
     		<td colspan="2"><%= number_to_currency(@data.exemption.private_pension_insurance_new, :format=>"%n") %></td>
     		<td colspan="2" class="item">旧個人年金<br>保険料の金額</td>

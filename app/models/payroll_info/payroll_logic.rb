@@ -13,19 +13,19 @@ module PayrollInfo
       total_base_salary = 0
 
       # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
+      list = Payroll.where(employee_id: @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
 
       list.each do |p|
         # 役員給与
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY).id).each do |d|
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY).id).each do |d|
           total_base_salary += d.amount
         end
         # 給与手当
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
           total_base_salary += d.amount
         end
         # 賞与
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
           total_base_salary += d.amount
         end
       end
@@ -71,7 +71,7 @@ module PayrollInfo
 
       list.each do |p|
         # 賞与
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
           yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           bonuses[yyyymmdd] = bonuses.has_key?(yyyymmdd) ? bonuses[yyyymmdd] + d.amount : d.amount
         end
@@ -184,7 +184,7 @@ module PayrollInfo
     # 給与所得控除後
     def get_after_deduction
       # みなし給与で計算
-      (get_total_deemed_salary - get_deduction) < 0 ? 0 : (get_total_deemed_salary - get_deduction)
+      [0, get_total_deemed_salary - get_deduction].max
     end
 
     def get_exemptions
@@ -197,17 +197,14 @@ module PayrollInfo
       e
     end
 
-
-    # 控除額（基礎控除、扶養控除等）
-    def get_exemption
-      # 控除額の取得
+    # 所得控除の額の合計
+    def get_total_exemption
       e = get_exemptions
-      # 社会保険料等の控除額＋基礎控除等
-      total = get_health_insurance + get_employee_pention + get_employment_insurance + 
-                e.small_scale_mutual_aid.to_i + e.life_insurance_deduction.to_i +
-                e.earthquake_insurance_premium.to_i + e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i +
-                e.disabled_persons.to_i + e.basic.to_i + e.previous_social_insurance.to_i
-      return total
+
+      get_health_insurance + get_employee_pention + get_employment_insurance + 
+          e.small_scale_mutual_aid.to_i + e.life_insurance_deduction.to_i +
+          e.earthquake_insurance_premium.to_i + e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i +
+          e.disabled_persons.to_i + e.basic.to_i + e.previous_social_insurance.to_i
     end
 
     # 源泉所得税
@@ -229,7 +226,7 @@ module PayrollInfo
     def get_withholding_tax_before_mortgage_deduction
       total_tax = 0
       # 給与所得控除後 - 基礎控除等
-      b = get_after_deduction - get_exemption
+      b = get_after_deduction - get_total_exemption
       b = b < 0 ? 0 : b
 
       # 1,000円未満切り捨て

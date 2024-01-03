@@ -12,8 +12,8 @@ module Reports
         employee = Employee.find(@finder.employee_id)
         model.employee = employee
         model.total_salary = get_total_salary                       # 支払金額
-        model.exemption_amount = get_total_exemption                # 所得控除の額の合計
         model.after_deduction = get_after_deduction                 # 給与所得控除後の金額
+        model.exemption_amount = get_total_exemption                # 所得控除の額の合計
         model.withholding_tax = get_withholding_tax                 # 源泉徴収税額
         model.mortgage_deduction = get_mortgage_deduction
         model.mortgage_deductible = get_mortgage_deductible
@@ -47,20 +47,17 @@ module Reports
       
       # 控除額
       def get_exemptions
-        logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-        logic.get_exemptions
+        payroll_logic.get_exemptions
       end
       
       # 所得控除の額の合計
       def get_total_exemption
-        logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-        logic.get_exemption
+        payroll_logic.get_total_exemption
       end
-      
+
       # 給与所得控除後の金額
       def get_after_deduction
-        logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-        logic.get_after_deduction
+        payroll_logic.get_after_deduction
       end
       
       # 源泉徴収税額(前職を含む)

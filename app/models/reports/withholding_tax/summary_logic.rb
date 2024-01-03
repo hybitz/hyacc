@@ -70,10 +70,10 @@ module Reports
         employees = []
         c = Company.find(@finder.company_id)
         c.employees.each do |emp|
-          if emp.employment_date > (@finder.calendar_year + "-12-31").to_date
+          if emp.employment_date > (@finder.calendar_year.to_s + "-12-31").to_date
             next
           end
-          if !emp.retirement_date.nil? && emp.retirement_date < (@finder.calendar_year + "-01-01").to_date
+          if !emp.retirement_date.nil? && emp.retirement_date < (@finder.calendar_year.to_s + "-01-01").to_date
             next
           end
           employees << emp

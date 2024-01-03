@@ -78,20 +78,21 @@ module Reports
         c.employees.each do |emp|
           @finder.employee_id = emp.id
   
-          if emp.employment_date > (@finder.calendar_year + "-12-31").to_date
+          if emp.employment_date > (@finder.calendar_year.to_s + "-12-31").to_date
             next
           end
-          if !emp.retirement_date.nil? && emp.retirement_date < (@finder.calendar_year + "-01-01").to_date
+          if !emp.retirement_date.nil? && emp.retirement_date < (@finder.calendar_year.to_s + "-01-01").to_date
             next
           end
   
-          logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
+          logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year.to_s, @finder.employee_id)
           w = logic.get_withholding_tax
           t = w + t
         end
         return t
       rescue => e
         Rails.logger.info e.message
+        Rails.logger.info e.backtrace.join("\n")
         # 源泉徴収情報が未登録の場合はnil
         return nil
       end

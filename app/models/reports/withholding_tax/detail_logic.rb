@@ -20,7 +20,7 @@ module Reports
         model.social_insurance = get_social_insurance               # 給与から控除された社会保険料等の金額
         e = get_exemptions
         model.exemption = e                                         # 配偶者控除額
-        model.social_insurance_premium = e.social_insurance_premium # 給与から控除していない社会保険料
+        model.social_insurance_selfpay = e.social_insurance_selfpay # 給与から控除していない自己負担社会保険料
         model.small_scale_mutual_aid = e.small_scale_mutual_aid     # 小規模共済掛金
         if employee.retirement_date.present? && employee.retirement_date.year == @finder.calendar_year.to_i
           model.employment_or_retirement_date = employee.retirement_date   # 入退社日
@@ -104,7 +104,7 @@ module Reports
       attr_accessor :mortgage_deductible # 住宅ローン控除可能額
       attr_accessor :social_insurance # 社会保険料等の金額
       attr_accessor :small_scale_mutual_aid # 小規模共済掛金の金額
-      attr_accessor :social_insurance_premium # 給与から控除していない社会保険料
+      attr_accessor :social_insurance_selfpay # 給与から控除していない自己負担社会保険料
       attr_accessor :life_insurance_deduction # 生命保険料の控除額
       attr_accessor :exemption # 控除情報
       attr_accessor :employment_or_retirement_date # 入退社日（レポート出力対象のみ設定）
@@ -112,7 +112,7 @@ module Reports
       attr_accessor :retirement_year # 退社年？
   
       def social_insurance_internal
-        small_scale_mutual_aid.to_i + social_insurance_premium.to_i
+        small_scale_mutual_aid.to_i + social_insurance_selfpay.to_i
       end
   
       def social_insurance_total

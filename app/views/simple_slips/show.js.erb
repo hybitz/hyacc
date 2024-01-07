@@ -13,6 +13,14 @@ options.buttons = [];
         hyacc.current_dialog().close();
         $.get('<%= url_for edit_simple_slip_path(@simple_slip.id, account_code: @account.code) %>');
       }
+    },
+    {
+      text: '振替伝票を表示',
+      class: 'btn btn-light',
+      click: function() {
+        hyacc.current_dialog().close();
+        $.get('<%= url_for journal_path(@simple_slip.id, account_code: @account.code) %>');
+      }
     }
   );
 <% end %>

@@ -31,6 +31,7 @@
   <tbody>
     <% @payrolls_by_employee.each do |employee, payrolls| %>
       <tr>
+        <td rowspan="2" class="nowrap"><%= employee.fullname %></td>
         <th>会社負担</th>
         <% finder.ym_range.each do |ym| %>
           <% found = false %>
@@ -84,7 +85,6 @@
         <% end %>
       </tr>
       <tr>
-        <td rowspan="2" class="nowrap"><%= employee.fullname %></td>
         <td class="nowrap">個人負担</td>
         <% finder.ym_range.each do |ym| %>
           <% found = false %>

@@ -7,6 +7,7 @@
       <th class="text-center"><%= Customer.human_attribute_name :code %></th>
       <th><%= Customer.human_attribute_name :formal_name %></th>
       <th><%= Customer.human_attribute_name :name %></th>
+      <th class="text-center"><%= Customer.human_attribute_name :invoice_issuer_number %></th>
       <th class="text-center">受注先</th>
       <th class="text-center">発注先</th>
       <th class="text-center">投資先</th>
@@ -20,6 +21,7 @@
         <td class="center"><%= c.code %></td>
         <td><%= c.formal_name %></td>
         <td><%= c.name %></td>
+        <td class="text-center"><%= c.invoice_issuer_number %></td>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_entry %>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_placement %>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_investment %>

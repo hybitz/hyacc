@@ -1,6 +1,6 @@
 <%= form_with model: [:mm, @customer], html: {class: 'customer'} do |f| %>
   <%= flash_notice %>
-  <table>
+  <table class="table table-sm">
     <% if @customer.new_record? %>
       <tr>
         <th><%= f.label :code %></th>
@@ -29,6 +29,10 @@
       </tr>
     <% end %>
 
+    <tr>
+      <th><%= f.label :invoice_issuer_number %></th>
+      <td><%= f.text_field :invoice_issuer_number %></td>
+    </tr>
     <tr>
       <th><%= f.label :address %></th>
       <td><%= f.nostalgic_text_field :address, class: 'address' %></td>

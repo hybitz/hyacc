@@ -1,17 +1,17 @@
 <%= render 'common/search' %>
 <%= flash_notice %>
 
-<table class="customers">
+<table class="customers table table-bordered">
   <thead>
     <tr>
-      <th><%= Customer.human_attribute_name :code %></th>
+      <th class="text-center"><%= Customer.human_attribute_name :code %></th>
       <th><%= Customer.human_attribute_name :formal_name %></th>
       <th><%= Customer.human_attribute_name :name %></th>
-      <th>受注先</th>
-      <th>発注先</th>
-      <th>投資先</th>
-      <th>状態</th>
-      <th colspan="3"></th>
+      <th class="text-center">受注先</th>
+      <th class="text-center">発注先</th>
+      <th class="text-center">投資先</th>
+      <th class="text-center">状態</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -20,14 +20,14 @@
         <td class="center"><%= c.code %></td>
         <td><%= c.formal_name %></td>
         <td><%= c.name %></td>
-        <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_entry %>
-        <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_order_placement %>
-        <td class="center"><%= image_tag 'checkmark.gif', :size => '16x16' if c.is_investment %>
-        <td class="center"><%= HyaccConst::DISABLE_TYPES[c.disabled] %></td>
-        <td>
-          <%= link_to '参照', mm_customer_path(c), :remote => true %>
-          <%= link_to '編集', edit_mm_customer_path(c), :remote => true %>
-          <%= link_to '削除', mm_customer_path(c), :method => 'delete', data: {confirm: "#{c.name} を削除します。よろしいですか？"} %>
+        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_entry %>
+        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_placement %>
+        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_investment %>
+        <td class="text-center"><%= HyaccConst::DISABLE_TYPES[c.disabled] %></td>
+        <td class="text-center">
+          <%= link_to '参照', mm_customer_path(c), remote: true, class: 'btn btn-light' %>
+          <%= link_to '編集', edit_mm_customer_path(c), remote: true, class: 'btn btn-light' %>
+          <%= link_to '削除', mm_customer_path(c), method: 'delete', class: 'btn btn-light', data: {confirm: "#{c.name} を削除します。よろしいですか？"} %>
         </td>
       </tr>
     <% end %>
@@ -35,4 +35,4 @@
 </table>
 
 <%= will_paginate @customers %>
-<%= link_to '追加', new_mm_customer_path, :class => 'add', :remote => true %>
+<%= link_to '追加', new_mm_customer_path, class: 'add btn btn-light', remote: true %>

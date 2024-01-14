@@ -17,7 +17,8 @@ end
     when '住所2'
       fill_in 'company_business_offices_attributes_0_address2', :with => row[1]
     when '事業開始年月日'
-      fill_in 'company_founded_date', :with => row[1]
+      fill_in 'company_founded_date', with: row[1]
+      find_field('company_founded_date').native.send_keys :tab
     when '事業形態'
       select row[1], :from => 'company_type_of'
     when '消費税'
@@ -29,7 +30,8 @@ end
     when '性別'
       select row[1], :from => 'e_sex'
     when '生年月日'
-      fill_in 'e_birth', :with => row[1]
+      fill_in 'e_birth', with: row[1]
+      find_field('e_birth').native.send_keys :tab
     when 'ログインID'
       @user.login_id = row[1]
       fill_in 'u_login_id', :with => @user.login_id

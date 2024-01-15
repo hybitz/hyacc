@@ -24,10 +24,6 @@ module PayrollInfo
         p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
           total_base_salary += d.amount
         end
-        # 賞与
-        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
-          total_base_salary += d.amount
-        end
       end
 
       total_base_salary
@@ -62,27 +58,10 @@ module PayrollInfo
       return salarys
     end
 
-    # 支払金額(賞与)
-    def get_base_bonuses
-      bonuses = {}
-
-      # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
-
-      list.each do |p|
-        # 賞与
-        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ACCRUED_DIRECTOR_BONUS).id).each do |d|
-          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
-          bonuses[yyyymmdd] = bonuses.has_key?(yyyymmdd) ? bonuses[yyyymmdd] + d.amount : d.amount
-        end
-      end
-      return bonuses
-    end
-
     # みなし給与
     def get_total_deemed_salary
       deemed_salary = get_total_base_salary_include_previous
-      deemed_salary = 0 if deemed_salary.blank?
+
       # 年末調整のしかたの「Ⅵ　電子計算機等による年末調整」を参照
       deemed_salary = (deemed_salary/1000).to_i * 1000 if deemed_salary >= 1_619_000 && deemed_salary <= 1_619_999
       deemed_salary = (deemed_salary/2000).to_i * 2000 if deemed_salary >= 1_620_000 && deemed_salary <= 1_623_999

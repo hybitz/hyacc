@@ -25,15 +25,6 @@ module Reports
         end
         model.withholding_tax_FY = model.withholding_tax_1H + model.withholding_tax_2H
         
-        model.total_bonuses = get_total_bonuses
-        model.total_bonuses.each do |ymd, amount|
-          model.total_bonus_1H = model.total_bonus_1H + amount if ymd.slice(4, 2).to_i <= 6
-        end
-        model.total_bonuses.each do |ymd, amount|
-          model.total_bonus_2H = model.total_bonus_2H + amount if ymd.slice(4, 2).to_i > 6
-        end
-        model.total_bonus_FY = model.total_bonus_1H + model.total_bonus_2H
-        
         model.withholding_taxes_of_bonus = get_withholding_taxes_of_bonus
         model.withholding_taxes_of_bonus.each do |ymd, amount|
           model.withholding_tax_of_bonus_1H = model.withholding_tax_of_bonus_1H + amount if ymd.slice(4, 2).to_i <= 6
@@ -53,12 +44,6 @@ module Reports
       def get_total_salarys
         logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         return logic.get_base_salaries
-      end
-      
-      # 支払金額(賞与)
-      def get_total_bonuses
-        logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
-        return logic.get_base_bonuses
       end
       
       # 源泉徴収税額

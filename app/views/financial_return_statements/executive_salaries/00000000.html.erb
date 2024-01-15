@@ -48,7 +48,7 @@
         <td rowspan="2" class="text-end"><%= to_amount(d.fixed_regular_salary_amount) %></td>
         <td rowspan="2"></td>
         <td rowspan="2"></td>
-        <td rowspan="2"></td>
+        <td rowspan="2" class="text-end"><%= to_amount(d.other_salary_amount) %></td>
         <td rowspan="2"></td>
       </tr>
       <tr>
@@ -62,12 +62,12 @@
       <th>計</th>
       <td colspan="2" class="bg-light"></td>
       <td class="bg-light"></td>
-      <td class="text-end"><%= to_amount(@model.total_executive_salary_amount, show_zero: true) %></td>
+      <td class="text-end"><%= to_amount(@model.total_executive_salary_amount) %></td>
       <td></td>
-      <td class="text-end"><%= to_amount(@model.total_executive_fixed_regular_salary_amount, show_zero: true) %></td>
+      <td class="text-end"><%= to_amount(@model.total_executive_fixed_regular_salary_amount) %></td>
       <td></td>
       <td></td>
-      <td></td>
+      <td class="text-end"><%= to_amount(@model.total_executive_other_salary_amount) %></td>
       <td></td>
     </tr>
   </tfoot>

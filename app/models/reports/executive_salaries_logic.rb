@@ -12,6 +12,7 @@ module Reports
         detail.relationship = '本人'
         detail.full_time = true
         detail.fixed_regular_salary_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_SALARY, e.id)
+        detail.other_salary_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_BONUS, e.id)
         ret.add_detail(detail)
       end
       
@@ -44,8 +45,12 @@ module Reports
       details.inject(0){|sum, detail| sum += detail.fixed_regular_salary_amount.to_i }
     end
 
+    def total_executive_other_salary_amount
+      details.inject(0){|sum, detail| sum += detail.other_salary_amount.to_i }
+    end
+
     def total_executive_salary_amount
-      total_executive_fixed_regular_salary_amount
+      total_executive_fixed_regular_salary_amount + total_executive_other_salary_amount
     end
 
     def taotal_salary_amount
@@ -61,13 +66,15 @@ module Reports
     attr_accessor :full_time
     # 定期同額給与
     attr_accessor :fixed_regular_salary_amount
+    # その他
+    attr_accessor :other_salary_amount
 
     def full_time?
       full_time
     end
 
     def salary_amount
-      fixed_regular_salary_amount
+      fixed_regular_salary_amount.to_i + other_salary_amount.to_i
     end
   end
 

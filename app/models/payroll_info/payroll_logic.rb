@@ -10,23 +10,17 @@ module PayrollInfo
 
     # 支払金額
     def get_total_base_salary
-      total_base_salary = 0
+      ret = 0
 
-      # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.where(employee_id: @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
-
-      list.each do |p|
-        # 役員給与
-        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY).id).each do |d|
-          total_base_salary += d.amount
-        end
-        # 給与手当
-        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
-          total_base_salary += d.amount
+      # calendar_year期間に支払われた給与
+      Payroll.where(employee_id: @employee_id).where('pay_day >= ? and pay_day <= ?', "#{@calendar_year}-01-01", "#{@calendar_year}-12-31").each do |p|
+        # 役員給与、役員賞与、給与手当
+        p.payroll_journal.journal_details.where(account_id: salary_account_ids).each do |d|
+          ret += d.amount
         end
       end
 
-      total_base_salary
+      ret
     end
 
     # 支払金額(前職を含む)
@@ -38,24 +32,19 @@ module PayrollInfo
 
     # 支払金額(給与)
     def get_base_salaries
-      salarys = {}
+      ret = {}
 
-      # calendar_year期間に支払われた給与明細を取得
-      list = Payroll.joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%').order("journals.ym, journals.day")
-
-      list.each do |p|
-        # 役員給与
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY).id).each do |d|
-          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
-          salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
-        end
-        # 給与手当
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_SALARY).id).each do |d|
-          yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
-          salarys[yyyymmdd] = salarys.has_key?(yyyymmdd) ? salarys[yyyymmdd] + d.amount : d.amount
+      # calendar_year期間に支払われた給与
+      Payroll.where('pay_day >= ? and pay_day <= ?', "#{@calendar_year}-01-01", "#{@calendar_year}-12-31").order('pay_day').each do |p|
+        # 役員給与、役員賞与、給与手当
+        p.payroll_journal.journal_details.where(account_id: salary_account_ids).each do |d|
+          yyyymmdd = p.pay_day.strftime('%Y%m%d')
+          ret[yyyymmdd] ||= 0
+          ret[yyyymmdd] += d.amount
         end
       end
-      return salarys
+
+      ret
     end
 
     # みなし給与
@@ -384,5 +373,12 @@ module PayrollInfo
       end
       amount
     end
+
+    private
+
+    def salary_account_ids
+      @_salary_account_ids ||= Account.where(code: [ACCOUNT_CODE_EXECUTIVE_SALARY, ACCOUNT_CODE_EXECUTIVE_BONUS, ACCOUNT_CODE_SALARY]).pluck(:id)
+    end
+
   end
 end

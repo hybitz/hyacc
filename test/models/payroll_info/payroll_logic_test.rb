@@ -9,7 +9,7 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
   
   def test_get_base_salaries
     logic = logic_builder(2008)
-    assert_equal 349_000, logic.get_base_salaries["20080507"]
+    assert_equal 349_000, logic.get_base_salaries["20080625"]
   end
   
   def test_get_deduction

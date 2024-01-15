@@ -22,9 +22,6 @@ module Auto::Journal
     # 給与明細の取得
     def make_payroll
       employee = @payroll.employee
-      salary_account = employee.executive? ?
-          Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY) :
-          Account.find_by_code(ACCOUNT_CODE_SALARY)
 
       journal = @payroll.build_payroll_journal
       journal.company_id = employee.company_id
@@ -201,10 +198,7 @@ module Auto::Journal
 
     # 支払明細の取得
     def make_pay
-      employee = Employee.find(@payroll.employee_id)
-      salary_account = employee.executive? ?
-          Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY) :
-          Account.find_by_code(ACCOUNT_CODE_SALARY)
+      employee = @payroll.employee
 
       journal = @payroll.build_pay_journal
       journal.company_id = employee.company.id
@@ -377,5 +371,20 @@ module Auto::Journal
 
       journal
     end
+
+    private
+
+    def salary_account
+      @_salary_account ||= if @payroll.employee.executive?
+          if @payroll.is_bonus?
+            Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_BONUS)
+          else
+            Account.find_by_code(ACCOUNT_CODE_EXECUTIVE_SALARY)
+          end
+        else
+          Account.find_by_code(ACCOUNT_CODE_SALARY)
+        end
+    end
+
   end
 end

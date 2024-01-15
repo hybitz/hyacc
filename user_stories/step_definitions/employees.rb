@@ -12,8 +12,10 @@
       fill_in '姓', :with => @user.employee.last_name
       fill_in '名', :with => @user.employee.first_name
       select @user.employee.sex_name, :from => '性別'
-      fill_in '生年月日', :with => @user.employee.birth
-      fill_in '入社日', :with => @user.employee.employment_date
+      fill_in '生年月日', with: @user.employee.birth
+      find_field('生年月日').native.send_keys :tab
+      fill_in '入社日', with: @user.employee.employment_date
+      find_field('入社日').native.send_keys :tab
     end
     click_on '登録'
   end

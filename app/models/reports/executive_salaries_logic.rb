@@ -53,8 +53,8 @@ module Reports
       total_executive_fixed_regular_salary_amount + total_executive_other_salary_amount
     end
 
-    def taotal_salary_amount
-      total_executive_fixed_regular_salary_amount + total_employee_salary_amount
+    def total_salary_amount
+      total_executive_salary_amount + total_employee_salary_amount
     end
 
   end

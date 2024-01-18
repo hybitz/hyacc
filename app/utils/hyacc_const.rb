@@ -389,7 +389,7 @@ module HyaccConst
   
   
   # 補助科目コード
-  SUB_ACCOUNT_CODE_DRINKING = '100' # 飲食等
+  SUB_ACCOUNT_CODE_FOOD_AND_DRINK = '100' # 飲食等
   SUB_ACCOUNT_CODE_OTHERS = '900' # その他
   SUB_ACCOUNT_CODE_INCOME_TAX = '100' # 源泉所得税
   SUB_ACCOUNT_CODE_HEALTH_INSURANCE = '200' # 健康保険料

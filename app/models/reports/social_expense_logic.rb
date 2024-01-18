@@ -11,6 +11,14 @@ module Reports
       model
     end
 
+    def max_deduction_amount_per_person(ym)
+      if ym >= 202304
+        10_000
+      else
+        5_000
+      end
+    end
+
     private
 
     def build_detail_model
@@ -22,15 +30,16 @@ module Reports
           if jd.account.code == ACCOUNT_CODE_SOCIAL_EXPENSE
             number_of_people = jd.social_expense_number_of_people.to_i
             amount = jd.amount
-            deduction_amount = number_of_people * max_amount_per_person
+            max_deduction_amount = number_of_people * max_deduction_amount_per_person(jh.ym)
 
-            if jd.amount >  deduction_amount
-              social_expense_amount = jd.amount - deduction_amount
+            if amount >  max_deduction_amount
+              deduction_amount = amount - max_deduction_amount
+              social_expense_amount = max_deduction_amount
             else
-              deduction_amount = amount
-              social_expense_amount = 0
+              deduction_amount = 0
+              social_expense_amount = amount
             end
-            
+
             if jd.dc_type == jd.account.dc_type
               ret.amount += amount
               ret.deduction_amount += deduction_amount
@@ -55,10 +64,6 @@ module Reports
       sql.append('and ym >= ? and ym <= ?', start_ym, end_ym)
       sql.append('and finder_key rlike ?', JournalUtil.finder_key_rlike(ACCOUNT_CODE_SOCIAL_EXPENSE, 0, finder.branch_id))
       sql.to_a
-    end
-
-    def max_amount_per_person
-      5_000
     end
 
   end

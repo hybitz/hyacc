@@ -41,7 +41,7 @@
       </tr>
   
       <% jh.journal_details.each do |jd| %>
-        <tr social_expense="<%= jd.account.is_social_expense %>">
+        <tr social_expense="<%= jd.account.is_social_expense %>" max_deduction_amount_per_person="<%= @social_expense_logic.max_deduction_amount_per_person(jh.ym) %>">
           <td></td>
           <td></td>
           <td></td>

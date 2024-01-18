@@ -1,8 +1,8 @@
 var social_expenses = {};
 
 social_expenses.calc_deduction_amount = function(tr) {
-  var number_of_people = $(tr).find('.number_of_people').text().toInt();
-  var deduction_amount = 5000 * number_of_people;
+  const number_of_people = $(tr).find('.number_of_people').text().toInt();
+  let deduction_amount = $(tr).attr('max_deduction_amount_per_person').toInt() * number_of_people;
 
   var amount = $(tr).find('.amount_debit').text().toInt();
   if (amount == 0) {
@@ -11,10 +11,11 @@ social_expenses.calc_deduction_amount = function(tr) {
     deduction_amount = deduction_amount * -1;
   }
   
-  $(tr).find('.deduction').text(toAmount(deduction_amount));
   if (amount > deduction_amount) {
-    $(tr).find('.social_expense').text(toAmount(amount - deduction_amount));
+    $(tr).find('.deduction').text(toAmount(amount - deduction_amount));
+    $(tr).find('.social_expense').text(toAmount(deduction_amount));
   } else {
-    $(tr).find('.social_expense').text(0);
+    $(tr).find('.deduction').text(0);
+    $(tr).find('.social_expense').text(toAmount(amount));
   }
 };

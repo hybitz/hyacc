@@ -3,10 +3,10 @@
 
 <table class="table table-bordered table-hover" style="max-width: 1024px;">
   <tr>
-    <th rowspan="2">科目</th>
+    <th rowspan="2" class="text-center">科目</th>
     <th colspan="2">相手先</th>
-    <th rowspan="2">期末現在高</th>
-    <th rowspan="2">摘要</th>
+    <th rowspan="2" class="text-center">期末現在高</th>
+    <th rowspan="2" class="text-center">摘要</th>
   </tr>
   <tr>
     <th>名称（氏名）</th>
@@ -14,7 +14,7 @@
   </tr>
   <% @report.each_with_index do |t, index| %>
   <tr>
-      <td>売掛</td>
+      <td class="text-center">売掛</td>
       <td><%= t.customer_name %></td>
       <td><%= t.address %></td>
       <td class="text-end"><%= to_amount(t.account_receivable) %></td>

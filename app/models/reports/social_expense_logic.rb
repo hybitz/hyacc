@@ -70,12 +70,12 @@ module Reports
 
   class SocialExpenseModel
   
+    attr_accessor :company
+    attr_accessor :fiscal_year
+    attr_accessor :capital_stock
     attr_accessor :date_from
     attr_accessor :date_to
     attr_accessor :details
-    attr_accessor :fiscal_year
-    attr_accessor :capital_stock
-    attr_accessor :company
     
     def initialize
       @details = []
@@ -96,36 +96,20 @@ module Reports
       }
     end
     
-    def get_total_amount
-      ret = 0
-      @details.each {|detail|
-        ret += detail.amount.to_i
-      }
-      ret
+    def total_amount
+      @details.inject(0){|sum, d| sum + d.amount.to_i }
     end
   
-    def get_total_deduction_amount
-      ret = 0
-      @details.each {|detail|
-        ret += detail.deduction_amount.to_i
-      }
-      ret
+    def total_deduction_amount
+      @details.inject(0){|sum, d| sum + d.deduction_amount.to_i }
     end
   
-    def get_total_social_expense_amount
-      ret = 0
-      @details.each {|detail|
-        ret += detail.social_expense_amount.to_i
-      }
-      ret
+    def total_social_expense_amount
+      @details.inject(0){|sum, d| sum + d.social_expense_amount.to_i }
     end
 
-    def get_total_food_and_drink_amount
-      ret = 0
-      @details.each {|detail|
-        ret += detail.food_and_drink_amount.to_i
-      }
-      ret
+    def total_food_and_drink_amount
+      @details.inject(0){|sum, d| sum + d.food_and_drink_amount.to_i }
     end
     
     def is_zero_deduction
@@ -159,8 +143,8 @@ module Reports
     
     # 損金算入限度額
     def get_loss_limit
-      if get_deduction_limit > get_total_social_expense_amount
-        ret = get_total_social_expense_amount
+      if get_deduction_limit > total_social_expense_amount
+        ret = total_social_expense_amount
       else
         ret = get_decuction_limit
       end
@@ -170,17 +154,17 @@ module Reports
     
     # 損金不算入額
     def get_not_loss
-      get_total_social_expense_amount - get_loss_limit
+      total_social_expense_amount - get_loss_limit
     end
 
     def food_and_drink_base_for_2014
-      get_total_food_and_drink_amount.quo(2).floor
+      total_food_and_drink_amount.quo(2).floor
     end
   
     def fixed_deduction_for_2014
       fixed_deduction = 8_000_000 * get_business_months / 12
-      get_total_social_expense_amount < fixed_deduction ?
-                get_total_social_expense_amount : fixed_deduction
+      total_social_expense_amount < fixed_deduction ?
+                total_social_expense_amount : fixed_deduction
     end
 
     def non_deduction_limit_for_2014
@@ -190,11 +174,11 @@ module Reports
     end
   
     def non_deduction_for_2014
-      get_total_social_expense_amount - non_deduction_limit_for_2014
+      total_social_expense_amount - non_deduction_limit_for_2014
     end
   
     def non_deduction_limit_for_2013
-      one = get_total_social_expense_amount
+      one = total_social_expense_amount
       two = 8000000 * get_business_months / 12
       one > two ? two : one
     end

@@ -13,7 +13,7 @@
     <td width="220">支出交際費等の額<br/>（7の計）</td>
     <td align="center" width="20">1</td>
     <td colspan="3" align="right">
-      <%= to_amount(@model.get_total_social_expense_amount, show_zero: true) %>
+      <%= to_amount(@model.total_social_expense_amount, show_zero: true) %>
     </td>
     <td colspan="2">損金不算入限度額<br/>（(1)又は(2)のうち少ない金額）</td>
     <td align="center" width="20">3</td>
@@ -59,8 +59,8 @@
 
   <tr>
     <td>計</td>
-    <td colspan="3" align="right"><%= to_amount( @model.get_total_amount, :show_zero=>true ) %></td>
-    <td colspan="2" align="right"><%= to_amount( @model.get_total_deduction_amount, :show_zero=>true ) %></td>
-    <td colspan="2" align="right"><%= to_amount( @model.get_total_social_expense_amount, :show_zero=>true ) %></td>
+    <td colspan="3" align="right"><%= to_amount( @model.total_amount, show_zero: true ) %></td>
+    <td colspan="2" align="right"><%= to_amount( @model.total_deduction_amount, show_zero: true ) %></td>
+    <td colspan="2" align="right"><%= to_amount( @model.total_social_expense_amount, show_zero: true ) %></td>
   </tr>
 </table>

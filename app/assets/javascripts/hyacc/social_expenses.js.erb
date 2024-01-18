@@ -4,7 +4,7 @@ social_expenses.calc_deduction_amount = function(tr) {
   const number_of_people = $(tr).find('.number_of_people').text().toInt();
   let deduction_amount = $(tr).attr('max_deduction_amount_per_person').toInt() * number_of_people;
 
-  var amount = $(tr).find('.amount_debit').text().toInt();
+  let amount = $(tr).find('.amount_debit').text().toInt();
   if (amount == 0) {
     amount = $(tr).find('.amount_credit').text().toInt();
     amount = amount * -1;

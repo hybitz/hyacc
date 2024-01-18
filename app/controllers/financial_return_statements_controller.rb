@@ -5,8 +5,6 @@ class FinancialReturnStatementsController < Base::HyaccController
 
   def index
     case finder.report_type.to_i
-    when REPORT_TYPE_SOCIAL_EXPENSE
-      render_social_expense
     when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
       render_trade_account_payable
     when REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE
@@ -32,25 +30,6 @@ class FinancialReturnStatementsController < Base::HyaccController
   end
 
   private
-
-  def render_social_expense
-    logic = Reports::SocialExpenseLogic.new(finder)
-    @model = logic.get_social_expense_model
-    render render_social_expense_layout(finder.start_year_month_day_of_fiscal_year)
-  end
-
-  def render_social_expense_layout(yyyymmdd)
-    case yyyymmdd
-    when (20140401..Float::INFINITY)
-      return :social_expense_2014
-    when (20130401..20140331)
-      return :social_expense_2013
-    when (20090401..20130331)
-      return :social_expense_2009
-    else
-      return :social_expense
-    end
-  end
 
   # 買掛金の内訳書
   def render_trade_account_payable

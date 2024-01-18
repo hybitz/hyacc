@@ -1,7 +1,7 @@
 module Reports
   class SocialExpenseLogic < BaseLogic
 
-    def get_social_expense_model
+    def build_model
       model = SocialExpenseModel.new
       model.fiscal_year = @finder.fiscal_year
       model.company = Company.find(@finder.company_id)

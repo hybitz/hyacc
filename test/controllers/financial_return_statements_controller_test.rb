@@ -53,9 +53,9 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
 
   def test_別表15_交際費等の損金算入に関する明細書
     sign_in user
-    get :index, params: {commit: true, finder: social_expense_finder}
+    get :index, params: {commit: true, finder: social_expense_finder.merge(fiscal_year: 2022)}
     assert_response :success
-    assert_template :social_expense
+    assert_template 'financial_return_statements/social_expense/20140401'
   end
 
   def test_個人事業主は利用不可

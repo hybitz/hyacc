@@ -11,10 +11,10 @@ module Reports
       ret.business_tax_amount = get_business_tax_amount
       
       se_logic = SocialExpenseLogic.new(finder)
-      ret.non_deductible_social_expense_amount = se_logic.get_social_expense_model.get_not_loss
+      ret.social_expense_model = se_logic.build_model
 
       dr_logic = DividendReceivedLogic.new(finder)
-      ret.dividend_received = dr_logic.build_model
+      ret.dividend_received_model = dr_logic.build_model
       
       ret
     end
@@ -28,8 +28,8 @@ module Reports
     attr_accessor :corporate_tax_amount
     attr_accessor :corporate_inhabitant_tax_amount
     attr_accessor :business_tax_amount
-    attr_accessor :non_deductible_social_expense_amount
-    attr_accessor :dividend_received
+    attr_accessor :social_expense_model
+    attr_accessor :dividend_received_model
 
     def company_name
       company.name
@@ -57,7 +57,7 @@ module Reports
 
     def decrease_amount
       fiscal_year.accepted_amount_of_excess_depreciation + 
-        dividend_received.non_deductible_amount + 
+        dividend_received_model.non_deductible_amount + 
         fiscal_year.approved_loss_amount_of_business_tax
     end
     
@@ -67,7 +67,7 @@ module Reports
     end
     
     def decrease_outflow_amount
-      dividend_received.non_deductible_amount 
+      dividend_received_model.non_deductible_amount 
     end
 
     # 仮計

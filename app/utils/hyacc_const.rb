@@ -207,7 +207,7 @@ module HyaccConst
     REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK = 'profit_and_capital' => '別表5(1)　利益積立金額及び資本金等の計算に関する明細書',
     REPORT_TYPE_TAX_AND_DUES = 'tax_and_dues' => '別表5(2)　租税公課の納付状況等に関する明細書',
     REPORT_TYPE_DIVIDEND_RECEIVED = 'dividend_received' => '別表8　受取配当等の益金不算入に関する明細書',
-    REPORT_TYPE_SOCIAL_EXPENSE = 8 => '別表15　交際費等の損金算入に関する明細書',
+    REPORT_TYPE_SOCIAL_EXPENSE = 'social_expense' => '別表15　交際費等の損金算入に関する明細書',
     REPORT_TYPE_WITHHOLDING_SUMMARY = 20 => '給与所得の源泉徴収等の法定調書合計表',
     REPORT_TYPE_WITHHOLDING_DETAILS = 21 => '給与所得の源泉徴収票',
     REPORT_TYPE_WITHHOLDING_CALC = 22 => '給与所得・退職所得等の所得税徴収高計算書',

@@ -143,10 +143,10 @@
     <tr>
         <td class="text-center"><%= justify('受取配当等の益金不算入額') %>(別表八(一)｢13｣又は｢26｣)</td>
         <td class="align-middle text-center">14</td>
-        <td class="align-midele text-end"><%= to_amount(@model.dividend_received.non_deductible_amount) %></td>
+        <td class="align-midele text-end"><%= to_amount(@model.dividend_received_model.non_deductible_amount) %></td>
         <td class="bg-light"></td>
         <td class="text-center">※</td>
-        <td class="align-midele text-end"><%= to_amount(@model.dividend_received.non_deductible_amount) %></td>
+        <td class="align-midele text-end"><%= to_amount(@model.dividend_received_model.non_deductible_amount) %></td>
     </tr>
     <tr>
         <td class="text-center"><%= justify('外国子会社から受ける剰余金の配当等の益金不算入額') %>(別表八(二)｢26｣)</td>

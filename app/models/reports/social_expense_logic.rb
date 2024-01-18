@@ -7,7 +7,11 @@ module Reports
       model.company = company
       model.capital_stock = get_capital_stock_amount
       model.add_detail(build_detail_model)
-      model.extend_details_up_to(11)
+
+      model.details.size.upto(11).each do
+        model.add_detail(SocialExpenseDetailModel.new)
+      end
+
       model
     end
 
@@ -84,18 +88,7 @@ module Reports
     def add_detail( social_expense_detail_model )
       @details << social_expense_detail_model
     end
-    
-    def extend_details_up_to( number )
-      count = number - @details.length
-      if count < 0
-        return
-      end
-      
-      count.times { |n|
-        @details << SocialExpenseDetailModel.new
-      }
-    end
-    
+
     def total_amount
       @details.inject(0){|sum, d| sum + d.amount.to_i }
     end

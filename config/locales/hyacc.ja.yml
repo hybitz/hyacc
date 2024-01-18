@@ -109,6 +109,7 @@ ja:
       customer:
         address: 住所
         code: 取引先コード
+        enterprise_number: 法人番号
         formal_name: 取引先名（正式）
         invoice_issuer_number: 適格請求書発行事業者番号
         is_order_entry: 受注フラグ

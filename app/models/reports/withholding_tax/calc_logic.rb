@@ -2,7 +2,7 @@ module Reports
   module WithholdingTax
 
     # 給与所得・退職所得等の所得税徴収高計算書
-    class CalcLogic < BaseLogic
+    class CalcLogic < Reports::WithholdingTax::BaseLogic
   
       def get_withholding_info
         model = CalcModel.new

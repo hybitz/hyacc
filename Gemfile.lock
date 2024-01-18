@@ -50,7 +50,7 @@ GEM
       tzinfo (~> 1.1)
     acts_as_tree (2.9.1)
       activerecord (>= 3.0.0)
-    addressable (2.8.5)
+    addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
     airbrussh (1.5.0)
       sshkit (>= 1.6.1, != 1.7.0)
@@ -127,7 +127,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.2.2)
+    concurrent-ruby (1.2.3)
     crass (1.0.6)
     cucumber (3.2.0)
       builder (>= 2.1.2)
@@ -161,10 +161,10 @@ GEM
       itamae-plugin-recipe-daddy
       itamae-plugin-resource-pip
       ohai
-    dalli (3.2.3)
-    database_cleaner (2.0.1)
-      database_cleaner-active_record (~> 2.0.0)
-    database_cleaner-active_record (2.0.1)
+    dalli (3.2.6)
+    database_cleaner (2.0.2)
+      database_cleaner-active_record (>= 2, < 3)
+    database_cleaner-active_record (2.1.0)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
@@ -282,7 +282,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
-    minitest (5.20.0)
+    minitest (5.21.2)
     minitest-reporters (1.5.0)
       ansi
       builder

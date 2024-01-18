@@ -11,7 +11,7 @@ class Mm::CustomersControllerTest < ActionController::TestCase
 
   def test_参照
     sign_in admin
-    get :show, :params => {:id => customer.id}, :xhr => true
+    get :show, params: {id: customer.id}, xhr: true
     assert_response :success
     assert_template :show
   end
@@ -27,7 +27,7 @@ class Mm::CustomersControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_difference 'Customer.count', 1 do
-      post :create, :params => {:customer => valid_customer_params}, :xhr => true
+      post :create, params: {customer: valid_customer_params}, xhr: true
       assert_response :success
       assert_template 'common/reload'
     end

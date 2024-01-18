@@ -87,7 +87,7 @@ class Mm::CustomersController < Base::HyaccController
     permitted = [
       :name, :name_effective_at,
       :formal_name, :formal_name_effective_at,
-      :invoice_issuer_number,
+      :enterprise_number, :invoice_issuer_number,
       :address, :address_effective_at,
       :is_order_entry, :is_order_placement, :is_investment, :disabled,
       names_attributes: [:id, :_destroy],

@@ -2,7 +2,7 @@ module Reports
   module WithholdingTax
 
     # 給与所得の源泉徴収票
-    class DetailLogic < BaseLogic
+    class DetailLogic < Reports::WithholdingTax::BaseLogic
   
       def get_withholding_info
         model = DetailModel.new

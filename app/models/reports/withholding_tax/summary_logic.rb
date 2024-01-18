@@ -1,7 +1,7 @@
 module Reports
   module WithholdingTax
 
-    class SummaryLogic < BaseLogic
+    class SummaryLogic < Reports::WithholdingTax::BaseLogic
 
       def get_withholding_info
         model = SummaryModel.new

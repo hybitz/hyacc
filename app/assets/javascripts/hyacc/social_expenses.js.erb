@@ -2,7 +2,7 @@ var social_expenses = {};
 
 social_expenses.calc_deduction_amount = function(tr) {
   const number_of_people = $(tr).find('.number_of_people').text().toInt();
-  let deduction_amount = $(tr).attr('max_deduction_amount_per_person').toInt() * number_of_people;
+  let deduction_amount = $(tr).attr('max_food_and_drink_amount_per_person').toInt() * number_of_people;
 
   let amount = $(tr).find('.amount_debit').text().toInt();
   if (amount == 0) {

@@ -15,7 +15,7 @@ module Reports
       model
     end
 
-    def max_deduction_amount_per_person(ym)
+    def max_food_and_drink_amount_per_person(ym)
       if ym >= 202304
         10_000
       else
@@ -32,28 +32,36 @@ module Reports
       Journal.where(conditions).includes(:journal_details).find_each do |jh|
         jh.journal_details.each do |jd|
           if jd.account.code == ACCOUNT_CODE_SOCIAL_EXPENSE
-            number_of_people = jd.social_expense_number_of_people.to_i
             amount = jd.amount
-            max_deduction_amount = number_of_people * max_deduction_amount_per_person(jh.ym)
 
-            if amount >  max_deduction_amount
-              deduction_amount = amount - max_deduction_amount
-              social_expense_amount = max_deduction_amount
+            if jd.sub_account.code == SUB_ACCOUNT_CODE_FOOD_AND_DRINK
+              max_food_and_drink_amount = jd.social_expense_number_of_people.to_i * max_food_and_drink_amount_per_person(jh.ym)
+
+              if amount > max_food_and_drink_amount
+                deduction_amount = amount - max_food_and_drink_amount
+                social_expense_amount = max_food_and_drink_amount
+                food_and_drink_amount = max_food_and_drink_amount
+              else
+                deduction_amount = 0
+                social_expense_amount = amount
+                food_and_drink_amount = amount
+              end
             else
               deduction_amount = 0
               social_expense_amount = amount
+              food_and_drink_amount = 0
             end
 
             if jd.dc_type == jd.account.dc_type
               ret.amount += amount
               ret.deduction_amount += deduction_amount
               ret.social_expense_amount += social_expense_amount
-              ret.food_and_drink_amount += social_expense_amount if jd.sub_account.code == SUB_ACCOUNT_CODE_FOOD_AND_DRINK
+              ret.food_and_drink_amount += food_and_drink_amount
             else
               ret.amount -= amount
               ret.deduction_amount -= deduction_amount
               ret.social_expense_amount -= social_expense_amount
-              ret.food_and_drink_amount -= social_expense_amount if jd.sub_account.code == SUB_ACCOUNT_CODE_FOOD_AND_DRINK
+              ret.food_and_drink_amount -= food_and_drink_amount
             end
           end
         end
@@ -73,7 +81,6 @@ module Reports
   end
 
   class SocialExpenseModel
-  
     attr_accessor :company
     attr_accessor :fiscal_year
     attr_accessor :capital_stock
@@ -85,8 +92,8 @@ module Reports
       @details = []
     end
     
-    def add_detail( social_expense_detail_model )
-      @details << social_expense_detail_model
+    def add_detail(detail)
+      @details << detail
     end
 
     def total_amount
@@ -104,7 +111,7 @@ module Reports
     def total_food_and_drink_amount
       @details.inject(0){|sum, d| sum + d.food_and_drink_amount.to_i }
     end
-    
+
     def is_zero_deduction
       capital_stock > 100_000_000
     end
@@ -150,24 +157,26 @@ module Reports
       total_social_expense_amount - get_loss_limit
     end
 
-    def food_and_drink_base_for_2014
+    def food_and_drink_base_after_2014
       total_food_and_drink_amount.quo(2).floor
     end
   
-    def fixed_deduction_for_2014
-      fixed_deduction = 8_000_000 * get_business_months / 12
-      total_social_expense_amount < fixed_deduction ?
-                total_social_expense_amount : fixed_deduction
+    def fixed_deduction_after_2014
+      total_social_expense_amount < max_deduction_after_2014 ? total_social_expense_amount : max_deduction_after_2014
     end
 
-    def non_deduction_limit_for_2014
-      two = food_and_drink_base_for_2014
-      three = fixed_deduction_for_2014
+    def max_deduction_after_2014
+      (8_000_000 * get_business_months).quo(12).floor
+    end
+
+    def non_deduction_limit_after_2014
+      two = food_and_drink_base_after_2014
+      three = fixed_deduction_after_2014
       two > three ? two : three
     end
   
-    def non_deduction_for_2014
-      total_social_expense_amount - non_deduction_limit_for_2014
+    def non_deduction_after_2014
+      total_social_expense_amount - non_deduction_limit_after_2014
     end
   
     def non_deduction_limit_for_2013
@@ -192,7 +201,7 @@ module Reports
     attr_accessor :social_expense_amount
     # うち接待飲食費の額
     attr_accessor :food_and_drink_amount
-    
+
     def initialize
       @amount = 0
       @deduction_amount = 0
@@ -200,4 +209,5 @@ module Reports
       @food_and_drink_amount = 0
     end
   end  
+
 end

@@ -19,16 +19,16 @@
       <td colspan="2">損金不算入限度額<br/>（(2)又は(3)）</td>
       <td align="center" width="20">4</td>
       <td align="right">
-        <%= to_amount(@model.non_deduction_limit_for_2014, show_zero: true ) %>
+        <%= to_amount(@model.non_deduction_limit_after_2014, show_zero: true ) %>
       </td>
     </tr>
     <tr>
       <td width="220">支出接待飲食費損金算入基準額<br/>（9の計） x 50/100</td>
       <td align="center" width="20">2</td>
-      <td colspan="3" align="right"><%= to_amount(@model.food_and_drink_base_for_2014) %></td>
+      <td colspan="3" align="right"><%= to_amount(@model.food_and_drink_base_after_2014) %></td>
       <td colspan="2">損金不算入額<br/>(1) － (4)</td>
       <td align="center">5</td>
-      <td align="right"><%= to_amount(@model.non_deduction_for_2014, show_zero: true ) %></td>
+      <td align="right"><%= to_amount(@model.non_deduction_after_2014, show_zero: true ) %></td>
     </tr>
     <tr>
       <td>
@@ -38,7 +38,7 @@
       </td>
       <td align="center">3</td>
       <td colspan="3" align="right">
-       <%= to_amount(@model.fixed_deduction_for_2014, show_zero: true) %>
+       <%= to_amount(@model.fixed_deduction_after_2014, show_zero: true) %>
       </td>
       <td colspan="2"></td>
       <td></td>

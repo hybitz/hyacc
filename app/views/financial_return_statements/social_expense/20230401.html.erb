@@ -67,7 +67,7 @@
       <td colspan="3" align="right"><%= to_amount( detail.amount )  %></td>
       <td colspan="2" align="right"><%= to_amount( detail.deduction_amount ) %></td>
       <td colspan="2" align="right"><%= to_amount( detail.social_expense_amount ) %></td>
-      <td align="right"><%= to_amount( detail.differential ) %></td>
+      <td align="right"><%= to_amount( detail.food_and_drink_amount ) %></td>
     </tr>
     <% end %>
     
@@ -76,7 +76,7 @@
       <td colspan="3" align="right"><%= to_amount( @model.get_total_amount, :show_zero=>true ) %></td>
       <td colspan="2" align="right"><%= to_amount( @model.get_total_deduction_amount, :show_zero=>true ) %></td>
       <td colspan="2" align="right"><%= to_amount( @model.get_total_social_expense_amount, :show_zero=>true ) %></td>
-      <td align="right"><%= to_amount( @model.get_total_differential_amount, :show_zero=>true ) %></td>
+      <td align="right"><%= to_amount( @model.get_total_food_and_drink_amount, :show_zero=>true ) %></td>
     </tr>
   </table>
 </div>

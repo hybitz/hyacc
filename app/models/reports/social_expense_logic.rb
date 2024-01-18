@@ -44,12 +44,12 @@ module Reports
               ret.amount += amount
               ret.deduction_amount += deduction_amount
               ret.social_expense_amount += social_expense_amount
-              ret.differential += social_expense_amount if jd.sub_account.code == SUB_ACCOUNT_CODE_FOOD_AND_DRINK
+              ret.food_and_drink_amount += social_expense_amount if jd.sub_account.code == SUB_ACCOUNT_CODE_FOOD_AND_DRINK
             else
               ret.amount -= amount
               ret.deduction_amount -= deduction_amount
               ret.social_expense_amount -= social_expense_amount
-              ret.differential -= social_expense_amount if jd.sub_account.code == SUB_ACCOUNT_CODE_FOOD_AND_DRINK
+              ret.food_and_drink_amount -= social_expense_amount if jd.sub_account.code == SUB_ACCOUNT_CODE_FOOD_AND_DRINK
             end
           end
         end
@@ -120,10 +120,10 @@ module Reports
       ret
     end
 
-    def get_total_differential_amount
+    def get_total_food_and_drink_amount
       ret = 0
       @details.each {|detail|
-        ret += detail.differential.to_i
+        ret += detail.food_and_drink_amount.to_i
       }
       ret
     end
@@ -174,7 +174,7 @@ module Reports
     end
 
     def food_and_drink_base_for_2014
-      get_total_differential_amount.quo(2).floor
+      get_total_food_and_drink_amount.quo(2).floor
     end
   
     def fixed_deduction_for_2014
@@ -214,13 +214,13 @@ module Reports
     # 差引交際費等の額
     attr_accessor :social_expense_amount
     # うち接待飲食費の額
-    attr_accessor :differential
+    attr_accessor :food_and_drink_amount
     
     def initialize
       @amount = 0
       @deduction_amount = 0
       @social_expense_amount = 0
-      @differential = 0
+      @food_and_drink_amount = 0
     end
   end  
 end

@@ -22,10 +22,19 @@ module Reports
           t.customer_name = c.formal_name_on(ymd.to_date)
           t.account_receivable = sum
           t.address = c.address
+          t.remarks = c.enterprise_number
           res.push(t)
         end
       end
       res
     end
+  end
+
+  class TradeAccountReceivableModel
+    attr_accessor :customer_id
+    attr_accessor :customer_name
+    attr_accessor :account_receivable
+    attr_accessor :address
+    attr_accessor :remarks
   end
 end

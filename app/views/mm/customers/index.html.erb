@@ -21,7 +21,7 @@
         <td class="center"><%= c.code %></td>
         <td><%= c.formal_name %></td>
         <td><%= c.name %></td>
-        <td class="text-center"><%= c.enterprise_number %><%= c.invoice_issuer_number %></td>
+        <td class="text-center"><%= c.enterprise_number %><br><%= c.invoice_issuer_number %></td>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_entry %>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_placement %>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_investment %>

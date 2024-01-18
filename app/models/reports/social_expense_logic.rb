@@ -3,7 +3,7 @@ module Reports
 
     def build_model
       model = SocialExpenseModel.new
-      model.fiscal_year = fiscal_year.fiscal_year
+      model.fiscal_year = finder.fiscal_year
       model.company = company
       model.capital_stock = get_capital_stock_amount
       model.add_detail(build_detail_model)
@@ -167,7 +167,37 @@ module Reports
     def get_not_loss
       get_total_social_expense_amount - get_loss_limit
     end
-    
+
+    def food_and_drink_base_for_2014
+      get_total_differential_amount.quo(2).floor
+    end
+  
+    def fixed_deduction_for_2014
+      fixed_deduction = 8_000_000 * get_business_months / 12
+      get_total_social_expense_amount < fixed_deduction ?
+                get_total_social_expense_amount : fixed_deduction
+    end
+
+    def non_deduction_limit_for_2014
+      two = food_and_drink_base_for_2014
+      three = fixed_deduction_for_2014
+      two > three ? two : three
+    end
+  
+    def non_deduction_for_2014
+      get_total_social_expense_amount - non_deduction_limit_for_2014
+    end
+  
+    def non_deduction_limit_for_2013
+      one = get_total_social_expense_amount
+      two = 8000000 * get_business_months / 12
+      one > two ? two : one
+    end
+  
+    def non_deduction_for_2013
+      total_social_expense_amount - non_deduction_limit_for_2013
+    end
+
   end
 
   class SocialExpenseDetailModel

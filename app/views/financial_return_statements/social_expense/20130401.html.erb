@@ -13,13 +13,12 @@
     <td width="220">支出交際費等の額<br/>（7の計）</td>
     <td align="center" width="20">1</td>
     <td colspan="3" align="right">
-      <%= to_amount( @model.get_total_social_expense_amount, :show_zero=>true ) %>
+      <%= to_amount(@model.get_total_social_expense_amount, show_zero: true) %>
     </td>
     <td colspan="2">損金不算入限度額<br/>（(1)又は(2)のうち少ない金額）</td>
     <td align="center" width="20">3</td>
     <td align="right">
-      <%= to_amount(non_deduction_limit_for_2013(@model.get_total_social_expense_amount,
-                                                 @model.get_business_months), :show_zero=>true ) %>
+      <%= to_amount(@model.non_deduction_limit_for_2013, show_zero: true) %>
     </td>
   </tr>
   <tr>
@@ -29,11 +28,10 @@
       （800万円 × <%= @model.get_business_months %> / 12)
     </td>
     <td align="center" width="20">2</td>
-    <td colspan="3" align="right"><%= to_amount((8000000 * @model.get_business_months / 12), :show_zero => true) %></td>
+    <td colspan="3" align="right"><%= to_amount((8000000 * @model.get_business_months / 12), show_zero: true) %></td>
     <td colspan="2">損金不算入額<br/>(1) － (3)</td>
     <td align="center">4</td>
-    <td align="right"><%= to_amount(non_deduction_for_2013(@model.get_total_social_expense_amount,
-                                                           @model.get_business_months), :show_zero=>true ) %></td>
+    <td align="right"><%= to_amount(@model.non_deduction_for_2013, show_zero: true) %></td>
   </tr>
   <tr>
     <td colspan="9" align="center"><b>支　出　交　際　費　等　の　額　の　明　細</b></td>

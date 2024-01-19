@@ -16,7 +16,7 @@ module Reports
     end
 
     def max_food_and_drink_amount_per_person(ym)
-      if ym >= 202304
+      if ym >= 202404
         10_000
       else
         5_000

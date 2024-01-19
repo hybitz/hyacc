@@ -25,8 +25,8 @@
     <td>
       定額控除限度額
       <br/>
-      （<%= @model.is_zero_deduction ? "●" : "○" %>０円又は
-      <%= @model.is_zero_deduction ? "○" : "●" %>４００万円）× <%= @model.get_business_months %> / 12
+      （<%= @model.none_considered_as_expense? ? "●" : "○" %>０円又は
+      <%= @model.none_considered_as_expense? ? "○" : "●" %>４００万円）× <%= @model.get_business_months %> / 12
     </td>
     <td align="center">2</td>
     <td colspan="2" align="right"><%= to_amount( @model.get_deduction_limit ) %></td>

@@ -6,7 +6,9 @@ module Reports
       model.fiscal_year = finder.fiscal_year
       model.company = company
       model.capital_stock = get_capital_stock_amount
-      model.add_detail(build_detail_model)
+
+      detail = build_detail_model(model)
+      model.add_detail(detail)
 
       model.details.size.upto(11).each do
         model.add_detail(SocialExpenseDetailModel.new)
@@ -25,7 +27,7 @@ module Reports
 
     private
 
-    def build_detail_model
+    def build_detail_model(header)
       ret = SocialExpenseDetailModel.new
       ret.account = Account.find_by_code(ACCOUNT_CODE_SOCIAL_EXPENSE)
 
@@ -53,11 +55,15 @@ module Reports
             end
 
             if jd.dc_type == jd.account.dc_type
+              header.total_paid_amount += amount
+
               ret.amount += amount
               ret.deduction_amount += deduction_amount
               ret.social_expense_amount += social_expense_amount
               ret.food_and_drink_amount += food_and_drink_amount
             else
+              header.total_paid_amount -= amount
+
               ret.amount -= amount
               ret.deduction_amount -= deduction_amount
               ret.social_expense_amount -= social_expense_amount
@@ -86,9 +92,11 @@ module Reports
     attr_accessor :capital_stock
     attr_accessor :date_from
     attr_accessor :date_to
+    attr_accessor :total_paid_amount
     attr_accessor :details
     
     def initialize
+      @total_paid_amount = 0
       @details = []
     end
     
@@ -112,8 +120,13 @@ module Reports
       @details.inject(0){|sum, d| sum + d.food_and_drink_amount.to_i }
     end
 
-    def is_zero_deduction
+    def none_considered_as_expense?
       capital_stock > 100_000_000
+    end
+
+    def all_considered_as_expense?
+      return false if none_considered_as_expense?
+      total_paid_amount < 8_000_000
     end
     
     # 年間の営業月数を取得する
@@ -134,7 +147,7 @@ module Reports
     
     # 定額控除限度額
     def get_deduction_limit
-      if is_zero_deduction
+      if none_considered_as_expense?
         0
       else
         4000000 * get_business_months / 12
@@ -162,7 +175,11 @@ module Reports
     end
   
     def fixed_deduction_after_2014
-      total_social_expense_amount < max_deduction_after_2014 ? total_social_expense_amount : max_deduction_after_2014
+      if all_considered_as_expense?
+        [max_deduction_after_2014, total_social_expense_amount + total_deduction_amount].min
+      else
+        [max_deduction_after_2014, total_social_expense_amount].min
+      end
     end
 
     def max_deduction_after_2014
@@ -170,13 +187,23 @@ module Reports
     end
 
     def non_deduction_limit_after_2014
-      two = food_and_drink_base_after_2014
-      three = fixed_deduction_after_2014
-      two > three ? two : three
+      if all_considered_as_expense?
+        two = (total_social_expense_amount + total_deduction_amount).quo(2).floor
+        three = fixed_deduction_after_2014
+      else
+        two = food_and_drink_base_after_2014
+        three = fixed_deduction_after_2014
+      end
+
+      [two, three].max
     end
   
     def non_deduction_after_2014
-      total_social_expense_amount - non_deduction_limit_after_2014
+      if all_considered_as_expense?
+        total_paid_amount - non_deduction_limit_after_2014
+      else
+        total_social_expense_amount - non_deduction_limit_after_2014
+      end
     end
   
     def non_deduction_limit_for_2013

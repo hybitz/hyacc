@@ -14,21 +14,31 @@
       <td width="220">支出交際費等の額<br/>（8の計）</td>
       <td align="center" width="20">1</td>
       <td colspan="3" align="right">
-        <%= to_amount( @model.total_social_expense_amount, show_zero: true ) %>
+        <% if @model.all_considered_as_expense? %>
+          <%= to_amount(@model.total_paid_amount, show_zero: true) %>
+        <% else %>
+          <%= to_amount(@model.total_social_expense_amount, show_zero: true) %>
+        <% end %>
       </td>
       <td colspan="2">損金不算入限度額<br/>（(2)又は(3)）</td>
       <td align="center" width="20">4</td>
       <td align="right">
-        <%= to_amount(@model.non_deduction_limit_after_2014, show_zero: true ) %>
+        <%= to_amount(@model.non_deduction_limit_after_2014, show_zero: true) %>
       </td>
     </tr>
     <tr>
       <td width="220">支出接待飲食費損金算入基準額<br/>（9の計） x 50/100</td>
       <td align="center" width="20">2</td>
-      <td colspan="3" align="right"><%= to_amount(@model.food_and_drink_base_after_2014) %></td>
+      <td colspan="3" align="right">
+        <% if @model.all_considered_as_expense? %>
+          <%= to_amount((@model.total_social_expense_amount + @model.total_deduction_amount).quo(2).floor, show_zero: true) %>
+        <% else %>
+          <%= to_amount(@model.total_food_and_drink_amount.quo(2).floor, show_zero: true) %>
+        <% end %>
+      </td>
       <td colspan="2">損金不算入額<br/>(1) － (4)</td>
       <td align="center">5</td>
-      <td align="right"><%= to_amount(@model.non_deduction_after_2014, show_zero: true ) %></td>
+      <td align="right"><%= to_amount(@model.non_deduction_after_2014, show_zero: true) %></td>
     </tr>
     <tr>
       <td>
@@ -38,45 +48,88 @@
       </td>
       <td align="center">3</td>
       <td colspan="3" align="right">
-       <%= to_amount(@model.fixed_deduction_after_2014, show_zero: true) %>
+        <%= to_amount(@model.fixed_deduction_after_2014, show_zero: true) %>
       </td>
       <td colspan="2"></td>
       <td></td>
       <td></td>
     </tr>
+  </table>
+
+  <table class="table table-bordered">
     <tr>
-      <td colspan="9" align="center"><b>支　出　交　際　費　等　の　額　の　明　細</b></td>
+      <td colspan="5" align="center"><b>支　出　交　際　費　等　の　額　の　明　細</b></td>
     </tr>
     <tr>
       <td rowspan="2">科目</td>
-      <td colspan="3" align="center">支出額</td>
-      <td colspan="2" align="center">交際費等の額から<br/>控除される費用の額</td>
-      <td colspan="2" align="center">差引交際費等の額</td>
-      <td align="center">(8) のうち接待飲食費の額</td>
+      <td align="center" class="col-md-2">支出額</td>
+      <td align="center" class="col-md-2">交際費等の額から<br/>控除される費用の額</td>
+      <td align="center" class="col-md-2">差引交際費等の額</td>
+      <td align="center" class="col-md-2">(8) のうち接待飲食費の額</td>
     </tr>
     <tr>
-      <td colspan="3" align="center">6</td>
-      <td colspan="2" align="center">7</td>
-      <td colspan="2" align="center">8</td>
+      <td align="center">6</td>
+      <td align="center">7</td>
+      <td align="center">8</td>
       <td align="center">9</td>
     </tr>
     
     <% for detail in @model.details %>
-    <tr>
-      <td><%= detail.account.name if detail.account %></td>
-      <td colspan="3" align="right"><%= to_amount( detail.amount )  %></td>
-      <td colspan="2" align="right"><%= to_amount( detail.deduction_amount ) %></td>
-      <td colspan="2" align="right"><%= to_amount( detail.social_expense_amount ) %></td>
-      <td align="right"><%= to_amount( detail.food_and_drink_amount ) %></td>
-    </tr>
+      <% show_zero = detail.account.present? %>
+      <tr>
+        <td><%= detail.account&.name %></td>
+        <td align="right">
+          <%= to_amount(detail.amount, show_zero: show_zero) %>
+        </td>
+        <td align="right">
+          <% if @model.all_considered_as_expense? %>
+            <%= to_amount(0, show_zero: show_zero) %>
+          <% else %>
+            <%= to_amount(detail.deduction_amount, show_zero: show_zero) %>
+          <% end %>
+        </td>
+        <td align="right">
+          <% if @model.all_considered_as_expense? %>
+            <%= to_amount(detail.amount, show_zero: show_zero) %>
+          <% else %>
+            <%= to_amount(detail.social_expense_amount, show_zero: show_zero) %>
+          <% end %>
+        </td>
+        <td align="right">
+          <% if @model.all_considered_as_expense? %>
+            <%= to_amount(detail.social_expense_amount + detail.deduction_amount, show_zero: show_zero) %>
+          <% else %>
+            <%= to_amount(detail.food_and_drink_amount, show_zero: show_zero) %>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
-    
+
     <tr>
       <td>計</td>
-      <td colspan="3" align="right"><%= to_amount( @model.total_amount, show_zero: true ) %></td>
-      <td colspan="2" align="right"><%= to_amount( @model.total_deduction_amount, show_zero: true ) %></td>
-      <td colspan="2" align="right"><%= to_amount( @model.total_social_expense_amount, show_zero: true ) %></td>
-      <td align="right"><%= to_amount( @model.total_food_and_drink_amount, show_zero: true ) %></td>
+      <td align="right">
+        <%= to_amount(@model.total_amount, show_zero: true) %></td>
+      <td align="right">
+        <% if @model.all_considered_as_expense? %>
+          <%= to_amount(0, show_zero: true) %>
+        <% else %>
+          <%= to_amount(@model.total_deduction_amount, show_zero: true) %>
+        <% end %>
+      </td>
+      <td align="right">
+        <% if @model.all_considered_as_expense? %>
+          <%= to_amount(@model.total_amount, show_zero: true) %>
+        <% else %>
+          <%= to_amount(@model.total_social_expense_amount, show_zero: true) %>
+        <% end %>
+      </td>
+      <td align="right">
+        <% if @model.all_considered_as_expense? %>
+          <%= to_amount(@model.total_social_expense_amount + @model.total_deduction_amount, show_zero: true) %>
+        <% else %>
+          <%= to_amount(@model.total_food_and_drink_amount, show_zero: true) %>
+        <% end %>
+      </td>
     </tr>
   </table>
 </div>

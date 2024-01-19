@@ -1,56 +1,67 @@
 <div class="container" style="max-width: 1280px;">
   <table class="table table-bordered">
     <tr>
-      <td rowspan="2" colspan="3" align="center" width="310"><b>交際費等の損金算入に関する明細書</b></td>
-      <td rowspan="2" colspan="2" 	align="center" width="60">事業<br/>年度</td>
-      <td width="130"><%= to_wareki(@finder.start_day) %></td>
-      <td rowspan="2" align="center" width="60">法人名</td>
-      <td rowspan="2" colspan="2" width="180"><%= current_company.name %></td>
+      <td rowspan="2" align="center" class="col-md-7"><b>交際費等の損金算入に関する明細書</b></td>
+      <td rowspan="2"	align="center" width="60">事業<br/>年度</td>
+      <td><%= to_wareki(@finder.start_day) %></td>
+      <td rowspan="2" align="center">法人名</td>
+      <td rowspan="2"><%= current_company.name %></td>
     </tr>
     <tr>
       <td width="130"><%= to_wareki(@finder.end_day) %></td>
     </tr>
+  </table>
+  <table class="table table-bordered">
     <tr>
-      <td width="220">支出交際費等の額<br/>（8の計）</td>
+      <td style="width: 30%;">支出交際費等の額<br/>（8の計）</td>
       <td align="center" width="20">1</td>
-      <td colspan="3" align="right">
+      <td align="right">
         <% if @model.all_considered_as_expense? %>
           <%= to_amount(@model.total_paid_amount, show_zero: true) %>
         <% else %>
           <%= to_amount(@model.total_social_expense_amount, show_zero: true) %>
         <% end %>
       </td>
-      <td colspan="2">損金不算入限度額<br/>（(2)又は(3)）</td>
+      <td style="width: 30%;">
+        損金不算入限度額<br/>
+        <% if @model.all_considered_as_expense? %>
+          （○(2) 又は ●(3)）
+        <% else %>
+          （●(2) 又は ○(3)）
+        <% end %>
+      </td>
       <td align="center" width="20">4</td>
       <td align="right">
         <%= to_amount(@model.non_deduction_limit_after_2014, show_zero: true) %>
       </td>
     </tr>
     <tr>
-      <td width="220">支出接待飲食費損金算入基準額<br/>（9の計） x 50/100</td>
+      <td>支出接待飲食費損金算入基準額<br/>（9の計） x 50/100</td>
       <td align="center" width="20">2</td>
-      <td colspan="3" align="right">
+      <td align="right">
         <% if @model.all_considered_as_expense? %>
           <%= to_amount((@model.total_social_expense_amount + @model.total_deduction_amount).quo(2).floor, show_zero: true) %>
         <% else %>
           <%= to_amount(@model.total_food_and_drink_amount.quo(2).floor, show_zero: true) %>
         <% end %>
       </td>
-      <td colspan="2">損金不算入額<br/>(1) － (4)</td>
+      <td>損金不算入額<br/>(1) － (4)</td>
       <td align="center">5</td>
       <td align="right"><%= to_amount(@model.non_deduction_after_2014, show_zero: true) %></td>
     </tr>
     <tr>
       <td>
-        定額控除限度額
+        中小法人等の定額控除限度額
         <br/>
-        （(1)の金額又は800万円 × <%= @model.get_business_months %> / 12 相当額のうち少ない金額)
+        ((1)と((800万円 × <%= @model.get_business_months %> / 12 )又は(別表十五付表
+        <br/>
+        「5」))のうち少ない金額)
       </td>
       <td align="center">3</td>
-      <td colspan="3" align="right">
+      <td align="right">
         <%= to_amount(@model.fixed_deduction_after_2014, show_zero: true) %>
       </td>
-      <td colspan="2"></td>
+      <td></td>
       <td></td>
       <td></td>
     </tr>
@@ -58,14 +69,14 @@
 
   <table class="table table-bordered">
     <tr>
-      <td colspan="5" align="center"><b>支　出　交　際　費　等　の　額　の　明　細</b></td>
+      <td colspan="5" align="center"><b><%= justify('　　　　支出交際費等の額の明細　　　　') %></b></td>
     </tr>
     <tr>
-      <td rowspan="2">科目</td>
-      <td align="center" class="col-md-2">支出額</td>
-      <td align="center" class="col-md-2">交際費等の額から<br/>控除される費用の額</td>
-      <td align="center" class="col-md-2">差引交際費等の額</td>
-      <td align="center" class="col-md-2">(8) のうち接待飲食費の額</td>
+      <td rowspan="2" style="width: 20%;">科目</td>
+      <td align="center" style="width: 20%;">支出額</td>
+      <td align="center" style="width: 20%;">交際費等の額から<br/>控除される費用の額</td>
+      <td align="center" style="width: 20%;">差引交際費等の額</td>
+      <td align="center" style="width: 20%;">(8) のうち接待飲食費の額</td>
     </tr>
     <tr>
       <td align="center">6</td>

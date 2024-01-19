@@ -1,4 +1,4 @@
-<div class="container text-center" style="max-width: 1156px">
+<div class="container text-center" style="max-width: 980px">
   <div class="m-4 row">
     <span class="col-md-12 text-left">第3－（2）号様式</span>
   </div>
@@ -111,7 +111,7 @@
         </tr>
         <tr>
           <td rowspan="4" class="align-middle border-right-0"><div>地方消費税の<br>課税標準となる<br>消費税額</div><div class="float-right">（注2）</div></td>
-          <td class="border-left-0"></td>
+          <td class="border-left-0">( ㉑ ~ ㉓ の合計)</td>
           <td class="align-middle">⑳</td>
           <td class="text-end"><%= to_amount(@model.total_tax_amount, show_zero: true) %></td>
         </tr>
@@ -132,7 +132,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="offset-md-1 col-md-10 text-left">（注1） ⑧～⑩及び澳欄は、一般課税により申告する場合で、課税売上割合が95％未満、かつ、特定課税仕入れがある事業者のみ記載します。</div>
-    <div class="offset-md-1 col-md-10 text-left">（注2） ⑳～㉓欄が還付税額となる場合はマイナス「－」を付してください。</div>
+    <div class="offset-md-1 col-md-10 text-start"><small>（注1） ⑧～⑩及び澳欄は、一般課税により申告する場合で、課税売上割合が95％未満、かつ、特定課税仕入れがある事業者のみ記載します。</small></div>
+    <div class="offset-md-1 col-md-10 text-start"><small>（注2） ⑳～㉓欄が還付税額となる場合はマイナス「－」を付してください。</small></div>
   </div>
 </div>

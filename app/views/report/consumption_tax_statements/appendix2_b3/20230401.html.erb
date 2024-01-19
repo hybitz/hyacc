@@ -98,7 +98,7 @@
         </tr>
         <tr>
           <th></th>
-          <th colspan="2" class="text-center align-middle">課税仕入 れ に 係 る 支 払 対 価 の 額 （ 税 込 み ）</th>
+          <th colspan="2" class="text-center align-middle"><%= justify('課税仕入れに係る支払対価の額（税込み）') %></th>
           <th class="text-center align-middle">⑨</th>
           <td class="text-end align-middle"><%= to_amount(@model.reduced_taxable_purchase_amount_with_tax, show_zero: true) %></td>
           <td class="text-end align-middle"><%= to_amount(@model.taxable_purchase_amount_with_tax, show_zero: true) %></td>
@@ -106,16 +106,34 @@
         </tr>
         <tr>
           <th></th>
-          <th colspan="2" class="text-center align-middle">課税仕入 れ に 係 る 消 費 税 額</th>
+          <th colspan="2" class="text-center align-middle"><%= justify('課税仕入れに係る消費税額') %></th>
           <th class="text-center align-middle">⑩</th>
           <td class="text-end align-middle"><%= to_amount(@model.reduced_taxable_purchase_tax_amount, show_zero: true) %></td>
           <td class="text-end align-middle"><%= to_amount(@model.taxable_purchase_tax_amount, show_zero: true) %></td>
           <td class="text-end align-middle"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
         </tr>
+
+        <tr>
+          <th></th>
+          <th colspan="2" class="text-center align-middle"><%= justify('適格請求書発行事業者以外の者から行った課税仕入れに係る') %><%= justify('経過措置の適用を受ける課税仕入れに係る支払対価の額(税込み)') %></th>
+          <th class="text-center align-middle">⑪</th>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+        </tr>
+        <tr>
+          <th></th>
+          <th colspan="2" class="text-center align-middle"><%= justify('適格請求書発行事業者以外の者から行った課税仕入れに係る') %><%= justify('経過措置により課税仕入れに係る消費税額とみなされる額') %></th>
+          <th class="text-center align-middle">⑫</th>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+        </tr>
+
         <tr>
           <th></th>
           <th colspan="2" class="text-center align-middle"><%= justify('特定課税仕入れに係る支払対価の額') %></th>
-          <th class="text-center align-middle">⑪</th>
+          <th class="text-center align-middle">⑬</th>
           <th class="text-end align-middle"></th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
@@ -123,7 +141,7 @@
         <tr>
           <th></th>
           <th colspan="2" class="text-center align-middle"><%= justify('特定課税仕入れに係る消費税額') %></th>
-          <th class="text-center align-middle">⑫</th>
+          <th class="text-center align-middle">⑭</th>
           <th class="text-end align-middle"></th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
@@ -131,7 +149,7 @@
         <tr>
           <th></th>
           <th colspan="2" class="text-center align-middle"><%= justify('課税貨物に係る消費税額') %></th>
-          <th class="text-center align-middle">⑬</th>
+          <th class="text-center align-middle">⑮</th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
@@ -139,21 +157,21 @@
         <tr>
           <th></th>
           <th colspan="2" class="text-center align-middle"><%= justify('納税義務の免除を受けない（受ける）') %><%= justify('こととなった場合における消費税額') %><%= justify('の調整（加算又は減算）額') %></th>
-          <th class="text-center align-middle">⑭</th>
+          <th class="text-center align-middle">⑯</th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
         </tr>
         <tr>
-          <th colspan="3" class="text-center"><%= justify('課税仕入れ等の税額の合計額') %><div>（⑩＋⑫＋⑬±⑭）</div></th>
-          <th class="text-center align-middle">⑮</th>
+          <th colspan="3" class="text-center"><%= justify('課税仕入れ等の税額の合計額') %><div>（⑩＋⑫＋⑭±⑮）</div></th>
+          <th class="text-center align-middle">⑰</th>
           <td class="text-end align-middle"><%= to_amount(@model.reduced_taxable_purchase_tax_amount, show_zero: true) %></td>
           <td class="text-end align-middle"><%= to_amount(@model.taxable_purchase_tax_amount, show_zero: true) %></td>
           <td class="text-end align-middle"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
         </tr>
         <tr>
-          <th colspan="3" class="text-center"><%= justify('課税売上高が５億円以下、かつ、') %><%= justify('課税売上割合が95％以上の場合') %><div>（⑮の金額）</div></th>
-          <th class="text-center align-middle">⑯</th>
+          <th colspan="3" class="text-center"><%= justify('課税売上高が５億円以下、かつ、') %><%= justify('課税売上割合が95％以上の場合') %><div>（⑰の金額）</div></th>
+          <th class="text-center align-middle">⑱</th>
           <td class="text-end align-middle"><%= to_amount(@model.reduced_taxable_purchase_tax_amount, show_zero: true) %></td>
           <td class="text-end align-middle"><%= to_amount(@model.taxable_purchase_tax_amount, show_zero: true) %></td>
           <td class="text-end align-middle"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
@@ -161,29 +179,29 @@
         <tr>
           <th rowspan="4" class="text-center align-middle text-nowrap">課５課95<br>税億税％<br>売円売未<br>上超上満<br>高又割の<br>がは合場<br>　　が合</th>
           <th rowspan="3" class="text-center align-middle">個<br>別<br>対<br>応<br>方<br>式</th>
-          <th class="text-center align-middle"><%= justify('⑮のうち、課税売上げにのみ要するもの') %></th>
-          <th class="text-center align-middle">⑰</th>
-          <td class="text-end align-middle"></td>
-          <td class="text-end align-middle"></td>
-          <td class="text-end align-middle"></td>
-        </tr>
-        <tr>
-          <th class="text-center align-middle"><%= justify('⑮のうち、課税売上げと非課税売上げに') %><%= justify('共通して要するもの') %></th>
-          <th class="text-center align-middle">⑱</th>
-          <td class="text-end align-middle"></td>
-          <td class="text-end align-middle"></td>
-          <td class="text-end align-middle"></td>
-        </tr>
-        <tr>
-          <th class="text-center align-middle"><%= justify('個別対応方式により控除する') %><%= justify('課税仕入れ等の税額') %><div>〔 ⑰ ＋（⑱ × ④ ／ ⑦）〕</div></th>
+          <th class="text-center align-middle"><%= justify('⑰のうち、課税売上げにのみ要するもの') %></th>
           <th class="text-center align-middle">⑲</th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
         </tr>
         <tr>
-          <th colspan="2" class="align-middle"><%= justify('一括比例配分方式により控除する課税仕入れ') %><div>等の税額　　（⑮×④／⑦）</div></th>
+          <th class="text-center align-middle"><%= justify('⑰のうち、課税売上げと非課税売上げに') %><%= justify('共通して要するもの') %></th>
           <th class="text-center align-middle">⑳</th>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+        </tr>
+        <tr>
+          <th class="text-center align-middle"><%= justify('個別対応方式により控除する') %><%= justify('課税仕入れ等の税額') %><div>〔 ⑲ ＋（⑳ × ④ ／ ⑦）〕</div></th>
+          <th class="text-center align-middle">㉑</th>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+        </tr>
+        <tr>
+          <th colspan="2" class="align-middle"><%= justify('一括比例配分方式により控除する課税仕入れ') %><div>等の税額　　（⑰×④／⑦）</div></th>
+          <th class="text-center align-middle">㉒</th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
@@ -191,48 +209,51 @@
         <tr>
           <th rowspan="3" class="text-center align-middle">控の<br>除調<br>税整<br>額　</th>
           <th colspan="2"><%= justify('課税売上割合変動時の調整対象固定資産に係る') %><%= justify('消費税額の調整（加算又は減算）額') %></th>
-          <th class="text-center align-middle">㉑</th>
-          <td class="text-end align-middle"></td>
-          <td class="text-end align-middle"></td>
-          <td class="text-end align-middle"></td>
-        </tr>
-        <tr>
-          <th colspan="2"><%= justify('調整対象固定資産を課税業務用（非課税業務用）') %><%= justify('に転用した場合の調整（加算又は減算）額') %></th>
-          <th class="text-center align-middle">㉒</th>
-          <td class="text-end align-middle"></td>
-          <td class="text-end align-middle"></td>
-          <td class="text-end align-middle"></td>
-        </tr>
-        <tr>
-          <th colspan="2"><%= justify('居住用賃貸建物を課税賃貸用') %><%= justify('に供した（譲渡した）場合の加算額') %></th>
           <th class="text-center align-middle">㉓</th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
         </tr>
         <tr>
-          <th rowspan="2" class="text-center align-middle">差<br>引</th>
-          <th colspan="2"><%= justify('控除対象仕入税額') %><%= justify('〔（⑯、⑲又は⑳の金額）±㉑±㉒＋㉓〕がプラスの時') %></th>
+          <th colspan="2"><%= justify('調整対象固定資産を課税業務用（非課税業務用）') %><%= justify('に転用した場合の調整（加算又は減算）額') %></th>
           <th class="text-center align-middle">㉔</th>
-          <td class="text-end align-middle"><%= to_amount(@model.reduced_taxable_purchase_tax_amount, show_zero: true) %></td>
-          <td class="text-end align-middle"><%= to_amount(@model.taxable_purchase_tax_amount, show_zero: true) %></td>
-          <td class="text-end align-middle"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
         </tr>
         <tr>
-          <th colspan="2"><%= justify('控除過大調整税額') %><%= justify('〔（⑯、⑲又は⑳の金額）±㉑±㉒＋㉓〕がマイナスの時') %></th>
+          <th colspan="2"><%= justify('居住用賃貸建物を課税賃貸用') %><%= justify('に供した（譲渡した）場合の加算額') %></th>
           <th class="text-center align-middle">㉕</th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
         </tr>
         <tr>
-          <th colspan="3"><%= justify('貸倒回収に係る消費税額') %></th>
+          <th rowspan="2" class="text-center align-middle">差<br>引</th>
+          <th colspan="2"><%= justify('控除対象仕入税額') %><%= justify('〔（⑱、㉑又は㉒の金額）±㉓±㉔＋㉕〕がプラスの時') %></th>
           <th class="text-center align-middle">㉖</th>
+          <td class="text-end align-middle"><%= to_amount(@model.reduced_taxable_purchase_tax_amount, show_zero: true) %></td>
+          <td class="text-end align-middle"><%= to_amount(@model.taxable_purchase_tax_amount, show_zero: true) %></td>
+          <td class="text-end align-middle"><%= to_amount(@model.total_taxable_purchase_tax_amount, show_zero: true) %></td>
+        </tr>
+        <tr>
+          <th colspan="2"><%= justify('控除過大調整税額') %><%= justify('〔（⑱、㉑又は㉒の金額）±㉓±㉔＋㉕〕がマイナスの時') %></th>
+          <th class="text-center align-middle">㉗</th>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+          <td class="text-end align-middle"></td>
+        </tr>
+        <tr>
+          <th colspan="3"><%= justify('貸倒回収に係る消費税額') %></th>
+          <th class="text-center align-middle">㉘</th>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
           <td class="text-end align-middle"></td>
         </tr>
       </tbody>
     </table>
+    <div class="text-start"><small>注意　　1　金額の計算においては、1円未満の端数を切り捨てる。</small></div>
+    <div class="text-start"><small>　　　　2　⑨ 、⑪ 及び ⑬ 欄には、値引き、割戻し、割引きなど仕入対価の返還等の金額がある場合(仕入対価の返還等の金額を仕入金額から直接減額している場合を除く。)には、その金額を控除した後の金額を記載する。</small></div>
+    <div class="text-start"><small>　　　　3　⑪ 及び ⑫ 欄の経過措置とは、所得税法等の一部を改正する法律(平成28年法律第15号)附則第52条又は第53条の適用がある場合をいう。</small></div>
   </div>
 </div>

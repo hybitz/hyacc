@@ -64,6 +64,7 @@ ja:
 
       bank:
         code: 金融機関コード
+        enterprise_number: 法人番号
         name: 金融機関名
         disabled: 状態
 

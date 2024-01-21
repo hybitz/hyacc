@@ -6,6 +6,7 @@
     <tr>
       <th rowspan="2" class="align-middle"><%= Bank.human_attribute_name :code %></th>
       <th rowspan="2" class="align-middle"><%= Bank.human_attribute_name :name %></th>
+      <th rowspan="2" class="text-center align-middle"><%= Bank.human_attribute_name :enterprise_number %></th>
       <th rowspan="2" class="align-middle text-center"><%= Bank.human_attribute_name :disabled %></th>
       <th colspan="3" class="text-center" style="width: 20%;">振込手数料（3万円未満）</th>
       <th colspan="3" class="text-center" style="width: 20%;">振込手数料（3万円以上）</th>
@@ -25,6 +26,7 @@
       <tr>
         <td><%= bank.code %></td>
         <td><%= link_to bank.name, mm_bank_path(bank), remote: true %></td>
+        <td class="text-center"><%= bank.enterprise_number %></td>
         <td class="text-center"><%= DISABLE_TYPES[bank.disabled] %></td>
         <td class="text-center"><%= bank.lt_30k_same_office %></td>
         <td class="text-center"><%= bank.lt_30k_other_office %></td>

@@ -97,6 +97,7 @@ class Mm::BanksController < Base::HyaccController
   def bank_params
     permitted = [
       :name, :name_effective_at,
+      :enterprise_number,
       :lt_30k_same_office, :ge_30k_same_office,
       :lt_30k_other_office, :ge_30k_other_office,
       :lt_30k_other_bank, :ge_30k_other_bank,

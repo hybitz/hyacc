@@ -9,9 +9,9 @@
         <th rowspan="2" class="align-middle"><%= justify('　摘要　') %></th>
       </tr>
       <tr>
-        <th>名称（氏名）</th>
-        <th>所在地（住所）</th>
-        <th>法人・代表者との関係</th>
+        <th><%= justify('　名称（氏名）　') %></th>
+        <th><%= justify('　所在地（住所）　') %></th>
+        <th><%= justify('　法人・代表者との関係　') %></th>
       </tr>
     </thead>
     <tbody>
@@ -28,4 +28,42 @@
       <% end %>
     </tbody>
   </table>
+
+  <hr class="my-4"/>
+
+  <div><h4><strong>源泉所得税預り金の内訳</strong></h4></div>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th style="width: 15%;"><%= justify('　支払年月　') %></th>
+        <th style="width: 10%;"><%= justify('所得の種類') %></th>
+        <th style="width: 25%;"><%= justify('期末現在高') %></th>
+        <th style="width: 15%;"><%= justify('　支払年月　') %></th>
+        <th style="width: 10%;"><%= justify('所得の種類') %></th>
+        <th style="width: 25%;"><%= justify('期末現在高') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% 6.times do |i| %>
+        <tr>
+          <% if i == 0 %>
+            <td class="text-center"><%= to_wareki(Date.strptime("#{@model.end_ym / 100}-#{@model.end_ym % 100}-01"), format: '%y年%1m月') %></td>
+            <td class="text-center">給</td>
+            <td class="text-end"><%= to_amount(@model.income_tax_detail.amount_at_end) %></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-end"></td>
+          <% else %>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-end"></td>
+            <td class="text-center"></td>
+            <td class="text-center"></td>
+            <td class="text-end"></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="text-start"><small>(注) 「所得の種類」欄には、給与所得は「給」、退職所得は「退」、報酬・料金等は「報」、利子所得は「利」、配当所得は「配」、非居住者等所得は「非」と簡記してください。</small></div>
 </div>

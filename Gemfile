@@ -49,7 +49,6 @@ gem 'uglifier', '>= 1.3.0'
 gem 'wicked_pdf', '< 2.0.0'
 gem 'wkhtmltopdf-binary'
 gem 'will_paginate'
-gem 'zengin_code'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

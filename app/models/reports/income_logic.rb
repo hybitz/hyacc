@@ -9,6 +9,7 @@ module Reports
       ret.corporate_tax_amount = get_corporate_tax_amount
       ret.corporate_inhabitant_tax_amount = get_corporate_inhabitant_tax_amount
       ret.business_tax_amount = get_business_tax_amount
+      ret.exective_bonus_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_BONUS)
       
       se_logic = SocialExpenseLogic.new(finder)
       ret.social_expense_model = se_logic.build_model
@@ -30,6 +31,7 @@ module Reports
     attr_accessor :business_tax_amount
     attr_accessor :social_expense_model
     attr_accessor :dividend_received_model
+    attr_accessor :exective_bonus_amount
 
     def company_name
       company.name
@@ -43,8 +45,9 @@ module Reports
       0
     end
 
+    # 加算の小計
     def increase_amount
-      corporate_tax_amount + corporate_inhabitant_tax_amount
+      corporate_tax_amount + corporate_inhabitant_tax_amount + exective_bonus_amount
     end
     
     def increase_retained_amount
@@ -52,9 +55,10 @@ module Reports
     end
 
     def increase_outflow_amount
-      0
+      exective_bonus_amount
     end
 
+    # 減算の小計
     def decrease_amount
       fiscal_year.accepted_amount_of_excess_depreciation + 
         dividend_received_model.non_deductible_amount + 

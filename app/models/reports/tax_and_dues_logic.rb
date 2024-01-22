@@ -11,9 +11,10 @@ module Reports
     
     def build_model
       model = TaxAndDuesModel.new
-      model.company_name = Company.find(@finder.company_id).name
+      model.company_name = company.name
+      model.fiscal_year = company.get_fiscal_year(finder.fiscal_year)
+
       model.corporate_tax_payable_at_start_first = nil
-      
       model.corporate_tax_payable_at_start_second = corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_CORPORATE_TAX)
       model.corporate_tax_payable_at_start_second += corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
       model.corporate_tax_payable_at_start_second += corporate_tax_payable_net_sum_until(CORPORATE_TAX_TYPE_RECONSTRUCTION_TAX)
@@ -80,7 +81,7 @@ module Reports
   end
 
   class TaxAndDuesModel
-    attr_accessor :company_name
+    attr_accessor :company_name, :fiscal_year
     attr_accessor :corporate_tax_payable_at_start_first
     attr_accessor :corporate_tax_payable_at_start_second
     attr_accessor :corporate_tax_at_half

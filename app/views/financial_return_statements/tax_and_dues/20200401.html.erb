@@ -3,7 +3,10 @@
       <tr>
           <td><b>租税公課の納付状況等に関する明細書</b></td>
           <td class="text-center">事業<br/>年度</td>
-          <td class="text-center"></td>
+          <td class="text-center">
+            <div><%= to_wareki(@model.fiscal_year.start_day) %></div>
+            <div><%= to_wareki(@model.fiscal_year.end_day) %></div>
+          </td>
           <td class="text-center">法人名</td>
           <td class="text-center"><b><%= @model.company_name %></b></td>
       </tr>
@@ -11,15 +14,15 @@
   <table class="table table-bordered table-hover">
       <tr>
           <td rowspan="3" colspan="4" align="center">税目及び事業年度</td>
-          <td rowspan="2" width="120px" align="center">期首現在<br/>未納税額</td>
-          <td rowspan="2" width="120px" align="center">当期発生税額</td>
-          <td colspan="7" align="center">当期中の納付税額</td>
-          <td rowspan="2" width="120px" align="center">期末現在<br/>未納税額<br/>①＋②－③－④－⑤</td>
+          <td rowspan="2" class="text-center" style="width: 13%;">期首現在<br/>未納税額</td>
+          <td rowspan="2" class="text-center" style="width: 13%;">当期発生税額</td>
+          <td colspan="7" class="text-center"><%= justify('　当期中の納付税額　') %></td>
+          <td rowspan="2" class="text-center" style="width: 13%;">期末現在<br/>未納税額<br/>①＋②－③－④－⑤</td>
       </tr>
       <tr>
-          <td colspan="3" width="120px" align="center">充当金取崩し<br/>による納付</td>
-          <td colspan="2" width="120px" align="center">仮払経理に<br/>よる納付</td>
-          <td colspan="2" width="120px" align="center">損金経理に<br/>よる納付</td>
+          <td colspan="3" class="text-center" style="width: 13%;">充当金取崩し<br/>による納付</td>
+          <td colspan="2" class="text-center" style="width: 13%;">仮払経理に<br/>よる納付</td>
+          <td colspan="2" class="text-center" style="width: 13%;">損金経理に<br/>よる納付</td>
       </tr>
       <tr>
           <td align="center">①</td>
@@ -41,7 +44,7 @@
           <td></td>
       </tr>
       <tr>
-          <td colspan="2">平成　・　・<br/>令和　・　・</td>
+          <td colspan="2">令和　・　・<br/>令和　・　・</td>
           <td align="center">2</td>
           <td class="text-end"><%= to_amount(@model.corporate_tax_payable_at_start_second) %></td>
           <td class="bg-light"></td>
@@ -88,7 +91,7 @@
           <td rowspan="5" width="20px" class="text-center">道府県民税</td>
           <td colspan="2">令和　・　・<br/>令和　・　・</td>
           <td width="20" class="text-center">6</td>
-          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_first, show_zero: true) %></td>
+          <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_first) %></td>
           <td class="bg-light"></td>
           <td colspan="3"></td>
           <td colspan="2"></td>
@@ -96,7 +99,7 @@
           <td></td>
       </tr>
       <tr>
-          <td colspan="2">平成　・　・<br/>令和　・　・</td>
+          <td colspan="2">令和　・　・<br/>令和　・　・</td>
           <td class="text-center">7</td>
           <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_second, show_zero: true) %></td>
           <td class="bg-light"></td>
@@ -117,7 +120,7 @@
           <td class="text-end"><%= to_amount(@model.prefectural_tax_at_half - @model.prefectural_tax_paid_at_half, show_zero: true) %></td>
       </tr>
       <tr>
-          <td class="text-end">確定</td>
+          <td class="text-center">確定</td>
           <td class="text-end">9</td>
           <td class="bg-light"></td>
           <td class="text-end"><%= to_amount(@model.prefectural_tax_at_full, show_zero: true) %></td>
@@ -195,7 +198,7 @@
           <td colspan="14"></td>
       </tr>
       <tr>
-          <td rowspan="4" width="20px" class="text-center">事業税</td>
+          <td rowspan="4" width="20px" class="text-center">事業税及び特別法人事業税</td>
           <td colspan="2">令和　・　・<br/>令和　・　・</td>
           <td width="20" class="text-center">16</td>
           <td></td>
@@ -206,7 +209,7 @@
           <td></td>
       </tr>
       <tr>
-          <td colspan="2">平成　・　・<br/>令和　・　・</td>
+          <td colspan="2">令和　・　・<br/>令和　・　・</td>
           <td class="text-center">17</td>
           <td></td>
           <td class="text-end"><%= to_amount(@model.business_tax_at_start_second, show_zero: true) %></td>

@@ -1,36 +1,40 @@
-<div style="margin: 10px;">
-  <table class="none_border" width="1050">
+<div class="m-4" style="width: 1200px">
+  <table class="none_border">
     <tr>
       <td class="none_border"><b>地代家賃の内訳書</b></td>
     </tr>
   </table>
   <br/>
-  <table width="1050">
-    <tr style="background-color: lightgrey;">
-      <td rowspan="2" width="100">地代・家賃<br/>の区分</td>
-      <td width="300">借地（借家）物件の用途</td>
-      <td width="300">貸主の名称（氏名）</td>
-      <td width="250">支払対象期間</td>
-      <td rowspan="2" width="100">摘要</td>
-    </tr>
-    <tr style="background-color: lightgrey;">
-      <td>所在地</td>
-      <td>貸主の所在地（住所）</td>
-      <td>支払賃借料</td>
-    </tr>
-    <% @model.details.each do |d| %>
+  <table class="table table-bordered">
+    <htead>
       <tr>
-        <td rowspan="2"><%= RENT_TYPES[ d.rent.rent_type ] %></td>
-        <td height="40"><%= RENT_USAGE_TYPES[ d.rent.usage_type ] %></td>
-        <td><%= d.customer_name %></td>
-        <td><%= to_wareki(d.start_from) %>～<%= to_wareki(d.end_to) %></td>
-        <td rowspan="2"><%= d.rent.remarks %></td>
+        <th rowspan="2" width="100">地代・家賃<br/>の区分</th>
+        <th width="300">借地（借家）物件の用途</th>
+        <th width="300">貸主の名称（氏名）</th>
+        <th width="250">支払対象期間</th>
+        <th rowspan="2" width="100">摘要</th>
       </tr>
       <tr>
-        <td height="40"><%= d.rent.address %></td>
-        <td><%= d.rent.customer.address %> </td>
-        <td><%= number_to_currency(d.total_amount, unit: "￥", precision: 0, format: "%u%n") %></td>
+        <th>所在地</th>
+        <th>貸主の所在地（住所）</th>
+        <th>支払賃借料</th>
       </tr>
-    <% end %>
+    </thead>
+    <tbody>
+      <% @model.details.each do |d| %>
+        <tr>
+          <td rowspan="2"><%= RENT_TYPES[ d.rent.rent_type ] %></td>
+          <td height="40"><%= RENT_USAGE_TYPES[ d.rent.usage_type ] %></td>
+          <td><%= d.customer_name %></td>
+          <td><%= to_wareki(d.start_from) %>～<%= to_wareki(d.end_to) %></td>
+          <td rowspan="2"><%= d.remarks %></td>
+        </tr>
+        <tr>
+          <td height="40"><%= d.rent.address %></td>
+          <td><%= d.rent.customer.address %> </td>
+          <td><%= number_to_currency(d.total_amount, unit: "￥", precision: 0, format: "%u%n") %></td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
 </div>

@@ -83,5 +83,10 @@ module Reports
     def customer_name
       rent.customer.formal_name_on(end_to)
     end
+
+    def remarks
+      rent.customer.enterprise_number
+    end
+
   end
 end

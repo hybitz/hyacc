@@ -2,9 +2,9 @@ class Report::ConsumptionTaxStatementsController < Base::HyaccController
   helper_method :finder
 
   def index
-    if params[:commit]
-      report_type = finder.report_type
+    report_type = finder.report_type
       
+    if report_type
       logic = "Reports::ConsumptionTax::#{report_type.camelize}Logic".constantize.new(finder)
       @model = logic.build_model
   
@@ -21,15 +21,18 @@ class Report::ConsumptionTaxStatementsController < Base::HyaccController
   end
 
   private
-  
+
   def finder
-    @finder ||= TaxReportFinder.new(finder_params)
-    @finder.company_id = current_company.id
-    @finder.page = params[:page]
-    @finder.per_page = current_user.slips_per_page
+    if @finder.nil?
+      @finder = TaxReportFinder.new(finder_params)
+      @finder.company_id = current_company.id
+      @finder.fiscal_year ||= current_company.current_fiscal_year_int
+      @finder.page = params[:page]
+      @finder.per_page = current_user.slips_per_page
+    end
     @finder
   end
-  
+
   def finder_params
     if params[:finder]
       params.require(:finder).permit(:fiscal_year, :branch_id, :report_type)

@@ -97,9 +97,12 @@ class Payroll < ApplicationRecord
     Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.first, ym_range.last, true)
   end
 
+  # 扶養親族の数
   def num_of_dependent
-    exemption = employee.exemptions.order("yyyy desc").first
-    exemption ? exemption.family_members.size : 0 # 扶養親族
+    raise '先に給与明細の年月が確定している必要があります' if ym.to_i == 0
+
+    date = Date.new(ym / 100, ym % 100, -1) # 対象月の末日を基準に徴収する
+    employee.num_of_dependent_on(date)
   end
   
   # 月給の社会保険料は、標準報酬月額を基準に計算

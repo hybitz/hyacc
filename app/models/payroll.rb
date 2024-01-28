@@ -116,8 +116,12 @@ class Payroll < ApplicationRecord
   end
 
   def calc_employment_insurance
-    ei = TaxUtils.get_employment_insurance(ym)
-    self.employment_insurance = (salary_total * ei.employee_general - 0.01).round
+    if employee.executive?
+      self.employment_insurance = 0
+    else
+      ei = TaxUtils.get_employment_insurance(ym)
+      self.employment_insurance = (salary_total * ei.employee_general - 0.01).round
+    end
   end
   
   def calc_income_tax

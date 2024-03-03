@@ -14,8 +14,8 @@ class Branch < ApplicationRecord
   before_save :set_path
 
   def self.get_branches(company_id, include_deleted=false)
-    ret = Branch.where(:company_id => company_id)
-    ret = ret.where(:deleted => false) unless include_deleted
+    ret = Branch.where(company_id: company_id)
+    ret = ret.where(deleted: false) unless include_deleted
     ret
   end
 

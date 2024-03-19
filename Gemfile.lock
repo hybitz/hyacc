@@ -283,7 +283,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
-    minitest (5.22.2)
+    minitest (5.22.3)
     minitest-reporters (1.6.1)
       ansi
       builder
@@ -313,7 +313,7 @@ GEM
     net-ssh (7.2.1)
     net-telnet (0.2.0)
     nio4r (2.7.0)
-    nokogiri (1.15.5)
+    nokogiri (1.15.6)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     nostalgic (0.6.0)
@@ -486,7 +486,7 @@ GEM
       actionpack (>= 5.2.4.3, < 6)
       activesupport (>= 5.2.4.3, < 6)
       railties (>= 5.2.4.3, < 6)
-    tax_jp (1.2.10)
+    tax_jp (1.2.11)
       bootstrap (~> 5.0)
       bootstrap4-datetime-picker-rails
       font-awesome-rails

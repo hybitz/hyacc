@@ -456,7 +456,7 @@ GEM
     simplecov-rcov (0.3.7)
       simplecov (>= 0.4.1)
     simplecov_json_formatter (0.1.4)
-    specinfra (2.87.2)
+    specinfra (2.89.0)
       net-scp
       net-ssh (>= 2.7)
       net-telnet

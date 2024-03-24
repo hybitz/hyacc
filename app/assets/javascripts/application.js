@@ -26,7 +26,6 @@
 //= require jquery-ui/ympicker-ja
 //= require mousetrap
 //= require mousetrap/global
-//= require i18n/translations
 //= require nostalgic
 //= require vendor
 //= require lib

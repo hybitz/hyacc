@@ -184,7 +184,7 @@
         <td class="text-center"><%= to_amount(@pd[:sum].salary_total) %></td>
       </tr>
       <tr>
-        <td rowspan="8" class="vertical-writing">控<br>除<br>額</td>
+        <td rowspan="7" class="vertical-writing">控<br>除<br>額</td>
         <td>健康保険料</td>
         <% @finder.get_ym_range.each do |ym| %>
         <td class="text-center"><%= to_amount(@pd[ym].health_insurance) %></td>
@@ -248,15 +248,6 @@
         <td class="text-center"><%= to_amount(@pd[:sum].inhabitant_tax) %></td>
       </tr>
       <tr>
-        <td></td>
-        <% @finder.get_ym_range.each do |ym| %>
-          <td></td>
-        <% end %>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
         <td colspan="2">保険料控除後の所得</td>
         <% @finder.get_ym_range.each do |ym| %>
         <td class="text-center"><%= to_amount(@pd[ym].after_insurance_deduction) %></td>
@@ -291,6 +282,15 @@
         <td class="text-center"><%= to_amount(@pd["b1"].accrued_liability) %></td>
         <td class="text-center"><%= to_amount(@pd["b2"].accrued_liability) %></td>
         <td class="text-center"><%= to_amount(@pd[:sum].accrued_liability) %></td>
+      </tr>
+      <tr>
+        <td colspan="2">その他調整額</td>
+        <% @finder.get_ym_range.each do |ym| %>
+          <td class="text-center"><%= to_amount(@pd[ym].misc_adjustment) %></td>
+        <% end %>
+        <td class="text-center"><%= to_amount(@pd["b1"].misc_adjustment) %></td>
+        <td class="text-center"><%= to_amount(@pd["b2"].misc_adjustment) %></td>
+        <td class="text-center"><%= to_amount(@pd[:sum].misc_adjustment) %></td>
       </tr>
       <tr>
         <td colspan="2">差引合計額</td>

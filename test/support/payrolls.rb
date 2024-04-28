@@ -20,7 +20,8 @@ module Payrolls
       inhabitant_tax: '8400',
       accrued_liability: attrs.fetch(:accrued_liability, 0),
       pay_day: '2009-03-06',
-      transfer_fee: 500
+      transfer_fee: 500,
+      misc_adjustment: 0
     }
   end
 

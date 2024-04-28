@@ -182,7 +182,7 @@ class Hr::PayrollsController < Base::HyaccController
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :extra_pay, :temporary_salary, :commuting_allowance, :housing_allowance, :qualification_allowance, :monthly_standard,
         :health_insurance, :welfare_pension, :income_tax, :employment_insurance,
-        :inhabitant_tax, :accrued_liability, :annual_adjustment, :pay_day, :transfer_fee)
+        :inhabitant_tax, :accrued_liability, :annual_adjustment, :misc_adjustment, :pay_day, :transfer_fee)
 
     case action_name
     when 'create'

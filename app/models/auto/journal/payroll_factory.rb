@@ -8,7 +8,6 @@ module Auto::Journal
       super( auto_journal_param )
       @payroll = auto_journal_param.payroll
       @user = auto_journal_param.user
-      @credit_amount = 0
     end
 
     def make_journals
@@ -24,7 +23,10 @@ module Auto::Journal
       employee = @payroll.employee
 
       journal = @payroll.build_payroll_journal
+      journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
       journal.company_id = employee.company_id
+      journal.create_user_id = @user.id
+      journal.update_user_id = @user.id
 
       # 給与日の設定
       journal.ym = @payroll.ym
@@ -35,9 +37,6 @@ module Auto::Journal
       else
         journal.remarks = "給与　#{employee.fullname}　#{@payroll.month}月分"
       end
-      journal.slip_type = SLIP_TYPE_AUTO_TRANSFER_PAYROLL
-      journal.create_user_id = @user.id
-      journal.update_user_id = @user.id
 
       # 明細の作成
       # ￥０の明細を作成しない
@@ -180,16 +179,7 @@ module Auto::Journal
       detail.note = "振り込み予定額"
       detail.amount = 0
       # 貸借の金額調整、振り込み予定額で調整する
-      debit = 0
-      credit = 0
-      journal.journal_details.each do |jd|
-        if jd.dc_type == DC_TYPE_DEBIT
-          debit += jd.amount.to_i
-        else
-          credit += jd.amount.to_i
-        end
-      end
-      # 振り込み予定額の設定
+      debit, credit = journal.calc_debit_and_credit_amount
       detail.amount = debit - credit
       @payroll.transfer_payment = debit - credit
 
@@ -267,23 +257,14 @@ module Auto::Journal
       detail.note = "口座引落し額"
       detail.amount = 0
       # 貸借の金額調整、振り込み予定額で調整する
-      debit = 0
-      credit = 0
-      journal.journal_details.each do |jd|
-        if jd.dc_type == DC_TYPE_DEBIT
-          debit += jd.amount.to_i
-        else
-          credit += jd.amount.to_i
-        end
-      end
-      @credit_amount = debit - credit
-      detail.amount = @credit_amount
+      debit, credit = journal.calc_debit_and_credit_amount
+      detail.amount = debit - credit
 
       journal
     end
 
     def commissions_required?
-      return @payroll.transfer_fee > 0
+      @payroll.transfer_fee > 0
     end
     
     def make_commission
@@ -358,15 +339,7 @@ module Auto::Journal
       detail.note = "口座引落し額"
       detail.amount = 0
       # 貸借の金額調整、振り込み予定額で調整する
-      debit = 0
-      credit = 0
-      journal.journal_details.each do |jd|
-        if jd.dc_type == DC_TYPE_DEBIT
-          debit += jd.amount.to_i
-        else
-          credit += jd.amount.to_i
-        end
-      end
+      debit, credit = journal.calc_debit_and_credit_amount
       detail.amount = debit - credit
 
       journal

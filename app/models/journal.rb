@@ -47,6 +47,20 @@ class Journal < ApplicationRecord
     }
   end
 
+  def calc_debit_and_credit_amount
+    debit = credit = 0
+
+    journal_details.each do |jd|
+      if jd.dc_type == DC_TYPE_DEBIT
+        debit += jd.amount.to_i
+      else
+        credit += jd.amount.to_i
+      end
+    end
+
+    return debit, credit
+  end
+
   def journal_detail(detail_no)
     journal_details.each do |detail|
       return detail if detail.detail_no.to_i == detail_no.to_i

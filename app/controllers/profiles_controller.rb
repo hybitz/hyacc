@@ -34,15 +34,15 @@ class ProfilesController < Base::HyaccController
   end
 
   def add_simple_slip_setting
-    sss = SimpleSlipSetting.new(:user_id => params[:id], :shortcut_key => 'Ctrl+')
-    render :partial => 'simple_slip_setting_fields', :locals => {:sss => sss, :index => params[:index]}
+    sss = SimpleSlipSetting.new(user_id: params[:id], shortcut_key: 'Ctrl+')
+    render partial: 'simple_slip_setting_fields', locals: {sss: sss, index: params[:index]}
   end
 
   private
 
   def check_current_user
     unless params[:id].to_i == current_user.id
-      redirect_to :action => 'edit', :id => current_user.id
+      redirect_to action: 'edit', id: current_user.id
       return false
     end
   end

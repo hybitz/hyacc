@@ -41,7 +41,7 @@ class Mm::AccountsController < Base::HyaccController
 
   def new
     parent = Account.find(params[:parent_id])
-    @account = Account.new(:parent_id => parent.id, :dc_type => parent.dc_type, :account_type => parent.account_type)
+    @account = Account.new(parent_id: parent.id, dc_type: parent.dc_type, account_type: parent.account_type)
   end
 
   def create

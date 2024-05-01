@@ -8,14 +8,14 @@
   end
 end
 
-もし /^従業員一覧から対象の従業員を選択して削除する$/ do
+もし /^従業員一覧から対象の従業員を選択して無効化する$/ do
   assert has_selector?('.employees')
 
   with_capture do
     within '.employees' do
       within all('tbody tr').find{|tr| tr.text.exclude?(current_user.employee.name) } do
         accept_alert do
-          click_on '削除'
+          click_on '無効'
         end
       end
     end

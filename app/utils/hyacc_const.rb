@@ -122,7 +122,7 @@ module HyaccConst
   }
 
   # 無効化区分
-  DISABLE_TYPES = {
+  DISABLED_TYPES = {
     ENABLED = false => '有効',
     DISABLED = true => '無効',
   }

@@ -3,10 +3,10 @@ class EmployeeFinder
   include Pagination
   include CompanyAware
 
-  attr_accessor :deleted
+  attr_accessor :disabled
 
-  def deleted_types
-    DELETED_TYPES.invert
+  def disabled_types
+    DISABLED_TYPES.invert
   end
 
   def list
@@ -18,7 +18,8 @@ class EmployeeFinder
   def conditions
     sql = SqlBuilder.new
     sql.append('company_id = ?', company_id)
-    sql.append('and deleted = ?', BooleanUtils.to_b(deleted)) if deleted.present?
+    sql.append('and disabled = ?', BooleanUtils.to_b(disabled)) if disabled.present?
+    sql.append('and deleted = ?', false)
     sql.to_a
   end
 

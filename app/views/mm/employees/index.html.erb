@@ -28,7 +28,7 @@
               <span>なし</span>
             <% end %>
           </td>
-          <td class="text-center"><%= e.deleted_name %></td>
+          <td class="text-center"><%= e.disabled_name %></td>
           <td class="text-center">
             <%= link_to '編集', edit_mm_employee_path(e), remote: true, class: 'btn btn-sm btn-light' %>
             <%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, method: 'delete', class: 'btn btn-sm btn-light' %>

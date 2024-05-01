@@ -93,11 +93,11 @@
       <% end %>
     <% end %>
     
-    <% if @finder.respond_to?(:disable_types) %>
+    <% if @finder.respond_to?(:disabled_types) %>
       <div class="col-auto">
         <div class="input-group">
           <div class="input-group-text">状態</div>
-          <%= select('finder', 'disabled', @finder.disable_types, {include_blank: true}, class: 'form-select') %>
+          <%= select('finder', 'disabled', @finder.disabled_types, {include_blank: true}, class: 'form-select') %>
         </div>
       </div>
     <% end %>

@@ -25,7 +25,7 @@
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_entry %>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_placement %>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_investment %>
-        <td class="text-center"><%= HyaccConst::DISABLE_TYPES[c.disabled] %></td>
+        <td class="text-center"><%= DISABLED_TYPES[c.disabled] %></td>
         <td class="text-center">
           <%= link_to '参照', mm_customer_path(c), remote: true, class: 'btn btn-light' %>
           <%= link_to '編集', edit_mm_customer_path(c), remote: true, class: 'btn btn-light' %>

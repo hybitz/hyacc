@@ -12,7 +12,7 @@
       <td><%= e.fullname %></td>
       <td><%= e.default_branch_name %></td>
       <td align="right"><%= e.years_of_career %>年</td>
-      <td><%= e.deleted_name %></td>
+      <td><%= e.disabled_name %></td>
       <td><a href="<%= url_for :action=>:show, :id=>e %>">参照</a></td>
     </tr>
   <% end %>

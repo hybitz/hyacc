@@ -6,8 +6,8 @@ class BankFinder
 
   attr_accessor :disabled
   
-  def disable_types
-    DISABLE_TYPES.invert
+  def disabled_types
+    DISABLED_TYPES.invert
   end
 
   def list

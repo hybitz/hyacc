@@ -48,8 +48,8 @@ class Employee < ApplicationRecord
     b ? b.name : nil
   end
 
-  def deleted_name
-    DELETED_TYPES[deleted]
+  def disabled_name
+    DISABLED_TYPES[deleted]
   end
 
   def fullname(separetor = ' ')

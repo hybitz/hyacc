@@ -27,7 +27,7 @@
         <td><%= bank.code %></td>
         <td><%= link_to bank.name, mm_bank_path(bank), remote: true %></td>
         <td class="text-center"><%= bank.enterprise_number %></td>
-        <td class="text-center"><%= DISABLE_TYPES[bank.disabled] %></td>
+        <td class="text-center"><%= DISABLED_TYPES[bank.disabled] %></td>
         <td class="text-center"><%= bank.lt_30k_same_office %></td>
         <td class="text-center"><%= bank.lt_30k_other_office %></td>
         <td class="text-center"><%= bank.lt_30k_other_bank %></td>

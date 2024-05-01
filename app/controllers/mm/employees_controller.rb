@@ -104,7 +104,7 @@ class Mm::EmployeesController < Base::HyaccController
   def finder
     @finder ||= EmployeeFinder.new(finder_params)
     @finder.company_id = current_company.id
-    @finder.deleted ||= 'false'
+    @finder.disabled ||= 'false'
     @finder.page = params[:page]
     @finder.per_page = current_user.slips_per_page
     @finder
@@ -113,7 +113,7 @@ class Mm::EmployeesController < Base::HyaccController
   def finder_params
     if params[:finder]
       params.require(:finder).permit(
-          :deleted
+          :disabled
         )
     end
   end

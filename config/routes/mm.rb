@@ -32,7 +32,10 @@ Rails.application.routes.draw do
 
     resources :employees do
       collection do
-        get 'add_branch'
+        post 'disable'
+      end
+      member do
+        post 'disable'
       end
     end
 

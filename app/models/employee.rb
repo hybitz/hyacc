@@ -49,7 +49,7 @@ class Employee < ApplicationRecord
   end
 
   def disabled_name
-    DISABLED_TYPES[deleted]
+    DISABLED_TYPES[disabled]
   end
 
   def fullname(separetor = ' ')

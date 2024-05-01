@@ -57,6 +57,24 @@ class Mm::EmployeesController < Base::HyaccController
     end
   end
 
+  def disable
+    @employee = Employee.find(params[:id])
+    @employee.disabled = true
+    
+    @employee.transaction do
+      @employee.save!
+    end
+
+    # 無効にしたユーザがログインユーザ自身の場合は、ログアウト
+    if current_user.employee.id == @employee.id
+      reset_session
+      redirect_to root_path
+    else
+      flash[:notice] = "#{@employee.name} を無効にしました。"
+      redirect_to action: :index
+    end
+  end
+
   def destroy
     @employee = Employee.find(params[:id])
     @employee.destroy_logically!
@@ -97,7 +115,12 @@ class Mm::EmployeesController < Base::HyaccController
     ]
 
     ret = params.require(:employee).permit(permitted)
-    ret = ret.merge(company_id: current_company.id)
+
+    case action_name
+    when 'create'
+      ret = ret.merge(company_id: current_company.id)
+    end
+
     ret
   end
 

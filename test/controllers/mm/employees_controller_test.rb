@@ -58,6 +58,13 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_template :edit
   end
 
+  def test_無効
+    sign_in admin
+    post :disable, params: {id: employee.id}
+    assert_response :redirect
+    assert_redirected_to action: 'index'
+  end
+
   def test_他の従業員を削除
     assert @employee = Employee.where('id <> ?', admin.employee.id).first
 

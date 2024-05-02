@@ -13,6 +13,7 @@ class PayrollTest < ActiveSupport::TestCase
 
   def test_その他調整額
     e = employee
+    assert_not e.executive?
     fy = e.company.fiscal_years.find_or_initialize_by(fiscal_year: 2024)
     fy.closing_status = CLOSING_STATUS_OPEN
     assert fy.save, fy.errors.full_messages
@@ -28,6 +29,9 @@ class PayrollTest < ActiveSupport::TestCase
       puts
       puts jd.attributes.sort.map(&:to_s)
     end
+    assert_equal 300_000, pd.get_debit_amount(ACCOUNT_CODE_SALARY)
+    assert_equal 50_000, pd.get_debit_amount(ACCOUNT_CODE_UNPAID_EMPLOYEE)
+    assert_equal 350_000, pd.get_credit_amount(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
   end
 
 end

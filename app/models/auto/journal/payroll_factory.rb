@@ -169,6 +169,20 @@ module Auto::Journal
         detail.amount = @payroll.annual_adjustment
         detail.note = "年末調整過払い分"
       end
+      ### その他調整分
+      if @payroll.misc_adjustment != 0
+        misc_adjustment_dc_type = @payroll.misc_adjustment > 0 ? DC_TYPE_DEBIT: DC_TYPE_CREDIT 
+        misc_adjustment_account_code = @payroll.misc_adjustment > 0 ? ACCOUNT_CODE_UNPAID_EMPLOYEE : ACCOUNT_CODE_TEMPORARY_PAYMENT_EMPLOYEE
+
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
+        detail.dc_type = misc_adjustment_dc_type
+        detail.account = Account.find_by_code(misc_adjustment_account_code)
+        detail.sub_account_id = @payroll.employee_id
+        detail.branch_id = branch_id
+        detail.amount = @payroll.misc_adjustment
+        detail.note = @payroll.misc_adjustment_note
+      end
       ### 振り込み予定額　※仮明細
       detail = journal.journal_details.build
       detail.detail_no = journal.journal_details.size

@@ -21,7 +21,8 @@ module Payrolls
       accrued_liability: attrs.fetch(:accrued_liability, 0),
       pay_day: '2009-03-06',
       transfer_fee: 500,
-      misc_adjustment: 0
+      misc_adjustment: 0,
+      misc_adjustment_note: ''
     }
   end
 

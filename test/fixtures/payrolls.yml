@@ -1,51 +1,15 @@
-payroll_00045:
-  id: 45
-  ym: 200812
-  pay_day: 2009-01-25
-  employee_id: 2
-  hours_of_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  hours_of_day_off_work: 0
-  days_of_work: 31
-  base_salary: 394000
-  health_insurance: 15580
-  create_user_id: 2
-  update_user_id: 2
-payroll_00046:
-  id: 46
-  ym: 200901
-  pay_day: 2009-02-25
-  employee_id: 2
-  hours_of_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  hours_of_day_off_work: 0
-  days_of_work: 31
-  create_user_id: 2
-  update_user_id: 2
-payroll_00065:
-  id: 65
-  ym: 200804
-  pay_day: 2008-05-25
-  hours_of_work: 240
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  employee_id: 1
-  hours_of_day_off_work: 0
-  days_of_work: 30
-  create_user_id: 2
-  update_user_id: 2
+<% require 'csv' %>
+<% CSV.foreach("test/data/#{File.basename(__FILE__).split('.').first}.csv", headers: true) do |row| %>
+<%= row['id'] %>:
+<% row.headers.each do |column| %>
+  <%= column %>: <%= row[column] %>
+<% end %>
+<% end %>
 payroll_00066: 
   id: 66
   ym: 200805
   pay_day: 2008-06-25
-  hours_of_work: 248
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  hours_of_day_off_work: 0
-  days_of_work: 31
   create_user_id: 1
   update_user_id: 1
 payroll_00067:
@@ -53,11 +17,6 @@ payroll_00067:
   ym: 200806
   pay_day: 2008-07-25
   employee_id: 1
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  hours_of_day_off_work: 0
   base_salary: 349000
   create_user_id: 1
   update_user_id: 1

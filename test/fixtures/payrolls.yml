@@ -25,11 +25,6 @@ payroll_00068:
   ym: 200807
   pay_day: 2008-08-25
   employee_id: 1
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  hours_of_day_off_work: 0
   base_salary: 394000
   create_user_id: 1
   update_user_id: 2
@@ -38,11 +33,6 @@ payroll_00069:
   ym: 200808
   pay_day: 2008-09-25
   employee_id: 1
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  hours_of_day_off_work: 0
   base_salary: 394000
   create_user_id: 1
   update_user_id: 1
@@ -51,11 +41,6 @@ payroll_00070:
   ym: 200809
   pay_day: 2008-10-25
   employee_id: 1
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  hours_of_day_off_work: 0
   base_salary: 394000
   create_user_id: 2
   update_user_id: 1
@@ -64,11 +49,6 @@ payroll_00071:
   ym: 200810
   pay_day: 2008-11-25
   employee_id: 1
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  hours_of_day_off_work: 0
   base_salary: 424000
   create_user_id: 2
   update_user_id: 2
@@ -77,12 +57,6 @@ payroll_00122:
   ym: 201112
   pay_day: 2012-01-25
   employee_id: 1
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00123:
@@ -90,75 +64,40 @@ payroll_00123:
   ym: 201112
   pay_day: 2012-01-25
   employee_id: 2
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00125: 
   id: 125
   ym: 201201
   pay_day: 2012-02-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00126: 
   id: 126
   ym: 201201
   pay_day: 2012-02-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00127: 
   id: 127
   ym: 201202
   pay_day: 2012-03-25
-  days_of_work: 29
-  hours_of_work: 232
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00128: 
   id: 128
   ym: 201202
   pay_day: 2012-03-25
-  days_of_work: 29
-  hours_of_work: 232
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00129: 
   id: 129
   ym: 201201
   pay_day: 2012-02-25
-  days_of_work: 0
-  hours_of_work: 0
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
   is_bonus: true
   create_user_id: 1
@@ -167,11 +106,6 @@ payroll_00130:
   id: 130
   ym: 201201
   pay_day: 2012-02-25
-  days_of_work: 0
-  hours_of_work: 0
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
   is_bonus: true
   create_user_id: 1
@@ -180,259 +114,139 @@ payroll_00131:
   id: 131
   ym: 201203
   pay_day: 2012-04-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00132: 
   id: 132
   ym: 201203
   pay_day: 2012-04-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00133: 
   id: 133
   ym: 201204
   pay_day: 2012-05-25
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00134: 
   id: 134
   ym: 201204
   pay_day: 2012-05-25
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00135: 
   id: 135
   ym: 201205
   pay_day: 2012-06-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00136: 
   id: 136
   ym: 201205
   pay_day: 2012-06-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00137: 
   id: 137
   ym: 201206
   pay_day: 2012-07-25
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00138: 
   id: 138
   ym: 201206
   pay_day: 2012-07-25
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00139: 
   id: 139
   ym: 201207
   pay_day: 2012-08-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00140: 
   id: 140
   ym: 201207
   pay_day: 2012-08-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00141: 
   id: 141
   ym: 201208
   pay_day: 2012-09-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00142: 
   id: 142
   ym: 201208
   pay_day: 2012-09-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00143: 
   id: 143
   ym: 201209
   pay_day: 2012-10-25
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00144: 
   id: 144
   ym: 201209
   pay_day: 2012-10-25
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00145: 
   id: 145
   ym: 201210
   pay_day: 2012-11-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00146: 
   id: 146
   ym: 201210
   pay_day: 2012-11-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00147: 
   id: 147
   ym: 201211
   pay_day: 2012-12-25
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00148: 
   id: 148
   ym: 201211
   pay_day: 2012-12-25
-  days_of_work: 30
-  hours_of_work: 240
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00150: 
   id: 150
   ym: 201212
   pay_day: 2013-01-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 1
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1
 payroll_00151: 
   id: 151
   ym: 201212
   pay_day: 2013-01-25
-  days_of_work: 31
-  hours_of_work: 248
-  hours_of_day_off_work: 0
-  hours_of_early_work: 0
-  hours_of_late_night_work: 0
   employee_id: 2
-  is_bonus: false
   create_user_id: 1
   update_user_id: 1

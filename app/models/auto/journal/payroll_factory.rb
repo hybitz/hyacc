@@ -172,7 +172,7 @@ module Auto::Journal
       ### その他調整分
       if @payroll.misc_adjustment != 0
         misc_adjustment_dc_type = @payroll.misc_adjustment > 0 ? DC_TYPE_DEBIT: DC_TYPE_CREDIT 
-        misc_adjustment_account_code = @payroll.misc_adjustment > 0 ? ACCOUNT_CODE_UNPAID_EMPLOYEE : ACCOUNT_CODE_TEMPORARY_PAYMENT_EMPLOYEE
+        misc_adjustment_account_code = @payroll.misc_adjustment > 0 ? ACCOUNT_CODE_SUSPENSE_RECEIPT_EMPLOYEE : ACCOUNT_CODE_TEMPORARY_PAYMENT_EMPLOYEE
 
         detail = journal.journal_details.build
         detail.detail_no = journal.journal_details.size

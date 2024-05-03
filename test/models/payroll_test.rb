@@ -30,7 +30,7 @@ class PayrollTest < ActiveSupport::TestCase
       puts jd.attributes.sort.map(&:to_s)
     end
     assert_equal 300_000, pd.get_debit_amount(ACCOUNT_CODE_SALARY)
-    assert_equal 50_000, pd.get_debit_amount(ACCOUNT_CODE_UNPAID_EMPLOYEE)
+    assert_equal 50_000, pd.get_debit_amount(ACCOUNT_CODE_SUSPENSE_RECEIPT_EMPLOYEE)
     assert_equal 350_000, pd.get_credit_amount(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
   end
 

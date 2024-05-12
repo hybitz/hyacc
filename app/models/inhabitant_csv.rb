@@ -48,8 +48,8 @@ class InhabitantCsv
       amounts = value[:amounts].split(",")
       ["06","07","08","09","10","11","12","01","02","03","04","05"].each_with_index do |mm, i|
         ym = i <= 6 ? (year + mm).to_i : (next_yaer + mm).to_i
-        it = InhabitantTax.where(:ym => ym, :employee_id => employee_id).first
-        it = InhabitantTax.new(:ym => ym, :employee_id => employee_id) if it.nil?
+        it = InhabitantTax.where(ym: ym, employee_id: employee_id).first
+        it ||= InhabitantTax.new(ym: ym, employee_id: employee_id)
         it.amount = amounts[i]
         it.save!
       end
@@ -57,7 +57,7 @@ class InhabitantCsv
   end
   
   def find_employee_id(current_company)
-    e = Employee.where(:last_name => kanji_last_name, :first_name => kanji_first_name, :company_id => current_company.id)
+    e = Employee.where(last_name: kanji_last_name, first_name: kanji_first_name, company_id: current_company.id, deleted: false)
     e.length == 1 ? e[0].id : nil
   end
 end

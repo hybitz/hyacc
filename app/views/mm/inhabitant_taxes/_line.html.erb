@@ -1,10 +1,10 @@
 <div id="data_<%= data.id %>">
   <div class="div_td_yyyy"><%= data.ym %></div>
   <div class="div_td_user"><%= data.employee.fullname %></div>
-  <div class="div_td_money"><%= to_amount(data.amount) %></div>
+  <div class="div_td_money"><%= to_amount(data.amount, show_zero: true) %></div>
   <div class="div_td_link">
-    <%= link_to '編集', edit_mm_inhabitant_tax_path(data), :remote => true %>
-    <%= link_to '削除', mm_inhabitant_tax_path(data), data: {confirm: '削除しますか?'}, :method => :delete %>
+    <%= link_to '編集', edit_mm_inhabitant_tax_path(data), remote: true %>
+    <%= link_to '削除', mm_inhabitant_tax_path(data), data: {confirm: '削除しますか?'}, method: :delete %>
   </div>
   <br clear="all" />
 </div>

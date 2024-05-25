@@ -286,7 +286,7 @@
       <tr>
         <td colspan="2">その他調整額</td>
         <% @finder.get_ym_range.each do |ym| %>
-          <td class="text-center"><%= to_amount(@pd[ym].misc_adjustment) %></td>
+          <td class="text-center" title="<%= @pd[ym].misc_adjustment_note %>"><%= to_amount(@pd[ym].misc_adjustment) %></td>
         <% end %>
         <td class="text-center"><%= to_amount(@pd["b1"].misc_adjustment) %></td>
         <td class="text-center"><%= to_amount(@pd["b2"].misc_adjustment) %></td>

@@ -100,6 +100,12 @@
         <% end %>
       </tr>
       <tr>
+        <th>その他調整額</th>
+        <td><%= f.text_field :misc_adjustment, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
+        <th>その他調整額の摘要</th>
+        <td><%= f.text_field :misc_adjustment_note, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
+      </tr>
+      <tr>
         <th>給与支払日</th>
         <td class="text-center align-middle"><%= f.text_field :pay_day, class: 'datepicker' %></td>
         <th>振込手数料</th>

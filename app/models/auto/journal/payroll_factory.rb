@@ -237,7 +237,7 @@ module Auto::Journal
         detail.note = salary_account.name
       end
       ### 未払金（従業員）の残高を部門別に精算
-      if @payroll.accrued_liability > 0
+      if @payroll.accrued_liability.to_i > 0
         account = VUnpaidEmployee.account
         total_amount = @payroll.accrued_liability
         VUnpaidEmployee.net_sums_by_branch(employee, order: 'amount').each do |branch_id, amount|

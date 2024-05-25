@@ -70,9 +70,9 @@ class Payroll < ApplicationRecord
   def after_deduction
     after_insurance_deduction - income_tax - inhabitant_tax
   end
-  
+
   def pay_total
-    after_deduction + annual_adjustment + accrued_liability
+    after_deduction + annual_adjustment + accrued_liability + misc_adjustment
   end
 
   def self.get_previous(ym, employee_id)

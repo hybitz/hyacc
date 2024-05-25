@@ -25,10 +25,6 @@ class PayrollTest < ActiveSupport::TestCase
     assert p.save, p.errors.full_messages
 
     assert pd = p.payroll_journal
-    pd.journal_details.each do |jd|
-      puts
-      puts jd.attributes.sort.map(&:to_s)
-    end
     assert_equal 300_000, pd.get_debit_amount(ACCOUNT_CODE_SALARY)
     assert_equal 50_000, pd.get_debit_amount(ACCOUNT_CODE_SUSPENSE_RECEIPT_EMPLOYEE)
     assert_equal 350_000, pd.get_credit_amount(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)

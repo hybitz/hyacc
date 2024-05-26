@@ -30,7 +30,7 @@
         <td align="center"><%= "#{asset.durable_years}年" if asset.durable_years.to_i > 0 %></td>
         <td class="amount"><%= to_amount(asset.amount) %></td>
         <td class="amount"><%= to_amount(asset.amount_at_start(@finder.fiscal_year)) %></td>
-        <td class="amount"><%= to_amount(asset.amount_at_end(@finder.fiscal_year), :show_zero => true) %></td>
+        <td class="amount"><%= to_amount(asset.amount_at_end(@finder.fiscal_year), show_zero: true) %></td>
         <td align="center"><%= asset.status_name %></td>
         <td>
           <%= link_to '参照', bs_asset_path(asset), remote: true, class: 'btn btn-light' %>

@@ -85,13 +85,21 @@ module VisitPage
     assert has_title?(Qualification.model_name.human)
   end
 
-  def visit_users
+  def visit_skills(employee: nil)
     assert current_user || sign_in(User.first)
 
     visit '/'
     click_on 'マスタメンテ'
-    click_on 'ユーザ'
-    assert has_title?('ユーザ')
+    click_on 'スキルシート'
+    assert has_title?('スキルシート')
+    
+    if employee
+      select employee.fullname, from: 'skill_finder[employee_id]'
+      click_on '表示'
+    end
+
+    assert has_selector?('#skill_container')
+    assert has_no_selector?('.notice')
   end
 
 end

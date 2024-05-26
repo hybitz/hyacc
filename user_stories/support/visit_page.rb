@@ -24,6 +24,7 @@ module VisitPage
     end
 
     assert has_selector?('#asset_container')
+    assert has_no_selector?('.notice')
   end
 
   def visit_branches

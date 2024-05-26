@@ -49,7 +49,7 @@
         <td></td>
         <td class="amountSum" <%= 'style="color: red;"' if @pre_sum_amount < 0 %>><%= to_amount(@pre_sum_amount, show_zero: true) %></td>
         <td class="text-center">
-          <%= link_to '△', {:action => 'index', :account_code => @finder.account_code, 'finder[offset]' => @finder.prev_offset, 'finder[keep_paging]' => true} if @finder.prev_offset %>
+          <%= link_to '△', {action: 'index', account_code: @finder.account_code, 'finder[offset]' => @finder.prev_offset, 'finder[keep_paging]' => true} if @finder.prev_offset %>
         </td>
       </tr>
     </thead>

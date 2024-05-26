@@ -6,10 +6,12 @@ module Depreciation::DepreciationUtil
   end
   
   # 減価償却仕訳の作成
-  def self.create_journals(depreciation, user)
+  def self.make_journals(depreciation, user)
     param = Auto::Journal::DepreciationParam.new(depreciation, user)
     factory = Auto::AutoJournalFactory.get_instance(param)
-    factory.make_journals
+    factory.make_journals.each do |jh|
+      JournalUtil.validate_journal(jh)
+    end
   end
 
   def self.get_strategy(depreciation_method)

@@ -41,8 +41,12 @@ class Asset < ApplicationRecord
     end
   end
 
+  def durable_years_required?
+    [DEPRECIATION_METHOD_FIXED_AMOUNT, DEPRECIATION_METHOD_FIXED_RATE].include?(depreciation_method)
+  end
+
   def depreciation_method_name
-    DEPRECIATION_METHODS[ depreciation_method ]
+    DEPRECIATION_METHODS[depreciation_method]
   end
   
   def has_depreciations?

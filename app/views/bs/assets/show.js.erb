@@ -1,0 +1,51 @@
+var options = {
+  title: '<%= title + '　参照' %>',
+  buttons: []
+};
+
+<% if @asset.status_created? %>
+options.buttons.push(
+  {
+    text: '償却待に設定',
+    class: 'btn btn-light',
+    click: function() {
+      <% if @asset.durable_years_required? && @asset.durable_years.to_i == 0 %>
+        alert('耐用年数を設定してください。');
+      <% else %>
+        hyacc.current_dialog().close();
+        $.post('<%= url_for change_status_bs_asset_path(@asset, status: ASSET_STATUS_WAITING, lock_version: @asset.lock_version, authenticity_token: form_authenticity_token) %>');
+      <% end %>
+    }
+  }
+)
+<% end %>
+
+<% if @asset.status_waiting? %>
+  options.buttons.push(
+    {
+      text: '償却待を解除',
+      class: 'btn btn-light',
+      click: function() {
+        hyacc.current_dialog().close();
+        $.post('<%= url_for change_status_bs_asset_path(@asset, status: ASSET_STATUS_CREATED, lock_version: @asset.lock_version, authenticity_token: form_authenticity_token) %>');
+      }
+    }
+  )
+<% end %>
+
+<% if @asset.status_waiting? or @asset.status_depreciating? %>
+  options.buttons.push(
+    {
+      text: '償却実行',
+      class: 'btn btn-light',
+      click: function() {
+        if (confirm('<%= "#{current_company.current_fiscal_year_int}年度分を償却します。よろしいですか？" %>')) {
+          hyacc.current_dialog().close();
+          $.post('<%= url_for change_status_bs_asset_path(@asset, status: ASSET_STATUS_DEPRECIATING, lock_version: @asset.lock_version, authenticity_token: form_authenticity_token) %>');
+        }
+      }
+    }
+  )
+<% end %>
+
+hyacc.current_dialog(options).show('<%=j render 'show' %>');

@@ -11,22 +11,40 @@ class Bs::AssetsController < Base::HyaccController
   def show
     @asset = Asset.find(params[:id])
   end
-  
+
   def edit
     @asset = Asset.find(params[:id])
   end
-  
+
   def update
     @asset = Asset.find(params[:id])
     @asset.attributes = asset_params
+
+    begin
+      @asset.transaction do
+        @asset.save!
+      end
+
+      flash[:notice] = "資産 #{@asset.name} を更新しました。"
+      render 'common/reload'
+    rescue => e
+      handle(e)
+      render 'edit'
+    end
+  end
+
+  def change_status
+    @asset = Asset.find(params[:id])
+    @asset.lock_version = params[:lock_version]
     
-    if params[:commit] == '償却待に設定'
-      raise HyaccException.new(ERR_INVALID_ACTION) unless @asset.status_created?
-      @asset.status = ASSET_STATUS_WAITING
-    elsif params[:commit] == '償却待を解除'
+    case params[:status].to_i
+    when ASSET_STATUS_CREATED
       raise HyaccException.new(ERR_INVALID_ACTION) unless @asset.status_waiting?
       @asset.status = ASSET_STATUS_CREATED
-    elsif params[:commit] == '償却実行'
+    when ASSET_STATUS_WAITING
+      raise HyaccException.new(ERR_INVALID_ACTION) unless @asset.status_created?
+      @asset.status = ASSET_STATUS_WAITING
+    when ASSET_STATUS_DEPRECIATING
       raise HyaccException.new(ERR_INVALID_ACTION) unless @asset.status_waiting? or @asset.status_depreciating?
       @asset.status = ASSET_STATUS_DEPRECIATING
     end
@@ -39,7 +57,9 @@ class Bs::AssetsController < Base::HyaccController
           Depreciation::DepreciationUtil.create_depreciations(@asset)
         elsif @asset.status_depreciating?
           d = @asset.depreciations.find{|d| d.fiscal_year == current_company.current_fiscal_year_int }
-          Depreciation::DepreciationUtil.create_journals(d, current_user)
+          raise HyaccException.new(ERR_RECORD_NOT_FOUND) unless d
+
+          Depreciation::DepreciationUtil.make_journals(d, current_user)
           d.depreciated = true
           @asset.status = ASSET_STATUS_DEPRECIATED unless @asset.depreciations.find{|d| ! d.depreciated? }
         end
@@ -47,12 +67,11 @@ class Bs::AssetsController < Base::HyaccController
         @asset.save!
       end
 
-      flash[:notice] = '資産を更新しました。'
+      flash[:notice] = "資産 #{@asset.name} を更新しました。"
       render 'common/reload'
-
     rescue => e
       handle(e)
-      @asset.status = @asset.status_was
+      @asset.status = @asset.status_before_last_save
       render 'edit'
     end
   end

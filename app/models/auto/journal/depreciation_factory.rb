@@ -10,6 +10,8 @@ module Auto::Journal
     end
 
     def make_journals
+      ret = []
+
       asset = @depreciation.asset
       c = asset.branch.company
       
@@ -55,7 +57,12 @@ module Auto::Journal
         jd.branch_id = asset.branch_id
         jd.tax_type = TAX_TYPE_NONTAXABLE
         jd.amount = amount
+
+        ret << jh
       end
+
+      ret
     end
+
   end
 end

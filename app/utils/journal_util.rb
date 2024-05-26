@@ -233,7 +233,7 @@ module JournalUtil
     closing_status = jh.fiscal_year.closing_status
 
     if HyaccLogger.debug?
-      HyaccLogger.debug "登録時締め状態チェック：　新規伝票＝＞#{CLOSING_STATUS[closing_status]} #{jh.ym}/#{jh.day}:#{jh.remarks}"
+      HyaccLogger.debug "登録時締め状態チェック: 新規伝票 => #{CLOSING_STATUS[closing_status]} #{jh.ym}/#{jh.day}:#{jh.remarks}"
     end
 
     # 仮締め

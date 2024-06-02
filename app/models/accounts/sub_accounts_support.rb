@@ -20,7 +20,7 @@ module Accounts::SubAccountsSupport
       end
     when SUB_ACCOUNT_TYPE_EMPLOYEE
       Employee.all.each do |e|
-        @sub_accounts_cache << e unless e.deleted?
+        @sub_accounts_cache << e unless e.deleted? or e.disabled?
         @sub_accounts_all_cache << e
       end
     when SUB_ACCOUNT_TYPE_CUSTOMER

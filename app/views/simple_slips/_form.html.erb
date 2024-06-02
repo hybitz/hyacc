@@ -4,8 +4,8 @@
     <%= f.hidden_field :lock_version %>
     <%= f.text_field :ym, maxlength: 6, class: 'yearMonthText' %>
   </td>
-  <td><%= f.text_field :day, :maxlength => 2, :class => 'dayText' %></td>
-  <td><%= render 'form_remarks', :f => f %></td>
+  <td><%= f.text_field :day, maxlength: 2, class: 'dayText' %></td>
+  <td><%= render 'form_remarks', f: f %></td>
   <td>
     <%= collection_select_code_and_name(:simple_slip, :account_id, @accounts, :id, :name,
           {

@@ -1,7 +1,7 @@
 class SimpleSlipsController < Base::HyaccController
   before_action :preload_account
   before_action :check_sub_accounts
-  view_attribute :finder, :class => Slips::SlipFinder, :include_params => :account_code
+  view_attribute :finder, class: Slips::SlipFinder, include_params: :account_code
 
   # 勘定科目ごとの詳細入力部分を取得する
   def get_account_details
@@ -9,7 +9,7 @@ class SimpleSlipsController < Base::HyaccController
 
     renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
     if renderer
-      render :partial => renderer.get_template(controller_name)
+      render partial: renderer.get_template(controller_name)
     else
       head :ok
     end

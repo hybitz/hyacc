@@ -12,6 +12,7 @@ $ sudo yum install git
 $ git clone [https://github.com/ichylinux/daddy.git または git@github.com:ichylinux/daddy.git]
 $ pushd daddy
 $ bin/dad local
+$ bin/dad mysql
 $ popd
 ```
 ## Hyaccのインストール

@@ -2,6 +2,10 @@ require 'test_helper'
 
 class Mm::ExemptionsControllerTest < ActionController::TestCase
 
+  setup do
+    @employee_id = 6
+  end
+  
   def test_初期表示
     sign_in admin
     get :index
@@ -15,7 +19,20 @@ class Mm::ExemptionsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :new
   end
+  
+  def test_追加_employee_id
+    sign_in admin
+    get :new, :params => {:exemption => { employee_id: @employee_id }}, :xhr => true
 
+    assert_response :success
+
+    d = assigns(:d)
+    assert_not_nil d
+    assert_equal 35, d.id
+    assert_equal 2012, d.yyyy
+    assert_equal @employee_id, d.employee_id
+  end
+  
   def test_登録
     sign_in admin
     post :create, :params => {:exemption => valid_exemption_params}, :xhr => true

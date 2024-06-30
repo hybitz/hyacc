@@ -1,0 +1,17 @@
+one:
+  exemption_id: 35
+  exemption_type: 3
+  name: "営業　次郎"
+  kana: "ジロウ　エイギョウ"
+  my_number: "123456789012"
+  live_in: true
+two:
+  id: 2
+  exemption_id: 35
+  exemption_type: 1
+  name: "営業 太郎"
+  kana: "タロウ エイギョウ"
+  my_number: "987654321098"
+  live_in: true
+
+

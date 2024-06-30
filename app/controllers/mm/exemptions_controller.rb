@@ -12,6 +12,9 @@ class Mm::ExemptionsController < Base::HyaccController
     # new_record? = true にするためdup
     @c = @d.dup
     @c.yyyy = Date.today.year
+    @d.dependent_family_members.each do |dfm|
+      @c.dependent_family_members.build(dfm.attributes.except("id", "created_at", "updated_at", "exemption_id"))
+    end
   end
 
   def create

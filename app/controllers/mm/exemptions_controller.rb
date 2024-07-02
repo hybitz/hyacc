@@ -8,6 +8,8 @@ class Mm::ExemptionsController < Base::HyaccController
   def new
     # 直近のデータを初期表示
     employee_id = params[:exemption][:employee_id]
+    employee_id = current_user.employee.id if employee_id.blank?
+    
     @d = Exemption.where(employee_id: employee_id).order(yyyy: 'desc').order(employee_id: 'asc').first
     # new_record? = true にするためdup
     @c = @d.dup

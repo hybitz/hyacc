@@ -10,4 +10,5 @@ RUN sudo chown -R ${USER}:${USER} ./ && \
 
 ADD package.json yarn.lock ./
 RUN sudo chown -R ${USER}:${USER} ./ && \
-    yarn install
+    yarn install && \
+    yarn cache clean

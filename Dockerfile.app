@@ -1,4 +1,6 @@
-FROM hyacc/base:latest
+ARG build_number
+ARG registry
+FROM ${registry}/hyacc/base:${build_number}
 
 EXPOSE 3000
 

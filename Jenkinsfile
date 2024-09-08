@@ -25,6 +25,9 @@ spec:
   - name: hyacc
     image: ${ECR}/hyacc/test:${BUILD_NUMBER}
     imagePullPolicy: Always
+    resources:
+      requests:
+        memory: 2000Mi
     command:
     - cat
     tty: true
@@ -57,7 +60,6 @@ done
         }
         container('hyacc') {
           ansiColor('xterm') {
-            sh 'bundle exec rake dad:setup:test'
             sh "bundle exec rails db:reset"
             sh "bundle exec rails test"
             sh 'bundle exec rake dad:test'

@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  # don't load app when building docker image
+  unless ARGV.first =~ /^dad:setup(:.+)?/
+    devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  end
+
   mount Nostalgic::Engine => '/nostalgic', :as => 'nostalgic'
   mount TaxJp::Engine, at: '/tax_jp', as: 'tax_jp'
 

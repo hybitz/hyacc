@@ -1,10 +1,11 @@
 pipeline {
-  agent { kubernetes { inheritFrom 'default' } }
+  agent none
   environment {
     KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
   }
   stages {
     stage('build') {
+      agent { kubernetes { inheritFrom 'default' } }
       steps {
         container('kaniko') {
           ansiColor('xterm') {
@@ -72,10 +73,11 @@ done
       }
     }
     stage('release') {
+      agent { kubernetes { inheritFrom 'default' } }
       environment {
         RELEASE_TAG = "v1.0.0-${BUILD_NUMBER}"
       }
-      parallel {
+      stages {
         stage('tagging') {
           steps {
             container('jnlp') {

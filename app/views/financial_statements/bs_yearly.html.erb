@@ -36,7 +36,7 @@
       </tr>
     
       <%# 資産の部 %>
-      <%= render 'line_bs_yearly', :account=>@sum[ACCOUNT_CODE_ASSETS][:account] %>
+      <%= render 'line_bs_yearly', :account=>@sum[HyaccConst::ACCOUNT_CODE_ASSETS][:account] %>
     </table>
   </div>
   <div style="float: left; margin-left: 10px;">
@@ -49,10 +49,10 @@
       </tr>
     
       <%# 負債の部 %>
-      <%= render 'line_bs_yearly', :account=>@sum[ACCOUNT_CODE_DEBT][:account] %>
+      <%= render 'line_bs_yearly', :account=>@sum[HyaccConst::ACCOUNT_CODE_DEBT][:account] %>
       
       <%# 純資産の部 %>
-      <%= render 'line_bs_yearly', :account=>@sum[ACCOUNT_CODE_CAPITAL][:account] %>
+      <%= render 'line_bs_yearly', :account=>@sum[HyaccConst::ACCOUNT_CODE_CAPITAL][:account] %>
       
       <%# 負債および純資産合計 %>
       <tr id="credit_sum" style="font-weight: bold;">

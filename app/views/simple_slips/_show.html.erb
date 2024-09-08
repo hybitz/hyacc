@@ -64,7 +64,7 @@
     </tr>
     <tr class="cashRow">
       <td align="center" style="border-right-style: none;">
-        <%= f.check_box :auto_journal_type, {include_hidden: false, disabled: true}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>
+        <%= f.check_box :auto_journal_type, {include_hidden: false, disabled: true}, HyaccConst::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>
       </td>
       <td style="border-left-style: none;">&nbsp;前月</td>
       <td align="right"><b>合計</b></td>
@@ -77,7 +77,7 @@
     </tr>
     <tr class="cashRow">
       <td align="center" style="border-right-style: none;">
-        <%= f.check_box :auto_journal_type, {include_hidden: false, disabled: true}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
+        <%= f.check_box :auto_journal_type, {include_hidden: false, disabled: true}, HyaccConst::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
       </td>
       <td nowrap style="border-left-style: none;">
         &nbsp;<%= @simple_slip.auto_journal_year || '----' %> 年

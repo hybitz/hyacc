@@ -1,15 +1,15 @@
 pipeline {
   agent { kubernetes { inheritFrom 'default' } }
   environment {
-    KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR} --build-arg build_number=${BUILD_NUMBER}"
+    KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
   }
   stages {
     stage('build') {
       steps {
         container('kaniko') {
           ansiColor('xterm') {
-            sh '/kaniko/executor -f `pwd`/Dockerfile.base -c `pwd` -d=${ECR}/hyacc/base:${BUILD_NUMBER} ${KANIKO_OPTIONS}'
-            sh '/kaniko/executor -f `pwd`/Dockerfile.test -c `pwd` -d=${ECR}/hyacc/test:${BUILD_NUMBER} ${KANIKO_OPTIONS}'
+            sh '/kaniko/executor -f `pwd`/Dockerfile.base -c `pwd` -d=${ECR}/hyacc/base:latest ${KANIKO_OPTIONS}'
+            sh '/kaniko/executor -f `pwd`/Dockerfile.test -c `pwd` -d=${ECR}/hyacc/test:latest ${KANIKO_OPTIONS}'
           }
         }
       }
@@ -23,7 +23,7 @@ kind: Pod
 spec:
   containers:
   - name: hyacc
-    image: ${ECR}/hyacc/test:${BUILD_NUMBER}
+    image: ${ECR}/hyacc/test:latest
     imagePullPolicy: Always
     resources:
       requests:

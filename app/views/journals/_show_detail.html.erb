@@ -17,8 +17,8 @@
 <tr style="<%= style_for_detail(jd) %>">
   <td rowspan="3" align="center">計上日<br/>振替</td>
   <td colspan="2">
-    <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
-           <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />
+    <input type="checkbox" value="<%= HyaccConst::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
+           <%= jd.auto_journal_type == HyaccConst::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />
     翌月の費用
   </td>
 
@@ -32,8 +32,8 @@
 </tr>
 <tr style="<%= style_for_detail(jd) %>">
   <td colspan="2">
-    <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
-           <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %> />
+    <input type="checkbox" value="<%= HyaccConst::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>"
+           <%= jd.auto_journal_type == HyaccConst::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE ? 'checked' : '' %> />
     前月の費用
   </td>
   <td rowspan="2" colspan="3">
@@ -45,8 +45,8 @@
 </tr>
 <tr style="<%= style_for_detail(jd) %>">
   <td colspan="2" nowrap>
-    <input type="checkbox" value="<%= AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
-           <%= jd.auto_journal_type == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
+    <input type="checkbox" value="<%= HyaccConst::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>"
+           <%= jd.auto_journal_type == HyaccConst::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE ? 'checked' : '' %> />
     <%= jd.auto_journal_year || '----' %> 年
     <%= jd.auto_journal_month || '--' %> 月
     <%= jd.auto_journal_day || '--' %> 日の費用

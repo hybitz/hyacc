@@ -27,7 +27,7 @@ spec:
     imagePullPolicy: Always
     resources:
       requests:
-        memory: 2000Mi
+        memory: 1500Mi
     command:
     - cat
     tty: true

@@ -1,8 +1,8 @@
-<% Account.where.not(code: [ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD]).where(trade_type: TRADE_TYPE_EXTERNAL).order(:code).each do |a| %>
+<% Account.where.not(code: [HyaccConst::ACCOUNT_CODE_EARNED_SURPLUS_CARRIED_FORWARD]).where(trade_type: HyaccConst::TRADE_TYPE_EXTERNAL).order(:code).each do |a| %>
   <%
     sql = SqlBuilder.new
     sql.append('journals.ym in (?)', @fiscal_year.year_month_range)
-    sql.append('and journals.slip_type in(?)', EXTERNAL_SLIP_TYPES.keys)
+    sql.append('and journals.slip_type in(?)', HyaccConst::EXTERNAL_SLIP_TYPES.keys)
     sql.append('and exists (')
     sql.append('  select 1 from journal_details')
     sql.append('  where journal_details.journal_id = journals.id')

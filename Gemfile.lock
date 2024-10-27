@@ -187,7 +187,7 @@ GEM
     encryptor (3.0.0)
     erubi (1.13.0)
     excon (1.0.0)
-    execjs (2.9.1)
+    execjs (2.10.0)
     faraday (2.8.1)
       base64
       faraday-net_http (>= 2.0, < 3.1)
@@ -247,11 +247,11 @@ GEM
       itamae-plugin-resource-pip (~> 1.1)
     itamae-plugin-recipe-passenger (0.1.7)
       itamae (~> 1.10, >= 1.10.4)
-    itamae-plugin-recipe-selenium (0.4.7)
+    itamae-plugin-recipe-selenium (0.4.8)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)
-    jbuilder (2.12.0)
+    jbuilder (2.13.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
     jquery-rails (4.5.1)
@@ -260,7 +260,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.7.2)
+    json (2.7.4)
     jwt (2.8.2)
       base64
     libyajl2 (2.1.0)
@@ -269,7 +269,7 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
     logger (1.6.1)
-    loofah (2.22.0)
+    loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.7.1)
@@ -284,11 +284,11 @@ GEM
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
-    mini_magick (4.12.0)
+    mini_magick (4.13.2)
     mini_mime (1.1.5)
     mini_portile2 (2.8.7)
     minitest (5.25.1)
-    minitest-reporters (1.6.1)
+    minitest-reporters (1.7.1)
       ansi
       builder
       minitest (>= 5.0)
@@ -469,7 +469,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    specinfra (2.90.1)
+    specinfra (2.91.0)
       base64
       net-scp
       net-ssh (>= 2.7)

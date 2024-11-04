@@ -179,14 +179,14 @@ GEM
       devise (>= 4.9.0)
     diff-lcs (1.5.1)
     docile (1.4.1)
-    docker-api (2.3.0)
+    docker-api (2.4.0)
       excon (>= 0.64.0)
       multi_json
     email_validator (1.5.0)
       activemodel
     encryptor (3.0.0)
     erubi (1.13.0)
-    excon (1.0.0)
+    excon (1.1.1)
     execjs (2.10.0)
     faraday (2.8.1)
       base64
@@ -260,8 +260,8 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
-    json (2.7.4)
-    jwt (2.8.2)
+    json (2.7.5)
+    jwt (2.9.3)
       base64
     libyajl2 (2.1.0)
     listen (3.1.5)
@@ -298,7 +298,7 @@ GEM
       tomlrb
     mixlib-log (3.1.1)
       ffi (< 1.17.0)
-    mixlib-shellout (3.2.8)
+    mixlib-shellout (3.3.3)
       chef-utils
     moment-timezone-rails (1.1.0)
       momentjs-rails (>= 2.10.5, <= 3.0.0)
@@ -329,9 +329,9 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
-    ohai (18.1.18)
-      chef-config (>= 14.12, < 19)
-      chef-utils (>= 16.0, < 19)
+    ohai (19.0.3)
+      chef-config (>= 14.12, < 20)
+      chef-utils (>= 16.0, < 20)
       ffi (~> 1.9)
       ffi-yajl (~> 2.2)
       ipaddress

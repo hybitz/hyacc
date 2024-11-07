@@ -37,7 +37,7 @@
 <tr>
   <td rowspan="3" valign="middle" align="center">計上日<br>振替</td>
   <td class="text-center" style="border-right-style: none;">
-    <%= f.check_box :auto_journal_type, {include_hidden: false}, AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>
+    <%= f.check_box :auto_journal_type, {include_hidden: false}, HyaccConst::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>
   </td>
   <td style="border-left-style: none;">&nbsp;翌月</td>
   <td rowspan="2" colspan="2">
@@ -60,7 +60,7 @@
 </tr>
 <tr>
   <td class="text-center" style="border-right-style: none;">
-    <%= f.check_box :auto_journal_type, {include_hidden: false}, AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>
+    <%= f.check_box :auto_journal_type, {include_hidden: false}, HyaccConst::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>
   </td>
   <td style="border-left-style: none;">&nbsp;前月</td>
   <td align="right"><b>合計</b></td>
@@ -73,7 +73,7 @@
 </tr>
 <tr>
   <td class="text-center" style="border-right-style: none;">
-    <%= f.check_box :auto_journal_type, {include_hidden: false}, AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
+    <%= f.check_box :auto_journal_type, {include_hidden: false}, HyaccConst::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
   </td>
   <td nowrap style="border-left-style: none;">
       &nbsp;<%= f.text_field :auto_journal_year, maxlength: 4, class: 'year' %> 年

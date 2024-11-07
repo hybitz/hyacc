@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.18.1'
+lock '3.19.1'
 
 set :application, 'hyacc'
 set :repo_url, `git config --get remote.origin.url`.chomp

@@ -1,4 +1,5 @@
-FROM hybitz-centos:latest
+ARG registry
+FROM ${registry}/hybitz-centos:7.9.2009-16
 
 RUN sudo yum -y install sqlite-devel
 
@@ -9,4 +10,5 @@ RUN sudo chown -R ${USER}:${USER} ./ && \
 
 ADD package.json yarn.lock ./
 RUN sudo chown -R ${USER}:${USER} ./ && \
-    yarn install
+    yarn install && \
+    yarn cache clean

@@ -1,8 +1,25 @@
 <script>
   $(document).ready(function() {
     hyacc.init_datepicker();
+    // 初期表示の確認
+    toggleFixedTaxDeduction();
+  
+    // 年が変更されたときに表示を切り替える
+    $('#exemption_yyyy').change(function() {
+      toggleFixedTaxDeduction();
+    });
   });
   
+  function toggleFixedTaxDeduction() {
+    var year = $('#exemption_yyyy').val();
+    if (year == '2025') {
+      $('#fixed-tax-deduction-row').show();
+    } else {
+      $('#fixed-tax-deduction-row').hide();
+      $('#exemption_fixed_tax_deduction_amount').val('');  // 定額減税の値をリセット
+    }
+  }
+
   function add_dependent_family_member(trigger) {
     var table = $(trigger).closest('table');
     var params = {
@@ -69,6 +86,12 @@
     <tr>
       <th colspan="2">住宅借入金等年末残高（1回目）</th><td><%= f.text_field :year_end_balance_1, class: 'amount' %></td>
       <th colspan="2">住宅借入金等年末残高（2回目）</th><td><%= f.text_field :year_end_balance_2, class: 'amount' %></td>
+    </tr>
+    <tr id="fixed-tax-deduction-row" style="display: none;">
+      <th colspan="2">定額減税額</th>
+        <td><%= f.text_field :fixed_tax_deduction_amount, class: 'amount' %></td>
+        <th colspan="2"></th>
+        <td></td>
     </tr>
     <tr>
       <th colspan="2">前職の支払金額</th><td><%= f.text_field :previous_salary, class: 'amount' %></td>

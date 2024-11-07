@@ -94,7 +94,7 @@ class Mm::ExemptionsController < Base::HyaccController
       :num_of_house_loan, :max_mortgage_deduction, :date_of_start_living_1,
       :mortgage_deduction_code_1, :year_end_balance_1, :date_of_start_living_2,
       :mortgage_deduction_code_2, :year_end_balance_2,
-      :previous_salary, :previous_withholding_tax, :previous_social_insurance, :remarks,
+      :previous_salary, :previous_withholding_tax, :previous_social_insurance, :remarks, :fixed_tax_deduction_amount,
       :dependent_family_members_attributes => [:id, :exemption_type, :name, :kana, :my_number, :live_in, :_destroy]
     ]
 

@@ -51,7 +51,7 @@ gem 'wkhtmltopdf-binary'
 gem 'will_paginate'
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug'
   gem 'cucumber', '~> 3.2'
   gem 'puma', '~> 5.6'
 end

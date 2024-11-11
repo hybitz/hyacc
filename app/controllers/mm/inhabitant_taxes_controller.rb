@@ -2,9 +2,10 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
   helper_method :finder
 
   def index
-    if params[:commit]
-      @list = finder.list
-    end
+    # if params[:commit]
+    #   @list = finder.list
+    # end
+    @list = finder.list if params[:commit] || params[:action] == "index"
   end
 
   def confirm
@@ -21,7 +22,14 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
     InhabitantCsv.create_csv(params)
     redirect_to action: 'index', finder: {year: finder.year}
   end
-  
+
+  def destroy
+    InhabitantTax.find(params[:id]).destroy
+
+    # 削除後、indexにリダイレクトしてリスト表示
+    redirect_to action: 'index', finder: { year: finder.year }
+  end
+
   private
 
   def finder

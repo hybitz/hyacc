@@ -52,7 +52,7 @@ gem 'will_paginate'
 
 group :development, :test do
   gem 'byebug'
-  gem 'cucumber', '~> 4.0'
+  gem 'cucumber', '~> 5.0'
   gem 'puma', '~> 5.6'
 end
 
@@ -67,7 +67,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 2.15', '< 4.0'
+  gem 'capybara'
   gem 'ci_reporter', require: false
   gem 'closer', require: false
   gem 'cucumber-rails', require: false

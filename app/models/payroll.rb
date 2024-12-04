@@ -71,6 +71,7 @@ class Payroll < ApplicationRecord
     after_insurance_deduction - income_tax - inhabitant_tax
   end
 
+  # 差引合計額
   def pay_total
     after_deduction + annual_adjustment + accrued_liability + misc_adjustment
   end

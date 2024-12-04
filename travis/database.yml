@@ -1,6 +1,0 @@
-test:
-  adapter: mysql2
-  database: hyacc_test
-  username: travis
-  encoding: utf8
-

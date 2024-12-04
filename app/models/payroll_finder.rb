@@ -45,6 +45,7 @@ class PayrollFinder < Base::Finder
       sum.inhabitant_tax += p.inhabitant_tax
       sum.annual_adjustment += p.annual_adjustment
       sum.accrued_liability += p.accrued_liability
+      sum.misc_adjustment += p.misc_adjustment
     end
     ret[:sum] = sum
 

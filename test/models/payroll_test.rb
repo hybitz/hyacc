@@ -30,4 +30,9 @@ class PayrollTest < ActiveSupport::TestCase
     assert_equal 350_000, pd.get_credit_amount(ACCOUNT_CODE_ACCRUED_EXPENSE_EMPLOYEE)
   end
 
+  def test_差引合計額
+    p = Payroll.new(ym: 202404, pay_day: '2024-05-07', base_salary: 300_000, misc_adjustment: 100_000)
+    assert_equal 400_000, p.pay_total
+  end
+
 end

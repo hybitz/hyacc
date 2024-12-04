@@ -39,6 +39,6 @@ $ bundle exec rake dad:test
 ```
 ### 起動
 ```
-$ sudo systemctl restart nginx
+$ bin/rails s
 ```
-ブラウザから http://localhost にアクセスして動作を確認します。
+ブラウザから http://localhost:3000 にアクセスして動作を確認します。

@@ -3,10 +3,17 @@ require 'test_helper'
 class Mm::BanksControllerTest < ActionController::TestCase
 
   def test_一覧
+    @deleted = Bank.where(company_id: admin.employee.company_id).first
+    @deleted.update_columns(deleted: true)
+
     sign_in admin
     get :index, params: {commit: '表示'}
     assert_response :success
-    assert_not_nil assigns(:banks)
+    assert_template 'index'
+
+    @banks = assigns(:banks)
+    assert_not_empty @banks
+    assert_not_includes @banks, @deleted, '削除された金融機関が含まれていないこと'
   end
 
   def test_追加

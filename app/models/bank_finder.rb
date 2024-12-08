@@ -11,18 +11,10 @@ class BankFinder
   end
 
   def list
-    if conditions.first.present?
-      Bank.where(conditions).order('code').paginate(page: page, per_page: per_page || DEFAULT_PER_PAGE)
-    else
-      Bank.order('code').paginate(page: page, per_page: per_page || DEFAULT_PER_PAGE)
-    end
+    ret = Bank.where(company_id: company_id, deleted: false)
+    ret = ret.where(disabled: BooleanUtils.to_b(disabled)) if disabled.present?
+    ret = ret.order('code')
+    ret = ret.paginate(page: page, per_page: per_page || DEFAULT_PER_PAGE)
   end
 
-  private
-
-  def conditions
-    sql = SqlBuilder.new
-    sql.append('disabled = ?', BooleanUtils.to_b(disabled)) if disabled.present?
-    sql.to_a
-  end
 end

@@ -70,7 +70,7 @@ class Mm::BanksController < Base::HyaccController
 
   def add_bank_office
     @bank_office = BankOffice.new
-    render :partial => 'bank_office_fields', :locals => {:bank_office => @bank_office, :index => params[:index]}
+    render :partial => 'bank_office_fields', locals: {bank_office: @bank_office, index: params[:index]}
   end  
 
   private

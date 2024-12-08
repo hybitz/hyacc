@@ -4,7 +4,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in admin
-    get :index, :params => {:commit => '表示'}
+    get :index, params: {commit: '表示'}
     assert_response :success
     assert_not_nil assigns(:banks)
   end
@@ -20,7 +20,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_difference('Bank.count') do
-      post :create, :params => {:bank => valid_bank_params}, :xhr => true
+      post :create, params: {bank: valid_bank_params}, xhr: true
       assert_response :success
       assert_template 'common/reload'
     end
@@ -30,7 +30,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_no_difference('Bank.count') do
-      post :create, :params => {:bank => invalid_bank_params}, :xhr => true
+      post :create, params: {bank: invalid_bank_params}, xhr: true
       assert_response :success
       assert_template 'new'
     end
@@ -38,13 +38,13 @@ class Mm::BanksControllerTest < ActionController::TestCase
 
   def test_参照
     sign_in admin
-    get :show, :params => {:id => banks(:data1).id}, :xhr => true
+    get :show, params: {id: banks(:data1).id}, xhr: true
     assert_response :success
   end
 
   def test_編集
     sign_in admin
-    get :edit, :params => {:id => bank.id}, :xhr => true
+    get :edit, params: {id: bank.id}, xhr: true
     assert_response :success
     assert_template :edit
   end
@@ -67,7 +67,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_no_difference 'Bank.count' do
-      delete :destroy, :params => {:id => banks(:data1).id}
+      delete :destroy, params: {id: banks(:data1).id}
       assert_response :redirect
       assert_redirected_to :action => 'index'
     end
@@ -75,7 +75,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
 
   def test_営業店舗追加
     sign_in admin
-    get :add_bank_office, :xhr => true
+    get :add_bank_office, xhr: true
     assert_response :success
     assert_template 'banks/_bank_office_fields'
   end

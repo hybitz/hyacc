@@ -53,7 +53,7 @@ gem 'will_paginate'
 group :development, :test do
   gem 'byebug'
   gem 'cucumber', '~> 5.0'
-  gem 'puma', '~> 5.6'
+  gem 'puma'
 end
 
 group :development do

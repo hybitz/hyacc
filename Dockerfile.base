@@ -3,9 +3,9 @@ FROM ${registry}/hybitz-centos:7.9.2009-16
 
 RUN sudo yum -y install sqlite-devel
 
-ADD Gemfile Gemfile.lock Rakefile ./
+ADD Gemfile Gemfile.lock ./
 RUN sudo chown -R ${USER}:${USER} ./ && \
-    bundle config --local without development:test && \
+    bundle config without development:test && \
     bundle install -j2
 
 ADD package.json yarn.lock ./

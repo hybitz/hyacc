@@ -12,7 +12,7 @@
     
     <% if @account.has_customers or @account.has_order_entry or @account.has_order_placement %>
     <div>
-      <%= link_to '取引先管理へ', customers_path %>
+      <%= link_to '取引先管理へ', mm_customers_path %>
     </div>
     <% end %>
     

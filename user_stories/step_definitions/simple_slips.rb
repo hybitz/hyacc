@@ -1,3 +1,18 @@
+もし /^ショートカットキーからアクセスした科目の補助科目が必須の場合でまだ補助科目が存在しない場合は補助科目の管理画面へ誘導$/ do
+  click_on '3.売掛金'
+  assert_text '受注先が登録されていません。'
+  assert has_link?("取引先管理へ", href: /#{mm_customers_path}*/)
+end
+
+もし /^サブメニューからアクセスした科目の補助科目が必須でまだ補助科目が存在しない場合は補助科目の管理画面へ誘導$/ do
+  click_on 'マスタメンテ'
+  within ".subMenu" do
+    click_on '地代家賃'
+  end
+  assert_text '地代家賃の設定には取引先の登録が必要です。'
+  assert has_link?("取引先管理へ", href: mm_customers_path)
+end
+
 もし /^資本金の仕訳を登録$/ do |ast_table|
   assert row = normalize_table(ast_table).last
   assert_equal row[1], row[3]

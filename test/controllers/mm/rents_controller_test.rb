@@ -5,11 +5,20 @@ class Mm::RentsControllerTest < ActionController::TestCase
   def setup
     sign_in admin
   end
-  
-  def test_should_get_index
+
+  def test_一覧
     get :index
     assert_response :success
+    assert_template 'index'
     assert_not_nil assigns(:rents)
+  end
+
+  def test_一覧_取引先マスタが未登録
+    Customer.delete_all
+
+    get :index
+    assert_response :success
+    assert_template 'check_customer_exists'
   end
 
   def test_should_get_new

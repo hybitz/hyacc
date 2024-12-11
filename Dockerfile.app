@@ -2,13 +2,17 @@ ARG registry
 FROM ${registry}/hyacc/base:latest
 
 EXPOSE 3000
-ENV RAILS_ENV=production
+
+ARG rails_env=production
+ENV RAILS_ENV=${rails_env}
 
 ADD Rakefile ./
 ADD config ./config
-RUN sudo chown -R ${USER}:${USER} ./
-RUN bundle exec rake dad:setup:app
+RUN sudo chown -R ${USER}:${USER} ./ && \
+    bundle exec rake dad:setup:app
 
 ADD . ./
-RUN sudo chown -R ${USER}:${USER} ./
-RUN bundle exec rake assets:precompile
+RUN sudo chown -R ${USER}:${USER} ./ && \
+    yarn install && \
+    yarn cache clean && \
+    bundle exec rake assets:precompile

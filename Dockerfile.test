@@ -10,5 +10,5 @@ RUN sudo chown -R ${USER}:${USER} ./ && \
 
 ADD Rakefile ./
 ADD config ./config
-RUN sudo chown -R ${USER}:${USER} ./
-RUN bundle exec rake dad:setup:test
+RUN sudo chown -R ${USER}:${USER} ./ && \
+    bundle exec rake dad:setup:test

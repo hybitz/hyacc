@@ -6,7 +6,7 @@
   <div>
     <% if @account.has_bank_accounts %>
     <div>
-      <%= link_to '金融口座管理へ', bank_accounts_path %>
+      <%= link_to '金融口座管理へ', mm_bank_accounts_path %>
     </div>
     <% end %>
     
@@ -24,7 +24,7 @@
     
     <% if @account.has_rents %>
     <div>
-      <%= link_to '地代家賃管理へ', rents_path %>
+      <%= link_to '地代家賃管理へ', mm_rents_path %>
     </div>
     <% end %>
   </div>

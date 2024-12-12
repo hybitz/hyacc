@@ -33,4 +33,11 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
     end
     assert_equal '有価証券情報を追加しました。', flash[:notice]
   end
+
+  def test_not_related
+    JournalDetail.first.update(account_id: Account.find_by(code: ACCOUNT_CODE_TRADING_SECURITIES).id)
+    get :not_related
+    assert_response :success
+  end
+
 end

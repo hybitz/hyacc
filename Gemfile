@@ -8,7 +8,7 @@ gem 'rails', '~> 6.0.0'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 5.1.3'
 gem 'carrierwave', '< 3.0.0'
 gem 'carrierwave-i18n'
@@ -38,7 +38,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'rails-i18n'
 gem 'remotipart'
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '>= 6'
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'turbolinks', '~> 5'

@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module Hyacc
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults '6.0'
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -25,5 +25,5 @@ module Hyacc
     config.action_controller.action_on_unpermitted_parameters = :raise
 
     config.paths['config/routes.rb'] = Dir[Rails.root.join('config/routes/*.rb')] + config.paths['config/routes.rb']
-end
+  end
 end

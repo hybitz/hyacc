@@ -35,7 +35,7 @@ class Mm::CareersController < Base::HyaccController
 
     begin
       @c.transaction do
-        @c.update_attributes!(career_params)
+        @c.update!(career_params)
       end
 
       flash[:notice] = '業務経歴を更新しました。'

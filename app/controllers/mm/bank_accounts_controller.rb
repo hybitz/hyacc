@@ -36,7 +36,7 @@ class Mm::BankAccountsController < Base::HyaccController
 
     begin
       @bank_account.transaction do
-        @bank_account.update_attributes!(bank_account_params)
+        @bank_account.update!(bank_account_params)
       end
       
       flash[:notice] = '金融口座を更新しました。'

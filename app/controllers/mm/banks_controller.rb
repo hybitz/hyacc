@@ -39,7 +39,7 @@ class Mm::BanksController < Base::HyaccController
 
     begin
       @bank.transaction do
-        @bank.update_attributes!(bank_params)
+        @bank.update!(bank_params)
       end
 
       flash[:notice] = '金融機関を更新しました。'

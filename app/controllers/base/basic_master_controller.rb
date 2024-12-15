@@ -68,14 +68,14 @@ module Base
       @data = model_class.find(params[:id])
 
       respond_to do |format|
-        if @data.update_attributes(eval(param_name))
-          format.html { render :partial=>'line', :locals => {:data => @data} }
+        if @data.update(eval(param_name))
+          format.html { render partial: 'line', locals: {data: @data} }
           format.xml  { head :ok }
           format.js   { render :show }
         else
-          format.html { render :partial => "form" }
-          format.xml  { render :xml => @data.errors, :status => :unprocessable_entity }
-          format.js   { render :js => "alert('#{@data.errors.full_messages.join('\n')}');" }
+          format.html { render partial: "form" }
+          format.xml  { render xml: @data.errors, :status => :unprocessable_entity }
+          format.js   { render js: "alert('#{@data.errors.full_messages.join('\n')}');" }
         end
       end
     end

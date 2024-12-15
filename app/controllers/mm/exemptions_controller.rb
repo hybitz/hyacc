@@ -44,7 +44,7 @@ class Mm::ExemptionsController < Base::HyaccController
 
     begin
       @c.transaction do
-        @c.update_attributes!(exempiton_params)
+        @c.update!(exempiton_params)
       end
 
       flash[:notice] = '所得税控除情報を更新しました。'

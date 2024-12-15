@@ -20,10 +20,10 @@ class Mm::AccountsController < Base::HyaccController
     Account.transaction do
       if position == 'inside'
         Account.where('parent_id = ?', target.id).update_all('display_order = display_order + 1')
-        moved.update_attributes(:display_order => 0, :parent_id => target.id)
+        moved.update!(:display_order => 0, :parent_id => target.id)
       elsif position == 'after'
         Account.where('parent_id = ? and display_order > ?', target.parent_id, target.display_order).update_all('display_order = display_order + 1')
-        moved.update_attributes(:display_order => target.display_order + 1, :parent_id => target.parent_id)
+        moved.update!(:display_order => target.display_order + 1, :parent_id => target.parent_id)
       end
     end
 
@@ -72,7 +72,7 @@ class Mm::AccountsController < Base::HyaccController
     begin
       @account.transaction do
         sub_account_type_old = @account.sub_account_type
-        @account.update_attributes!(account_params)
+        @account.update!(account_params)
         check_sub_account_type_editable(@account, sub_account_type_old)
         update_sub_accounts
       end
@@ -99,7 +99,7 @@ class Mm::AccountsController < Base::HyaccController
       raise HyaccException.new(ERR_ACCOUNT_ALREADY_USED) and return
     end
 
-    @account.update_attributes(deleted: true)
+    @account.update!(deleted: true)
     render 'common/reload'
   end
 

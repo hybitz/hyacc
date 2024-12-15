@@ -45,7 +45,7 @@ class Mm::RentsController < Base::HyaccController
 
     begin
       Rent.transaction do
-        @rent.update_attributes!(rent_params)
+        @rent.update!(rent_params)
       end
 
       flash[:notice] = '地代家賃を更新しました。'

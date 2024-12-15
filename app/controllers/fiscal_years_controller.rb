@@ -33,7 +33,7 @@ class FiscalYearsController < Base::HyaccController
 
     begin
       @fiscal_year.transaction do
-        @fiscal_year.update_attributes!(fiscal_year_params)
+        @fiscal_year.update!(fiscal_year_params)
       end
       
       flash[:notice] = '会計年度を更新しました。'
@@ -54,7 +54,7 @@ class FiscalYearsController < Base::HyaccController
 
     begin
       @c.transaction do
-        @c.update_attributes!(update_current_fiscal_year_params)
+        @c.update!(update_current_fiscal_year_params)
       end
       
       flash[:notice] = '会計年度を変更しました。'

@@ -41,7 +41,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
 
     begin
       @simple_slip_template.transaction do
-        @simple_slip_template.update_attributes!(simple_slip_template_params)
+        @simple_slip_template.update!(simple_slip_template_params)
       end
 
       flash[:notice] = 'テンプレートを更新しました。'

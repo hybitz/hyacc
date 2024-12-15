@@ -41,7 +41,7 @@ class Mm::UsersController < Base::HyaccController
     @user = User.find(params[:id])
     begin
       @user.transaction do
-        @user.update_attributes!(user_params)
+        @user.update!(user_params)
       
         flash[:notice] = 'ユーザを更新しました。'
         render 'common/reload'

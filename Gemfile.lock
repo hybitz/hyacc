@@ -168,10 +168,14 @@ GEM
       cucumber-messages (~> 13.0, >= 13.0.1)
     cucumber-messages (13.2.1)
       protobuf-cucumber (~> 3.10, >= 3.10.8)
-    cucumber-rails (3.1.0)
-      capybara (>= 3.11, < 4)
-      cucumber (>= 5, < 10)
-      railties (>= 5.2, < 9)
+    cucumber-rails (2.6.1)
+      capybara (>= 2.18, < 4)
+      cucumber (>= 3.2, < 9)
+      mime-types (~> 3.3)
+      nokogiri (~> 1.10)
+      railties (>= 5.0, < 8)
+      rexml (~> 3.0)
+      webrick (~> 1.7)
     cucumber-tag-expressions (2.0.4)
     cucumber-wire (4.0.1)
       cucumber-core (~> 8.0, >= 8.0.1)
@@ -286,10 +290,9 @@ GEM
     jwt (2.9.3)
       base64
     libyajl2 (2.1.0)
-    listen (3.1.5)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
+    listen (3.9.0)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.6.3)
     loofah (2.23.1)
       crass (~> 1.0.2)
@@ -456,19 +459,9 @@ GEM
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
-    ruby_dep (1.5.0)
     rubyzip (2.3.2)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-    sass-rails (5.1.0)
-      railties (>= 5.2.0)
-      sass (~> 3.1)
-      sprockets (>= 2.8, < 4.0)
-      sprockets-rails (>= 2.0, < 4.0)
-      tilt (>= 1.1, < 3)
+    sass-rails (6.0.0)
+      sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -504,10 +497,9 @@ GEM
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
       spring (>= 1.2, < 3.0)
-    sprockets (3.7.5)
-      base64
+    sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
-      rack (> 1, < 3)
+      rack (>= 2.2.4, < 4)
     sprockets-rails (3.4.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
@@ -565,6 +557,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webrick (1.9.1)
     websocket (1.2.11)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
@@ -584,12 +577,12 @@ PLATFORMS
 DEPENDENCIES
   activerecord-session_store
   acts_as_tree
-  bootsnap (>= 1.1.0)
+  bootsnap (>= 1.4.2)
   bootstrap (~> 5.1.3)
   byebug
   capistrano-passenger
   capistrano-rails
-  capybara
+  capybara (>= 2.15)
   carrierwave (< 3.0.0)
   carrierwave-i18n
   ci_reporter
@@ -608,10 +601,10 @@ DEPENDENCIES
   fullcalendar-rails
   holiday_jp
   i18n-js (< 4.0.0)
-  jbuilder (~> 2.5)
+  jbuilder (~> 2.7)
   jquery-rails (~> 4.5.1)
   jquery-ui-rails
-  listen (>= 3.0.5, < 3.2)
+  listen (~> 3.2)
   mail (~> 2.7.1)
   mimemagic
   mini_magick (~> 4.8)
@@ -630,7 +623,7 @@ DEPENDENCIES
   rails-erd
   rails-i18n
   remotipart
-  sass-rails (~> 5.0)
+  sass-rails (>= 6)
   selenium-webdriver
   simplecov
   simplecov-rcov

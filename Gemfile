@@ -8,7 +8,7 @@ gem 'rails', '~> 6.0.0'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
-gem 'bootsnap', '>= 1.4.2', require: false
+gem 'bootsnap', '>= 1.1.0', require: false
 gem 'bootstrap', '~> 5.1.3'
 gem 'carrierwave', '< 3.0.0'
 gem 'carrierwave-i18n'
@@ -23,7 +23,7 @@ gem 'fog-aws'
 gem 'fullcalendar-rails'
 gem 'holiday_jp'
 gem 'i18n-js', '< 4.0.0'
-gem 'jbuilder', '~> 2.7'
+gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails', '~> 4.5.1'
 gem 'jquery-ui-rails'
 gem 'mail', '~> 2.7.1'
@@ -38,7 +38,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'rails-i18n'
 gem 'remotipart'
-gem 'sass-rails', '>= 6'
+gem 'sass-rails', '~> 5.0'
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'turbolinks', '~> 5'
@@ -57,7 +57,7 @@ end
 group :development do
   gem 'capistrano-passenger'
   gem 'capistrano-rails'
-  gem 'listen', '~> 3.2'
+  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rails-erd'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
@@ -65,7 +65,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '>= 2.15'
+  gem 'capybara'
   gem 'ci_reporter', require: false
   gem 'closer', require: false
   gem 'cucumber-rails', require: false

@@ -3,17 +3,17 @@ module Banks
     @_bank ||= Bank.first
   end
 
-  def valid_bank_params
+  def bank_params
     {
-      :code => '1234',
-      :name => 'テスト銀行'
+      code: '1234',
+      name: 'テスト銀行'
     }
   end
 
   def invalid_bank_params
     {
-      :code => '1234',
-      :name => ''
+      code: '1234',
+      name: ''
     }
   end
 

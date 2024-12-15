@@ -27,7 +27,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_difference('Bank.count') do
-      post :create, params: {bank: valid_bank_params}, xhr: true
+      post :create, params: {bank: bank_params}, xhr: true
       assert_response :success
       assert_template 'common/reload'
     end
@@ -58,7 +58,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, params: {id: bank.id, bank: valid_bank_params.except(:code)}, xhr: true
+    patch :update, params: {id: bank.id, bank: bank_params.except(:code)}, xhr: true
     assert_response :success
     assert_template 'common/reload'
   end

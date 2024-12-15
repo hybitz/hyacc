@@ -23,7 +23,7 @@
       <tr>
         <td>
           <% if @bank.new_record? %>
-            <%= f.text_field :code %>
+            <%= f.text_field :code, class: 'text-center', style: 'width: 6em;' %>
           <% else %>
             <%= @bank.code %>
           <% end %>
@@ -38,11 +38,11 @@
           ge_30k_other_office
           ge_30k_other_bank
         }.each do |colomn| %>
-          <td class="text-center"><%= f.text_field colomn, class: 'text-center', style: 'width: 50%;' %></td>
+          <td class="text-center"><%= f.text_field colomn, class: 'text-center', style: 'width: 5em;' %></td>
         <% end %>
       </tr>
     </tbody>
   </table>
 
-  <%= render 'bank_offices_fields', :bank_offices => @bank.bank_offices %>
+  <%= render 'bank_offices_fields', bank_offices: @bank.bank_offices %>
 <% end %>

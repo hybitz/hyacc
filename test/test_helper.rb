@@ -47,14 +47,14 @@ end
 class ActionDispatch::IntegrationTest
 
   def sign_in(user)
-    post user_session_path, :params => {:user => {:login_id => user.login_id, :password => 'testtest'}}
+    post user_session_path, params: {user: {login_id: user.login_id, password: 'testtest'}}
     assert_response :redirect
     assert_redirected_to root_path
 
     if user.use_two_factor_authentication?
       get root_path
       assert_redirected_to user_two_factor_authentication_path
-      patch user_two_factor_authentication_path, :params => {:code => controller.current_user.direct_otp}
+      patch user_two_factor_authentication_path, params: {code: controller.current_user.direct_otp}
     end
 
     assert_redirected_to root_path

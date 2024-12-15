@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   has_one_time_password
 
-  validates :login_id, presence: true, uniqueness: true
+  validates :login_id, presence: true, uniqueness: {case_sensitive: false}
   validates_format_of :login_id, :with=>/\A[a-zA-Z0-9._]+\z/
   validates_format_of :password, :with=>/\A[!-~]*\z/
   validates_format_of :email, allow_nil: true, allow_blank: true, with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/
@@ -26,6 +26,11 @@ class User < ApplicationRecord
     else
       nil
     end
+  end
+
+  # for two_factor_authentication.gem
+  def update_attributes(attributes)
+    update(attributes)
   end
 
   def has_google_account

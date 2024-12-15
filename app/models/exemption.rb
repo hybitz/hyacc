@@ -4,7 +4,7 @@ class Exemption < ApplicationRecord
   has_many :family_members, -> { where exemption_type: EXEMPTION_TYPE_FAMILY }, class_name: "DependentFamilyMember"
   has_many :under16_family_members, -> { where exemption_type: EXEMPTION_TYPE_UNDER_16 }, class_name: "DependentFamilyMember"
   belongs_to :employee
-  validates :employee_id, uniqueness: {scope: [:yyyy]}
+  validates :employee_id, uniqueness: {scope: [:yyyy], case_sensitive: false}
         
 
   accepts_nested_attributes_for :dependent_family_members, :allow_destroy => true

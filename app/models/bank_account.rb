@@ -3,7 +3,7 @@ class BankAccount < ApplicationRecord
   belongs_to :bank_office, optional: true
 
   validates :code, :presence => true
-  validates :name, :presence => true, :uniqueness => true
+  validates :name, :presence => true, uniqueness: {case_sensitive: false}
   validates :holder_name, :presence => true
 
   def bank_name

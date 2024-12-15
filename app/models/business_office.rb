@@ -3,7 +3,7 @@ class BusinessOffice < ApplicationRecord
   belongs_to :responsible_person, nostalgic: true, class_name: 'Employee', optional: true
 
   nostalgic_attr :name
-  validates :name, presence: true, uniqueness: {scope: :company_id}
+  validates :name, presence: true, uniqueness: {scope: :company_id, case_sensitive: false}
 
   validates :prefecture_code, presence: true
 

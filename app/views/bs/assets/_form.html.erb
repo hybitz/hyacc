@@ -55,11 +55,22 @@
         }
       }
 
+      function updateDepreciationLimit(depreciationMethod, oldLimitValue){
+        var depreciationLimit = $('#asset_depreciation_limit');
+        if (depreciationMethod == DEPRECIATION_METHOD_LUMP && oldLimitValue == 1) { 
+          depreciationLimit.val(0);
+        } else {
+          depreciationLimit.val(oldLimitValue);
+        }
+      }
+
       $(document).ready(function() {
         var depreciationMethod = $('#asset_depreciation_method');
+        var oldLimitValue = $('#asset_depreciation_limit').val();
         updateDurableYears(depreciationMethod.val());
         depreciationMethod.change(function(){
           updateDurableYears($(this).val());
+          updateDepreciationLimit($(this).val(), oldLimitValue);
         });
       });
     </script>

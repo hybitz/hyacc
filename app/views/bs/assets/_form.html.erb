@@ -37,9 +37,9 @@
           <%= @asset.depreciation_method_name %>
         <% end %>
       </td>
-      <td><%= f.text_field :durable_years, :maxlength => 2, :class => 'durableYearsText', :disabled => !@asset.status_created? %></td>
-      <td><%= f.text_field :depreciation_limit, :class => 'amountText', :disabled => !@asset.status_created? %></td>
-      <td colspan="3"><%= f.text_field :remarks, :size => 60, :maxlength => 250, :class => 'remarksText' %></td>
+      <td><%= f.text_field :durable_years, maxlength: 2, class: 'durableYearsText', disabled: !@asset.status_created? %></td>
+      <td><%= f.text_field :depreciation_limit, class: 'amountText', disabled: !@asset.status_created? %></td>
+      <td colspan="3"><%= f.text_field :remarks, size: 60, maxlength: 250, class: 'remarksText' %></td>
     </tr>
   </table>
 

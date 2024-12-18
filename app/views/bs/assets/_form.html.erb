@@ -32,7 +32,7 @@
       <td><%= @asset.date %></td>
       <td>
         <% if @asset.status_created? %>
-          <%= f.select :depreciation_method, depreciation_methods, :class => 'depreciationMethodSelect' %>
+          <%= f.select :depreciation_method, depreciation_methods, class: 'depreciationMethodSelect' %>
         <% else %>
           <%= @asset.depreciation_method_name %>
         <% end %>

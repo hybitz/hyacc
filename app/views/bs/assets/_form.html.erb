@@ -63,7 +63,7 @@
         if (depreciationMethod == DEPRECIATION_METHOD_LUMP && limitArray.at(-1) == 1) {
           $('#asset_depreciation_limit').val(0);
           limitArray.push(0);
-        } else if (limitArray.length >= 2 && methodArray.length >= 2 && methodArray.at(-2) == DEPRECIATION_METHOD_LUMP && limitArray.at(-1) == 0 && limitArray.at(-2) == 1) {
+        } else if (limitArray.length >= 2 && methodArray.at(-2) == DEPRECIATION_METHOD_LUMP && limitArray.at(-1) == 0 && limitArray.at(-2) == 1) {
           $('#asset_depreciation_limit').val(1);
           limitArray.push(1);
         } else {

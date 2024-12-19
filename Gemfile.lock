@@ -177,7 +177,7 @@ GEM
       cucumber-core (~> 8.0, >= 8.0.1)
       cucumber-cucumber-expressions (~> 10.3, >= 10.3.0)
       cucumber-messages (~> 13.0, >= 13.0.1)
-    daddy (0.9.10)
+    daddy (0.9.11)
       docker-api
       highline
       i18n
@@ -282,7 +282,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (7.0.0)
       railties (>= 3.2.16)
-    json (2.9.0)
+    json (2.9.1)
     jwt (2.8.2)
       base64
     libyajl2 (2.1.0)

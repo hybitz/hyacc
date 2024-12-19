@@ -12,7 +12,6 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bootstrap', '~> 5.1.3'
 gem 'carrierwave', '< 3.0.0'
 gem 'carrierwave-i18n'
-gem 'coffee-rails', '~> 4.2'
 gem 'daddy'
 gem 'dalli'
 gem 'devise'

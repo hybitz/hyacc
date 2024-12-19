@@ -129,7 +129,7 @@ GEM
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
-    closer (0.13.1)
+    closer (0.13.2)
       capybara (>= 3.0)
       cucumber (>= 4.0, < 9.0)
       selenium-webdriver (>= 4.8, <= 5.0)
@@ -440,7 +440,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.9)
+    rexml (3.4.0)
     rotp (6.3.0)
     ruby-graphviz (1.2.5)
       rexml

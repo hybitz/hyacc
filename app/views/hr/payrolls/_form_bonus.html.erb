@@ -30,7 +30,7 @@
 <br>
 
 <div class="payroll_form">
-  <%= form_with model: [:hr, @payroll] do |f| %>
+  <%= form_with model: [:hr, @payroll], data: {remote: true} do |f| %>
     <%= f.hidden_field :employee_id %>
     <%= f.hidden_field :is_bonus %>
 

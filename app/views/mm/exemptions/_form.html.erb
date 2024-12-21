@@ -35,7 +35,7 @@
 
 <%= flash_notice %>
 
-<%= form_with model: [:mm, @c] do |f| %>
+<%= form_with model: [:mm, @c], data: {remote: true} do |f| %>
   <table class="table table-sm">
     <tr>
       <th colspan="2">暦年</th><td><%= f.select :yyyy, calendar_years %></td>

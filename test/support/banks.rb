@@ -5,14 +5,14 @@ module Banks
 
   def bank_params
     {
-      code: '1234',
+      code: '1111',
       name: 'テスト銀行'
     }
   end
 
   def invalid_bank_params
     {
-      code: '1234',
+      code: '2222',
       name: ''
     }
   end

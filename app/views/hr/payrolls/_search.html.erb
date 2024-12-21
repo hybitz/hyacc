@@ -17,7 +17,7 @@
     });
   </script>
 
-  <%= form_with(scope: 'finder', url: {action: 'index'}, local: true, method: 'get', class: 'row') do |f| %>
+  <%= form_with scope: 'finder', url: {action: 'index'}, method: 'get', class: 'row' do |f| %>
     <div class="col-auto">
       <div class="input-group">
         <div class="input-group-text">年度</div>

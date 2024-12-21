@@ -12,7 +12,7 @@
   <table style="margin:5px;">
     <tr>
       <th><%= f.label :bank_id %></th>
-      <td><%= f.collection_select :bank_id, current_company.banks, :id, :name, {}, :href => bank_offices_path %></td>
+      <td><%= f.collection_select :bank_id, current_company.banks, :id, :name, {}, href: bank_offices_path %></td>
     </tr>
     <tr>
       <th><%= f.label :bank_office_id %></th>
@@ -30,7 +30,7 @@
     </tr>
     <tr>
       <th><%= f.label :code %></th>
-      <td><%= f.text_field :code, :maxlength => 10, :size => 8 %></td>
+      <td><%= f.text_field :code, maxlength: 10, size: 8 %></td>
     </tr>
     <tr>
       <th><%= f.label :name %></th>

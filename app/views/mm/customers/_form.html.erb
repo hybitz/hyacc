@@ -1,4 +1,4 @@
-<%= form_with model: [:mm, @customer], html: {class: 'customer'} do |f| %>
+<%= form_with model: [:mm, @customer], html: {class: 'customer'}, data: {remote: true} do |f| %>
   <%= flash_notice %>
   <table class="table table-sm">
     <% if @customer.new_record? %>

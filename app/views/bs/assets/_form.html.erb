@@ -1,4 +1,4 @@
-<%= form_with model: [:bs, @asset] do |f| %>
+<%= form_with model: [:bs, @asset], data: {remote: true} do |f| %>
   <%= flash_notice %>
 
   <table>

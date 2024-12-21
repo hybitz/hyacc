@@ -3,7 +3,7 @@
     hyacc.init_datepicker();
   });
 </script>
-<%= form_with model: [:mm, @skill] do |f| %>
+<%= form_with model: [:mm, @skill], data: {remote: true} do |f| %>
   <%= flash_notice %>
   <% if @skill.new_record? %>
     <%= f.hidden_field :employee_id %>

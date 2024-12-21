@@ -1,4 +1,4 @@
-<%= form_with model: [:mm, @bank_account], class: 'new_bank_account' do |f| %>
+<%= form_with model: [:mm, @bank_account], class: 'new_bank_account', data: {remote: true} do |f| %>
   <%= flash_notice %>
 
   <script>

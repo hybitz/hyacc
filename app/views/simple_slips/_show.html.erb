@@ -18,7 +18,7 @@
   <% end %>
 </div>
 
-<%= form_with model: @simple_slip, id: 'show_simple_slip' do |f| %>
+<%= form_with model: @simple_slip, id: 'show_simple_slip', data: {remote: true} do |f| %>
   <table class="slipTable">
     <tr>
       <th class="yearMonth">年　月</th>

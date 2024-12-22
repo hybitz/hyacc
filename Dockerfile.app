@@ -6,6 +6,9 @@ EXPOSE 3000
 ARG rails_env=production
 ENV RAILS_ENV=${rails_env}
 
+RUN mkdir -p app/assets/config
+ADD app/assets/config/manifest.js app/assets/config/
+
 ADD Rakefile ./
 ADD config ./config
 RUN sudo chown -R ${USER}:${USER} ./ && \

@@ -48,7 +48,7 @@ spec:
       }
       environment {
         COVERAGE = 'true'
-        DISABLE_SPRING_WATCHER_LISTEN = 'true'
+        DISABLE_SPRING = 'true'
         FORMAT = 'junit'
         RAILS_ENV = 'test'
       }

@@ -48,6 +48,7 @@ spec:
       }
       environment {
         COVERAGE = 'true'
+        DISABLE_SPRING_WATCHER_LISTEN = 'true'
         FORMAT = 'junit'
         RAILS_ENV = 'test'
       }
@@ -61,8 +62,8 @@ done
         }
         container('hyacc') {
           ansiColor('xterm') {
-            sh "rails db:reset"
-            sh "rails test"
+            sh "bundle exec rails db:reset"
+            sh "bundle exec rails test"
             sh 'bundle exec rake dad:test'
             sh 'bundle exec rake dad:test user_stories'
           }

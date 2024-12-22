@@ -61,8 +61,8 @@ done
         }
         container('hyacc') {
           ansiColor('xterm') {
-            sh "bundle exec rails db:reset"
-            sh "bundle exec rails test"
+            sh "rails db:reset"
+            sh "rails test"
             sh 'bundle exec rake dad:test'
             sh 'bundle exec rake dad:test user_stories'
           }

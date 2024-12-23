@@ -25,7 +25,7 @@ def test() {
     sh 'bundle exec rails log:clear'
     sh 'bundle exec rails tmp:cache:clear'
     sh 'bundle exec rake dad:setup:test'
-    sh 'bundle exec rails db:schema:load'
+    sh 'bundle exec rails db:reset'
     sh 'rm -Rf coverage'
     sh 'bundle exec rails test'
     sh 'bundle exec rake dad:test'

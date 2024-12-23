@@ -9,7 +9,7 @@ module Validators
       codes = []
       record.sub_accounts_all.each do |sa|
         if codes.include?(sa.code)
-          record.errors[:base] << I18n.t('errors.messages.sub_accounts_duplicated')
+          record.errors.add(:base, I18n.t('errors.messages.sub_accounts_duplicated'))
           return
         end
 

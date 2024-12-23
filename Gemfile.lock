@@ -135,7 +135,7 @@ GEM
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
-    closer (0.13.2)
+    closer (0.13.3)
       capybara (>= 3.0)
       cucumber (>= 4.0, < 9.0)
       selenium-webdriver (>= 4.8, <= 5.0)
@@ -176,7 +176,7 @@ GEM
       cucumber-core (~> 8.0, >= 8.0.1)
       cucumber-cucumber-expressions (~> 10.3, >= 10.3.0)
       cucumber-messages (~> 13.0, >= 13.0.1)
-    daddy (0.9.12)
+    daddy (0.9.13)
       docker-api
       highline
       i18n
@@ -339,7 +339,7 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.15.7-x86_64-linux)
       racc (~> 1.4)
-    nostalgic (0.6.2)
+    nostalgic (0.6.4)
       rails (>= 5.2)
     oauth2 (2.0.9)
       faraday (>= 0.17.3, < 3.0)

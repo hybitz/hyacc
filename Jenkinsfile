@@ -48,17 +48,11 @@ spec:
       }
       environment {
         COVERAGE = 'true'
+        DISABLE_SPRING = 'true'
         FORMAT = 'junit'
         RAILS_ENV = 'test'
       }
       steps {
-        container('mysql') {
-          sh """
-while ! mysqladmin ping --user=root -h 127.0.0.1 --port=3306 --silent; do
-    sleep 1
-done
-"""
-        }
         container('hyacc') {
           ansiColor('xterm') {
             sh "bundle exec rails db:reset"

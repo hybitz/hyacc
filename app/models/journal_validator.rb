@@ -21,7 +21,7 @@ class JournalValidator < ActiveModel::Validator
   def validate_day(record)
     # 日がその年月で指定可能な範囲かどうか
     if record.day <= 0 or record.day > HyaccDateUtil.get_days_of_month( record.ym / 100, record.ym % 100 )
-      record.errors[:day] << ERR_INVALID_SOMETHING
+      record.errors.add(:day, ERR_INVALID_SOMETHING)
     end
   end
   

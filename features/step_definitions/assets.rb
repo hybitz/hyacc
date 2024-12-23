@@ -25,8 +25,16 @@ end
   select method, from: 'asset[depreciation_method]'
 end
 
+もし /^.*償却限度額を(.*?)円に変更する$/ do |limit|
+  fill_in 'asset[depreciation_limit]', with: limit
+end
+
 もし /^.*償却方法を(.*?)に変更する$/ do |method|
   select method, from: 'asset[depreciation_method]'
+end
+
+もし /^適用に「テスト」と入力する$/ do
+  fill_in 'asset[remarks]', with: 'テスト'
 end
 
 ならば /^.*償却限度額は(.*?)円(に変換される|のまま)$/ do |limit, text|

@@ -55,18 +55,19 @@
         }
       }
 
-      function pushLimitArray(newLimitValue, limitArray) {
-        limitArray.push(Number(newLimitValue));
+      function pushLimitArray(depreciationLimit, methodLimit) {
+        methodLimit.push([$('#asset_depreciation_method').val(), depreciationLimit])
       }
 
-      function updateDepreciationLimit(depreciationMethod, limitArray, methodArray){
-        if (depreciationMethod == DEPRECIATION_METHOD_LUMP && limitArray.at(-1) == 1) {
+      function updateDepreciationLimit(depreciationMethod, methodLimit){
+        if (depreciationMethod == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "1" && methodLimit.at(-1)[0] != DEPRECIATION_METHOD_LUMP) {
           $('#asset_depreciation_limit').val(0);
-          limitArray.push(0);
-        } else if (limitArray.length >= 2 && methodArray.at(-2) == DEPRECIATION_METHOD_LUMP && limitArray.at(-1) == 0 && limitArray.at(-2) == 1) {
+          methodLimit.push([depreciationMethod, "0"]);
+        } else if (methodLimit.at(-1)[0] == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "0" && methodLimit.at(-2)[1] == "1" && methodLimit.at(-2)[0] != DEPRECIATION_METHOD_LUMP ) {
           $('#asset_depreciation_limit').val(1);
-          limitArray.push(1);
+          methodLimit.push([depreciationMethod, "1"]);
         } else {
+          methodLimit.push([depreciationMethod, $('#asset_depreciation_limit').val()]);
           return;
         }
       }
@@ -75,24 +76,20 @@
         var depreciationMethod = $('#asset_depreciation_method');
         updateDurableYears(depreciationMethod.val());
         var depreciationLimit = $('#asset_depreciation_limit');
-        var limitArray = [];
-        var methodArray = [];
-        limitArray.push(Number(depreciationLimit.val()));
+        var methodLimit = [];
+        methodLimit.push([$('#asset_depreciation_method').val(), $('#asset_depreciation_limit').val()]);
 
-        methodArray.push(Number(depreciationMethod.val()));
         depreciationLimit.change(function(){
-          pushLimitArray($(this).val(), limitArray);
-        })
+          pushLimitArray($(this).val(), methodLimit);
+        });
 
         depreciationMethod.change(function(){
-          methodArray.push(Number($(this).val()));
           updateDurableYears($(this).val());
-          updateDepreciationLimit($(this).val(), limitArray, methodArray);
+          updateDepreciationLimit($(this).val(), methodLimit);
         });
       });
     </script>
   <% end %>
-  
+
   <%= render 'show_depreciations' %>
 <% end %>
-  

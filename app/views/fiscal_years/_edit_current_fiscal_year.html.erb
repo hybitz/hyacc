@@ -1,7 +1,7 @@
 <%= flash_notice %>
 
 <div style="margin: 5px;">
-  <%= form_with url: {action: 'update_current_fiscal_year'} do %>
+  <%= form_with url: {action: 'update_current_fiscal_year'}, data: {remote: true} do %>
     <%= hidden_field_tag :company_id, @c.id %>
     <%= hidden_field :c, :lock_version %>
           会計年度を

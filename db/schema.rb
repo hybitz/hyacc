@@ -2,17 +2,17 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_15_072132) do
+ActiveRecord::Schema.define(version: 2024_12_21_081814) do
 
-  create_table "accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "accounts", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", default: "", null: false
     t.integer "dc_type", null: false
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["name"], name: "index_accounts_on_name", unique: true
   end
 
-  create_table "active_storage_attachments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "active_storage_attachments", charset: "utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "active_storage_blobs", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "active_storage_blobs", charset: "utf8", force: :cascade do |t|
     t.string "key", null: false
     t.string "filename", null: false
     t.string "content_type"
@@ -61,10 +61,17 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "assets", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "active_storage_variant_records", charset: "utf8", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "assets", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "code", limit: 8, default: "", null: false
     t.string "name", default: "", null: false
     t.integer "status", limit: 1, null: false
@@ -89,7 +96,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["code"], name: "index_assets_on_code", unique: true
   end
 
-  create_table "attendances", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "attendances", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "company_id", null: false
     t.integer "employee_id", null: false
     t.integer "yyyymm"
@@ -101,7 +108,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "bank_accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "bank_accounts", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "code", limit: 10, default: "", null: false
     t.string "name", default: "", null: false
     t.string "holder_name", null: false
@@ -116,7 +123,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["name"], name: "index_bank_accounts_on_name", unique: true
   end
 
-  create_table "bank_offices", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "bank_offices", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "bank_id", null: false
     t.string "name", null: false
     t.string "code", limit: 3, null: false
@@ -127,7 +134,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.string "address"
   end
 
-  create_table "banks", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "banks", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "code", limit: 4, null: false
     t.boolean "deleted", default: false, null: false
@@ -144,7 +151,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.string "enterprise_number"
   end
 
-  create_table "branch_employees", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "branch_employees", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "branch_id", null: false
     t.integer "employee_id", null: false
     t.boolean "default_branch", default: false, null: false
@@ -153,7 +160,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.boolean "deleted", default: false, null: false
   end
 
-  create_table "branches", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "branches", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", null: false
     t.integer "company_id", null: false
@@ -168,7 +175,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.string "formal_name", null: false
   end
 
-  create_table "business_offices", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "business_offices", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "company_id", null: false
     t.string "name", null: false
     t.string "prefecture_name", limit: 16, null: false
@@ -185,7 +192,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.string "business_outline"
   end
 
-  create_table "business_types", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "business_types", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "name", limit: 32, null: false
     t.string "description"
     t.decimal "deemed_tax_ratio", precision: 3, scale: 2, null: false
@@ -195,7 +202,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["name"], name: "index_bisiness_types_on_name", unique: true
   end
 
-  create_table "careers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "careers", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.date "start_from", null: false
     t.date "end_to", null: false
@@ -215,7 +222,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.string "other_skill"
   end
 
-  create_table "companies", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "companies", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.integer "fiscal_year"
     t.integer "start_month_of_fiscal_year", null: false
@@ -235,7 +242,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.string "social_insurance_number"
   end
 
-  create_table "customers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "customers", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.boolean "is_order_entry", default: false, null: false
     t.boolean "is_order_placement", default: false, null: false
@@ -252,7 +259,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["code"], name: "index_customers_on_code", unique: true
   end
 
-  create_table "dependent_family_members", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "dependent_family_members", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "exemption_id", null: false
     t.integer "exemption_type", null: false
     t.string "name", null: false
@@ -263,7 +270,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "depreciations", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "depreciations", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "asset_id", null: false
     t.integer "fiscal_year", null: false
     t.integer "amount_at_start", null: false
@@ -273,7 +280,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at"
   end
 
-  create_table "employee_bank_accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "employee_bank_accounts", charset: "utf8", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.string "code", null: false
     t.integer "bank_id", null: false
@@ -282,7 +289,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "employees", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "employees", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "company_id", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
@@ -306,7 +313,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.boolean "disabled", default: false, null: false
   end
 
-  create_table "exemptions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "exemptions", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.integer "yyyy", null: false
     t.datetime "created_at"
@@ -341,7 +348,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["yyyy", "employee_id"], name: "index_exemptions_on_yyyy_and_employee_id", unique: true
   end
 
-  create_table "financial_statement_headers", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "financial_statement_headers", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "company_id", null: false
     t.integer "branch_id", null: false
     t.integer "report_type", null: false
@@ -352,7 +359,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.integer "report_style"
   end
 
-  create_table "financial_statements", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "financial_statements", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "ym", null: false
     t.integer "account_id", null: false
     t.string "account_name", null: false
@@ -362,7 +369,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.integer "financial_statement_header_id"
   end
 
-  create_table "fiscal_years", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "fiscal_years", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "company_id", null: false
     t.integer "fiscal_year", null: false
     t.integer "closing_status", default: 0, null: false
@@ -377,7 +384,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["company_id", "fiscal_year"], name: "index_fiscal_yeras_on_company_id_and_fiscal_year", unique: true
   end
 
-  create_table "inhabitant_taxes", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "inhabitant_taxes", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer "employee_id", null: false
@@ -385,7 +392,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.integer "amount"
   end
 
-  create_table "input_frequencies", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "input_frequencies", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "input_type", limit: 1, null: false
     t.string "input_value", limit: 30, default: ""
@@ -396,7 +403,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["user_id", "input_type", "input_value", "input_value2"], name: "index_input_frequencies_for_unique_key", unique: true
   end
 
-  create_table "investments", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "investments", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "shares", default: 0, null: false
     t.integer "trading_value", default: 0, null: false
     t.datetime "created_at"
@@ -411,7 +418,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.integer "gains", default: 0, null: false
   end
 
-  create_table "journal_details", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "journal_details", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "journal_id", null: false
     t.integer "detail_no", null: false
     t.integer "detail_type", default: 1, null: false
@@ -436,7 +443,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["main_detail_id"], name: "index_journal_details_main_detail_id"
   end
 
-  create_table "journals", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "journals", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "ym", null: false
     t.integer "day", null: false
     t.integer "slip_type", null: false
@@ -462,7 +469,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["ym"], name: "index_journals_on_ym"
   end
 
-  create_table "nostalgic_attrs", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "nostalgic_attrs", id: :integer, charset: "utf8", force: :cascade do |t|
     t.string "model_type", null: false
     t.integer "model_id", null: false
     t.string "name", null: false
@@ -472,7 +479,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at"
   end
 
-  create_table "payrolls", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "payrolls", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "ym", null: false
     t.integer "days_of_work", default: 0
     t.integer "hours_of_work", default: 0
@@ -506,7 +513,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["ym", "employee_id", "is_bonus"], name: "index_payrolls_ym_and_employee_id_and_is_bonus", unique: true
   end
 
-  create_table "qualifications", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "qualifications", charset: "utf8", force: :cascade do |t|
     t.integer "company_id", null: false
     t.string "name", null: false
     t.integer "allowance", default: 0, null: false
@@ -515,7 +522,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "receipts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "receipts", id: :integer, charset: "utf8", force: :cascade do |t|
     t.integer "journal_id", null: false
     t.string "file"
     t.string "original_filename"
@@ -524,7 +531,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at"
   end
 
-  create_table "rents", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "rents", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "name"
     t.integer "status", null: false
     t.integer "customer_id", null: false
@@ -538,7 +545,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.date "end_to"
   end
 
-  create_table "sequences", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "sequences", id: false, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "name", limit: 32, null: false
     t.string "section", limit: 32
     t.integer "value", default: 0, null: false
@@ -547,7 +554,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["name", "section"], name: "index_sequences_on_name_and_section", unique: true
   end
 
-  create_table "sessions", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "sessions", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "session_id", default: "", null: false
     t.text "data"
     t.datetime "created_at"
@@ -556,7 +563,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
-  create_table "simple_slip_settings", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "simple_slip_settings", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "account_id", null: false
     t.string "shortcut_key", limit: 10, null: false
@@ -564,7 +571,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at"
   end
 
-  create_table "simple_slip_templates", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "simple_slip_templates", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "remarks", default: "", null: false
     t.integer "owner_type", null: false
     t.integer "owner_id", null: false
@@ -585,7 +592,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.index ["remarks"], name: "index_simple_slip_templates_on_remarks"
   end
 
-  create_table "skills", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "skills", charset: "utf8", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.integer "qualification_id", null: false
     t.date "qualified_on", null: false
@@ -594,7 +601,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sub_accounts", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "sub_accounts", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", default: "", null: false
     t.integer "account_id", null: false
@@ -605,7 +612,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.boolean "social_expense_number_of_people_required", default: false, null: false
   end
 
-  create_table "tax_admin_infos", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "tax_admin_infos", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.integer "journal_id", null: false
     t.boolean "should_include_tax", default: false, null: false
     t.boolean "checked", default: false, null: false
@@ -613,7 +620,7 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
     t.datetime "updated_at"
   end
 
-  create_table "users", id: :integer, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+  create_table "users", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "login_id", default: "", null: false
     t.string "email", default: ""
     t.integer "slips_per_page", default: 20
@@ -648,4 +655,5 @@ ActiveRecord::Schema.define(version: 2024_12_15_072132) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
 end

@@ -4,7 +4,7 @@
   });
 </script>
 <%= flash_notice_in_span %>
-<%= form_with model: [:bs, @investment] do |f| %>
+<%= form_with model: [:bs, @investment], data: {remote: true} do |f| %>
   <table>
     <tr>
       <th><%= f.label :yyyymmdd %></th>

@@ -4,6 +4,7 @@ pipeline {
       COVERAGE = 'true'
       EXPAND = 'false'
       FORMAT = 'junit'
+      HEADLESS = 'true'
   }
   stages {
     stage('test') {

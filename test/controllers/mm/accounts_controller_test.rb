@@ -60,7 +60,7 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
 
   def test_登録
     assert_difference 'Account.count', 1 do
-      post mm_accounts_path, :params => {:account => valid_account_params}, :xhr => true
+      post mm_accounts_path, params: {account: account_params}, xhr: true
       assert_response :success
       assert_template 'common/reload'
     end
@@ -68,7 +68,7 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
 
   def test_登録_入力エラー
     assert_no_difference 'Account.count' do
-      post mm_accounts_path, :params => {:account => invalid_account_params}, :xhr => true
+      post mm_accounts_path, params: {account: invalid_account_params}, xhr: true
       assert_response :success
       assert_template 'new'
     end
@@ -92,10 +92,7 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_更新
-    patch mm_account_path(expense_account), :params => {
-        :account => valid_account_params.except(:code, :account_type)
-    },
-    :xhr => true
+    patch mm_account_path(expense_account), params: {account: account_params.except(:code, :account_type)}, xhr: true
 
     assert @account = assigns(:account)
     assert_equal expense_account.id, @account.id

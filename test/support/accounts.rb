@@ -22,7 +22,7 @@ module Accounts
     @_social_expense_account ||= Account.find_by_code(ACCOUNT_CODE_SOCIAL_EXPENSE)
   end
   
-  def valid_account_params
+  def account_params
     {
       :code => '9999',
       :name => time_string,

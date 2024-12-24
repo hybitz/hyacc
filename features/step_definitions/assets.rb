@@ -20,23 +20,49 @@ end
   assert_url '/bs/assets$'
 end
 
-もし /^.*償却限度額を(.*?)円に変更した状態で、償却方法を(.*?)に変更する$/ do |limit, method|
-  fill_in 'asset[depreciation_limit]', with: limit
-  select method, from: 'asset[depreciation_method]'
-end
+もし /^償却方法を変更した時、償却限度額は以下のようにリセットされる$/ do |ast_table|
+  rows = normalize_table(ast_table)
+  rows.shift
+  details = []
+  rows.each do |r|
+    details << r
+  end
+  
+  details.each do |d|
+    current_method = d[0]
+    current_limit = d[1]
+    new_method = d[2]
+    new_limit = d[3]
 
-もし /^.*償却限度額を(.*?)円に変更する$/ do |limit|
-  fill_in 'asset[depreciation_limit]', with: limit
-end
+    case current_limit
+    when "1円"
+      select current_method, from: 'asset[depreciation_method]'
+      fill_in 'asset[depreciation_limit]', with: 1
+      current_limit = 1
+    when "1円以外", "0円以外"
+      select current_method, from: 'asset[depreciation_method]'
+      fill_in 'asset[depreciation_limit]', with: 10
+      current_limit = 10
+    when "0円(リセット有)"
+      select "定率法", from: 'asset[depreciation_method]'
+      fill_in 'asset[depreciation_limit]', with: 1
+      select "一括償却", from: 'asset[depreciation_method]'
+    when "0円(リセット無)"
+      select "定率法", from: 'asset[depreciation_method]'
+      fill_in 'asset[depreciation_limit]', with: 0
+      select "一括償却", from: 'asset[depreciation_method]'
+      current_limit = 0
+    end
 
-もし /^.*償却方法を(.*?)に変更する$/ do |method|
-  select method, from: 'asset[depreciation_method]'
-end
+    select new_method, from: 'asset[depreciation_method]'
 
-もし /^適用に「テスト」と入力する$/ do
-  fill_in 'asset[remarks]', with: 'テスト'
-end
-
-ならば /^.*償却限度額は(.*?)円(に変換される|のまま)$/ do |limit, text|
-  assert_equal limit, find("#asset_depreciation_limit").value
+    case new_limit
+    when "0円"
+      assert_equal 0, find("#asset_depreciation_limit").value.to_i
+    when "1円"
+      assert_equal 1, find("#asset_depreciation_limit").value.to_i
+    when "元のまま"
+      assert_equal current_limit, find("#asset_depreciation_limit").value.to_i
+    end
+  end
 end

@@ -18,6 +18,7 @@ module Reports
           next if amount_at_end == 0
 
           detail = ret.new_detail
+          detail.end_ymd = end_ymd
           detail.account = a
           detail.sub_account = sa
           detail.amount_at_end = amount_at_end
@@ -49,10 +50,26 @@ module Reports
   class SuspenseReceiptDetailModel
     include HyaccConst
 
-    attr_accessor :account, :sub_account, :amount_at_end
+    attr_accessor :account, :sub_account, :amount_at_end, :end_ymd
     
     def account_name
       account.try(:name)
+    end
+
+    def counterpart_name
+      return nil unless account
+
+      if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+        customer.formal_name_on(end_ymd)
+      end
+    end
+
+    def counterpart_address
+      return nil unless account
+
+      if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+        customer.address_on(end_ymd)
+      end
     end
 
     def income_tax?
@@ -68,5 +85,12 @@ module Reports
         end
       end
     end
+
+    private
+
+    def customer
+      @customer ||= Customer.find_by_code(sub_account.code)
+    end
+  
   end
 end

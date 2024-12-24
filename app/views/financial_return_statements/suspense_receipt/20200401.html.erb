@@ -19,8 +19,8 @@
         <% d = @model.details[i] || @model.new_detail %>
         <tr>
           <td><%= d.account_name %></td>
-          <td></td>
-          <td></td>
+          <td><%= d.counterpart_name %></td>
+          <td><%= d.counterpart_address %></td>
           <td></td>
           <td class="text-end"><%= to_amount(d.amount_at_end) %></td>
           <td><%= d.note %></td>

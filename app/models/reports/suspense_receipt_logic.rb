@@ -10,7 +10,11 @@ module Reports
         sub_accounts << nil if sub_accounts.empty?
         
         sub_accounts.each do |sa|
-          amount_at_end = get_amount_at_end(a.code, sa.id)
+          if sa
+            amount_at_end = get_amount_at_end(a.code, sa.id)
+          else
+            amount_at_end = get_amount_at_end(a.code)
+          end
           next if amount_at_end == 0
 
           detail = ret.new_detail

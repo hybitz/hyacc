@@ -11,13 +11,13 @@ ja:
 
   activerecord:
     models:
-      account: "勘定科目"
-      asset: "資産"
-      bank_account: "銀行口座"
+      account: 勘定科目
+      asset: 資産
+      bank_account: 銀行口座
       branch: 部門
-      company: "会社"
-      customer: "顧客"
-      fiscal_year: "年度"
+      company: 会社
+      customer: 顧客
+      fiscal_year: 年度
       inhabitant_tax: 住民税
       journal: 仕訳
       journal_detail: 仕訳明細

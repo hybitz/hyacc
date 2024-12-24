@@ -33,25 +33,21 @@ end
     current_limit = d[1]
     new_method = d[2]
     new_limit = d[3]
+    re_new_method = d[4]
+    re_new_limit = d[5]
+
+    select current_method, from: 'asset[depreciation_method]'
 
     case current_limit
+    when "0円"
+      fill_in 'asset[depreciation_limit]', with: 0
+      current_limit = 0
     when "1円"
-      select current_method, from: 'asset[depreciation_method]'
       fill_in 'asset[depreciation_limit]', with: 1
       current_limit = 1
     when "1円以外", "0円以外"
-      select current_method, from: 'asset[depreciation_method]'
       fill_in 'asset[depreciation_limit]', with: 10
       current_limit = 10
-    when "0円(リセット有)"
-      select "定率法", from: 'asset[depreciation_method]'
-      fill_in 'asset[depreciation_limit]', with: 1
-      select "一括償却", from: 'asset[depreciation_method]'
-    when "0円(リセット無)"
-      select "定率法", from: 'asset[depreciation_method]'
-      fill_in 'asset[depreciation_limit]', with: 0
-      select "一括償却", from: 'asset[depreciation_method]'
-      current_limit = 0
     end
 
     select new_method, from: 'asset[depreciation_method]'
@@ -59,10 +55,13 @@ end
     case new_limit
     when "0円"
       assert_equal 0, find("#asset_depreciation_limit").value.to_i
-    when "1円"
-      assert_equal 1, find("#asset_depreciation_limit").value.to_i
     when "元のまま"
       assert_equal current_limit, find("#asset_depreciation_limit").value.to_i
+    end
+
+    if re_new_method.present?
+      select re_new_method, from: 'asset[depreciation_method]'
+      assert_equal re_new_limit.delete("^0-9").to_i, find("#asset_depreciation_limit").value.to_i
     end
   end
 end

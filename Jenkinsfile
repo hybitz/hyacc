@@ -43,6 +43,9 @@ spec:
       value: hyacc
     - name: MYSQL_PASSWORD
       value: hyacc
+    resources:
+      requests:
+        memory: 256Mi
 """
         }
       }

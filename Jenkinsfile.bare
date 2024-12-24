@@ -2,6 +2,7 @@ pipeline {
   agent { label 'master' }
   environment {
       COVERAGE = 'true'
+      DISABLE_SPRING = 'true'
       EXPAND = 'false'
       FORMAT = 'junit'
       HEADLESS = 'true'

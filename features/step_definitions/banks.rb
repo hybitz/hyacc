@@ -15,11 +15,12 @@ end
     selector = '.bank_offices tbody tr'
     assert has_no_selector?(selector)
     click_on '追加'
-    assert has_selector?(selector, :count => 1)
+    assert has_selector?(selector, count: 1)
 
     capture
     click_on '登録'
   end
+  assert has_no_dialog?(/金融機関.*/)
 
   assert has_selector?('table.banks td', text: @bank_params[:name])
   capture

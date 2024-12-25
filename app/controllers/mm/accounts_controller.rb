@@ -124,7 +124,7 @@ class Mm::AccountsController < Base::HyaccController
   def account_params
     permitted = [
       :name, :dc_type, :account_type, :tax_type,
-      :description, :short_description, :trade_type, :is_settlement_report_account,
+      :description, :short_description, :trade_type, :is_settlement_report_account, :is_suspense_receipt_account,
       :depreciation_method, :is_trade_account_payable, :journalizable,
       :depreciable, :is_tax_account, :sub_account_type
     ]

@@ -10,10 +10,15 @@ module Reports
         sub_accounts << nil if sub_accounts.empty?
         
         sub_accounts.each do |sa|
-          amount_at_end = get_amount_at_end(a.code, sa.id)
+          if sa
+            amount_at_end = get_amount_at_end(a.code, sa.id)
+          else
+            amount_at_end = get_amount_at_end(a.code)
+          end
           next if amount_at_end == 0
 
           detail = ret.new_detail
+          detail.end_ymd = end_ymd
           detail.account = a
           detail.sub_account = sa
           detail.amount_at_end = amount_at_end
@@ -45,10 +50,26 @@ module Reports
   class SuspenseReceiptDetailModel
     include HyaccConst
 
-    attr_accessor :account, :sub_account, :amount_at_end
+    attr_accessor :account, :sub_account, :amount_at_end, :end_ymd
     
     def account_name
       account.try(:name)
+    end
+
+    def counterpart_name
+      return nil unless account
+
+      if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+        customer.formal_name_on(end_ymd)
+      end
+    end
+
+    def counterpart_address
+      return nil unless account
+
+      if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+        customer.address_on(end_ymd)
+      end
     end
 
     def income_tax?
@@ -57,12 +78,23 @@ module Reports
     
     def note
       if account
-        if sub_account
-          "#{sub_account.name}の#{account.name}"
+        if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+          '誤入金' # TODO それ以外のケースは？
         else
-          account.name
+          if sub_account
+            "#{sub_account.name}の#{account.name}"
+          else
+            account.name
+          end
         end
       end
     end
+
+    private
+
+    def customer
+      @customer ||= Customer.find_by_code(sub_account.code)
+    end
+  
   end
 end

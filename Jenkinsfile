@@ -43,6 +43,9 @@ spec:
       value: hyacc
     - name: MYSQL_PASSWORD
       value: hyacc
+    resources:
+      requests:
+        memory: 256Mi
 """
         }
       }
@@ -50,6 +53,7 @@ spec:
         COVERAGE = 'true'
         DISABLE_SPRING = 'true'
         FORMAT = 'junit'
+        HEADLESS = 'true'
         RAILS_ENV = 'test'
       }
       steps {

@@ -6,7 +6,7 @@ end
 
 もし /^金融機関情報を入力し、登録する$/ do
   @bank_params = bank_params
-  assert has_no_selector?('table.mm.banks td', text: @bank_params[:name])
+  assert has_no_selector?('table.banks td', text: @bank_params[:name])
 
   within_dialog do
     fill_in 'bank[code]', with: @bank_params[:code]
@@ -15,13 +15,14 @@ end
     selector = '.bank_offices tbody tr'
     assert has_no_selector?(selector)
     click_on '追加'
-    assert has_selector?(selector, :count => 1)
+    assert has_selector?(selector, count: 1)
 
     capture
     click_on '登録'
   end
+  assert has_no_dialog?(/金融機関.*/)
 
-  assert has_selector?('table.banks td', :text => @bank_params[:name])
+  assert has_selector?('table.banks td', text: @bank_params[:name])
   capture
 end
 

@@ -22,23 +22,24 @@ module Accounts
     @_social_expense_account ||= Account.find_by_code(ACCOUNT_CODE_SOCIAL_EXPENSE)
   end
   
-  def valid_account_params
+  def account_params
     {
-      :code => '9999',
-      :name => time_string,
-      :dc_type => DC_TYPE_DEBIT,
-      :account_type => ACCOUNT_TYPE_ASSET,
-      :tax_type => TAX_TYPE_NONTAXABLE
+      code: '9999',
+      name: time_string,
+      dc_type: DC_TYPE_DEBIT,
+      account_type: ACCOUNT_TYPE_ASSET,
+      tax_type: TAX_TYPE_NONTAXABLE,
+      is_suspense_receipt_account: false
     }
   end
 
   def invalid_account_params
     {
-      :code => '9999',
-      :name => '',
-      :dc_type => DC_TYPE_DEBIT,
-      :account_type => ACCOUNT_TYPE_ASSET,
-      :tax_type => TAX_TYPE_NONTAXABLE
+      code: '9999',
+      name: '',
+      dc_type: DC_TYPE_DEBIT,
+      account_type: ACCOUNT_TYPE_ASSET,
+      tax_type: TAX_TYPE_NONTAXABLE
     }
   end
 

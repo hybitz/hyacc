@@ -24,7 +24,7 @@
 
 <% if @account.path.include? HyaccConst::ACCOUNT_CODE_FIXED_ASSET %>
   <p>
-    <b>減価償却可能:</b> <%= @account.depreciable ? 'はい' : 'いいえ' %>
+    <b>減価償却可能:</b> <%= @account.depreciable? ? 'はい' : 'いいえ' %>
   </p>
   <% if @account.depreciable %>
   <p>
@@ -37,13 +37,17 @@
   <b>決算書科目:</b> <%= @account.is_settlement_report_account ? '出力対象' : '出力対象外' %>
 </p>
 <p>
-  <b>仕訳登録可能:</b> <%= @account.journalizable ? 'はい' : 'いいえ' %>
+  <b>仕訳登録可能:</b> <%= @account.journalizable? ? 'はい' : 'いいえ' %>
 </p>
 <% if @account.debt? %>
 <p>
-  <b>買掛金科目:</b> <%= @account.is_trade_account_payable ? 'はい' : 'いいえ' %>
+  <b>買掛金科目:</b> <%= @account.is_trade_account_payable? ? 'はい' : 'いいえ' %>
+</p>
+<p>
+  <b>仮受金科目:</b> <%= @account.is_suspense_receipt_account? ? 'はい' : 'いいえ' %>
 </p>
 <% end %>
+
 <p>
   <b>登録日時:</b> <%= @account.created_at %>
 </p>

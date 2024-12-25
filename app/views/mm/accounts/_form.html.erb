@@ -64,7 +64,7 @@
     </tr>
     <tr>
       <th><%= f.label :depreciation_method %></th>
-      <td><%= f.select :depreciation_method, depreciation_methods, :include_blank => true %></td>
+      <td><%= f.select :depreciation_method, depreciation_methods, include_blank: true %></td>
     </tr>
     <% end %>
 
@@ -81,6 +81,10 @@
       <tr>
         <th><%= f.label :is_trade_account_payable %></th>
         <td><%= f.select :is_trade_account_payable, {'はい': true, 'いいえ': false} %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :is_suspense_receipt_account %></th>
+        <td><%= f.select :is_suspense_receipt_account, {'はい': true, 'いいえ': false} %></td>
       </tr>
     <% end %>
 

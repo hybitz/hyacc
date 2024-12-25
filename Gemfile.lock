@@ -135,7 +135,7 @@ GEM
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
-    closer (0.13.3)
+    closer (0.14.0)
       capybara (>= 3.0)
       cucumber (>= 4.0, < 9.0)
       selenium-webdriver (>= 4.8, <= 5.0)
@@ -395,7 +395,7 @@ GEM
     rack-protection (3.2.0)
       base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
-    rack-test (2.1.0)
+    rack-test (2.2.0)
       rack (>= 1.3)
     rails (6.1.7.10)
       actioncable (= 6.1.7.10)

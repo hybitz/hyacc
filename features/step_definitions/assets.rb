@@ -20,7 +20,7 @@ end
   assert_url '/bs/assets$'
 end
 
-もし /^償却方法を変更した時、償却限度額は以下のようにリセットされる$/ do |ast_table|
+もし /^償却方法を変更した時、償却限度額は以下のように自動変更される$/ do |ast_table|
   rows = normalize_table(ast_table)
   rows.shift
   details = []
@@ -33,15 +33,12 @@ end
     current_limit = d[1]
     new_method = d[2]
     new_limit = d[3]
-    re_new_method = d[4]
-    re_new_limit = d[5]
 
     select current_method, from: 'asset[depreciation_method]'
 
     case current_limit
     when "0円"
       fill_in 'asset[depreciation_limit]', with: 0
-      current_limit = 0
     when "1円"
       fill_in 'asset[depreciation_limit]', with: 1
       current_limit = 1
@@ -53,15 +50,10 @@ end
     select new_method, from: 'asset[depreciation_method]'
 
     case new_limit
-    when "0円"
+    when "0円にする"
       assert_equal 0, find("#asset_depreciation_limit").value.to_i
-    when "元のまま"
+    when "1円のまま変更しない", "変更しない"
       assert_equal current_limit, find("#asset_depreciation_limit").value.to_i
-    end
-
-    if re_new_method.present?
-      select re_new_method, from: 'asset[depreciation_method]'
-      assert_equal re_new_limit.delete("^0-9").to_i, find("#asset_depreciation_limit").value.to_i
     end
   end
 end

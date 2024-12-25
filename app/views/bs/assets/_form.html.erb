@@ -63,12 +63,11 @@
         if (depreciationMethod == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "1" && methodLimit.at(-1)[0] != DEPRECIATION_METHOD_LUMP) {
           $('#asset_depreciation_limit').val(0);
           methodLimit.push([depreciationMethod, "0"]);
-        } else if (methodLimit.at(-1)[0] == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "0" && methodLimit.at(-2)[1] == "1" && methodLimit.at(-2)[0] != DEPRECIATION_METHOD_LUMP ) {
+        } else if (methodLimit.at(-1)[0] == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "0") {
           $('#asset_depreciation_limit').val(1);
           methodLimit.push([depreciationMethod, "1"]);
         } else {
           methodLimit.push([depreciationMethod, $('#asset_depreciation_limit').val()]);
-          return;
         }
       }
 

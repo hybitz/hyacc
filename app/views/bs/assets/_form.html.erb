@@ -59,15 +59,15 @@
         methodLimit.push([$('#asset_depreciation_method').val(), depreciationLimit])
       }
 
-      function updateDepreciationLimit(depreciationMethod, methodLimit){
+      function updateDepreciationLimit(depreciationMethod, depreciationLimit, methodLimit){
         if (depreciationMethod == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "1" && methodLimit.at(-1)[0] != DEPRECIATION_METHOD_LUMP) {
-          $('#asset_depreciation_limit').val(0);
-          methodLimit.push([depreciationMethod, "0"]);
+          depreciationLimit.val(0);
+          pushLimitArray("0", methodLimit);
         } else if (methodLimit.at(-1)[0] == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "0") {
-          $('#asset_depreciation_limit').val(1);
-          methodLimit.push([depreciationMethod, "1"]);
+          depreciationLimit.val(1);
+          pushLimitArray("1", methodLimit);
         } else {
-          methodLimit.push([depreciationMethod, $('#asset_depreciation_limit').val()]);
+          pushLimitArray(depreciationLimit.val(), methodLimit);
         }
       }
 
@@ -76,7 +76,7 @@
         updateDurableYears(depreciationMethod.val());
         var depreciationLimit = $('#asset_depreciation_limit');
         var methodLimit = [];
-        methodLimit.push([$('#asset_depreciation_method').val(), $('#asset_depreciation_limit').val()]);
+        pushLimitArray(depreciationLimit.val(), methodLimit);
 
         depreciationLimit.change(function(){
           pushLimitArray($(this).val(), methodLimit);
@@ -84,7 +84,7 @@
 
         depreciationMethod.change(function(){
           updateDurableYears($(this).val());
-          updateDepreciationLimit($(this).val(), methodLimit);
+          updateDepreciationLimit($(this).val(), depreciationLimit, methodLimit);
         });
       });
     </script>

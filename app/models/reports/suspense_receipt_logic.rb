@@ -48,23 +48,15 @@ module Reports
     attr_accessor :account, :sub_account, :amount_at_end, :end_ymd
     
     def account_name
-      account.try(:name)
+      account&.name
     end
 
     def counterpart_name
-      return nil unless account
-
-      if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-        customer.formal_name_on(end_ymd)
-      end
+      customer.formal_name_on(end_ymd) if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
     end
 
     def counterpart_address
-      return nil unless account
-
-      if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-        customer.address_on(end_ymd)
-      end
+      customer.address_on(end_ymd) if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
     end
 
     def income_tax?

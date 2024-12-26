@@ -46,7 +46,7 @@ module Reports
     include HyaccConst
 
     attr_accessor :account, :sub_account, :amount_at_end, :end_ymd
-    
+
     def account_name
       account&.name
     end

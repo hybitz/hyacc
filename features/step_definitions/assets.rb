@@ -23,8 +23,10 @@ end
 もし /^償却方法を変更した時、償却限度額は以下のように自動変更される$/ do |ast_table|
   rows = normalize_table(ast_table)
 
+  current_method = nil
+
   rows[1..-1].each do |r|
-    current_method = r[0]
+    current_method = r[0] if r[0].present?
     current_limit = r[1]
     new_method = r[2]
     new_limit = r[3]

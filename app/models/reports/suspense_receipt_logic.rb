@@ -5,7 +5,7 @@ module Reports
       ret = SuspenseReceiptModel.new
       ret.end_ym = end_ym
 
-      Account.where(is_suspense_receipt_account: true).each do |a|
+      Account.where(is_suspense_receipt_account: true, deleted: false).each do |a|
         sub_accounts = a.sub_accounts
         
         sub_accounts.each do |sa|

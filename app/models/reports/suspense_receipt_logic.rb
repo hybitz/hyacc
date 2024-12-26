@@ -74,7 +74,7 @@ module Reports
     def note
       if account
         if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-          '誤入金' # TODO それ以外のケースは？
+          '誤入金　等'
         else
           if sub_account
             "#{sub_account.name}の#{account.name}"

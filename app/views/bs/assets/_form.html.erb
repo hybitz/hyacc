@@ -55,36 +55,22 @@
         }
       }
 
-      function pushLimitArray(depreciationLimit, methodLimit) {
-        methodLimit.push([$('#asset_depreciation_method').val(), depreciationLimit])
-      }
-
-      function updateDepreciationLimit(depreciationMethod, depreciationLimit, methodLimit){
-        if (depreciationMethod == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "1" && methodLimit.at(-1)[0] != DEPRECIATION_METHOD_LUMP) {
+      function updateDepreciationLimit(depreciationMethod) {
+        var depreciationLimit = $('#asset_depreciation_limit');
+        if (depreciationMethod == DEPRECIATION_METHOD_LUMP && depreciationLimit.val() == 1) {
           depreciationLimit.val(0);
-          pushLimitArray("0", methodLimit);
-        } else if (methodLimit.at(-1)[0] == DEPRECIATION_METHOD_LUMP && methodLimit.at(-1)[1] == "0") {
+        } else if (depreciationMethod != DEPRECIATION_METHOD_LUMP && depreciationLimit.val() == 0) {
           depreciationLimit.val(1);
-          pushLimitArray("1", methodLimit);
-        } else {
-          pushLimitArray(depreciationLimit.val(), methodLimit);
         }
       }
 
       $(document).ready(function() {
         var depreciationMethod = $('#asset_depreciation_method');
         updateDurableYears(depreciationMethod.val());
-        var depreciationLimit = $('#asset_depreciation_limit');
-        var methodLimit = [];
-        pushLimitArray(depreciationLimit.val(), methodLimit);
-
-        depreciationLimit.change(function(){
-          pushLimitArray($(this).val(), methodLimit);
-        });
 
         depreciationMethod.change(function(){
           updateDurableYears($(this).val());
-          updateDepreciationLimit($(this).val(), depreciationLimit, methodLimit);
+          updateDepreciationLimit($(this).val());
         });
       });
     </script>

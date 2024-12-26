@@ -60,7 +60,7 @@ module Reports
     end
 
     def income_tax?
-      sub_account.code == SUB_ACCOUNT_CODE_INCOME_TAX
+      sub_account.code == TAX_DEDUCTION_TYPE_INCOME_TAX
     end
     
     def note

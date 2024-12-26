@@ -7,14 +7,9 @@ module Reports
 
       Account.where(is_suspense_receipt_account: true).each do |a|
         sub_accounts = a.sub_accounts
-        sub_accounts << nil if sub_accounts.empty?
         
         sub_accounts.each do |sa|
-          if sa
-            amount_at_end = get_amount_at_end(a.code, sa.id)
-          else
-            amount_at_end = get_amount_at_end(a.code)
-          end
+          amount_at_end = get_amount_at_end(a.code, sa.id)
           next if amount_at_end == 0
 
           detail = ret.new_detail
@@ -79,7 +74,7 @@ module Reports
     def note
       if account
         if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-          '誤入金' # TODO それ以外のケースは？
+          '誤入金　等'
         else
           if sub_account
             "#{sub_account.name}の#{account.name}"

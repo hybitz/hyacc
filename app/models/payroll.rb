@@ -163,7 +163,7 @@ class Payroll < ApplicationRecord
 
   def journaled_health_insurance_company
     if @_journaled_health_insurance_company.nil?
-      jd = find_payroll_journal_detail(ACCOUNT_CODE_LEGAL_WELFARE, SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_LEGAL_WELFARE, TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)
       @_journaled_health_insurance_company = jd&.amount || 0
     end
 
@@ -172,7 +172,7 @@ class Payroll < ApplicationRecord
 
   def journaled_health_insurance_employee
     if @_journaled_health_insurance_employee.nil?
-      jd = find_payroll_journal_detail(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_DEPOSITS_RECEIVED, TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)
       @_journaled_health_insurance_employee = jd&.amount || 0
     end
 
@@ -181,7 +181,7 @@ class Payroll < ApplicationRecord
 
   def journaled_welfare_pension_company
     if @_journaled_welfare_pension_company.nil?
-      jd = find_payroll_journal_detail(ACCOUNT_CODE_LEGAL_WELFARE, SUB_ACCOUNT_CODE_WELFARE_PENSION)
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_LEGAL_WELFARE, TAX_DEDUCTION_TYPE_WELFARE_PENSION)
       @_journaled_welfare_pension_company = jd&.amount || 0
     end
 
@@ -190,7 +190,7 @@ class Payroll < ApplicationRecord
 
   def journaled_welfare_pension_employee
     if @_journaled_welfare_pension_employee.nil?
-      jd = find_payroll_journal_detail(ACCOUNT_CODE_DEPOSITS_RECEIVED, SUB_ACCOUNT_CODE_WELFARE_PENSION)
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_DEPOSITS_RECEIVED, TAX_DEDUCTION_TYPE_WELFARE_PENSION)
       @_journaled_welfare_pension_employee = jd&.amount || 0
     end
     @_journaled_welfare_pension_employee

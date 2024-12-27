@@ -5,7 +5,7 @@ module Reports
       ret = SuspenseReceiptModel.new
       ret.end_ym = end_ym
 
-      Account.where(is_suspense_receipt_account: true).each do |a|
+      Account.where(is_suspense_receipt_account: true, deleted: false).each do |a|
         sub_accounts = a.sub_accounts
         
         sub_accounts.each do |sa|
@@ -46,29 +46,21 @@ module Reports
     include HyaccConst
 
     attr_accessor :account, :sub_account, :amount_at_end, :end_ymd
-    
+
     def account_name
-      account.try(:name)
+      account&.name
     end
 
     def counterpart_name
-      return nil unless account
-
-      if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-        customer.formal_name_on(end_ymd)
-      end
+      customer.formal_name_on(end_ymd) if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
     end
 
     def counterpart_address
-      return nil unless account
-
-      if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-        customer.address_on(end_ymd)
-      end
+      customer.address_on(end_ymd) if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
     end
 
     def income_tax?
-      sub_account.code == SUB_ACCOUNT_CODE_INCOME_TAX
+      sub_account.code == TAX_DEDUCTION_TYPE_INCOME_TAX
     end
     
     def note

@@ -68,7 +68,7 @@ module Auto::Journal
           detail.detail_no = journal.journal_details.size
           detail.dc_type = DC_TYPE_DEBIT
           detail.account = account
-          detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
+          detail.sub_account_id = account.get_sub_account_by_code(TAX_DEDUCTION_TYPE_HEALTH_INSURANCE).id
           detail.branch_id = branch_id
           detail.amount = insurance_half
           detail.note = '会社負担健康保険料'
@@ -84,7 +84,7 @@ module Auto::Journal
           detail.detail_no = journal.journal_details.size
           detail.dc_type = DC_TYPE_DEBIT
           detail.account = account
-          detail.sub_account_id = account.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
+          detail.sub_account_id = account.get_sub_account_by_code(TAX_DEDUCTION_TYPE_WELFARE_PENSION).id
           detail.branch_id = branch_id
           detail.amount = pension_half
           detail.note = '会社負担厚生年金'
@@ -96,7 +96,7 @@ module Auto::Journal
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INCOME_TAX).id
         detail.branch_id = branch_id
         detail.amount = @payroll.income_tax
         detail.note = "源泉所得税"
@@ -107,7 +107,7 @@ module Auto::Journal
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE).id
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_HEALTH_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = @payroll.health_insurance
         detail.note = '個人負担健康保険料'
@@ -118,7 +118,7 @@ module Auto::Journal
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION).id
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_WELFARE_PENSION).id
         detail.branch_id = branch_id
         detail.amount = @payroll.welfare_pension
         detail.note = '個人負担厚生年金'
@@ -142,7 +142,7 @@ module Auto::Journal
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE).id
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_EMPLOYMENT_INSURANCE).id
         detail.branch_id = branch_id
         detail.amount = @payroll.employment_insurance
         detail.note = "従業員負担雇用保険料"
@@ -153,7 +153,7 @@ module Auto::Journal
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_CREDIT
         detail.account = deposits_received
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX).id
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INHABITANT_TAX).id
         detail.branch_id = branch_id
         detail.amount = @payroll.inhabitant_tax
         detail.note = "住民税"
@@ -164,7 +164,7 @@ module Auto::Journal
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
         detail.account = deposits_received
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX).id
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INCOME_TAX).id
         detail.branch_id = branch_id
         detail.amount = @payroll.annual_adjustment
         detail.note = "年末調整過払い分"

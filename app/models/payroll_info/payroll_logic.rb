@@ -243,12 +243,12 @@ module PayrollInfo
       list.each do |p|
         # 健康保険料(預り金)
         p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
-                                                sub_account_id: SubAccount.where(code: SUB_ACCOUNT_CODE_HEALTH_INSURANCE)).each do |d|
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)).each do |d|
           total_expense = total_expense + d.amount
         end
         # 健康保険料(立替金)
         p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
-                                                sub_account_id: SubAccount.where(code: SUB_ACCOUNT_CODE_HEALTH_INSURANCE)).each do |d|
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)).each do |d|
           total_expense = total_expense + d.amount
         end
 
@@ -266,12 +266,12 @@ module PayrollInfo
       list.each do |p|
         # 厚生年金保険料(預り金)
         p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
-                                                sub_account_id: SubAccount.where(:code => SUB_ACCOUNT_CODE_WELFARE_PENSION)).each do |d|
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_WELFARE_PENSION)).each do |d|
           total_expense = total_expense + d.amount
         end
         # 厚生年金保険料(立替金)
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
-                                                        :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_WELFARE_PENSION)).each do |d|
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_WELFARE_PENSION)).each do |d|
           total_expense = total_expense + d.amount
         end
 
@@ -288,13 +288,13 @@ module PayrollInfo
 
       list.each do |p|
         # 雇用保険料(預り金)
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
-                                                :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)).each do |d|
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id,
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_EMPLOYMENT_INSURANCE)).each do |d|
           total_expense = total_expense + d.amount
         end
         # 雇用保険料(立替金)
-        p.payroll_journal.journal_details.where(:account_id => Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
-                                                :sub_account_id => SubAccount.where(:code => SUB_ACCOUNT_CODE_EMPLOYMENT_INSURANCE)).each do |d|
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_EMPLOYMENT_INSURANCE)).each do |d|
           total_expense = total_expense + d.amount
         end
 
@@ -330,7 +330,7 @@ module PayrollInfo
       list.each do |p|
         # 賞与
         p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
-                                                sub_account_id: SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX),
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_INCOME_TAX),
                                                 dc_type: DC_TYPE_CREDIT).each do |d|
           yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           withholding_taxes[yyyymmdd] = withholding_taxes.has_key?(yyyymmdd) ? withholding_taxes[yyyymmdd] + d.amount : d.amount
@@ -348,7 +348,7 @@ module PayrollInfo
       list.each do |p|
         # 賞与
         p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
-                                                sub_account_id: SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX),
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_INCOME_TAX),
                                                 dc_type: DC_TYPE_CREDIT).each do |d|
           yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           amount += d.amount
@@ -365,7 +365,7 @@ module PayrollInfo
       list.each do |p|
         # 賞与
         p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
-                                                sub_account_id: SubAccount.where(:code => SUB_ACCOUNT_CODE_INCOME_TAX),
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_INCOME_TAX),
                                                 dc_type: DC_TYPE_CREDIT).each do |d|
           yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
           amount += d.amount

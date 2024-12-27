@@ -80,10 +80,10 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
     # 登録された仕訳をチェック
     pr = Payroll.find_by_ym_and_employee_id(ym, employee_id)
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
-    income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
-    health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
-    welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION)
-    inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
+    income_tax = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INCOME_TAX)
+    health_insurance = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)
+    welfare_pension = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_WELFARE_PENSION)
+    inhabitant_tax = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INHABITANT_TAX)
     jd = JournalDetail.where(journal_id: pr.payroll_journal.id, account_id: deposits_received.id, sub_account_id: income_tax.id)
     assert_equal 1, jd.count
     jd = JournalDetail.where(journal_id: pr.payroll_journal.id, account_id: deposits_received.id, sub_account_id: health_insurance.id)
@@ -116,10 +116,10 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
     pr = Payroll.find(@payroll.id)
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     temp_pay_tax = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
-    income_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INCOME_TAX)
-    health_insurance = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_HEALTH_INSURANCE)
-    welfare_pension = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_WELFARE_PENSION)
-    inhabitant_tax = deposits_received.get_sub_account_by_code(SUB_ACCOUNT_CODE_INHABITANT_TAX)
+    income_tax = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INCOME_TAX)
+    health_insurance = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)
+    welfare_pension = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_WELFARE_PENSION)
+    inhabitant_tax = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INHABITANT_TAX)
 
     jd = JournalDetail.where("journal_id=? and account_id=? and sub_account_id=?",
             pr.payroll_journal.id, deposits_received.id, income_tax.id)

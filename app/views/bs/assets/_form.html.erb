@@ -55,16 +55,26 @@
         }
       }
 
+      function updateDepreciationLimit(depreciationMethod) {
+        var depreciationLimit = $('#asset_depreciation_limit');
+        if (depreciationMethod == DEPRECIATION_METHOD_LUMP && depreciationLimit.val() == 1) {
+          depreciationLimit.val(0);
+        } else if (depreciationMethod != DEPRECIATION_METHOD_LUMP && depreciationLimit.val() == 0) {
+          depreciationLimit.val(1);
+        }
+      }
+
       $(document).ready(function() {
         var depreciationMethod = $('#asset_depreciation_method');
         updateDurableYears(depreciationMethod.val());
+
         depreciationMethod.change(function(){
           updateDurableYears($(this).val());
+          updateDepreciationLimit($(this).val());
         });
       });
     </script>
   <% end %>
-  
+
   <%= render 'show_depreciations' %>
 <% end %>
-  

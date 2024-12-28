@@ -180,8 +180,11 @@ module PayrollInfo
       total_tax = get_withholding_tax_before_mortgage_deduction
       e = get_exemptions
       
+      # 特別減税
+      total_tax -= e.fixed_tax_deduction_amount.to_i
+
       # 住宅借入金控除
-      total_tax = total_tax - e.max_mortgage_deduction.to_i - e.fixed_tax_deduction_amount.to_i < 0 ? 0 : total_tax - e.max_mortgage_deduction.to_i - e.fixed_tax_deduction_amount.to_i
+      total_tax = total_tax - e.max_mortgage_deduction.to_i < 0 ? 0 : total_tax - e.max_mortgage_deduction.to_i
 
       # 復興特別税（H25以降）
       total_tax = total_tax * 1.021 if @calendar_year >= 2013
@@ -230,7 +233,7 @@ module PayrollInfo
           total_tax = b * 0.40 - 2_796_000
         end
       end
-      
+
       total_tax
     end
 

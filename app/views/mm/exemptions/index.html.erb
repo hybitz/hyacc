@@ -16,25 +16,31 @@
         <th class="text-center">配偶者控除</th>
         <th class="text-center">扶養控除</th>
         <th class="text-center">住宅借入金控除</th>
-        <th colspan="2"></th>
+        <th class="text-center">その他</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-      <% @exemptions.each do |c| %>
+      <% @exemptions.each do |e| %>
         <tr>
-          <td class="text-center"><%= c.yyyy %></td>
-          <td><%= c.employee.fullname %></td>
-          <td class="text-center"><%= to_amount(c.basic) %></td>
-          <td class="text-center"><%= to_amount(c.life_insurance_premium) %></td>
-          <td class="text-center"><%= to_amount(c.earthquake_insurance_premium) %></td>
-          <td class="text-center"><%= to_amount(c.social_insurance_selfpay) %></td>
-          <td class="text-center"><%= to_amount(c.small_scale_mutual_aid) %></td>
-          <td class="text-center"><%= to_amount(c.special_tax_for_spouse) %></td>
-          <td class="text-center"><%= c.spouse %></td>
-          <td class="text-center"><%= c.dependents %></td>
-          <td class="text-center"><%= to_amount(c.max_mortgage_deduction) %></td>
-          <td><%= link_to '編集', edit_mm_exemption_path(c), remote: true %></td>
-          <td><%= link_to '削除', mm_exemption_path(c), data: {confirm: '削除します。よろしいですか？'}, method: :delete %></td>
+          <td class="text-center"><%= e.yyyy %></td>
+          <td><%= e.employee.fullname %></td>
+          <td class="text-center"><%= to_amount(e.basic) %></td>
+          <td class="text-center"><%= to_amount(e.life_insurance_premium) %></td>
+          <td class="text-center"><%= to_amount(e.earthquake_insurance_premium) %></td>
+          <td class="text-center"><%= to_amount(e.social_insurance_selfpay) %></td>
+          <td class="text-center"><%= to_amount(e.small_scale_mutual_aid) %></td>
+          <td class="text-center"><%= to_amount(e.special_tax_for_spouse) %></td>
+          <td class="text-center"><%= e.spouse %></td>
+          <td class="text-center"><%= e.dependents %></td>
+          <td class="text-center"><%= to_amount(e.max_mortgage_deduction) %></td>
+          <td class="text-center">
+            <span title="定額減税"><%= to_amount(e.fixed_tax_deduction_amount) if e.yyyy == 2024 %></span>
+          </td>
+          <td class="text-center">
+            <%= link_to '編集', edit_mm_exemption_path(e), class: 'btn btn-sm btn-light', remote: true %>
+            <%= link_to '削除', mm_exemption_path(e), data: {confirm: "#{e.yyyy}年度の #{e.employee.fullname} の所得税控除情報を削除します。\nよろしいですか？"}, class: 'btn btn-sm btn-light', method: :delete %>
+          </td>
         </tr>
       <% end %>
     </tbody>

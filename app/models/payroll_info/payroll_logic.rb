@@ -181,10 +181,10 @@ module PayrollInfo
       e = get_exemptions
       
       # 特別減税
-      total_tax -= e.fixed_tax_deduction_amount.to_i
+      total_tax = [0, total_tax - e.fixed_tax_deduction_amount.to_i].max
 
       # 住宅借入金控除
-      total_tax = total_tax - e.max_mortgage_deduction.to_i < 0 ? 0 : total_tax - e.max_mortgage_deduction.to_i
+      total_tax = [0, total_tax - e.max_mortgage_deduction.to_i].max
 
       # 復興特別税（H25以降）
       total_tax = total_tax * 1.021 if @calendar_year >= 2013

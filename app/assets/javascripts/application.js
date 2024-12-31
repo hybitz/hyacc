@@ -21,13 +21,13 @@
 //= require bootstrap
 //= require moment
 //= require fullcalendar
-//= require tax_jp
 //= require daddy
 //= require jquery-ui/ympicker-ja
 //= require mousetrap
 //= require mousetrap/global
 //= require i18n/translations
 //= require nostalgic
+//= require tax_jp
 //= require vendor
 //= require lib
 //= require hyacc

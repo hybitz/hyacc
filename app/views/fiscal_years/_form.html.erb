@@ -15,7 +15,7 @@
       <tr>
         <td align="center"><%= f.select :closing_status, closing_status %></td>
         <td align="center"><%= f.select :tax_management_type, tax_management_types %></td>
-        <td align="center"><%= f.select :consumption_entry_type, consumption_entry_types, :include_blank => true %></td>
+        <td align="center"><%= f.select :consumption_entry_type, consumption_entry_types, include_blank: true %></td>
       </tr>
     </tbody>
   </table>

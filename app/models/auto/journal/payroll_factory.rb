@@ -163,7 +163,7 @@ module Auto::Journal
         detail = journal.journal_details.build
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
-        detail.account = deposits_received
+        detail.account = @payroll.get_annual_adjustment_account
         detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INCOME_TAX).id
         detail.branch_id = branch_id
         detail.amount = @payroll.annual_adjustment

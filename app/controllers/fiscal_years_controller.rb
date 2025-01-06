@@ -1,4 +1,5 @@
 class FiscalYearsController < Base::HyaccController
+  view_attribute :accounts
 
   def index
     @fiscal_years = current_company.fiscal_years
@@ -68,10 +69,18 @@ class FiscalYearsController < Base::HyaccController
   private
 
   def fiscal_year_params
-    params.require(:fiscal_year).permit(
-        :fiscal_year, :closing_status,
-        :tax_management_type, :consumption_entry_type,
-        :accepted_amount_of_excess_depreciation, :approved_loss_amount_of_business_tax)
+    permitted_params = [
+        :closing_status, :tax_management_type, :consumption_entry_type,
+        :accepted_amount_of_excess_depreciation, :approved_loss_amount_of_business_tax,
+        :annual_adjustment_account_id
+    ]
+
+    case action_name
+    when 'create'
+      permitted_params << :fiscal_year
+    end
+
+    params.require(:fiscal_year).permit(*permitted_params)
   end
 
   def update_current_fiscal_year_params

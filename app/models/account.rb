@@ -18,8 +18,8 @@ class Account < ApplicationRecord
 
   # 仕訳可能な勘定科目のみ取得する
   def self.get_journalizable_accounts(with_deleted = false)
-    accounts = where(:journalizable => true)
-    accounts = accounts.where(:deleted => false) unless with_deleted
+    accounts = where(journalizable: true)
+    accounts = accounts.where(deleted: false) unless with_deleted
     accounts = accounts.where('code <> ?', ACCOUNT_CODE_VARIOUS).order(:code)
 
     # 補助科目が未整備の勘定科目を除外

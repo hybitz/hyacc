@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_24_000000) do
+ActiveRecord::Schema.define(version: 2025_01_08_053646) do
 
   create_table "accounts", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -240,6 +240,7 @@ ActiveRecord::Schema.define(version: 2024_12_24_000000) do
     t.integer "employment_insurance_type"
     t.string "labor_insurance_number", limit: 14
     t.string "social_insurance_number"
+    t.integer "retirement_savings_after"
   end
 
   create_table "customers", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|

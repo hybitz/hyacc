@@ -23,8 +23,8 @@
     <tbody>
       <% @model.details.each do |d| %>
         <tr>
-          <td rowspan="2"><%= RENT_TYPES[ d.rent.rent_type ] %></td>
-          <td height="40"><%= RENT_USAGE_TYPES[ d.rent.usage_type ] %></td>
+          <td rowspan="2"><%= HyaccConst::RENT_TYPES[ d.rent.rent_type ] %></td>
+          <td height="40"><%= HyaccConst::RENT_USAGE_TYPES[ d.rent.usage_type ] %></td>
           <td><%= d.customer_name %></td>
           <td><%= to_wareki(d.start_from) %>～<%= to_wareki(d.end_to) %></td>
           <td rowspan="2"><%= d.remarks %></td>

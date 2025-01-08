@@ -160,11 +160,13 @@ module Auto::Journal
       end
       ### 年末調整分
       if @payroll.annual_adjustment > 0
+        annual_adjustment = @payroll.get_annual_adjustment_account
+
         detail = journal.journal_details.build
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
-        detail.account = @payroll.get_annual_adjustment_account
-        detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INCOME_TAX).id
+        detail.account = annual_adjustment
+        detail.sub_account_id = annual_adjustment.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INCOME_TAX).id
         detail.branch_id = branch_id
         detail.amount = @payroll.annual_adjustment
         detail.note = "年末調整過払い分"

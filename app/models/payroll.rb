@@ -38,8 +38,8 @@ class Payroll < ApplicationRecord
   end
 
   def get_annual_adjustment_account
-    fy = company.get_fiscal_year(ym)
-    ret = Account.where(id: ym.annual_adjustment_account_id, journalizable: true, deleted: false).first if ym.annual_adjustment_account_id.present?
+    fy = employee.company.get_fiscal_year(ym)
+    ret = Account.where(id: fy.annual_adjustment_account_id, journalizable: true, deleted: false).first if fy.annual_adjustment_account_id.present?
     ret ||= Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
   end
 

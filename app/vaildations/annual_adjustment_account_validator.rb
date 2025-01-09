@@ -2,7 +2,7 @@ class AnnualAdjustmentAccountValidator < ActiveModel::EachValidator
   include HyaccConst
 
   def validate_each(record, attribute, value)
-    return unless value
+    return unless value.present?
 
     a = Account.where(id: value, journalizable: true, deleted: false).first
     unless a

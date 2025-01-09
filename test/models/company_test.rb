@@ -107,7 +107,6 @@ class CompanyTest < ActiveSupport::TestCase
 
     c.retirement_savings_after = '1'
     assert c.valid?
-    assert_equal "入社1年目から", c.retirement_savings_after_jp
   end
 
 end

@@ -129,11 +129,6 @@ class Company < ApplicationRecord
     TaxJp::EMPLOYMENT_INSURANCE_TYPES[employment_insurance_type]
   end
 
-  def retirement_savings_after_jp
-    return nil unless retirement_savings_after
-    "入社#{retirement_savings_after}年目から"
-  end
-
   def tax_inclusive?
     current_fiscal_year.tax_management_type == TAX_MANAGEMENT_TYPE_INCLUSIVE
   end

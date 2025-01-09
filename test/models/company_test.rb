@@ -95,4 +95,18 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal 31, c.payroll_day(201501)
   end
 
+  def test_退職金積立の開始時期は1以上の整数で入力すること
+    c = new_company
+    assert c.valid?
+    
+    c.retirement_savings_after = '0'
+    assert c.invalid?
+
+    c.retirement_savings_after = '1.5'
+    assert c.invalid?
+
+    c.retirement_savings_after = '1'
+    assert c.valid?
+  end
+
 end

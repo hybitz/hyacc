@@ -115,6 +115,15 @@
         <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
       </td>
     </tr>
+    <tr>
+      <th>退職金積立の開始時期</th>
+      <td><%= @company.retirement_savings_after_jp %></td>
+      <td class="text-center">
+        <%= link_to '変更', edit_mm_company_path(@company, field: 'retirement_savings_after'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+        <%= button_tag '更新', :onclick => 'company.update(this);' %>
+        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+      </td>
+    </tr>
   </table>
 </div>
 

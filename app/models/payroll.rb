@@ -37,6 +37,12 @@ class Payroll < ApplicationRecord
     ym % 100
   end
 
+  def get_annual_adjustment_account
+    fy = employee.company.get_fiscal_year(ym)
+    ret = Account.where(id: fy.annual_adjustment_account_id, journalizable: true, deleted: false).first if fy.annual_adjustment_account_id.present?
+    ret ||= Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
+  end
+
   def monthly_pay?
     !is_bonus?
   end

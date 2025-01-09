@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_01_08_053646) do
+ActiveRecord::Schema.define(version: 2025_01_06_164608) do
 
   create_table "accounts", id: :integer, charset: "utf8", collation: "utf8_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -382,6 +382,7 @@ ActiveRecord::Schema.define(version: 2025_01_08_053646) do
     t.integer "consumption_entry_type", limit: 1
     t.integer "accepted_amount_of_excess_depreciation", default: 0, null: false
     t.integer "approved_loss_amount_of_business_tax", default: 0, null: false
+    t.string "annual_adjustment_account_id"
     t.index ["company_id", "fiscal_year"], name: "index_fiscal_yeras_on_company_id_and_fiscal_year", unique: true
   end
 

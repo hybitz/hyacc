@@ -4,6 +4,7 @@ class FiscalYear < ApplicationRecord
   belongs_to :company
   validates_presence_of :company_id, :fiscal_year
   validates_uniqueness_of :fiscal_year, scope: :company_id
+  validates :annual_adjustment_account_id, annual_adjustment_account: true
 
   after_create :create_sequence_for_asset_code
 

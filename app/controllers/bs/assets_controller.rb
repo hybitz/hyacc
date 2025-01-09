@@ -71,8 +71,8 @@ class Bs::AssetsController < Base::HyaccController
       render 'common/reload'
     rescue => e
       handle(e)
-      @asset.status = @asset.status_before_last_save
-      render 'edit'
+      @asset.status = @asset.status_in_database
+      render 'show'
     end
   end
 

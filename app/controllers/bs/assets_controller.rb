@@ -105,17 +105,8 @@ class Bs::AssetsController < Base::HyaccController
   end
 
   def preload_accounts
-    sql = SqlBuilder.new
-    sql.append('account_type = ?', ACCOUNT_TYPE_ASSET)
-    sql.append('and trade_type = ?', TRADE_TYPE_EXTERNAL)
-    sql.append('and journalizable = ?', true)
-    sql.append('and depreciable = ?', true)
-    sql.append('and deleted = ?', false)
-
-    @accounts = Account.where(sql.to_a)
-    unless @accounts.present?
-      render :no_account and return
-    end
+    @accounts = Account.where(account_type: ACCOUNT_TYPE_ASSET, trade_type: TRADE_TYPE_EXTERNAL, journalizable: true, depreciable: true, deleted: false)
+    render :no_account and return unless @accounts.present?
   end
 
 end

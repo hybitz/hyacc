@@ -60,6 +60,12 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :edit_payday
   end
+
+  def test_退職金積立の開始時期
+    get :edit, xhr: true, params: {id: current_company.id, field: 'retirement_savings_after'}
+    assert_response :success
+    assert_template :edit_retirement_savings_after
+  end
   
   def test_更新
     patch :update, xhr: true, params: {id: current_company.id, company: company_params}

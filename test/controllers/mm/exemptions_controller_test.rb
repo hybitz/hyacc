@@ -20,6 +20,14 @@ class Mm::ExemptionsControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :new
   end
+
+  def test_追加_所得税控除情報を未登録でも追加画面が表示されること
+    Exemption.where(employee_id: @employee_id).delete_all
+    sign_in admin
+    get :new, params: {exemption: {employee_id: @employee_id}}, xhr: true
+    assert_response :success
+    assert_template :new
+  end
   
   def test_追加_employee_id
     sign_in admin

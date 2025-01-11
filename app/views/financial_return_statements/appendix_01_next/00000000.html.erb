@@ -1,0 +1,30 @@
+<div style="width: 1200px;">
+  <table class="my-0 table table-hover table-bordered" style="width: 50%;" align="right">
+    <tr>
+      <td class="text-center" width="50px"><%= justify('事業') %><%= justify('年度等') %></td>
+      <td class="text-center">
+        <div><%= to_wareki(@finder.start_day) %></div>
+        <div><%= to_wareki(@finder.end_day) %></div>
+      </td>
+      <td class="align-middle text-center" width="50px"><%= justify('法人名') %></td>
+      <td colspan="2" class="align-middle text-center"><%= current_company.name %></td>
+    </tr>
+  </table>
+  <table class="my-0 table table-hover table-bordered">
+    <tr>
+      <td colspan="6"><%= justify('　　　　法人税額の計算　　　　') %></td>
+    </tr>
+    <tr>
+      <td colspan="6"><%= justify('　　　　　　地方法人税額の計算　　　　　　') %></td>
+    </tr>
+    <tr>
+      <td colspan="6"><%= justify('　　　　　　　　　この申告が修正申告である場合の計算　　　　　　　　　') %></td>
+    </tr>
+    <tr>
+      <td colspan="6"><%= justify('　　　　土地譲渡税額の内訳　　　　') %></td>
+    </tr>
+    <tr>
+      <td colspan="6"><%= justify('　　　　　　　　　地方法人税額に係る外国税額の控除額の計算　　　　　　　　　') %></td>
+    </tr>
+  </table>
+</div>

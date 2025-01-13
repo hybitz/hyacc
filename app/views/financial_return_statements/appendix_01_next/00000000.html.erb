@@ -1,6 +1,7 @@
 <div style="width: 1200px;">
-  <table class="my-0 table table-hover table-bordered" style="width: 50%;" align="right">
+  <table class="my-0 table table-hover">
     <tr>
+      <td style="width: 50%;"></td>
       <td class="text-center" width="50px"><%= justify('事業') %><%= justify('年度等') %></td>
       <td class="text-center">
         <div><%= to_wareki(@finder.start_day) %></div>
@@ -12,19 +13,114 @@
   </table>
   <table class="my-0 table table-hover table-bordered">
     <tr>
-      <td colspan="6"><%= justify('　　　　法人税額の計算　　　　') %></td>
+      <td colspan="10"><%= justify('　　　　法人税額の計算　　　　') %></td>
     </tr>
     <tr>
-      <td colspan="6"><%= justify('　　　　　　地方法人税額の計算　　　　　　') %></td>
+      <td colspan="3" class="text-center" style="width: 30%;"><%= justify('(1)のうち中小法人等の年800万円相当額') %><%= justify('以下の金額') %><span>（(1)と800万円 × 12/12 のうち少ない金額）又は<br>（別表一付表「5）</span></td>
+      <td class="text-center" style="width: 2em;">45</td>
+      <td class="text-end" style="width: 15%;"><%= to_amount(@model.income_amount) %></td>
+      <td colspan="3" class="text-center" style="width: 30%;"><span>(45)の ● 15 % 又は ○ 19 % 相当額</span></td>
+      <td class="text-center" style="width: 2em;">48</td>
+      <td class="text-end" style="width: 15%;"><%= to_amount(@model.pre_corporate_tax_amount) %></td>
     </tr>
     <tr>
-      <td colspan="6"><%= justify('　　　　　　　　　この申告が修正申告である場合の計算　　　　　　　　　') %></td>
+      <td colspan="3" class="text-center"><%= justify('(1)のうち特例税率の適用がある協同組合') %><%= justify('等の年10億円相当額を超える金額') %><span>(1) - 10億円 × 12/12</span></td>
+      <td class="text-center">46</td>
+      <td class="text-end">000</td>
+      <td colspan="3" class="text-center"><span>(46)の 22 % 相当額</span></td>
+      <td class="text-center">49</td>
+      <td class="text-end"></td>
     </tr>
     <tr>
-      <td colspan="6"><%= justify('　　　　土地譲渡税額の内訳　　　　') %></td>
+      <td colspan="3" class="text-center"><%= justify('その他の所得金額') %><span>(1) - (45) - (46)</span></td>
+      <td class="text-center">47</td>
+      <td class="text-end">000</td>
+      <td colspan="3" class="text-center"><span>(47) の ○ 19 % 又は ○ 23.2 % 相当額</span></td>
+      <td class="text-center">50</td>
+      <td class="text-end"></td>
     </tr>
     <tr>
-      <td colspan="6"><%= justify('　　　　　　　　　地方法人税額に係る外国税額の控除額の計算　　　　　　　　　') %></td>
+      <td colspan="10"><%= justify('　　　　　　地方法人税額の計算　　　　　　') %></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"><%= justify('所得の金額に対する法人税額') %><span>(28)</span></td>
+      <td class="text-center">51</td>
+      <td class="text-end"><%= to_amount(@model.corporate_tax_amount) %></td>
+      <td colspan="3" class="text-center"><span>(51) の 10.3 % 相当額</span></td>
+      <td class="text-center">53</td>
+      <td class="text-end"><%= to_amount(@model.local_corporate_tax_amount) %></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"><%= justify('課税留保金額に対する法人税額') %><span>(1) - (29)</span></td>
+      <td class="text-center">52</td>
+      <td class="text-end">000</td>
+      <td colspan="3" class="text-center"><span>(52) の 10.3 % 相当額</span></td>
+      <td class="text-center">54</td>
+      <td class="text-end"></td>
+    </tr>
+    <tr>
+      <td colspan="10"><%= justify('　　　　　　　　　この申告が修正申告である場合の計算　　　　　　　　　') %></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">55</td>
+      <td class="text-end"></td>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">58</td>
+      <td class="text-end"></td>
+    </tr>
+    <tr>
+      <td rowspan="2" colspan="3" class="text-center"></td>
+      <td rowspan="2" class="text-center">56</td>
+      <td rowspan="2" class="text-end"></td>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">59</td>
+      <td class="text-end"></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">60</td>
+      <td class="text-end"></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">57</td>
+      <td class="text-end"></td>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">61</td>
+      <td class="text-end"></td>
+    </tr>
+    <tr>
+      <td colspan="10"><%= justify('　　　　土地譲渡税額の内訳　　　　') %></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">62</td>
+      <td class="text-end"></td>
+      <td rowspan="2" colspan="3" class="text-center"></td>
+      <td rowspan="2" class="text-center">64</td>
+      <td rowspan="2" class="text-end"></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">63</td>
+      <td class="text-end"></td>
+    </tr>
+    <tr>
+      <td colspan="10"><%= justify('　　　　　　　　　地方法人税額に係る外国税額の控除額の計算　　　　　　　　　') %></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">65</td>
+      <td class="text-end"></td>
+      <td rowspan="2" colspan="3" class="text-center"></td>
+      <td rowspan="2" class="text-center">67</td>
+      <td rowspan="2" class="text-end"></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"></td>
+      <td class="text-center">66</td>
+      <td class="text-end"></td>
     </tr>
   </table>
 </div>

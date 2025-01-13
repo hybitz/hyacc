@@ -14,18 +14,18 @@
         <td class="text-center" style="width: 2em;" rowspan="15"><%= split_with_br('この申告書による法人税額の計算') %></td>
         <td class="text-center px-4" style="width: 30%;"><%= justify('所得金額または欠損金額') %><span>（別表四「52の①」）</span></td>
         <td class="text-center" style="width: 2em;">1</td>
-        <td class="text-end"></td>
+        <td class="text-end" style="width: 15%;"><%= to_amount(@model.income_amount) %></td>
         <td rowspan="15" style="width: 1em;"></td>
         <td class="text-center" style="width: 2em;" rowspan="5"><%= split_with_br('控除税額の計算') %></td>
         <td class="text-center" style="width: 30%;"><%= justify('控除税の額') %><span>（別表六(一)「6の③」）</span></td>
         <td class="text-center" style="width: 2em;">16</td>
-        <td class="text-end"></td>
+        <td class="text-end" style="width: 15%;"></td>
         <td rowspan="15" style="width: 1em;"></td>
       </tr>
       <tr>
         <td class="text-center px-4"><%= justify('法人税額') %><span>(48)+(49)+(50)</span></td>
         <td class="text-center">2</td>
-        <td></td>
+        <td></td>P
         <td class="text-center" px-4><%= justify('外国税額') %><span>（別表六(二)「23」）</span></td>
         <td class="text-center">17</td>
         <td></td>

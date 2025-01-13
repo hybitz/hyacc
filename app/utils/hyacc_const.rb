@@ -205,7 +205,7 @@ module HyaccConst
     REPORT_TYPE_APPENDIX_01 = 'appendix_01' => '別表1　各事業年度の所得に係る申告書',
     REPORT_TYPE_APPENDIX_01_NEXT = 'appendix_01_next' => '別表1　次葉',
     REPORT_TYPE_RENT = 'rent' => '⑮地代家賃等の内訳書',
-    REPORT_TYPE_INCOME = 'income' => '別表4　所得の金額の計算に関する明細書',
+    REPORT_TYPE_APPENDIX_04 = 'appendix_04' => '別表4　所得の金額の計算に関する明細書',
     REPORT_TYPE_SURPLUS_RESERVE_AND_CAPITAL_STOCK = 'profit_and_capital' => '別表5(1)　利益積立金額及び資本金等の計算に関する明細書',
     REPORT_TYPE_TAX_AND_DUES = 'tax_and_dues' => '別表5(2)　租税公課の納付状況等に関する明細書',
     REPORT_TYPE_DIVIDEND_RECEIVED = 'dividend_received' => '別表8　受取配当等の益金不算入に関する明細書',

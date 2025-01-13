@@ -25,16 +25,16 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
 
   def test_別表四_所得の金額の計算に関する明細書
     sign_in user
-    get :index, params: {commit: true, finder: income_finder}
+    get :index, params: {commit: true, finder: appendix_04_finder}
     assert_response :success
-    assert_template 'financial_return_statements/income/00000000'
+    assert_template 'financial_return_statements/appendix_04/00000000'
   end
 
   def test_別表四_所得の金額の計算に関する明細書_20170401
     sign_in user
-    get :index, params: {commit: true, finder: income_finder.merge(fiscal_year: 2017)}
+    get :index, params: {commit: true, finder: appendix_04_finder.merge(fiscal_year: 2017)}
     assert_response :success
-    assert_template 'financial_return_statements/income/20170401'
+    assert_template 'financial_return_statements/appendix_04/20170401'
   end
 
   def test_別表5_1_利益積立金額及び資本金等の計算に関する明細書

@@ -5,6 +5,8 @@ class Mm::ExemptionsControllerTest < ActionController::TestCase
   setup do
     @employee_id = 6
     @exemption = exemptions(35)
+    years = Exemption.where(company_id: 1).pluck(:yyyy)
+    years.map{|y| FiscalYear.find_by(company_id: 1, fiscal_year: y).blank? ? Exemption.where(yyyy: y).delete_all : next }
   end
   
   def test_初期表示
@@ -17,6 +19,14 @@ class Mm::ExemptionsControllerTest < ActionController::TestCase
   def test_追加
     sign_in admin
     get :new, :params => {:exemption => valid_exemption_params}, :xhr => true
+    assert_response :success
+    assert_template :new
+  end
+
+  def test_追加_所得税控除情報を未登録でも追加画面が表示されること
+    Exemption.where(employee_id: @employee_id).delete_all
+    sign_in admin
+    get :new, params: {exemption: {employee_id: @employee_id}}, xhr: true
     assert_response :success
     assert_template :new
   end

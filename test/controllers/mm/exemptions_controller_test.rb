@@ -5,6 +5,8 @@ class Mm::ExemptionsControllerTest < ActionController::TestCase
   setup do
     @employee_id = 6
     @exemption = exemptions(35)
+    years = Exemption.where(company_id: 1).pluck(:yyyy)
+    years.map{|y| FiscalYear.find_by(company_id: 1, fiscal_year: y).blank? ? Exemption.where(yyyy: y).delete_all : next }
   end
   
   def test_初期表示

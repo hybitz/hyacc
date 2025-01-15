@@ -1,12 +1,13 @@
 require 'test_helper'
 
-class Mm::ExemptionsControllerTest < ActionController::TestCase
+class Hr::ExemptionsControllerTest < ActionController::TestCase
 
   setup do
     @employee_id = 6
     @exemption = exemptions(35)
     years = Exemption.where(company_id: 1).pluck(:yyyy)
     years.map{|y| FiscalYear.find_by(company_id: 1, fiscal_year: y).blank? ? Exemption.where(yyyy: y).delete_all : next }
+    @fiscal_year = FiscalYear.create!(company_id: Employee.not_deleted.first.company.id, fiscal_year: Date.today.year)
   end
   
   def test_初期表示
@@ -61,6 +62,24 @@ class Mm::ExemptionsControllerTest < ActionController::TestCase
     assert_template 'common/reload'
   end
 
+  def test_未登録の年度ヘの所得税控除の登録がエラーになること
+    @fiscal_year.destroy!
+    sign_in admin
+    post :create, params: {exemption: valid_exemption_params}, xhr: true
+    assert_response :success
+    assert_template :new
+    assert_equal ERR_FISCAL_YEAR_NOT_EXISTS, flash[:notice]
+  end
+
+  def test_本締の年度への所得税控除の登録がエラーになること
+    @fiscal_year.update!(closing_status: CLOSING_STATUS_CLOSED)
+    sign_in admin
+    post :create, params: {exemption: valid_exemption_params}, xhr: true
+    assert_response :success
+    assert_template :new
+    assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
+  end
+
   def test_編集
     sign_in admin
     get :edit, :params => {:id => @exemption.id}, :xhr => true
@@ -77,6 +96,15 @@ class Mm::ExemptionsControllerTest < ActionController::TestCase
     patch :update, :params => {:id => exemption.id, :exemption => valid_exemption_params}, :xhr => true
     assert_response :success
     assert_template 'common/reload'
+  end
+
+  def test_未登録の年度ヘの所得税控除の更新がエラーになること
+    @fiscal_year.destroy!
+    sign_in admin
+    patch :update, params: {id: exemption.id, exemption: valid_exemption_params}, xhr: true
+    assert_response :success
+    assert_template :edit
+    assert_equal ERR_FISCAL_YEAR_NOT_EXISTS, flash[:notice]
   end
 
   def test_削除

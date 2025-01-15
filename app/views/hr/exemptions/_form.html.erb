@@ -1,0 +1,132 @@
+<script>
+  $(document).ready(function() {
+    hyacc.init_datepicker();
+    // 初期表示の確認
+    toggleFixedTaxDeduction();
+  
+    // 年が変更されたときに表示を切り替える
+    $('#exemption_yyyy').change(function() {
+      toggleFixedTaxDeduction();
+    });
+  });
+  
+  function toggleFixedTaxDeduction() {
+    var year = $('#exemption_yyyy').val();
+    if (year == '2024') {
+      $('#fixed-tax-deduction-row').show();
+    } else {
+      $('#fixed-tax-deduction-row').hide();
+      $('#exemption_fixed_tax_deduction_amount').val('');  // 定額減税の値をリセット
+    }
+  }
+
+  function add_dependent_family_member(trigger) {
+    var table = $(trigger).closest('table');
+    var params = {
+      index: table.find('tbody tr').length,
+      format: 'html'
+    };
+
+    $.get('<%= url_for action: 'add_dependent_family_member' %>', params, function(html) {
+      table.find('tbody').append(html);
+    });
+  }
+</script>
+
+<%= flash_notice %>
+
+<%= form_with model: [:hr, @c], data: {remote: true} do |f| %>
+  <table class="table table-sm">
+    <tr>
+      <th colspan="2">暦年</th><td><%= f.select :yyyy, calendar_years %></td>
+      <th colspan="2">従業員</th><td><%= f.collection_select :employee_id, finder.employees, 'id', 'fullname' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">基礎控除</th><td><%= f.text_field :basic, class: 'amount' %></td>
+      <th colspan="2">扶養控除</th><td><%= f.text_field :dependents, class: 'amount' %></td>
+    </tr>
+    <tr>
+      <th rowspan="2"><%= Exemption.human_attribute_name :life_insurance_premium %></th>
+      <th><%= f.label :life_insurance_premium_old %></th>
+      <td><%= f.text_field :life_insurance_premium_old, class: 'amount' %></td>
+      <th rowspan="2">個人年金保険料</th>
+      <th><%= f.label :private_pension_insurance_old %></th>
+      <td><%= f.text_field :private_pension_insurance_old, class: 'amount' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :life_insurance_premium_new %></th>
+      <td><%= f.text_field :life_insurance_premium_new, class: 'amount' %></td>
+      <th><%= f.label :private_pension_insurance_new %></th>
+      <td><%= f.text_field :private_pension_insurance_new, class: 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">介護医療保険料</th><td><%= f.text_field :care_insurance_premium, class: 'amount' %></td>
+      <th colspan="2">地震保険料</th><td><%= f.text_field :earthquake_insurance_premium, class: 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">配偶者特別控除</th><td><%= f.text_field :special_tax_for_spouse, class: 'amount' %></td>
+      <th colspan="2">社会保険料控除</th><td><%= f.text_field :social_insurance_selfpay, class: 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">配偶者控除</th><td><%= f.text_field :spouse, class: 'amount' %></td>
+      <th colspan="2">小規模共済掛金</th><td><%= f.text_field :small_scale_mutual_aid, class: 'amount' %></td>
+    </tr>
+    <tr>
+    <th colspan="2">住宅借入金等特別控除可能額</th><td><%= f.text_field :max_mortgage_deduction, class: 'amount' %></td>
+    <th colspan="2">住宅借入金等特別控除適用数</th><td><%= f.text_field :num_of_house_loan, class: 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">居住開始年月日（1回目）</th><td><%= f.text_field :date_of_start_living_1, class: 'datepicker' %></td>
+      <th colspan="2">居住開始年月日（2回目）</th><td><%= f.text_field :date_of_start_living_2, class: 'datepicker' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">住宅借入金等特別控除区分（1回目）</th><td><%= f.select :mortgage_deduction_code_1, mortgage_deduction_types, include_blank:true %></td>
+      <th colspan="2">住宅借入金等特別控除区分（2回目）</th><td><%= f.select :mortgage_deduction_code_2, mortgage_deduction_types, include_blank:true %></td>
+    </tr>
+    <tr>
+      <th colspan="2">住宅借入金等年末残高（1回目）</th><td><%= f.text_field :year_end_balance_1, class: 'amount' %></td>
+      <th colspan="2">住宅借入金等年末残高（2回目）</th><td><%= f.text_field :year_end_balance_2, class: 'amount' %></td>
+    </tr>
+    <tr id="fixed-tax-deduction-row" style="display: none;">
+      <th colspan="2">定額減税額</th>
+        <td><%= f.text_field :fixed_tax_deduction_amount, class: 'amount' %></td>
+        <th colspan="2"></th>
+        <td></td>
+    </tr>
+    <tr>
+      <th colspan="2">前職の支払金額</th><td><%= f.text_field :previous_salary, class: 'amount' %></td>
+      <th colspan="2">前職の源泉徴収税額</th><td><%= f.text_field :previous_withholding_tax, class: 'amount' %></td>
+    </tr>
+    <tr>
+      <th colspan="2">前職の社会保険料等の金額</th><td><%= f.text_field :previous_social_insurance, class: 'amount' %></td>
+      <th colspan="2"></th><td></td>
+    </tr>
+    <tr>
+      <th colspan="2">摘要欄</th><td colspan='4'><%= f.text_area :remarks, maxlength: '500', size: '60x3' %></td>
+    </tr>
+  </table>
+  <table width="400">
+  <thead>
+    <tr>
+      <th>控除区分</th>
+      <th>氏名</th>
+      <th>カナ氏名</th>
+      <th>マイナンバー</th>
+      <th>国内居住者</th>
+      <th>削除</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @c.dependent_family_members.each_with_index do |dfm, i| %>
+      <%= render 'dependent_fields', dfm: dfm, index: i %>
+    <% end %>  
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="6" align="right">
+        <a href="" onclick="add_dependent_family_member(this); return false;">扶養家族追加</a>
+      </td>
+    </tr>
+  </tfoot>
+  </table>
+<% end %>

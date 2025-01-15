@@ -19,8 +19,8 @@ end
   years.map{|y| FiscalYear.find_by(company_id: 1, fiscal_year: y).blank? ? Exemption.where(yyyy: y).delete_all : next }
 end
 
-前提 /^マスタメンテから所得税控除のメニューを選択する$/ do
-  click_on 'マスタメンテ'
+前提 /^人事労務から所得税控除のメニューを選択する$/ do
+  click_on '人事労務'
   assert has_link?('所得税控除', exact: true)
   click_on '所得税控除'
 end

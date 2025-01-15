@@ -1,0 +1,10 @@
+<%= fields_for "exemption[dependent_family_members_attributes]", dfm, index: index do |f| %>
+<tr>
+  <td><%= f.select :exemption_type, exemption_types %><%= f.hidden_field :id %></td>
+  <td><%= f.text_field :name %></td>
+  <td><%= f.text_field :kana %></td>
+  <td><%= f.text_field :my_number, maxlength: 12 %></td>
+  <td><%= f.check_box :live_in %></td>
+  <td><%= f.check_box :_destroy %></td>
+</tr>
+<% end %>

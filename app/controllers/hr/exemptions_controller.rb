@@ -1,4 +1,4 @@
-class Mm::ExemptionsController < Base::HyaccController
+class Hr::ExemptionsController < Base::HyaccController
   helper_method :finder
 
   def index
@@ -30,7 +30,6 @@ class Mm::ExemptionsController < Base::HyaccController
       flash[:notice] = '所得税控除情報を追加しました。'
       render 'common/reload'
     rescue => e
-      setup_view_attributes
       handle(e)
       render 'new'
     end

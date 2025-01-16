@@ -15,6 +15,7 @@ ja:
     hr: 人事労務
     hr/payrolls: 賃金台帳
     hr/social_insurances: 社会保険
+    hr/exemptions: 所得税控除
     journal_admin: 伝票管理
     journals: 振替伝票
     ledgers: 元帳
@@ -28,7 +29,6 @@ ja:
     mm/companies: 会社
     mm/customers: 取引先
     mm/employees: 従業員
-    mm/exemptions: 所得税控除
     mm/inhabitant_taxes: 住民税
     mm/qualifications: 資格
     mm/rents: 地代家賃

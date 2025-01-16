@@ -14,6 +14,12 @@ Rails.application.routes.draw do
     end
 
     resources :social_insurances, only: 'index'
+
+    resources :exemptions do
+      collection do
+        get 'add_dependent_family_member'
+      end
+    end
   end
 
 end

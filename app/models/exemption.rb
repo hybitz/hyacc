@@ -5,6 +5,7 @@ class Exemption < ApplicationRecord
   has_many :under16_family_members, -> { where exemption_type: EXEMPTION_TYPE_UNDER_16 }, class_name: "DependentFamilyMember"
   belongs_to :employee
   validates :employee_id, uniqueness: {scope: [:yyyy], case_sensitive: false}
+  validates_with ExemptionValidator
         
 
   accepts_nested_attributes_for :dependent_family_members, :allow_destroy => true
@@ -28,6 +29,10 @@ class Exemption < ApplicationRecord
   
   def private_pension_insurance
     calc_insurance(private_pension_insurance_old, private_pension_insurance_new)
+  end
+
+  def fiscal_year
+    FiscalYear.find_by(company_id: company_id, fiscal_year: yyyy)
   end
 
   private

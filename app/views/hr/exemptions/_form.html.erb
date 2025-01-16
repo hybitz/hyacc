@@ -8,6 +8,9 @@
     $('#exemption_yyyy').change(function() {
       toggleFixedTaxDeduction();
     });
+
+    // 編集ダイアログ内の年のセレクトボックスは無効にする
+    disableYyyySelection();
   });
   
   function toggleFixedTaxDeduction() {
@@ -30,6 +33,13 @@
     $.get('<%= url_for action: 'add_dependent_family_member' %>', params, function(html) {
       table.find('tbody').append(html);
     });
+  }
+
+  function disableYyyySelection() {
+    var title = $('.ui-dialog-title').html();
+    if (title.includes('編集')) {
+      $('#exemption_yyyy').prop('disabled', true);
+    }
   }
 </script>
 

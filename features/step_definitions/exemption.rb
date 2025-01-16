@@ -46,3 +46,26 @@ end
     end
   end
 end
+
+もし /^ダイアログ内の暦年のセレクトボックスは以下のように有効もしくは無効に切り替わる$/ do |ast_table|
+  rows = normalize_table(ast_table)
+  rows[1..-1].each do |r|
+    action = r[0]
+    availability = r[1]
+
+    click_on action, match: :first 
+
+    assert wait_until { has_selector?("div.ui-dialog", visible: true) }
+    assert has_selector?("span.ui-dialog-title", text: /所得税控除.*#{action}/)
+    
+    case availability
+    when '無効'
+      assert find('#exemption_yyyy').disabled?
+    when '有効'
+      assert_not find('#exemption_yyyy').disabled?
+    end
+
+    click_on '閉じる'
+    
+  end
+end

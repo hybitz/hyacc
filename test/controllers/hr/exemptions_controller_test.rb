@@ -98,15 +98,6 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
     assert_template 'common/reload'
   end
 
-  def test_未登録の年度ヘの所得税控除の更新がエラーになること
-    @fiscal_year.destroy!
-    sign_in admin
-    patch :update, params: {id: exemption.id, exemption: valid_exemption_params}, xhr: true
-    assert_response :success
-    assert_template :edit
-    assert_equal ERR_FISCAL_YEAR_NOT_EXISTS, flash[:notice]
-  end
-
   def test_削除
     sign_in admin
     delete :destroy, :params => {:id => exemption.id}

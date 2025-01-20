@@ -9,11 +9,11 @@ module FinancialReturnStatements
     }
   end
   
-  def income_finder(current_user = nil)
+  def appendix_04_finder(current_user = nil)
     current_user ||= user
     {
       fiscal_year: current_user.employee.company.current_fiscal_year_int,
-      report_type: REPORT_TYPE_INCOME
+      report_type: REPORT_TYPE_APPENDIX_04
     }
   end
   

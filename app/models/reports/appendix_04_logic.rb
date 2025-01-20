@@ -1,8 +1,8 @@
 module Reports
-  class IncomeLogic < BaseLogic
+  class Appendix04Logic < BaseLogic
 
     def build_model
-      ret = IncomeModel.new
+      ret = Appendix04Model.new
       ret.company = Company.find(finder.company_id)
       ret.fiscal_year = ret.company.get_fiscal_year(finder.fiscal_year)
       ret.pretax_profit_amount = get_pretax_profit_amount
@@ -22,7 +22,7 @@ module Reports
 
   end
 
-  class IncomeModel
+  class Appendix04Model
     attr_accessor :company
     attr_accessor :fiscal_year
     attr_accessor :pretax_profit_amount

@@ -32,7 +32,8 @@ class Exemption < ApplicationRecord
   end
   
   def fiscal_year_including_december_of_yyyy
-    FiscalYear.find_by(company_id: company_id, fiscal_year: yyyy)
+    yyyymm = yyyy * 100 + 12
+    Company.find(company_id).get_fiscal_year(yyyymm)
   end
 
   private

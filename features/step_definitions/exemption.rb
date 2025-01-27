@@ -15,8 +15,8 @@
 end
 
 前提 /^所得税控除の暦年は会計年度マスタに登録されている$/ do
-  years = Exemption.where(company_id: 1).pluck(:yyyy)
-  years.map{|y| FiscalYear.find_by(company_id: 1, fiscal_year: y).blank? ? Exemption.where(yyyy: y).delete_all : next }
+  fy = FiscalYear.where(company_id: 1).pluck(:fiscal_year).sort
+  (fy.first..fy.last).map{|y| FiscalYear.find_by(company_id: 1, fiscal_year: y).blank? ? FiscalYear.create!(company_id: 1, fiscal_year: y) : next}
 end
 
 前提 /^人事労務から所得税控除のメニューを選択する$/ do

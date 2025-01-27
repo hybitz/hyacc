@@ -14,7 +14,7 @@ class ExemptionValidator < ActiveModel::Validator
     unless year
       raise HyaccException.new( ERR_FISCAL_YEAR_NOT_EXISTS )
     else
-      if year.closed? 
+      if year.closed?
         raise HyaccException.new( ERR_CLOSING_STATUS_CLOSED )
       end
     end

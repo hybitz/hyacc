@@ -5,9 +5,9 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
   setup do
     @employee_id = 6
     @exemption = exemptions(35)
-    years = Exemption.where(company_id: 1).pluck(:yyyy)
-    years.map{|y| FiscalYear.find_by(company_id: 1, fiscal_year: y).blank? ? Exemption.where(yyyy: y).delete_all : next }
-    @fiscal_year = FiscalYear.create!(company_id: Employee.not_deleted.first.company.id, fiscal_year: Date.today.year)
+    fy = FiscalYear.where(company_id: 1).pluck(:fiscal_year).sort
+    (fy.first..fy.last).map {|y| FiscalYear.find_by(company_id: 1, fiscal_year: y).blank? ? FiscalYear.create!(company_id: 1, fiscal_year: y) : next}
+    @fiscal_year = FiscalYear.create!(company_id: Employee.not_deleted.first.company.id, fiscal_year: Date.today.year + 1)
   end
   
   def test_初期表示

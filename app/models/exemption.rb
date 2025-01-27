@@ -30,8 +30,8 @@ class Exemption < ApplicationRecord
   def private_pension_insurance
     calc_insurance(private_pension_insurance_old, private_pension_insurance_new)
   end
-
-  def fiscal_year
+  
+  def fiscal_year_including_december_of_yyyy
     FiscalYear.find_by(company_id: company_id, fiscal_year: yyyy)
   end
 

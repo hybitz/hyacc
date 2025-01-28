@@ -59,12 +59,12 @@ class Hr::ExemptionsController < Base::HyaccController
     c = Exemption.find(params[:id])
     c.destroy
     flash[:notice] = '所得税控除情報を削除しました。'
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
   
   def add_dependent_family_member
     @dfm = DependentFamilyMember.new
-    render :partial => 'dependent_fields', :locals => {:dfm => @dfm, :index => params[:index]}
+    render partial: 'dependent_fields', locals: {dfm: @dfm, index: params[:index]}
   end
 
   private
@@ -99,7 +99,7 @@ class Hr::ExemptionsController < Base::HyaccController
     ]
 
     ret = params.require(:exemption).permit(permitted)
-    ret.merge!(:company_id => current_company.id)
+    ret.merge!(company_id: current_company.id)
   end
 
 end

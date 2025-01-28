@@ -10,7 +10,7 @@ class ExemptionValidator < ActiveModel::Validator
   private
 
   def validate_fiscal_year_and_closing_status(record)
-    year = record.fiscal_year_including_december_of_yyyy
+    year = record.fiscal_year_for_december_of_calendar_year
     unless year
       raise HyaccException.new( ERR_FISCAL_YEAR_NOT_EXISTS )
     else

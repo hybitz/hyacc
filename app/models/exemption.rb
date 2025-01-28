@@ -31,7 +31,7 @@ class Exemption < ApplicationRecord
     calc_insurance(private_pension_insurance_old, private_pension_insurance_new)
   end
   
-  def fiscal_year_including_december_of_yyyy
+  def fiscal_year_for_december_of_calendar_year
     yyyymm = yyyy * 100 + 12
     Company.find(company_id).get_fiscal_year(yyyymm)
   end

@@ -8,6 +8,9 @@
     $('#exemption_yyyy').change(function() {
       toggleFixedTaxDeduction();
     });
+
+    // 編集ダイアログ内の年のセレクトボックスは無効にする
+    disableYyyySelection();
   });
   
   function toggleFixedTaxDeduction() {
@@ -31,11 +34,18 @@
       table.find('tbody').append(html);
     });
   }
+
+  function disableYyyySelection() {
+    var title = $('.ui-dialog-title').html();
+    if (title.includes('編集')) {
+      $('#exemption_yyyy').prop('disabled', true);
+    }
+  }
 </script>
 
 <%= flash_notice %>
 
-<%= form_with model: [:mm, @c], data: {remote: true} do |f| %>
+<%= form_with model: [:hr, @c], data: {remote: true} do |f| %>
   <table class="table table-sm">
     <tr>
       <th colspan="2">暦年</th><td><%= f.select :yyyy, calendar_years %></td>

@@ -39,12 +39,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :exemptions do
-      collection do
-        get 'add_dependent_family_member'
-      end
-    end
-
     resources :inhabitant_taxes do
       collection do
         post 'confirm'

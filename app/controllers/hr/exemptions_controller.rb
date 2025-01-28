@@ -1,4 +1,4 @@
-class Mm::ExemptionsController < Base::HyaccController
+class Hr::ExemptionsController < Base::HyaccController
   helper_method :finder
 
   def index
@@ -11,6 +11,7 @@ class Mm::ExemptionsController < Base::HyaccController
     employee_id = current_user.employee.id if employee_id.blank?
     
     @d = Exemption.where(employee_id: employee_id).order(yyyy: 'desc').order(employee_id: 'asc').first
+    @d = Exemption.new(employee_id: employee_id) if @d.blank?
     # new_record? = true にするためdup
     @c = @d.dup
     @c.yyyy = Date.today.year
@@ -29,7 +30,6 @@ class Mm::ExemptionsController < Base::HyaccController
       flash[:notice] = '所得税控除情報を追加しました。'
       render 'common/reload'
     rescue => e
-      setup_view_attributes
       handle(e)
       render 'new'
     end
@@ -59,12 +59,12 @@ class Mm::ExemptionsController < Base::HyaccController
     c = Exemption.find(params[:id])
     c.destroy
     flash[:notice] = '所得税控除情報を削除しました。'
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
   
   def add_dependent_family_member
     @dfm = DependentFamilyMember.new
-    render :partial => 'dependent_fields', :locals => {:dfm => @dfm, :index => params[:index]}
+    render partial: 'dependent_fields', locals: {dfm: @dfm, index: params[:index]}
   end
 
   private
@@ -99,7 +99,7 @@ class Mm::ExemptionsController < Base::HyaccController
     ]
 
     ret = params.require(:exemption).permit(permitted)
-    ret.merge!(:company_id => current_company.id)
+    ret.merge!(company_id: current_company.id)
   end
 
 end

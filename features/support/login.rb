@@ -2,12 +2,18 @@ module Login
 
   def sign_in(options = {})
     if options[:login_id]
-      assert @_current_user = User.where(login_id: options[:login_id]).not_deleted.first
+      assert user = User.where(login_id: options[:login_id]).not_deleted.first
     elsif options[:name]
-      assert @_current_user = Employee.name_is(options[:name]).not_deleted.first.user
+      assert user = Employee.name_is(options[:name]).not_deleted.first.user
     else
       fail "未知のユーザ情報です。options=#{options}"
     end
+
+    if @_current_user and @_current_user.login_id != user.login_id and has_link?('ログアウト')
+      click_on 'ログアウト'
+    end
+
+    @_current_user = user
 
     visit '/users/sign_in'
     fill_in 'ログインID', with: @_current_user.login_id

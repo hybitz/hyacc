@@ -24,7 +24,7 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: "${APP_NAME}"
+  - name: app
     image: ${ECR}/${APP_NAME}/test:latest
     imagePullPolicy: Always
     resources:
@@ -58,7 +58,7 @@ spec:
         RAILS_ENV = 'test'
       }
       steps {
-        container('${APP_NAME}') {
+        container('app') {
           ansiColor('xterm') {
             sh "bundle exec rails db:reset"
             sh "bundle exec rails test"

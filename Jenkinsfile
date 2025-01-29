@@ -24,7 +24,7 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: env.APP_NAME
+  - name: '${APP_NAME}'
     image: ${ECR}/${APP_NAME}/test:latest
     imagePullPolicy: Always
     resources:

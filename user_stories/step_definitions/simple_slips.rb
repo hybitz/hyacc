@@ -167,7 +167,7 @@ end
   assert tax_type_name = table[1][2]
   assert amount = table[1][3].to_ai
 
-  visit_simple_slip(:account => Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
+  visit_simple_slip(account: Account.find_by_code(ACCOUNT_CODE_ORDINARY_DIPOSIT))
 
   @remarks.each do |remark|
     with_capture do

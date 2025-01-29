@@ -4,6 +4,7 @@ module SimpleSlips
     assert current_user || sign_in(User.first)
 
     visit '/'
+    assert has_link?(options[:account].name)
     click_on options[:account].name
     assert has_title?(options[:account].name)
 
@@ -18,7 +19,7 @@ module SimpleSlips
 
   def create_simple_slip(simple_slip)
     with_capture do
-      visit_simple_slip(:account => simple_slip.my_account, branch: simple_slip.branch)
+      visit_simple_slip(account: simple_slip.my_account, branch: simple_slip.branch)
 
       within '#new_simple_slip' do
         fill_in 'simple_slip_ym', :with => simple_slip.ym

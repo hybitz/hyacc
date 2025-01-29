@@ -2,6 +2,7 @@ pipeline {
   agent none
   environment {
     KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
+    APP_NAME = 'hyacc'
   }
   stages {
     stage('build') {
@@ -9,8 +10,8 @@ pipeline {
       steps {
         container('kaniko') {
           ansiColor('xterm') {
-            sh '/kaniko/executor -f `pwd`/Dockerfile.base -c `pwd` -d=${ECR}/hyacc/base:latest ${KANIKO_OPTIONS}'
-            sh '/kaniko/executor -f `pwd`/Dockerfile.test -c `pwd` -d=${ECR}/hyacc/test:latest ${KANIKO_OPTIONS}'
+            sh '/kaniko/executor -f `pwd`/Dockerfile.base -c `pwd` -d=${ECR}/${APP_NAME}/base:latest ${KANIKO_OPTIONS}'
+            sh '/kaniko/executor -f `pwd`/Dockerfile.test -c `pwd` -d=${ECR}/${APP_NAME}/test:latest ${KANIKO_OPTIONS}'
           }
         }
       }
@@ -23,12 +24,12 @@ apiVersion: v1
 kind: Pod
 spec:
   containers:
-  - name: hyacc
-    image: ${ECR}/hyacc/test:latest
+  - name: app
+    image: ${ECR}/${APP_NAME}/test:latest
     imagePullPolicy: Always
     resources:
       requests:
-        memory: 1500Mi
+        memory: 1600Mi
     command:
     - cat
     tty: true
@@ -38,11 +39,11 @@ spec:
     - name: MYSQL_ALLOW_EMPTY_PASSWORD
       value: yes
     - name: MYSQL_DATABASE
-      value: hyacc_test
+      value: ${APP_NAME}_test
     - name: MYSQL_USER
-      value: hyacc
+      value: ${APP_NAME}
     - name: MYSQL_PASSWORD
-      value: hyacc
+      value: ${APP_NAME}
     resources:
       requests:
         memory: 256Mi
@@ -57,7 +58,7 @@ spec:
         RAILS_ENV = 'test'
       }
       steps {
-        container('hyacc') {
+        container('app') {
           ansiColor('xterm') {
             sh "bundle exec rails db:reset"
             sh "bundle exec rails test"
@@ -91,7 +92,7 @@ spec:
           steps {
             container('kaniko') {
               ansiColor('xterm') {
-                sh '/kaniko/executor -f `pwd`/Dockerfile.app -c `pwd` -d=${ECR}/hyacc/app:${RELEASE_TAG} ${KANIKO_OPTIONS}'
+                sh '/kaniko/executor -f `pwd`/Dockerfile.app -c `pwd` -d=${ECR}/${APP_NAME}/app:${RELEASE_TAG} ${KANIKO_OPTIONS}'
               }
             }
           }

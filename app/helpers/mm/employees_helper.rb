@@ -14,4 +14,11 @@ module Mm::EmployeesHelper
     ret = '1ヶ月' if ret.blank?
     ret
   end
+
+  def get_start_ym_of_retirement_savings(employee)
+    rsa = Company.find(employee.company_id).retirement_savings_after
+    return nil unless rsa
+    employee.employment_date.years_since(rsa - 1).strftime("%Y年%-m月")
+  end
+
 end

@@ -30,16 +30,14 @@ end
   with_capture do
     if @slip
       case action
-      when '登録'
-        assert has_selector?('.notice', :text => "伝票を#{action}しました。")
       when '更新'
-        assert has_no_selector?('#edit_simple_slip')
+        assert has_no_dialog?
       end
-      assert has_selector?('#new_simple_slip')
+      assert has_selector?('.notice', text: "伝票を#{action}しました。")
     else
       case action
       when '登録', '更新'
-        assert has_no_dialog?(/振替伝票.*/)
+        assert has_no_dialog?
       end
       assert has_selector?('.notice')
     end

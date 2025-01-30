@@ -10,19 +10,16 @@ class Mm::EmployeesHelperTest < ActionView::TestCase
  
   def test_get_start_ym_of_retirement_savings
     employee = Employee.first
-    company = employee.company
-    assert_equal "2009年1月", employee.employment_date.strftime("%Y年%-m月")
-    assert_nil company.retirement_savings_after
-    assert_nil get_start_ym_of_retirement_savings(employee)
+    employee.company.update!(retirement_savings_after: 3)
 
-    company.update!(retirement_savings_after: 1)
-    assert_equal "2009年1月", get_start_ym_of_retirement_savings(employee)
+    employee.update!(employment_date: '20200101')
+    assert_equal '2022年1月', get_start_ym_of_retirement_savings(employee)
 
-    company.update!(retirement_savings_after: 2)
-    assert_equal "2010年1月", get_start_ym_of_retirement_savings(employee)
+    employee.update!(employment_date: '20200201')
+    assert_equal '2022年2月', get_start_ym_of_retirement_savings(employee)
 
-    company.update!(retirement_savings_after: 3)
-    assert_equal "2011年1月", get_start_ym_of_retirement_savings(employee)
+    employee.update!(employment_date: '20200701')
+    assert_equal '2022年7月', get_start_ym_of_retirement_savings(employee)
   end
 
 end

@@ -4,4 +4,5 @@
   form.find('input, select').attr('disabled', true);
   form.find('img').removeAttr('onclick');
   form.find('a').removeAttr('onclick').on('click', (e) => { e.preventDefault(); });
+  $('#evaluation_table').append('<tr><th>退職金積立開始時期</th><td><%= get_start_ym_of_retirement_savings(@e) %></td></tr>');
 </script>

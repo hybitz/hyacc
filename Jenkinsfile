@@ -104,7 +104,7 @@ spec:
 
 def publish() {
   junit 'test/reports/**/*.xml'
-  script {
-    step([$class: 'RcovPublisher', reportDir: "coverage/rcov"])
-  }
+  script { step([$class: 'RcovPublisher', reportDir: "coverage/rcov"]) }
+  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'features/reports', reportName: 'Features', reportFiles: 'index.html'])
+  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'user_stories/reports', reportName: 'Features', reportFiles: 'index.html'])
 }

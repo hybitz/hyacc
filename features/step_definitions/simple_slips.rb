@@ -87,9 +87,11 @@ end
 もし /^任意の簡易伝票の(編集|削除)をクリックする$/ do |action|
   assert @account = Account.find_by_name(page.title)
 
+  assert has_no_dialog?
+
   assert tr = first('#slipTable tbody tr')
   within tr do
-    @slip = Slips::Slip.new(:account_code => @account.code)
+    @slip = Slips::Slip.new(account_code: @account.code)
     @slip.id = tr['slip_id'].to_i
     @slip.remarks = find('td.remarks').text
     find('td a.show').click

@@ -52,7 +52,7 @@ end
     path = File.join(Rails.root, 'tmp', header[3])
     FileUtils.mkdir_p File.dirname(path)
     FileUtils.touch(path)
-    @journal.build_receipt(:file => File.new(path))
+    @journal.build_receipt(file: File.new(path))
   end
 
   details.each do |d|
@@ -77,23 +77,21 @@ end
 
   with_capture do
     within '#journal_form' do
-      fill_in 'journal[ym]', :with => @journal.ym
-      fill_in 'journal[day]', :with => @journal.day
-      fill_in 'journal[remarks]', :with => @journal.remarks
+      fill_in 'journal[ym]', with: @journal.ym
+      fill_in 'journal[day]', with: @journal.day
+      fill_in 'journal[remarks]', with: @journal.remarks
       attach_file '領収書', @journal.receipt.file.path if @journal.receipt.present?
 
       @journal.journal_details.each_with_index do |detail, i|
         prefix = "journal[journal_details_attributes[#{i}]]"
 
-        select detail.dc_type_name, :from => "#{prefix}[dc_type]"
-        select detail.account_name, :from => "#{prefix}[account_id]"
+        select detail.dc_type_name, from: "#{prefix}[dc_type]"
+        select detail.account_name, from: "#{prefix}[account_id]"
         assert has_selector?(".journal_details [data-index=\"#{i}\"].sub_account_ready")
-        select detail.sub_account_name, :from => "#{prefix}[sub_account_id]" if detail.sub_account_id.present?
-        select detail.branch_name, :from => "#{prefix}[branch_id]"
-        fill_in "#{prefix}[input_amount]", :with => detail.input_amount
+        select detail.sub_account_name, from: "#{prefix}[sub_account_id]" if detail.sub_account_id.present?
+        select detail.branch_name, from: "#{prefix}[branch_id]"
+        fill_in "#{prefix}[input_amount]", with: detail.input_amount
       end
-
-      find('input[name="journal[ym]"]').click # キャプチャ前にフォーカスイベントを発生させたいだけ
     end
   end
 

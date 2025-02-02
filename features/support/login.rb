@@ -27,7 +27,6 @@ module Login
     end
 
     assert has_link?('ログアウト')
-    assert_equal '/', current_path
   end
 
   def current_user

@@ -5,18 +5,18 @@
   assert has_no_title?(a.name)
 
   with_capture do
-    assert has_link?(a.name)
     within '.menu' do
+      assert has_link?(a.name)
       click_on a.name
     end
-    assert has_title?(a.name)
     assert has_selector?('#slipTable')
+    assert has_title?(a.name)
   end
 end
 
 もし /^以下の簡易入力伝票(を|に)(登録|更新)する$/ do |prefix, action, ast_table|
   assert @account = Account.find_by_name(page.title)
-  @slip ||= Slips::Slip.new(:account_code => @account.code)
+  @slip ||= Slips::Slip.new(account_code: @account.code)
 
   normalize_table(ast_table).each do |row|
     field_name = row[0]
@@ -40,7 +40,7 @@ end
     when '勘定科目'
       @slip.account_id = Account.find_by_name(value).id
     when '計上部門'
-      @slip.branch_id = Branch.where(:company_id => current_company.id, :name => value).first!.id
+      @slip.branch_id = Branch.where(company_id: current_company.id, name: value).first!.id
     else
       fail "不明なフィールドです。field_name=#{field_name}"
     end

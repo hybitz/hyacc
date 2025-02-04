@@ -1,10 +1,10 @@
-hyacc.Journal = function (selector, options) {
+hyacc.Journal = function(selector, options) {
   this.selector = selector;
   this.options = options;
   this._init();
 };
 
-hyacc.Journal.prototype.add_detail = function (trigger) {
+hyacc.Journal.prototype.add_detail = function(trigger) {
   var tbody = $(trigger).closest('table').find('tbody');
 
   var params = {
@@ -12,14 +12,14 @@ hyacc.Journal.prototype.add_detail = function (trigger) {
     format: 'html'
   };
 
-  $.get(this.options.add_detail_path, params, function (html) {
+  $.get(this.options.add_detail_path, params, function(html) {
     tbody.append(html);
   });
 };
 
-hyacc.Journal.prototype.flip_details = function (show) {
+hyacc.Journal.prototype.flip_details = function(show) {
   var that = this;
-  this._get_details().each(function () {
+  this._get_details().each(function() {
     if (that._is_deleted(this)) {
       return true;
     }
@@ -37,7 +37,7 @@ hyacc.Journal.prototype.flip_details = function (show) {
   });
 };
 
-hyacc.Journal.prototype.flip_detail = function (trigger) {
+hyacc.Journal.prototype.flip_detail = function(trigger) {
   var detail = this._get_detail(trigger);
   var link = $(trigger);
 
@@ -50,7 +50,7 @@ hyacc.Journal.prototype.flip_detail = function (trigger) {
   }
 };
 
-hyacc.Journal.prototype.remove_receipt = function (trigger) {
+hyacc.Journal.prototype.remove_receipt = function(trigger) {
   var td = $(trigger).closest('td');
   td.hide();
 
@@ -62,11 +62,11 @@ hyacc.Journal.prototype.remove_receipt = function (trigger) {
 };
 
 // 自動振替時の日付必須チェック
-hyacc.Journal.prototype._check_auto_journal_dates = function () {
+hyacc.Journal.prototype._check_auto_journal_dates = function() {
   var errors = [];
 
   var that = this;
-  this._get_details().each(function (i) {
+  this._get_details().each(function(i) {
     if (that._is_deleted(this)) {
       return true;
     }
@@ -76,8 +76,8 @@ hyacc.Journal.prototype._check_auto_journal_dates = function () {
       var month = toInt(that._get_auto_journal_month(this));
       var day = toInt(that._get_auto_journal_day(this));
 
-      if (!checkDate(year, month, day)) {
-        errors.push('【明細' + (i + 1) + '】振替日の指定が不正です。');
+      if (! checkDate(year, month, day)) {
+        errors.push('【明細' + (i+1) + '】振替日の指定が不正です。');
         that._show_detail(this);
       }
     }
@@ -92,11 +92,11 @@ hyacc.Journal.prototype._check_auto_journal_dates = function () {
 };
 
 // 全明細の自動振替の単一選択チェック
-hyacc.Journal.prototype._check_auto_journal_types = function () {
+hyacc.Journal.prototype._check_auto_journal_types = function() {
   var errors = [];
 
   var that = this;
-  this._get_details().each(function (i) {
+  this._get_details().each(function(i) {
     if (that._is_deleted(this)) {
       return true;
     }
@@ -104,15 +104,15 @@ hyacc.Journal.prototype._check_auto_journal_types = function () {
     var tr = $(this);
     var count = 0;
 
-    for (var j = 0; j < 3; j++) {
+    for (var j = 0; j < 3; j ++) {
       tr = $(tr).next();
       if ($(tr).find('input[name*="\\[auto_journal_type\\]"]').prop('checked')) {
-        count++;
+        count ++;
       }
     }
 
     if (count > 1) {
-      errors.push('【明細' + (i + 1) + '】自動振替は複数指定できません。');
+      errors.push('【明細' + (i+1) + '】自動振替は複数指定できません。');
       that._show_detail(this);
     }
   });
@@ -125,13 +125,13 @@ hyacc.Journal.prototype._check_auto_journal_types = function () {
   return true;
 };
 
-hyacc.Journal.prototype._get_account_id = function (detail) {
+hyacc.Journal.prototype._get_account_id = function(detail) {
   return $(detail).find('select[name*="\\[account_id\\]"]').val();
 };
 
-hyacc.Journal.prototype._get_auto_journal_type = function (detail) {
+hyacc.Journal.prototype._get_auto_journal_type = function(detail) {
   var tr = detail;
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 3; i ++) {
     var tr = $(tr).next();
     var checkbox = $(tr).find('input[name*="\\[auto_journal_type\\]"]');
     var checked = checkbox.prop('checked');
@@ -143,38 +143,38 @@ hyacc.Journal.prototype._get_auto_journal_type = function (detail) {
   return null;
 };
 
-hyacc.Journal.prototype._get_auto_journal_year = function (detail) {
+hyacc.Journal.prototype._get_auto_journal_year = function(detail) {
   var tr = $(detail).next().next().next();
   return $(tr).find('input[name*="\\[auto_journal_year\\]"]').val();
 };
 
-hyacc.Journal.prototype._get_auto_journal_month = function (detail) {
+hyacc.Journal.prototype._get_auto_journal_month = function(detail) {
   var tr = $(detail).next().next().next();
   return $(tr).find('input[name*="\\[auto_journal_month\\]"]').val();
 };
 
-hyacc.Journal.prototype._get_auto_journal_day = function (detail) {
+hyacc.Journal.prototype._get_auto_journal_day = function(detail) {
   var tr = $(detail).next().next().next();
   return $(tr).find('input[name*="\\[auto_journal_day\\]"]').val();
 };
 
-hyacc.Journal.prototype._get_branch_id = function (detail) {
+hyacc.Journal.prototype._get_branch_id = function(detail) {
   return $(detail).find('select[name*="\\[branch_id\\]"]').val();
 };
 
-hyacc.Journal.prototype._get_dc_type = function (detail) {
+hyacc.Journal.prototype._get_dc_type = function(detail) {
   return $(detail).find('select[name*="\\[dc_type\\]"]').val();
 };
 
-hyacc.Journal.prototype._get_detail = function (trigger) {
+hyacc.Journal.prototype._get_detail = function(trigger) {
   return $(trigger).closest('tr[data-detail_id]');
 };
 
-hyacc.Journal.prototype._get_details = function () {
+hyacc.Journal.prototype._get_details = function() {
   return $(this.selector).find('.journal_details').find('tr[data-detail_id]');
 };
 
-hyacc.Journal.prototype._get_input_amount = function (detail) {
+hyacc.Journal.prototype._get_input_amount = function(detail) {
   var ret = $(detail).find('input[name*="\\[input_amount\\]"]').val();
 
   ret = parseInt(ret);
@@ -185,18 +185,18 @@ hyacc.Journal.prototype._get_input_amount = function (detail) {
   return ret;
 };
 
-hyacc.Journal.prototype._get_next_detail = function (trigger) {
+hyacc.Journal.prototype._get_next_detail = function(trigger) {
   var detail = this._get_detail(trigger);
   return detail.next().next().next().next();
 };
 
 
-hyacc.Journal.prototype._get_prev_detail = function (trigger) {
+hyacc.Journal.prototype._get_prev_detail = function(trigger) {
   var detail = this._get_detail(trigger);
   return detail.prev().prev().prev().prev();
 };
 
-hyacc.Journal.prototype._get_tax_amount = function (detail) {
+hyacc.Journal.prototype._get_tax_amount = function(detail) {
   var ret = $(detail).find('input[name*="\\[tax_amount\\]"]').val();
 
   ret = parseInt(ret);
@@ -207,22 +207,22 @@ hyacc.Journal.prototype._get_tax_amount = function (detail) {
   return ret;
 };
 
-hyacc.Journal.prototype._get_tax_type = function (detail) {
+hyacc.Journal.prototype._get_tax_type = function(detail) {
   return $(detail).find('select[name*="\\[tax_type\\]"]').val();
 };
 
-hyacc.Journal.prototype._set_tax_type = function (detail, tax_type) {
+hyacc.Journal.prototype._set_tax_type = function(detail, tax_type) {
   $(detail).find('select[name*="\\[tax_type\\]"]').val(tax_type);
 };
 
-hyacc.Journal.prototype._hide_detail = function (detail) {
+hyacc.Journal.prototype._hide_detail = function(detail) {
   $(detail).nextUntil('tr[data-detail_id]').hide();
   if (this._is_deleted(detail)) {
     detail.hide();
   }
 };
 
-hyacc.Journal.prototype._init = function () {
+hyacc.Journal.prototype._init = function() {
   if (this.options.readonly) {
     this._init_event_handlers();
     $(this.selector).find('input, select').attr('disabled', true);
@@ -232,19 +232,19 @@ hyacc.Journal.prototype._init = function () {
     this._init_event_handlers();
     this._init_day();
     this._init_ym();
-    this._refresh_tax_rate_all({ visibility_only: true });
+    this._refresh_tax_rate_all({visibility_only: true});
     this._refresh_total_amount();
   }
 };
 
-hyacc.Journal.prototype._init_event_handlers = function () {
+hyacc.Journal.prototype._init_event_handlers = function() {
   var that = this;
 
-  this._get_details().each(function () {
+  this._get_details().each(function() {
     $(this).addClass('sub_account_ready');
   });
 
-  $(this.selector).delegate('select[name*="\\[account_id\\]"]', 'change', function () {
+  $(this.selector).delegate('select[name*="\\[account_id\\]"]', 'change', function() {
     var detail = that._get_detail(this);
     var params = {
       index: detail.data('index'),
@@ -256,62 +256,62 @@ hyacc.Journal.prototype._init_event_handlers = function () {
     };
 
     detail.removeClass('sub_account_ready');
-    $.getJSON(that.options.sub_accounts_path, params, function (json) {
-      replace_options('tr[data-index="' + params.index + '"] [name*="\\[sub_account_id\\]"]', json);
-      detail.addClass('sub_account_ready');
-    });
+    $.getJSON(that.options.sub_accounts_path, params, function(json) {
+        replace_options('tr[data-index="' + params.index + '"] [name*="\\[sub_account_id\\]"]', json);
+        detail.addClass('sub_account_ready');
+      });
 
-    $.getJSON(that.options.get_tax_type_path, params, function (json) {
+    $.getJSON(that.options.get_tax_type_path, params, function(json) {
       that._set_tax_type(detail, json.tax_type);
       that._refresh_tax_rate(detail);
     });
 
-    $.get(that.options.get_account_detail_path, params, function (html) {
-      $('#journal_details_' + params.index + '_account_detail').html(html);
-    });
+    $.get(that.options.get_account_detail_path, params, function(html) {
+        $('#journal_details_' + params.index + '_account_detail').html(html);
+      });
 
     that._refresh_allocation(detail);
   })
-    .delegate('[name*="\\[branch_id\\]"]', 'change', function () {
-      var detail = that._get_detail(this);
-      that._refresh_allocation(detail);
-    })
-    .delegate('[name*="\\[dc_type\\]"]', 'change', function () {
-      var detail = that._get_detail(this);
-      that._refresh_total_amount();
-      that._refresh_allocation(detail);
-    })
-    .delegate('.delete_detail_button', 'click', function () {
-      that._remove_detail(this);
-      that._refresh_total_amount();
-      return false;
-    })
-    .delegate('.flip_detail_button', 'click', function () {
-      that.flip_detail(this);
-      return false;
-    })
-    .delegate('[name*="\\[input_amount\\]"]', 'change', function () {
-      that._refresh_tax_amount(this);
-    })
-    .delegate('[name*="\\[tax_rate_percent\\]"]', 'change', function () {
-      that._refresh_tax_amount(this);
-    })
-    .delegate('[name*="\\[tax_type\\]"]', 'change', function () {
-      that._refresh_tax_rate(this);
-    })
-    .delegate('[name*="\\[tax_amount\\]"]', 'change', function () {
-      that._refresh_total_amount();
-    })
-    .delegate('[name*="\\[ym\\]"]', 'change', function () {
-      that._refresh_tax_rate_all();
-    });
+  .delegate('[name*="\\[branch_id\\]"]', 'change', function() {
+    var detail = that._get_detail(this);
+    that._refresh_allocation(detail);
+  })
+  .delegate('[name*="\\[dc_type\\]"]', 'change', function() {
+    var detail = that._get_detail(this);
+    that._refresh_total_amount();
+    that._refresh_allocation(detail);
+  })
+  .delegate('.delete_detail_button', 'click', function() {
+    that._remove_detail(this);
+    that._refresh_total_amount();
+    return false;
+  })
+  .delegate('.flip_detail_button', 'click', function() {
+    that.flip_detail(this);
+    return false;
+  })
+  .delegate('[name*="\\[input_amount\\]"]', 'change', function() {
+    that._refresh_tax_amount(this);
+  })
+  .delegate('[name*="\\[tax_rate_percent\\]"]', 'change', function() {
+    that._refresh_tax_amount(this);
+  })
+  .delegate('[name*="\\[tax_type\\]"]', 'change', function() {
+    that._refresh_tax_rate(this);
+  })
+  .delegate('[name*="\\[tax_amount\\]"]', 'change', function() {
+    that._refresh_total_amount();
+  })
+  .delegate('[name*="\\[ym\\]"]', 'change', function() {
+    that._refresh_tax_rate_all();
+  });
 };
 
-hyacc.Journal.prototype._init_shortcut = function () {
+hyacc.Journal.prototype._init_shortcut = function() {
   var input_selector = '[name*="\\[input_amount\\]"]';
   var that = this;
 
-  Mousetrap.bindGlobal('down', function (e) {
+  Mousetrap.bindGlobal('down', function(e) {
     if ($(e.target).is(input_selector)) {
       e.preventDefault();
       var detail = that._get_detail(e.target);
@@ -319,7 +319,7 @@ hyacc.Journal.prototype._init_shortcut = function () {
     }
   });
 
-  Mousetrap.bindGlobal('up', function (e) {
+  Mousetrap.bindGlobal('up', function(e) {
     if ($(e.target).is(input_selector)) {
       e.preventDefault();
       var detail = that._get_detail(e.target);
@@ -328,46 +328,46 @@ hyacc.Journal.prototype._init_shortcut = function () {
   });
 };
 
-hyacc.Journal.prototype._init_validation = function () {
+hyacc.Journal.prototype._init_validation = function() {
   var that = this;
-  $(this.selector).submit(function () {
+  $(this.selector).submit(function() {
     return that._validate_journal();
   });
 };
 
-hyacc.Journal.prototype._init_day = function () {
+hyacc.Journal.prototype._init_day = function() {
   var that = this;
-  Mousetrap.bindGlobal('ctrl+d', function (e) {
+  Mousetrap.bindGlobal('ctrl+d', function(e) {
     e.preventDefault();
-    that.get_day().animate({ scrollTop: 0 }, 'fast').focus().select();
+    that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
   });
 };
 
-hyacc.Journal.prototype._init_ym = function () {
+hyacc.Journal.prototype._init_ym = function() {
   var that = this;
-  Mousetrap.bindGlobal('ctrl+y', function (e) {
+  Mousetrap.bindGlobal('ctrl+y', function(e) {
     e.preventDefault();
-    that.get_ym().animate({ scrollTop: 0 }, 'fast').focus().select();
+    that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();
   });
 };
 
-hyacc.Journal.prototype.get_day = function () {
+hyacc.Journal.prototype.get_day = function() {
   return $(this.selector).find('input[name*=\\[day\\]]');
 };
 
-hyacc.Journal.prototype.get_ym = function () {
+hyacc.Journal.prototype.get_ym = function() {
   return $(this.selector).find('input[name*=\\[ym\\]]');
 };
 
-hyacc.Journal.prototype._is_deleted = function (detail) {
+hyacc.Journal.prototype._is_deleted = function(detail) {
   return $(detail).find('input[name*="\\[_destroy\\]"]').val() === 'true';
 };
 
-hyacc.Journal.prototype._set_deleted = function (detail, deleted) {
+hyacc.Journal.prototype._set_deleted = function(detail, deleted) {
   $(detail).find('input[name*="\\[_destroy\\]"]').val(deleted);
 };
 
-hyacc.Journal.prototype._refresh_allocation = function (detail) {
+hyacc.Journal.prototype._refresh_allocation = function(detail) {
   var params = {
     account_id: this._get_account_id(detail),
     branch_id: this._get_branch_id(detail),
@@ -375,12 +375,12 @@ hyacc.Journal.prototype._refresh_allocation = function (detail) {
     index: detail.closest('[data-index]').data('index')
   };
 
-  $.get(this.options.get_allocation_path, params, function (html) {
+  $.get(this.options.get_allocation_path, params, function(html) {
     $('#jd_' + params.index + '_allocation').html(html);
   });
 };
 
-hyacc.Journal.prototype._refresh_tax_rate = function (trigger, options) {
+hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options) {
   options = options || {};
 
   var detail = $(trigger).closest('tr[data-detail_id]');
@@ -406,7 +406,7 @@ hyacc.Journal.prototype._refresh_tax_rate = function (trigger, options) {
   this._refresh_tax_amount(trigger, options);
 };
 
-hyacc.Journal.prototype._refresh_tax_amount = function (trigger, options) {
+hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   options = options || {};
 
   var detail = $(trigger).closest('tr[data-detail_id]');
@@ -431,19 +431,19 @@ hyacc.Journal.prototype._refresh_tax_amount = function (trigger, options) {
   this._refresh_total_amount();
 };
 
-hyacc.Journal.prototype._refresh_tax_rate_all = function (options) {
+hyacc.Journal.prototype._refresh_tax_rate_all = function(options) {
   var that = this;
-  this._get_details().each(function () {
+  this._get_details().each(function() {
     that._refresh_tax_rate(this, options);
   });
 };
 
-hyacc.Journal.prototype._refresh_total_amount = function () {
+hyacc.Journal.prototype._refresh_total_amount = function() {
   var debitAmount = 0;
   var creditAmount = 0;
 
   var that = this;
-  this._get_details().each(function () {
+  this._get_details().each(function() {
     if (that._is_deleted(this)) {
       return true;
     }
@@ -472,21 +472,21 @@ hyacc.Journal.prototype._refresh_total_amount = function () {
   $(this.selector).find('.credit_amount_sum').text(toAmount(creditAmount));
 };
 
-hyacc.Journal.prototype._remove_detail = function (trigger) {
+hyacc.Journal.prototype._remove_detail = function(trigger) {
   var detail = $(trigger).closest('tr[data-detail_id]');
   this._set_deleted(detail, true);
   this._hide_detail(detail);
 };
 
-hyacc.Journal.prototype._show_detail = function (detail) {
+hyacc.Journal.prototype._show_detail = function(detail) {
   $(detail).nextUntil('tr[data-detail_id]').show();
 };
 
-hyacc.Journal.prototype._validate_amount = function () {
+hyacc.Journal.prototype._validate_amount = function() {
   var errors = [];
 
   var that = this;
-  this._get_details().each(function (i) {
+  this._get_details().each(function(i) {
     if (that._is_deleted(this)) {
       return true;
     }
@@ -505,7 +505,7 @@ hyacc.Journal.prototype._validate_amount = function () {
   return true;
 };
 
-hyacc.Journal.prototype._validate_amount_balance = function () {
+hyacc.Journal.prototype._validate_amount_balance = function() {
   var debit = $(this.selector).find('.debit_amount_sum').text();
   var credit = $(this.selector).find('.credit_amount_sum').text();
 
@@ -522,21 +522,21 @@ hyacc.Journal.prototype._validate_amount_balance = function () {
   return true;
 };
 
-hyacc.Journal.prototype._validate_journal = function () {
-  if (!this._check_auto_journal_types()) {
+hyacc.Journal.prototype._validate_journal = function() {
+  if (! this._check_auto_journal_types()) {
     return false;
   }
 
-  if (!this._check_auto_journal_dates()) {
+  if (! this._check_auto_journal_dates()) {
     return false;
   }
 
-  if (!this._validate_amount()) {
-    return false;
+  if (! this._validate_amount()) {
+      return false;
   }
 
-  if (!this._validate_amount_balance()) {
-    return false;
+  if (! this._validate_amount_balance()) {
+      return false;
   }
 
   return true;

@@ -2,7 +2,7 @@ class FiscalYearsController < Base::HyaccController
   view_attribute :accounts
 
   def index
-    @fiscal_years = current_company.fiscal_years
+    @fiscal_years = current_company.fiscal_years.order(fiscal_year: 'desc')
   end
 
   def new

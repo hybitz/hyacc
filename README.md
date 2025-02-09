@@ -23,7 +23,8 @@ $ cd hyacc
 ```
 ### 各種ミドルウェアのインストール
 ```
-$ bundle
+$ bundle config without 'itamae development test'
+$ bundle -j2
 $ bundle exec rake dad:setup
 ```
 ### DBの初期化

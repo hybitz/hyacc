@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hyacc
+  labels:
+    app: hyacc-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hyacc-app
+  template:
+    metadata:
+      labels:
+        app: hyacc-app
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: hyacc
+        image: hyacc/app:latest
+        envFrom:
+        - configMapRef:
+            name: hyacc-config
+        - secretRef:
+            name: hyacc-secret
+        env:
+        - name: RAILS_LOG_TO_STDOUT
+          value: 'true'
+        - name: RAILS_SERVE_STATIC_FILES
+          value: 'true'
+        - name: PORT
+          value: '3000'
+        command: ['bundle', 'exec', 'rails', 's']

@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hyacc
+  labels:
+    app: hyacc-db
+spec:
+  template:
+    metadata:
+      labels:
+        app: hyacc-db
+    spec:
+      containers:
+      - name: hyacc
+        image: hyacc/app:latest
+        envFrom:
+        - configMapRef:
+            name: hyacc-config
+        - secretRef:
+            name: hyacc-secret
+        env:
+        - name: RAILS_LOG_TO_STDOUT
+          value: 'true'
+        command: ['bundle', 'exec', 'rails', 'db:migrate']

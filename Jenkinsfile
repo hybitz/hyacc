@@ -54,13 +54,13 @@ spec:
         }
       }
       post {
-        always { publishUnit() }
+        always { publishUnitResult() }
       }
     }
     stage('e2e') {
       agent {
         kubernetes {
-          inheritFrom 'chrome'
+          inheritFrom 'default mysql chrome'
           yaml """
 apiVersion: v1
 kind: Pod
@@ -96,7 +96,7 @@ spec:
         }
       }
       post {
-        always { publishE2E() }
+        always { publishE2EResult() }
       }
     }
     stage('release') {
@@ -130,12 +130,12 @@ spec:
   }
 }
 
-def publishUnit() {
+def publishUnitResult() {
   junit 'test/reports/**/*.xml'
   script { step([$class: 'RcovPublisher', reportDir: "coverage/rcov"]) }
 }
 
-def publishE2E() {
+def publishE2EResult() {
   publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'features/reports', reportName: 'Features', reportFiles: 'index.html'])
   publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'user_stories/reports', reportName: 'Features', reportFiles: 'index.html'])
 }

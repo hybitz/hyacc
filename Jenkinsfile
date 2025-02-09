@@ -16,9 +16,10 @@ pipeline {
         }
       }
     }
-    stage('test') {
+    stage('unit') {
       agent {
         kubernetes {
+          inheritFrom 'default'
           yaml """
 apiVersion: v1
 kind: Pod
@@ -66,10 +67,10 @@ spec:
         }
       }
       post {
-        always { publish() }
+        always { publishUnit() }
       }
     }
-    stage('e2e-test') {
+    stage('e2e') {
       agent {
         kubernetes {
           inheritFrom 'chrome'
@@ -121,7 +122,7 @@ spec:
         }
       }
       post {
-        always { publish() }
+        always { publishE2E() }
       }
     }
     stage('release') {
@@ -155,9 +156,12 @@ spec:
   }
 }
 
-def publish() {
+def publishUnit() {
   junit 'test/reports/**/*.xml'
   script { step([$class: 'RcovPublisher', reportDir: "coverage/rcov"]) }
+}
+
+def publishE2E() {
   publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'features/reports', reportName: 'Features', reportFiles: 'index.html'])
   publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'user_stories/reports', reportName: 'Features', reportFiles: 'index.html'])
 }

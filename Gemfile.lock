@@ -131,7 +131,7 @@ GEM
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
-    closer (0.15.0)
+    closer (0.15.1)
       capybara (>= 3.0)
       cucumber (>= 4.0, < 9.0)
       selenium-webdriver (>= 4.8, <= 5.0)
@@ -172,7 +172,7 @@ GEM
       cucumber-core (~> 8.0, >= 8.0.1)
       cucumber-cucumber-expressions (~> 10.3, >= 10.3.0)
       cucumber-messages (~> 13.0, >= 13.0.1)
-    daddy (0.9.13)
+    daddy (0.9.14)
       docker-api
       highline
       i18n

@@ -172,7 +172,7 @@ GEM
       cucumber-core (~> 8.0, >= 8.0.1)
       cucumber-cucumber-expressions (~> 10.3, >= 10.3.0)
       cucumber-messages (~> 13.0, >= 13.0.1)
-    daddy (0.9.14)
+    daddy (0.9.15)
       docker-api
       highline
       i18n

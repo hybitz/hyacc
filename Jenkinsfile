@@ -29,7 +29,7 @@ spec:
     imagePullPolicy: Always
     resources:
       requests:
-        memory: 1600Mi
+        memory: 256Mi
     command:
     - cat
     tty: true
@@ -62,6 +62,59 @@ spec:
           ansiColor('xterm') {
             sh "bundle exec rails db:reset"
             sh "bundle exec rails test"
+          }
+        }
+      }
+      post {
+        always { publish() }
+      }
+    }
+    stage('e2e-test') {
+      agent {
+        kubernetes {
+          inheritFrom 'chrome'
+          yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: app
+    image: ${ECR}/${APP_NAME}/test:latest
+    imagePullPolicy: Always
+    resources:
+      requests:
+        memory: 256Mi
+    command:
+    - cat
+    tty: true
+  - name: mysql
+    image: mysql:5.7
+    env:
+    - name: MYSQL_ALLOW_EMPTY_PASSWORD
+      value: yes
+    - name: MYSQL_DATABASE
+      value: ${APP_NAME}_test
+    - name: MYSQL_USER
+      value: ${APP_NAME}
+    - name: MYSQL_PASSWORD
+      value: ${APP_NAME}
+    resources:
+      requests:
+        memory: 256Mi
+"""
+        }
+      }
+      environment {
+        COVERAGE = 'true'
+        DISABLE_SPRING = 'true'
+        FORMAT = 'junit'
+        HEADLESS = 'true'
+        RAILS_ENV = 'test'
+      }
+      steps {
+        container('app') {
+          ansiColor('xterm') {
+            sh "bundle exec rails db:reset"
             sh 'bundle exec rake dad:test'
             sh 'bundle exec rake dad:test user_stories'
           }

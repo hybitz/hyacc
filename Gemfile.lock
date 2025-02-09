@@ -163,7 +163,7 @@ GEM
       cucumber-messages (~> 13.0, >= 13.0.1)
     cucumber-messages (13.2.1)
       protobuf-cucumber (~> 3.10, >= 3.10.8)
-    cucumber-rails (3.1.0)
+    cucumber-rails (3.1.1)
       capybara (>= 3.11, < 4)
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
@@ -295,7 +295,7 @@ GEM
     mime-types (3.6.0)
       logger
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2025.0107)
+    mime-types-data (3.2025.0204)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -317,7 +317,7 @@ GEM
     momentjs-rails (2.29.4.1)
       railties (>= 3.1)
     mousetrap-rails (1.4.6)
-    msgpack (1.7.5)
+    msgpack (1.8.0)
     multi_json (1.15.0)
     multi_test (0.1.2)
     multi_xml (0.6.0)
@@ -444,7 +444,7 @@ GEM
     ruby-graphviz (1.2.5)
       rexml
     ruby-progressbar (1.13.0)
-    ruby-vips (2.2.2)
+    ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
@@ -494,8 +494,9 @@ GEM
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
     sqlite3 (1.6.9-x86_64-linux)
-    sshkit (1.23.2)
+    sshkit (1.24.0)
       base64
+      logger
       net-scp (>= 1.1.2)
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)

@@ -5,4 +5,5 @@ directory '/var/daddy' do
 end
 directory '/var/daddy/tmp'
 
+include_recipe 'daddy::mysql::client'
 include_recipe 'daddy::wkhtmltopdf'

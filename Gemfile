@@ -28,7 +28,6 @@ gem 'mimemagic'
 gem 'mini_magick', '~> 4.8'
 gem 'momentjs-rails'
 gem 'mousetrap-rails'
-gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 gem 'nostalgic'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
@@ -44,6 +43,10 @@ gem 'uglifier', '>= 1.3.0'
 gem 'wicked_pdf', '< 2.0.0'
 gem 'wkhtmltopdf-binary'
 gem 'will_paginate'
+
+group :itamae do
+  gem 'mysql2', '>= 0.4.4', '< 0.6.0'
+end
 
 group :development, :test do
   gem 'byebug'

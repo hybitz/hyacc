@@ -47,6 +47,7 @@ spec:
       steps {
         container('app') {
           ansiColor('xterm') {
+            sh "bundle exec rails db:create"
             sh "bundle exec rails db:reset"
             sh "bundle exec rails test"
           }

@@ -6,7 +6,7 @@ pipeline {
   }
   stages {
     stage('build') {
-      agent { kubernetes { inheritFrom 'default' } }
+      agent { kubernetes { inheritFrom 'kaniko' } }
       steps {
         container('kaniko') {
           ansiColor('xterm') {
@@ -125,7 +125,7 @@ spec:
       }
     }
     stage('release') {
-      agent { kubernetes { inheritFrom 'default' } }
+      agent { kubernetes { inheritFrom 'kaniko' } }
       environment {
         RELEASE_TAG = "v1.0.0-${BUILD_NUMBER}"
       }

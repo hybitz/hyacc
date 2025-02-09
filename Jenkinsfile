@@ -47,7 +47,7 @@ spec:
       steps {
         container('app') {
           ansiColor('xterm') {
-            sh "bundle exec rails db:create"
+            sh "bundle exec rake dad:db:create"
             sh "bundle exec rails db:reset"
             sh "bundle exec rails test"
           }
@@ -75,20 +75,6 @@ spec:
     command:
     - cat
     tty: true
-  - name: mysql
-    image: mysql:5.7
-    env:
-    - name: MYSQL_ALLOW_EMPTY_PASSWORD
-      value: yes
-    - name: MYSQL_DATABASE
-      value: ${APP_NAME}_test
-    - name: MYSQL_USER
-      value: ${APP_NAME}
-    - name: MYSQL_PASSWORD
-      value: ${APP_NAME}
-    resources:
-      requests:
-        memory: 256Mi
 """
         }
       }
@@ -102,6 +88,7 @@ spec:
       steps {
         container('app') {
           ansiColor('xterm') {
+            sh "bundle exec rake dad:db:create"
             sh "bundle exec rails db:reset"
             sh 'bundle exec rake dad:test'
             sh 'bundle exec rake dad:test user_stories'

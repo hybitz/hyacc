@@ -10,7 +10,9 @@ class FiscalYearsController::CrudTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template :index
-    assert_not_nil assigns(:fiscal_years)
+    fiscal_years = assigns(:fiscal_years)
+    assert_not_nil fiscal_years
+    assert_equal fiscal_years.pluck(:fiscal_year).sort.reverse, fiscal_years.pluck(:fiscal_year)
   end
 
   def test_登録

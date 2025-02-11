@@ -36,6 +36,7 @@ gem 'rails-i18n'
 gem 'remotipart'
 gem 'sass-rails', '>= 6'
 gem 'strong_actions'
+gem 'tax_jp'
 gem 'turbolinks', '~> 5'
 gem 'two_factor_authentication'
 gem 'uglifier', '>= 1.3.0'
@@ -45,7 +46,6 @@ gem 'will_paginate'
 
 group :itamae do
   gem 'mysql2', '>= 0.4.4', '< 0.6.0'
-  gem 'tax_jp'
 end
 
 group :development, :test do

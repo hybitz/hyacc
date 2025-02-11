@@ -5,5 +5,9 @@ directory '/var/daddy' do
 end
 directory '/var/daddy/tmp'
 
+package 'sqlite-devel' do
+  user 'root'
+end
+
 include_recipe 'daddy::mysql::client'
 include_recipe 'daddy::wkhtmltopdf'

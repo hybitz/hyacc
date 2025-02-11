@@ -11,9 +11,6 @@ RUN sudo chown -R ${USER}:${USER} ./ && \
     bundle config without 'development test' && \
     bundle install -j2
 
-RUN mkdir -p app/assets/config
-ADD app/assets/config/manifest.js app/assets/config/
-
 ADD Rakefile ./
 ADD config ./config
 RUN sudo chown -R ${USER}:${USER} ./ && \

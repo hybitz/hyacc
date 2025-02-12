@@ -30,10 +30,12 @@ module Base::ViewAttributeHandler
   end
     
   def get_accounts(options = {})
-    if options[:conditions]
-      Account.where(options[:conditions]).where(journalizable: true)
-    else
+    if options[:conditions].blank?
       Account.get_journalizable_accounts
+    elsif options.dig(:conditions, :journalizable) == true
+      Account.where(options[:conditions])
+    else
+      Account.where(options[:conditions]).where(journalizable: true)
     end
   end
 

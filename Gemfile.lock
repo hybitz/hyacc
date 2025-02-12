@@ -165,7 +165,7 @@ GEM
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
     cucumber-tag-expressions (4.1.0)
-    daddy (0.9.16)
+    daddy (0.9.18)
       docker-api
       highline
       i18n

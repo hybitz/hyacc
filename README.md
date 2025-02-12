@@ -23,7 +23,7 @@ $ cd hyacc
 ```
 ### 各種ミドルウェアのインストール
 ```
-$ bundle config without 'itamae development test'
+$ bundle config without 'itamae'
 $ bundle -j2
 $ bundle exec rake dad:setup
 ```

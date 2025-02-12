@@ -1,8 +1,9 @@
 pipeline {
   agent none
   environment {
-    KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
     APP_NAME = 'hyacc'
+    KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
+    REMOTE = 'true'
   }
   stages {
     stage('build') {
@@ -41,7 +42,6 @@ spec:
         COVERAGE = 'true'
         DISABLE_SPRING = 'true'
         FORMAT = 'junit'
-        HEADLESS = 'true'
         RAILS_ENV = 'test'
       }
       steps {
@@ -79,9 +79,7 @@ spec:
         }
       }
       environment {
-        COVERAGE = 'true'
         DISABLE_SPRING = 'true'
-        FORMAT = 'junit'
         HEADLESS = 'true'
         RAILS_ENV = 'test'
       }

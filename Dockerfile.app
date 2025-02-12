@@ -6,11 +6,6 @@ EXPOSE 3000
 ARG rails_env=production
 ENV RAILS_ENV=${rails_env}
 
-ADD Gemfile Gemfile.lock ./
-RUN sudo chown -R ${USER}:${USER} ./ && \
-    bundle config without 'development test' && \
-    bundle install -j2
-
 ADD Rakefile ./
 ADD config ./config
 RUN sudo chown -R ${USER}:${USER} ./ && \

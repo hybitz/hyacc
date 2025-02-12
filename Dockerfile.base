@@ -6,15 +6,10 @@ RUN sudo chown -R ${USER}:${USER} ./ && \
     bundle config without 'itamae development test' && \
     bundle install -j2
 
+RUN mkdir -p app/assets/config
+ADD app/assets/config/manifest.js app/assets/config/
+
 ADD package.json yarn.lock ./
 RUN sudo chown -R ${USER}:${USER} ./ && \
     yarn install && \
     yarn cache clean
-
-RUN mkdir -p app/assets/config
-ADD app/assets/config/manifest.js app/assets/config/
-
-ADD Rakefile ./
-ADD config ./config
-RUN sudo chown -R ${USER}:${USER} ./ && \
-    bundle exec rake dad:setup:base

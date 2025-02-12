@@ -3,14 +3,6 @@ FROM ${registry}/hyacc/base:latest
 
 ENV RAILS_ENV=test
 
-ADD Gemfile Gemfile.lock ./
-RUN sudo chown -R ${USER}:${USER} ./ && \
-    bundle config unset without && \
-    bundle install -j2
-
-RUN mkdir -p app/assets/config
-ADD app/assets/config/manifest.js app/assets/config/
-
 ADD Rakefile ./
 ADD config ./config
 RUN sudo chown -R ${USER}:${USER} ./ && \

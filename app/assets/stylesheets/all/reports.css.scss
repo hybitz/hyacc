@@ -10,3 +10,10 @@
     }
   }
 }
+
+.diagonal-line {
+  background-image: linear-gradient(to left top, 
+  transparent calc(50% - 0.5px),
+  #999 calc(50% + 0.5px),
+  transparent calc(50% + 1px));
+}

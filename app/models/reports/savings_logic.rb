@@ -46,6 +46,14 @@ module Reports
       end
     end
 
+    def total_amount
+      self.details.inject(0) do |sum, d|
+        amount = d.amount
+        next sum unless amount
+        sum + amount
+      end
+    end
+    
   end
   
   class SavingsDetailModel

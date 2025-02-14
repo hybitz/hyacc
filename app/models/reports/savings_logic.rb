@@ -48,9 +48,7 @@ module Reports
 
     def total_amount
       self.details.inject(0) do |sum, d|
-        amount = d.amount
-        next sum unless amount
-        sum + amount
+        sum += d.amount.to_i
       end
     end
     

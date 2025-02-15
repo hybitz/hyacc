@@ -248,7 +248,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor (>= 1.0.0)
-    itamae-plugin-recipe-daddy (0.1.28)
+    itamae-plugin-recipe-daddy (0.1.29)
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-passenger (~> 0.1)
       itamae-plugin-recipe-selenium (~> 0.1)

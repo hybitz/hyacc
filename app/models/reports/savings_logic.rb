@@ -46,6 +46,12 @@ module Reports
       end
     end
 
+    def total_amount
+      self.details.inject(0) do |sum, d|
+        sum += d.amount.to_i
+      end
+    end
+    
   end
   
   class SavingsDetailModel

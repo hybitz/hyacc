@@ -34,6 +34,30 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
     assert_equal '有価証券情報を追加しました。', flash[:notice]
   end
 
+  def test_手数料が0円でも追加と更新ができること
+    assert_difference('Investment.count') do
+      post :create, :xhr => true, :params => {
+          investment: {yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1',
+            buying_or_selling: '1', for_what: '1', shares: '20',
+            trading_value: '100000', charges: '0'}
+           }
+      assert_response :success
+      assert_template 'common/reload'
+    end
+    assert_equal '有価証券情報を追加しました。', flash[:notice]
+
+    assert_no_difference('Investment.count') do
+      patch :update, :xhr => true, :params => {
+          investment: {yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1',
+            buying_or_selling: '1', for_what: '1', shares: '20',
+            trading_value: '100000', charges: '0'}, id: Investment.last.id
+           }
+      assert_response :success
+      assert_template 'common/reload'
+    end
+    assert_equal '有価証券情報を更新しました。', flash[:notice]
+  end
+
   def test_not_related
     JournalDetail.first.update(account_id: Account.find_by(code: ACCOUNT_CODE_TRADING_SECURITIES).id)
     get :not_related

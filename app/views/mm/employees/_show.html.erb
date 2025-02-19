@@ -1,8 +1,100 @@
-<%= render 'form' %>
-<script>
-  var form = $('form[action="/mm/employees/<%= @e.id %>"]');
-  form.find('input, select').attr('disabled', true);
-  form.find('img').removeAttr('onclick');
-  form.find('a').removeAttr('onclick').on('click', (e) => { e.preventDefault(); });
-  $('#evaluation_table').append('<tr><th>退職金積立開始時期</th><td><%= get_start_ym_of_retirement_savings(@e) %></td></tr>');
-</script>
+<div class="row" style="width: 40em;">
+  <div class="col-md-6">
+    <p>
+      <b><%= @e.class.human_attribute_name :last_name %><%= @e.class.human_attribute_name :first_name %>:</b>
+      <%= @e.last_name %><%= @e.first_name %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :name_kana %>:</b>
+      <%= @e.last_name_kana %><%= @e.first_name_kana %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :sex %>:</b>
+      <%= HyaccConst::SEX_TYPES[@e.sex] %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :birth %>:</b>
+      <%= @e.birth %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :zip_code %>:</b>
+      <%= @e.zip_code %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :address %>:</b>
+      <%= @e.address %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :my_number %>:</b>
+      <%= @e.my_number %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :social_insurance_reference_number %>:</b>
+      <%= @e.social_insurance_reference_number %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :num_of_dependent %>:</b>
+      <%= @e.num_of_dependent %>
+    </p>
+
+    <p>
+      <b>金融機関名称:</b>
+      <%= @e.employee_bank_account.bank.name %>
+    </p>
+
+    <p>
+      <b>支店名称:</b>
+      <%= @e.employee_bank_account.bank_office.name %>
+    </p>
+
+    <p>
+      <b>口座番号:</b>
+      <%= @e.employee_bank_account.code %>
+    </p>
+  </div>
+
+  <div class="col-md-6">
+    <p>
+      <b><%= @e.class.human_attribute_name :employment_date %>:</b>
+      <%= @e.employment_date %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :retirement_date %>:</b>
+      <%= @e.retirement_date %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :executive %>:</b>
+      <%= @e.executive? ? "役員" : "従業員" %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :position %>:</b>
+      <%= @e.position %>
+    </p>
+
+    <p>
+      <b>退職金積立開始時期:</b>
+      <%= get_start_ym_of_retirement_savings(@e) %>
+    </p>
+
+    <p>
+      <b>所属部門:</b>
+      <% @e.branch_employees.each_with_index do |b, i| %>
+        <% if i > 0 %>
+          <span style="margin-left: 60px"></span>
+        <% end %>
+        <%= b.branch.name %><%= "（デフォルト）" if b.default_branch? %><br />
+      <% end %>
+    </p>
+  </div>
+</div>

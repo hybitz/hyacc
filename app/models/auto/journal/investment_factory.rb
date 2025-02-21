@@ -52,27 +52,31 @@ module Auto::Journal
       end
 
       ## 仮払消費税
-      jd = jh.journal_details.build
-      jd.detail_no = jh.journal_details.size
-      jd.dc_type = DC_TYPE_DEBIT
-      jd.account_id = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX).id
-      jd.branch_id = branch_id
-      jd.detail_type = DETAIL_TYPE_TAX
-      jd.amount = @investment.charges - (@investment.charges / (1 + tax_rate)).ceil
-      jd.tax_type = TAX_TYPE_NONTAXABLE
-      tax_detail = jd
+      if @investment.charges > 0
+        jd = jh.journal_details.build
+        jd.detail_no = jh.journal_details.size
+        jd.dc_type = DC_TYPE_DEBIT
+        jd.account_id = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX).id
+        jd.branch_id = branch_id
+        jd.detail_type = DETAIL_TYPE_TAX
+        jd.amount = @investment.charges - (@investment.charges / (1 + tax_rate)).ceil
+        jd.tax_type = TAX_TYPE_NONTAXABLE
+        tax_detail = jd
+      end
        
       ## 支払手数料
-      jd = jh.journal_details.build
-      jd.detail_no = jh.journal_details.size
-      jd.dc_type = DC_TYPE_DEBIT
-      jd.account_id = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id
-      jd.branch_id = branch_id
-      jd.amount = (@investment.charges / (1 + tax_rate)).ceil
-      jd.tax_type = TAX_TYPE_INCLUSIVE
-      jd.tax_rate_percent = tax_rate * 100
-      jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
-      jd.tax_detail = tax_detail
+      if @investment.charges > 0
+        jd = jh.journal_details.build
+        jd.detail_no = jh.journal_details.size
+        jd.dc_type = DC_TYPE_DEBIT
+        jd.account_id = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id
+        jd.branch_id = branch_id
+        jd.amount = (@investment.charges / (1 + tax_rate)).ceil
+        jd.tax_type = TAX_TYPE_INCLUSIVE
+        jd.tax_rate_percent = tax_rate * 100
+        jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
+        jd.tax_detail = tax_detail
+      end
       
       ## 預け金明細
       jd = jh.journal_details.build

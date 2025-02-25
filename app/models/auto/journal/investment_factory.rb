@@ -53,14 +53,15 @@ module Auto::Journal
       end
 
       ## 仮払消費税
-      if @investment.charges > 0 && tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
+      temp_pay_tax = @investment.charges - (@investment.charges / (1 + tax_rate)).ceil
+      if temp_pay_tax >= 1 && tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX).id
         jd.branch_id = branch_id
         jd.detail_type = DETAIL_TYPE_TAX
-        jd.amount = @investment.charges - (@investment.charges / (1 + tax_rate)).ceil
+        jd.amount = temp_pay_tax
         jd.tax_type = TAX_TYPE_NONTAXABLE
         tax_detail = jd
       end

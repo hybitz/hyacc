@@ -52,22 +52,29 @@ module Auto::Journal
         jd.amount = @investment.gains
       end
 
+      if tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
+        paid_fee_amount = (@investment.charges / (1 + tax_rate)).ceil
+        temp_pay_tax_amount = @investment.charges - paid_fee_amount
+      else
+        paid_fee_amount = @investment.charges 
+        temp_pay_tax_amount = 0
+      end
+
       ## 仮払消費税
-      temp_pay_tax = @investment.charges - (@investment.charges / (1 + tax_rate)).ceil
-      if temp_pay_tax >= 1 && tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
+      if temp_pay_tax_amount > 0
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX).id
         jd.branch_id = branch_id
         jd.detail_type = DETAIL_TYPE_TAX
-        jd.amount = temp_pay_tax
+        jd.amount = temp_pay_tax_amount
         jd.tax_type = TAX_TYPE_NONTAXABLE
         tax_detail = jd
       end
        
       ## 支払手数料
-      if @investment.charges > 0
+      if paid_fee_amount > 0
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
@@ -76,12 +83,8 @@ module Auto::Journal
         jd.tax_type = TAX_TYPE_INCLUSIVE
         jd.tax_rate_percent = tax_rate * 100
         jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
-        if tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
-          jd.amount = (@investment.charges / (1 + tax_rate)).ceil
-          jd.tax_detail = tax_detail
-        else
-          jd.amount = @investment.charges
-        end
+        jd.amount = paid_fee_amount
+        jd.tax_detail = tax_detail if tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
       end
 
       ## 預け金明細

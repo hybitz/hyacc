@@ -27,6 +27,7 @@ module Auto::Journal
       jh.update_user_id = @user.id
 
       tax_rate = TaxJp::ConsumptionTax.rate_on(jh.date)
+      tax_management_type = jh.company.get_fiscal_year(ym.to_i).tax_management_type
       
       # 明細の作成
       ## 有価証券
@@ -52,7 +53,7 @@ module Auto::Journal
       end
 
       ## 仮払消費税
-      if @investment.charges > 0
+      if @investment.charges > 0 && tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
@@ -71,13 +72,17 @@ module Auto::Journal
         jd.dc_type = DC_TYPE_DEBIT
         jd.account_id = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id
         jd.branch_id = branch_id
-        jd.amount = (@investment.charges / (1 + tax_rate)).ceil
         jd.tax_type = TAX_TYPE_INCLUSIVE
         jd.tax_rate_percent = tax_rate * 100
         jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
-        jd.tax_detail = tax_detail
+        if tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
+          jd.amount = (@investment.charges / (1 + tax_rate)).ceil
+          jd.tax_detail = tax_detail
+        else
+          jd.amount = @investment.charges
+        end
       end
-      
+
       ## 預け金明細
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size

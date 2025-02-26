@@ -8,6 +8,7 @@ a:
   admin_email: admin@test.com
   lock_version: 1
   payday: "0,25"
+  retirement_savings_after: 3
 b:
   id: 2
   name: 有限会社テストB

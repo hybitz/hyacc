@@ -331,7 +331,8 @@ module Auto::Journal
       end
 
       ### 支払手数料の消費税
-      if fy.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
+      temp_pay_tax_amount = (@payroll.transfer_fee * tax_rate).to_i
+      if fy.tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE && temp_pay_tax_amount > 0
         detail = journal.journal_details.build
         detail.detail_no = journal.journal_details.size
         detail.dc_type = DC_TYPE_DEBIT
@@ -339,7 +340,7 @@ module Auto::Journal
         detail.tax_type = TAX_TYPE_NONTAXABLE
         detail.account = Account.find_by_code(ACCOUNT_CODE_TEMP_PAY_TAX)
         detail.branch_id = branch_id
-        detail.amount = (@payroll.transfer_fee * tax_rate).to_i
+        detail.amount = temp_pay_tax_amount
         detail.note = "振込手数料の消費税"
         detail.main_detail = journal.journal_details.first
       end

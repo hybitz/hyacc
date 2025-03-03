@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: hyacc
+  name: hyacc-db
   labels:
     app: hyacc-db
 spec:

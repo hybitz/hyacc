@@ -32,5 +32,5 @@ spec:
           value: '3000'
         command: ['bundle', 'exec', 'rails', 's']
       - name: memcached
-        image: hmemcached:1.4.39
+        image: memcached:1.4.39
         command: ['-m', '64']

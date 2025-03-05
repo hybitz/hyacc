@@ -10,6 +10,7 @@ spec:
       labels:
         app: hyacc-db
     spec:
+      restartPolicy: Never
       containers:
       - name: hyacc
         image: hyacc/app:latest

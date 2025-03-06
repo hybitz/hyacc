@@ -51,7 +51,9 @@ class Auto::Journal::InvestmentFactoryTest < ActiveSupport::TestCase
     assert_equal 80, jd.amount
 
     jd = jh.journal_details[2]
-    assert_equal Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id, jd.account_id
+    account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
+    assert_equal account.id, jd.account_id
+    assert_equal SubAccount.find_by(account_id: account.id, code: SUB_ACCOUNT_CODE_ETC_STOCKS).id, jd.sub_account_id
     assert_equal 1000, jd.amount
 
     jd = jh.journal_details[3]
@@ -78,7 +80,9 @@ class Auto::Journal::InvestmentFactoryTest < ActiveSupport::TestCase
     assert_equal 100_000, jd.amount
 
     jd = jh.journal_details[1]
-    assert_equal Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id, jd.account_id
+    account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
+    assert_equal account.id, jd.account_id
+    assert_equal SubAccount.find_by(account_id: account.id, code: SUB_ACCOUNT_CODE_ETC_STOCKS).id, jd.sub_account_id
     assert_equal 10, jd.amount
 
     jd = jh.journal_details[2]
@@ -106,7 +110,9 @@ class Auto::Journal::InvestmentFactoryTest < ActiveSupport::TestCase
     assert_equal 100_000, jd.amount
 
     jd = jh.journal_details[1]
-    assert_equal Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id, jd.account_id
+    account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
+    assert_equal account.id, jd.account_id
+    assert_equal SubAccount.find_by(account_id: account.id, code: SUB_ACCOUNT_CODE_ETC_STOCKS).id, jd.sub_account_id
     assert_equal 1080, jd.amount
 
     jd = jh.journal_details[2]

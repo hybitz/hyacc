@@ -17,6 +17,8 @@ module Reports
           detail.account = a
           detail.sub_account = sa
           detail.amount_at_end = amount_at_end
+          detail.company = company
+          detail.end_ym = end_ym
           ret.details << detail
         end
       end
@@ -45,7 +47,7 @@ module Reports
   class SuspenseReceiptDetailModel
     include HyaccConst
 
-    attr_accessor :account, :sub_account, :amount_at_end, :end_ymd
+    attr_accessor :account, :sub_account, :amount_at_end, :end_ymd, :company, :end_ym
 
     def account_name
       account&.name
@@ -66,7 +68,9 @@ module Reports
     def note
       if account
         if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-          '誤入金　等'
+          jh_ids = Journal.where(company_id: company.id).map {|jh| jh.id if jh.ym <= end_ym }
+          jd = JournalDetail.where(journal_id: jh_ids, account_id: account.id).order('amount DESC').first
+          jd.note.present? ? "#{jd.note}　等" : '誤入金　等'
         else
           if sub_account
             "#{sub_account.name}の#{account.name}"

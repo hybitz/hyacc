@@ -9,18 +9,20 @@ module Login
       fail "未知のユーザ情報です。options=#{options}"
     end
 
-    if @_current_user and @_current_user.login_id != user.login_id and has_link?('ログアウト')
+    if @_current_user&.login_id != user.login_id and has_link?('ログアウト')
       click_on 'ログアウト'
+      assert has_no_link?('ログアウト')
     end
 
-    @_current_user = user
-
-    visit '/users/sign_in'
-    fill_in 'ログインID', with: @_current_user.login_id
-    fill_in 'パスワード', with: 'testtest'
-    click_on 'ログイン'
+    unless @_current_user&.login_id == user.login_id
+      visit '/users/sign_in'
+      fill_in 'ログインID', with: user.login_id
+      fill_in 'パスワード', with: 'testtest'
+      click_on 'ログイン'
+    end
 
     assert has_link?('ログアウト')
+    @_current_user = user
   end
 
   def current_user

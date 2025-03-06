@@ -20,12 +20,6 @@ module Login
     fill_in 'パスワード', with: 'testtest'
     click_on 'ログイン'
 
-    if @_current_user.use_two_factor_authentication?
-      assert has_text?('Enter the code')
-      fill_in 'code', with: User.find(current_user.id).direct_otp
-      click_on 'Submit'
-    end
-
     assert has_link?('ログアウト')
   end
 

@@ -1,12 +1,9 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :two_factor_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:google_oauth2]
+  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, omniauth_providers: [:google_oauth2]
 
   has_one :employee
   accepts_nested_attributes_for :employee
-
-  has_one_time_password
 
   validates :login_id, presence: true, uniqueness: {case_sensitive: false}
   validates_format_of :login_id, :with=>/\A[a-zA-Z0-9._]+\z/
@@ -22,15 +19,10 @@ class User < ApplicationRecord
 
     case access_token['provider'].to_sym
     when :google_oauth2
-      User.where(:google_account => data["email"]).first
+      User.where(google_account: data["email"]).first
     else
       nil
     end
-  end
-
-  # for two_factor_authentication.gem
-  def update_attributes(attributes)
-    update(attributes)
   end
 
   def has_google_account
@@ -46,12 +38,4 @@ class User < ApplicationRecord
     login_id
   end
   
-  def need_two_factor_authentication?(request)
-    self.use_two_factor_authentication?
-  end
-
-  def send_two_factor_authentication_code(code)
-    LoginMailer.invoice_login(self).deliver_now
-  end
-
 end

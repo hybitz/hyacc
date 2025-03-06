@@ -11,11 +11,6 @@ module Login
     fill_in 'パスワード', :with => 'testtest'
     click_on 'ログイン'
 
-    if user.use_two_factor_authentication?
-      fill_in 'code', :with => User.find(user.id).otp_code
-      click_on 'Submit'
-    end
-
     @_current_user = user
   end
 

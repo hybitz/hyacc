@@ -1,6 +1,11 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+  if Rails.env.production?
+    devise :rememberable, :trackable, :validatable,
+           :omniauthable, omniauth_providers: [:google_oauth2]
+  else
+    devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable,
+           :omniauthable, omniauth_providers: [:google_oauth2]
+  end
 
   has_one :employee
   accepts_nested_attributes_for :employee

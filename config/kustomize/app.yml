@@ -31,3 +31,6 @@ spec:
         - name: PORT
           value: '3000'
         command: ['bundle', 'exec', 'rails', 's']
+      - name: memcached
+        image: memcached:1.4.39
+        command: ['-m', '64']

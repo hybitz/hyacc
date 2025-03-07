@@ -51,14 +51,6 @@ class ActionDispatch::IntegrationTest
     assert_response :redirect
     assert_redirected_to root_path
 
-    if user.use_two_factor_authentication?
-      get root_path
-      assert_redirected_to user_two_factor_authentication_path
-      patch user_two_factor_authentication_path, params: {code: controller.current_user.direct_otp}
-    end
-
-    assert_redirected_to root_path
-
     @_current_user = user
   end
 

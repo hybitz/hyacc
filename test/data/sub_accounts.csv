@@ -32,4 +32,3 @@ id,account_id,code,name,sub_account_type,social_expense_number_of_people_require
 39,65,300,市町村民税,10,0
 40,39,500,雇用保険料,1,0
 41,7,500,雇用保険料,1,0
-42,31,300,その他,1,0

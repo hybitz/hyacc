@@ -76,7 +76,6 @@ module Auto::Journal
       ## 支払手数料
       if paid_fee_amount > 0
         account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
-        sub_account = account.sub_accounts.find{|sa| sa.name == 'その他' }
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
@@ -87,7 +86,12 @@ module Auto::Journal
         jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
         jd.amount = paid_fee_amount
         jd.tax_detail = tax_detail if tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
-        jd.sub_account_id = sub_account.id
+        sub_accounts = account.sub_accounts
+        if sub_accounts.present?
+          sub_account = sub_accounts.find{|sa| sa.name == 'その他'} || sub_accounts.find{|sa| sa.name == '振込手数料'}
+          sub_account = sub_accounts.first unless sub_account
+          jd.sub_account_id = sub_account.id
+        end
       end
 
       ## 預け金明細

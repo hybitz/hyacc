@@ -7,7 +7,7 @@ pipeline {
   }
   stages {
     stage('build') {
-      agent { kubernetes { inheritFrom 'kaniko' } }
+      agent { kubernetes { inheritFrom 'default kaniko' } }
       steps {
         container('kaniko') {
           ansiColor('xterm') {

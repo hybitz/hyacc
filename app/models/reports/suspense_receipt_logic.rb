@@ -68,9 +68,11 @@ module Reports
     def note
       if account
         if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+          ret = '誤入金'
           jh_ids = Journal.where(company_id: company.id).map {|jh| jh.id if jh.ym <= end_ym }
           jd = JournalDetail.where(journal_id: jh_ids, account_id: account.id).order('amount DESC').first
-          jd.note.present? ? "#{jd.note}　等" : '誤入金　等'
+          ret = jd.note if jd.note.present?
+          ret = ret + '　等'
         else
           if sub_account
             "#{sub_account.name}の#{account.name}"

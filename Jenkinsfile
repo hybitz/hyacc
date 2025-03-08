@@ -126,6 +126,11 @@ spec:
       }
     }
   }
+  post {
+    success {
+      build job: 'hyacc-user_stories', wait: false
+    }
+  }
 }
 
 def publishUnitResult() {
@@ -135,5 +140,4 @@ def publishUnitResult() {
 
 def publishE2EResult() {
   publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'features/reports', reportName: 'Features', reportFiles: 'index.html'])
-  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'user_stories/reports', reportName: 'Features', reportFiles: 'index.html'])
 }

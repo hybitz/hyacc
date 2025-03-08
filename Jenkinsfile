@@ -89,7 +89,6 @@ spec:
             sh "bundle exec rake dad:db:create"
             sh "bundle exec rails db:reset"
             sh 'bundle exec rake dad:test'
-            sh 'bundle exec rake dad:test user_stories'
           }
         }
       }

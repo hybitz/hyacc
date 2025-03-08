@@ -126,6 +126,11 @@ spec:
       }
     }
   }
+  post {
+    success {
+      build job: 'hyacc-user_stories', wait: false
+    }
+  }
 }
 
 def publishUnitResult() {

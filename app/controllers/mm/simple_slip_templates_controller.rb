@@ -72,7 +72,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   
   def get_keywords
     url = 'jlp.yahooapis.jp'
-    query = "/FuriganaService/V1/furigana?appid=#{current_user.yahoo_api_app_id}&sentence=#{params[:remarks]}"
+    query = "/FuriganaService/V1/furigana?appid=#{Rails.application.secrets.yahoo_api_app_id}&sentence=#{params[:remarks]}"
     
     keywords = ''
     Net::HTTP.version_1_2

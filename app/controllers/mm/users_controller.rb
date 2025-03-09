@@ -71,7 +71,7 @@ class Mm::UsersController < Base::HyaccController
     permitted = [
       :login_id, :email, :slips_per_page, :password,
       :google_account, :account_count_of_frequencies,
-      :yahoo_api_app_id, :show_details,
+      :show_details,
       employee_attributes: [
         :id, :first_name, :last_name, :employment_date,
         :zip_code, :address, :sex, :business_office_id, :birth, :my_number

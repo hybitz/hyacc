@@ -88,9 +88,12 @@ module Auto::Journal
         jd.tax_detail = tax_detail if tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
         sub_accounts = account.sub_accounts
         if sub_accounts.present?
-          sub_account = sub_accounts.find{|sa| sa.name == 'その他'} || sub_accounts.find{|sa| sa.name == '振込手数料'}
-          sub_account = sub_accounts.first unless sub_account
-          jd.sub_account_id = sub_account.id
+          sub_account = sub_accounts.find{|sa| sa.name == 'その他'}
+          if sub_account.present?
+            jd.sub_account_id = sub_account.id
+          else
+            raise HyaccException.new(ERR_SUB_ACCOUNT_ETC_STOCKS_NEEDED)
+          end
         end
       end
 

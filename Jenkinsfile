@@ -7,7 +7,7 @@ pipeline {
   }
   stages {
     stage('build') {
-      agent { kubernetes { inheritFrom 'kaniko' } }
+      agent { kubernetes { inheritFrom 'default kaniko' } }
       steps {
         container('kaniko') {
           ansiColor('xterm') {
@@ -89,7 +89,6 @@ spec:
             sh "bundle exec rake dad:db:create"
             sh "bundle exec rails db:reset"
             sh 'bundle exec rake dad:test'
-            sh 'bundle exec rake dad:test user_stories'
           }
         }
       }

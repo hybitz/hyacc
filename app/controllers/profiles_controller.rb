@@ -50,7 +50,7 @@ class ProfilesController < Base::HyaccController
   def profile_params
     permitted = [
       :login_id, :password, :email, :slips_per_page, :account_count_of_frequencies, :show_details,
-      :google_account, :yahoo_api_app_id,
+      :google_account,
       :simple_slip_settings_attributes => [
         :id, :account_id, :shortcut_key, :_destroy
       ]

@@ -23,6 +23,8 @@ class Employee < ApplicationRecord
   has_many :skills, -> {where deleted: false}, inverse_of: 'employee'
   accepts_nested_attributes_for :skills
 
+  validates_with Validators::UniqueBranchEmployeesValidator
+
   def self.name_is(name)
     where('last_name = ? or first_name = ? or concat(last_name, first_name) = ?', name, name, name)
   end

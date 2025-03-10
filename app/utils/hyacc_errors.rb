@@ -32,6 +32,7 @@ module HyaccErrors
   ERR_STALE_OBJECT = "古いデータを更新しようとしました。"
   ERR_SUB_ACCOUNT_ALREADY_USED = "は既に使用されているため削除できません。"
   ERR_SUB_ACCOUNT_DUPLICATE_UNIQUE_CODE = "補助科目コードが重複しています。"
+  ERR_SUB_ACCOUNT_ETC_STOCKS_NEEDED = "補助科目に「その他」の設定が必要です。"
   ERR_SYSTEM_REQUIRED_ACCOUNT = "システムで必須の勘定科目です。"
 
 end

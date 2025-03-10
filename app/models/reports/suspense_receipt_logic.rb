@@ -18,7 +18,8 @@ module Reports
           detail.sub_account = sa
           detail.amount_at_end = amount_at_end
           detail.company = company
-          detail.end_ym = end_ym
+          detail.fiscal_year = fiscal_year
+          detail.branch_id = branch_id
           ret.details << detail
         end
       end
@@ -47,7 +48,7 @@ module Reports
   class SuspenseReceiptDetailModel
     include HyaccConst
 
-    attr_accessor :account, :sub_account, :amount_at_end, :end_ymd, :company, :end_ym
+    attr_accessor :account, :sub_account, :amount_at_end, :end_ymd, :company, :fiscal_year, :branch_id
 
     def account_name
       account&.name
@@ -69,9 +70,13 @@ module Reports
       if account
         if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
           ret = '誤入金'
-          jh_ids = Journal.where(company_id: company.id).map {|jh| jh.id if jh.ym <= end_ym }
-          jd = JournalDetail.where(journal_id: jh_ids, account_id: account.id).order('amount DESC').first
-          ret = jd.note if jd.note.present?
+          jh_ids = Journal.where(company_id: company.id).map {|jh| jh.id if jh.fiscal_year == fiscal_year }
+          if branch_id > 0
+            jd = JournalDetail.where(journal_id: jh_ids, account_id: account.id, branch_id: branch_id).order('amount DESC').first
+          else
+            jd = JournalDetail.where(journal_id: jh_ids, account_id: account.id).order('amount DESC').first
+          end
+          ret = jd.note if jd&.note.present?
           ret = ret + '　等'
         else
           if sub_account

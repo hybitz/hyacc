@@ -1,7 +1,7 @@
 module Profiles
   include HyaccConst
 
-  def valid_profile_params
+  def profile_params
     {
       :email => "test@#{time_string}.example.com",
       :slips_per_page => '20',

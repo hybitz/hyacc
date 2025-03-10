@@ -33,4 +33,4 @@ spec:
         command: ['bundle', 'exec', 'rails', 's']
       - name: memcached
         image: memcached:1.4.39
-        command: ['-m', '64']
+        args: ['-m', '64']

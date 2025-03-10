@@ -7,7 +7,7 @@ pipeline {
   }
   stages {
     stage('build') {
-      agent { kubernetes { inheritFrom 'kaniko' } }
+      agent { kubernetes { inheritFrom 'default kaniko' } }
       steps {
         container('kaniko') {
           ansiColor('xterm') {
@@ -89,7 +89,6 @@ spec:
             sh "bundle exec rake dad:db:create"
             sh "bundle exec rails db:reset"
             sh 'bundle exec rake dad:test'
-            sh 'bundle exec rake dad:test user_stories'
           }
         }
       }
@@ -126,6 +125,11 @@ spec:
       }
     }
   }
+  post {
+    success {
+      build job: 'hyacc-user_stories', wait: false
+    }
+  }
 }
 
 def publishUnitResult() {
@@ -135,5 +139,4 @@ def publishUnitResult() {
 
 def publishE2EResult() {
   publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'features/reports', reportName: 'Features', reportFiles: 'index.html'])
-  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'user_stories/reports', reportName: 'Features', reportFiles: 'index.html'])
 }

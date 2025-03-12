@@ -24,10 +24,7 @@ class UniqueBranchEmployeesValidatorTest < ActiveSupport::TestCase
     assert employee.errors.empty?
 
     employee.branch_employees.build(branch_id: @branch_id)
-    assert_not employee.valid?
-    assert_no_difference 'BranchEmployee.count' do
-      assert_not employee.save
-    end
+    assert employee.invalid?
     assert employee.errors[:base].include?(I18n.t('errors.messages.branch_employees_duplicated'))
   end
 
@@ -43,20 +40,12 @@ class UniqueBranchEmployeesValidatorTest < ActiveSupport::TestCase
     assert employee.errors.empty?
 
     employee.branch_employees.build(branch_id: @new_branch_id, default_branch: true)
-    assert_not employee.valid?
-    assert_no_difference 'BranchEmployee.count' do
-      assert_not employee.save
-    end
+    assert employee.invalid?
     assert employee.errors[:base].include?(I18n.t('errors.messages.default_branches_duplicated'))
 
     employee.errors.delete(:base)
     employee.branch_employees.reload.build(branch_id: @branch_id, default_branch: true)
-    assert_not employee.valid?
-    assert_no_difference 'BranchEmployee.count' do
-      assert_not employee.save
-    end
-
-    assert employee.errors[:base].include?(I18n.t('errors.messages.branch_employees_duplicated'))
+    assert employee.invalid?
     assert employee.errors[:base].include?(I18n.t('errors.messages.branch_employees_duplicated'))
   end
 

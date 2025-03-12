@@ -75,16 +75,26 @@ module Auto::Journal
        
       ## 支払手数料
       if paid_fee_amount > 0
+        account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
         jd = jh.journal_details.build
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_DEBIT
-        jd.account_id = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id
+        jd.account_id = account.id
         jd.branch_id = branch_id
         jd.tax_type = TAX_TYPE_INCLUSIVE
         jd.tax_rate_percent = tax_rate * 100
         jd.allocation_type = ALLOCATION_TYPE_EVEN_BY_CHILDREN
         jd.amount = paid_fee_amount
         jd.tax_detail = tax_detail if tax_management_type == TAX_MANAGEMENT_TYPE_EXCLUSIVE
+        sub_accounts = account.sub_accounts
+        if sub_accounts.present?
+          sub_account = sub_accounts.find{|sa| sa.name == 'その他'}
+          if sub_account.present?
+            jd.sub_account_id = sub_account.id
+          else
+            raise HyaccException.new(ERR_SUB_ACCOUNT_ETC_STOCKS_NEEDED)
+          end
+        end
       end
 
       ## 預け金明細

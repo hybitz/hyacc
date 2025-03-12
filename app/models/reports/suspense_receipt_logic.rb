@@ -70,14 +70,8 @@ module Reports
     def note
       if account
         if account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-          ret = '誤入金'
-          jh_ids = Journal.where('company_id = ? and ym >= ? and ym <= ? and deleted = ?', company.id, start_ym, end_ym, false).pluck(:id)
-          if branch_id > 0
-            jd = JournalDetail.where(journal_id: jh_ids, account_id: account.id, branch_id: branch_id).order('amount DESC').first
-          else
-            jd = JournalDetail.where(journal_id: jh_ids, account_id: account.id).order('amount DESC').first          
-          end
-          ret = jd.note if jd&.note.present?
+          ret = get_note(start_ym, end_ym, company.id, account.id, branch_id)
+          ret = '誤入金' unless ret
           ret = ret + '　等'
         else
           if sub_account
@@ -93,6 +87,20 @@ module Reports
 
     def customer
       @customer ||= Customer.find_by_code(sub_account.code)
+    end
+
+    def get_note(ym_from, ym_to, company_id, account_id, branch_id)
+      sql = SqlBuilder.new
+      sql.append('select note from journal_details jd')
+      sql.append('inner join journals jh on (jh.id = jd.journal_id)')
+      sql.append('where company_id = ?', company_id)
+      sql.append('and branch_id = ?', branch_id) if branch_id.to_i > 0
+      sql.append('and ym >= ?', ym_from)
+      sql.append('and ym <= ?', ym_to)
+      sql.append('and account_id = ?', account_id)
+      sql.append('and deleted = ?', false)
+      sql.append('order by jd.amount DESC limit 1')
+      JournalDetail.find_by_sql(sql.to_a)[0]&.note
     end
   
   end

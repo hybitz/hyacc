@@ -1,5 +1,6 @@
 require 'net/http'
-require "rexml/document"
+require 'uri'
+require 'json'
 
 class Mm::SimpleSlipTemplatesController < Base::HyaccController
 
@@ -71,37 +72,52 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   end
   
   def get_keywords
-    url = 'jlp.yahooapis.jp'
-    query = "/FuriganaService/V1/furigana?appid=#{Rails.application.secrets.yahoo_api_app_id}&sentence=#{params[:remarks]}"
-    
-    keywords = ''
-    Net::HTTP.version_1_2
-    Net::HTTP.start(url) do |http|
-      response = http.get(query)
-      xml = REXML::Document.new response.body
+    appid = "#{Rails.application.secrets.yahoo_api_app_id}"
+    url = "https://jlp.yahooapis.jp/FuriganaService/V2/furigana"
+    remarks = params[:remarks]
 
-      elements = xml.elements['/ResultSet/Result/WordList']
-      if elements.present?
-        elements.each do |elem|
-          next unless elem.class == REXML::Element
-  
-          surface = elem.elements['Surface'].text
-          furigana = elem.elements['Furigana'].text
-          roman = elem.elements['Roman'].text
-          
-          next if surface == furigana
-          next if furigana.size <= 1
-  
-          keywords << " " << surface << " " + furigana << " " << roman
+    headers = {
+      "Content-Type" => "application/json",
+      "User-Agent" => "Yahoo AppID: " + appid,
+    }
+
+    param_dic = {
+      "id": "1234-1",
+      "jsonrpc": "2.0",
+      "method": "jlp.furiganaservice.furigana",
+      "params": {
+        "q": remarks,
+        "grade": 1
+      }
+    }
+
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+
+    response = http.post(uri.path, param_dic.to_json, headers)
+    response_body = JSON.parse(response.body).deep_symbolize_keys
+    keywords = ''
+    elements = response_body.dig(:result, :word)
+    if elements
+      elements.each do |elem|
+        surface = elem[:surface]
+        furigana = elem[:furigana]
+        roman = elem[:roman]
+        next if surface == '代' || surface == '料'
+        if furigana.present?
+          keywords << " " << surface << " " + furigana << " " << roman if furigana.size > 1
+        else
+          keywords << " " << surface if surface.size > 1
         end
-      end
-      
-      if HyaccLogger.debug?
-        HyaccLogger.debug "\n  url=#{url}\n  query=#{query}\n  keywords=#{keywords}"
       end
     end
 
-    render :plain => keywords.strip
+    if HyaccLogger.debug?
+      HyaccLogger.debug "\n  url=#{uri.host}\n  remarks=#{remarks}\n  keywords=#{keywords}"
+    end
+    
+    render plain: keywords.strip
   end
   
   def get_sub_accounts

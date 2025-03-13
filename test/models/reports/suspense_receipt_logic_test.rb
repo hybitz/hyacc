@@ -2,8 +2,7 @@ require 'test_helper'
 
 class Reports::SuspenseReceiptLogicTest < ActiveSupport::TestCase
   def setup
-    @account = Account.find_by_code(ACCOUNT_CODE_SUSPENSE_RECEIPT)
-    @account.update!(sub_account_type: SUB_ACCOUNT_TYPE_CUSTOMER, is_suspense_receipt_account: true)
+    @account = Account.where(is_suspense_receipt_account: true, sub_account_type: SUB_ACCOUNT_TYPE_CUSTOMER, deleted: false).first
     @fiscal_year = company.fiscal_years.where(closing_status: CLOSING_STATUS_OPEN).order('fiscal_year ASC').second
     
     SimpleSlip.new(params.merge(amount_increase: 10000)).save!

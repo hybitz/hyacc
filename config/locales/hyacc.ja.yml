@@ -314,6 +314,8 @@ ja:
       income_tax_sub_account_required: は補助科目に源泉徴収税を必要とします。
       non_existing_account: に存在しない勘定科目が指定されています。
       sub_accounts_duplicated: 補助科目が重複しています。
+      branch_employees_duplicated: 所属部門が重複しています。
+      default_branches_duplicated: 所属部門のデフォルト設定が重複しています。
 
   text:
     hide_detail: 詳細を隠す

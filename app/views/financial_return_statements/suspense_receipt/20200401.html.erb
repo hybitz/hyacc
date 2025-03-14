@@ -46,7 +46,7 @@
     <tbody>
       <% 6.times do |i| %>
         <tr>
-          <% if i == 0 %>
+          <% if i == 0 && @model.income_tax_detail.present? %>
             <td class="text-center"><%= to_wareki(Date.strptime("#{@model.end_ym / 100}-#{@model.end_ym % 100}-01"), format: '%y年%1m月') %></td>
             <td class="text-center">給</td>
             <td class="text-end"><%= to_amount(@model.income_tax_detail.amount_at_end) %></td>

@@ -75,7 +75,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   def get_keywords
     app_id = "#{Rails.application.secrets.yahoo_api_app_id}"
     remarks = params[:remarks]
-    request_id = SecureRandom.alphanumeric(5)
+    param_id = SecureRandom.alphanumeric(5)
     url = "https://jlp.yahooapis.jp/FuriganaService/V2/furigana"
 
     headers = {
@@ -84,7 +84,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
     }
 
     param_dic = {
-      "id": request_id,
+      "id": param_id,
       "jsonrpc": "2.0",
       "method": "jlp.furiganaservice.furigana",
       "params": {
@@ -97,7 +97,15 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
 
-    response = http.post(uri.path, param_dic.to_json, headers)
+    request = Net::HTTP::Post.new(uri.path, headers)
+    request.body = param_dic.to_json
+    request_body= JSON.parse(request.body).deep_symbolize_keys
+
+    if HyaccLogger.debug?
+      HyaccLogger.debug "\n  request_id=#{request_body[:id]}"
+    end
+
+    response = http.request(request)
     response_body = JSON.parse(response.body).deep_symbolize_keys
     keywords = ''
     elements = response_body.dig(:result, :word)
@@ -116,7 +124,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
     end
 
     if HyaccLogger.debug?
-      HyaccLogger.debug "\n  url=#{uri.host}\n  remarks=#{remarks}\n  keywords=#{keywords}\n  request_id=#{request_id}\n  response_id=#{response_body[:id]}  "
+      HyaccLogger.debug "\n  url=#{uri.host}\n  remarks=#{remarks}\n  keywords=#{keywords}\n  response_id=#{response_body[:id]}"
     end
     
     render plain: keywords.strip

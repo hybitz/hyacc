@@ -13,14 +13,14 @@ module Reports
           next if amount_at_end == 0
 
           detail = ret.new_detail
-          detail.end_ymd = end_ymd
           detail.account = a
-          detail.sub_account = sa
           detail.amount_at_end = amount_at_end
-          detail.company = company
           detail.branch_id = branch_id
+          detail.company = company
           detail.end_ym = end_ym
+          detail.end_ymd = end_ymd
           detail.start_ym = start_ym
+          detail.sub_account = sa
           ret.details << detail
         end
       end
@@ -49,7 +49,7 @@ module Reports
   class SuspenseReceiptDetailModel
     include HyaccConst
 
-    attr_accessor :account, :sub_account, :amount_at_end, :end_ymd, :company, :end_ym, :start_ym, :branch_id
+    attr_accessor :account, :amount_at_end, :branch_id, :company, :end_ym, :end_ymd, :start_ym, :sub_account
 
     def account_name
       account&.name

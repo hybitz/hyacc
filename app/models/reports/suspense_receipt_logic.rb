@@ -13,6 +13,7 @@ module Reports
           next if amount_at_end == 0
 
           detail = ret.new_detail
+          detail.end_ymd = end_ymd
           detail.account = a
           detail.sub_account = sa
           detail.amount_at_end = amount_at_end
@@ -48,7 +49,7 @@ module Reports
   class SuspenseReceiptDetailModel
     include HyaccConst
 
-    attr_accessor :account, :sub_account, :amount_at_end, :company, :end_ym, :start_ym, :branch_id
+    attr_accessor :account, :sub_account, :amount_at_end, :end_ymd, :company, :end_ym, :start_ym, :branch_id
 
     def account_name
       account&.name
@@ -86,10 +87,6 @@ module Reports
 
     def customer
       @customer ||= Customer.find_by_code(sub_account.code)
-    end
-
-    def end_ymd
-      @end_ymd ||= Date.new(end_ym.to_i / 100, end_ym.to_i % 100, 1).end_of_month.strftime("%Y%m%d")
     end
 
     def get_note(ym_from, ym_to, company_id, account_id, branch_id)

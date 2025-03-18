@@ -23,3 +23,15 @@ end
     assert has_selector?('.notice')
   end
 end
+
+もし /^参照ダイアログを表示し、編集ボタンをクリックする$/ do
+  click_on current_user.employee.name
+  assert has_dialog?('従業員　参照')
+
+  within_dialog do
+    assert has_selector?('#edit-button')
+    click_on '編集'
+  end
+
+  assert has_dialog?('従業員　編集')
+end

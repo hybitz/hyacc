@@ -24,13 +24,20 @@ end
   end
 end
 
-もし /^参照ダイアログを表示し、編集ボタンをクリックする$/ do
-  click_on current_user.employee.name
+もし /^任意の参照ダイアログの編集をクリックして編集ダイアログを開く$/ do
+  assert has_selector?('.employees')
+
+  assert has_no_dialog?
+
+  assert tr = first('.employees tbody tr')
+  within tr do
+    first('td a').click
+  end
+  
   assert has_dialog?('従業員　参照')
 
-  within_dialog do
-    assert has_selector?('#edit-button')
-    click_on '編集'
+  within '.ui-dialog-buttonset' do
+    find('button', text: '編集')
   end
 
   assert has_dialog?('従業員　編集')

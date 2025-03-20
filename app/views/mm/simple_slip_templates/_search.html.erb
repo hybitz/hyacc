@@ -1,7 +1,19 @@
-<div id="search" class="mt-4 mb-2">
-  <%= form_tag({action: 'index'}, method: 'get', class: 'form-inline') do %>
-    <span class="mx-2">摘要：<%= text_field 'finder', 'remarks', size: 25, maxlength: 250, class: 'form-control' %></span>
-    <span class="mx-2">勘定科目：<%= collection_select_code_and_name(:finder, :account_id, finder.accounts, :id, :name, {include_blank: true}, class: 'form-control') %></span>
+<%= form_tag({action: 'index'}, method: 'get', class: 'row') do %>
+  <div class="col-md-3">
+    <div class="input-group">
+      <label class="input-group-text">摘要</label>
+      <%= text_field 'finder', 'remarks', class: 'form-select' %>
+      <a href='#' onclick='$("#finder_remarks").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="input-group">
+      <label class="input-group-text">勘定科目</label>
+      <%= collection_select_code_and_name(:finder, :account_id, finder.accounts, :id, :name, {include_blank: true}, class: 'form-select') %>
+      <a href='#' onclick='$("#finder_account_id").val(""); return false;' class="input-group-text">×</a>
+    </div>
+  </div>
+  <div class="col-auto">
     <%= submit_tag "表示", class: 'btn btn-light' %>
-  <% end %>
-</div>
+  </div>
+<% end %>

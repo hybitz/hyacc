@@ -7,4 +7,4 @@
 <% end %>
 
 <%= will_paginate @templates if @templates.present? %>
-<%= link_to '追加', {:action => 'new'}, :class => 'add', :remote => true %>
+<%= link_to '追加', {action: 'new'}, class: 'btn btn-light add', remote: true %>

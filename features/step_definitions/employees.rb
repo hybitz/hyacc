@@ -24,7 +24,7 @@ end
   end
 end
 
-もし /^任意の参照ダイアログの編集をクリックして編集ダイアログを開く$/ do
+もし /^参照ダイアログの編集をクリックして編集ダイアログを開く$/ do
   assert has_selector?('.employees')
 
   assert has_no_dialog?

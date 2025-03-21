@@ -23,3 +23,22 @@ end
     assert has_selector?('.notice')
   end
 end
+
+もし /^参照ダイアログの編集をクリックして編集ダイアログを開く$/ do
+  assert has_selector?('.employees')
+
+  assert has_no_dialog?
+
+  assert tr = first('.employees tbody tr')
+  within tr do
+    first('td a').click
+  end
+  
+  assert has_dialog?('従業員　参照')
+
+  within '.ui-dialog-buttonset' do
+    find('button', text: '編集')
+  end
+
+  assert has_dialog?('従業員　編集')
+end

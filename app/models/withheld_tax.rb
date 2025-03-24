@@ -8,6 +8,10 @@ class WithheldTax
       withheld_tax = TaxJp::WithheldTax.find_by_date_and_salary(date, salary)
       if withheld_tax
         ret = withheld_tax.__send__("dependent_#{dependent}")
+        if salary > 740_000
+          excess_salary = salary - withheld_tax.salary_range_from
+          ret += (excess_salary*withheld_tax.extra_rate).to_i
+        end
       end
     else
       raise 'TODO 7人以上は1人を超えるごとに¥1,580/¥1,610＋'

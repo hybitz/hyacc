@@ -1,7 +1,18 @@
 <script>
   $(document).ready(function() {
     hyacc.init_datepicker();
+    setDateRange();
   });
+
+  $(document).on("click", "#user_employee_attributes_birth", function() {
+    $(this).datepicker("setDate", "<%= Time.now.ago(30.years).strftime("%F")%>");
+  });
+
+  function setDateRange() {
+    var startDate = new Date("<%= "#{Time.now.year - 65}" + "-01-01" %>");
+    var endDate = new Date("<%= "#{Time.now.year - 18}" + "-12-31" %>");
+    $("#user_employee_attributes_birth").datepicker("option", { minDate: startDate, maxDate: endDate });
+  }
 </script>
 <%= form_for [:mm, @user], :remote => true do |f| %>
   <%= flash_notice %>
@@ -23,7 +34,7 @@
         <% if @user.new_record? %>
           <tr>
             <th><%= f.label :password %></th>
-            <td><%= f.password_field :password %></td>
+            <td><%= f.password_field :password, autocomplete: "new-password" %></td>
           </tr>
           <tr>
             <th><%= f.label :email %></th>

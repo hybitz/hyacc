@@ -35,4 +35,68 @@ class PayrollTest < ActiveSupport::TestCase
     assert_equal 400_000, p.pay_total
   end
 
+  def test_社会保険料
+    e = employee
+    fy = e.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
+    fy.closing_status = CLOSING_STATUS_OPEN
+
+    p1 = Payroll.new(ym: 202502, pay_day: '2025-03-07', employee: e, base_salary: 300_000, monthly_standard: 300_000)
+    p1.create_user_id = p1.update_user_id = e.id
+
+    p2 = Payroll.new(ym: 202503, pay_day: '2025-04-07', employee: e, base_salary: 300_000, monthly_standard: 300_000)
+    p2.create_user_id = p2.update_user_id = e.id
+
+    assert_not p1.care_applicable?
+    p1.calc_social_insurance
+    assert_equal 15315, p1.health_insurance
+    assert_equal 27450, p1.welfare_pension
+
+    assert_not p2.care_applicable?
+    p2.calc_social_insurance
+    assert_equal 15465, p2.health_insurance
+    assert_equal 27450, p2.welfare_pension
+
+    e.update!(birth: '1985-01-01')
+    p1.employee = e
+    p2.employee = e
+    
+    assert p1.care_applicable?
+    p1.calc_social_insurance
+    assert_equal 17715, p1.health_insurance
+    assert_equal 27450, p1.welfare_pension
+
+    assert p2.care_applicable?
+    p2.calc_social_insurance
+    assert_equal 17850, p2.health_insurance
+    assert_equal 27450, p2.welfare_pension
+  end
+
+  def test_雇用保険料
+    e = employee
+    assert_not e.executive?
+    fy = e.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
+    fy.closing_status = CLOSING_STATUS_OPEN
+
+    p1 = Payroll.new(ym: 202503, pay_day: '2025-04-07', employee: e, base_salary: 300_000, monthly_standard: 300_000)
+    p1.create_user_id = p1.update_user_id = e.id
+
+    p2 = Payroll.new(ym: 202504, pay_day: '2025-05-07', employee: e, base_salary: 300_000, monthly_standard: 300_000)
+    p2.create_user_id = p2.update_user_id = e.id
+
+    p1.calc_employment_insurance
+    assert_equal 1800, p1.employment_insurance
+
+    p2.calc_employment_insurance
+    assert_equal 1650, p2.employment_insurance
+
+    e.update!(executive: true)
+    p1.employee = e
+    p1.calc_employment_insurance
+    assert_equal 0, p1.employment_insurance
+
+    p2.employee = e
+    p2.calc_employment_insurance
+    assert_equal 0, p2.employment_insurance
+  end
+
 end

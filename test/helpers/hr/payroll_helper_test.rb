@@ -18,8 +18,8 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     employee_id = 8
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
-
-    p = get_tax(201707, employee_id, 620000, 620000, 0, 0, 0)
+      
+    p = get_tax(202507, employee_id, 620000, 620000, 0, 0, 0)
     assert_equal 30721, p.health_insurance
   end
 
@@ -28,8 +28,8 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
 
-    p = get_tax(201708, employee_id, 620000, 620000, 0, 0, 0)
-    assert_equal 35836, p.health_insurance
+    p = get_tax(202508, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 35650, p.health_insurance
   end
 
   def test_get_tax_for_care_born_on_first
@@ -37,8 +37,8 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     e = Employee.find(employee_id)
     assert_equal "13", e.business_office.prefecture_code
 
-    p = get_tax(201707, employee_id, 620000, 620000, 0, 0, 0)
-    assert_equal 35836, p.health_insurance
+    p = get_tax(202507, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 35650, p.health_insurance
   end
 
 end

@@ -19,7 +19,7 @@
           </tr>
           <tr>
             <th><%= f.label :birth %></th>
-            <td><%= f.date_select :birth, start_year: Time.now.year - 65, end_year: Time.now.year - 18, default: 30.years.ago, include_blank: true %></td>
+            <td><%= f.date_select :birth, start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true %></td>
           </tr>
           <tr>
             <th><%= f.label :zip_code %></th>

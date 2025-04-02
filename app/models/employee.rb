@@ -30,7 +30,7 @@ class Employee < ApplicationRecord
   end
   
   # デフォルト所属部門
-  def default_branch(raise_error = true)
+  def default_branch(raise_error: true)
     be = branch_employees.where(default_branch: true).first
     return be.branch if be
 
@@ -46,7 +46,7 @@ class Employee < ApplicationRecord
   end
 
   def default_branch_name
-    b = default_branch(false)
+    b = default_branch(raise_error: false)
     b ? b.name : nil
   end
 

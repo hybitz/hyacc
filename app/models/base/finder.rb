@@ -28,7 +28,7 @@ module Base
       @ym = nil
       @company_id = user.employee.company_id
       @fiscal_year = user.employee.company.current_fiscal_year.fiscal_year
-      @branch_id = user.employee.default_branch.id
+      @branch_id = user.employee.default_branch(raise_error: false)&.id.to_i
       @account_id = 0
       @sub_account_id = 0
       @business_office_id = 0

@@ -5,6 +5,7 @@ module Validators
     def validate(record)
       branch_employees = record.branch_employees.select {|be| ! be.deleted? }
       return if branch_employees.empty?
+      record.user&.new_record? ? @record = record.user : @record = record
       validate_branch(record, branch_employees)
       validate_default_branch(record, branch_employees)
     end
@@ -15,7 +16,7 @@ module Validators
       branch_ids = []
       branch_employees.each do |be|
         if branch_ids.include?(be.branch_id)
-          record.errors.add(:base, I18n.t('errors.messages.branch_employees_duplicated'))
+          @record.errors.add(:base, I18n.t('errors.messages.branch_employees_duplicated'))
           return
         end
 
@@ -25,7 +26,7 @@ module Validators
 
     def validate_default_branch(record, branch_employees)
       if branch_employees.select {|be| be.default_branch? }.size > 1
-        record.errors.add(:base, I18n.t('errors.messages.default_branches_duplicated'))
+        @record.errors.add(:base, I18n.t('errors.messages.default_branches_duplicated'))
       end
     end
 

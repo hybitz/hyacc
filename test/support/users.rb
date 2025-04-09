@@ -46,4 +46,70 @@ module Users
     assert ret.save, ret.errors.full_messages.join("\n")
     ret
   end
+
+  def user_params_with_valid_branch_employees
+    { user: {
+        login_id: 'zero',
+        password: 'zerozero',
+        email: 'test@example.com',
+        employee_attributes: {
+        last_name: 'test_create', 
+        first_name: 'a', 
+        employment_date: '2009-01-01',
+        sex: 'M',
+        birth: '2000-01-01',
+        my_number: '123456789012'
+       }
+      },
+      employee: {
+        branch_employees_attributes: {
+          "0": {
+            id: "",
+            branch_id: "1",
+            deleted: "0",
+            default_branch: "0"
+          }, 
+          "1": {
+            id: "",
+            branch_id: "2",
+            deleted: "0",
+            default_branch: "1"
+          }
+        }
+      }
+    }
+  end
+
+  def user_params_with_invalid_branch_employees
+    { user: {
+        login_id: 'zero',
+        password: 'zerozero',
+        email: 'test@example.com',
+        employee_attributes: {
+        last_name: 'test_create', 
+        first_name: 'a', 
+        employment_date: '2009-01-01',
+        sex: 'M',
+        birth: '2000-01-01',
+        my_number: '123456789012'
+        }
+      },
+      employee: {
+        branch_employees_attributes: {
+          "0": {
+            id: "",
+            branch_id: "1",
+            deleted: "0",
+            default_branch: "0"
+          }, 
+          "1": {
+            id: "",
+            branch_id: "1",
+            deleted: "0",
+            default_branch: "1"
+          }
+        }
+      }
+    }
+  end
 end

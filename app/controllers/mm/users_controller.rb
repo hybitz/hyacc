@@ -65,6 +65,11 @@ class Mm::UsersController < Base::HyaccController
     end
   end
 
+  def add_branch
+    @be = BranchEmployee.new
+    render partial: 'mm/employees/branch_employee_fields', locals: {be: @be, index: params[:index]}
+  end
+
   private
 
   def user_params
@@ -81,9 +86,18 @@ class Mm::UsersController < Base::HyaccController
     ret = params.require(:user).permit(permitted)
 
     if ret[:employee_attributes].present?
-      ret[:employee_attributes].merge!(company_id: current_company.id)
+      ret[:employee_attributes].merge!(company_id: current_company.id).merge!(employee_params)
     end
 
     ret
+  end
+
+  def employee_params   
+    return {} unless params.dig(:employee)
+    permitted = [
+      branch_employees_attributes: [
+        :id, :branch_id, :deleted, :default_branch]
+    ]
+    params.require(:employee).permit(permitted).merge(branch_ids: [])
   end
 end

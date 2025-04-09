@@ -28,7 +28,9 @@ module AstToModel
     e.sex = SEX_TYPES.invert[table[5][1]]
     e.birth = table[6][1]
     e.employment_date = table[7][1]
-    
+    be = e.branch_employees.build
+    be.branch_id = Branch.find_by_name(table[8][1]).id
+   
     ret
   end
 

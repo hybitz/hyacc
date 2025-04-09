@@ -67,6 +67,7 @@
             <th><%= f.label :my_number %></th>
             <td><%= f.text_field :my_number, :class => 'my_number' %></td>
           </tr>
+          <%= render 'mm/employees/branch_employees', e: @user.employee %>
         <% end %>
       </table>
     </div>

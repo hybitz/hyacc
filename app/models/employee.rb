@@ -10,7 +10,7 @@ class Employee < ApplicationRecord
   validates :my_number, numericality: {allow_blank: true}
   validates :social_insurance_reference_number, numericality: {allow_blank: true}
 
-  has_many :branch_employees, -> { where deleted: false }
+  has_many :branch_employees, -> { where deleted: false }, inverse_of: 'employee'
   accepts_nested_attributes_for :branch_employees
 
   has_many :branches, through: :branch_employees
@@ -23,6 +23,7 @@ class Employee < ApplicationRecord
   has_many :skills, -> {where deleted: false}, inverse_of: 'employee'
   accepts_nested_attributes_for :skills
 
+  validates_with Validators::DefaultBranchPresenceValidator
   validates_with Validators::UniqueBranchEmployeesValidator
 
   def self.name_is(name)

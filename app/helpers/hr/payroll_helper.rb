@@ -1,7 +1,7 @@
 module Hr::PayrollHelper
 
   # 標準報酬月額の計算
-  def get_standard_remuneration(ym, employee, salary)
+  def get_standard_remuneration(ym, employee, salary, pay_day)
     ret = 0
 
     prefecture_code = employee.business_office.prefecture_code
@@ -22,7 +22,7 @@ module Hr::PayrollHelper
         return pr_1.monthly_standard
       end
 
-      return TaxUtils.get_basic_info(ym, prefecture_code, salary).monthly_standard
+      return TaxUtils.get_basic_info(pay_day, prefecture_code, salary).monthly_standard
     end
 
     # 7月より前は前年の4月を基準とする
@@ -42,7 +42,7 @@ module Hr::PayrollHelper
     pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
     pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
     ave_bs = (pr.salary_total + pr1.salary_total + pr2.salary_total)/3
-    insurance_ave_bs = TaxUtils.get_basic_info(ym, prefecture_code, ave_bs)
+    insurance_ave_bs = TaxUtils.get_basic_info(pay_day, prefecture_code, ave_bs)
     grade_ave_bs = insurance_ave_bs.grade
     pre_bs = pr.salary_total
     ret = insurance_ave_bs.monthly_standard
@@ -56,7 +56,7 @@ module Hr::PayrollHelper
           pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
           pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
           ave_x = (pr.salary_total + pr1.salary_total + pr2.salary_total)/3
-          insurance_x = TaxUtils.get_basic_info(ym, prefecture_code, ave_x)
+          insurance_x = TaxUtils.get_basic_info(pay_day, prefecture_code, ave_x)
           if (grade_ave_bs - insurance_x.grade).abs >= 2
             ret = insurance_x.monthly_standard
             grade_ave_bs = insurance_x.grade
@@ -70,7 +70,7 @@ module Hr::PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, is_bonus: false)
+  def get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, pay_day, is_bonus: false)
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
@@ -78,6 +78,7 @@ module Hr::PayrollHelper
     payroll.ym = ym
     payroll.employee = e
     payroll.is_bonus = is_bonus
+    payroll.pay_day = pay_day
     if payroll.is_bonus?
       payroll.temporary_salary = salary.to_i
     else
@@ -86,7 +87,7 @@ module Hr::PayrollHelper
       payroll.housing_allowance = housing_allowance.to_i
       payroll.qualification_allowance = qualification_allowance.to_i
 
-      payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(ym, e, payroll.salary_total)
+      payroll.monthly_standard = get_standard_remuneration(ym, e, payroll.salary_total, pay_day)
     end
 
     # 社会保険

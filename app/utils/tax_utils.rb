@@ -1,36 +1,22 @@
 class TaxUtils
 
-  def self.get_social_insurances(prefecture_code, ym, base_salary)
-    date = Date.strptime("#{ym}01", '%Y%m%d')
-
-    ret = []
-    TaxJp::SocialInsurance.find_all_by_date_and_prefecture(date, prefecture_code).each do |si|
-      ret << convert_tax_jp_si(si)
-    end
-    ret
-  end
-
-  def self.get_social_insurance(ym, prefecture_code, base_salary)
-    date = Date.strptime("#{ym}01", '%Y%m%d')
+  def self.get_social_insurance(date, prefecture_code, base_salary)
     si = TaxJp::SocialInsurance.find_by_date_and_prefecture_and_salary(date, prefecture_code, base_salary)
     convert_tax_jp_si(si)
   end
 
-  def self.get_health_insurance(ym, prefecture_code, salary)
-    date = Date.strptime("#{ym}01", '%Y%m%d')
+  def self.get_health_insurance(date, prefecture_code, salary)
     hi = TaxJp::SocialInsurance.find_health_insurance_by_date_and_prefecture_and_salary(date, prefecture_code, salary)
     convert_tax_jp_hi(hi)
   end
 
-  def self.get_welfare_pension(ym, salary)
-    date = Date.strptime("#{ym}01", '%Y%m%d')
+  def self.get_welfare_pension(date, salary)
     wp = TaxJp::SocialInsurance.find_welfare_pension_by_date_and_salary(date, salary)
     convert_tax_jp_wp(wp)
   end
 
   # 標準報酬の基本情報を取得
-  def self.get_basic_info(ym, prefecture_code, base_salary)
-    date = Date.strptime("#{ym}01", '%Y%m%d')
+  def self.get_basic_info(date, prefecture_code, base_salary)
     si = TaxJp::SocialInsurance.find_by_date_and_prefecture_and_salary(date, prefecture_code, base_salary)
     convert_tax_jp_si(si)
   end

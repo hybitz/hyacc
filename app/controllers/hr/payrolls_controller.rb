@@ -27,8 +27,9 @@ class Hr::PayrollsController < Base::HyaccController
 
     salary = previous_payroll.base_salary
     monthly_standard = previous_payroll.monthly_standard
+    pay_day = get_pay_day(ym, employee_id)
 
-    @payroll = get_tax(ym, employee_id, monthly_standard, salary, 0, 0, 0, is_bonus: true)
+    @payroll = get_tax(ym, employee_id, monthly_standard, salary, 0, 0, 0, pay_day, is_bonus: true)
     @payroll.pay_day = get_pay_day(ym, employee_id)
   end
 
@@ -42,8 +43,9 @@ class Hr::PayrollsController < Base::HyaccController
     commuting_allowance = previous_payroll.try(:commuting_allowance).to_i
     housing_allowance = previous_payroll.try(:housing_allowance).to_i
     qualification_allowance = employee.qualification_allowance
+    pay_day = get_pay_day(ym, employee.id)
 
-    @payroll = get_tax(ym, employee.id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance)
+    @payroll = get_tax(ym, employee.id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, pay_day)
 
     # 初期値の設定
     @payroll.days_of_work = HyaccDateUtil.weekday_of_month(ym.to_i/100, ym.to_i%100)
@@ -139,14 +141,16 @@ class Hr::PayrollsController < Base::HyaccController
     commuting_allowance = params[:payroll][:commuting_allowance]
     housing_allowance = params[:payroll][:housing_allowance]
     qualification_allowance = params[:payroll][:qualification_allowance]
+    pay_day = params[:payroll][:pay_day]
     is_bonus = params[:payroll][:is_bonus].present?
-    payroll = get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, is_bonus: is_bonus)
+    payroll = get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, pay_day, is_bonus: is_bonus)
 
     render json: {
       health_insurance: payroll.health_insurance,
       welfare_pension: payroll.welfare_pension,
       employment_insurance: payroll.employment_insurance,
-      income_tax: payroll.income_tax
+      income_tax: payroll.income_tax,
+      monthly_standard: payroll.monthly_standard
     }
   end
 

@@ -211,8 +211,10 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
     finder.fiscal_year = 2009
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
+    ym = 200904
+    pay_day = Employee.find(2).company.get_actual_pay_day_for(ym)
 
-    post :auto_calc, params: {payroll: {ym: 200904, employee_id: 2, base_salary: 394000}}, xhr: true
+    post :auto_calc, params: {payroll: {ym: ym, employee_id: 2, base_salary: 394000, pay_day: pay_day}}, xhr: true
 
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)
@@ -229,8 +231,10 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
     finder.fiscal_year = 2008
     finder.employee_id = 1
     @request.session[PayrollFinder] = finder
+    ym = 200811
+    pay_day = Employee.find(1).company.get_actual_pay_day_for(ym)
 
-    get :auto_calc, params: {payroll: {ym: 200811, employee_id: 1, base_salary: 424000 }}, xhr: true
+    get :auto_calc, params: {payroll: {ym: ym, employee_id: 1, base_salary: 424000, pay_day: pay_day}}, xhr: true
 
     assert_response :success
     assert json = ActiveSupport::JSON.decode(response.body)

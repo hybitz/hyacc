@@ -135,6 +135,7 @@ ja:
         
       employee:
         address: 住所
+        base: ""
         base_salary: 基本給
         birth: 生年月日
         business_office_id: 所属する事業所

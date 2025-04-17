@@ -51,7 +51,7 @@ class UniqueBranchEmployeesValidatorTest < ActiveSupport::TestCase
     @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: true, deleted: false)
     @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: false, deleted: false)
     assert @user.invalid?
-    assert @user.errors[:base].include?(I18n.t('errors.messages.branch_employees_duplicated'))
+    assert @user.employee.errors[:base].include?(I18n.t('errors.messages.branch_employees_duplicated'))
 
     @user.employee.branch_employees.destroy_all
     @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: true, deleted: false)
@@ -63,7 +63,7 @@ class UniqueBranchEmployeesValidatorTest < ActiveSupport::TestCase
     @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: true, deleted: false)
     @user.employee.branch_employees.build(branch_id: @new_branch_id, default_branch: true, deleted: false)
     assert @user.invalid?
-    assert @user.errors[:base].include?(I18n.t('errors.messages.default_branches_duplicated'))
+    assert @user.employee.errors[:base].include?(I18n.t('errors.messages.default_branches_duplicated'))
 
     @user.employee.branch_employees.destroy_all
     @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: true, deleted: false)

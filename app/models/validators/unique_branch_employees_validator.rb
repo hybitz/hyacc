@@ -5,7 +5,6 @@ module Validators
     def validate(record)
       branch_employees = record.branch_employees.select {|be| ! be.deleted? }
       return if branch_employees.empty?
-      record = record.user if record.user&.new_record?
       validate_branch(record, branch_employees)
       validate_default_branch(record, branch_employees)
     end

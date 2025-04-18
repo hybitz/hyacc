@@ -58,11 +58,8 @@ class FirstBootController < ApplicationController
   
         @e.company_id = @c.id
         @u.employee = @e
+        @e.branch_employees.build(branch: @b, default_branch: true)
         @u.save!
-  
-        @be = BranchEmployee.new(:branch => @b, :employee => @e)
-        @be.default_branch = true
-        @be.save!
       end
 
       redirect_to root_path

@@ -4,6 +4,8 @@ class UniqueBranchEmployeesValidatorTest < ActiveSupport::TestCase
   def setup
     @branch_id = employee.branch_employees.first.branch_id
     @new_branch_id = BranchEmployee.where.not(employee_id: employee.id).first.branch_id
+    @user = User.new(login_id: 'zero', password: 'zerozero', email: 'test@example.com')
+    @user.build_employee(company_id: 1, last_name: 'test_create', first_name: 'a', employment_date: '2009-01-01', sex: 'M', birth: '2000-01-01', my_number: '123456789012')
   end
 
   def test_所属部門の重複チェック
@@ -42,11 +44,31 @@ class UniqueBranchEmployeesValidatorTest < ActiveSupport::TestCase
     employee.branch_employees.build(branch_id: @new_branch_id, default_branch: true)
     assert employee.invalid?
     assert employee.errors[:base].include?(I18n.t('errors.messages.default_branches_duplicated'))
+  end
 
-    employee.errors.delete(:base)
-    employee.branch_employees.reload.build(branch_id: @branch_id, default_branch: true)
-    assert employee.invalid?
-    assert employee.errors[:base].include?(I18n.t('errors.messages.branch_employees_duplicated'))
+
+  def test_ユーザと従業員を新規に同時登録する時の所属部門の重複チェック
+    @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: true, deleted: false)
+    @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: false, deleted: false)
+    assert @user.invalid?
+    assert @user.employee.errors[:base].include?(I18n.t('errors.messages.branch_employees_duplicated'))
+
+    @user.employee.branch_employees.destroy_all
+    @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: true, deleted: false)
+    @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: false, deleted: true)
+    assert @user.valid?
+  end
+
+  def test_ユーザと従業員を新規に同時登録する時の所属部門のデフォルト設定の重複チェック
+    @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: true, deleted: false)
+    @user.employee.branch_employees.build(branch_id: @new_branch_id, default_branch: true, deleted: false)
+    assert @user.invalid?
+    assert @user.employee.errors[:base].include?(I18n.t('errors.messages.default_branches_duplicated'))
+
+    @user.employee.branch_employees.destroy_all
+    @user.employee.branch_employees.build(branch_id: @branch_id, default_branch: true, deleted: false)
+    @user.employee.branch_employees.build(branch_id: @new_branch_id, default_branch: true, deleted: true)
+    assert @user.valid?
   end
 
 end

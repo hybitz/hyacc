@@ -32,24 +32,13 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_not_nil assigns(:user)
   end
 
-  def test_create
+  def test_create_with_valid_branch_employees_params
     sign_in admin
 
     assert_difference 'User.count' do
-      post :create, :xhr => true, :params => {:user => {
-        :login_id => 'zero',
-        :password => 'zerozero',
-        :email => 'test@example.com',
-        :employee_attributes => {
-          :last_name => 'test_create', 
-          :first_name => 'a', 
-          :employment_date => '2009-01-01',
-          :sex => 'M',
-          :birth => '2000-01-01',
-          :my_number => '123456789012'
-          }
-        }
-      }
+      assert_difference 'BranchEmployee.count', 2 do
+        post :create, xhr: true, params: user_params_with_valid_branch_employees
+      end
     end
  
     assert_response :success
@@ -62,6 +51,20 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_equal 'M', u.employee.sex
     assert_equal '2009-01-01', u.employee.employment_date.to_s
     assert_equal '2000-01-01', u.employee.birth.to_s
+    assert_equal 2, u.employee.default_branch.id
+  end
+
+  def test_create_with_invalid_branch_employees_params
+    sign_in admin
+
+    assert_no_difference 'User.count' do
+      assert_no_difference 'BranchEmployee.count' do
+        post :create, xhr: true, params: user_params_with_invalid_branch_employees
+      end
+    end
+    assert assigns(:user).invalid?
+    assert_response :success
+    assert_template :new
   end
 
   def test_編集

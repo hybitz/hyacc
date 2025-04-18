@@ -151,7 +151,8 @@ GEM
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
     cucumber-tag-expressions (4.1.0)
-    daddy (0.9.19)
+    daddy (0.9.20)
+      concurrent-ruby (< 1.3.5)
       docker-api
       highline
       i18n
@@ -274,7 +275,7 @@ GEM
     mime-types (3.6.2)
       logger
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2025.0408)
+    mime-types-data (3.2025.0415)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -491,7 +492,7 @@ GEM
       concurrent-ruby (~> 1.0)
     uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
-    version_gem (1.1.6)
+    version_gem (1.1.7)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -527,7 +528,6 @@ DEPENDENCIES
   carrierwave-i18n
   ci_reporter
   closer
-  concurrent-ruby (< 1.3.5)
   cucumber (~> 8.0)
   cucumber-rails
   daddy

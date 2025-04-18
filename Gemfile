@@ -10,7 +10,6 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bootstrap', '~> 5.1.3'
 gem 'carrierwave', '< 3.0.0'
 gem 'carrierwave-i18n'
-gem 'concurrent-ruby', '< 1.3.5'
 gem 'daddy'
 gem 'dalli'
 gem 'devise'

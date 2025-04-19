@@ -1,15 +1,5 @@
 class TaxUtils
 
-  def self.get_social_insurances(prefecture_code, ym, base_salary)
-    date = Date.strptime("#{ym}01", '%Y%m%d')
-
-    ret = []
-    TaxJp::SocialInsurance.find_all_by_date_and_prefecture(date, prefecture_code).each do |si|
-      ret << convert_tax_jp_si(si)
-    end
-    ret
-  end
-
   def self.get_social_insurance(ym, prefecture_code, base_salary)
     date = Date.strptime("#{ym}01", '%Y%m%d')
     si = TaxJp::SocialInsurance.find_by_date_and_prefecture_and_salary(date, prefecture_code, base_salary)

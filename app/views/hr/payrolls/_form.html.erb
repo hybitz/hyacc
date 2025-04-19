@@ -16,6 +16,7 @@
       form.find('input[name*="\[welfare_pension\]"]').val(taxes.welfare_pension);
       form.find('input[name*="\[employment_insurance\]"]').val(taxes.employment_insurance);
       form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
+      form.find('input[name*="\[monthly_standard\]"]').val(taxes.monthly_standard);
     });
   }
 
@@ -107,7 +108,7 @@
       </tr>
       <tr>
         <th>給与支払日</th>
-        <td class="text-center align-middle"><%= f.text_field :pay_day, class: 'datepicker' %></td>
+        <td class="text-center align-middle"><%= f.text_field :pay_day, class: 'salary datepicker' %></td>
         <th>振込手数料（税抜）</th>
         <td><%= f.text_field :transfer_fee, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
       </tr>

@@ -7,7 +7,6 @@ class VUnpaidEmployeeTest < ActiveSupport::TestCase
     assert c.branches.size > 1
 
     e = create_employee(company: c)
-    assert e.save, e.errors.full_messages.join("\n")
 
     sums = VUnpaidEmployee.net_sums_by_branch(e)
     assert_equal 0, sums.size

@@ -17,6 +17,7 @@ ja:
       branch: 部門
       company: 会社
       customer: 顧客
+      employee: 従業員
       fiscal_year: 年度
       inhabitant_tax: 住民税
       journal: 仕訳
@@ -134,6 +135,7 @@ ja:
         
       employee:
         address: 住所
+        base: ""
         base_salary: 基本給
         birth: 生年月日
         business_office_id: 所属する事業所
@@ -147,10 +149,10 @@ ja:
         my_number: マイナンバー
         name_kana: 姓名（カナ）
         num_of_dependent: 扶養親族の数
+        position: 役職
         sex: 性別
         social_insurance_birthday: 被保険者生年月日
         social_insurance_reference_number: 被保険者整理番号
-        position: 役職
 
       fiscal_year:
         annual_adjustment_account_id: 年末調整還付金精算の勘定科目
@@ -316,6 +318,7 @@ ja:
       sub_accounts_duplicated: 補助科目が重複しています。
       branch_employees_duplicated: 所属部門が重複しています。
       default_branches_duplicated: 所属部門のデフォルト設定が重複しています。
+      default_branch_required: デフォルトの所属部門を設定してください。
 
   text:
     hide_detail: 詳細を隠す

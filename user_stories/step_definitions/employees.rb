@@ -17,40 +17,15 @@
       select @user.employee.birth.day, from: 'user[employee_attributes][birth(3i)]'
       fill_in '入社日', with: @user.employee.employment_date
       find_field('入社日').native.send_keys :tab
-    end
-    click_on '登録'
-  end
-  
-  with_capture do
-    assert has_no_dialog?
-    assert has_selector?('.notice')
-  end
-end
 
-もし /^(.*?)を(.*?)に配属$/ do |first_name, branch_name|
-  assert @employee = Employee.where(first_name: first_name, deleted: false).first
-
-  visit_employees
-
-  with_capture do
-    find_tr '.employees', @employee.fullname do
-      click_on '編集'
-    end
-    assert has_dialog?
-  end
-
-  within_dialog do
-    with_capture do
-      assert has_selector?('#branch_employees_table')
       click_on '部門追加'
       assert has_selector?('#branch_employees_table tbody tr', count: 1)
-
       within first('#branch_employees_table tbody tr') do
-        select branch_name, from: find('[name*="\[branch_id\]"]')['id']
+        find("option[value='#{@user.employee.branch_employees.first.branch_id}']").select_option
         check find('[name*="\[default_branch\]"]')['id']
       end
     end
-    click_on '更新'
+    click_on '登録'
   end
 
   with_capture do
@@ -58,7 +33,7 @@ end
     assert has_selector?('.notice')
   end
 
-  sign_in(@employee.user, force: true)
+  sign_in(@user, force: true)
   with_capture { visit_profile }
   [ ACCOUNT_CODE_CASH, ACCOUNT_CODE_ORDINARY_DIPOSIT, ACCOUNT_CODE_RECEIVABLE ].each_with_index do |account_code, i|
     add_shortcut("Ctrl+#{i+1}", account_code)

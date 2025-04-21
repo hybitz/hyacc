@@ -149,8 +149,7 @@ class Hr::PayrollsController < Base::HyaccController
       health_insurance: payroll.health_insurance,
       welfare_pension: payroll.welfare_pension,
       employment_insurance: payroll.employment_insurance,
-      income_tax: payroll.income_tax,
-      monthly_standard: payroll.monthly_standard
+      income_tax: payroll.income_tax
     }
   end
 

@@ -87,7 +87,7 @@ module Hr::PayrollHelper
       payroll.housing_allowance = housing_allowance.to_i
       payroll.qualification_allowance = qualification_allowance.to_i
 
-      payroll.monthly_standard = get_standard_remuneration(ym, e, payroll.salary_total, pay_day)
+      payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(ym, e, payroll.salary_total, pay_day)
     end
 
     # 社会保険

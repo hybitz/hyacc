@@ -25,6 +25,7 @@ class Mm::UsersController < Base::HyaccController
       render 'common/reload'
 
     rescue => e
+      sort_by_display_order(e)
       handle(e)
       render :new
     end
@@ -99,5 +100,20 @@ class Mm::UsersController < Base::HyaccController
         :id, :branch_id, :deleted, :default_branch]
     ]
     params.require(:employee).permit(permitted).merge(branch_ids: [])
+  end
+
+  def sort_by_display_order(e)
+    return if e.record.errors.size < 2
+    messages = e.record.errors.messages
+    e.record.errors.clear
+    display_order = [
+      :login_id, :password, :email, :"employee.last_name", :"employee.first_name", :"employee.sex", 
+      :"employee.birth", :"employee.employment_date", :"employee.zip_code", :"employee.my_number", :base, :"employee.base"
+    ]
+    display_order.each do |d|
+      m = messages[d]
+      next if m.blank?
+      e.record.errors.add(d, m[0])
+    end
   end
 end

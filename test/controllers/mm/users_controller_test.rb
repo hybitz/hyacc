@@ -102,4 +102,53 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_path
     assert admin.reload.deleted?
   end
+
+  def test_sort_by_display_order
+    sign_in admin
+    post :create, xhr: true, params: { user: { login_id: "", password: "", email: "", 
+      employee_attributes: {id: "", last_name: "", first_name: "", sex: "", birth: "", employment_date: "", zip_code: "", address: "", my_number: "" }}}
+    user = assigns(:user)
+    assert user.invalid?
+    assert_equal [
+      "ログインIDを入力してください", 
+      "パスワードを入力してください", 
+      "メールアドレスを入力してください", 
+      "姓を入力してください", 
+      "名を入力してください", 
+      "性別を入力してください", 
+      "生年月日を入力してください", 
+      "入社日を入力してください", 
+      "デフォルトの所属部門を設定してください。"
+    ], flash[:notice].split("<br/>")
+    assert_response :success
+    assert_template :new
+
+    post :create, xhr: true, params: { 
+      user: { 
+        login_id: admin.login_id, password: 'zero', email: admin.email,
+        employee_attributes: { 
+          last_name: 'test_create', first_name: '', employment_date: '2009-01-01', sex: 'M', birth: '2000-01-01', my_number: '１２３'
+        }
+      }, 
+      employee: { 
+        branch_employees_attributes: { 
+          "0": { id: "", branch_id: "1", deleted: "0", default_branch: "0"}, 
+          "1": { id: "", branch_id: "1", deleted: "0", default_branch: "0"} 
+        }
+      }
+    }
+    user = assigns(:user)
+    assert user.invalid?
+    assert_equal [
+      "ログインIDはすでに存在します", 
+      "パスワードは8文字以上で入力してください", 
+      "メールアドレスはすでに存在します", 
+      "名を入力してください", 
+      "マイナンバーは数値で入力してください", 
+      "デフォルトの所属部門を設定してください。", 
+      "所属部門が重複しています。"
+    ], flash[:notice].split("<br/>")
+    assert_response :success
+    assert_template :new
+  end
 end

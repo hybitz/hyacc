@@ -38,6 +38,8 @@ module Employees
     ret = Employee.new(employee_params(options))
     ret.company = options.fetch(:company, company)
     ret.user = options[:user]
+    branch = options.fetch(:branch, ret.company.branches.first)
+    new_branch_employee(ret, branch)
     ret
   end
   
@@ -47,6 +49,10 @@ module Employees
     ret = new_employee(options)
     assert ret.save, ret.errors.full_messages.join("\n")
     ret
+  end
+
+  def new_branch_employee(employee, branch)
+    employee.branch_employees.build(branch: branch, default_branch: true)
   end
 
 end

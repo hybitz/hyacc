@@ -41,7 +41,7 @@ class Investment < ApplicationRecord
   end
 
   def set_yyyymmdd
-    self.yyyymmdd = self.ym.to_s[0,4] + '-' + self.ym.to_s[4,2] + '-' + self.day.to_s
+    self.yyyymmdd = self.ym.to_s[0,4] + '-' + self.ym.to_s[4,2] + '-' + self.day.to_s.rjust(2, '0') 
   end
 
   def set_trading_value

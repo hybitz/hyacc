@@ -103,7 +103,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert admin.reload.deleted?
   end
 
-  def test_sort_by_display_order
+  def test_ダイアログ上のエラーメッセージはフォームの項目順に表示されること
     sign_in admin
     post :create, xhr: true, params: { user: { login_id: "", password: "", email: "", 
       employee_attributes: {id: "", last_name: "", first_name: "", sex: "", birth: "", employment_date: "", zip_code: "", address: "", my_number: "" }}}
@@ -111,8 +111,8 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert user.invalid?
     assert_equal [
       "ログインIDを入力してください", 
-      "パスワードを入力してください", 
       "メールアドレスを入力してください", 
+      "パスワードを入力してください", 
       "姓を入力してください", 
       "名を入力してください", 
       "性別を入力してください", 
@@ -125,7 +125,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
     post :create, xhr: true, params: { 
       user: { 
-        login_id: admin.login_id, password: 'zero', email: admin.email,
+        login_id: admin.login_id, password: 'あいうえお', email: 'zero@com',
         employee_attributes: { 
           last_name: 'test_create', first_name: '', employment_date: '2009-01-01', sex: 'M', birth: '2000-01-01', my_number: '１２３'
         }
@@ -141,8 +141,9 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert user.invalid?
     assert_equal [
       "ログインIDはすでに存在します", 
+      "メールアドレスは不正な値です",
       "パスワードは8文字以上で入力してください", 
-      "メールアドレスはすでに存在します", 
+      "パスワードは不正な値です",
       "名を入力してください", 
       "マイナンバーは数値で入力してください", 
       "デフォルトの所属部門を設定してください。", 

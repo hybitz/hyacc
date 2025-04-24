@@ -5,18 +5,18 @@ class DefaultBranchPresenceValidatorTest < ActiveSupport::TestCase
     user = User.new(login_id: 'zero', password: 'zerozero', email: 'test@example.com')
     user.build_employee(company_id: 1, last_name: 'test_create', first_name: 'a', employment_date: '2009-01-01', sex: 'M', birth: '2000-01-01', my_number: '123456789012')
     assert user.invalid?
-    assert user.errors[:base].include?(I18n.t('errors.messages.default_branch_required'))
+    assert user.employee.errors[:base].include?(I18n.t('errors.messages.default_branch_required'))
 
     user.employee.branch_employees.build(branch_id: 1, default_branch: false)
     user.employee.branch_employees.build(branch_id: 2, default_branch: false)
     assert user.invalid?
-    assert user.errors[:base].include?(I18n.t('errors.messages.default_branch_required'))
+    assert user.employee.errors[:base].include?(I18n.t('errors.messages.default_branch_required'))
 
     user.employee.branch_employees.destroy_all
     user.employee.branch_employees.build(branch_id: 1, default_branch: true, deleted: true)
     user.employee.branch_employees.build(branch_id: 2, default_branch: false)
     assert user.invalid?
-    assert user.errors[:base].include?(I18n.t('errors.messages.default_branch_required'))
+    assert user.employee.errors[:base].include?(I18n.t('errors.messages.default_branch_required'))
     
     user.employee.branch_employees.destroy_all
     user.employee.branch_employees.build(branch_id: 1, default_branch: true, deleted: true)
@@ -42,7 +42,7 @@ class DefaultBranchPresenceValidatorTest < ActiveSupport::TestCase
     assert employee.valid?
   end
 
-  def test_ユーザに紐かない従業員の新規作成と編集時にはデフォルトの所属部門の存在をチェックしない
+  def test_ユーザに紐づかない従業員の新規作成と編集時にはデフォルトの所属部門の存在をチェックしない
     employee = Employee.new(company_id: 1, last_name: 'test_create', first_name: 'a', employment_date: '2009-01-01', sex: 'M', birth: '2000-01-01', my_number: '123456789012')
     assert employee.save!
     

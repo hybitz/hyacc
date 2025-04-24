@@ -6,7 +6,7 @@ class Employee < ApplicationRecord
 
   nostalgic_attr :num_of_dependent, :zip_code, :address
 
-  validates_presence_of :last_name, :first_name, :birth, :employment_date, :sex
+  validates_presence_of :last_name, :first_name, :sex, :birth, :employment_date
   validates :my_number, numericality: {allow_blank: true}
   validates :social_insurance_reference_number, numericality: {allow_blank: true}
 

@@ -70,10 +70,11 @@ module Hr::PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, pay_day, is_bonus: false)
+  def get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, pay_day: nil, is_bonus: false)
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
+    pay_day ||= e.company.get_actual_pay_day_for(ym)
 
     payroll.ym = ym
     payroll.employee = e

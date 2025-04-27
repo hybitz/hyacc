@@ -2,6 +2,26 @@ require 'test_helper'
 
 class CompanyTest < ActiveSupport::TestCase
 
+  def test_get_actual_pay_day_for
+    c = Company.find(1)
+    assert_equal '0,25', c.payday
+    assert_equal '20150123', c.get_actual_pay_day_for('201501').strftime('%Y%m%d')
+    assert_equal '20150225', c.get_actual_pay_day_for('201502').strftime('%Y%m%d')
+    assert_equal '20150424', c.get_actual_pay_day_for('201504').strftime('%Y%m%d')
+
+    c = Company.find(2)
+    assert_equal '1,7', c.payday
+    assert_equal '20150107', c.get_actual_pay_day_for('201412').strftime('%Y%m%d')
+    assert_equal '20150206', c.get_actual_pay_day_for('201501').strftime('%Y%m%d')
+    assert_equal '20150605', c.get_actual_pay_day_for('201505').strftime('%Y%m%d')
+
+    c = Company.find(4)
+    assert_equal '-1,7', c.payday
+    assert_equal '20150107', c.get_actual_pay_day_for('201502').strftime('%Y%m%d')
+    assert_equal '20150206', c.get_actual_pay_day_for('201503').strftime('%Y%m%d')
+    assert_equal '20150605', c.get_actual_pay_day_for('201507').strftime('%Y%m%d')
+  end
+
   def test_get_fiscal_year_int
     assert_equal( 2007, companies(:a).get_fiscal_year_int( 200612 ) )
     assert_equal( 2006, companies(:a).get_fiscal_year_int( 200611 ) )

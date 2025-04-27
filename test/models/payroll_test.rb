@@ -40,10 +40,16 @@ class PayrollTest < ActiveSupport::TestCase
     fy = e.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
     fy.closing_status = CLOSING_STATUS_OPEN
 
-    p1 = Payroll.new(ym: 202502, pay_day: '2025-03-07', employee: e, base_salary: 300_000, monthly_standard: 300_000)
+    assert 0.25, e.company.payday
+    ym = 202502
+    pay_day = e.company.get_actual_pay_day_for(ym)
+
+    p1 = Payroll.new(ym: ym, pay_day: pay_day, employee: e, base_salary: 300_000, monthly_standard: 300_000)
     p1.create_user_id = p1.update_user_id = e.id
 
-    p2 = Payroll.new(ym: 202503, pay_day: '2025-04-07', employee: e, base_salary: 300_000, monthly_standard: 300_000)
+    ym = 202503
+    pay_day = e.company.get_actual_pay_day_for(ym)
+    p2 = Payroll.new(ym: ym, pay_day: pay_day, employee: e, base_salary: 300_000, monthly_standard: 300_000)
     p2.create_user_id = p2.update_user_id = e.id
 
     assert_not p1.care_applicable?

@@ -150,9 +150,10 @@ class Payroll < ApplicationRecord
 
   # 介護保険は40歳の誕生日前日の月から65歳の誕生日前日の月の前月までが対象
   def care_applicable?
-    care_from = (employee.birth + 40.years - 1.day).strftime("%Y%m").to_i 
-    care_to = (employee.birth + 65.years - 1.day).strftime("%Y%m").to_i 
-    ym >= care_from && ym < care_to
+    care_from = (employee.birth + 40.years - 1.day).strftime('%Y%m').to_i 
+    care_to = (employee.birth + 65.years - 1.day).strftime('%Y%m').to_i
+    pay_ym = pay_day.strftime('%Y%m').to_i
+    pay_ym >= care_from && pay_ym < care_to
   end
   
   def health_insurance_all

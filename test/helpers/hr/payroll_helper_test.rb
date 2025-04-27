@@ -17,9 +17,15 @@ class Hr::PayrollHelperTest < ActionView::TestCase
   def test_get_tax_for_general
     employee_id = 8
     e = Employee.find(employee_id)
-    assert_equal "13", e.business_office.prefecture_code
-      
-    p = get_tax(202507, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal '13', e.business_office.prefecture_code
+    ym = 202506
+    pay_day = get_pay_day(ym, e.id)
+
+    judge_day = e.birth + 40.years - 1.day
+    assert_equal 39, e.age_at(judge_day)
+    assert pay_day.strftime('%Y%m') < judge_day.strftime('%Y%m') 
+
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0, pay_day: pay_day)
     assert_equal 30721, p.health_insurance
   end
 

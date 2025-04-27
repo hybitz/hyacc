@@ -42,6 +42,18 @@ class Employee < ApplicationRecord
     nil
   end
 
+  def age_at(date)
+    ret = date.year - birth.year
+    if date.month < birth.month
+      ret -= 1
+    elsif date.month == birth.month
+      if date.day < birth.day
+        ret -= 1
+      end
+    end
+    ret
+  end
+
   def business_office
     default_branch.business_office
   end

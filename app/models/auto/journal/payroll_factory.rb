@@ -182,7 +182,7 @@ module Auto::Journal
         detail.account = Account.find_by_code(misc_adjustment_account_code)
         detail.sub_account_id = @payroll.employee_id
         detail.branch_id = branch_id
-        detail.amount = @payroll.misc_adjustment
+        detail.amount = @payroll.misc_adjustment.abs
         detail.note = @payroll.misc_adjustment_note
       end
       ### 振り込み予定額　※仮明細

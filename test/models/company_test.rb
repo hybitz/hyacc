@@ -4,19 +4,19 @@ class CompanyTest < ActiveSupport::TestCase
 
   def test_get_actual_pay_day_for
     c = Company.find(1)
-    assert_equal '0,25', c.payday
+    assert_equal '0,25', c.pay_day_definition
     assert_equal '20150123', c.get_actual_pay_day_for('201501').strftime('%Y%m%d')
     assert_equal '20150225', c.get_actual_pay_day_for('201502').strftime('%Y%m%d')
     assert_equal '20150424', c.get_actual_pay_day_for('201504').strftime('%Y%m%d')
 
     c = Company.find(2)
-    assert_equal '1,7', c.payday
+    assert_equal '1,7', c.pay_day_definition
     assert_equal '20150107', c.get_actual_pay_day_for('201412').strftime('%Y%m%d')
     assert_equal '20150206', c.get_actual_pay_day_for('201501').strftime('%Y%m%d')
     assert_equal '20150605', c.get_actual_pay_day_for('201505').strftime('%Y%m%d')
 
     c = Company.find(4)
-    assert_equal '-1,7', c.payday
+    assert_equal '-1,7', c.pay_day_definition
     assert_equal '20150107', c.get_actual_pay_day_for('201502').strftime('%Y%m%d')
     assert_equal '20150206', c.get_actual_pay_day_for('201503').strftime('%Y%m%d')
     assert_equal '20150605', c.get_actual_pay_day_for('201507').strftime('%Y%m%d')
@@ -77,41 +77,41 @@ class CompanyTest < ActiveSupport::TestCase
     end
   end
 
-  def test_payday
-    c = Company.new(:payday => nil)
-    assert_equal '当月25日', c.payday_jp
-    assert_equal 0, c.month_of_payday
-    assert_equal 25, c.day_of_payday
+  def test_pay_day_definition
+    c = Company.new(:pay_day_definition => nil)
+    assert_equal '当月25日', c.pay_day_definition_jp
+    assert_equal 0, c.month_of_pay_day_definition
+    assert_equal 25, c.day_of_pay_day_definition
     assert_equal 25, c.payroll_day(201501)
 
-    c = Company.new(:payday => "")
-    assert_equal '当月25日', c.payday_jp
-    assert_equal 0, c.month_of_payday
-    assert_equal 25, c.day_of_payday
+    c = Company.new(:pay_day_definition => "")
+    assert_equal '当月25日', c.pay_day_definition_jp
+    assert_equal 0, c.month_of_pay_day_definition
+    assert_equal 25, c.day_of_pay_day_definition
     assert_equal 25, c.payroll_day(201501)
 
-    c = Company.new(:payday => "0,1")
-    assert_equal '当月1日', c.payday_jp
-    assert_equal 0, c.month_of_payday
-    assert_equal 1, c.day_of_payday
+    c = Company.new(:pay_day_definition => "0,1")
+    assert_equal '当月1日', c.pay_day_definition_jp
+    assert_equal 0, c.month_of_pay_day_definition
+    assert_equal 1, c.day_of_pay_day_definition
     assert_equal 1, c.payroll_day(201501)
 
-    c = Company.new(:payday => "1,7")
-    assert_equal '翌月7日', c.payday_jp
-    assert_equal 1, c.month_of_payday
-    assert_equal 7, c.day_of_payday
+    c = Company.new(:pay_day_definition => "1,7")
+    assert_equal '翌月7日', c.pay_day_definition_jp
+    assert_equal 1, c.month_of_pay_day_definition
+    assert_equal 7, c.day_of_pay_day_definition
     assert_equal 31, c.payroll_day(201501)
 
-    c = Company.new(:payday => "2,25")
-    assert_equal '翌々月25日', c.payday_jp
-    assert_equal 2, c.month_of_payday
-    assert_equal 25, c.day_of_payday
+    c = Company.new(:pay_day_definition => "2,25")
+    assert_equal '翌々月25日', c.pay_day_definition_jp
+    assert_equal 2, c.month_of_pay_day_definition
+    assert_equal 25, c.day_of_pay_day_definition
     assert_equal 31, c.payroll_day(201501)
 
-    c = Company.new(:payday => "3,25")
-    assert_equal '3ヶ月後25日', c.payday_jp
-    assert_equal 3, c.month_of_payday
-    assert_equal 25, c.day_of_payday
+    c = Company.new(:pay_day_definition => "3,25")
+    assert_equal '3ヶ月後25日', c.pay_day_definition_jp
+    assert_equal 3, c.month_of_pay_day_definition
+    assert_equal 25, c.day_of_pay_day_definition
     assert_equal 31, c.payroll_day(201501)
   end
 

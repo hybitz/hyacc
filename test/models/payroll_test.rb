@@ -40,7 +40,7 @@ class PayrollTest < ActiveSupport::TestCase
     fy = e.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
     fy.closing_status = CLOSING_STATUS_OPEN
 
-    assert 0.25, e.company.payday
+    assert 0.25, e.company.pay_day_definition
     ym = 202502
     pay_day = e.company.get_actual_pay_day_for(ym)
 

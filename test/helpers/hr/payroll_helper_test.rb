@@ -46,14 +46,14 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     ym = 201708
     employee_id = 1
     e = Employee.find(employee_id)
-    assert_equal "0,25", e.company.payday
+    assert_equal "0,25", e.company.pay_day_definition
     pay_day = get_pay_day(ym, 1)
     assert_equal "20170825", pay_day.strftime("%Y%m%d")
     p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
     assert_equal 31682, p.health_insurance
     assert_equal 56364, p.welfare_pension
 
-    e.company.update!(payday: "1,7")
+    e.company.update!(pay_day_definition: "1,7")
     pay_day = get_pay_day(ym, 1)
     assert_equal "20170907", pay_day.strftime("%Y%m%d")
     p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
@@ -62,14 +62,14 @@ class Hr::PayrollHelperTest < ActionView::TestCase
 
     # 健康保険の保険料率改定前後をチェック
     ym = 202502
-    e.company.update!(payday: "0,25")
+    e.company.update!(pay_day_definition: "0,25")
     pay_day = get_pay_day(ym, 1)
     assert_equal "20250225", pay_day.strftime("%Y%m%d")
     p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
     assert_equal 31651, p.health_insurance
     assert_equal 56730, p.welfare_pension
 
-    e.company.update!(payday: "1,7")
+    e.company.update!(pay_day_definition: "1,7")
     pay_day = get_pay_day(ym, 1)
     assert_equal "20250307", pay_day.strftime("%Y%m%d")
     p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)

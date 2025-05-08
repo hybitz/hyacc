@@ -25,10 +25,10 @@ class Company < ApplicationRecord
 
   has_many :journals, -> { where deleted: false }
 
-  attr_accessor :day_of_payday
-  attr_accessor :month_of_payday
+  attr_accessor :day_of_pay_day_definition
+  attr_accessor :month_of_pay_day_definition
 
-  after_initialize :load_payday
+  after_initialize :load_pay_day_definition
 
   def bank_account_for_payroll
     bank_accounts.find_by(for_payroll: true)
@@ -145,9 +145,9 @@ class Company < ApplicationRecord
     current_fiscal_year.consumption_entry_type == CONSUMPTION_ENTRY_TYPE_SIMPLIFIED
   end
 
-  def payday_jp
-    pd = self.payday
-    pd = DEFAULT_PAYDAY if pd.blank?
+  def pay_day_definition_jp
+    pd = self.pay_day_definition
+    pd = DEFAULT_PAY_DAY_DEFINITION if pd.blank?
 
     month, day = pd.split(',')
 
@@ -166,16 +166,16 @@ class Company < ApplicationRecord
   end
 
   def payroll_day(ym)
-    if month_of_payday == 0
-      day_of_payday
+    if month_of_pay_day_definition == 0
+      day_of_pay_day_definition
     else
       Date.new(ym/100, ym%100, -1).day
     end
   end
 
   def get_actual_pay_day_for(ym)
-    ret = Date.new(ym.to_i/100, ym.to_i%100, day_of_payday)
-    ret = ret >> month_of_payday
+    ret = Date.new(ym.to_i/100, ym.to_i%100, day_of_pay_day_definition)
+    ret = ret >> month_of_pay_day_definition
 
     # 土日だったら休日前支払
     while !HyaccDateUtil.weekday?(ret)
@@ -187,13 +187,13 @@ class Company < ApplicationRecord
 
   private
 
-  def load_payday
-    pd = self.payday
-    pd = DEFAULT_PAYDAY if pd.blank?
+  def load_pay_day_definition
+    pd = self.pay_day_definition
+    pd = DEFAULT_PAY_DAY_DEFINITION if pd.blank?
 
     month, day = pd.split(",")
-    self.month_of_payday = month.to_i
-    self.day_of_payday = day.to_i > 0 ? day.to_i : 25
+    self.month_of_pay_day_definition = month.to_i
+    self.day_of_pay_day_definition = day.to_i > 0 ? day.to_i : 25
   end
 
 end

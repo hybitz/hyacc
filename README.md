@@ -1,5 +1,5 @@
 # 環境構築手順
-## CentOS 7 を用意
+## AlmaLinux 8 を用意
 ### sudo 権限を付与
 ```
 （ユーザで）$ su
@@ -12,7 +12,6 @@ $ sudo yum install git
 $ git clone [https://github.com/ichylinux/daddy.git または git@github.com:ichylinux/daddy.git]
 $ pushd daddy
 $ bin/dad local
-$ bin/dad mysql
 $ popd
 ```
 ## Hyaccのインストール

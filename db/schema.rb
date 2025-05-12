@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_07_060331) do
+ActiveRecord::Schema.define(version: 2025_03_09_105124) do
 
   create_table "accounts", id: :integer, charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -235,7 +235,7 @@ ActiveRecord::Schema.define(version: 2025_05_07_060331) do
     t.datetime "updated_at"
     t.integer "business_type_id"
     t.integer "lock_version", default: 0, null: false
-    t.string "pay_day_definition", default: "0,25", null: false
+    t.string "payday", default: "0,25", null: false
     t.string "enterprise_number", limit: 13
     t.integer "employment_insurance_type"
     t.string "labor_insurance_number", limit: 14

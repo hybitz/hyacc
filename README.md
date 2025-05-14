@@ -29,16 +29,16 @@ $ bundle exec rake dad:setup
 ### DBの初期化
 ```
 $ bundle exec rake dad:db:create
-$ bundle exec rails db:reset
+$ rails db:reset
 ```
 ### テスト
 ```
-$ bundle exec rails test
+$ rails test
 $ bundle exec rake dad:setup:test
 $ bundle exec rake dad:test
 ```
 ### 起動
 ```
-$ bin/rails s
+$ rails s
 ```
 ブラウザから http://localhost:3000 にアクセスして動作を確認します。

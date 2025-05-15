@@ -3,13 +3,13 @@
 end
 
 ならば /^会計年度の一覧に遷移する$/ do
-  assert has_title?('会計年度')
+  assert has_selector?('.subMenu .selected', text: '会計年度')
   assert_url '/fiscal_years$'
 end
 
 ならば /^会計年度が翌年の状態でダイアログが表示される$/ do
-  assert wait_until { has_selector?("div.ui-dialog", :visible => true) }
-  assert has_selector?("span.ui-dialog-title", :text => /会計年度.*追加/)
+  assert wait_until { has_selector?("div.ui-dialog", visible: true) }
+  assert has_selector?("span.ui-dialog-title", text: /会計年度.*追加/)
   capture
   
   @expected = current_company.last_fiscal_year.fiscal_year + 1

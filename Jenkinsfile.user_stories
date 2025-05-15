@@ -2,6 +2,7 @@ pipeline {
   agent none
   environment {
     APP_NAME = 'hyacc'
+    CI = 'jenkins'
     REMOTE = 'true'
   }
   stages {

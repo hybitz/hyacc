@@ -2,6 +2,7 @@ pipeline {
   agent none
   environment {
     APP_NAME = 'hyacc'
+    CI = 'jenkins'
     KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
     REMOTE = 'true'
   }

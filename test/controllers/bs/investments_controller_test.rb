@@ -64,4 +64,16 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_更新_エラー
+    assert_no_difference('Investment.count') do
+      patch :update, :xhr => true, :params => {
+          investment: {yyyymmdd: '2015-03-27', bank_account_id: '3', customer_id: '1',
+            buying_or_selling: '1', for_what: '1', shares: '0',
+            trading_value: '240000', charges: '0'}, id: 1
+           }
+      assert_response :success
+      assert_template 'edit'
+    end
+  end
+
 end

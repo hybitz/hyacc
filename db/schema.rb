@@ -235,7 +235,7 @@ ActiveRecord::Schema.define(version: 2025_05_13_055900) do
     t.datetime "updated_at"
     t.integer "business_type_id"
     t.integer "lock_version", default: 0, null: false
-    t.string "payday", default: "0,25", null: false
+    t.string "pay_day_definition", default: "0,25", null: false
     t.string "enterprise_number", limit: 13
     t.integer "employment_insurance_type"
     t.string "labor_insurance_number", limit: 14

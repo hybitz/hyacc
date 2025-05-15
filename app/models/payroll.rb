@@ -220,7 +220,7 @@ class Payroll < ApplicationRecord
   
   def social_insurance_model
     if @social_insurance_model.nil?
-      @social_insurance_model = TaxUtils.get_social_insurance(ym, prefecture_code, monthly_standard)
+      @social_insurance_model = TaxUtils.get_social_insurance(pay_day, prefecture_code, monthly_standard)
     end
     @social_insurance_model
   end
@@ -228,7 +228,7 @@ class Payroll < ApplicationRecord
   def health_insurance_model
     if @health_insurance_model.nil?
       if is_bonus?
-        @health_insurance_model = TaxUtils.get_health_insurance(ym, prefecture_code, base_bonus_salary_for_insurance)
+        @health_insurance_model = TaxUtils.get_health_insurance(pay_day, prefecture_code, base_bonus_salary_for_insurance)
       else
         @health_insurance_model = social_insurance_model
       end
@@ -239,7 +239,7 @@ class Payroll < ApplicationRecord
   def welfare_pension_model
     if @welfare_pension_model.nil?
       if is_bonus?
-        @welfare_pension_model = TaxUtils.get_welfare_pension(ym, base_bonus_salary_for_insurance)
+        @welfare_pension_model = TaxUtils.get_welfare_pension(pay_day, base_bonus_salary_for_insurance)
       else
         @welfare_pension_model = social_insurance_model
       end

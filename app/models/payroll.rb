@@ -152,8 +152,7 @@ class Payroll < ApplicationRecord
   def care_applicable?
     care_from = (employee.birth + 40.years - 1.day).strftime('%Y%m').to_i 
     care_to = (employee.birth + 65.years - 1.day).strftime('%Y%m').to_i
-    pay_ym = pay_day.strftime('%Y%m').to_i
-    pay_ym >= care_from && pay_ym < care_to
+    base_ym >= care_from && base_ym < care_to
   end
   
   def health_insurance_all
@@ -220,7 +219,7 @@ class Payroll < ApplicationRecord
   
   def social_insurance_model
     if @social_insurance_model.nil?
-      @social_insurance_model = TaxUtils.get_social_insurance(pay_day, prefecture_code, monthly_standard)
+      @social_insurance_model = TaxUtils.get_social_insurance(base_ym, prefecture_code, monthly_standard)
     end
     @social_insurance_model
   end
@@ -228,7 +227,7 @@ class Payroll < ApplicationRecord
   def health_insurance_model
     if @health_insurance_model.nil?
       if is_bonus?
-        @health_insurance_model = TaxUtils.get_health_insurance(pay_day, prefecture_code, base_bonus_salary_for_insurance)
+        @health_insurance_model = TaxUtils.get_health_insurance(base_ym, prefecture_code, base_bonus_salary_for_insurance)
       else
         @health_insurance_model = social_insurance_model
       end
@@ -239,7 +238,7 @@ class Payroll < ApplicationRecord
   def welfare_pension_model
     if @welfare_pension_model.nil?
       if is_bonus?
-        @welfare_pension_model = TaxUtils.get_welfare_pension(pay_day, base_bonus_salary_for_insurance)
+        @welfare_pension_model = TaxUtils.get_welfare_pension(base_ym, base_bonus_salary_for_insurance)
       else
         @welfare_pension_model = social_insurance_model
       end
@@ -262,5 +261,9 @@ class Payroll < ApplicationRecord
         raise e
       end
     end
+  end
+
+  def base_ym
+    employee.company.get_base_ym_for_calc_social_insurance(ym)
   end
 end

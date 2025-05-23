@@ -28,6 +28,7 @@ class Hr::PayrollsController < Base::HyaccController
     salary = previous_payroll.base_salary
     monthly_standard = previous_payroll.monthly_standard
     @payroll = get_tax(ym, employee_id, monthly_standard, salary, 0, 0, 0, is_bonus: true)
+    @payroll.pay_day = get_pay_day(ym, employee_id)
   end
 
   def new
@@ -49,6 +50,7 @@ class Hr::PayrollsController < Base::HyaccController
 
     # 住民税マスタより住民税額を取得
     @payroll.inhabitant_tax = get_inhabitant_tax(employee.id, ym)
+    @payroll.pay_day = get_pay_day(ym, employee.id)
 
     # 従業員への未払費用
     @payroll.accrued_liability = JournalUtil.get_net_sum(current_company.id, ACCOUNT_CODE_UNPAID_EMPLOYEE, nil, employee.id)
@@ -136,9 +138,8 @@ class Hr::PayrollsController < Base::HyaccController
     commuting_allowance = params[:payroll][:commuting_allowance]
     housing_allowance = params[:payroll][:housing_allowance]
     qualification_allowance = params[:payroll][:qualification_allowance]
-    pay_day = params[:payroll][:pay_day]
     is_bonus = params[:payroll][:is_bonus].present?
-    payroll = get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, pay_day: pay_day, is_bonus: is_bonus)
+    payroll = get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, is_bonus: is_bonus)
 
     render json: {
       health_insurance: payroll.health_insurance,

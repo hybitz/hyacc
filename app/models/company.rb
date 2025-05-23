@@ -185,6 +185,17 @@ class Company < ApplicationRecord
     ret
   end
 
+  def get_base_ym_for_calc_social_insurance(ym)
+    return ym.to_i if month_of_pay_day_definition == 1
+    d = Date.new(ym.to_i/100, ym.to_i%100, 1)
+    case month_of_pay_day_definition
+    when 0
+      return (d << 1).strftime("%Y%m").to_i
+    when 2
+      return (d >> 1).strftime("%Y%m").to_i
+    end
+  end
+
   private
 
   def load_pay_day_definition

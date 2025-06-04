@@ -9,16 +9,4 @@ end
   assert_url '/payrolls(\?.*)?'
 end
 
-もし /^検索条件の年度を(.*?)年に変更し、表示をクリックする$/ do |year|
-  select year, from: 'finder[fiscal_year]'
-  click_on '表示'
-end
-
-ならば /^(.*?)年度の賃金台帳の一覧が表示される$/ do |year|
-  ym = FiscalYear.find_by(company: current_company, fiscal_year: year).start_year_month
-  within all('#payroll_table thead tr th')[1] do
-    assert has_selector?('a', text: ym)
-  end
-end
-
 

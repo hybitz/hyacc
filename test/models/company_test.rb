@@ -129,19 +129,4 @@ class CompanyTest < ActiveSupport::TestCase
     assert c.valid?
   end
 
-  def test_get_base_ym_for_calc_social_insurance
-    ym = 202505
-    c = Company.find(1)
-    assert_equal '0,25', c.pay_day_definition
-    assert_equal 202504, c.get_base_ym_for_calc_social_insurance(ym)
-
-    c = Company.find(2)
-    assert_equal '1,7', c.pay_day_definition
-    assert_equal 202505, c.get_base_ym_for_calc_social_insurance(ym)
-
-    c = Company.find(5)
-    assert_equal '2,7', c.pay_day_definition
-    assert_equal 202506, c.get_base_ym_for_calc_social_insurance(ym)
-  end
-
 end

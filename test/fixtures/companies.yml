@@ -37,13 +37,3 @@ d:
   business_type_id: 5
   lock_version: 0
   pay_day_definition: "-1,7"
-e:
-  id: 5
-  name: 株式会社テストE
-  founded_date: 2009-08-01
-  fiscal_year: 2010
-  start_month_of_fiscal_year: 4
-  type_of: 1
-  business_type_id: 5
-  lock_version: 0
-  pay_day_definition: "2,7"

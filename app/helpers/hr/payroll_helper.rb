@@ -9,6 +9,7 @@ module Hr::PayrollHelper
     prefecture_code = employee.business_office.prefecture_code
 
     ym = ym.to_i
+    # 1,2,3か月前の給与
     ym_1 = (Date.new(ym/100, ym%100, 1) << 1).strftime("%Y%m")
     ym_2 = (Date.new(ym/100, ym%100, 1) << 2).strftime("%Y%m")
     ym_3 = (Date.new(ym/100, ym%100, 1) << 3).strftime("%Y%m")

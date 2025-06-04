@@ -152,8 +152,7 @@ class Payroll < ApplicationRecord
   def care_applicable?
     care_from = (employee.birth + 40.years - 1.day).strftime('%Y%m').to_i 
     care_to = (employee.birth + 65.years - 1.day).strftime('%Y%m').to_i
-    pay_ym = pay_day.strftime('%Y%m').to_i
-    pay_ym >= care_from && pay_ym < care_to
+    ym >= care_from && ym < care_to
   end
   
   def health_insurance_all

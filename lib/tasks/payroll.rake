@@ -7,7 +7,6 @@ namespace :hyacc do
     task find_standard_renumeration: :environment do
       Payroll.find_each do |p|
         next if p.welfare_pension == 0
-
         date = Date.new(p.year, p.month, -1)
         bo = p.employee.default_branch.business_office_at(date)
         

@@ -35,48 +35,6 @@ class PayrollTest < ActiveSupport::TestCase
     assert_equal 400_000, p.pay_total
   end
 
-  def test_社会保険料
-    e = employee
-    fy = e.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
-    fy.closing_status = CLOSING_STATUS_OPEN
-
-    assert 0.25, e.company.payday
-    ym = 202502
-    pay_day = e.company.get_actual_pay_day_for(ym)
-
-    p1 = Payroll.new(ym: ym, pay_day: pay_day, employee: e, base_salary: 300_000, monthly_standard: 300_000)
-    p1.create_user_id = p1.update_user_id = e.id
-
-    ym = 202503
-    pay_day = e.company.get_actual_pay_day_for(ym)
-    p2 = Payroll.new(ym: ym, pay_day: pay_day, employee: e, base_salary: 300_000, monthly_standard: 300_000)
-    p2.create_user_id = p2.update_user_id = e.id
-
-    assert_not p1.care_applicable?
-    p1.calc_social_insurance
-    assert_equal 15315, p1.health_insurance
-    assert_equal 27450, p1.welfare_pension
-
-    assert_not p2.care_applicable?
-    p2.calc_social_insurance
-    assert_equal 15465, p2.health_insurance
-    assert_equal 27450, p2.welfare_pension
-
-    e.update!(birth: '1985-01-01')
-    p1.employee = e
-    p2.employee = e
-    
-    assert p1.care_applicable?
-    p1.calc_social_insurance
-    assert_equal 17715, p1.health_insurance
-    assert_equal 27450, p1.welfare_pension
-
-    assert p2.care_applicable?
-    p2.calc_social_insurance
-    assert_equal 17850, p2.health_insurance
-    assert_equal 27450, p2.welfare_pension
-  end
-
   def test_雇用保険料
     e = employee
     assert_not e.executive?

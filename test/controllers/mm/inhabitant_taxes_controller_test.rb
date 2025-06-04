@@ -66,7 +66,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     assert_difference('InhabitantTax.count', -1) do
       delete :destroy, :params => {:id => InhabitantTax.first.id}
     end
-    assert_redirected_to :action => 'index', finder: { year: 2024 }
+    assert_redirected_to :action => 'index', finder: { year: 2025 }
   end
   
 end

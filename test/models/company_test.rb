@@ -3,6 +3,7 @@ require 'test_helper'
 class CompanyTest < ActiveSupport::TestCase
 
   def test_get_actual_pay_day_for
+    Company.find(1).update!(pay_day_definition: '0,25')
     c = Company.find(1)
     assert_equal '0,25', c.pay_day_definition
     assert_equal '20150123', c.get_actual_pay_day_for('201501').strftime('%Y%m%d')
@@ -79,16 +80,16 @@ class CompanyTest < ActiveSupport::TestCase
 
   def test_pay_day_definition
     c = Company.new(:pay_day_definition => nil)
-    assert_equal '当月25日', c.pay_day_definition_jp
-    assert_equal 0, c.month_of_pay_day_definition
-    assert_equal 25, c.day_of_pay_day_definition
-    assert_equal 25, c.payroll_day(201501)
+    assert_equal '翌月7日', c.pay_day_definition_jp
+    assert_equal 1, c.month_of_pay_day_definition
+    assert_equal 7, c.day_of_pay_day_definition
+    assert_equal 31, c.payroll_day(201501)
 
     c = Company.new(:pay_day_definition => "")
-    assert_equal '当月25日', c.pay_day_definition_jp
-    assert_equal 0, c.month_of_pay_day_definition
-    assert_equal 25, c.day_of_pay_day_definition
-    assert_equal 25, c.payroll_day(201501)
+    assert_equal '翌月7日', c.pay_day_definition_jp
+    assert_equal 1, c.month_of_pay_day_definition
+    assert_equal 7, c.day_of_pay_day_definition
+    assert_equal 31, c.payroll_day(201501)
 
     c = Company.new(:pay_day_definition => "0,1")
     assert_equal '当月1日', c.pay_day_definition_jp

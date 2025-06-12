@@ -87,10 +87,12 @@ module Hr::PayrollHelper
   end
 
   # 健康保険料と所得税の取得
-  def get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, is_bonus: false)
+  def get_tax(ym, employee_id, monthly_standard, salary, commuting_allowance, housing_allowance, qualification_allowance, pay_day: nil, is_bonus: false)
     payroll = Payroll.new
     
     e = Employee.find(employee_id)
+    raise "翌月払い以外は対応していません。" if e.company.month_of_pay_day_definition != 1   
+    pay_day ||= e.company.get_actual_pay_day_for(ym)
 
     payroll.ym = ym
     payroll.employee = e
@@ -102,8 +104,9 @@ module Hr::PayrollHelper
       payroll.commuting_allowance = commuting_allowance.to_i
       payroll.housing_allowance = housing_allowance.to_i
       payroll.qualification_allowance = qualification_allowance.to_i
+      payroll.pay_day = pay_day
 
-      payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(ym, e, payroll.salary_subtotal)
+      payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(payroll.base_ym, e, payroll.salary_subtotal)
     end
 
     # 社会保険

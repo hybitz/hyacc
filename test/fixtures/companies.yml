@@ -7,7 +7,7 @@ a:
   type_of: 1
   admin_email: admin@test.com
   lock_version: 1
-  pay_day_definition: "0,25"
+  pay_day_definition: "1,7"
   retirement_savings_after: 3
 b:
   id: 2

@@ -2,39 +2,31 @@ require 'test_helper'
 
 class Hr::PayrollHelperTest < ActionView::TestCase
   
-  def test_get_pay_day
-    assert_equal '20150123', get_pay_day("201501",1).strftime("%Y%m%d") # payday:0,25
-    assert_equal '20150225', get_pay_day("201502",1).strftime("%Y%m%d")
-    assert_equal '20150424', get_pay_day("201504",1).strftime("%Y%m%d")
-    assert_equal '20150107', get_pay_day("201412",3).strftime("%Y%m%d") # payday:1,7
-    assert_equal '20150206', get_pay_day("201501",3).strftime("%Y%m%d")
-    assert_equal '20150605', get_pay_day("201505",3).strftime("%Y%m%d")
-    assert_equal '20150107', get_pay_day("201502",7).strftime("%Y%m%d") # payday:-1,7
-    assert_equal '20150206', get_pay_day("201503",7).strftime("%Y%m%d")
-    assert_equal '20150605', get_pay_day("201507",7).strftime("%Y%m%d")
-  end
-  
   def test_get_tax_for_general
     employee_id = 8
     e = Employee.find(employee_id)
     assert_equal '13', e.business_office.prefecture_code
-    ym = 202506
+    ym = 202507
     pay_day = get_pay_day(ym, e.id)
 
     judge_day = e.birth + 40.years - 1.day
     assert_equal 39, e.age_at(judge_day)
-    assert pay_day.strftime('%Y%m') < judge_day.strftime('%Y%m') 
 
     p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0, pay_day: pay_day)
+    assert p.base_ym < judge_day.strftime('%Y%m').to_i
     assert_equal 30721, p.health_insurance
   end
 
   def test_get_tax_for_care
     employee_id = 8
     e = Employee.find(employee_id)
-    assert_equal "13", e.business_office.prefecture_code
+    assert_equal '13', e.business_office.prefecture_code
+
+    judge_day = e.birth + 40.years - 1.day
+    assert_equal 39, e.age_at(judge_day)
 
     p = get_tax(202508, employee_id, 620000, 620000, 0, 0, 0)
+    assert p.base_ym >= judge_day.strftime('%Y%m').to_i
     assert_equal 35650, p.health_insurance
   end
 
@@ -47,7 +39,112 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     assert_equal 35650, p.health_insurance
   end
 
+  def test_get_tax_monthly_standardの取得
+    employee_id = 8
+    e = Employee.find(employee_id)
+    assert_equal '13', e.business_office.prefecture_code
+    ym = 202507
+
+    p = get_tax(ym, employee_id, nil, 310000, 0, 0, 0)
+    assert_equal 300000, p.monthly_standard
+  end
+
+  def test_get_tax_翌月払い以外はエラーが発生する
+    employee_id = 8
+    e = Employee.find(employee_id)
+    ym = 202503
+    assert_equal '1,7', e.company.pay_day_definition
+    assert_nothing_raised do
+      get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    end
+
+    Company.second.update!(pay_day_definition: '0,25')
+    error = assert_raises(RuntimeError) do
+      get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    end
+    assert_equal '翌月払い以外は対応していません。', error.message
+
+    Company.first.update!(pay_day_definition: '2,7')
+    error = assert_raises(RuntimeError) do
+      get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    end
+    assert_equal '翌月払い以外は対応していません。', error.message
+  end
+
+  def test_厚生年金の翌月徴収のチェック_給与支給日を翌月払いに固定
+    # 厚生年金の保険料率改定(2017年9月)前後をチェック
+    employee_id = 1
+    e = Employee.find(employee_id)
+    assert_equal '1,7', e.company.pay_day_definition
+
+    ym = 201708
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 201708, p.base_ym
+    assert_equal 56364, p.welfare_pension
+
+    ym = 201709
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 201709, p.base_ym
+    assert_equal 56730, p.welfare_pension
+
+    ym = 201710
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 201710, p.base_ym
+    assert_equal 56730, p.welfare_pension
+  end
+
+  def test_健康保険の翌月徴収のチェック_給与支給日を翌月払いに固定
+    # 健康保険の保険料率改定(2025年3月)前後をチェック
+    employee_id = 1
+    e = Employee.find(employee_id)
+    assert_equal '1,7', e.company.pay_day_definition
+    
+    ym = 202502
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 202502, p.base_ym
+    assert_equal 31651, p.health_insurance
+    
+    ym = 202503
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 202503, p.base_ym
+    assert_equal 31961, p.health_insurance
+
+    ym = 202504
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 202504, p.base_ym
+    assert_equal 31961, p.health_insurance
+  end
+
+  def test_介護保険料の翌月徴収のチェック_給与支給日を翌月払いに固定
+    # 介護保険料の適用開始月前後をチェック
+    employee_id = 8
+    e = Employee.find(employee_id)
+    assert_equal '1,7', e.company.pay_day_definition
+    judge_day = e.birth + 40.years - 1.day
+    assert_equal 39, e.age_at(judge_day)
+    assert_equal 202508, judge_day.strftime('%Y%m').to_i
+    
+    ym = 202507
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 202507, p.base_ym
+    assert_not p.care_applicable?
+    assert_equal 30721, p.health_insurance
+
+    ym = 202508
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 202508, p.base_ym
+    assert p.care_applicable?
+    assert_equal 35650, p.health_insurance
+
+    ym = 202509
+    p = get_tax(ym, employee_id, 620000, 620000, 0, 0, 0)
+    assert_equal 202509, p.base_ym
+    assert p.care_applicable?
+    assert_equal 35650, p.health_insurance
+  end
+
   def test_get_standard_remuneration_入社3ヵ月未満
+    # 給与は翌月払い
     # 入社3ヶ月未満の場合は資格取得時の標準報酬月額を使う
     employee_id = 8
     employment_ym = 202507
@@ -84,6 +181,7 @@ class Hr::PayrollHelperTest < ActionView::TestCase
   end
 
   def test_get_standard_remuneration_9月分の標準報酬月額
+    # 給与は翌月払い
     # 3月1日より前に入社
     employee_id = 8
     ym = 202509
@@ -155,6 +253,7 @@ class Hr::PayrollHelperTest < ActionView::TestCase
   end
 
   def test_get_standard_remuneration_8月分の標準報酬月額
+    # 給与は翌月払い
     # 前年の3月1日より前に入社
     employee_id = 8
     ym = 202508
@@ -226,6 +325,7 @@ class Hr::PayrollHelperTest < ActionView::TestCase
   end
 
   def test_get_standard_remuneration_随時改定
+    # 給与は翌月払い
     employee_id = 8
     ym = 202508
     e = Employee.find(employee_id)

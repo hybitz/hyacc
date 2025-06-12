@@ -88,9 +88,9 @@
       </tr>
       <tr>
         <th>給与支払日</th>
-        <td><%= @company.payday_jp %></td>
+        <td><%= @company.pay_day_definition_jp %></td>
         <td class="text-center">
-          <%= link_to '変更', edit_mm_company_path(@company, field: 'payday'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
+          <%= link_to '変更', edit_mm_company_path(@company, field: 'pay_day_definition'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
           <%= button_tag '更新', :onclick => 'company.update(this);' %>
           <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
         </td>

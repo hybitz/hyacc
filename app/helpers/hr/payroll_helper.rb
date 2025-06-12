@@ -97,6 +97,7 @@ module Hr::PayrollHelper
     payroll.ym = ym
     payroll.employee = e
     payroll.is_bonus = is_bonus
+    payroll.pay_day = pay_day
     if payroll.is_bonus?
       payroll.temporary_salary = salary.to_i
     else
@@ -104,7 +105,6 @@ module Hr::PayrollHelper
       payroll.commuting_allowance = commuting_allowance.to_i
       payroll.housing_allowance = housing_allowance.to_i
       payroll.qualification_allowance = qualification_allowance.to_i
-      payroll.pay_day = pay_day
 
       payroll.monthly_standard = monthly_standard.presence || get_standard_remuneration(payroll.base_ym, e, payroll.salary_subtotal)
     end

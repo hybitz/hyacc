@@ -28,7 +28,6 @@ class Hr::PayrollsController < Base::HyaccController
     salary = previous_payroll.base_salary
     monthly_standard = previous_payroll.monthly_standard
     @payroll = get_tax(ym, employee_id, monthly_standard, salary, 0, 0, 0, is_bonus: true)
-    @payroll.pay_day = get_pay_day(ym, employee_id)
   end
 
   def new

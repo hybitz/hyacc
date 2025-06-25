@@ -53,13 +53,13 @@ class Mm::CompaniesController < Base::HyaccController
 
   def company_params
     permitted = [
-      :logo, :admin_email, :business_type_id, :day_of_payday, :month_of_payday, :enterprise_number, :labor_insurance_number, :social_insurance_number, :employment_insurance_type, :retirement_savings_after
+      :logo, :admin_email, :business_type_id, :day_of_pay_day_definition, :month_of_pay_day_definition, :enterprise_number, :labor_insurance_number, :social_insurance_number, :employment_insurance_type, :retirement_savings_after
     ]
    
     ret = params.require(:company).permit(permitted)
 
-    if ret[:month_of_payday].present?
-      ret = ret.merge(:payday => ret[:month_of_payday] + "," + ret[:day_of_payday])
+    if ret[:month_of_pay_day_definition].present?
+      ret = ret.merge(:pay_day_definition => ret[:month_of_pay_day_definition] + "," + ret[:day_of_pay_day_definition])
     end
 
     ret

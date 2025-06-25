@@ -6,8 +6,8 @@
   end
   assert has_selector?('.edit_company')
   within '.edit_company' do
-    select '翌月', :from => 'company_month_of_payday'
-    fill_in 'company_day_of_payday', :with => '7'
+    select '翌月', :from => 'company_month_of_pay_day_definition'
+    fill_in 'company_day_of_pay_day_definition', :with => '7'
   end
   capture
 

@@ -56,9 +56,9 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
   end
 
   def test_給与支払日の編集
-    get :edit, :xhr => true, :params => {:id => current_company.id, :field => 'payday'}
+    get :edit, :xhr => true, :params => {:id => current_company.id, :field => 'pay_day_definition'}
     assert_response :success
-    assert_template :edit_payday
+    assert_template :edit_pay_day_definition
   end
 
   def test_退職金積立の開始時期

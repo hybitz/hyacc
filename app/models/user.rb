@@ -14,6 +14,9 @@ class User < ApplicationRecord
   has_many :simple_slip_settings, -> { order(:shortcut_key) }
   accepts_nested_attributes_for :simple_slip_settings, allow_destroy: true
 
+  has_many :user_notifications
+  has_many :notifications, through: :user_notifications
+
   def self.from_omniauth(access_token)
     data = access_token.info
 

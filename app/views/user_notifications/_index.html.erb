@@ -1,0 +1,22 @@
+<% if @n %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th rowspan="5" class="align-middle"></th>
+        <th rowspan="2" class="align-middle">表示設定</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="5" class="align-middle"><%= @n.message %></td>
+        <td>
+          <%= form_with model: @un, data: {remote: true} do |form| %>
+            <%= form.select :visible, [['表示', true], ['非表示', false]] %>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+<% else %>
+  <div>お知らせはありません。</div>
+<% end %>

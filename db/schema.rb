@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_13_055900) do
+ActiveRecord::Schema.define(version: 2025_06_23_010314) do
 
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -481,6 +481,12 @@ ActiveRecord::Schema.define(version: 2025_05_13_055900) do
     t.datetime "updated_at"
   end
 
+  create_table "notifications", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+    t.string "message"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "payrolls", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.integer "ym", null: false
     t.integer "days_of_work", default: 0
@@ -622,6 +628,16 @@ ActiveRecord::Schema.define(version: 2025_05_13_055900) do
     t.datetime "updated_at"
   end
 
+  create_table "user_notifications", id: :integer, charset: "utf8mb3", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "notification_id", null: false
+    t.boolean "visible", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["notification_id"], name: "fk_rails_d238d8ef07"
+    t.index ["user_id", "notification_id"], name: "index_user_notifications_on_user_id_and_notification_id", unique: true
+  end
+
   create_table "users", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "login_id", default: "", null: false
     t.string "email", default: ""
@@ -657,4 +673,6 @@ ActiveRecord::Schema.define(version: 2025_05_13_055900) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "user_notifications", "notifications", on_delete: :cascade
+  add_foreign_key "user_notifications", "users"
 end

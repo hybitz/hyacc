@@ -16,6 +16,13 @@ class WelcomeController < Base::HyaccController
       logic = DeemedTax::DeemedTaxLogic.new(fy)
       @dtm = logic.get_deemed_tax_model
     end
+
+    date = Date.today
+    begin
+    @notification = NotificationService.get_notification(date, current_user)
+    rescue => e
+      handle(e)
+    end
   end
 
 end

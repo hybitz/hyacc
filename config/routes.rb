@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   resources :social_expenses, :only => 'index'
   resources :sub_accounts, :only => 'index'
   resources :taxes, :only => ['index', 'update']
+  resources :user_notifications, :only => ['index', 'update']
 
   get 'closing', to: 'closing#index'
   get 'journal_admin', to: 'journal_admin#index'

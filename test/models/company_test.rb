@@ -80,15 +80,15 @@ class CompanyTest < ActiveSupport::TestCase
 
   def test_pay_day_definition
     c = Company.new(:pay_day_definition => nil)
-    assert_equal '翌月7日', c.pay_day_definition_jp
+    assert_equal '翌月25日', c.pay_day_definition_jp
     assert_equal 1, c.month_of_pay_day_definition
-    assert_equal 7, c.day_of_pay_day_definition
+    assert_equal 25, c.day_of_pay_day_definition
     assert_equal 31, c.payroll_day(201501)
 
     c = Company.new(:pay_day_definition => "")
-    assert_equal '翌月7日', c.pay_day_definition_jp
+    assert_equal '翌月25日', c.pay_day_definition_jp
     assert_equal 1, c.month_of_pay_day_definition
-    assert_equal 7, c.day_of_pay_day_definition
+    assert_equal 25, c.day_of_pay_day_definition
     assert_equal 31, c.payroll_day(201501)
 
     c = Company.new(:pay_day_definition => "0,1")

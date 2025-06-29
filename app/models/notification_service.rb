@@ -44,7 +44,7 @@ class NotificationService
     ret.strftime("%-m月%d日")
   end
 
-  def self.to_wareki_year(year, only_date: false)
-    TaxJp::Gengou.to_wareki(Date.new(year.to_i, 12, 31), only_date: only_date, format: '%y')
+  def self.to_wareki_year(year)
+    TaxJp::Gengou.to_wareki(Date.new(year.to_i, 12, 31), only_date: false, format: '%y')
   end
 end

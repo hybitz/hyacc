@@ -3,6 +3,7 @@ require 'test_helper'
 class WelcomeControllerTest < ActionDispatch::IntegrationTest
 
   def test_初期状態
+    assert UserNotification.delete_all
     assert User.delete_all
 
     get root_path

@@ -86,6 +86,7 @@ class FirstBootControllerTest < ActionController::TestCase
   private
 
   def db_reset
+    assert UserNotification.delete_all
     assert User.delete_all
     assert Account.delete_all
     assert SubAccount.delete_all

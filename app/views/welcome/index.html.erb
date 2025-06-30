@@ -25,6 +25,12 @@
 	<% end %>
 <% end %>
 
+<% if @notification %>
+  <div style="margin:20px; font-size: larger;">
+    <%= raw @notification.formatted_message %>
+  </div>
+<% end %>
+
 <div id="calendar" style="width: 50%;"></div>
 <script>
   $(document).ready(function() {

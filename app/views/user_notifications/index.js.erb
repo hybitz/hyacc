@@ -1,0 +1,9 @@
+var options = {
+  title: 'お知らせ'
+};
+<% if @n.present? %>
+  options.submit = '更新';
+<% end %>
+
+
+hyacc.current_dialog(options).show('<%=j(render 'index')%>');

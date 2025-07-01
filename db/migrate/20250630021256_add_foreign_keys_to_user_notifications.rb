@@ -1,6 +1,8 @@
 class AddForeignKeysToUserNotifications < ActiveRecord::Migration[6.1]
   def up
-    return unless table_exists?(:user_notifications)
+    unless table_exists?(:user_notifications)
+      raise "user_notificationsテーブルが存在しません。"
+    end
 
     unless foreign_key_exists?(:user_notifications, name: 'fk_user_notifications_users')
       add_foreign_key :user_notifications, :users, column: :user_id, name: 'fk_user_notifications_users'
@@ -12,7 +14,9 @@ class AddForeignKeysToUserNotifications < ActiveRecord::Migration[6.1]
   end
 
   def down
-    return unless table_exists?(:user_notifications)
+    unless table_exists?(:user_notifications)
+      raise "user_notificationsテーブルが存在しません。"
+    end
 
     if foreign_key_exists?(:user_notifications, name: 'fk_user_notifications_users')
       remove_foreign_key :user_notifications, name: 'fk_user_notifications_users'

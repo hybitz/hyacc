@@ -9,13 +9,13 @@ class NotificationTaskTest < ActiveSupport::TestCase
     @user_count = User.where(deleted: false).count
     Rake.application.rake_require('tasks/notification')
     Rake::Task.define_task(:environment)
-    Rake::Task['notification:generate'].reenable
+    Rake::Task['hyacc:notification:generate'].reenable
   end
 
   def test_generate
     assert_difference 'Notification.count', 1 do
       assert_difference 'UserNotification.count', @user_count do
-        Rake::Task['notification:generate'].invoke
+        Rake::Task['hyacc:notification:generate'].invoke
       end
     end
 
@@ -25,12 +25,12 @@ class NotificationTaskTest < ActiveSupport::TestCase
   end
 
   def test_cleanup
-    Rake::Task['notification:generate'].invoke
+    Rake::Task['hyacc:notification:generate'].invoke
 
     assert_equal 1, Notification.count
     assert_equal @user_count, UserNotification.count
 
-    Rake::Task['notification:cleanup'].invoke
+    Rake::Task['hyacc:notification:cleanup'].invoke
     assert_not Notification.exists?
     assert_not UserNotification.exists?
   end

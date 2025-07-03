@@ -17,12 +17,7 @@ class WelcomeController < Base::HyaccController
       @dtm = logic.get_deemed_tax_model
     end
 
-    date = Date.today
-    begin
-    @notification = NotificationService.get_notification(date, current_user)
-    rescue => e
-      handle(e)
-    end
+    @notification = current_user.notifications.merge(UserNotification.where(visible: true)).first
   end
 
 end

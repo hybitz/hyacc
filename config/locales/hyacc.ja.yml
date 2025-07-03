@@ -276,8 +276,8 @@ ja:
           shortcut_key: ショートカットキー
 
       user_notification:
-        notification: "お知らせ"
-        visible: "表示設定"
+        notification: お知らせ
+        visible: 表示設定
 
       exemption:
         employee_id: 従業員

@@ -3,7 +3,7 @@ require 'test_helper'
 class NotificationTest < ActiveSupport::TestCase
   def test_formatted_message
     n = Notification.first
-    assert_equal "令和7年の算定基礎届の提出期限は <span style='color: red;'>7月10日</span> です。", n.formatted_message
+    assert_equal "令和7年の算定基礎届の提出期限は <span style=\"color: red\">7月10日</span> です。", n.formatted_message
   end
 
   def test_dependent_destroy

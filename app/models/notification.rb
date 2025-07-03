@@ -4,7 +4,7 @@ class Notification < ApplicationRecord
 
   def formatted_message
     message.gsub(/(\d{1,2}月\d{1,2}日)/) do |match| 
-      "<span style='color: red;'>#{match}</span>"
-    end
+      ActionController::Base.helpers.content_tag(:span, match, style: 'color: red')
+    end.html_safe
   end
 end

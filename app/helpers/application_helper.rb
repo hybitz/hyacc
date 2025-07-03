@@ -60,8 +60,8 @@ module ApplicationHelper
   end
 
   def justify(text)
-    span_text = text.chars.map{|x| "<span>#{x}</span>" }.join
-    raw "<div class=\"justify\">#{span_text}</div>"
+    span_tags = text.chars.map {|x| content_tag(:span, x)}
+    content_tag(:div, safe_join(span_tags), class: "justify")
   end
 
   # メニュー項目のスタイルを取得する

@@ -34,7 +34,8 @@ class UserNotificationsControllerTest < ActionController::TestCase
     un_1 = UserNotification.first
     assert un_1.visible?
     patch :update, xhr: true, params: {id: 2, user_notification: {visible: false}}
-    assert_equal "指定されたお知らせは存在しないか、アクセス権限がありません。", flash[:notice]
+    assert_response :success
+    assert_equal "指定されたお知らせが見つかりませんでした。", flash[:notice]
     un_1.reload
     assert un_1.visible?
   end

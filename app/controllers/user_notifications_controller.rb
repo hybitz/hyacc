@@ -12,7 +12,7 @@ class UserNotificationsController < Base::HyaccController
       flash[:notice] = 'お知らせの表示設定を更新しました。'
       render 'common/reload'
     rescue ActiveRecord::RecordNotFound => e
-      flash[:notice] = '指定されたお知らせは存在しないか、アクセス権限がありません。'
+      flash[:notice] = '指定されたお知らせが見つかりませんでした。'
       flash[:is_error_message] = true
       load_notifications_and_user_noifications
       render 'index'

@@ -143,4 +143,85 @@ class NotificationServiceTest < ActiveSupport::TestCase
     wareki_year = NotificationService.to_wareki_year(date.year)
     assert_equal '令和7', wareki_year
   end
+
+  def test_RecordInvalidはHyaccExceptionに変換される
+    Notification.destroy_all
+    user = User.first
+    date = Date.new(2025,7,1)
+
+    user.define_singleton_method(:user_notifications) do
+      FakeAssociation1.new
+    end
+    
+    error = assert_raises HyaccException do
+      NotificationService.get_notification(date, user)
+    end
+    
+    assert_match "ユーザとお知らせの紐づけに失敗しました", error.message
+
+  ensure
+    user.singleton_class.class_eval do
+      remove_method :user_notifications
+    end
+  end
+
+  def test_StandardErrorはHyaccExceptionに変換されない
+    Notification.destroy_all
+    user = User.first
+    date = Date.new(2025,7,1)
+
+    user.define_singleton_method(:user_notifications) do
+      FakeAssociation2.new
+    end
+    
+    assert_raises StandardError do
+      NotificationService.get_notification(date, user)
+    end
+
+  ensure
+    user.singleton_class.class_eval do
+      remove_method :user_notifications
+    end    
+  end
+
+  def test_RecordNotDestroyedはHyaccExceptionに変換される
+    user = User.first
+    date = Date.new(2025, 9, 1)
+  
+    fake_notification = Notification.new
+    def fake_notification.destroy!(**)
+      raise ActiveRecord::RecordNotDestroyed.new("削除できませんでした")
+    end
+  
+    Notification.singleton_class.class_eval do
+      alias_method :original_last, :last
+      define_method(:last) {fake_notification}
+    end
+  
+    error = assert_raises HyaccException do
+      NotificationService.get_notification(date, user)
+    end
+  
+    assert_match "お知らせの削除に失敗しました", error.message
+    assert_match "削除できませんでした", error.message
+  
+  ensure
+    Notification.singleton_class.class_eval do
+      alias_method :last, :original_last
+      remove_method :original_last
+    end
+  end
+  
+  class FakeAssociation1
+    def create!(**)
+      raise ActiveRecord::RecordInvalid.new(UserNotification.new)
+    end
+  end
+
+  class FakeAssociation2
+    def create!(**)
+      raise StandardError
+    end
+  end
+
 end

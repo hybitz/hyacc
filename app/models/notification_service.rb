@@ -9,8 +9,8 @@ class NotificationService
         if un.nil?
           begin
             un = user.user_notifications.create!(notification: notification)
-          rescue => e
-            raise "ユーザとお知らせの紐づけに失敗しました。: #{e.message}"
+          rescue ActiveRecord::RecordInvalid => e
+            raise HyaccException.new("ユーザとお知らせの紐づけに失敗しました：#{e.message}")
           end
         end
         ret = notification if un.visible?
@@ -21,16 +21,16 @@ class NotificationService
             notification = Notification.create!(message: message)
             user.user_notifications.create!(notification: notification)
           end
-        rescue => e
-          raise "ユーザとお知らせの紐づけに失敗しました。:#{e.message}"
+        rescue ActiveRecord::RecordInvalid => e
+          raise HyaccException.new("ユーザとお知らせの紐づけに失敗しました：#{e.message}")
         end
         ret = notification
       end
     else
       begin
         notification.destroy! if notification
-      rescue => e
-        raise "お知らせの削除に失敗しました。:#{e.message}"
+      rescue ActiveRecord::RecordNotDestroyed => e
+        raise HyaccException.new("お知らせの削除に失敗しました: #{e.message}")
       end
     end
     ret

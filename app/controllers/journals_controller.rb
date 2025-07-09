@@ -13,7 +13,7 @@ class JournalsController < Base::HyaccController
 
     renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
     if renderer
-      render :partial => renderer.get_template(controller_name), :locals => {:jd => jd, :index => params[:index]}
+      render partial: renderer.get_template(controller_name), locals: {jd: jd, index: params[:index]}
     else
       head :ok
     end
@@ -40,7 +40,7 @@ class JournalsController < Base::HyaccController
 
   def add_detail
     jd = new_journal.journal_details.first
-    render :partial => 'detail_fields', :locals => {:jd => jd, :index => params[:index]}
+    render partial: 'detail_fields', locals: {jd: jd, index: params[:index]}
   end
 
   def create

@@ -157,14 +157,8 @@ class Account < ApplicationRecord
 
   # 決算区分が必要かどうか
   def settlement_type_required?
-    return true if [SUB_ACCOUNT_TYPE_CORPORATE_TAX, SUB_ACCOUNT_TYPE_TAX_AND_DUES].include?(sub_account_type)
-
-    case code
-    when ACCOUNT_CODE_CONSUMPTION_TAX_PAYABLE
-      true
-    else
-      false
-    end
+    return true if [SUB_ACCOUNT_TYPE_CONSUMPTION_TAX, SUB_ACCOUNT_TYPE_CORPORATE_TAX, SUB_ACCOUNT_TYPE_TAX_AND_DUES].include?(sub_account_type)
+    false
   end
 
   private

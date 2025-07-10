@@ -275,6 +275,10 @@ ja:
         simple_slip_settings:
           shortcut_key: ショートカットキー
 
+      user_notification:
+        notification: お知らせ
+        visible: 表示設定
+
       exemption:
         employee_id: 従業員
         yyyy: 暦年

@@ -8,18 +8,35 @@ namespace :hyacc do
       due_date = Date.new(Date.today.year, 7, 10)
       due_date += 1 while !HyaccDateUtil.weekday?(due_date)
       message = "#{TaxJp::Gengou.to_wareki(Date.new(due_date.year.to_i, 12, 31), only_date: false, format: '%y')}年の算定基礎届の提出期限は #{due_date.strftime("%-m月%d日")} です。"
+      notification = Notification.find_by(message: message)
       begin
-        notification = Notification.create!(message: message)
-        puts "お知らせ生成成功: message=#{message}"
+        if notification&.deleted
+          notification.update!(deleted: false)
+          puts "論理削除を解除: notification_id=#{notification.id} message=#{message}"
+        elsif notification.nil?
+          notification = Notification.create!(message: message)
+          puts "お知らせ生成成功: message=#{message}"
+        else
+          puts "既に有効なお知らせが存在: notification_id=#{notification.id} message=#{message}"
+        end
       rescue => e
         puts "お知らせ生成失敗: error=#{e.message}"
         Rails.logger.error("お知らせ生成失敗: error=#{e.message}")
+        return
       end
 
-      User.where(deleted: false).find_each do |user|
+      User.where(deleted: false).includes(:user_notifications).find_each do |user|
+        relation = user.user_notifications.find{|un| un.notification_id == notification.id }
         begin
-          user.user_notifications.create!(notification: notification)
-          puts "お知らせの紐づけ成功: user_id=#{user.id}"
+          if relation&.deleted
+            relation.update!(deleted: false)
+            puts "紐づけの論理削除を解除 user_id=#{user.id}"
+          elsif relation.nil?
+            user.user_notifications.create!(notification: notification)
+            puts "お知らせの紐づけ成功: user_id=#{user.id}"
+          else
+            puts "既に有効な紐づけ済み: user_id=#{user.id}"
+          end
         rescue => e
           puts "お知らせの紐づけ失敗: user_id=#{user.id}, error=#{e.message}"
           Rails.logger.error("お知らせの紐づけ失敗: user_id=#{user.id}, error=#{e.message}")
@@ -30,18 +47,24 @@ namespace :hyacc do
     desc "9月1日に算定基礎届提出期限のお知らせを削除"
     task cleanup: :environment do
       puts "お知らせ削除を開始"
-      notification = Notification.last
 
-      if notification
+      due_date = Date.new(Date.today.year, 7, 10)
+      due_date += 1 while !HyaccDateUtil.weekday?(due_date)
+      message = "#{TaxJp::Gengou.to_wareki(Date.new(due_date.year.to_i, 12, 31), only_date: false, format: '%y')}年の算定基礎届の提出期限は #{due_date.strftime("%-m月%d日")} です。"
+      notification = Notification.find_by(message: message)
+
+      if notification.nil?
+        puts "削除対象のお知らせは存在しません"
+      elsif notification.deleted
+        puts "既に削除済み: notification_id=#{notification.id}"
+      else
         begin
-          notification.destroy!
+          notification.update!(deleted: true)
           puts "お知らせ削除成功: notification_id=#{notification.id}"
         rescue => e
           puts "お知らせ削除失敗: error=#{e.message}"
           Rails.logger.error("お知らせ削除失敗: error=#{e.message}")
         end
-      else
-        puts "削除対象のお知らせは存在しません"
       end
     end
   end

@@ -26,8 +26,9 @@ class UserNotificationsController < Base::HyaccController
   private
 
   def load_notifications_and_user_noifications
-    @n = Notification.last
-    @un = UserNotification.find_by(notification_id: @n.id, user_id: current_user.id) if @n
+    @n_active = Notification.where(deleted: false).last
+    @n_deleted = @n_active ? Notification.where.not(id: @n_active.id).order(created_at: :desc) : Notification.all.order(created_at: :desc)
+    @un = UserNotification.find_by(notification_id: @n_active.id, user_id: current_user.id) if @n_active
   end
 
   def un_params

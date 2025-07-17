@@ -1,27 +1,35 @@
 require "test_helper"
 
 class UserNotificationsControllerTest < ActionController::TestCase
-  def test_index_notificationレコードがある場合
+  def test_index_有効なnotificationレコードがある場合
+    assert_not_empty Notification.where(deleted: false)
+    assert_empty Notification.where(deleted: true)
+
     sign_in user
     get :index, xhr: true
     assert_response :success
-    assert_not_nil assigns(:n)
+    assert_empty assigns(:n_deleted)
+    assert_not_nil assigns(:n_active)
     assert_not_nil assigns(:un)
   end
 
-  def test_index_notificationレコードが無い場合
-    Notification.delete_all
+  def test_index_有効なnotificationレコードが無い場合
+    Notification.first.update!(deleted: true)
+    assert_empty Notification.where(deleted: false)
+    assert_not_empty Notification.where(deleted: true)
+
     sign_in user
     get :index, xhr: true
     assert_response :success
-    assert_nil assigns(:n)
+    assert_not_empty assigns(:n_deleted)
+    assert_nil assigns(:n_active)
     assert_nil assigns(:un)
   end
 
   def test_update
     sign_in user
     un = UserNotification.first
-    assert_equal user, un.user  
+    assert_equal user, un.user
     assert un.visible?
     patch :update, xhr: true, params: {id: un.id, user_notification: {visible: false}}
     un = assigns(:un)
@@ -58,4 +66,21 @@ class UserNotificationsControllerTest < ActionController::TestCase
     assert_template 'index'
     assert_equal '指定されたお知らせが見つかりませんでした。', flash[:notice]
   end
+
+  def test_load_users_and_user_notifications
+    [2023, 2024, 2021, 2022].each do |year|
+      notification = Notification.create!(message: year, deleted: true, created_at: Date.new(year, 6, 1))
+      user.user_notifications.create!(notification: notification, deleted: true)
+    end
+
+    sign_in user
+    get :index, xhr: true
+    n_deleted = assigns(:n_deleted)
+    n_active = assigns(:n_active)
+    assert_not_nil n_active
+
+    refute_includes n_deleted, n_active
+    assert_equal ["2024", "2023", "2022", "2021"], n_deleted.pluck(:message)
+  end
+
 end

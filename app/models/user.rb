@@ -17,6 +17,8 @@ class User < ApplicationRecord
   has_many :user_notifications
   has_many :notifications, through: :user_notifications
 
+  after_update :mark_user_notifications_as_deleted, if: :saved_change_to_deleted?
+
   def self.from_omniauth(access_token)
     data = access_token.info
 
@@ -39,6 +41,14 @@ class User < ApplicationRecord
   # 補助科目として表示する際の名称
   def name
     login_id
+  end
+
+  private
+
+  def mark_user_notifications_as_deleted
+    user_notifications.where(deleted: false).find_each do |un|
+      un.update!(deleted: true)
+    end
   end
   
 end

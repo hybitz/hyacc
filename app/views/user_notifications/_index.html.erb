@@ -1,23 +1,39 @@
 <div style="margin: 10px;">
   <%= flash_notice %>
 </div>
-<% if @n %>
+<% if @n_deleted.size > 0 || @un %>
   <table class="table">
     <thead>
       <tr>
-        <th rowspan="5" class="align-middle"></th>
-        <th rowspan="2" class="align-middle">表示設定</th>
+        <th class="align-middle"></th>
+        <th class="align-middle">表示設定</th>
       </tr>
     </thead>
     <tbody>
+    <% if @un %>
       <tr>
-        <td rowspan="5" class="align-middle"><%= @n.message %></td>
+        <td class="align-middle">
+          <small class="text-muted"><%= @un.notification.created_at.strftime("%Y年%m月%d日") %></small><br>
+          <%= @un.notification.message %>
+        </td>
         <td>
           <%= form_with model: @un, data: {remote: true} do |form| %>
             <%= form.select :visible, [['表示', true], ['非表示', false]] %>
           <% end %>
         </td>
-      </tr>
+      </tr>  
+    <% end %>
+    <% if @n_deleted.size > 0 %>
+      <% @n_deleted.each do |n| %>
+        <tr>
+          <td class="align-middle">
+            <small class="text-muted"><%= n.created_at.strftime("%Y年%m月%d日") %></small><br>
+            <%= n.message %>
+          </td>
+          <td>削除済み</td>
+        </tr>
+      <% end %>
+    <% end%>
     </tbody>
   </table>
 <% else %>

@@ -12,16 +12,10 @@ template "#{hyacc_root}/tmp/hyacc_cron" do
   )
 end
 
-execute 'merge_cron' do
-  command <<~CMD
-    grep -v 'rake hyacc:notification' #{hyacc_root}/tmp/current_cron \
-    > #{hyacc_root}/tmp/filtered_cron
-
-    cat #{hyacc_root}/tmp/filtered_cron #{hyacc_root}/tmp/hyacc_cron \
-    > #{hyacc_root}/tmp/merged_cron
-  CMD
+template "#{hyacc_root}/tmp/merged_cron" do
+  source 'templates/merged_cron.erb'
+  variables(hyacc_root: hyacc_root)
 end
-
 
 execute 'install_cron' do
   command "crontab #{hyacc_root}/tmp/merged_cron"

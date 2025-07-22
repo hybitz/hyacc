@@ -1,0 +1,1 @@
+<%= `grep -v 'hyacc:notification' #{@hyacc_root}/tmp/current_cron | awk 'NF'; cat #{@hyacc_root}/tmp/hyacc_cron` %>

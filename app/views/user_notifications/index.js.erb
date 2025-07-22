@@ -1,7 +1,7 @@
 var options = {
   title: 'お知らせ'
 };
-<% if @un %>
+<% if @n.present? %>
   options.submit = '更新';
 <% end %>
 

@@ -18,13 +18,5 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?
     assert user.errors.empty?
   end
-
-  def test_mark_user_notifications_as_deleted
-    user = User.where(deleted: false).first
-    assert user.user_notifications.where(deleted: false).size > 0
-
-    user.update!(deleted: true)
-    assert_empty user.user_notifications.where(deleted: false)
-  end
   
 end

@@ -1,2 +1,5 @@
-0 0 1 6 * HYACC_ROOT=<%= @hyacc_root %> RAILS_ENV=<%= @rails_env %> PATH=/usr/local/bin:$PATH /bin/bash -c 'cd $HYACC_ROOT && bundle exec rake hyacc:notification:generate >> $HYACC_ROOT/log/cron.log 2>&1'
-0 0 1 9 * HYACC_ROOT=<%= @hyacc_root %> RAILS_ENV=<%= @rails_env %> PATH=/usr/local/bin:$PATH /bin/bash -c 'cd $HYACC_ROOT && bundle exec rake hyacc:notification:cleanup >> $HYACC_ROOT/log/cron.log 2>&1'
+PATH=<%= @path %>
+RAILS_ENV=<%= @rails_env %>
+
+0 0 1 6 * <%= @user %> /bin/bash -c 'cd <%= @hyacc_root %> && bundle exec rake hyacc:notification:generate >> <%= @hyacc_root %>/log/cron.log 2>&1'
+0 0 1 9 * <%= @user %> /bin/bash -c 'cd <%= @hyacc_root %> && bundle exec rake hyacc:notification:cleanup >> <%= @hyacc_root %>/log/cron.log 2>&1'

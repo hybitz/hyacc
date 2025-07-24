@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_06_30_021256) do
+ActiveRecord::Schema.define(version: 2025_07_22_073230) do
 
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -485,6 +485,7 @@ ActiveRecord::Schema.define(version: 2025_06_30_021256) do
     t.string "message"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "deleted", default: false, null: false
   end
 
   create_table "payrolls", id: :integer, charset: "utf8mb3", force: :cascade do |t|
@@ -673,6 +674,6 @@ ActiveRecord::Schema.define(version: 2025_06_30_021256) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "user_notifications", "notifications", name: "fk_user_notifications_notifications", on_delete: :cascade
+  add_foreign_key "user_notifications", "notifications", name: "fk_user_notifications_notifications"
   add_foreign_key "user_notifications", "users", name: "fk_user_notifications_users"
 end

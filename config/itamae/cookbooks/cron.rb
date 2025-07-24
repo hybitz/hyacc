@@ -1,22 +1,19 @@
-hyacc_root = Dir.pwd
-
-template "#{hyacc_root}/tmp/hyacc_cron" do
+template "/etc/cron.d/hyacc" do
   source 'templates/hyacc_cron.erb'
   variables(
-    hyacc_root: hyacc_root,
+    hyacc_root: Dir.pwd,
     path: ENV['PATH'],
     rails_env: ENV['RAILS_ENV'] || 'development',
     user: ENV['USER']
   )
+  user 'root'
+  owner 'root'
+  group 'root'
   mode '0644'
 end
 
-execute 'place /etc/cron.d/hyacc' do
+execute 'restorecon cron file' do
   user 'root'
-  command <<-EOF
-    set -eu
-    cp -f #{hyacc_root}/tmp/hyacc_cron /etc/cron.d/hyacc
-    chmod 0644 /etc/cron.d/hyacc
-  EOF
-  not_if "diff #{hyacc_root}/tmp/hyacc_cron /etc/cron.d/hyacc"
+  command 'restorecon /etc/cron.d/hyacc'
+  only_if 'test -f /etc/cron.d/hyacc'
 end

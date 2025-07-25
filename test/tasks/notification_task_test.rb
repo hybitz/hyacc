@@ -15,7 +15,7 @@ class NotificationTaskTest < ActiveSupport::TestCase
   end
 
   def test_generate
-    assert_difference 'Notification.where(deleted: false).size', 1 do
+    assert_difference 'Notification.where(deleted: false, category: :report_submission).size', 1 do
       assert_difference 'UserNotification.count', @user_count do
         Rake::Task['hyacc:notification:generate'].invoke
       end
@@ -27,7 +27,7 @@ class NotificationTaskTest < ActiveSupport::TestCase
   end
 
   def test_generateを続けて複数回実行しても状態に変化は無い
-    assert_difference 'Notification.where(deleted: false).size', 1 do
+    assert_difference 'Notification.where(deleted: false, category: :report_submission).size', 1 do
       assert_difference 'UserNotification.count', @user_count do
         Rake::Task['hyacc:notification:generate'].invoke
       end
@@ -36,7 +36,7 @@ class NotificationTaskTest < ActiveSupport::TestCase
     Rake::Task['hyacc:notification:generate'].reenable
 
     assert_no_difference 'Notification.count' do
-      assert_no_difference 'Notification.where(deleted: false).size' do
+      assert_no_difference 'Notification.where(deleted: false, category: :report_submission).size' do
         assert_no_difference 'UserNotification.count' do 
           Rake::Task['hyacc:notification:generate'].invoke
         end
@@ -45,14 +45,14 @@ class NotificationTaskTest < ActiveSupport::TestCase
   end
 
   def test_generate実行時に論理削除済みの同一メッセージのお知らせがある場合は論理削除を解除する
-    assert_difference 'Notification.where(deleted: false).size', 1 do
+    assert_difference 'Notification.where(deleted: false, category: :report_submission).size', 1 do
       assert_difference 'UserNotification.count', @user_count do 
         Rake::Task['hyacc:notification:generate'].invoke
       end
     end
 
     assert_no_difference 'Notification.count' do
-      assert_difference 'Notification.where(deleted: true).size', 1 do
+      assert_difference 'Notification.where(deleted: true, category: :report_submission).size', 1 do
         assert_no_difference 'UserNotification.count' do
           Rake::Task['hyacc:notification:cleanup'].invoke
         end
@@ -62,7 +62,7 @@ class NotificationTaskTest < ActiveSupport::TestCase
     Rake::Task['hyacc:notification:generate'].reenable
 
     assert_no_difference 'Notification.count' do
-      assert_difference 'Notification.where(deleted: false).size', 1 do
+      assert_difference 'Notification.where(deleted: false, category: :report_submission).size', 1 do
         assert_no_difference 'UserNotification.count' do 
           Rake::Task['hyacc:notification:generate'].invoke
         end
@@ -71,14 +71,14 @@ class NotificationTaskTest < ActiveSupport::TestCase
   end
 
   def test_cleanup
-    assert_difference 'Notification.where(deleted: false).size', 1 do
+    assert_difference 'Notification.where(deleted: false, category: :report_submission).size', 1 do
       assert_difference 'UserNotification.count', @user_count do
         Rake::Task['hyacc:notification:generate'].invoke
       end
     end
 
     assert_no_difference 'Notification.count' do
-      assert_difference 'Notification.where(deleted: true).size', 1 do
+      assert_difference 'Notification.where(deleted: true, category: :report_submission).size', 1 do
         assert_no_difference 'UserNotification.count' do
           Rake::Task['hyacc:notification:cleanup'].invoke
         end
@@ -87,14 +87,14 @@ class NotificationTaskTest < ActiveSupport::TestCase
   end
 
   def test_cleanupを続けて複数回実行しても状態に変化は無い
-    assert_difference 'Notification.where(deleted: false).size', 1 do
+    assert_difference 'Notification.where(deleted: false, category: :report_submission).size', 1 do
       assert_difference 'UserNotification.count', @user_count do
         Rake::Task['hyacc:notification:generate'].invoke
       end
     end
 
     assert_no_difference 'Notification.count' do
-      assert_difference 'Notification.where(deleted: true).size', 1 do
+      assert_difference 'Notification.where(deleted: true, category: :report_submission).size', 1 do
         assert_no_difference 'UserNotification.count' do
           Rake::Task['hyacc:notification:cleanup'].invoke
         end
@@ -104,7 +104,7 @@ class NotificationTaskTest < ActiveSupport::TestCase
     Rake::Task['hyacc:notification:cleanup'].reenable
 
     assert_no_difference 'Notification.count' do
-      assert_no_difference 'Notification.where(deleted: true).size' do
+      assert_no_difference 'Notification.where(deleted: true, category: :report_submission).size' do
         assert_no_difference 'UserNotification.count' do
           Rake::Task['hyacc:notification:cleanup'].invoke
         end

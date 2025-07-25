@@ -14,7 +14,7 @@ namespace :hyacc do
           notification.update!(deleted: false)
           puts "論理削除を解除: notification_id=#{notification.id} message=#{message}"
         elsif notification.nil?
-          notification = Notification.create!(message: message)
+          notification = Notification.create!(category: :report_submission, message: message)
           puts "お知らせ生成成功: message=#{message}"
         else
           puts "既に有効なお知らせが存在: notification_id=#{notification.id} message=#{message}"

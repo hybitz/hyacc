@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_22_073230) do
+ActiveRecord::Schema.define(version: 2025_07_23_090138) do
 
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -486,6 +486,8 @@ ActiveRecord::Schema.define(version: 2025_07_22_073230) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "deleted", default: false, null: false
+    t.integer "category", null: false
+    t.integer "ym"
   end
 
   create_table "payrolls", id: :integer, charset: "utf8mb3", force: :cascade do |t|

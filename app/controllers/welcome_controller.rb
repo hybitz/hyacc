@@ -17,10 +17,14 @@ class WelcomeController < Base::HyaccController
       @dtm = logic.get_deemed_tax_model
     end
 
-    @notification = Notification.joins(:user_notifications)
-      .where(deleted: false, user_notifications: {user_id: current_user.id, visible: true})
-      .order(created_at: :desc)
-      .first
+    @notifications = Notification
+    .joins(:user_notifications)
+    .where(deleted: false, user_notifications: {
+        user_id: current_user.id,
+        visible: true
+      }
+    )
+    .order(created_at: :desc)
   end
 
 end

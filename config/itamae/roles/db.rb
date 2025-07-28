@@ -9,3 +9,4 @@ end
 include_recipe '../cookbooks/gem.rb'
 include_recipe 'daddy::mysql::server'
 include_recipe 'daddy::memcached::install'
+include_recipe '../cookbooks/cron.rb'

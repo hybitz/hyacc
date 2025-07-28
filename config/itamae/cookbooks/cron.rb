@@ -1,5 +1,4 @@
 template "/etc/cron.d/hyacc" do
-  source 'templates/hyacc_cron.erb'
   variables(
     hyacc_root: Dir.pwd,
     path: ENV['PATH'],
@@ -15,5 +14,6 @@ end
 execute 'restorecon cron file' do
   user 'root'
   command 'restorecon /etc/cron.d/hyacc'
-  only_if 'test -f /etc/cron.d/hyacc'
+  action :nothing
+  subscribes :run, 'template[/etc/cron.d/hyacc]', :immediately
 end

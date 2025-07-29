@@ -25,13 +25,9 @@
 	<% end %>
 <% end %>
 
-<% @notifications.each do |notification| %>
+<% if @notification %>
   <div style="margin:20px; font-size: larger;">
-    <% if notification.category == "report_submission" %>
-      <%= formatted_message(notification) %>
-    <% else %>
-      <%= notification.message %>
-    <% end %>
+    <%= formatted_message(@notification) %>
   </div>
 <% end %>
 

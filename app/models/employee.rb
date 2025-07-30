@@ -23,6 +23,8 @@ class Employee < ApplicationRecord
   has_many :skills, -> {where deleted: false}, inverse_of: 'employee'
   accepts_nested_attributes_for :skills
 
+  has_many :notifications
+
   validates_with Validators::DefaultBranchPresenceValidator
   validates_with Validators::UniqueBranchEmployeesValidator
 

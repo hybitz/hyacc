@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_23_090138) do
+ActiveRecord::Schema.define(version: 2025_07_30_024101) do
 
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -488,6 +488,8 @@ ActiveRecord::Schema.define(version: 2025_07_23_090138) do
     t.boolean "deleted", default: false, null: false
     t.integer "category", null: false
     t.integer "ym"
+    t.integer "employee_id"
+    t.index ["employee_id"], name: "index_notifications_on_employee_id"
   end
 
   create_table "payrolls", id: :integer, charset: "utf8mb3", force: :cascade do |t|
@@ -676,6 +678,7 @@ ActiveRecord::Schema.define(version: 2025_07_23_090138) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "notifications", "employees"
   add_foreign_key "user_notifications", "notifications", name: "fk_user_notifications_notifications"
   add_foreign_key "user_notifications", "users", name: "fk_user_notifications_users"
 end

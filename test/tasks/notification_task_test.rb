@@ -23,7 +23,7 @@ class NotificationTaskTest < ActiveSupport::TestCase
 
     notification = Notification.last
     assert_equal "令和7年の算定基礎届の提出期限は 7月10日 です。", notification.message
-    refute_includes notification.users.pluck(:id), @deleted_user.id
+    refute_includes notification.user_notifications.pluck(:user_id), @deleted_user.id
   end
 
   def test_generateを続けて複数回実行しても状態に変化は無い

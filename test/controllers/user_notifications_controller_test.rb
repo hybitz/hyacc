@@ -70,7 +70,7 @@ class UserNotificationsControllerTest < ActionController::TestCase
       notification = Notification.create!(
         message: year, 
         deleted: true, 
-        created_at: Date.new(year, 6, 1),  
+        created_at: Date.new(year, 6, 1),
         category: :report_submission)
       user.user_notifications.create!(notification: notification)
     end

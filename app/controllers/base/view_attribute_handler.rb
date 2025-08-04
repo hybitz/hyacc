@@ -68,7 +68,7 @@ module Base::ViewAttributeHandler
       ret = account.sub_accounts
     end
 
-    HyaccUtil.sort(ret, options[:order])
+    HyaccUtil.sort_by_code(ret)
   end
   
   def get_branches(options = {})

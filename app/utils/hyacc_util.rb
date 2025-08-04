@@ -38,11 +38,10 @@ module HyaccUtil
   end
   
   # ARを指定カラムでソートします。
-  def self.sort(records, column_name)
+  def self.sort_by_code(records)
     return records unless records.present?
-    return records unless column_name and records.first.respond_to?(column_name)
 
-    records.sort{|x, y| x.__send__(column_name) <=> y.__send__(column_name)}
+    records.sort{|x, y| x.code <=> y.code }
   end
   
   def self.view_dir

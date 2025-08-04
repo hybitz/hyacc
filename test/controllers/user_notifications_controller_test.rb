@@ -67,7 +67,11 @@ class UserNotificationsControllerTest < ActionController::TestCase
 
   def test_load_users_and_user_notifications
     [2023, 2024, 2021, 2022].each do |year|
-      notification = Notification.create!(message: year, deleted: true, created_at: Date.new(year, 6, 1))
+      notification = Notification.create!(
+        message: year, 
+        deleted: true, 
+        created_at: Date.new(year, 6, 1),
+        category: :report_submission)
       user.user_notifications.create!(notification: notification)
     end
 

@@ -29,7 +29,7 @@ class SimpleSlipsController < Base::HyaccController
         account = Account.find(t.account_id)
         renderer = AccountDetails::AccountDetailRenderer.get_instance(account.id)
         if renderer
-          account_detail = render_to_string(:partial => renderer.get_template(controller_name), :formats => [:html])
+          account_detail = render_to_string(partial: renderer.get_template(controller_name), formats: [:html])
           HyaccLogger.debug account_detail
         end
 

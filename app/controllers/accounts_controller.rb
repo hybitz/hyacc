@@ -7,10 +7,10 @@ class AccountsController < Base::HyaccController
 
     if account
       tax_type = current_company.get_tax_type_for(account)
-      sub_accounts = HyaccUtil.sort(account.sub_accounts, params[:order]).collect{|sa| {:id => sa.id, :name => sa.name}}
+      sub_accounts = HyaccUtil.sort_by_code(account.sub_accounts).collect{|sa| {id: sa.id, name: sa.name}}
     end
 
-    render :json => {:tax_type => tax_type, :sub_accounts => Array(sub_accounts)}
+    render json: {tax_type: tax_type, sub_accounts: Array(sub_accounts)}
   end
 
 end

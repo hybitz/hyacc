@@ -240,6 +240,7 @@ module HyaccConst
     SETTLEMENT_TYPE_FULL = 2 => '本決算',
     SETTLEMENT_TYPE_ADJUST = 3 => '決算調整仕訳',
     SETTLEMENT_TYPE_TRANSFER = 4 => '決算振替仕訳',
+    SETTLEMENT_TYPE_UNRELATED = 5 => '非決算仕訳'
   }
 
   # 性別区分

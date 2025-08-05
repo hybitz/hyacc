@@ -93,7 +93,7 @@ class SimpleSlip
   end
 
   def sub_accounts
-    account ? HyaccUtil.sort(account.sub_accounts.map{|sa| [sa.name, sa.id] }, :code) : []
+    account&.sub_accounts.map{|sa| [sa.name, sa.id] } || []
   end
 
   def branch

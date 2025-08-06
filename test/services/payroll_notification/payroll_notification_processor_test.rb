@@ -9,13 +9,18 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     fy = @employee8.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
     fy.save!
     @ym = 202508
-    yesterday = Date.yesterday
+
+    start_time = Date.yesterday.beginning_of_day
+    time_before_start_boundary = Time.at(start_time.to_r - Rational(1, 1_000_000_000))
+
+    end_time = Date.current.beginning_of_day
+    time_before_end_boundary = Time.at(end_time.to_r - Rational(1, 1_000_000_000))
 
     @payroll_updated_yesterday = Payroll.find_by(employee_id: @employee8.id, ym: @ym)
-    @payroll_updated_yesterday.update!(updated_at: yesterday.noon)
+    @payroll_updated_yesterday.update!(updated_at: start_time)
 
     @payroll_updated_two_days_ago = Payroll.find_by(employee_id: @employee8.id, ym: 202507)
-    @payroll_updated_two_days_ago.update!(updated_at: (Date.today - 2).noon)
+    @payroll_updated_two_days_ago.update!(updated_at: time_before_start_boundary)
 
     employee1 = Employee.first
     fy = employee1.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
@@ -26,18 +31,18 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       employee: employee1,
       base_salary: 300_000, 
       monthly_standard: 300_000, 
-      created_at: yesterday.noon,
+      created_at: time_before_end_boundary,
       create_user_id: employee1.user.id,
       update_user_id: employee1.user.id)
 
     employee2 = Employee.second
-    @payroll_created_two_days_ago = Payroll.create!(
+    @payroll_created_today = Payroll.create!(
       ym: @ym, 
       pay_day: '2025-09-15', 
       employee: employee2, 
       base_salary: 300_000, 
       monthly_standard: 300_000, 
-      created_at: (Date.today - 2).noon,
+      created_at: end_time,
       create_user_id: employee2.user.id,
       update_user_id: employee2.user.id)
 
@@ -73,7 +78,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
 
     assert_includes called_ids, @payroll_updated_yesterday.id
     assert_includes called_ids, @payroll_created_yesterday.id
-    assert_not_includes called_ids, @payroll_created_two_days_ago.id
+    assert_not_includes called_ids, @payroll_created_today.id
     assert_not_includes called_ids, @payroll_updated_two_days_ago.id
   end
 
@@ -192,15 +197,21 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @processor.instance_variable_set(:@context, @context)
 
     expected_message = /随時改定の対応チェックとお知らせ更新失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
-    mock = Minitest::Mock.new
-    mock.expect(:error, nil) { |msg| msg.match?(expected_message) }
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
-    Rails.stub(:logger, mock) do
-      @processor.stub(:cleanup_ad_hoc_revision, -> { raise "テスト用の例外" }) do
-        @processor.send(:log_failure, :cleanup_ad_hoc_revision, '随時改定の対応チェックとお知らせ更新')
+    processor_mock = Minitest::Mock.new
+    processor_mock.expect(:call, nil) {raise "テスト用の例外"}
+  
+    Rails.stub(:logger, logger_mock) do
+      @processor.stub(:cleanup_ad_hoc_revision, -> {processor_mock.call}) do
+        @processor.send(:log_failure_with_block, '随時改定の対応チェックとお知らせ更新') do
+          @processor.cleanup_ad_hoc_revision
+        end
       end
   
-      mock.verify
+      logger_mock.verify
+      processor_mock.verify
     end
   end
 
@@ -208,15 +219,21 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @processor.instance_variable_set(:@context, @context)
 
     expected_message = /随時改定のお知らせ生成失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
-    mock = Minitest::Mock.new
-    mock.expect(:error, nil) { |msg| msg.match?(expected_message) }
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
-    Rails.stub(:logger, mock) do
-      @processor.stub(:handle_ad_hoc_revision, -> { raise "テスト用の例外" }) do
-        @processor.send(:log_failure, :handle_ad_hoc_revision, '随時改定のお知らせ生成')
+    processor_mock = Minitest::Mock.new
+    processor_mock.expect(:call, nil) {raise "テスト用の例外"}
+  
+    Rails.stub(:logger, logger_mock) do
+      @processor.stub(:handle_ad_hoc_revision, -> {processor_mock.call}) do
+        @processor.send(:log_failure_with_block, '随時改定のお知らせ生成') do
+          @processor.handle_ad_hoc_revision
+        end
       end
   
-      mock.verify
+      logger_mock.verify
+      processor_mock.verify
     end
   end
 
@@ -224,15 +241,21 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @processor.instance_variable_set(:@context, @context)
 
     expected_message = /定時決定の対応チェックとお知らせ生成失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
-    mock = Minitest::Mock.new
-    mock.expect(:error, nil) { |msg| msg.match?(expected_message) }
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
-    Rails.stub(:logger, mock) do
-      @processor.stub(:handle_annual_determination, -> { raise "テスト用の例外" }) do
-        @processor.send(:log_failure, :handle_annual_determination, '定時決定の対応チェックとお知らせ生成')
+    processor_mock = Minitest::Mock.new
+    processor_mock.expect(:call, nil) {raise "テスト用の例外"}
+  
+    Rails.stub(:logger, logger_mock) do
+      @processor.stub(:handle_annual_determination, -> {processor_mock.call}) do
+        @processor.send(:log_failure_with_block, '定時決定の対応チェックとお知らせ生成') do
+          @processor.handle_annual_determination
+        end
       end
   
-      mock.verify
+      logger_mock.verify
+      processor_mock.verify
     end
   end
 

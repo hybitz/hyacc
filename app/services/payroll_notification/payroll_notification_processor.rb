@@ -2,10 +2,11 @@ module PayrollNotification
   class PayrollNotificationProcessor
 
     def self.call
-      yesterday = Date.yesterday
+      start_time = Date.yesterday.beginning_of_day
+      end_time = Date.current.beginning_of_day
 
-      scope = Payroll.where(created_at: yesterday.all_day)
-      .or(Payroll.where(updated_at: yesterday.all_day))
+      scope = Payroll.where(created_at: start_time...end_time)
+      .or(Payroll.where(updated_at: start_time...end_time))
 
       return unless scope.exists?
 
@@ -32,10 +33,10 @@ module PayrollNotification
 
     def process
       if @past_payrolls.all?(&:persisted?)
-        log_failure(:cleanup_ad_hoc_revision, '随時改定の対応チェックとお知らせ更新')
-        log_failure(:handle_ad_hoc_revision, '随時改定のお知らせ生成')
+        log_failure_with_block('随時改定の対応チェックとお知らせ更新'){cleanup_ad_hoc_revision}
+        log_failure_with_block('随時改定のお知らせ生成'){handle_ad_hoc_revision}
       end
-      log_failure(:handle_annual_determination, '定時決定の対応チェックとお知らせ生成') if @ym % 100 == 9
+      log_failure_with_block('定時決定の対応チェックとお知らせ生成'){handle_annual_determination} if @ym % 100 == 9
     end
 
     private
@@ -52,8 +53,8 @@ module PayrollNotification
       PayrollNotification::AnnualDeterminationHandler.call(@context)
     end
 
-    def log_failure(method, label)
-      send(method)
+    def log_failure_with_block(label)
+      yield
     rescue => e
       notification_info = @notification ? "notification_id=#{@notification.id}" : "notification=なし"
       Rails.logger.error("#{label}失敗： #{notification_info} payroll_id=#{@context.payroll.id} #{e.message}")

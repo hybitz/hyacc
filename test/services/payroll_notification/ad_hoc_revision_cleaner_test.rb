@@ -10,7 +10,7 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
 
     @payroll = Payroll.find_by(ym: ym, employee_id: employee)
     past_ym = (1..3).map{|i| (Date.new(ym/100, ym%100, 1) << i).strftime('%Y%m').to_i}
-    @past_payrolls = past_ym.map{|ym| Payroll.find_by_ym_and_employee_id(ym, employee.id)}
+    @past_payrolls = past_ym.map{|ym| Payroll.find_or_initialize_regular_payroll(ym, employee.id)}
     @context = PayrollNotification::PayrollNotificationContext.new(
       payroll: payroll,
       ym: ym,

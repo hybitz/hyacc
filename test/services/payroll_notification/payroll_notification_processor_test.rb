@@ -49,7 +49,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @processor = PayrollNotification::PayrollNotificationProcessor.allocate
   
     past_ym = (1..3).map { |i| (Date.new(@ym / 100, @ym % 100, 1) << i).strftime('%Y%m').to_i }
-    past_payrolls = past_ym.map { |ym| Payroll.find_by_ym_and_employee_id(@ym, @employee8.id) }
+    past_payrolls = past_ym.map { |ym| Payroll.find_or_initialize_regular_payroll(@ym, @employee8.id) }
   
     @context = PayrollNotification::PayrollNotificationContext.new(
       payroll: @payroll_updated_yesterday,
@@ -132,7 +132,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     past_ym = (1..3).map{|i| (Date.new(@ym/100, @ym%100, 1) << i).strftime('%Y%m').to_i}
     past_payrolls = past_ym.map{|ym| Payroll.find_by(ym: @ym, employee_id: @employee8.id)}
     past_payrolls[0].delete
-    past_payrolls_with_new_payroll = past_payrolls = past_ym.map{|ym| Payroll.find_by_ym_and_employee_id(@ym, @employee8.id)}
+    past_payrolls_with_new_payroll = past_payrolls = past_ym.map{|ym| Payroll.find_or_initialize_regular_payroll(@ym, @employee8.id)}
     assert_not past_payrolls_with_new_payroll.all?(&:persisted?)
   
     cleanup_ad_hoc_revision_mock.expect(:call, nil, [context])

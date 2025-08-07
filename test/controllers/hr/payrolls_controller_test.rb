@@ -78,7 +78,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
     assert_template 'common/reload'
 
     # 登録された仕訳をチェック
-    pr = Payroll.find_by_ym_and_employee_id(ym, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(ym, employee_id)
     deposits_received = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
     income_tax = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_INCOME_TAX)
     health_insurance = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)

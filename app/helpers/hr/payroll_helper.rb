@@ -13,9 +13,9 @@ module Hr::PayrollHelper
     ym_1 = (Date.new(ym/100, ym%100, 1) << 1).strftime("%Y%m")
     ym_2 = (Date.new(ym/100, ym%100, 1) << 2).strftime("%Y%m")
     ym_3 = (Date.new(ym/100, ym%100, 1) << 3).strftime("%Y%m")
-    pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee.id)
-    pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee.id)
-    pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee.id)
+    pr_1 = Payroll.find_or_initialize_regular_payroll(ym_1, employee.id)
+    pr_2 = Payroll.find_or_initialize_regular_payroll(ym_2, employee.id)
+    pr_3 = Payroll.find_or_initialize_regular_payroll(ym_3, employee.id)
     if pr_3.new_record?
       if pr_2.persisted?
         return pr_2.monthly_standard
@@ -32,12 +32,12 @@ module Hr::PayrollHelper
       y = ((ym.to_s).slice(0, 4)).to_i - 1
       x = y.to_s + "03"
     end
-    pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
+    pr = Payroll.find_or_initialize_regular_payroll(x, employee.id)
 
     x1 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
     x2 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")
-    pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
-    pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
+    pr1 = Payroll.find_or_initialize_regular_payroll(x1, employee.id)
+    pr2 = Payroll.find_or_initialize_regular_payroll(x2, employee.id)
     
     employment_date = employee.employment_date.strftime("%Y%m%d").to_i
     employment_ym = employee.employment_date.strftime("%Y%m").to_i
@@ -54,7 +54,7 @@ module Hr::PayrollHelper
       pr = pr2
     else
       x = employment_ym
-      pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
+      pr = Payroll.find_or_initialize_regular_payroll(x, employee.id)
       bs = pr.monthly_standard
     end
 
@@ -65,13 +65,13 @@ module Hr::PayrollHelper
 
     while ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
       x = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
-      pr = Payroll.find_by_ym_and_employee_id(x, employee.id)
+      pr = Payroll.find_or_initialize_regular_payroll(x, employee.id)
       if pre_bs != pr.salary_subtotal - pr.extra_pay
         if ((Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")).to_i < ym.to_i
           x1 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 1).strftime("%Y%m")
           x2 = (Date.new(x.to_i/100, x.to_i%100, 1) >> 2).strftime("%Y%m")
-          pr1 = Payroll.find_by_ym_and_employee_id(x1, employee.id)
-          pr2 = Payroll.find_by_ym_and_employee_id(x2, employee.id)
+          pr1 = Payroll.find_or_initialize_regular_payroll(x1, employee.id)
+          pr2 = Payroll.find_or_initialize_regular_payroll(x2, employee.id)
           ave_x = (pr.salary_subtotal + pr1.salary_subtotal + pr2.salary_subtotal)/3
           insurance_x = TaxUtils.get_basic_info(ym, prefecture_code, ave_x)
           if (grade_bs - insurance_x.grade).abs >= 2

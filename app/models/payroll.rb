@@ -91,12 +91,9 @@ class Payroll < ApplicationRecord
     Payroll.where(ym: past_ym, employee_id: employee_id, is_bonus: false).first
   end
 
-  def self.find_by_ym_and_employee_id(ym, employee_id)
+  def self.find_or_initialize_regular_payroll(ym, employee_id)
     # 月別情報を検索
-    payroll = Payroll.where(ym: ym, employee_id: employee_id, is_bonus: false).first
-    payroll ||= Payroll.new(ym: ym, employee_id: employee_id)
-
-    payroll
+    Payroll.find_or_initialize_by(ym: ym, employee_id: employee_id, is_bonus: false)
   end
 
   # 賞与

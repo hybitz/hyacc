@@ -158,9 +158,9 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     ym_1 = (Date.new(ym/100, ym%100, 1) << 1).strftime("%Y%m")
     ym_2 = (Date.new(ym/100, ym%100, 1) << 2).strftime("%Y%m")
     ym_3 = (Date.new(ym/100, ym%100, 1) << 3).strftime("%Y%m")
-    pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee_id)
-    pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee_id)
-    pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee_id)
+    pr_1 = Payroll.find_or_initialize_regular_payroll(ym_1, employee_id)
+    pr_2 = Payroll.find_or_initialize_regular_payroll(ym_2, employee_id)
+    pr_3 = Payroll.find_or_initialize_regular_payroll(ym_3, employee_id)
     assert pr_3.new_record?
     assert pr_2.persisted?
     assert_equal 320000, pr_2.monthly_standard
@@ -170,9 +170,9 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     ym_1 = (Date.new(ym/100, ym%100, 1) << 1).strftime("%Y%m")
     ym_2 = (Date.new(ym/100, ym%100, 1) << 2).strftime("%Y%m")
     ym_3 = (Date.new(ym/100, ym%100, 1) << 3).strftime("%Y%m")
-    pr_1 = Payroll.find_by_ym_and_employee_id(ym_1, employee_id)
-    pr_2 = Payroll.find_by_ym_and_employee_id(ym_2, employee_id)
-    pr_3 = Payroll.find_by_ym_and_employee_id(ym_3, employee_id)
+    pr_1 = Payroll.find_or_initialize_regular_payroll(ym_1, employee_id)
+    pr_2 = Payroll.find_or_initialize_regular_payroll(ym_2, employee_id)
+    pr_3 = Payroll.find_or_initialize_regular_payroll(ym_3, employee_id)
     assert pr_3.new_record?
     assert_not pr_2.persisted?
     assert pr_1.persisted?
@@ -192,9 +192,9 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     Payroll.where(employee_id: employee_id, ym: x).update_all(extra_pay: 70000) 
     Payroll.where(employee_id: employee_id, ym: x + 2).update_all(extra_pay: 20000)
 
-    pr = Payroll.find_by_ym_and_employee_id(x, employee_id)
-    pr1 = Payroll.find_by_ym_and_employee_id(x + 1, employee_id)
-    pr2 = Payroll.find_by_ym_and_employee_id(x + 2, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(x, employee_id)
+    pr1 = Payroll.find_or_initialize_regular_payroll(x + 1, employee_id)
+    pr2 = Payroll.find_or_initialize_regular_payroll(x + 2, employee_id)
 
     assert_equal 380000, pr.salary_subtotal
     assert_equal 310000, pr1.salary_subtotal
@@ -238,7 +238,7 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     Employee.find(employee_id).update!(employment_date: Date.parse("#{employment_ym}15"))
     e = Employee.find(employee_id)
     Payroll.where(employee_id: employee_id, ym: employment_ym).update_all(monthly_standard: 320000)
-    pr = Payroll.find_by_ym_and_employee_id(employment_ym, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(employment_ym, employee_id)
     assert_equal 320000, pr.monthly_standard
     assert_equal 320000, get_standard_remuneration(ym, e, 310000)
 
@@ -247,7 +247,7 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     Employee.find(employee_id).update!(employment_date: Date.parse("#{employment_ym}01"))
     e = Employee.find(employee_id)
     Payroll.where(employee_id: employee_id, ym: employment_ym).update_all(monthly_standard: 320000)
-    pr = Payroll.find_by_ym_and_employee_id(employment_ym, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(employment_ym, employee_id)
     assert_equal 320000, pr.monthly_standard
     assert_equal 320000, get_standard_remuneration(ym, e, 310000)
   end
@@ -264,9 +264,9 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     Payroll.where(employee_id: employee_id, ym: x).update_all(extra_pay: 50000) 
     Payroll.where(employee_id: employee_id, ym: x + 2).update_all(extra_pay: 10000)
 
-    pr = Payroll.find_by_ym_and_employee_id(x, employee_id)
-    pr1 = Payroll.find_by_ym_and_employee_id(x + 1, employee_id)
-    pr2 = Payroll.find_by_ym_and_employee_id(x + 2, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(x, employee_id)
+    pr1 = Payroll.find_or_initialize_regular_payroll(x + 1, employee_id)
+    pr2 = Payroll.find_or_initialize_regular_payroll(x + 2, employee_id)
 
     assert_equal 350000, pr.salary_subtotal
     assert_equal 300000, pr1.salary_subtotal
@@ -310,7 +310,7 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     Employee.find(employee_id).update!(employment_date: Date.parse("#{employment_ym}15"))
     e = Employee.find(employee_id)
     Payroll.where(employee_id: employee_id, ym: employment_ym).update_all(monthly_standard: 300000)
-    pr = Payroll.find_by_ym_and_employee_id(employment_ym, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(employment_ym, employee_id)
     assert_equal 300000, pr.monthly_standard
     assert_equal 300000, get_standard_remuneration(ym, e, 310000)
 
@@ -319,7 +319,7 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     Employee.find(employee_id).update!(employment_date: Date.parse("#{employment_ym}01"))
     e = Employee.find(employee_id)
     Payroll.where(employee_id: employee_id, ym: employment_ym).update_all(monthly_standard: 300000)
-    pr = Payroll.find_by_ym_and_employee_id(employment_ym, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(employment_ym, employee_id)
     assert_equal 300000, pr.monthly_standard
     assert_equal 300000, get_standard_remuneration(ym, e, 310000)
   end
@@ -337,10 +337,10 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     Payroll.where(employee_id: employee_id, ym: y + 1).update_all(housing_allowance: 40000)
     Payroll.where(employee_id: employee_id, ym: y + 2).update_all(housing_allowance: 40000)
 
-    pre_pr = Payroll.find_by_ym_and_employee_id(y - 1, employee_id)
-    pr = Payroll.find_by_ym_and_employee_id(y, employee_id)
-    pr1 = Payroll.find_by_ym_and_employee_id(y + 1, employee_id)
-    pr2 = Payroll.find_by_ym_and_employee_id(y + 2, employee_id)
+    pre_pr = Payroll.find_or_initialize_regular_payroll(y - 1, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(y, employee_id)
+    pr1 = Payroll.find_or_initialize_regular_payroll(y + 1, employee_id)
+    pr2 = Payroll.find_or_initialize_regular_payroll(y + 2, employee_id)
 
     assert_equal 300000, pre_pr.salary_subtotal - pre_pr.extra_pay
     assert_equal 340000, pr.salary_subtotal - pr.extra_pay
@@ -353,10 +353,10 @@ class Hr::PayrollHelperTest < ActionView::TestCase
     Payroll.where(employee_id: employee_id, ym: y + 1).update_all(housing_allowance: 0, extra_pay: 40000)
     Payroll.where(employee_id: employee_id, ym: y + 2).update_all(housing_allowance: 0, extra_pay: 40000)
 
-    pre_pr = Payroll.find_by_ym_and_employee_id(y - 1, employee_id)
-    pr = Payroll.find_by_ym_and_employee_id(y, employee_id)
-    pr1 = Payroll.find_by_ym_and_employee_id(y + 1, employee_id)
-    pr2 = Payroll.find_by_ym_and_employee_id(y + 2, employee_id)
+    pre_pr = Payroll.find_or_initialize_regular_payroll(y - 1, employee_id)
+    pr = Payroll.find_or_initialize_regular_payroll(y, employee_id)
+    pr1 = Payroll.find_or_initialize_regular_payroll(y + 1, employee_id)
+    pr2 = Payroll.find_or_initialize_regular_payroll(y + 2, employee_id)
 
     assert_equal 300000, pre_pr.salary_subtotal - pre_pr.extra_pay
     assert_equal 300000, pr.salary_subtotal - pr.extra_pay

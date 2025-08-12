@@ -151,7 +151,7 @@ GEM
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
     cucumber-tag-expressions (4.1.0)
-    daddy (0.10.0)
+    daddy (0.10.1)
       concurrent-ruby (< 1.3.5)
       docker-api
       highline
@@ -304,8 +304,12 @@ GEM
     multi_test (1.1.0)
     multi_xml (0.6.0)
     mysql2 (0.5.6)
+    net-protocol (0.2.2)
+      timeout
     net-scp (4.1.0)
       net-ssh (>= 2.6.5, < 8.0.0)
+    net-smtp (0.5.1)
+      net-protocol
     net-ssh (7.3.0)
     net-telnet (0.2.0)
     nio4r (2.7.4)
@@ -484,6 +488,7 @@ GEM
       sqlite3 (~> 1.3, < 1.7)
     thor (1.4.0)
     tilt (2.6.1)
+    timeout (0.4.3)
     tomlrb (1.3.0)
     train-core (3.12.13)
       addressable (~> 2.5)
@@ -560,6 +565,7 @@ DEPENDENCIES
   momentjs-rails
   mousetrap-rails
   mysql2 (>= 0.4.4, < 0.6.0)
+  net-smtp
   nokogiri (< 1.16.0)
   nostalgic
   omniauth

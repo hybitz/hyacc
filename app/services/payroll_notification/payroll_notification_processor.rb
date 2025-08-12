@@ -33,24 +33,30 @@ module PayrollNotification
 
     def process
       if @past_payrolls.all?(&:persisted?)
-        log_failure_with_block('随時改定の対応チェックとお知らせ更新'){cleanup_ad_hoc_revision}
-        log_failure_with_block('随時改定のお知らせ生成'){handle_ad_hoc_revision}
+        cleanup_ad_hoc_revision
+        handle_ad_hoc_revision
       end
-      log_failure_with_block('定時決定の対応チェックとお知らせ生成'){handle_annual_determination} if @ym % 100 == 9
+      handle_annual_determination if @ym % 100 == 9
     end
 
     private
 
     def cleanup_ad_hoc_revision
-      PayrollNotification::AdHocRevisionCleaner.call(@context)
+      log_failure_with_block('随時改定の対応チェックとお知らせ更新') do
+        PayrollNotification::AdHocRevisionCleaner.call(@context)
+      end
     end
 
     def handle_ad_hoc_revision
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      log_failure_with_block('随時改定のお知らせ生成') do
+        PayrollNotification::AdHocRevisionHandler.call(@context)
+      end
     end
 
     def handle_annual_determination
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      log_failure_with_block('定時決定の対応チェックとお知らせ生成') do
+        PayrollNotification::AnnualDeterminationHandler.call(@context)
+      end
     end
 
     def log_failure_with_block(label)

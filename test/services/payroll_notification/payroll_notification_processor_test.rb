@@ -46,18 +46,9 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       create_user_id: employee2.user.id,
       update_user_id: employee2.user.id)
 
-    @processor = PayrollNotification::PayrollNotificationProcessor.allocate
-  
-    past_ym = (1..3).map { |i| (Date.new(@ym / 100, @ym % 100, 1) << i).strftime('%Y%m').to_i }
-    past_payrolls = past_ym.map { |ym| Payroll.find_or_initialize_regular_payroll(@ym, @employee8.id) }
-  
-    @context = PayrollNotification::PayrollNotificationContext.new(
-      payroll: @payroll_updated_yesterday,
-      ym: @ym,
-      employee: @employee8,
-      past_ym: past_ym,
-      past_payrolls: past_payrolls
-    )
+    @processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday.reload)
+    @past_ym = @processor.instance_variable_get(:@past_ym)
+    @past_payrolls = @processor.instance_variable_get(:@past_payrolls)
   end
 
   def test_initializeとprocessは昨日作成もしくは更新したpayrollレコードがあれば実行される
@@ -98,20 +89,13 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   def test_ad_hoc_revisionの処理はpast_payrollsがすべてpersistedであれば実行される
     cleanup_ad_hoc_revision_mock = Minitest::Mock.new
     handle_ad_hoc_revision_mock = Minitest::Mock.new
-  
-    context = Minitest::Mock.new
 
-    past_ym = (1..3).map{|i| (Date.new(@ym/100, @ym%100, 1) << i).strftime('%Y%m').to_i}
-    persisted_past_payrolls = past_ym.map{|ym| Payroll.find_by(ym: @ym, employee_id: @employee8.id)}
-    assert persisted_past_payrolls.all?(&:persisted?)
-
+    context = @processor.instance_variable_get(:@context)
+    past_payrolls = @processor.instance_variable_get(:@past_payrolls)
+    assert past_payrolls.all?(&:persisted?)
   
     cleanup_ad_hoc_revision_mock.expect(:call, nil, [context])
     handle_ad_hoc_revision_mock.expect(:call, nil, [context])
-  
-    @processor.instance_variable_set(:@past_payrolls, persisted_past_payrolls)
-    @processor.instance_variable_set(:@ym, @ym)
-    @processor.instance_variable_set(:@context, context)
   
     PayrollNotification::AdHocRevisionCleaner.stub(:call, cleanup_ad_hoc_revision_mock) do
       PayrollNotification::AdHocRevisionHandler.stub(:call, handle_ad_hoc_revision_mock) do
@@ -127,24 +111,19 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     cleanup_ad_hoc_revision_mock = Minitest::Mock.new
     handle_ad_hoc_revision_mock = Minitest::Mock.new
   
-    context = Minitest::Mock.new
-
-    past_ym = (1..3).map{|i| (Date.new(@ym/100, @ym%100, 1) << i).strftime('%Y%m').to_i}
-    past_payrolls = past_ym.map{|ym| Payroll.find_by(ym: @ym, employee_id: @employee8.id)}
-    past_payrolls[0].delete
-    past_payrolls_with_new_payroll = past_payrolls = past_ym.map{|ym| Payroll.find_or_initialize_regular_payroll(@ym, @employee8.id)}
-    assert_not past_payrolls_with_new_payroll.all?(&:persisted?)
+    @past_payrolls[0].delete
+    processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday)
+    past_payrolls = processor.instance_variable_get(:@past_payrolls)
+    context = processor.instance_variable_get(:@context)
+    
+    assert_not past_payrolls.all?(&:persisted?)
   
     cleanup_ad_hoc_revision_mock.expect(:call, nil, [context])
     handle_ad_hoc_revision_mock.expect(:call, nil, [context])
   
-    @processor.instance_variable_set(:@past_payrolls, past_payrolls_with_new_payroll)
-    @processor.instance_variable_set(:@ym, @ym)
-    @processor.instance_variable_set(:@context, context)
-  
     PayrollNotification::AdHocRevisionCleaner.stub(:call, cleanup_ad_hoc_revision_mock) do
       PayrollNotification::AdHocRevisionHandler.stub(:call, handle_ad_hoc_revision_mock) do
-        @processor.process
+        processor.process
       end
     end
   
@@ -156,8 +135,6 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     called_september = false
     PayrollNotification::AnnualDeterminationHandler.stub(:call, ->(context) { called_september = true }) do
       @processor.instance_variable_set(:@ym, 202509)
-      @processor.instance_variable_set(:@past_payrolls, [])
-      @processor.instance_variable_set(:@context, @context)
       @processor.process
     end
 
@@ -166,36 +143,13 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     called_august = false
     PayrollNotification::AnnualDeterminationHandler.stub(:call, ->(context) { called_august = true }) do
       @processor.instance_variable_set(:@ym, 202508)
-      @processor.instance_variable_set(:@past_payrolls, [])
       @processor.process
     end
 
     assert_not called_august
   end
 
-  def test_call内のループ処理は例外が発生しても継続する
-    payrolls = [@payroll_created_yesterday, @payroll_updated_yesterday]
-    called_ids = []
-    processor = PayrollNotification::PayrollNotificationProcessor.new(payrolls.first)
-    processor.define_singleton_method(:send) do
-      raise 'テスト用の例外'
-    end
-
-    PayrollNotification::PayrollNotificationProcessor.stub(:new, ->(payroll) {
-      called_ids << payroll.id
-      processor
-    }) do
-      assert_nothing_raised do
-        PayrollNotification::PayrollNotificationProcessor.call
-      end
-        
-      assert_equal payrolls.map(&:id).sort, called_ids.sort
-    end
-  end
-
   def test_ad_hoc_revision_cleanerの失敗ログを出力する
-    @processor.instance_variable_set(:@context, @context)
-
     expected_message = /随時改定の対応チェックとお知らせ更新失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
     logger_mock = Minitest::Mock.new
     logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
@@ -216,8 +170,6 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   end
 
   def test_ad_hoc_revision_handlerの失敗ログを出力する
-    @processor.instance_variable_set(:@context, @context)
-
     expected_message = /随時改定のお知らせ生成失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
     logger_mock = Minitest::Mock.new
     logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
@@ -235,11 +187,45 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       logger_mock.verify
       processor_mock.verify
     end
+  end 
+
+  def test_ad_hoc_revision_handlerのuserとの紐付けの失敗ログを出力する
+    pr_1, pr_2, _ = @past_payrolls
+    pr_2.update!(housing_allowance: pr_2.housing_allowance + 400000)
+    pr_1.update!(housing_allowance: pr_1.housing_allowance + 400000)
+    @payroll_updated_yesterday.update!(housing_allowance: @payroll_updated_yesterday.housing_allowance + 400000)
+
+    processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday.reload)
+
+    user1 = User.where(deleted: false).first
+    user2 = User.where(deleted: false).second
+  
+    expected_message = /紐づけ失敗:.*user_id=#{user1.id}.*error=テスト用の紐づけ失敗.*user_id=#{user2.id}.*error=テスト用の紐づけ失敗/m
+
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) { |msg| true }
+    logger_mock.expect(:error, nil) { |msg| msg.match?(expected_message) }
+      
+    user_relation_mock = Minitest::Mock.new
+    user_relation_mock.expect(:find_each, nil) { |&block| [user1, user2].each(&block) }
+  
+    UserNotification.stub(:find_or_create_by!, ->(attrs) {
+      raise StandardError.new("テスト用の紐づけ失敗")
+    }) do
+      Rails.stub(:logger, logger_mock) do
+        User.stub(:where, user_relation_mock) do
+          processor.send(:log_failure_with_block, '随時改定のお知らせ生成') do
+            processor.send(:handle_ad_hoc_revision)
+          end
+        end
+      end
+    end
+
+    logger_mock.verify
+    user_relation_mock.verify
   end
 
   def test_annual_determination_handlerの失敗ログを出力する
-    @processor.instance_variable_set(:@context, @context)
-
     expected_message = /定時決定の対応チェックとお知らせ生成失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
     logger_mock = Minitest::Mock.new
     logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}

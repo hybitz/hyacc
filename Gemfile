@@ -29,9 +29,11 @@ gem 'mini_magick', '~> 4.8'
 gem 'momentjs-rails'
 gem 'mousetrap-rails'
 gem 'nostalgic'
+gem 'nokogiri', '< 1.16.0'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
+gem 'public_suffix', '< 6.0.0'
 gem 'rails-i18n'
 gem 'remotipart'
 gem 'sass-rails', '>= 6'
@@ -42,6 +44,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'wicked_pdf', '< 2.0.0'
 gem 'wkhtmltopdf-binary'
 gem 'will_paginate'
+gem 'zeitwerk', '< 2.7.0'
 
 group :itamae do
   gem 'mysql2', '>= 0.4.4', '< 0.6.0'
@@ -63,7 +66,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara'
+  gem 'capybara', '< 3.40.0'
   gem 'ci_reporter', require: false
   gem 'closer', require: false
   gem 'cucumber-rails', require: false
@@ -71,7 +74,7 @@ group :test do
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'rails-controller-testing'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '4.9.0'
   gem 'simplecov', require: false
   gem 'simplecov-rcov', require: false
 end

@@ -117,7 +117,7 @@ GEM
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
-    closer (0.16.2)
+    closer (0.17.0)
       capybara (>= 3.0)
       cucumber (>= 7.1, < 9.0)
       selenium-webdriver (>= 4.8, <= 5.0)
@@ -471,10 +471,9 @@ GEM
       sprockets (>= 3.0.0)
     sqlite3 (1.6.9-x86_64-linux)
     ssrf_filter (1.3.0)
-    strong_actions (0.4.0)
+    strong_actions (0.5.0)
       actionpack (>= 5.2, < 7.2)
       activesupport (>= 5.2, < 7.2)
-      concurrent-ruby (= 1.3.4)
       railties (>= 5.2, < 7.2)
     sys-uname (1.3.1)
       ffi (~> 1.1)
@@ -531,7 +530,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.4)
   bootstrap (~> 5.1.3)
   byebug
-  capybara
+  capybara (< 3.40.0)
   carrierwave (< 3.0.0)
   carrierwave-i18n
   ci_reporter
@@ -561,10 +560,12 @@ DEPENDENCIES
   momentjs-rails
   mousetrap-rails
   mysql2 (>= 0.4.4, < 0.6.0)
+  nokogiri (< 1.16.0)
   nostalgic
   omniauth
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
+  public_suffix (< 6.0.0)
   puma
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.7, >= 6.1.7.10)
@@ -573,7 +574,7 @@ DEPENDENCIES
   rails-i18n
   remotipart
   sass-rails (>= 6)
-  selenium-webdriver
+  selenium-webdriver (= 4.9.0)
   simplecov
   simplecov-rcov
   spring
@@ -586,6 +587,7 @@ DEPENDENCIES
   wicked_pdf (< 2.0.0)
   will_paginate
   wkhtmltopdf-binary
+  zeitwerk (< 2.7.0)
 
 RUBY VERSION
    ruby 2.7.8p225

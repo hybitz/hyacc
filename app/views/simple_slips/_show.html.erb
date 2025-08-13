@@ -1,7 +1,7 @@
 <script>
   var simple_slip;
 
-  $(document).on('turbolinks:load', function() {
+  $(document).ready(function() {
     simple_slip = new hyacc.SimpleSlip('#show_simple_slip', {
       readonly: true
     });

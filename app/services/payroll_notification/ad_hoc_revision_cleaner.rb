@@ -19,8 +19,8 @@ module PayrollNotification
         )
 
       return unless @notification
-      monthly_standard_unchanged = @payroll.monthly_standard == @pr_1.monthly_standard
-      should_be_deleted = !monthly_standard_unchanged
+      monthly_standard_changed = @payroll.monthly_standard != @pr_1.monthly_standard
+      should_be_deleted = monthly_standard_changed
       
       return if @notification.deleted == should_be_deleted
       @notification.update!(deleted: should_be_deleted)

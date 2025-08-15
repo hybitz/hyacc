@@ -245,4 +245,67 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     end
   end
 
+  def test_annual_determination_handlerのuserとの紐付けの失敗ログを出力する
+    @past_payrolls[0].update!(monthly_standard: 320_000)  
+    @payroll_updated_yesterday.update!(monthly_standard: 320_000)
+
+    target_ym = 202505
+    pr_4 = Payroll.find_or_initialize_regular_payroll(target_ym, @employee8.id)
+    pr_4.update!(extra_pay: 60_000)
+
+    processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday.reload)
+
+    user1 = User.where(deleted: false).first
+    user2 = User.where(deleted: false).second
+  
+    expected_message = /紐づけ失敗:.*user_id=#{user1.id}.*error=テスト用の紐づけ失敗.*user_id=#{user2.id}.*error=テスト用の紐づけ失敗/m
+
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) { |msg| true }
+    logger_mock.expect(:error, nil) { |msg| msg.match?(expected_message) }
+      
+    user_relation_mock = Minitest::Mock.new
+    user_relation_mock.expect(:find_each, nil) { |&block| [user1, user2].each(&block) }
+  
+    UserNotification.stub(:find_or_create_by!, ->(attrs) {
+      raise StandardError.new("テスト用の紐づけ失敗")
+    }) do
+      Rails.stub(:logger, logger_mock) do
+        User.stub(:where, user_relation_mock) do
+          processor.send(:handle_annual_determination)
+        end
+      end
+    end
+
+    logger_mock.verify
+    user_relation_mock.verify
+  end
+
+  def test_call内のループ処理は例外が発生しても継続する
+    payrolls = [@payroll_created_yesterday, @payroll_updated_yesterday]
+    called_ids = []
+    raised = false
+
+    original_new = PayrollNotification::PayrollNotificationProcessor.method(:new)
+
+    PayrollNotification::AdHocRevisionCleaner.stub(:call, ->(context) {
+      unless raised
+        raised = true
+        raise 'テスト用の例外'
+      end
+      true
+    }) do
+      PayrollNotification::PayrollNotificationProcessor.stub(:new, ->(payroll) {
+        processor = original_new.call(payroll)
+        called_ids << payroll.id
+        processor
+      }) do
+        assert_nothing_raised do
+          PayrollNotification::PayrollNotificationProcessor.call
+        end
+    
+        assert_equal payrolls.map(&:id).sort, called_ids.sort
+      end
+    end
+  end
 end

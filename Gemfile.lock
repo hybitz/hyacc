@@ -104,14 +104,14 @@ GEM
       ssrf_filter (~> 1.0)
     carrierwave-i18n (0.3.0)
     cgi (0.5.0)
-    chef-config (18.7.10)
+    chef-config (18.8.11)
       addressable
-      chef-utils (= 18.7.10)
+      chef-utils (= 18.8.11)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       tomlrb (~> 1.2)
-    chef-utils (18.7.10)
+    chef-utils (18.8.11)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
@@ -412,7 +412,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
-    regexp_parser (2.11.1)
+    regexp_parser (2.11.2)
     reline (0.6.2)
       io-console (~> 0.5)
     remotipart (1.4.4)

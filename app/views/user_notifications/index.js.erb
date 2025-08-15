@@ -1,9 +1,8 @@
 var options = {
   title: 'お知らせ'
 };
-<% if @un %>
+<% if @user_notifications.any? %>
   options.submit = '更新';
 <% end %>
-
 
 hyacc.current_dialog(options).show('<%=j(render 'index')%>');

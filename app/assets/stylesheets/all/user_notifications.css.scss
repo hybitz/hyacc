@@ -1,0 +1,6 @@
+.scrollable-tbody {
+  display: block;
+  max-height: calc(100vh - 30em);
+  overflow-y: auto;
+  width: 100%;
+}

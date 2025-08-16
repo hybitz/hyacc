@@ -238,7 +238,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor (>= 1.0.0)
-    itamae-plugin-recipe-daddy (0.1.32)
+    itamae-plugin-recipe-daddy (0.1.33)
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-passenger (~> 0.1)
       itamae-plugin-recipe-selenium (~> 0.1)
@@ -520,7 +520,6 @@ GEM
     wicked_pdf (1.4.0)
       activesupport
     will_paginate (4.0.1)
-    wkhtmltopdf-binary (0.12.6.9)
     wmi-lite (1.0.7)
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -592,7 +591,6 @@ DEPENDENCIES
   web-console (>= 4.1.0)
   wicked_pdf (< 2.0.0)
   will_paginate
-  wkhtmltopdf-binary
   zeitwerk (< 2.7.0)
 
 RUBY VERSION

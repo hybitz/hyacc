@@ -43,7 +43,6 @@ gem 'tax_jp'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'wicked_pdf', '< 2.0.0'
-gem 'wkhtmltopdf-binary'
 gem 'will_paginate'
 gem 'zeitwerk', '< 2.7.0'
 

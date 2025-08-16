@@ -1,6 +1,7 @@
 ARG registry
 FROM ${registry}/hyacc/base:latest
 
+ENV CI=jenkins
 ENV RAILS_ENV=test
 
 ADD Rakefile ./

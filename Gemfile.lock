@@ -151,7 +151,7 @@ GEM
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
     cucumber-tag-expressions (4.1.0)
-    daddy (0.10.2)
+    daddy (0.10.3)
       concurrent-ruby (< 1.3.5)
       docker-api
       highline

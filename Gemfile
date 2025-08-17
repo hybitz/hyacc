@@ -52,7 +52,7 @@ end
 
 group :development, :test do
   gem 'byebug'
-  gem 'cucumber', '~> 8.0'
+  gem 'cucumber'
   gem 'puma'
 end
 

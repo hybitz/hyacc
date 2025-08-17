@@ -35,6 +35,7 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'public_suffix', '< 6.0.0'
+gem 'puma'
 gem 'rails-i18n'
 gem 'remotipart'
 gem 'sass-rails', '>= 6'
@@ -53,7 +54,6 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'cucumber'
-  gem 'puma'
 end
 
 group :development do

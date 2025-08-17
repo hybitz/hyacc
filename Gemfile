@@ -28,7 +28,9 @@ gem 'mimemagic'
 gem 'mini_magick', '~> 4.8'
 gem 'momentjs-rails'
 gem 'mousetrap-rails'
-gem "net-smtp", require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
 gem 'nostalgic'
 gem 'nokogiri', '< 1.16.0'
 gem 'omniauth'

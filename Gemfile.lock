@@ -169,6 +169,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0)
     database_cleaner-core (2.0.1)
+    date (3.4.1)
     devise (4.9.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -306,6 +307,11 @@ GEM
     multi_test (1.1.0)
     multi_xml (0.6.0)
     mysql2 (0.5.6)
+    net-imap (0.4.22)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
     net-protocol (0.2.2)
       timeout
     net-scp (4.1.0)
@@ -566,6 +572,8 @@ DEPENDENCIES
   momentjs-rails
   mousetrap-rails
   mysql2 (>= 0.4.4, < 0.6.0)
+  net-imap
+  net-pop
   net-smtp
   nokogiri (< 1.16.0)
   nostalgic

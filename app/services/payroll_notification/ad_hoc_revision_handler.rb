@@ -9,7 +9,8 @@ module PayrollNotification
       @pr_1, @pr_2, @pr_3 = context.past_payrolls
       @ym = context.ym
       @employee = context.employee
-      @effective_ym = Date.new(@ym/100, @ym%100, 1).next_month.strftime("%Y%m").to_i
+      @effective_ym = Date.new(@ym/100, @ym%100, 1).next_month(2).strftime("%Y%m").to_i
+      @effective_payment_ym = Date.new(@ym/100, @ym%100, 1).next_month(3).strftime("%Y%m").to_i
     end
 
     def execute
@@ -25,9 +26,9 @@ module PayrollNotification
       return false if fixed_salary_stable?
 
       prefecture_code = @employee.business_office.prefecture_code
-      insurance_bs = TaxUtils.get_basic_info(@effective_ym, prefecture_code, @payroll.monthly_standard)
+      insurance_bs = TaxUtils.get_basic_info(@ym, prefecture_code, @payroll.monthly_standard)
       ave_x = (@payroll.salary_subtotal + @pr_1.salary_subtotal + @pr_2.salary_subtotal)/3
-      insurance_x = TaxUtils.get_basic_info(@effective_ym, prefecture_code, ave_x)
+      insurance_x = TaxUtils.get_basic_info(@ym, prefecture_code, ave_x)
       (insurance_bs.grade - insurance_x.grade).abs >= 2
     end
 
@@ -47,8 +48,9 @@ module PayrollNotification
 
     def create_notification_and_user_notifications
       effective_ym_jp = "#{@effective_ym/100}年#{@effective_ym%100}月"
+      effective_payment_month_jp ="#{@effective_payment_ym/100}年#{@effective_payment_ym%100}月"
 
-      message = "#{@employee.fullname}さんは随時改定の対象者です（適用開始年月：#{effective_ym_jp}）" 
+      message = "#{@employee.fullname}さんは随時改定の対象者です。適用開始：#{effective_ym_jp}分（#{effective_payment_month_jp}納付分）" 
       @notification = Notification.create!(message: message, category: :ad_hoc_revision, ym: @ym, employee_id: @employee.id)
       Rails.logger.info("随時改定のお知らせ生成成功: notification_id=#{@notification.id}, employee_id=#{@employee.id}")
 

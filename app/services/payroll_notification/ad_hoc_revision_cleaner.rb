@@ -7,13 +7,13 @@ module PayrollNotification
     def initialize(context)
       @payroll = context.payroll
       @pr_1 = context.past_payrolls[0]
-      @ym_1 = context.past_ym[0]
+      @ym_2 = context.past_ym[1]
       @employee = context.employee
     end
 
     def execute
       @notification = Notification.find_by(
-        ym: @ym_1,
+        ym: @ym_2,
         category: :ad_hoc_revision,
         employee_id: @employee.id
         )

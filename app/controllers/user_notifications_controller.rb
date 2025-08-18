@@ -15,7 +15,7 @@ class UserNotificationsController < Base::HyaccController
   def update
     un = current_user.user_notifications
       .joins(:notification)
-      .where(notifications: { deleted: false })
+      .where(notifications: {deleted: false})
       .find_by(id: params[:id])
 
     return head :unprocessable_entity if un.nil?
@@ -30,6 +30,6 @@ class UserNotificationsController < Base::HyaccController
   private
 
   def user_notification_params
-    {visible: ActiveModel::Type::Boolean.new.cast(params.require(:user_notification).permit(:visible)[:visible])}
+    params.require(:user_notification).permit(:visible)
   end
 end

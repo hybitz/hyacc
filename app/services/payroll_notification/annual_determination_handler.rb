@@ -68,7 +68,9 @@ module PayrollNotification
 
     def create_notification_and_user_notifications
       ym_jp = "#{@ym/100}年#{@ym%100}月"
-      message = "#{@employee.fullname}さんは定時決定の対象者です（適用開始年月：#{ym_jp}）" 
+      payment_ym = Date.new(@ym/100, @ym%100, 1).next_month.strftime("%Y%m").to_i
+      payment_ym_jp = "#{payment_ym/100}年#{payment_ym%100}月"
+      message = "#{@employee.fullname}さんは定時決定の対象者です。適用開始：#{ym_jp}分（#{payment_ym_jp}納付分）" 
       @notification = Notification.create!(message: message, category: :annual_determination, ym: @ym, employee_id: @employee.id)
       Rails.logger.info("定時決定のお知らせ生成成功: notification_id=#{@notification.id}, employee_id=#{@employee.id}")
 

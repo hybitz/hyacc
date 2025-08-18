@@ -107,7 +107,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
 
     notification = Notification.find_by(employee_id: @payroll.employee_id, ym: @payroll.ym, deleted: false, category: :annual_determination)
     assert notification.present?
-    assert_equal "#{@employee.fullname}さんは定時決定の対象者です（適用開始年月：2025年9月）", notification.message
+    assert_equal "#{@employee.fullname}さんは定時決定の対象者です。適用開始：2025年9月分（2025年10月納付分）", notification.message
 
     users = User.where(deleted: false)
     assert_equal users.size, UserNotification.where(notification_id: notification.id).size

@@ -1,8 +1,13 @@
 var options = {
   title: 'お知らせ'
 };
-<% if @user_notifications.any? %>
-  options.submit = '更新';
-<% end %>
 
 hyacc.current_dialog(options).show('<%=j(render 'index')%>');
+
+$(document).one('click', '.ui-dialog-buttonset, .ui-dialog-titlebar-close', function () {
+  setTimeout(function () {
+    if (window.location.pathname === '/') {
+      location.reload();
+    }
+  }, 100);
+});

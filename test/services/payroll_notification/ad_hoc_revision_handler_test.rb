@@ -58,7 +58,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
   def test_固定的賃金に変動があり随時改定の条件を満たさず既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグを更新しない
     @notification.update!(deleted: true)
 
-    @pr_2.update!(housing_allowance: @past_payrolls[2].commuting_allowance + 1000)
+    @pr_2.update!(housing_allowance: @pr_2.commuting_allowance + 1000)
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
     @context.past_payrolls = @past_payrolls.map(&:reload)
 
@@ -130,7 +130,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
 
     notification = Notification.find_by(employee_id: @payroll.employee_id, ym: @payroll.ym, deleted: false, category: :ad_hoc_revision)
     assert notification.present?
-    assert_equal "#{@payroll.employee.fullname}さんは随時改定の対象者です（適用開始年月：2025年9月）", notification.message
+    assert_equal "#{@payroll.employee.fullname}さんは随時改定の対象者です。適用開始：2025年10月分（2025年11月納付分）", notification.message
 
     users = User.where(deleted: false)
     assert_equal users.size, UserNotification.where(notification_id: notification.id).size

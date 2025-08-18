@@ -2,8 +2,6 @@ pipeline {
   agent none
   environment {
     APP_NAME = 'hyacc'
-    CI = 'jenkins'
-    REMOTE = 'true'
   }
   stages {
     stage('e2e') {
@@ -31,6 +29,7 @@ spec:
         DISABLE_SPRING = 'true'
         HEADLESS = 'true'
         RAILS_ENV = 'test'
+        REMOTE = 'true'
       }
       steps {
         container('app') {

@@ -76,6 +76,7 @@ GEM
       execjs (~> 2)
     base64 (0.3.0)
     bcrypt (3.1.20)
+    bigdecimal (3.2.2)
     bindex (0.8.1)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
@@ -104,54 +105,55 @@ GEM
       ssrf_filter (~> 1.0)
     carrierwave-i18n (0.3.0)
     cgi (0.5.0)
-    chef-config (18.7.10)
+    chef-config (18.8.11)
       addressable
-      chef-utils (= 18.7.10)
+      chef-utils (= 18.8.11)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       tomlrb (~> 1.2)
-    chef-utils (18.7.10)
+    chef-utils (18.8.11)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
-    closer (0.17.0)
+    closer (0.17.1)
       capybara (>= 3.0)
-      cucumber (>= 7.1, < 9.0)
+      cucumber (>= 7.1, < 10.0)
       selenium-webdriver (>= 4.8, <= 5.0)
     concurrent-ruby (1.3.4)
     crass (1.0.6)
-    cucumber (8.0.0)
-      builder (~> 3.2, >= 3.2.4)
-      cucumber-ci-environment (~> 9.0, >= 9.0.4)
-      cucumber-core (~> 11.0, >= 11.0.0)
-      cucumber-cucumber-expressions (~> 15.1, >= 15.1.1)
-      cucumber-gherkin (~> 23.0, >= 23.0.1)
-      cucumber-html-formatter (~> 19.1, >= 19.1.0)
-      cucumber-messages (~> 18.0, >= 18.0.0)
-      diff-lcs (~> 1.5, >= 1.5.0)
-      mime-types (~> 3.4, >= 3.4.1)
-      multi_test (~> 1.1, >= 1.1.0)
-      sys-uname (~> 1.2, >= 1.2.2)
-    cucumber-ci-environment (9.2.0)
-    cucumber-core (11.0.0)
-      cucumber-gherkin (~> 23.0, >= 23.0.1)
-      cucumber-messages (~> 18.0, >= 18.0.0)
-      cucumber-tag-expressions (~> 4.1, >= 4.1.0)
-    cucumber-cucumber-expressions (15.2.0)
-    cucumber-gherkin (23.0.1)
-      cucumber-messages (~> 18.0, >= 18.0.0)
-    cucumber-html-formatter (19.2.0)
-      cucumber-messages (~> 18.0, >= 18.0.0)
-    cucumber-messages (18.0.0)
+    cucumber (9.2.1)
+      builder (~> 3.2)
+      cucumber-ci-environment (> 9, < 11)
+      cucumber-core (> 13, < 14)
+      cucumber-cucumber-expressions (~> 17.0)
+      cucumber-gherkin (> 24, < 28)
+      cucumber-html-formatter (> 20.3, < 22)
+      cucumber-messages (> 19, < 25)
+      diff-lcs (~> 1.5)
+      mini_mime (~> 1.1)
+      multi_test (~> 1.1)
+      sys-uname (~> 1.2)
+    cucumber-ci-environment (10.0.1)
+    cucumber-core (13.0.3)
+      cucumber-gherkin (>= 27, < 28)
+      cucumber-messages (>= 20, < 23)
+      cucumber-tag-expressions (> 5, < 7)
+    cucumber-cucumber-expressions (17.1.0)
+      bigdecimal
+    cucumber-gherkin (27.0.0)
+      cucumber-messages (>= 19.1.4, < 23)
+    cucumber-html-formatter (21.14.0)
+      cucumber-messages (> 19, < 28)
+    cucumber-messages (22.0.0)
     cucumber-rails (3.1.1)
       capybara (>= 3.11, < 4)
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
-    cucumber-tag-expressions (4.1.0)
-    daddy (0.10.1)
+    cucumber-tag-expressions (6.1.2)
+    daddy (0.10.3)
       concurrent-ruby (< 1.3.5)
       docker-api
       highline
@@ -167,6 +169,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0)
     database_cleaner-core (2.0.1)
+    date (3.4.1)
     devise (4.9.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -238,7 +241,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor (>= 1.0.0)
-    itamae-plugin-recipe-daddy (0.1.32)
+    itamae-plugin-recipe-daddy (0.1.34)
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-passenger (~> 0.1)
       itamae-plugin-recipe-selenium (~> 0.1)
@@ -304,6 +307,11 @@ GEM
     multi_test (1.1.0)
     multi_xml (0.6.0)
     mysql2 (0.5.6)
+    net-imap (0.4.22)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
     net-protocol (0.2.2)
       timeout
     net-scp (4.1.0)
@@ -412,7 +420,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
-    regexp_parser (2.11.1)
+    regexp_parser (2.11.2)
     reline (0.6.2)
       io-console (~> 0.5)
     remotipart (1.4.4)
@@ -520,7 +528,6 @@ GEM
     wicked_pdf (1.4.0)
       activesupport
     will_paginate (4.0.1)
-    wkhtmltopdf-binary (0.12.6.9)
     wmi-lite (1.0.7)
     xpath (3.2.0)
       nokogiri (~> 1.8)
@@ -540,7 +547,7 @@ DEPENDENCIES
   carrierwave-i18n
   ci_reporter
   closer
-  cucumber (~> 8.0)
+  cucumber
   cucumber-rails
   daddy
   dalli
@@ -565,6 +572,8 @@ DEPENDENCIES
   momentjs-rails
   mousetrap-rails
   mysql2 (>= 0.4.4, < 0.6.0)
+  net-imap
+  net-pop
   net-smtp
   nokogiri (< 1.16.0)
   nostalgic
@@ -592,7 +601,6 @@ DEPENDENCIES
   web-console (>= 4.1.0)
   wicked_pdf (< 2.0.0)
   will_paginate
-  wkhtmltopdf-binary
   zeitwerk (< 2.7.0)
 
 RUBY VERSION

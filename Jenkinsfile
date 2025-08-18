@@ -2,9 +2,7 @@ pipeline {
   agent none
   environment {
     APP_NAME = 'hyacc'
-    CI = 'jenkins'
     KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
-    REMOTE = 'true'
   }
   stages {
     stage('build') {
@@ -83,6 +81,7 @@ spec:
         DISABLE_SPRING = 'true'
         HEADLESS = 'true'
         RAILS_ENV = 'test'
+        REMOTE = 'true'
       }
       steps {
         container('app') {

@@ -28,13 +28,16 @@ gem 'mimemagic'
 gem 'mini_magick', '~> 4.8'
 gem 'momentjs-rails'
 gem 'mousetrap-rails'
-gem "net-smtp", require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
 gem 'nostalgic'
 gem 'nokogiri', '< 1.16.0'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'public_suffix', '< 6.0.0'
+gem 'puma'
 gem 'rails-i18n'
 gem 'remotipart'
 gem 'sass-rails', '>= 6'
@@ -43,7 +46,6 @@ gem 'tax_jp'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'wicked_pdf', '< 2.0.0'
-gem 'wkhtmltopdf-binary'
 gem 'will_paginate'
 gem 'zeitwerk', '< 2.7.0'
 
@@ -53,8 +55,7 @@ end
 
 group :development, :test do
   gem 'byebug'
-  gem 'cucumber', '~> 8.0'
-  gem 'puma'
+  gem 'cucumber'
 end
 
 group :development do

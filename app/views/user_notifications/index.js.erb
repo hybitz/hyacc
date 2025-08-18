@@ -1,13 +1,13 @@
-var options = {
-  title: 'お知らせ'
-};
+let notification_dialog = hyacc.current_dialog({title: 'お知らせ'});
 
-hyacc.current_dialog(options).show('<%=j(render 'index')%>');
-
-$(document).one('click', '.ui-dialog-buttonset, .ui-dialog-titlebar-close', function () {
-  setTimeout(function () {
-    if (window.location.pathname === '/') {
+if (window.location.pathname === '/') {
+  const original_close = notification_dialog.close;
+  notification_dialog.close = function() {
+    original_close.call(this);
+    setTimeout(function() {
       location.reload();
-    }
-  }, 100);
-});
+    }, 100);
+   }
+}
+
+notification_dialog.show('<%=j(render 'index')%>');

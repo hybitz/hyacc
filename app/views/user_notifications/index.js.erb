@@ -1,6 +1,6 @@
 var notification_dialog = hyacc.current_dialog({title: 'お知らせ'});
 
-if (window.location.pathname === '/') {
+if (window.location.pathname === '<%= root_path %>') {
   const original_close = notification_dialog.close;
   notification_dialog.close = function() {
     original_close.call(this);

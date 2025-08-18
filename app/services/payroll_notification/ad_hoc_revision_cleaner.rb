@@ -7,20 +7,20 @@ module PayrollNotification
     def initialize(context)
       @payroll = context.payroll
       @pr_1 = context.past_payrolls[0]
-      @ym_1 = context.past_ym[0]
+      @ym_2 = context.past_ym[1]
       @employee = context.employee
     end
 
     def execute
       @notification = Notification.find_by(
-        ym: @ym_1,
+        ym: @ym_2,
         category: :ad_hoc_revision,
         employee_id: @employee.id
         )
 
       return unless @notification
-      monthly_standard_unchanged = @payroll.monthly_standard == @pr_1.monthly_standard
-      should_be_deleted = !monthly_standard_unchanged
+      monthly_standard_changed = @payroll.monthly_standard != @pr_1.monthly_standard
+      should_be_deleted = monthly_standard_changed
       
       return if @notification.deleted == should_be_deleted
       @notification.update!(deleted: should_be_deleted)

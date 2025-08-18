@@ -18,7 +18,7 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
       past_ym: past_ym,
       past_payrolls: @past_payrolls
     )
-    @notification = Notification.create!(ym: past_ym[0], category: :ad_hoc_revision, employee_id: employee.id, deleted: false)
+    @notification = Notification.create!(ym: past_ym[1], category: :ad_hoc_revision, employee_id: employee.id, deleted: false)
   end
 
   def test_notificationのdeletedフラグがfalseのままで更新が不要な場合

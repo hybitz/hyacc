@@ -1,7 +1,7 @@
 <script> 
   $(document).on('change', '.visibility-toggle', function() {
     var $el = $(this);
-    var id = $el.data('id');
+    var url = $el.data('url');
     var visible = $el.val();
     var $row = $el.closest('tr');
     var $errorEl = $row.find('.update-message');
@@ -9,7 +9,7 @@
     $errorEl.hide();
 
     $.ajax({
-      url: '/user_notifications/' + id,
+      url: url,
       type: 'PATCH',
       dataType: 'json',
       contentType: 'application/json',
@@ -46,7 +46,7 @@
             <div class="update-message"></div>
           </td>
           <td class="text-end">
-            <select class="visibility-toggle" data-id="<%= un.id %>">
+            <select class="visibility-toggle" data-url="<%= user_notification_path(un.id) %>">
               <option value="true" <%= 'selected' if un.visible %>>表示</option>
               <option value="false" <%= 'selected' unless un.visible %>>非表示</option>
             </select>

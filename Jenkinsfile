@@ -134,7 +134,7 @@ spec:
 
 def publishUnitResult() {
   junit 'test/reports/**/*.xml'
-  script { step([$class: 'RcovPublisher', reportDir: "coverage/rcov"]) }
+  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'coverage/rcov', reportName: 'Coverage', reportFiles: 'index.html'])
 }
 
 def publishE2EResult() {

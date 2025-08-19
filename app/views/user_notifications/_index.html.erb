@@ -1,39 +1,68 @@
+<script> 
+  $(document).on('change', '.visibility-toggle', function() {
+    var $el = $(this);
+    var url = $el.data('url');
+    var visible = $el.val();
+    var $row = $el.closest('tr');
+    var $errorEl = $row.find('.update-message');
+
+    $errorEl.hide();
+
+    $.ajax({
+      url: url,
+      type: 'PATCH',
+      dataType: 'json',
+      contentType: 'application/json',
+      headers: {
+        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+      },
+      data: JSON.stringify({user_notification: {visible: visible}}),
+      success: function(){
+        $errorEl.css('color', 'green').text('更新に成功しました').show();
+      },
+      error: function() {
+        $errorEl.css('color', 'red').text('更新に失敗しました').show();
+      }
+    })
+  });
+</script>
+
 <div style="margin: 10px;">
   <%= flash_notice %>
 </div>
-<% if @n_deleted.size > 0 || @un %>
+<% if @user_notifications.any? || @deleted_notifications.any? %>
   <table class="table">
     <thead>
       <tr>
-        <th class="align-middle"></th>
-        <th class="align-middle">表示設定</th>
+        <th class="text-end">表示設定</th>
       </tr>
     </thead>
-    <tbody>
-      <% if @un %>
+    <tbody class="scrollable-tbody">
+      <% @user_notifications.each do |un| %>
+        <tr>
+          <td>
+            <small class="text-muted"><%= un.notification.created_at.strftime("%Y年%m月%d日") %></small><br>
+            <%= un.notification.message %>
+            <div class="update-message"></div>
+          </td>
+          <td class="text-end">
+            <select class="visibility-toggle" data-url="<%= user_notification_path(un.id) %>">
+              <option value="true" <%= 'selected' if un.visible %>>表示</option>
+              <option value="false" <%= 'selected' unless un.visible %>>非表示</option>
+            </select>
+          </td>
+        </tr>
+      <% end %>
+
+      <% @deleted_notifications.each do |n| %>
         <tr>
           <td class="align-middle">
-            <small class="text-muted"><%= @un.notification.created_at.strftime("%Y年%m月%d日") %></small><br>
-            <%= @un.notification.message %>
+            <small class="text-muted"><%= n.created_at.strftime("%Y年%m月%d日") %></small><br>
+            <%= n.message %>
           </td>
-          <td>
-            <%= form_with model: @un, data: {remote: true} do |form| %>
-              <%= form.select :visible, [['表示', true], ['非表示', false]] %>
-            <% end %>
-          </td>
-        </tr>  
+          <td class="text-end">削除済み</td>
+        </tr>
       <% end %>
-      <% if @n_deleted.size > 0 %>
-        <% @n_deleted.each do |n| %>
-          <tr>
-            <td class="align-middle">
-              <small class="text-muted"><%= n.created_at.strftime("%Y年%m月%d日") %></small><br>
-              <%= n.message %>
-            </td>
-            <td>削除済み</td>
-          </tr>
-        <% end %>
-      <% end%>
     </tbody>
   </table>
 <% else %>

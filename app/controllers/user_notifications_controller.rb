@@ -1,42 +1,35 @@
 class UserNotificationsController < Base::HyaccController
   
   def index
-    load_notifications_and_user_noifications
+    @deleted_notifications = Notification
+      .joins(:user_notifications)
+      .where(deleted: true, user_notifications: {user_id: current_user.id})
+      .order(created_at: :desc)
+    @user_notifications = UserNotification
+      .joins(:notification)
+      .where(notifications: {deleted: false}, user_id: current_user.id)
+      .includes(:notification)
+      .order('notifications.created_at DESC')
   end
 
   def update
-    begin
-      @un = current_user.user_notifications
-        .joins(:notification)
-        .where(notifications: {deleted: false})
-        .find(params[:id])
-      @un.update!(un_params)
+    un = current_user.user_notifications
+      .joins(:notification)
+      .where(notifications: {deleted: false})
+      .find_by(id: params[:id])
 
-      flash[:notice] = 'お知らせの表示設定を更新しました。'
-      render 'common/reload'
-    rescue ActiveRecord::RecordNotFound => e
-      flash[:notice] = '指定されたお知らせが見つかりませんでした。'
-      flash[:is_error_message] = true
-      load_notifications_and_user_noifications
-      render 'index'
-    rescue => e
-      handle(e)
-      load_notifications_and_user_noifications
-      render 'index'
+    return head :unprocessable_entity if un.nil?
+
+    if un.update(user_notification_params)
+      render json: { message: 'ok' }
+    else
+      head :unprocessable_entity
     end
   end
 
   private
 
-  def load_notifications_and_user_noifications
-    @n_active = Notification.where(deleted: false).last
-    @n_deleted = @n_active ? 
-      Notification.where.not(id: @n_active.id).order(created_at: :desc) : 
-      Notification.all.order(created_at: :desc)
-    @un = UserNotification.find_by(notification_id: @n_active.id, user_id: current_user.id) if @n_active
-  end
-
-  def un_params
+  def user_notification_params
     params.require(:user_notification).permit(:visible)
   end
 end

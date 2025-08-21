@@ -153,7 +153,7 @@ GEM
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
     cucumber-tag-expressions (6.1.2)
-    daddy (0.10.3)
+    daddy (0.10.4)
       concurrent-ruby (< 1.3.5)
       docker-api
       highline
@@ -187,7 +187,7 @@ GEM
     email_validator (1.5.0)
       activemodel
     erubi (1.13.1)
-    excon (1.2.5)
+    excon (1.3.0)
       logger
     execjs (2.10.0)
     faraday (2.8.1)
@@ -195,7 +195,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
-    ffi (1.16.3)
+    ffi (1.17.2-x86_64-linux-gnu)
     ffi-yajl (2.6.0)
       libyajl2 (>= 1.2)
     fog-aws (3.33.0)
@@ -224,7 +224,8 @@ GEM
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashie (5.0.0)
-    highline (2.1.0)
+    highline (3.1.2)
+      reline
     holiday_jp (0.8.1)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
@@ -248,7 +249,7 @@ GEM
       itamae-plugin-resource-pip (~> 1.1)
     itamae-plugin-recipe-passenger (0.1.8)
       itamae (~> 1.10, >= 1.10.4)
-    itamae-plugin-recipe-selenium (0.5.0)
+    itamae-plugin-recipe-selenium (0.5.1)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)
@@ -295,15 +296,15 @@ GEM
     mixlib-cli (2.1.8)
     mixlib-config (3.0.27)
       tomlrb
-    mixlib-log (3.1.2.1)
-      ffi (< 1.17.0)
-    mixlib-shellout (3.3.8)
+    mixlib-log (3.2.3)
+      ffi (>= 1.15.5)
+    mixlib-shellout (3.3.9)
       chef-utils
     momentjs-rails (2.29.4.1)
       railties (>= 3.1)
     mousetrap-rails (1.4.6)
     msgpack (1.8.0)
-    multi_json (1.15.0)
+    multi_json (1.17.0)
     multi_test (1.1.0)
     multi_xml (0.6.0)
     mysql2 (0.5.6)

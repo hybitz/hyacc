@@ -134,7 +134,7 @@ spec:
 
 def publishUnitResult() {
   junit 'test/reports/**/*.xml'
-  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'coverage/rcov', reportName: 'Coverage', reportFiles: 'index.html'])
+  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'coverage', reportName: 'Coverage', reportFiles: 'index.html'])
 }
 
 def publishE2EResult() {

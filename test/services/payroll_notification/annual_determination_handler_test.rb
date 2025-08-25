@@ -27,6 +27,10 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     )
 
     @notification = Notification.create!(ym: @ym, category: :annual_determination, employee_id: @employee.id, deleted: false)
+
+    @dummy_logger = Object.new
+    def @dummy_logger.info(*); end
+    def @dummy_logger.progname=(_); end
   end
 
   def test_随時改定と重複する場合はnotificationを生成しない
@@ -34,7 +38,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     notification = Notification.create!(ym: @past_ym[2], category: :ad_hoc_revision, employee_id: @employee.id)
     
     assert_no_changes 'Notification.where(category: :annual_determination).size' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
 
   end
@@ -43,7 +47,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     assert @past_payrolls[0].monthly_standard == @payroll.monthly_standard
 
     assert_no_changes '@notification.reload.deleted?' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
 
     assert_not @notification.reload.deleted?
@@ -53,22 +57,38 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     @notification.update!(deleted: true)
     assert @past_payrolls[0].monthly_standard == @payroll.monthly_standard
 
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) do |msg|
+      msg.include?("定時決定の対応チェック 更新成功") &&
+      msg.include?("notification_id=#{@notification.id}")
+    end
+    logger_mock.expect(:progname=, nil, ["AnnualDeterminationHandler"])
+
     assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: logger_mock)
     end
 
     assert_not @notification.reload.deleted?
+    logger_mock.verify
   end
 
   def test_先月と当月の標準月額報酬の値が異なり既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグをtrueに更新する
     @payroll.update!(monthly_standard: 340_000)
     assert_not @past_payrolls[0].monthly_standard == @payroll.reload.monthly_standard
 
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) do |msg|
+      msg.include?("定時決定の対応チェック 更新成功") &&
+      msg.include?("notification_id=#{@notification.id}")
+    end
+    logger_mock.expect(:progname=, nil, ["AnnualDeterminationHandler"])
+
     assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: logger_mock)
     end
 
     assert @notification.reload.deleted?
+    logger_mock.verify
   end
 
   def test_先月と当月の標準月額報酬の値が異なり既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグを更新しない
@@ -77,7 +97,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     assert_not @past_payrolls[0].monthly_standard == @payroll.reload.monthly_standard
 
     assert_no_changes '@notification.reload.deleted?' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
 
     assert @notification.reload.deleted?
@@ -89,7 +109,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     assert_not @past_payrolls[0].monthly_standard == @payroll.reload.monthly_standard
 
     assert_no_changes 'Notification.where(category: :annual_determination).size' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 
@@ -102,7 +122,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     pr_may.update!(extra_pay: 60_000)
 
     assert_changes 'Notification.where(category: :annual_determination).size' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
 
     notification = Notification.find_by(employee_id: @payroll.employee_id, ym: @payroll.ym, deleted: false, category: :annual_determination)
@@ -130,6 +150,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
       msg.include?("定時決定のお知らせ生成成功") &&
       msg.include?("employee_id=#{@payroll.employee_id}")
     end
+    logger_mock.expect(:progname=, nil, ["AnnualDeterminationHandler"])
 
     User.where(deleted: false).each do |user|
       logger_mock.expect(:info, nil) do |msg|
@@ -138,9 +159,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
       end
     end
 
-    Rails.stub(:logger, logger_mock) do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
-    end
+    PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: logger_mock)
 
     logger_mock.verify
   end
@@ -165,7 +184,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
       UserNotification.create!(attrs)
     } do
       error = assert_raises RuntimeError do
-        PayrollNotification::AnnualDeterminationHandler.call(@context)
+        PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
       end
     end
 
@@ -198,7 +217,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     pr_march.update!(extra_pay: 60_000)
 
     assert_difference 'Notification.where(category: :annual_determination).size', 1 do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 
@@ -213,7 +232,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     pr_march.update!(extra_pay: 60_000)
 
     assert_difference 'Notification.where(category: :annual_determination).size', 1 do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 
@@ -228,7 +247,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     pr_march.update!(extra_pay: 60_000)
 
     assert_no_difference 'Notification.where(category: :annual_determination).size' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 
@@ -243,7 +262,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     pr_april.update!(extra_pay: 40_000)
 
     assert_difference 'Notification.where(category: :annual_determination).size', 1 do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 
@@ -258,7 +277,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     pr_april.update!(extra_pay: 40_000)
 
     assert_no_difference 'Notification.where(category: :annual_determination).size' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 
@@ -273,7 +292,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     pr_may.update!(extra_pay: 20_000)
 
     assert_difference 'Notification.where(category: :annual_determination).size', 1 do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 
@@ -288,7 +307,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     pr_may.update!(extra_pay: 20_000)
 
     assert_no_difference 'Notification.where(category: :annual_determination).size' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+      PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 

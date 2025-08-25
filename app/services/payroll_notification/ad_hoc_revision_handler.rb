@@ -1,10 +1,12 @@
 module PayrollNotification
   class AdHocRevisionHandler
-    def self.call(context)
-      new(context).execute
+    def self.call(context:, logger:)
+      logger.progname = "AdHocRevisionHandler"
+      new(context, logger).execute
     end
 
-    def initialize(context)
+    def initialize(context, logger)
+      @logger = logger
       @payroll = context.payroll
       @pr_1, @pr_2, @pr_3 = context.past_payrolls
       @ym = context.ym
@@ -33,17 +35,16 @@ module PayrollNotification
     end
 
     def refresh_existing_notification(is_applicable)
-      @notification = Notification.find_by(
-        ym: @ym,
-        category: :ad_hoc_revision,
-        employee_id: @employee.id
-      )
-      if @notification
-        should_be_deleted = !is_applicable
-        @notification.update!(deleted: should_be_deleted) unless @notification.deleted? == should_be_deleted
-        return true
+      notification = Notification.find_by(ym: @ym, category: :ad_hoc_revision, employee_id: @employee.id)
+      return false unless notification
+
+      should_be_deleted = !is_applicable
+      
+      if notification.deleted? != should_be_deleted
+        notification.update!(deleted: should_be_deleted)
+        @logger.info("随時改定の対応チェック 更新成功：notification_id=#{notification.id}")
       end
-      false
+      true
     end
 
     def create_notification_and_user_notifications
@@ -52,13 +53,13 @@ module PayrollNotification
 
       message = "#{@employee.fullname}さんは随時改定の対象者です。適用開始：#{effective_ym_jp}分（#{effective_payment_month_jp}納付分）" 
       @notification = Notification.create!(message: message, category: :ad_hoc_revision, ym: @ym, employee_id: @employee.id)
-      Rails.logger.info("随時改定のお知らせ生成成功: notification_id=#{@notification.id}, employee_id=#{@employee.id}")
+      @logger.info("随時改定のお知らせ生成成功: notification_id=#{@notification.id}, employee_id=#{@employee.id}")
 
       failures = []
       User.where(deleted: false).find_each do |user|
         begin
           UserNotification.find_or_create_by!(user_id: user.id, notification_id: @notification.id)
-          Rails.logger.info("随時改定のお知らせ紐づけ成功: notification_id=#{@notification.id}, user_id=#{user.id}")
+          @logger.info("随時改定のお知らせ紐づけ成功: notification_id=#{@notification.id}, user_id=#{user.id}")
         rescue => e
           failures << "user_id=#{user.id} error=#{e.message}"
         end    

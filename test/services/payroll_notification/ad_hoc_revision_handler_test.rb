@@ -22,16 +22,28 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
 
     @pr_1, @pr_2, @pr_3 = @past_payrolls
     @notification = Notification.create!(ym: ym, category: :ad_hoc_revision, employee_id: employee.id, deleted: false)
+
+    @dummy_logger = Object.new
+    def @dummy_logger.info(*); end
+    def @dummy_logger.progname=(_); end
   end
 
   def test_固定的賃金に変動がない場合かつ既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグをtrueに更新する
     assert (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
 
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) do |msg|
+      msg.include?("随時改定の対応チェック 更新成功") &&
+      msg.include?("notification_id=#{@notification.id}")
+    end
+    logger_mock.expect(:progname=, nil, ["AdHocRevisionHandler"])
+
     assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: logger_mock)
     end
 
     assert @notification.reload.deleted?
+    logger_mock.verify
   end
 
   def test_固定的賃金に変動がない場合かつ既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグを更新しない
@@ -39,7 +51,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     assert (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
 
     assert_no_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: @dummy_logger)
     end
 
     assert @notification.reload.deleted?
@@ -51,7 +63,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     assert (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
 
     assert_no_difference 'Notification.count' do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: @dummy_logger)
     end
   end
 
@@ -63,7 +75,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @context.past_payrolls = @past_payrolls.map(&:reload)
 
     assert_no_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: @dummy_logger)
     end
 
     assert @notification.deleted?
@@ -73,11 +85,20 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @pr_2.update!(housing_allowance: @pr_2.commuting_allowance + 1000)
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
     @context.past_payrolls = @past_payrolls.map(&:reload)
+
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) do |msg|
+      msg.include?("随時改定の対応チェック 更新成功") &&
+      msg.include?("notification_id=#{@notification.id}")
+    end
+    logger_mock.expect(:progname=, nil, ["AdHocRevisionHandler"])
+
     assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: logger_mock)
     end
 
     assert @notification.deleted?
+    logger_mock.verify
   end
 
   def test_随時改定の条件を満たし既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグを更新しない
@@ -89,7 +110,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @context.past_payrolls = @past_payrolls.map(&:reload)
     @context.payroll = @payroll.reload
     assert_no_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: @dummy_logger)
     end
 
     assert_not @notification.deleted?
@@ -105,11 +126,20 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
     @context.past_payrolls = @past_payrolls.map(&:reload)
     @context.payroll = @payroll.reload
+
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) do |msg|
+      msg.include?("随時改定の対応チェック 更新成功") &&
+      msg.include?("notification_id=#{@notification.id}")
+    end
+    logger_mock.expect(:progname=, nil, ["AdHocRevisionHandler"])
+
     assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: logger_mock)
     end
 
     assert_not @notification.deleted?
+    logger_mock.verify
   end
 
   def test_notificationを生成しuserと紐づける
@@ -125,7 +155,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @context.payroll = @payroll.reload
 
     assert_difference 'Notification.count' do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
+      PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: @dummy_logger)
     end
 
     notification = Notification.find_by(employee_id: @payroll.employee_id, ym: @payroll.ym, deleted: false, category: :ad_hoc_revision)
@@ -154,6 +184,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
       msg.include?("随時改定のお知らせ生成成功") &&
       msg.include?("employee_id=#{@payroll.employee_id}")
     end
+    logger_mock.expect(:progname=, nil, ["AdHocRevisionHandler"])
 
     User.where(deleted: false).each do |user|
       logger_mock.expect(:info, nil) do |msg|
@@ -165,9 +196,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @context.past_payrolls = @past_payrolls.map(&:reload)
     @context.payroll = @payroll.reload
 
-    Rails.stub(:logger, logger_mock) do
-      PayrollNotification::AdHocRevisionHandler.call(@context)
-    end
+    PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: logger_mock)
 
     logger_mock.verify
   end
@@ -196,7 +225,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
       UserNotification.create!(attrs)
     } do
       error = assert_raises RuntimeError do
-        PayrollNotification::AdHocRevisionHandler.call(@context)
+        PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: @dummy_logger)
       end
     end
 

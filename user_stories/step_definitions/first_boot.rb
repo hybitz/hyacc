@@ -1,5 +1,5 @@
 もし /^Hyaccインストール後の最初のアクセス時に、初期設定が表示される$/ do
-  system('bundle exec rake db:seed')
+  system('bundle exec rails db:seed')
   assert_visit '/'
 end
 

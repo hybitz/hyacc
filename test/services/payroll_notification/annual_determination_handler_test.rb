@@ -53,22 +53,40 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     @notification.update!(deleted: true)
     assert @past_payrolls[0].monthly_standard == @payroll.monthly_standard
 
-    assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) do |msg|
+      msg.include?("定時決定の対応チェック 更新成功") &&
+      msg.include?("notification_id=#{@notification.id}")
+    end
+
+    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+      assert_changes '@notification.reload.deleted?' do
+        PayrollNotification::AnnualDeterminationHandler.call(@context)
+      end
     end
 
     assert_not @notification.reload.deleted?
+    logger_mock.verify
   end
 
   def test_先月と当月の標準月額報酬の値が異なり既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグをtrueに更新する
     @payroll.update!(monthly_standard: 340_000)
     assert_not @past_payrolls[0].monthly_standard == @payroll.reload.monthly_standard
 
-    assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AnnualDeterminationHandler.call(@context)
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) do |msg|
+      msg.include?("定時決定の対応チェック 更新成功") &&
+      msg.include?("notification_id=#{@notification.id}")
+    end
+
+    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+      assert_changes '@notification.reload.deleted?' do
+        PayrollNotification::AnnualDeterminationHandler.call(@context)
+      end
     end
 
     assert @notification.reload.deleted?
+    logger_mock.verify
   end
 
   def test_先月と当月の標準月額報酬の値が異なり既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグを更新しない
@@ -138,7 +156,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
       end
     end
 
-    Rails.stub(:logger, logger_mock) do
+    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
     end
 

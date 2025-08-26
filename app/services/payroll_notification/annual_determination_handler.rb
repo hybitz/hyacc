@@ -29,12 +29,13 @@ module PayrollNotification
 
     def refresh_existing_notification(monthly_standard_changed)
       notification = Notification.find_by(employee_id: @employee.id, category: :annual_determination, ym: @ym)
-      if notification
-        should_be_deleted = monthly_standard_changed
+      return false unless notification
+      should_be_deleted = monthly_standard_changed
+      if notification.deleted? != should_be_deleted
         notification.update!(deleted: should_be_deleted) unless notification.deleted? == should_be_deleted
-        return true
+        HyaccLogger.info("定時決定の対応チェック 更新成功：notification_id=#{notification.id}")
       end
-      false
+      true
     end
   
     def annual_determination_applied?
@@ -72,13 +73,13 @@ module PayrollNotification
       payment_ym_jp = "#{payment_ym/100}年#{payment_ym%100}月"
       message = "#{@employee.fullname}さんは定時決定の対象者です。適用開始：#{ym_jp}分（#{payment_ym_jp}納付分）" 
       @notification = Notification.create!(message: message, category: :annual_determination, ym: @ym, employee_id: @employee.id)
-      Rails.logger.info("定時決定のお知らせ生成成功: notification_id=#{@notification.id}, employee_id=#{@employee.id}")
+      HyaccLogger.info("定時決定のお知らせ生成成功: notification_id=#{@notification.id}, employee_id=#{@employee.id}")
 
       failures = []
       User.where(deleted: false).find_each do |user|
         begin
           UserNotification.find_or_create_by!(user_id: user.id, notification_id: @notification.id)
-          Rails.logger.info("定時決定のお知らせ紐づけ成功: notification_id=#{@notification.id}, user_id=#{user.id}")
+          HyaccLogger.info("定時決定のお知らせ紐づけ成功: notification_id=#{@notification.id}, user_id=#{user.id}")
         rescue => e
           failures << "user_id=#{user.id} error=#{e.message}"
         end    

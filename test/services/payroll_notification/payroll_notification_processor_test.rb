@@ -33,7 +33,8 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       monthly_standard: 300_000, 
       created_at: time_before_end_boundary,
       create_user_id: employee1.user.id,
-      update_user_id: employee1.user.id)
+      update_user_id: employee1.user.id
+    )
 
     employee2 = Employee.second
     @payroll_created_today = Payroll.create!(
@@ -44,7 +45,8 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       monthly_standard: 300_000, 
       created_at: end_time,
       create_user_id: employee2.user.id,
-      update_user_id: employee2.user.id)
+      update_user_id: employee2.user.id
+    )
 
     @processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday.reload)
     @past_ym = @processor.instance_variable_get(:@past_ym)
@@ -83,57 +85,52 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       PayrollNotification::PayrollNotificationProcessor.call
     end
 
-    assert_raises(MockExpectationError) { mock.verify }
+    assert_raises(MockExpectationError) {mock.verify}
   end
 
   def test_ad_hoc_revisionの処理はpast_payrollsがすべてpersistedであれば実行される
-    cleanup_ad_hoc_revision_mock = Minitest::Mock.new
-    handle_ad_hoc_revision_mock = Minitest::Mock.new
-
-    context = @processor.instance_variable_get(:@context)
-    past_payrolls = @processor.instance_variable_get(:@past_payrolls)
-    assert past_payrolls.all?(&:persisted?)
+    cleanup_called = false
+    handle_called = false
   
-    cleanup_ad_hoc_revision_mock.expect(:call, nil, [context])
-    handle_ad_hoc_revision_mock.expect(:call, nil, [context])
+    cleanup_stub = ->(context) {cleanup_called = true}
+    handle_stub  = ->(context) {handle_called = true}
   
-    PayrollNotification::AdHocRevisionCleaner.stub(:call, cleanup_ad_hoc_revision_mock) do
-      PayrollNotification::AdHocRevisionHandler.stub(:call, handle_ad_hoc_revision_mock) do
+    PayrollNotification::AdHocRevisionCleaner.stub(:call, cleanup_stub) do
+      PayrollNotification::AdHocRevisionHandler.stub(:call, handle_stub) do
+        assert @processor.instance_variable_get(:@past_payrolls).all?(&:persisted?)
         @processor.process
       end
     end
   
-    cleanup_ad_hoc_revision_mock.verify
-    handle_ad_hoc_revision_mock.verify
+    assert cleanup_called
+    assert handle_called 
   end
 
   def test_ad_hoc_revisionの処理はpast_payrollsがすべてpersistedでないと実行されない
-    cleanup_ad_hoc_revision_mock = Minitest::Mock.new
-    handle_ad_hoc_revision_mock = Minitest::Mock.new
+    cleanup_called = false
+    handle_called = false
+  
+    cleanup_stub = ->(context) {cleanup_called = true}
+    handle_stub  = ->(context) {handle_called = true}
   
     @past_payrolls[0].delete
-    processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday)
-    past_payrolls = processor.instance_variable_get(:@past_payrolls)
-    context = processor.instance_variable_get(:@context)
-    
+    past_payrolls = @processor.instance_variable_get(:@past_payrolls)
+  
     assert_not past_payrolls.all?(&:persisted?)
   
-    cleanup_ad_hoc_revision_mock.expect(:call, nil, [context])
-    handle_ad_hoc_revision_mock.expect(:call, nil, [context])
-  
-    PayrollNotification::AdHocRevisionCleaner.stub(:call, cleanup_ad_hoc_revision_mock) do
-      PayrollNotification::AdHocRevisionHandler.stub(:call, handle_ad_hoc_revision_mock) do
-        processor.process
+    PayrollNotification::AdHocRevisionCleaner.stub(:call, cleanup_stub) do
+      PayrollNotification::AdHocRevisionHandler.stub(:call, handle_stub) do
+        @processor.process
       end
     end
   
-    assert_raises(MockExpectationError) { cleanup_ad_hoc_revision_mock.verify }
-    assert_raises(MockExpectationError) { handle_ad_hoc_revision_mock.verify }
+    assert_not cleanup_called
+    assert_not handle_called
   end
 
   def test_handle_annual_determinationはymが9月の場合のみ実行される
     called_september = false
-    PayrollNotification::AnnualDeterminationHandler.stub(:call, ->(context) { called_september = true }) do
+    PayrollNotification::AnnualDeterminationHandler.stub(:call, ->(context) {called_september = true}) do
       @processor.instance_variable_set(:@ym, 202509)
       @processor.process
     end
@@ -141,7 +138,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     assert called_september
   
     called_august = false
-    PayrollNotification::AnnualDeterminationHandler.stub(:call, ->(context) { called_august = true }) do
+    PayrollNotification::AnnualDeterminationHandler.stub(:call, ->(context) {called_august = true}) do
       @processor.instance_variable_set(:@ym, 202508)
       @processor.process
     end
@@ -156,17 +153,17 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   
     processor_mock = Minitest::Mock.new
     processor_mock.expect(:call, nil) {raise "テスト用の例外"}
-  
-    Rails.stub(:logger, logger_mock) do
+
+    HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
       @processor.stub(:cleanup_ad_hoc_revision, -> {processor_mock.call}) do
         @processor.send(:log_failure_with_block, '随時改定の対応チェックとお知らせ更新') do
           @processor.cleanup_ad_hoc_revision
         end
       end
-  
-      logger_mock.verify
-      processor_mock.verify
     end
+  
+    logger_mock.verify
+    processor_mock.verify
   end
 
   def test_ad_hoc_revision_handlerの失敗ログを出力する
@@ -177,16 +174,16 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     processor_mock = Minitest::Mock.new
     processor_mock.expect(:call, nil) {raise "テスト用の例外"}
   
-    Rails.stub(:logger, logger_mock) do
+    HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
       @processor.stub(:handle_ad_hoc_revision, -> {processor_mock.call}) do
         @processor.send(:log_failure_with_block, '随時改定のお知らせ生成') do
           @processor.handle_ad_hoc_revision
         end
       end
-  
-      logger_mock.verify
-      processor_mock.verify
     end
+  
+    logger_mock.verify
+    processor_mock.verify
   end 
 
   def test_ad_hoc_revision_handlerのuserとの紐付けの失敗ログを出力する
@@ -203,16 +200,15 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     expected_message = /紐づけ失敗:.*user_id=#{user1.id}.*error=テスト用の紐づけ失敗.*user_id=#{user2.id}.*error=テスト用の紐づけ失敗/m
 
     logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) { |msg| true }
     logger_mock.expect(:error, nil) { |msg| msg.match?(expected_message) }
-      
+
     user_relation_mock = Minitest::Mock.new
     user_relation_mock.expect(:find_each, nil) { |&block| [user1, user2].each(&block) }
   
     UserNotification.stub(:find_or_create_by!, ->(attrs) {
       raise StandardError.new("テスト用の紐づけ失敗")
     }) do
-      Rails.stub(:logger, logger_mock) do
+      HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
         User.stub(:where, user_relation_mock) do
           processor.send(:log_failure_with_block, '随時改定のお知らせ生成') do
             processor.send(:handle_ad_hoc_revision)
@@ -233,16 +229,16 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     processor_mock = Minitest::Mock.new
     processor_mock.expect(:call, nil) {raise "テスト用の例外"}
   
-    Rails.stub(:logger, logger_mock) do
+    HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
       @processor.stub(:handle_annual_determination, -> {processor_mock.call}) do
         @processor.send(:log_failure_with_block, '定時決定の対応チェックとお知らせ生成') do
           @processor.handle_annual_determination
         end
       end
-  
-      logger_mock.verify
-      processor_mock.verify
     end
+  
+    logger_mock.verify
+    processor_mock.verify
   end
 
   def test_annual_determination_handlerのuserとの紐付けの失敗ログを出力する
@@ -261,7 +257,6 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     expected_message = /紐づけ失敗:.*user_id=#{user1.id}.*error=テスト用の紐づけ失敗.*user_id=#{user2.id}.*error=テスト用の紐づけ失敗/m
 
     logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) { |msg| true }
     logger_mock.expect(:error, nil) { |msg| msg.match?(expected_message) }
       
     user_relation_mock = Minitest::Mock.new
@@ -270,7 +265,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     UserNotification.stub(:find_or_create_by!, ->(attrs) {
       raise StandardError.new("テスト用の紐づけ失敗")
     }) do
-      Rails.stub(:logger, logger_mock) do
+      HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
         User.stub(:where, user_relation_mock) do
           processor.send(:handle_annual_determination)
         end
@@ -287,7 +282,6 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     raised = false
 
     original_new = PayrollNotification::PayrollNotificationProcessor.method(:new)
-
     PayrollNotification::AdHocRevisionCleaner.stub(:call, ->(context) {
       unless raised
         raised = true
@@ -303,7 +297,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
         assert_nothing_raised do
           PayrollNotification::PayrollNotificationProcessor.call
         end
-    
+
         assert_equal payrolls.map(&:id).sort, called_ids.sort
       end
     end

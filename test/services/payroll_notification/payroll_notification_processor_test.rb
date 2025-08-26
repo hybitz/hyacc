@@ -10,42 +10,50 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     fy.save!
     @ym = 202508
 
-    @base_date = Date.current
-    date_before_base_date = @base_date - 1
+    start_time = Date.yesterday.beginning_of_day
+    time_before_start_boundary = Time.at(start_time.to_r - Rational(1, 1_000_000_000))
 
-    @payroll_with_pay_day_on_base_date = Payroll.find_by(employee_id: @employee8.id, ym: @ym, is_bonus: false)
-    @payroll_with_pay_day_on_base_date.update!(pay_day: @base_date)
+    end_time = Date.current.beginning_of_day
+    time_before_end_boundary = Time.at(end_time.to_r - Rational(1, 1_000_000_000))
+
+    @payroll_updated_yesterday = Payroll.find_by(employee_id: @employee8.id, ym: @ym)
+    @payroll_updated_yesterday.update!(updated_at: start_time)
+
+    @payroll_updated_two_days_ago = Payroll.find_by(employee_id: @employee8.id, ym: 202507)
+    @payroll_updated_two_days_ago.update!(updated_at: time_before_start_boundary)
 
     employee1 = Employee.first
     fy = employee1.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
     fy.save!
-    @payroll_with_pay_day_before_base_date = Payroll.create!(
+    @payroll_created_yesterday = Payroll.create!(
       ym: @ym, 
-      pay_day: date_before_base_date, 
+      pay_day: '2025-09-15', 
       employee: employee1,
       base_salary: 300_000, 
       monthly_standard: 300_000, 
+      created_at: time_before_end_boundary,
       create_user_id: employee1.user.id,
-      update_user_id: employee1.user.id,
-      is_bonus: false
+      update_user_id: employee1.user.id
     )
 
-    @processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_with_pay_day_on_base_date.reload)
+    employee2 = Employee.second
+    @payroll_created_today = Payroll.create!(
+      ym: @ym, 
+      pay_day: '2025-09-15', 
+      employee: employee2, 
+      base_salary: 300_000, 
+      monthly_standard: 300_000, 
+      created_at: end_time,
+      create_user_id: employee2.user.id,
+      update_user_id: employee2.user.id
+    )
+
+    @processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday.reload)
     @past_ym = @processor.instance_variable_get(:@past_ym)
     @past_payrolls = @processor.instance_variable_get(:@past_payrolls)
   end
 
-  def test_ログに「◯年◯月◯日以降に支払予定の給与明細を対象とします」と出力する
-
-    logged_messages = []
-    HyaccLogger.stub(:info, ->(msg) {logged_messages << msg}) do      
-      PayrollNotification::PayrollNotificationProcessor.call
-    end
-    expected_message = "#{@base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします"
-    assert_includes logged_messages, expected_message
-  end
-
-  def test_initializeとprocessは実行日以降に支払予定の給与明細であれば実行する
+  def test_initializeとprocessは昨日作成もしくは更新したpayrollレコードがあれば実行される
     called_ids = []
     mocks = []
 
@@ -61,31 +69,13 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
 
     mocks.each(&:verify)
 
-    assert_includes called_ids, @payroll_with_pay_day_on_base_date.id
-    assert_not_includes called_ids, @payroll_with_pay_day_before_base_date.id
+    assert_includes called_ids, @payroll_updated_yesterday.id
+    assert_includes called_ids, @payroll_created_yesterday.id
+    assert_not_includes called_ids, @payroll_created_today.id
+    assert_not_includes called_ids, @payroll_updated_two_days_ago.id
   end
 
-  def test_initializeとprocessは実行日以降に支払予定のボーナス明細であれば実行しない
-    @payroll_with_pay_day_on_base_date.update!(temporary_salary: 10000, is_bonus: true)
-    called_ids = []
-    mocks = []
-
-    PayrollNotification::PayrollNotificationProcessor.stub(:new, ->(payroll) {
-      called_ids << payroll.id
-      mock = Minitest::Mock.new
-      mock.expect(:process, nil)
-      mocks << mock
-      mock
-    }) do
-      PayrollNotification::PayrollNotificationProcessor.call
-    end
-
-    mocks.each(&:verify)
-
-    assert_not_includes called_ids, @payroll_with_pay_day_on_base_date.id
-  end
-
-  def test_initializeとprocessは実行日以降に支払予定の給与明細がなければ実行しない
+  def test_initializeとprocessは昨日作成もしくは更新したpayrollレコードが無ければ実行されない
     Payroll.delete_all
 
     mock = Minitest::Mock.new
@@ -157,7 +147,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   end
 
   def test_ad_hoc_revision_cleanerの失敗ログを出力する
-    expected_message = /随時改定の対応チェックとお知らせ更新失敗：.*payroll_id=#{@payroll_with_pay_day_on_base_date.id}/
+    expected_message = /随時改定の対応チェックとお知らせ更新失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
     logger_mock = Minitest::Mock.new
     logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
@@ -177,7 +167,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   end
 
   def test_ad_hoc_revision_handlerの失敗ログを出力する
-    expected_message = /随時改定のお知らせ生成失敗：.*payroll_id=#{@payroll_with_pay_day_on_base_date.id}/
+    expected_message = /随時改定のお知らせ生成失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
     logger_mock = Minitest::Mock.new
     logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
@@ -200,9 +190,9 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     pr_1, pr_2, _ = @past_payrolls
     pr_2.update!(housing_allowance: pr_2.housing_allowance + 400000)
     pr_1.update!(housing_allowance: pr_1.housing_allowance + 400000)
-    @payroll_with_pay_day_on_base_date.update!(housing_allowance: @payroll_with_pay_day_on_base_date.housing_allowance + 400000)
+    @payroll_updated_yesterday.update!(housing_allowance: @payroll_updated_yesterday.housing_allowance + 400000)
 
-    processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_with_pay_day_on_base_date.reload)
+    processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday.reload)
 
     user1 = User.where(deleted: false).first
     user2 = User.where(deleted: false).second
@@ -232,7 +222,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   end
 
   def test_annual_determination_handlerの失敗ログを出力する
-    expected_message = /定時決定の対応チェックとお知らせ生成失敗：.*payroll_id=#{@payroll_with_pay_day_on_base_date.id}/
+    expected_message = /定時決定の対応チェックとお知らせ生成失敗：.*payroll_id=#{@payroll_updated_yesterday.id}/
     logger_mock = Minitest::Mock.new
     logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
@@ -253,13 +243,13 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
 
   def test_annual_determination_handlerのuserとの紐付けの失敗ログを出力する
     @past_payrolls[0].update!(monthly_standard: 320_000)  
-    @payroll_with_pay_day_on_base_date.update!(monthly_standard: 320_000)
+    @payroll_updated_yesterday.update!(monthly_standard: 320_000)
 
     target_ym = 202505
     pr_4 = Payroll.find_or_initialize_regular_payroll(target_ym, @employee8.id)
     pr_4.update!(extra_pay: 60_000)
 
-    processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_with_pay_day_on_base_date.reload)
+    processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_updated_yesterday.reload)
 
     user1 = User.where(deleted: false).first
     user2 = User.where(deleted: false).second
@@ -287,10 +277,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   end
 
   def test_call内のループ処理は例外が発生しても継続する
-    @payroll = @payroll_with_pay_day_before_base_date
-    @payroll.update!(pay_day: @base_date)
-    @payroll.reload
-    payrolls = [@payroll, @payroll_with_pay_day_on_base_date]
+    payrolls = [@payroll_created_yesterday, @payroll_updated_yesterday]
     called_ids = []
     raised = false
 

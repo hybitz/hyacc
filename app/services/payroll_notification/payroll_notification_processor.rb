@@ -1,30 +1,21 @@
 module PayrollNotification
   class PayrollNotificationProcessor
 
-    def self.call(logger:)
-      start_time = 7.days.ago.beginning_of_day
-      end_time = Date.current.beginning_of_day
+    def self.call
+      base_date = Date.current
 
-      scope = Payroll.where(created_at: start_time...end_time, is_bonus: false)
-      .or(Payroll.where(updated_at: start_time...end_time, is_bonus: false))
+      scope = Payroll.where('pay_day >= ? AND is_bonus = ?', base_date, false)
 
-      period_message = "対象期間：#{start_time.strftime('%Y-%m-%d')} ~ #{end_time.strftime('%Y-%m-%d')}（※終了日は含まない）"
-      action_message = "この期間に作成・更新された最新のPayrollを処理対象とします" 
-      logger.progname = "PayrollNotificationProcessor"
-      logger.info("#{period_message} - #{action_message}")
+      HyaccLogger.info("#{base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします")
 
       return unless scope.exists?
 
       scope.find_each do |payroll|
-        next_ym = (Date.new(payroll.ym / 100, payroll.ym % 100, 1).next_month).strftime('%Y%m').to_i
-        next if Payroll.exists?(ym: next_ym, employee_id: payroll.employee_id, is_bonus: false)
-      
-        new(payroll, logger).process  
+        new(payroll).process  
       end
     end
 
-    def initialize(payroll, logger)
-      @logger = logger
+    def initialize(payroll)
       @ym = payroll.ym
       employee = payroll.employee
       past_ym = (1..3).map{|i| (Date.new(@ym/100, @ym%100, 1) << i).strftime('%Y%m').to_i}
@@ -52,19 +43,19 @@ module PayrollNotification
 
     def cleanup_ad_hoc_revision
       log_failure_with_block('随時改定の対応チェックとお知らせ更新') do
-        PayrollNotification::AdHocRevisionCleaner.call(context: @context, logger: @logger)
+        PayrollNotification::AdHocRevisionCleaner.call(@context)
       end
     end
 
     def handle_ad_hoc_revision
       log_failure_with_block('随時改定のお知らせ生成') do
-        PayrollNotification::AdHocRevisionHandler.call(context: @context, logger: @logger)
+        PayrollNotification::AdHocRevisionHandler.call(@context)
       end
     end
 
     def handle_annual_determination
       log_failure_with_block('定時決定の対応チェックとお知らせ生成') do
-        PayrollNotification::AnnualDeterminationHandler.call(context: @context, logger: @logger)
+        PayrollNotification::AnnualDeterminationHandler.call(@context)
       end
     end
 
@@ -72,7 +63,7 @@ module PayrollNotification
       yield
     rescue => e
       notification_info = @notification ? "notification_id=#{@notification.id}" : "notification=なし"
-      @logger.error("#{label}失敗： #{notification_info} payroll_id=#{@context.payroll.id} #{e.message}")
+      HyaccLogger.error("#{label}失敗： #{notification_info} payroll_id=#{@context.payroll.id} #{e.message}")
     end
   end
 end

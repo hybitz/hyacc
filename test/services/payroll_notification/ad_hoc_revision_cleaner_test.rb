@@ -19,17 +19,13 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
       past_payrolls: @past_payrolls
     )
     @notification = Notification.create!(ym: past_ym[1], category: :ad_hoc_revision, employee_id: employee.id, deleted: false)
-
-    @dummy_logger = Object.new
-    def @dummy_logger.info(*); end
-    def @dummy_logger.progname=(_); end
   end
 
   def test_notificationのdeletedフラグがfalseのままで更新が不要な場合
     assert_equal @payroll.monthly_standard, @past_payrolls[0].monthly_standard
  
     assert_no_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionCleaner.call(context: @context, logger: @dummy_logger)
+      PayrollNotification::AdHocRevisionCleaner.call(@context)
     end
   end
   
@@ -39,7 +35,7 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
     @context.payroll = @payroll
 
     assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionCleaner.call(context: @context, logger: @dummy_logger)
+      PayrollNotification::AdHocRevisionCleaner.call(@context)
     end
     assert @notification.reload.deleted?
   end
@@ -51,7 +47,7 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
     @context.payroll = @payroll
 
     assert_no_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionCleaner.call(context: @context, logger: @dummy_logger)
+      PayrollNotification::AdHocRevisionCleaner.call(@context)
     end
     assert @notification.reload.deleted?
   end
@@ -61,7 +57,7 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
     assert_equal @payroll.monthly_standard, @past_payrolls[0].monthly_standard
  
     assert_changes '@notification.reload.deleted?' do
-      PayrollNotification::AdHocRevisionCleaner.call(context: @context, logger: @dummy_logger)
+      PayrollNotification::AdHocRevisionCleaner.call(@context)
     end
     assert_not @notification.reload.deleted?
   end
@@ -69,7 +65,7 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
   def test_notificationがない場合でもエラーは起きない
     Notification.where(category: :ad_hoc_revision).delete_all
     assert_nothing_raised do
-       PayrollNotification::AdHocRevisionCleaner.call(context: @context, logger: @dummy_logger)
+       PayrollNotification::AdHocRevisionCleaner.call(@context)
     end
   end
 
@@ -80,10 +76,11 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
 
     expected_message = "更新成功：notification_id=#{@notification.id}"
     logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) { |msg| msg.match?(expected_message) }
-    logger_mock.expect(:progname=, nil, ["AdHocRevisionCleaner"])
-  
-    PayrollNotification::AdHocRevisionCleaner.call(context: @context, logger: logger_mock)
+    logger_mock.expect(:info, nil) {|msg| msg.match?(expected_message)}
+    
+    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+      PayrollNotification::AdHocRevisionCleaner.call(@context)
+    end
   
     logger_mock.verify
   end
@@ -122,7 +119,7 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
     )
     
     assert_changes '@notification.reload.deleted' do
-      PayrollNotification::AdHocRevisionCleaner.call(context: context, logger: @dummy_logger)
+      PayrollNotification::AdHocRevisionCleaner.call(context)
     end
 
     assert @notification.deleted?

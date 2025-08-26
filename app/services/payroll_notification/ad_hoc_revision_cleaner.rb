@@ -1,12 +1,10 @@
 module PayrollNotification
   class AdHocRevisionCleaner
-    def self.call(context:, logger:)
-      logger.progname = "AdHocRevisionCleaner"
-      new(context, logger).execute
+    def self.call(context)
+      new(context).execute
     end
 
-    def initialize(context, logger)
-      @logger = logger
+    def initialize(context)
       @payroll = context.payroll
       @pr_1 = context.past_payrolls[0]
       @pr_2 = context.past_payrolls[1]
@@ -33,7 +31,7 @@ module PayrollNotification
       
       return if @notification.deleted == should_be_deleted
       @notification.update!(deleted: should_be_deleted)
-      @logger.info("随時改定の対応チェック 更新成功：notification_id=#{@notification.id}")
+      HyaccLogger.info("随時改定の対応チェック 更新成功：notification_id=#{@notification.id}")
     end
 
     private

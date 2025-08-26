@@ -2,12 +2,14 @@ module PayrollNotification
   class PayrollNotificationProcessor
 
     def self.call
-      start_time = Date.yesterday.beginning_of_day
+      start_time =Date.yesterday.beginning_of_day
       end_time = Date.current.beginning_of_day
+
+      scope = Payroll.where(created_at: start_time...end_time, is_bonus: false)
+      .or(Payroll.where(updated_at: start_time...end_time, is_bonus: false))
 
       scope = Payroll.where(created_at: start_time...end_time)
       .or(Payroll.where(updated_at: start_time...end_time))
-
       return unless scope.exists?
 
       scope.find_each do |payroll|
@@ -63,7 +65,7 @@ module PayrollNotification
       yield
     rescue => e
       notification_info = @notification ? "notification_id=#{@notification.id}" : "notification=なし"
-      Rails.logger.error("#{label}失敗： #{notification_info} payroll_id=#{@context.payroll.id} #{e.message}")
+      HyaccLogger.error("#{label}失敗： #{notification_info} payroll_id=#{@context.payroll.id} #{e.message}")
     end
   end
 end

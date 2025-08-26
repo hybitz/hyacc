@@ -75,14 +75,54 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
     @context.payroll = @payroll
 
     expected_message = "更新成功：notification_id=#{@notification.id}"
-    mock = Minitest::Mock.new
-    Rails.stub(:logger, mock) do
-      mock.expect(:info, nil) { |msg| msg.match?(expected_message) }
-  
+    logger_mock = Minitest::Mock.new
+    logger_mock.expect(:info, nil) {|msg| msg.match?(expected_message)}
+    
+    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
       PayrollNotification::AdHocRevisionCleaner.call(@context)
+    end
   
-      mock.verify
-    end 
+    logger_mock.verify
+  end
+
+  def test_should_be_deleted_based_on_annual_determination?
+    ym_2 = 202508
+    @notification.update!(ym: ym_2)
+    @payroll.update!(monthly_standard: 32_0000)
+    base_standard = @payroll.reload.monthly_standard
+
+
+    [202509, 202510].each do |ym|
+      copy = @payroll.dup
+      copy.monthly_standard = base_standard + 40_000
+      copy.ym = ym
+      copy.save!
+    end
+
+    ym = 202510
+    employee = Employee.find(8)  
+
+    [202506, 202507, 202508].each do |ym|
+      pr = Payroll.find_or_initialize_regular_payroll(ym, employee.id)
+      pr.update!(housing_allowance: 40_000)
+    end
+
+    payroll = Payroll.find_by(ym: ym, employee_id: employee.id)
+    past_ym = (1..3).map{|i| (Date.new(ym/100, ym%100, 1) << i).strftime('%Y%m').to_i}
+    past_payrolls = past_ym.map{|ym| Payroll.find_or_initialize_regular_payroll(ym, employee.id)}
+    context = PayrollNotification::PayrollNotificationContext.new(
+      payroll: payroll,
+      ym: ym,
+      employee: employee,
+      past_ym: past_ym,
+      past_payrolls: past_payrolls
+    )
+    
+    assert_changes '@notification.reload.deleted' do
+      PayrollNotification::AdHocRevisionCleaner.call(context)
+    end
+
+    assert @notification.deleted?
   end
 
 end

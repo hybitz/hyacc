@@ -118,7 +118,7 @@ GEM
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
-    closer (0.17.3)
+    closer (0.18.0)
       capybara (>= 3.0)
       cucumber (>= 7.1, < 10.0)
       selenium-webdriver (>= 4.8, <= 5.0)
@@ -153,7 +153,7 @@ GEM
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
     cucumber-tag-expressions (6.1.2)
-    daddy (0.10.5)
+    daddy (0.11.0)
       concurrent-ruby (< 1.3.5)
       docker-api
       highline
@@ -608,7 +608,7 @@ DEPENDENCIES
   zeitwerk (< 2.7.0)
 
 RUBY VERSION
-   ruby 2.7.8p225
+   ruby 3.2.9p265
 
 BUNDLED WITH
    2.3.26

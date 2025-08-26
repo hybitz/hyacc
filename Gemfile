@@ -78,5 +78,4 @@ group :test do
   gem 'rails-controller-testing'
   gem 'selenium-webdriver', '4.9.0'
   gem 'simplecov', require: false
-  gem 'simplecov-rcov', require: false
 end

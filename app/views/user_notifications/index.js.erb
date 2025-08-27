@@ -6,8 +6,8 @@ if (window.location.pathname === '<%= root_path %>') {
     original_close.call(this);
     setTimeout(function() {
       location.reload();
-    }, 100);
-   }
+    }, 0);
+  }
 }
 
 notification_dialog.show('<%=j(render 'index')%>');

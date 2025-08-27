@@ -1,9 +1,13 @@
 var notification_dialog = hyacc.current_dialog({title: 'お知らせ'});
 
 if (window.location.pathname === '<%= root_path %>') {
+  const original_close = notification_dialog.close;
   notification_dialog.close = function() {
-    location.reload();
-   }
+    original_close.call(this);
+    setTimeout(function() {
+      location.reload();
+    }, 0);
+  }
 }
 
 notification_dialog.show('<%=j(render 'index')%>');

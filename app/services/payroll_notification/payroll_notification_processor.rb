@@ -6,7 +6,6 @@ module PayrollNotification
       HyaccLogger.info("#{base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします")
 
       scope = Payroll.where('pay_day >= ? AND is_bonus = ?', base_date, false)
-      return unless scope.exists?
 
       scope.find_each do |payroll|
         new(payroll).process

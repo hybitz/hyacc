@@ -5,7 +5,7 @@ module PayrollNotification
     end
 
     def execute
-      target_period = Time.current.change(month: 6).beginning_of_month..Time.current.change(month: 6).end_of_month
+      target_period = Time.current.change(month: 6).beginning_of_month...Time.current.change(month: 7).beginning_of_month
       @notification = Notification.find_by(created_at: target_period, category: :report_submission)
       return if @notification.nil? || @notification.deleted?
       cleanup_existing_notification

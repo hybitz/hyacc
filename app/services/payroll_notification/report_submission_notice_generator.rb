@@ -5,10 +5,10 @@ module PayrollNotification
     end
 
     def execute
-      @message = build_message
-      notification = Notification.find_by(message: @message)
-      return if notification
-      create_notification_and_user_notifications
+      target_period = Time.current.change(month: 6).beginning_of_month...Time.current.change(month: 7).beginning_of_month
+      return if Notification.exists?(created_at: target_period, category: :report_submission)
+      message = build_message
+      create_notification_and_user_notifications(message)
     end
 
     private
@@ -20,10 +20,10 @@ module PayrollNotification
       message
     end
 
-    def create_notification_and_user_notifications
+    def create_notification_and_user_notifications(message)
       begin
-        notification = Notification.create!(category: :report_submission, message: @message)
-        HyaccLogger.info("お知らせ生成成功: message=#{@message}")
+        notification = Notification.create!(category: :report_submission, message: message)
+        HyaccLogger.info("お知らせ生成成功: message=#{message}")
       rescue => e
         HyaccLogger.error("お知らせ生成失敗: error=#{e.message}")
         return

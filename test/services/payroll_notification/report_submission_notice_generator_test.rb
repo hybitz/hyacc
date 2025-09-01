@@ -2,20 +2,15 @@ require 'test_helper'
 require 'minitest/mock'
 
 class ReportSubmissionNoticeGeneratorTest < ActiveSupport::TestCase
-  def setup
-    due_date = Date.new(Date.current.year, 7, 10)
-    due_date += 1 while !HyaccDateUtil.weekday?(due_date)
-    @message = "#{TaxJp::Gengou.to_wareki(Date.new(due_date.year.to_i, 12, 31), only_date: false, format: '%y')}年の算定基礎届の提出期限は #{due_date.strftime("%-m月%d日")} です。"
-  end
-
   def test_notificationがあれば処理を中断する
-    notification = Notification.first
-    notification.update!(category: :report_submission, message: @message)
+    Notification.first.update!(created_at: Time.current.change(month: 6).beginning_of_month)
+    target_period = Time.current.change(month: 6).beginning_of_month...Time.current.change(month: 7).beginning_of_month
+    assert Notification.exists?(category: :report_submission, created_at: target_period)
 
     notification_create_called = false
     user_notification_create_called = false
 
-    Notification.stub(:create!, ->(*) {notification_create_called = tru}) do
+    Notification.stub(:create!, ->(*) {notification_create_called = true}) do
       UserNotification.stub(:find_or_create_by!, ->(*) {user_notification_create_called = true}) do
         assert_no_difference "Notification.count" do
           PayrollNotification::ReportSubmissionNoticeGenerator.call
@@ -30,31 +25,38 @@ class ReportSubmissionNoticeGeneratorTest < ActiveSupport::TestCase
   def test_notificationを生成しuserと紐づける
     UserNotification.delete_all
     Notification.delete_all
+
     assert_difference 'Notification.count', 1 do
       PayrollNotification::ReportSubmissionNoticeGenerator.call
     end
 
-     notification = Notification.find_by(category: :report_submission, message: @message)
-     assert_not notification.nil?
-     assert_equal @message, notification.message
+    due_date = Date.new(Date.current.year, 7, 10)
+    due_date += 1 while !HyaccDateUtil.weekday?(due_date)
+    message = "#{TaxJp::Gengou.to_wareki(Date.new(due_date.year.to_i, 12, 31), only_date: false, format: '%y')}年の算定基礎届の提出期限は #{due_date.strftime("%-m月%d日")} です。"
 
-     users = User.where(deleted: false)
-     assert_equal users.size, UserNotification.where(notification_id: notification.id).size
+    notification = Notification.find_by(category: :report_submission, message: message)
+    assert_not notification.nil?
+
+    users = User.where(deleted: false)
+    assert_equal users.size, UserNotification.where(notification_id: notification.id).size
     
-     users.find_each do |user|
-       user_notification = UserNotification.find_by(notification_id: notification.id, user_id: user.id)
-       assert_not user_notification.nil?
-     end
+    users.find_each do |user|
+      assert UserNotification.exists?(notification_id: notification.id, user_id: user.id)
+    end
   end
 
   def test_notificationの生成とuserとの紐づけの成功ログを出力する
     UserNotification.delete_all
     Notification.delete_all
 
+    due_date = Date.new(Date.current.year, 7, 10)
+    due_date += 1 while !HyaccDateUtil.weekday?(due_date)
+    message = "#{TaxJp::Gengou.to_wareki(Date.new(due_date.year.to_i, 12, 31), only_date: false, format: '%y')}年の算定基礎届の提出期限は #{due_date.strftime("%-m月%d日")} です。"
+
     logger_mock = Minitest::Mock.new
     logger_mock.expect(:info, nil) do |msg|
       msg.include?("お知らせ生成成功") &&
-      msg.include?("message=#{@message}")
+      msg.include?("message=#{message}")
     end
 
     User.where(deleted: false).each do |user|
@@ -122,8 +124,12 @@ class ReportSubmissionNoticeGeneratorTest < ActiveSupport::TestCase
 
     assert_includes called_user_ids, failing_user.id
     assert_equal User.where(deleted: false).pluck(:id).sort, called_user_ids.sort
+
+    due_date = Date.new(Date.current.year, 7, 10)
+    due_date += 1 while !HyaccDateUtil.weekday?(due_date)
+    message = "#{TaxJp::Gengou.to_wareki(Date.new(due_date.year.to_i, 12, 31), only_date: false, format: '%y')}年の算定基礎届の提出期限は #{due_date.strftime("%-m月%d日")} です。"
   
-    notification = Notification.find_by(category: :report_submission, message: @message)
+    notification = Notification.find_by(category: :report_submission, message: message)
   
     other_users.each do |user|
       assert UserNotification.exists?(user_id: user.id, notification_id: notification.id)

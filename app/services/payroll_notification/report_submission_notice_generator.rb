@@ -5,25 +5,22 @@ module PayrollNotification
     end
 
     def execute
-      @message = build_message
-      notification = Notification.find_by(message: @message)
-      return if notification
+      target_period = Time.current.change(month: 6).beginning_of_month...Time.current.change(month: 7).beginning_of_month
+      return if Notification.exists?(created_at: target_period, category: :report_submission)
+
       create_notification_and_user_notifications
     end
 
     private
 
-    def build_message
+    def create_notification_and_user_notifications
       due_date = Date.new(Date.current.year, 7, 10)
       due_date += 1 while !HyaccDateUtil.weekday?(due_date)
       message = "#{TaxJp::Gengou.to_wareki(Date.new(due_date.year.to_i, 12, 31), only_date: false, format: '%y')}年の算定基礎届の提出期限は #{due_date.strftime("%-m月%d日")} です。"
-      message
-    end
 
-    def create_notification_and_user_notifications
       begin
-        notification = Notification.create!(category: :report_submission, message: @message)
-        HyaccLogger.info("お知らせ生成成功: message=#{@message}")
+        notification = Notification.create!(category: :report_submission, message: message)
+        HyaccLogger.info("お知らせ生成成功: message=#{message}")
       rescue => e
         HyaccLogger.error("お知らせ生成失敗: error=#{e.message}")
         return

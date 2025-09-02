@@ -129,13 +129,26 @@ module PayrollInfo
         when 10_000_001 ..
           deduction = 2_200_000
         end
-      when 2020 ..
+      when 2020 .. 2024
         case deemed_salary
         when 0 .. 1_625_000
           deduction = 550_000
         when 1_625_001 .. 1_800_000
           deduction = deemed_salary * 0.4 - 100_000
         when 1_800_001 .. 3_600_000
+          deduction = deemed_salary * 0.3 + 80_000
+        when 3_600_001 .. 6_600_000
+          deduction = deemed_salary * 0.2 + 440_000
+        when 6_600_001 .. 8_500_000
+          deduction = deemed_salary * 0.1 + 1_100_000
+        when 8_500_001 ..
+          deduction = 1_950_000
+        end
+      when 2025 ..
+        case deemed_salary
+        when 0 .. 1_900_000
+          deduction = 650_000
+        when 1_900_001 .. 3_600_000
           deduction = deemed_salary * 0.3 + 80_000
         when 3_600_001 .. 6_600_000
           deduction = deemed_salary * 0.2 + 440_000

@@ -18,6 +18,18 @@ tr.item, td.item {
   }
 }
 
+.td-with-label {
+  position: relative;
+  vertical-align: bottom;
+}
+
+.td-with-label .label-top-right {
+  position: absolute;
+  top: 0.2em;
+  right: 0.3em;
+  font-size: 0.7em;
+}
+
 @media print{
   #print_type {
     display:none;

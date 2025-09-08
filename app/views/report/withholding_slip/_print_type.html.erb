@@ -4,9 +4,26 @@ $(function () {
     if($(this).val() == '0'){
       $('.secret').hide();
       $('.secret').parent('td').css('background-color','lightgrey');
+      
+      $(".kana-cell").each(function(){
+      const kanaText = $(this).text().trim();
+      if (kanaText !== "") {
+        const index = $(this).data("member-index");
+        const codeCell = $(".code-cell[data-member-index='" + index + "']");
+        if (codeCell.text().trim() === "") {
+          codeCell.text("00");
+        }
+      }
+    });
     }else{
       $('.secret').show();
       $('.secret').parent('td').css('background-color','transparent');
+
+      $(".code-cell").each(function(){
+      if ($(this).text().trim() === "00") {
+        $(this).text("");
+      }
+    });
     }
   });
 });

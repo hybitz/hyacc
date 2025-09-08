@@ -28,6 +28,21 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     # 3565000（基本給）
     assert_equal 1_062_455, logic.get_total_exemption
   end
+
+  def test_total_exemption_should_include_special_tax_for_specified_family
+    e = employee
+    e.company.fiscal_years.find_or_initialize_by(fiscal_year: 2026).save!
+    exemption = Exemption.find_by(employee_id: e.id, yyyy: 2008).dup
+    exemption.update!(yyyy: 2025)
+
+    logic = logic_builder(2025)
+    total_exemption = logic.get_total_exemption
+
+    amount = 630_000
+    exemption.update!(special_tax_for_specified_family: amount)
+    logic = logic_builder(2025)
+    assert_equal total_exemption + amount, logic.get_total_exemption
+  end
     
   def test_get_withholding_tax
     logic = logic_builder(2008)

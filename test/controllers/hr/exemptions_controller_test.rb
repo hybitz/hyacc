@@ -80,6 +80,26 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
     assert_equal ERR_CLOSING_STATUS_CLOSED, flash[:notice]
   end
 
+  def test_特定親族特別控除と扶養親族等の扶養親族等区分と非居住区分の登録ができること
+    sign_in admin
+    amount = 630_000
+    post :create, :params => {:exemption => valid_exemption_params.deep_merge(
+      special_tax_for_specified_family: amount, dependent_family_members_attributes: {
+        "0" => {
+          exemption_type: EXEMPTION_TYPE_FAMILY,
+          family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_19_23,
+          live_in: false,
+          non_resident_code: NON_RESIDENT_CODE_UNDER_30_OR_OVER_70
+          }
+        })}, :xhr => true
+    assert_response :success
+    exemption = Exemption.last
+    assert_equal amount, exemption.special_tax_for_specified_family
+    assert_equal [FAMILY_SUB_TYPE_DEPENDENTS_19_23], exemption.dependent_family_members.pluck(:family_sub_type)
+    assert_equal [NON_RESIDENT_CODE_UNDER_30_OR_OVER_70], exemption.dependent_family_members.pluck(:non_resident_code)
+    assert_template 'common/reload'
+  end
+
   def test_編集
     sign_in admin
     get :edit, :params => {:id => @exemption.id}, :xhr => true
@@ -95,6 +115,25 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
     sign_in admin
     patch :update, :params => {:id => exemption.id, :exemption => valid_exemption_params}, :xhr => true
     assert_response :success
+    assert_template 'common/reload'
+  end
+
+  def test_特定親族特別控除の更新ができること
+    sign_in admin
+    amount = 630_000
+    patch :update, :params => {:id => exemption.id, :exemption => valid_exemption_params.deep_merge(
+      special_tax_for_specified_family: amount, dependent_family_members_attributes: {
+        "0" => {
+          exemption_type: EXEMPTION_TYPE_FAMILY,
+          family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_19_23,
+          live_in: false,
+          non_resident_code: NON_RESIDENT_CODE_UNDER_30_OR_OVER_70
+          }
+        })}, :xhr => true
+    assert_response :success
+    assert_equal amount, exemption.reload.special_tax_for_specified_family
+    assert_equal [FAMILY_SUB_TYPE_DEPENDENTS_19_23], exemption.dependent_family_members.pluck(:family_sub_type)
+    assert_equal [NON_RESIDENT_CODE_UNDER_30_OR_OVER_70], exemption.dependent_family_members.pluck(:non_resident_code)
     assert_template 'common/reload'
   end
 

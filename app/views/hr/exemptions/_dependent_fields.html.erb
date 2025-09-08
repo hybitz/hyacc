@@ -1,10 +1,105 @@
 <%= fields_for "exemption[dependent_family_members_attributes]", dfm, index: index do |f| %>
 <tr>
-  <td><%= f.select :exemption_type, exemption_types %><%= f.hidden_field :id %></td>
+  <td><%= f.select :exemption_type, exemption_types, {}, class: "exemption_type" %><%= f.hidden_field :id %></td>
   <td><%= f.text_field :name %></td>
   <td><%= f.text_field :kana %></td>
   <td><%= f.text_field :my_number, maxlength: 12 %></td>
-  <td><%= f.check_box :live_in %></td>
+  <td><%= f.select :family_sub_type, family_sub_types, {include_blank: true}, class: "family_sub_type" %></td>
+  <td><%= f.check_box :live_in, class: "live_in" %></td>
+  <td><%= f.select :non_resident_code, non_resident_codes, {include_blank: true}, class: "non_resident_code" %></td>
   <td><%= f.check_box :_destroy %></td>
 </tr>
 <% end %>
+<script>
+  function updateRowState($row) {
+    var exemptionType = $row.find('.exemption_type').val();
+    var $familySubType = $row.find('.family_sub_type');
+    var $liveIn = $row.find('.live_in');
+    var $nonResidentCode = $row.find('.non_resident_code');
+
+    function setHidden($el, value) {
+      var $row = $el.closest('tr');
+      var name = $el.prop('name');
+      $('<input>', {
+        type: 'hidden',
+        name: name,
+        value: value
+      }).appendTo($el.closest('td'));
+    }
+
+    function removeHidden($el) {
+      var $row = $el.closest('tr');
+      var name = $el.prop('name');
+      $row.find('input[type=hidden][name="' + name + '"]').remove();
+    }
+
+    if (exemptionType == '2') {
+      $familySubType.prop('disabled', false);
+      removeHidden($familySubType);
+
+      var fst = $familySubType.val();
+
+      if (fst === '2') {
+        removeHidden($nonResidentCode);
+        setHidden($nonResidentCode, '');
+        $nonResidentCode.val('').prop('disabled', true);
+
+        $liveIn.prop('checked', true).prop('disabled', true);
+        setHidden($liveIn, '1');
+        return;
+      } else {
+        $liveIn.prop('disabled', false);
+        setHidden($liveIn, $liveIn.prop('checked') ? '1' : '0');
+      }
+
+      if (!$liveIn.prop('checked')) {
+        $nonResidentCode.prop('disabled', false);
+        removeHidden($nonResidentCode);
+
+        if (fst === '1' || fst === '3' || fst === '5') {
+          $nonResidentCode.val('01').prop('disabled', true);
+          removeHidden($nonResidentCode);
+          setHidden($nonResidentCode, '01');
+        }
+        if (fst === '4') {
+          $nonResidentCode.prop('disabled', false);
+          removeHidden($nonResidentCode);
+        }
+      } else {
+        removeHidden($nonResidentCode);
+        setHidden($nonResidentCode, '');
+        $nonResidentCode.val('').prop('disabled', true);
+      }
+
+    } else {
+      $familySubType.val('').prop('disabled', true);
+      removeHidden($familySubType);
+      setHidden($familySubType, '');
+
+      $liveIn.prop('disabled', false);
+      setHidden($liveIn, $liveIn.prop('checked') ? '1' : '0');
+
+      removeHidden($nonResidentCode);
+      $nonResidentCode.val('').prop('disabled', true);
+      setHidden($nonResidentCode, '');
+    }
+  }
+
+  $(document).on('change', '.exemption_type, .live_in, .family_sub_type', function() {
+    updateRowState($(this).closest('tr'));
+  });
+
+
+  $(function() {
+    $('#dependent-tbody tr').each(function() {
+      updateRowState($(this));
+    });
+  });
+
+  $(document).on('ajax:success', '#add-dependent-button', function(e) {
+    var html = e.detail[0];
+    var $newRow = $(html);
+    $('#dependent-tbody').append($newRow);
+    updateRowState($newRow);
+  });
+</script>

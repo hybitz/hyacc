@@ -6,7 +6,7 @@ module Exemptions
   def valid_exemption_params(attrs = {})
     {
       :employee_id => attrs[:employee_id] || Employee.not_deleted.first.id,
-      :yyyy => Date.today.year,
+      :yyyy => attrs.fetch(:yyyy, Date.today.year),
       :small_scale_mutual_aid => '360000',
       :life_insurance_premium_old => '35000',
       :dependent_family_members_attributes => {"0" => {:exemption_type => '3',

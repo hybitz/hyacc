@@ -239,7 +239,7 @@
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.family_members[3].kana if @data.exemption.family_members[3] %></td>
     		<td rowspan="2" class="item">区<br/>分</td>
-    		<td rowspan="2"><%= "○" if @data.exemption.family_members[3] && ! data.exemption.family_members[3].live_in %></td>
+    		<td rowspan="2"><%= "○" if @data.exemption.family_members[3] && ! @data.exemption.family_members[3].live_in %></td>
     		<td rowspan="3" class="item">4</td>
     		<td colspan="2" class="item">（フリガナ）</td>
     		<td colspan="4"><%= @data.exemption.under16_family_members[3].kana if @data.exemption.under16_family_members[3] %></td>

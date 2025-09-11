@@ -27,8 +27,7 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     p.update!(base_salary: 1_904_000)
     logic = logic_builder(2025)
     assert logic.get_total_deemed_salary >= 1_900_001
-    deduction = logic.get_total_deemed_salary*0.3 + 80_000
-    assert_equal deduction, logic.get_deduction
+    assert_equal 651_200, logic.get_deduction
   end
     
   def test_get_after_deduction

@@ -114,7 +114,7 @@ module PayrollInfo
         when 12_000_001 ..
           deduction = 2_300_000
         end
-      when 2017..2019
+      when 2017 .. 2019
         case deemed_salary
         when 0 .. 1_625_000
           deduction = 650_000

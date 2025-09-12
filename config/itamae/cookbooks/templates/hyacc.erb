@@ -1,6 +1,7 @@
 PATH=<%= @path %>
 RAILS_ENV=<%= @rails_env %>
 
-3 33 * * * <%= @user %> /bin/bash -c 'cd <%= @hyacc_root %> && bundle exec rake hyacc:payroll_notification:handle_and_cleanup_based_on_payroll'
+33 3 * * * <%= @user %> /bin/bash -c 'cd <%= @hyacc_root %> && bundle exec rake hyacc:payroll_notification:handle_and_cleanup_based_on_payroll'
+22 2 1-5 * * <%= @user %> /bin/bash -c 'cd <%= @hyacc_root %> && (bundle exec rake hyacc:retirement_savings_notification:generate_start_notice ; bundle exec rake hyacc:retirement_savings_notification:cleanup_start_notice)'
 11 1 1-5,10,15,30 6 * <%= @user %> /bin/bash -c 'cd <%= @hyacc_root %> && bundle exec rake hyacc:payroll_notification:generate_report_submission_notice'
 11 1 1-2,5 9 * <%= @user %> /bin/bash -c 'cd <%= @hyacc_root %> && bundle exec rake hyacc:payroll_notification:cleanup_report_submission_notice'

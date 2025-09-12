@@ -15,6 +15,19 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
   def test_get_deduction
     logic = logic_builder(2008)
     assert_equal 975_600, logic.get_deduction
+
+    p = Payroll.new(ym: 202501, pay_day: '2025-02-25', employee: employee, base_salary: 1_903_999)
+    p.create_user_id = p.update_user_id = employee.id
+    p.save!
+
+    logic = logic_builder(2025)
+    assert logic.get_total_deemed_salary <= 1_900_000
+    assert_equal 650_000, logic.get_deduction
+
+    p.update!(base_salary: 1_904_000)
+    logic = logic_builder(2025)
+    assert logic.get_total_deemed_salary >= 1_900_001
+    assert_equal 651_200, logic.get_deduction
   end
     
   def test_get_after_deduction

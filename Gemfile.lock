@@ -72,25 +72,21 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     ansi (1.5.0)
-    autoprefixer-rails (10.4.21.0)
-      execjs (~> 2)
     base64 (0.3.0)
     bcrypt (3.1.20)
     bigdecimal (3.2.3)
     bindex (0.8.1)
     bootsnap (1.18.6)
       msgpack (~> 1.2)
-    bootstrap (5.1.3)
-      autoprefixer-rails (>= 9.1.0)
-      popper_js (>= 2.9.3, < 3)
-      sassc-rails (>= 2.0.0)
+    bootstrap (5.3.5)
+      popper_js (>= 2.11.8, < 3)
     builder (3.3.0)
     byebug (12.0.0)
-    capybara (3.39.2)
+    capybara (3.40.0)
       addressable
       matrix
       mini_mime (>= 0.1.3)
-      nokogiri (~> 1.8)
+      nokogiri (~> 1.11)
       rack (>= 1.6.0)
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
@@ -250,7 +246,7 @@ GEM
       itamae-plugin-resource-pip (~> 1.1)
     itamae-plugin-recipe-passenger (0.1.8)
       itamae (~> 1.10, >= 1.10.4)
-    itamae-plugin-recipe-selenium (0.5.1)
+    itamae-plugin-recipe-selenium (0.5.2)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)
@@ -327,7 +323,7 @@ GEM
     net-ssh (7.3.0)
     net-telnet (0.2.0)
     nio4r (2.7.4)
-    nokogiri (1.15.7-x86_64-linux)
+    nokogiri (1.17.2-x86_64-linux)
       racc (~> 1.4)
     nostalgic (0.6.4)
       rails (>= 5.2)
@@ -440,7 +436,7 @@ GEM
     ruby-vips (2.2.5)
       ffi (~> 1.12)
       logger
-    rubyzip (2.4.1)
+    rubyzip (3.1.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -452,9 +448,11 @@ GEM
       sprockets-rails
       tilt
     schash (0.1.2)
-    selenium-webdriver (4.9.0)
+    selenium-webdriver (4.35.0)
+      base64 (~> 0.2)
+      logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
+      rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
     sfl (2.3)
     simplecov (0.22.0)
@@ -484,7 +482,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sqlite3 (1.6.9-x86_64-linux)
+    sqlite3 (1.7.3-x86_64-linux)
     ssrf_filter (1.3.0)
     strong_actions (0.5.0)
       actionpack (>= 5.2, < 7.2)
@@ -493,11 +491,11 @@ GEM
     sys-uname (1.4.1)
       ffi (~> 1.1)
       memoist3 (~> 1.0.0)
-    tax_jp (1.4.0)
-      bootstrap (~> 5.0)
+    tax_jp (1.5.0)
+      bootstrap (~> 5.3)
       concurrent-ruby (< 1.3.5)
-      rails (>= 5.2, < 7.0)
-      sqlite3 (~> 1.3, < 1.7)
+      rails (>= 6.1, < 7.0)
+      sqlite3 (>= 1.6, < 2.0)
     thor (1.4.0)
     tilt (2.6.1)
     timeout (0.4.3)
@@ -545,9 +543,9 @@ DEPENDENCIES
   activerecord-session_store
   acts_as_tree
   bootsnap (>= 1.4.4)
-  bootstrap (~> 5.1.3)
+  bootstrap
   byebug
-  capybara (< 3.40.0)
+  capybara
   carrierwave (< 3.0.0)
   carrierwave-i18n
   ci_reporter
@@ -580,7 +578,7 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  nokogiri (< 1.16.0)
+  nokogiri (< 1.18.0)
   nostalgic
   omniauth
   omniauth-google-oauth2
@@ -594,7 +592,7 @@ DEPENDENCIES
   rails-i18n
   remotipart
   sass-rails (>= 6)
-  selenium-webdriver (= 4.9.0)
+  selenium-webdriver
   simplecov
   spring
   spring-watcher-listen (~> 2.0.0)
@@ -611,4 +609,4 @@ RUBY VERSION
    ruby 3.2.9p265
 
 BUNDLED WITH
-   2.3.26
+   2.7.2

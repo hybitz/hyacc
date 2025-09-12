@@ -4,7 +4,7 @@ FROM ${registry}/hybitz-almalinux:8.10-20250803-29
 ADD Gemfile Gemfile.lock ./
 RUN sudo chown -R ${USER}:${USER} ./ && \
     bundle config without 'itamae development test' && \
-    bundle install -j2
+    sudo bundle install -j2
 
 RUN mkdir -p app/assets/config
 ADD app/assets/config/manifest.js app/assets/config/

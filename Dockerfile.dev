@@ -6,7 +6,7 @@ RUN sudo yum -y install mariadb sqlite-devel
 ADD Gemfile Gemfile.lock Rakefile ./
 RUN sudo chown -R ${USER}:${USER} ./ && \
     bundle config unset without && \
-    bundle install -j2
+    sudo bundle install -j2
 
 ADD package.json yarn.lock ./
 RUN sudo chown -R ${USER}:${USER} ./ && \

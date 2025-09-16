@@ -83,7 +83,7 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
   def test_特定親族特別控除と扶養親族等の扶養親族等区分と非居住区分の登録ができること
     sign_in admin
     amount = 630_000
-    post :create, :params => {:exemption => valid_exemption_params.deep_merge(
+    post :create, :params => {:exemption => valid_exemption_params(employee_id: @employee_id).deep_merge(
       special_tax_for_specified_family: amount, dependent_family_members_attributes: {
         "0" => {
           exemption_type: EXEMPTION_TYPE_FAMILY,
@@ -121,7 +121,9 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
   def test_特定親族特別控除の更新ができること
     sign_in admin
     amount = 630_000
-    patch :update, :params => {:id => exemption.id, :exemption => valid_exemption_params.deep_merge(
+    params = valid_exemption_params.dup
+    params.delete(:yyyy)
+    patch :update, :params => {:id => exemption.id, :exemption => params.deep_merge(
       special_tax_for_specified_family: amount, dependent_family_members_attributes: {
         "0" => {
           exemption_type: EXEMPTION_TYPE_FAMILY,

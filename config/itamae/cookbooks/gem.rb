@@ -4,14 +4,14 @@ when 'production'
     command <<-EOF
       bundle config unset without
       bundle config set without 'development test'
-      bundle install -j2
+      sudo bundle install -j2
     EOF
   end
 else
   execute 'bundle' do
     command <<-EOF
       bundle config unset without
-      bundle install -j2
+      sudo bundle install -j2
     EOF
   end
 end

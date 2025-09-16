@@ -7,7 +7,7 @@ gem 'rails', '~> 6.1.7', '>= 6.1.7.10'
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'bootstrap', '~> 5.1.3'
+gem 'bootstrap'
 gem 'carrierwave', '< 3.0.0'
 gem 'carrierwave-i18n'
 gem 'daddy'
@@ -32,7 +32,7 @@ gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
 gem 'nostalgic'
-gem 'nokogiri', '< 1.16.0'
+gem 'nokogiri', '< 1.18.0'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
@@ -68,7 +68,7 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '< 3.40.0'
+  gem 'capybara'
   gem 'ci_reporter', require: false
   gem 'closer', require: false
   gem 'cucumber-rails', require: false
@@ -76,6 +76,6 @@ group :test do
   gem 'minitest'
   gem 'minitest-reporters'
   gem 'rails-controller-testing'
-  gem 'selenium-webdriver', '4.9.0'
+  gem 'selenium-webdriver'
   gem 'simplecov', require: false
 end

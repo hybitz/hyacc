@@ -53,38 +53,29 @@ class ReportSubmissionNoticeGeneratorTest < ActiveSupport::TestCase
     due_date += 1 while !HyaccDateUtil.weekday?(due_date)
     message = "#{TaxJp::Gengou.to_wareki(Date.new(due_date.year.to_i, 12, 31), only_date: false, format: '%y')}年の算定基礎届の提出期限は #{due_date.strftime("%-m月%d日")} です。"
 
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) do |msg|
-      msg.include?("お知らせ生成成功") &&
-      msg.include?("message=#{message}")
-    end
-
-    User.where(deleted: false).each do |user|
-      logger_mock.expect(:info, nil) do |msg|
-        msg.include?("お知らせ紐づけ成功") &&
-        msg.include?("user_id=#{user.id}")
-      end
-    end
-
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    messages = []
+    HyaccLogger.stub(:info, ->(msg) {messages << msg}) do
       PayrollNotification::ReportSubmissionNoticeGenerator.call
     end
 
-    logger_mock.verify
+    assert messages.any?{|msg| msg == "お知らせ生成成功: message=#{message}"}
+    User.where(deleted: false).each do |user|
+      assert messages.any?{|msg| msg.match?(/お知らせ紐づけ成功: notification_id=\d+, user_id=#{user.id}/)}
+    end
   end
 
   def test_お知らせ生成を失敗すると処理を中断する
     UserNotification.delete_all
     Notification.delete_all
 
-    logs = []
+    message = nil
     called_user_ids = []
 
-    Notification.stub(:create!, ->(*) { raise "お知らせ生成失敗テスト" }) do
+    Notification.stub(:create!, ->(*) {raise "お知らせ生成失敗テスト"}) do
       UserNotification.stub(:find_or_create_by!, ->(attrs) {
         called_user_ids << attrs[:user_id]
       }) do
-        HyaccLogger.stub(:error, ->(msg) { logs << msg }) do
+        HyaccLogger.stub(:error, ->(msg) {message = msg}) do
           assert_nothing_raised do
             PayrollNotification::ReportSubmissionNoticeGenerator.call
           end
@@ -92,8 +83,8 @@ class ReportSubmissionNoticeGeneratorTest < ActiveSupport::TestCase
       end
     end
 
-    assert logs.any? {|log| log.include?("お知らせ生成失敗: error=お知らせ生成失敗テスト")}
-    assert_equal [], called_user_ids
+    assert_equal "お知らせ生成失敗: error=お知らせ生成失敗テスト", message
+    assert_equal 0, called_user_ids.size
   end
 
   def test_ループ処理は例外が発生しても継続する
@@ -104,23 +95,23 @@ class ReportSubmissionNoticeGeneratorTest < ActiveSupport::TestCase
     other_users = User.where(deleted: false).where.not(id: failing_user.id)
   
     called_user_ids = []
-    logs = []
-  
+    messages = []
+
+    original_method = UserNotification.method(:find_or_create_by!)
     UserNotification.stub :find_or_create_by!, ->(attrs) {
       user_id = attrs[:user_id]
       called_user_ids << user_id
       raise "テスト用の例外" if user_id == failing_user.id
-      UserNotification.create!(attrs)
+      original_method.call(attrs)
     } do
-      HyaccLogger.stub(:error, ->(msg) { logs << msg }) do
+      HyaccLogger.stub(:error, ->(msg) {messages << msg}) do
         assert_nothing_raised do
           PayrollNotification::ReportSubmissionNoticeGenerator.call
         end
       end
     end
 
-    expected_message = "紐づけ失敗: user_id=#{failing_user.id} error=テスト用の例外"
-    assert logs.any? {|log| log.include?(expected_message)}
+    assert messages.any? {|msg| msg == "紐づけ失敗: user_id=#{failing_user.id} error=テスト用の例外"}
 
     assert_includes called_user_ids, failing_user.id
     assert_equal User.where(deleted: false).pluck(:id).sort, called_user_ids.sort

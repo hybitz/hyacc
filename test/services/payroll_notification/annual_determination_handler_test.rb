@@ -50,6 +50,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
   end
 
   def test_先月と当月の標準月額報酬の値が同じであり既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグをfalseに更新する
+    message = nil
     @notification.update!(deleted: true)
     assert @past_payrolls[0].monthly_standard == @payroll.monthly_standard
 
@@ -59,34 +60,29 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
       msg.include?("notification_id=#{@notification.id}")
     end
 
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       assert_changes '@notification.reload.deleted?' do
         PayrollNotification::AnnualDeterminationHandler.call(@context)
       end
     end
 
     assert_not @notification.reload.deleted?
-    logger_mock.verify
+    assert_equal "定時決定の対応チェック 更新成功: notification_id=#{@notification.id}", message
   end
 
   def test_先月と当月の標準月額報酬の値が異なり既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグをtrueに更新する
+    message = nil
     @payroll.update!(monthly_standard: 340_000)
     assert_not @past_payrolls[0].monthly_standard == @payroll.reload.monthly_standard
 
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) do |msg|
-      msg.include?("定時決定の対応チェック 更新成功") &&
-      msg.include?("notification_id=#{@notification.id}")
-    end
-
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       assert_changes '@notification.reload.deleted?' do
         PayrollNotification::AnnualDeterminationHandler.call(@context)
       end
     end
 
     assert @notification.reload.deleted?
-    logger_mock.verify
+    assert_equal "定時決定の対応チェック 更新成功: notification_id=#{@notification.id}", message
   end
 
   def test_先月と当月の標準月額報酬の値が異なり既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグを更新しない
@@ -137,30 +133,21 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
   end
 
   def test_notificationの生成とuserとの紐づけの成功ログを出力する
+    messages = []
     @notification.delete
     target_ym = 202505
 
     pr_may = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.id)
     pr_may.update!(extra_pay: 60_000)
 
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) do |msg|
-      msg.include?("定時決定のお知らせ生成成功") &&
-      msg.include?("employee_id=#{@payroll.employee_id}")
-    end
-
-    User.where(deleted: false).each do |user|
-      logger_mock.expect(:info, nil) do |msg|
-        msg.include?("定時決定のお知らせ紐づけ成功") &&
-        msg.include?("user_id=#{user.id}")
-      end
-    end
-
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    HyaccLogger.stub(:info, ->(msg) {messages << msg}) do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
     end
 
-    logger_mock.verify
+    assert messages.any?{|msg|msg.match?(/定時決定のお知らせ生成成功: notification_id=\d+, employee_id=#{@payroll.employee.id}/)}
+    User.where(deleted: false).each do |user|
+      assert messages.any?{|msg|msg.match?(/定時決定のお知らせ紐づけ成功: notification_id=\d+, user_id=#{user.id}/)}
+    end
   end
 
   def test_ループ処理は例外が発生しても継続する
@@ -176,19 +163,19 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     called_user_ids = []
     error = nil
   
-    UserNotification.stub :find_or_create_by!, ->(attrs) {
+    original_method = UserNotification.method(:find_or_create_by!)
+    UserNotification.stub(:find_or_create_by!, ->(attrs) {
       user_id = attrs[:user_id]
       called_user_ids << user_id
       raise "テスト用の例外" if user_id == failing_user.id
-      UserNotification.create!(attrs)
-    } do
+      original_method.call(attrs)
+    }) do
       error = assert_raises RuntimeError do
         PayrollNotification::AnnualDeterminationHandler.call(@context)
       end
     end
 
-    expected_message = "紐づけ失敗: user_id=#{failing_user.id} error=テスト用の例外"
-    assert_match expected_message, error.message 
+    assert_equal "紐づけ失敗: user_id=#{failing_user.id} error=テスト用の例外", error.message 
 
     assert_includes called_user_ids, failing_user.id
     assert_equal User.where(deleted: false).pluck(:id).sort, called_user_ids.sort

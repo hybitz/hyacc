@@ -31,7 +31,7 @@ module PayrollNotification
       
       return if @notification.deleted == should_be_deleted
       @notification.update!(deleted: should_be_deleted)
-      HyaccLogger.info("随時改定の対応チェック 更新成功：notification_id=#{@notification.id}")
+      HyaccLogger.info("随時改定の対応チェック 更新成功: notification_id=#{@notification.id}")
     end
 
     private

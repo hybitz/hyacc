@@ -70,19 +70,16 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
   end
 
   def test_更新に成功した場合はログを出力する
+    message = nil
     @payroll.update!(monthly_standard: 330000)
     assert_not_equal @payroll.reload.monthly_standard, @past_payrolls[0].monthly_standard
     @context.payroll = @payroll
 
-    expected_message = "更新成功：notification_id=#{@notification.id}"
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) {|msg| msg.match?(expected_message)}
-    
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       PayrollNotification::AdHocRevisionCleaner.call(@context)
     end
   
-    logger_mock.verify
+    assert_equal "随時改定の対応チェック 更新成功: notification_id=#{@notification.id}", message
   end
 
   def test_should_be_deleted_based_on_annual_determination?

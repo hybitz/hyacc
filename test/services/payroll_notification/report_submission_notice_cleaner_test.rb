@@ -48,15 +48,12 @@ class ReportSubmissionNoticeCleanerTest < ActiveSupport::TestCase
     notification = Notification.first
     notification.update!(created_at: create_time, deleted: false)
 
-    expected_message = "お知らせ削除成功: notification_id=#{notification.id}"
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) {|msg| msg.match?(expected_message)}
-    
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    message = nil
+    HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       PayrollNotification::ReportSubmissionNoticeCleaner.call
     end
   
-    logger_mock.verify
+    assert_equal "お知らせ削除成功: notification_id=#{notification.id}", message
   end
 
   def test_更新に失敗した場合は失敗ログを出力する
@@ -64,18 +61,15 @@ class ReportSubmissionNoticeCleanerTest < ActiveSupport::TestCase
     notification = Notification.first
     notification.update!(created_at: create_time, deleted: false)
 
-    expected_message = "お知らせ削除失敗: error=お知らせ削除失敗テスト"
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:error, nil) {|msg| msg.include?(expected_message)}
-
+    message = nil
     Notification.stub(:find_by, notification) do
       notification.stub(:update!, ->(*) { raise "お知らせ削除失敗テスト"}) do
-        HyaccLogger.stub(:error, ->(msg) {logger_mock.error(msg)}) do
+        HyaccLogger.stub(:error, ->(msg) {message = msg}) do
           PayrollNotification::ReportSubmissionNoticeCleaner.call
         end
       end
     end
-  
-    logger_mock.verify
+
+    assert_equal "お知らせ削除失敗: error=お知らせ削除失敗テスト", message
   end
 end

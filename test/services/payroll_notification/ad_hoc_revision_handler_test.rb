@@ -25,22 +25,17 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
   end
 
   def test_固定的賃金に変動がない場合かつ既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグをtrueに更新する
+    message = nil
     assert (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
 
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) do |msg|
-      msg.include?("随時改定の対応チェック 更新成功") &&
-      msg.include?("notification_id=#{@notification.id}")
-    end
-
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       assert_changes '@notification.reload.deleted?' do
         PayrollNotification::AdHocRevisionHandler.call(@context)
       end
     end
 
     assert @notification.reload.deleted?
-    logger_mock.verify
+    assert_equal "随時改定の対応チェック 更新成功: notification_id=#{@notification.id}", message
   end
 
   def test_固定的賃金に変動がない場合かつ既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグを更新しない
@@ -79,24 +74,19 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
   end
 
   def test_固定的賃金に変動があり随時改定の条件を満たさず既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグをtrueに更新する
+    message = nil
     @pr_2.update!(housing_allowance: @pr_2.commuting_allowance + 1000)
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
     @context.past_payrolls = @past_payrolls.map(&:reload)
 
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) do |msg|
-      msg.include?("随時改定の対応チェック 更新成功") &&
-      msg.include?("notification_id=#{@notification.id}")
-    end
-
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       assert_changes '@notification.reload.deleted?' do
         PayrollNotification::AdHocRevisionHandler.call(@context)
       end
     end
 
     assert @notification.deleted?
-    logger_mock.verify
+    assert_equal "随時改定の対応チェック 更新成功: notification_id=#{@notification.id}", message
   end
 
   def test_随時改定の条件を満たし既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグを更新しない
@@ -115,6 +105,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
   end
 
   def test_随時改定の条件を満たし既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグをfalseに更新する
+    message = nil
     @notification.update!(deleted: true)
 
     @pr_2.update!(housing_allowance: @pr_2.housing_allowance + 400000)
@@ -125,20 +116,14 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @context.past_payrolls = @past_payrolls.map(&:reload)
     @context.payroll = @payroll.reload
 
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) do |msg|
-      msg.include?("随時改定の対応チェック 更新成功") &&
-      msg.include?("notification_id=#{@notification.id}")
-    end
-
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       assert_changes '@notification.reload.deleted?' do
         PayrollNotification::AdHocRevisionHandler.call(@context)
       end
     end
 
     assert_not @notification.deleted?
-    logger_mock.verify
+    assert_equal "随時改定の対応チェック 更新成功: notification_id=#{@notification.id}", message
   end
 
   def test_notificationを生成しuserと紐づける
@@ -173,32 +158,24 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
   def test_notificationの生成とuserとの紐づけの成功ログを出力する
     UserNotification.delete_all
     Notification.delete_all
+    messages = []
 
     @pr_2.update!(housing_allowance: @pr_2.housing_allowance + 400000)
     @pr_1.update!(housing_allowance: @pr_1.housing_allowance + 400000)
     @payroll.update!(housing_allowance: @payroll.housing_allowance + 400000) 
 
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil) do |msg|
-      msg.include?("随時改定のお知らせ生成成功") &&
-      msg.include?("employee_id=#{@payroll.employee_id}")
-    end
-
-    User.where(deleted: false).each do |user|
-      logger_mock.expect(:info, nil) do |msg|
-        msg.include?("随時改定のお知らせ紐づけ成功") &&
-        msg.include?("user_id=#{user.id}")
-      end
-    end
-
     @context.past_payrolls = @past_payrolls.map(&:reload)
     @context.payroll = @payroll.reload
 
-    HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+    HyaccLogger.stub(:info, ->(msg) {messages << msg}) do
       PayrollNotification::AdHocRevisionHandler.call(@context)
     end
 
-    logger_mock.verify
+    assert messages.any?{|msg|msg.match?(/随時改定のお知らせ生成成功: notification_id=\d+, employee_id=#{@payroll.employee.id}/)}
+
+    User.where(deleted: false).each do |user|
+      assert messages.any?{|msg|msg.match?(/随時改定のお知らせ紐づけ成功: notification_id=\d+, user_id=#{user.id}/)}
+    end
   end
 
   def test_ループ処理は例外が発生しても継続する
@@ -217,20 +194,20 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
   
     called_user_ids = []
     error = nil
-  
-    UserNotification.stub :find_or_create_by!, ->(attrs) {
+
+    original_method = UserNotification.method(:find_or_create_by!)
+    UserNotification.stub(:find_or_create_by!, ->(attrs) {
       user_id = attrs[:user_id]
       called_user_ids << user_id
       raise "テスト用の例外" if user_id == failing_user.id
-      UserNotification.create!(attrs)
-    } do
+      original_method.call(attrs)
+    }) do
       error = assert_raises RuntimeError do
         PayrollNotification::AdHocRevisionHandler.call(@context)
       end
     end
 
-    expected_message = "紐づけ失敗: user_id=#{failing_user.id} error=テスト用の例外"
-    assert_match expected_message, error.message    
+    assert_equal "紐づけ失敗: user_id=#{failing_user.id} error=テスト用の例外", error.message
 
     assert_includes called_user_ids, failing_user.id
     assert_equal User.where(deleted: false).pluck(:id).sort, called_user_ids.sort

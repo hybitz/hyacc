@@ -33,7 +33,7 @@ module PayrollNotification
       should_be_deleted = monthly_standard_changed
       if notification.deleted? != should_be_deleted
         notification.update!(deleted: should_be_deleted) unless notification.deleted? == should_be_deleted
-        HyaccLogger.info("定時決定の対応チェック 更新成功：notification_id=#{notification.id}")
+        HyaccLogger.info("定時決定の対応チェック 更新成功: notification_id=#{notification.id}")
       end
       true
     end
@@ -71,7 +71,7 @@ module PayrollNotification
       ym_jp = "#{@ym/100}年#{@ym%100}月"
       payment_ym = Date.new(@ym/100, @ym%100, 1).next_month.strftime("%Y%m").to_i
       payment_ym_jp = "#{payment_ym/100}年#{payment_ym%100}月"
-      message = "#{@employee.fullname}さんは定時決定の対象者です。適用開始：#{ym_jp}分（#{payment_ym_jp}納付分）" 
+      message = "#{@employee.fullname}さんは定時決定の対象者です。適用開始：#{ym_jp}分（#{payment_ym_jp}納付分）"
       @notification = Notification.create!(message: message, category: :annual_determination, ym: @ym, employee_id: @employee.id)
       HyaccLogger.info("定時決定のお知らせ生成成功: notification_id=#{@notification.id}, employee_id=#{@employee.id}")
 

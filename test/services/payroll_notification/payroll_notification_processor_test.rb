@@ -32,20 +32,18 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   end
 
   def test_処理対象に関するログを出力する
+    message = nil
     mock = Minitest::Mock.new
     mock.expect(:process, nil)
 
-    expected_message = "#{@base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします"
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:info, nil, [expected_message])
-
     PayrollNotification::PayrollNotificationProcessor.stub(:new, mock) do
-      HyaccLogger.stub(:info, ->(msg) {logger_mock.info(msg)}) do
+      HyaccLogger.stub(:info, ->(msg) {message = msg}) do
         PayrollNotification::PayrollNotificationProcessor.call
       end
     end
-
-    logger_mock.verify
+    mock.verify
+    expected_message = "#{@base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします"
+    assert_equal expected_message, message
   end
 
   def test_initializeとprocessは実行日以降に支払予定の給与明細であれば実行する
@@ -118,7 +116,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     end
   
     assert cleanup_called
-    assert handle_called 
+    assert handle_called
   end
 
   def test_ad_hoc_revisionの処理はpast_payrollsがすべてpersistedでないと実行されない
@@ -165,50 +163,46 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   end
 
   def test_ad_hoc_revision_cleanerの失敗ログを出力する
+    message = nil
     processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_with_pay_day_on_base_date)
-
-    expected_message = /随時改定の対応チェックとお知らせ更新失敗：.*payroll_id=#{@payroll_with_pay_day_on_base_date.id}/
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
     processor_mock = Minitest::Mock.new
     processor_mock.expect(:call, nil) {raise "テスト用の例外"}
 
-    HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
+    HyaccLogger.stub(:error, -> (msg){message = msg}) do
       processor.stub(:cleanup_ad_hoc_revision, -> {processor_mock.call}) do
         processor.send(:log_failure_with_block, '随時改定の対応チェックとお知らせ更新') do
           processor.cleanup_ad_hoc_revision
         end
       end
     end
-  
-    logger_mock.verify
+    
+    expected_message = /随時改定の対応チェックとお知らせ更新失敗:.*payroll_id=#{@payroll_with_pay_day_on_base_date.id}, error=テスト用の例外/
+    assert_match expected_message, message
     processor_mock.verify
   end
 
   def test_ad_hoc_revision_handlerの失敗ログを出力する
+    message = nil
     processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_with_pay_day_on_base_date)
-
-    expected_message = /随時改定のお知らせ生成失敗：.*payroll_id=#{@payroll_with_pay_day_on_base_date.id}/
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
     processor_mock = Minitest::Mock.new
     processor_mock.expect(:call, nil) {raise "テスト用の例外"}
   
-    HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
+    HyaccLogger.stub(:error, -> (msg){message = msg}) do
       processor.stub(:handle_ad_hoc_revision, -> {processor_mock.call}) do
         processor.send(:log_failure_with_block, '随時改定のお知らせ生成') do
           processor.handle_ad_hoc_revision
         end
       end
     end
-  
-    logger_mock.verify
     processor_mock.verify
-  end 
+    expected_message = "随時改定のお知らせ生成失敗: notification=なし, payroll_id=#{@payroll_with_pay_day_on_base_date.id}, error=テスト用の例外"
+    assert_equal expected_message, message
+  end
 
   def test_ad_hoc_revision_handlerのuserとの紐付けの失敗ログを出力する
+    message = nil
     processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_with_pay_day_on_base_date)
     past_payrolls = processor.instance_variable_get(:@past_payrolls)
 
@@ -221,11 +215,6 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
 
     user1 = User.where(deleted: false).first
     user2 = User.where(deleted: false).second
-  
-    expected_message = /紐づけ失敗:.*user_id=#{user1.id}.*error=テスト用の紐づけ失敗.*user_id=#{user2.id}.*error=テスト用の紐づけ失敗/m
-
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
 
     user_relation_mock = Minitest::Mock.new
     user_relation_mock.expect(:find_each, nil) {|&block| [user1, user2].each(&block)}
@@ -233,7 +222,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     UserNotification.stub(:find_or_create_by!, ->(attrs) {
       raise StandardError.new("テスト用の紐づけ失敗")
     }) do
-      HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
+      HyaccLogger.stub(:error, -> (msg){message = msg}) do
         User.stub(:where, user_relation_mock) do
           processor.send(:log_failure_with_block, '随時改定のお知らせ生成') do
             processor.send(:handle_ad_hoc_revision)
@@ -242,37 +231,37 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       end
     end
 
-    logger_mock.verify
+    expected_message = /紐づけ失敗: user_id=#{user1.id} error=テスト用の紐づけ失敗.*user_id=#{user2.id} error=テスト用の紐づけ失敗/m
+    assert_match expected_message, message
     user_relation_mock.verify
   end
 
   def test_annual_determination_handlerの失敗ログを出力する
+    message = nil
     processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_with_pay_day_on_base_date)
-
-    expected_message = /定時決定の対応チェックとお知らせ生成失敗：.*payroll_id=#{@payroll_with_pay_day_on_base_date.id}/
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:error, nil) {|msg| msg.match?(expected_message)}
   
     processor_mock = Minitest::Mock.new
     processor_mock.expect(:call, nil) {raise "テスト用の例外"}
   
-    HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
+    HyaccLogger.stub(:error, -> (msg){message = msg}) do
       processor.stub(:handle_annual_determination, -> {processor_mock.call}) do
         processor.send(:log_failure_with_block, '定時決定の対応チェックとお知らせ生成') do
           processor.handle_annual_determination
         end
       end
     end
-  
-    logger_mock.verify
+    
+    expected_message = "定時決定の対応チェックとお知らせ生成失敗: notification=なし, payroll_id=#{@payroll_with_pay_day_on_base_date.id}, error=テスト用の例外"
+    assert_equal expected_message, message
     processor_mock.verify
   end
 
   def test_annual_determination_handlerのuserとの紐付けの失敗ログを出力する
+    message = nil
     processor = PayrollNotification::PayrollNotificationProcessor.new(@payroll_with_pay_day_on_base_date)
     past_payrolls = processor.instance_variable_get(:@past_payrolls)
 
-    past_payrolls[0].update!(monthly_standard: 320_000)  
+    past_payrolls[0].update!(monthly_standard: 320_000)
     @payroll_with_pay_day_on_base_date.update!(monthly_standard: 320_000)
 
     target_ym = 202505
@@ -283,26 +272,22 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
 
     user1 = User.where(deleted: false).first
     user2 = User.where(deleted: false).second
-  
-    expected_message = /紐づけ失敗:.*user_id=#{user1.id}.*error=テスト用の紐づけ失敗.*user_id=#{user2.id}.*error=テスト用の紐づけ失敗/m
 
-    logger_mock = Minitest::Mock.new
-    logger_mock.expect(:error, nil) { |msg| msg.match?(expected_message) }
-      
     user_relation_mock = Minitest::Mock.new
     user_relation_mock.expect(:find_each, nil) { |&block| [user1, user2].each(&block) }
   
     UserNotification.stub(:find_or_create_by!, ->(attrs) {
       raise StandardError.new("テスト用の紐づけ失敗")
     }) do
-      HyaccLogger.stub(:error, -> (msg){logger_mock.error(msg)}) do
+      HyaccLogger.stub(:error, -> (msg){message = msg}) do
         User.stub(:where, user_relation_mock) do
           processor.send(:handle_annual_determination)
         end
       end
     end
 
-    logger_mock.verify
+    expected_message = /紐づけ失敗: user_id=#{user1.id} error=テスト用の紐づけ失敗.*user_id=#{user2.id} error=テスト用の紐づけ失敗/m
+    assert_match expected_message, message
     user_relation_mock.verify
   end
 

@@ -60,7 +60,7 @@ module PayrollNotification
       yield
     rescue => e
       notification_info = @notification ? "notification_id=#{@notification.id}" : "notification=なし"
-      HyaccLogger.error("#{label}失敗： #{notification_info} payroll_id=#{@context.payroll.id} #{e.message}")
+      HyaccLogger.error("#{label}失敗: #{notification_info}, payroll_id=#{@context.payroll.id}, error=#{e.message}")
     end
   end
 end

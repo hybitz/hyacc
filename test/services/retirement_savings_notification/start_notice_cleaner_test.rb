@@ -34,31 +34,25 @@ class StartNoticeCleanerTest < ActiveSupport::TestCase
       RetirementSavingsNotification::StartNoticeCleaner.call
     end
 
-    assert message == "退職金積立開始のお知らせ削除成功：notification_id=#{@notification.id}"
+    assert_equal "退職金積立開始のお知らせ削除成功: notification_id=#{@notification.id}", message
   end
 
   def test_logs_message_on_failed_notification_cleanup
     message = nil
     @notification.stub(:update!, ->(*) {raise "テスト用例外"}) do
       scope = [@notification]
-
-      where_mock = Struct.new(:scope).new(scope)
-      def where_mock.where(_)
-        self
-      end
-
-      def where_mock.find_each
-        scope.each {|n| yield n}
-      end
+      where_mock = Minitest::Mock.new
+      where_mock.expect(:find_each, nil) {|&block| scope.each(&block)}
 
       HyaccLogger.stub(:error, ->(msg) {message = msg}) do
-        Notification.stub(:where, where_mock) do 
+        Notification.stub(:where, ->(*) {where_mock}) do 
           RetirementSavingsNotification::StartNoticeCleaner.call
+          where_mock.verify
         end
       end
     end
 
-    assert message == "退職金積立開始のお知らせ削除失敗：notification_id=#{@notification.id}, error=テスト用例外"
+    assert_equal "退職金積立開始のお知らせ削除失敗: notification_id=#{@notification.id}, error=テスト用例外", message
   end
 
   def test_loop_continues_after_exception
@@ -70,26 +64,20 @@ class StartNoticeCleanerTest < ActiveSupport::TestCase
 
     error_notification.stub(:update!, ->(*) {raise "テスト用例外"}) do
       scope = [error_notification, @notification]
-      where_mock = Struct.new(:scope).new(scope)
-
-      def where_mock.where(*)
-        self
-      end
-
-      def where_mock.find_each
-        scope.each {|n| yield n}
-      end
+      where_mock = Minitest::Mock.new
+      where_mock.expect(:find_each, nil) {|&block| scope.each(&block)}
 
       HyaccLogger.stub(:error, ->(msg) {messages << msg}) do
         HyaccLogger.stub(:info, ->(msg) {messages << msg}) do
-          Notification.stub(:where, where_mock) do
+          Notification.stub(:where, ->(*) {where_mock}) do
             RetirementSavingsNotification::StartNoticeCleaner.call
+            where_mock.verify
           end
         end
       end
     end
 
-    assert messages.any?{|msg| msg == "退職金積立開始のお知らせ削除失敗：notification_id=#{error_notification.id}, error=テスト用例外"}
-    assert messages.any?{|msg| msg == "退職金積立開始のお知らせ削除成功：notification_id=#{@notification.id}"}
+    assert messages.any?{|msg| msg == "退職金積立開始のお知らせ削除失敗: notification_id=#{error_notification.id}, error=テスト用例外"}
+    assert messages.any?{|msg| msg == "退職金積立開始のお知らせ削除成功: notification_id=#{@notification.id}"}
   end
 end

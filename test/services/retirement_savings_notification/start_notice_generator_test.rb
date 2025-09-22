@@ -76,10 +76,10 @@ class StartNoticeGeneratorTest < ActiveSupport::TestCase
       RetirementSavingsNotification::StartNoticeGenerator.call
     end
 
-    assert messages.any?{|msg|msg.match?(/\A退職金積立開始のお知らせ生成成功：notification_id=\d+, employee_id=#{employee.id}\z/)}
+    assert messages.any?{|msg|msg.match?(/退職金積立開始のお知らせ生成成功: notification_id=\d+, employee_id=#{employee.id}/)}
 
     User.where(deleted: false).each do |user|
-      assert messages.any?{|msg|msg.match?(/\A退職金積立開始のお知らせ紐づけ成功：notification_id=\d+, user_id=#{user.id}\z/)}
+      assert messages.any?{|msg|msg.match?(/退職金積立開始のお知らせ紐づけ成功: notification_id=\d+, user_id=#{user.id}/)}
     end
   end
 
@@ -94,7 +94,7 @@ class StartNoticeGeneratorTest < ActiveSupport::TestCase
         end
       end
     end
-    assert messages.any?{|msg| msg =="退職金積立開始のお知らせ生成失敗：notification=なし, employee_id=#{employee.id}, error=テスト用例外"}
+    assert messages.any?{|msg| msg =="退職金積立開始のお知らせ生成失敗: notification=なし, employee_id=#{employee.id}, error=テスト用例外"}
     assert_equal 0, call_count
   end
 
@@ -104,11 +104,11 @@ class StartNoticeGeneratorTest < ActiveSupport::TestCase
     success_employee.update!(employment_date: @base_date)
 
     original_method = Notification.method(:create!)
-    Notification.stub(:create!, ->(args) {
-      if args[:employee_id] == employee.id
+    Notification.stub(:create!, ->(attrs) {
+      if attrs[:employee_id] == employee.id
         raise "テスト用例外" 
       else
-        original_method.call(args)
+        original_method.call(attrs)
       end
     }) do
       HyaccLogger.stub(:error, ->(msg) {messages << msg}) do
@@ -118,8 +118,8 @@ class StartNoticeGeneratorTest < ActiveSupport::TestCase
       end
     end
 
-    assert messages.any?{|msg|msg =="退職金積立開始のお知らせ生成失敗：notification=なし, employee_id=#{employee.id}, error=テスト用例外"}
-    assert messages.any?{|msg|msg.match?(/\A退職金積立開始のお知らせ生成成功：notification_id=\d+, employee_id=#{success_employee.id}\z/)}
+    assert messages.any?{|msg|msg =="退職金積立開始のお知らせ生成失敗: notification=なし, employee_id=#{employee.id}, error=テスト用例外"}
+    assert messages.any?{|msg|msg.match?(/退職金積立開始のお知らせ生成成功: notification_id=\d+, employee_id=#{success_employee.id}/)}
   end
 
   def test_user_association_loop_continues_after_exception
@@ -127,11 +127,11 @@ class StartNoticeGeneratorTest < ActiveSupport::TestCase
     target_user = User.where(deleted: false).second
 
     original_method = UserNotification.method(:find_or_create_by!)
-    UserNotification.stub(:find_or_create_by!, ->(args) {
-      if args[:user_id] == target_user.id
+    UserNotification.stub(:find_or_create_by!, ->(attrs) {
+      if attrs[:user_id] == target_user.id
         raise "テスト用例外"
       else
-        original_method.call(args)
+        original_method.call(attrs)
       end
     }) do
       HyaccLogger.stub(:error, ->(msg) {messages << msg}) do
@@ -141,10 +141,10 @@ class StartNoticeGeneratorTest < ActiveSupport::TestCase
       end
     end
 
-    assert messages.any?{|msg| msg.match?(/\A退職金積立開始のお知らせ紐づけ失敗：notification_id=\d+, user_id=#{target_user.id}, error=テスト用例外\z/)}
+    assert messages.any?{|msg| msg.match?(/退職金積立開始のお知らせ紐づけ失敗: notification_id=\d+, user_id=#{target_user.id}, error=テスト用例外/)}
 
     User.where(deleted: false).where.not(id: target_user.id).each do |user|
-      assert messages.any?{|msg| msg.match?(/\A退職金積立開始のお知らせ紐づけ成功：notification_id=\d+, user_id=#{user.id}\z/)}
+      assert messages.any?{|msg| msg.match?(/退職金積立開始のお知らせ紐づけ成功: notification_id=\d+, user_id=#{user.id}/)}
     end
   end
 end

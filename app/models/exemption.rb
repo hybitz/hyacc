@@ -3,6 +3,11 @@ class Exemption < ApplicationRecord
   has_many :spouse_family_members, -> { where exemption_type: EXEMPTION_TYPE_SPOUSE }, class_name: "DependentFamilyMember"
   has_many :family_members, -> { where exemption_type: EXEMPTION_TYPE_FAMILY }, class_name: "DependentFamilyMember"
   has_many :under16_family_members, -> { where exemption_type: EXEMPTION_TYPE_UNDER_16 }, class_name: "DependentFamilyMember"
+  has_many :dependents_19_23, -> { where(exemption_type: EXEMPTION_TYPE_FAMILY, family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_19_23) }, class_name: "DependentFamilyMember"
+  has_many :dependents_over_70_with, -> { where(exemption_type: EXEMPTION_TYPE_FAMILY, family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_OVER_70_WITH) }, class_name: "DependentFamilyMember"
+  has_many :dependents_over_70, -> { where(exemption_type: EXEMPTION_TYPE_FAMILY, family_sub_type: [FAMILY_SUB_TYPE_DEPENDENTS_OVER_70_WITH, FAMILY_SUB_TYPE_DEPENDENTS_OVER_70_WITHOUT]) }, class_name: "DependentFamilyMember"
+  has_many :dependents_other, -> { where(exemption_type: EXEMPTION_TYPE_FAMILY, family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_OTHER) }, class_name: "DependentFamilyMember"
+  has_many :specified_family_members, -> { where(exemption_type: EXEMPTION_TYPE_FAMILY, family_sub_type: FAMILY_SUB_TYPE_SPECIFIED) }, class_name: "DependentFamilyMember"
   belongs_to :employee
   validates :employee_id, uniqueness: {scope: [:yyyy], case_sensitive: false}
   validates_with ExemptionValidator

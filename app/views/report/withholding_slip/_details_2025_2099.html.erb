@@ -1,0 +1,346 @@
+<%= render 'print_type' %>
+<br />
+<div style="margin: 10px;">
+  <table class="table">
+    <tr>
+      <td class="text-center none_border"><b><%= to_wareki_year(@data.calendar_year) %>年分　給与所得の源泉徴収</b></td>
+    </tr>
+  </table>
+
+  <table class="table table-bordered">
+    <tbody>
+    	<tr>
+    		<th rowspan="5" class="text-center align-middle">支払<br>を受け<br>る者</th>
+    		<th rowspan="5" class="text-center align-middle">住<br>所<br>又<br>は<br>居<br>所</th>
+    		<td colspan="11" rowspan="5"><%= @data.employee.address_at(year_end(@data.calendar_year)) %></td>
+    		<td colspan="10">（受給者番号）</td>
+  		</tr>
+  		<tr>
+  			<td colspan="10"><div class="secret">（個人番号）<%= @data.employee.my_number %></div></td>
+  		</tr>
+  		<tr>
+  			<td colspan="10">（役職名）<%= @data.employee.position %></td>
+  		</tr>
+  		<tr>
+  			<th rowspan="2" class="text-center align-middle">氏<br>名</th>
+  			<td colspan="9">（フリガナ）<%= @data.employee.fullname_kana('　') %></td>
+  		</tr>
+  		<tr>
+  			<td colspan="20">　　　　　　<%= @data.employee.fullname('　') %></td>
+  		</tr>
+    	<tr class="item">
+    		<td colspan="3"><%= justify('　　種別　　') %></td>
+    		<td colspan="5"><%= justify('　　支払金額　　') %></td>
+    		<td colspan="5"><%= justify('　　給与所得控除後の金額　　') %><%= justify('　　（調整控除後）　　') %></td>
+    		<td colspan="5"><%= justify('　　所得控除の額の合計　　') %></td>
+    		<td colspan="5"><%= justify('　　源泉徴収税額　　') %></td>
+  		</tr>
+    	<tr>
+    		<td colspan="3">給与</td>
+    		<td colspan="5" class="text-end"><%= to_amount(@data.total_salary, show_zero: true) %></td>
+    		<td colspan="5" class="text-end"><%= to_amount(@data.after_deduction, show_zero: true) %></td>
+    		<td colspan="5" class="text-end"><%= to_amount(@data.exemption_amount, show_zero: true) %></td>
+    		<td colspan="5" class="text-end"><%= to_amount(@data.withholding_tax, show_zero: true) %></td>
+  		</tr>
+    	<tr class="item">
+    		<td colspan="6"><%= justify('　　(源泉)控除対象配偶者　　') %><%= justify('　　　の有無等　　　') %></td>
+    		<td colspan="3" rowspan="2"><%= justify('　　配偶者(特別)　　') %><%= justify('　　　控除の額　　　') %></td>
+    		<td colspan="9"><%= justify('　　控除対象扶養親族等の数　　') %><%= justify('　　　　（配偶者を除く。）　　　　') %></td>
+    		<td colspan="1" rowspan="2"><%= justify('　16歳未満　') %><%= justify('　扶養家族　') %><%= justify('　の数　') %></td>
+    		<td colspan="3"><%= justify('　障害者の数　') %><%= justify('　　　（本人を除く。）　　　') %></td>
+    		<td colspan="1" rowspan="2"><%= justify('非居住者') %><%= justify('である') %><%= justify('親族の数') %></td>
+  		</tr>
+    	<tr class="item">
+    		<td colspan="2">有</td>
+    		<td colspan="2">従有</td>
+    		<td colspan="2">老人</td>
+    		<td colspan="2">特定</td>
+    		<td colspan="3">老人</td>
+    		<td colspan="2">その他</td>
+    		<td colspan="2">特親</td>
+    		<td colspan="2">特別</td>
+    		<td colspan="1">その他</td>
+  		</tr>
+    	<tr>
+    		<td colspan="2"><%= "★" if @data.exemption.spouse.to_i > 0 %></td>
+    		<td colspan="2"><br></td>
+    		<td colspan="2"><br></td>
+    		<td colspan="3"><%= to_amount(@data.exemption.special_tax_for_spouse) %></td>
+    		<td colspan="1" class="td-with-label">
+			  <span class="label-top-right">人</span>
+			  <br><%= @data.exemption.dependents_19_23.size if @data.exemption.dependents_19_23.size != 0 %></td>
+    		<td colspan="1" class="td-with-label"><span class="label-top-right">従人</span><br></td>
+    		<td colspan="1" class="td-with-label">
+			  <span class="label-top-right">内</span>
+              <br><%= @data.exemption.dependents_over_70_with.size if @data.exemption.dependents_over_70_with.size != 0 %></td>
+    		<td colspan="1" class="td-with-label">
+			  <span class="label-top-right">人</span>
+			  <br><%= @data.exemption.dependents_over_70.size if @data.exemption.dependents_over_70.size != 0 %></td>
+    		<td colspan="1" class="td-with-label"><span class="label-top-right">従人</span><br></td>
+    		<td colspan="1" class="td-with-label">
+			  <span class="label-top-right">人</span>
+			  <br><%= @data.exemption.dependents_other.size if @data.exemption.dependents_other.size != 0 %></td>
+    		<td colspan="1" class="td-with-label"><span class="label-top-right">従人</span><br></td>
+			<td colspan="1" class="td-with-label">
+			  <span class="label-top-right">人</span>
+			  <br><%= @data.exemption.specified_family_members.size if @data.exemption.specified_family_members.size != 0 %></td>
+		    <td colspan="1" class="td-with-label"><span class="label-top-right">従人</span><br></td>
+    		<td colspan="1" class="td-with-label">
+			  <span class="label-top-right">人</span>
+			  <br><%= @data.exemption.under16_family_members.size if @data.exemption.under16_family_members.size != 0 %></td>
+    		<td colspan="1" class="td-with-label"><span class="label-top-right">内</span><br></td>
+			<td colspan="1" class="td-with-label"><span class="label-top-right">人</span><br></td>
+    		<td colspan="1" class="td-with-label"><span class="label-top-right">人</span><br></td>
+    		<td colspan="1" class="td-with-label"><span class="label-top-right">人</span><br></td>
+      </tr>
+      <tr class="item">
+          	<td colspan="5">特定親族特別控除の金額</td>
+    		<td colspan="5">社会保険料等の金額</td>
+    		<td colspan="5">生命保険料の控除額</td>
+    		<td colspan="4">地震保険料の控除額</td>
+    		<td colspan="4">住宅借入金等特別控除の額</td>
+      </tr>
+      <tr>
+          	<td colspan="5" class="text-end"><br><%= to_amount(@data.exemption.special_tax_for_specified_family, show_zero: true) %></td>
+            <td colspan="5" class="text-end">（内　<%= to_amount(@data.social_insurance_internal, show_zero: true) %> ）<br><%= to_amount(@data.social_insurance_total, show_zero: true) %> 　</td>
+    		<td colspan="5" class="text-end"><br><%= to_amount(@data.exemption.life_insurance_deduction, show_zero: true) %></td>
+    		<td colspan="4" class="text-end"><br><%= to_amount(@data.exemption.earthquake_insurance_premium, show_zero: true) %></td>
+    		<td colspan="4" class="text-end"><br><%= to_amount(@data.mortgage_deduction, show_zero: true) %></td>
+  		</tr>
+    	<tr>
+    		<td colspan="23" class="item">摘要</td>
+  		</tr>
+    	<tr>
+    		<td colspan="23"><div style="min-height: 3em;"><%= simple_format(@data.exemption.remarks) %></div></td>
+  		</tr>
+      <tr>
+    		<td colspan="2" class="item">生命保険料<br>の金額の<br>内訳</td>
+    		<td colspan="2" class="item">新生命保険料<br>の金額</td>
+    		<td colspan="2" class="text-end"><%= to_amount(@data.exemption.life_insurance_premium_new) %></td>
+    		<td colspan="2" class="item">旧生命保険料<br>の金額</td>
+    		<td colspan="2"><%= number_to_currency(@data.exemption.life_insurance_premium_old, :format=>"%n") %></td>
+    		<td colspan="2" class="item">介護医療保<br>険料の金額</td>
+    		<td colspan="3" class="text-end"><%= to_amount(@data.exemption.care_insurance_premium) %></td>
+    		<td colspan="2" class="item">新個人年金<br>保険料の金額</td>
+    		<td colspan="2"><%= number_to_currency(@data.exemption.private_pension_insurance_new, :format=>"%n") %></td>
+    		<td colspan="2" class="item">旧個人年金<br>保険料の金額</td>
+    		<td colspan="2"><%= number_to_currency(@data.exemption.private_pension_insurance_old, :format=>"%n") %></td>
+      </tr>
+      <tr>
+    		<td colspan="2" rowspan="2" class="item">住宅借入金<br>等特別控除<br>の額の内訳</td>
+    		<td colspan="2" class="item">住宅借入金等<br>特別控除適用数</td>
+    		<td colspan="2"><%= @data.exemption.num_of_house_loan %></td>
+    		<td colspan="2" class="item">居住開始年月<br>日（1回目）</td>
+    		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_1, only_date: true, format: '%y') if @data.exemption.date_of_start_living_1 %></td>
+    		<td colspan="2"><%= @data.exemption.date_of_start_living_1.mon if @data.exemption.date_of_start_living_1 %></td>
+    		<td colspan="2"><%= @data.exemption.date_of_start_living_1.mday if @data.exemption.date_of_start_living_1 %></td>
+    		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（1回目）</td>
+    		<td colspan="2"><%= HyaccConst::MORTGAGE_DEDUCTION_TYPES[ @data.exemption.mortgage_deduction_code_1 ] %></td>
+    		<td colspan="2" class="item">住宅借入金等<br>年末残高（1回目）</td>
+    		<td colspan="3"><%= number_to_currency(@data.exemption.year_end_balance_1, :format=>"%n") %></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">住宅借入金等<br>特別控除可能額</td>
+    		<td colspan="2"><%= number_to_currency(@data.mortgage_deductible, :format=>"%n") if @data.mortgage_deductible.present? %></td>
+    		<td colspan="2" class="item">居住開始年月<br>日（2回目）</td>
+    		<td colspan="2"><%= to_wareki(@data.exemption.date_of_start_living_2, only_date: true, format: '%y') if @data.exemption.date_of_start_living_2 %></td>
+    		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mon if @data.exemption.date_of_start_living_2 %></td>
+    		<td colspan="2"><%= @data.exemption.date_of_start_living_2.mday if @data.exemption.date_of_start_living_2 %></td>
+    		<td colspan="2" class="item">住宅借入金等特別<br>控除区分（2回目）</td>
+    		<td colspan="2"><%= HyaccConst::MORTGAGE_DEDUCTION_TYPES[ @data.exemption.mortgage_deduction_code_2 ] %></td>
+    		<td colspan="2" class="item">住宅借入金等<br>年末残高（2回目）</td>
+    		<td colspan="3"><%= number_to_currency(@data.exemption.year_end_balance_2, :format=>"%n") %></td>
+      </tr>
+      <tr>
+        <td colspan="2" rowspan="4" class="item">(源泉・特別)<br>控除対象<br/>配偶者</td>
+        <td colspan="2" class="item">（フリガナ）</td>
+        <td colspan="4"><%= @data.exemption.spouse_family_members[0]&.kana %></td>
+        <td rowspan="2" class="item">区<br/>分</td>
+        <td rowspan="2"><%= "○" if @data.exemption.spouse_family_members[0] && ! @data.exemption.spouse_family_members[0].live_in %></td>
+        <td colspan="2" rowspan="4" class="item">配偶者の<br/>合計所得</td>
+        <td colspan="3" rowspan="4"></td>
+        <td colspan="2" rowspan="2" class="item">国民年金保険<br/>料等の金額</td>
+        <td colspan="2" rowspan="2"></td>
+        <td colspan="2" rowspan="2" class="item">旧長期損害<br/>保険料の金額</td>
+        <td colspan="2" rowspan="2"></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.spouse_family_members[0]&.name %></td>
+      </tr>
+      <tr>
+    		<td colspan="2" rowspan="1" class="item">個人番号</td>
+    		<td colspan="6" rowspan="1"><div class="secret"><%= @data.exemption.spouse_family_members[0]&.my_number %></div></td>
+        <td colspan="2" rowspan="2" class="item">基礎控除の額</td>
+        <td colspan="2" rowspan="2" class="text-end"><%= to_amount(@data.exemption.basic, show_zero: true) %></td>
+        <td colspan="2" rowspan="2" class="item">所得金額<br>調整控除額</td>
+        <td colspan="2" rowspan="2"></td>
+      </tr>
+      <tr>
+        <td colspan="2" class="item"></td>
+      </tr>
+      <tr>
+    		<td rowspan="12" class="item">控<br/>除<br/>対<br/>象<br/>扶<br/>養<br/>親<br/>族<br/>等</td>
+    		<td rowspan="3" class="item">1</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4" class="kana-cell" data-member-index="0"><%= @data.exemption.family_members[0].kana if @data.exemption.family_members[0] %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2" class="code-cell" data-member-index="0"><%= @data.exemption.family_members[0].non_resident_code || "○" if @data.exemption.family_members[0] && ! @data.exemption.family_members[0].live_in %></td>
+    		<td rowspan="12" class="item">16<br/>歳<br/>未<br/>満<br/>の<br/>扶<br/>養<br/>親<br/>族</td>
+    		<td rowspan="3" class="item">1</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"><%= @data.exemption.under16_family_members[0].kana if @data.exemption.under16_family_members[0] %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.under16_family_members[0] && ! @data.exemption.under16_family_members[0].live_in %></td>
+    		<td colspan="3" class="item">（備考）</td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.family_members[0].name if @data.exemption.family_members[0] %></td>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.under16_family_members[0].name if @data.exemption.under16_family_members[0] %></td>
+    		<td colspan="3" rowspan="6"></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="6"><div class="secret"><%= @data.exemption.family_members[0].my_number if @data.exemption.family_members[0] %></div></td>
+    		<td colspan="8" class="item"></td>
+      </tr>
+      <tr>
+    		<td rowspan="3" class="item">2</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4" class="kana-cell" data-member-index="1"><%= @data.exemption.family_members[1].kana if @data.exemption.family_members[1] %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2" class="code-cell" data-member-index="1"><%= @data.exemption.family_members[1].non_resident_code || "○" if @data.exemption.family_members[1] && ! @data.exemption.family_members[1].live_in %></td>
+    		<td rowspan="3" class="item">2</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"><%= @data.exemption.under16_family_members[1].kana if @data.exemption.under16_family_members[1] %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.under16_family_members[1] && ! @data.exemption.under16_family_members[1].live_in %></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.family_members[1].name if @data.exemption.family_members[1] %></td>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.under16_family_members[1].name if @data.exemption.under16_family_members[1] %></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="6"><div class="secret"><%= @data.exemption.family_members[1].my_number if @data.exemption.family_members[1] %></div></td>
+    		<td colspan="8" class="item"></td>
+      </tr>
+      <tr>
+    		<td rowspan="3" class="item">3</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4" class="kana-cell" data-member-index="2"><%= @data.exemption.family_members[2]&.kana %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2" class="code-cell" data-member-index="2"><%= @data.exemption.family_members[2].non_resident_code || "○" if @data.exemption.family_members[2] && ! @data.exemption.family_members[2].live_in %></td>
+    		<td rowspan="3" class="item">3</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"><%= @data.exemption.under16_family_members[2]&.kana %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.under16_family_members[2] && ! @data.exemption.under16_family_members[2].live_in %></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.family_members[2]&.name %></td>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.under16_family_members[2].name if @data.exemption.under16_family_members[2] %></td>
+    		<td colspan="3" rowspan="5" class="item"></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="6"><div class="secret"><%= @data.exemption.family_members[2].my_number if @data.exemption.family_members[2] %></div></td>
+    		<td colspan="8" class="item"></td>
+      </tr>
+      <tr>
+    		<td rowspan="3" class="item">4</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4" class="kana-cell" data-member-index="3"><%= @data.exemption.family_members[3].kana if @data.exemption.family_members[3] %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2" class="code-cell" data-member-index="3"><%= @data.exemption.family_members[3].non_resident_code || "○" if @data.exemption.family_members[3] && ! @data.exemption.family_members[3].live_in %></td>
+    		<td rowspan="3" class="item">4</td>
+    		<td colspan="2" class="item">（フリガナ）</td>
+    		<td colspan="4"><%= @data.exemption.under16_family_members[3].kana if @data.exemption.under16_family_members[3] %></td>
+    		<td rowspan="2" class="item">区<br/>分</td>
+    		<td rowspan="2"><%= "○" if @data.exemption.under16_family_members[3] && ! @data.exemption.under16_family_members[3].live_in %></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.family_members[3].name if @data.exemption.family_members[3] %></td>
+    		<td colspan="2" class="item">氏名</td>
+    		<td colspan="4"><%= @data.exemption.under16_family_members[3].name if @data.exemption.under16_family_members[3] %></td>
+      </tr>
+      <tr>
+    		<td colspan="2" class="item">個人番号</td>
+    		<td colspan="6"><div class="secret"><%= @data.exemption.family_members[3].my_number if @data.exemption.family_members[3] %></div></td>
+    		<td colspan="8" class="item"></td>
+      </tr>
+      <tr>
+    		<td rowspan="2" class="item">未<br/>成<br/>年<br/>者</td>
+    		<td rowspan="2" class="item">外<br/>国<br/>人</td>
+    		<td rowspan="2" class="item">死<br/>亡<br/>退<br/>職</td>
+    		<td rowspan="2" class="item">災<br/>害<br/>者</td>
+    		<td rowspan="2" class="item">乙<br/>欄</td>
+    		<td colspan="2" class="item">本人が障害者</td>
+    		<td rowspan="2" class="item">募<br>婦</td>
+        <td rowspan="2" class="item">ひ<br>と<br>り<br>親</td>
+    		<td rowspan="2" class="item">勤<br/>労<br/>学<br/>生</td>
+        <td rowspan="2" class="item"></td>
+    		<td colspan="5" class="item">中途就・退職</td>
+    		<td colspan="7" class="item">受給者生年月日</td>
+      </tr>
+      <tr>
+    		<td class="item">特<br>別</td>
+    		<td class="item">そ<br>の<br>他</td>
+    		<td class="item">就職</td>
+    		<td class="item">退職</td>
+    		<td class="item">年</td>
+    		<td class="item">月</td>
+    		<td class="item">日</td>
+    		<td colspan="4" class="item">元号</td>
+    		<td class="item">年</td>
+    		<td class="item">月</td>
+    		<td class="item">日</td>
+      </tr>
+      <tr>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    		<td class="text-center"><%= "○" if @data.employment_year %></td>
+    		<td class="text-center"><%= "○" if @data.retirement_year %></td>
+    		<td class="text-center"><%= to_wareki(@data.employment_or_retirement_date, only_date: true, format: '%y') if @data.employment_or_retirement_date.present? %></td>
+    		<td class="text-center"><%= @data.employment_or_retirement_date.month if @data.employment_or_retirement_date.present? %></td>
+    		<td class="text-center"><%= @data.employment_or_retirement_date.day if @data.employment_or_retirement_date.present? %></td>
+    		<td colspan="4" class="text-center"><%= to_wareki(@data.employee.birth, format: '%y')[0..1] %></td>
+    		<td class="text-center"><%= to_wareki(@data.employee.birth, only_date: true, format: '%y') %></td>
+    		<td class="text-center"><%= @data.employee.birth.month %></td>
+    		<td class="text-center"><%= @data.employee.birth.day %></td>
+      </tr>
+      <tr>
+    		<td rowspan="3" class="item">支<br>払<br>者</td>
+    		<td colspan="3" class="item">個人番号又は<br>法人番号</td>
+    		<td colspan="8"><div class="secret"><%= @data.company.enterprise_number %></div></td>
+    		<td colspan="11" class="item"></td>
+      </tr>
+      <tr>
+    		<td colspan="3" class="item">住所（居所）<br>又は所在地</td>
+    		<td colspan="19"><%= @data.head_business_office.address %></td>
+      </tr>
+      <tr>
+    		<td colspan="3" class="item">氏名<br>又は名称</td>
+    		<td colspan="12"><%= @data.company.name %></td>
+    		<td colspan="2" class="item">（電話）</td>
+    		<td colspan="5"><%= @data.head_business_office.tel %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

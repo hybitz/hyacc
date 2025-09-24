@@ -6,7 +6,8 @@ class Notification < ApplicationRecord
   enum category: {
     report_submission: 1,
     annual_determination: 2,
-    ad_hoc_revision: 3
+    ad_hoc_revision: 3,
+    retirement_savings: 4
   }
 
   validates :category, presence: true

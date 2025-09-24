@@ -50,7 +50,10 @@
     </tbody>
   </table>
   <%= will_paginate @exemptions %>
-  <%= link_to '追加', {action: 'new', exemption: {employee_id: finder.employee_id, yyyy: @finder.calendar_year}}, class: 'add', remote: true %>
+  <%= link_to '追加', {action: 'new', exemption: {employee_id: finder.employee_id, yyyy: @finder.calendar_year}}, class: 'btn btn-light add', remote: true %>
 <% elsif @exemptions %>
-  <div>該当するデータが見つかりませんでした。</div>
+  <div class="m-4">
+    <span>該当するデータが見つかりませんでした。</span>
+    <%= link_to '追加', {action: 'new', exemption: {employee_id: finder.employee_id, yyyy: @finder.calendar_year}}, class: 'btn btn-light add', remote: true %>
+  </div>
 <% end %>

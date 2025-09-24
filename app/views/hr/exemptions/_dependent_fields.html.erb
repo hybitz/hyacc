@@ -5,9 +5,9 @@
   <td><%= f.text_field :kana %></td>
   <td><%= f.text_field :my_number, maxlength: 12 %></td>
   <td><%= f.select :family_sub_type, family_sub_types, {include_blank: true}, class: "family_sub_type" %></td>
-  <td><%= f.check_box :live_in, class: "live_in" %></td>
+  <td class="text-center"><%= f.check_box :live_in, class: "live_in" %></td>
   <td><%= f.select :non_resident_code, non_resident_codes, {include_blank: true}, class: "non_resident_code" %></td>
-  <td><%= f.check_box :_destroy %></td>
+  <td class="text-center"><%= f.check_box :_destroy %></td>
 </tr>
 <% end %>
 <script>

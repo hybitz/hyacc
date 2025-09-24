@@ -32,7 +32,7 @@ gem 'net-imap', require: false
 gem 'net-pop', require: false
 gem 'net-smtp', require: false
 gem 'nostalgic'
-gem 'nokogiri', '< 1.18.0'
+gem 'nokogiri', '< 1.19.0'
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'

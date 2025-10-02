@@ -101,7 +101,7 @@
     		<td colspan="4">住宅借入金等特別控除の額</td>
       </tr>
       <tr>
-          	<td colspan="5" class="text-end"><br><%= to_amount(@data.exemption.special_tax_for_specified_family, show_zero: true) %></td>
+          	<td colspan="5" class="text-end"><br><%= to_amount(@data.exemption.special_deduction_for_specified_family, show_zero: true) %></td>
             <td colspan="5" class="text-end">（内　<%= to_amount(@data.social_insurance_internal, show_zero: true) %> ）<br><%= to_amount(@data.social_insurance_total, show_zero: true) %> 　</td>
     		<td colspan="5" class="text-end"><br><%= to_amount(@data.exemption.life_insurance_deduction, show_zero: true) %></td>
     		<td colspan="4" class="text-end"><br><%= to_amount(@data.exemption.earthquake_insurance_premium, show_zero: true) %></td>

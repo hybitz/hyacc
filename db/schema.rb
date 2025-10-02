@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_09_04_070344) do
+ActiveRecord::Schema.define(version: 2025_10_02_131118) do
 
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -348,7 +348,7 @@ ActiveRecord::Schema.define(version: 2025_09_04_070344) do
     t.integer "private_pension_insurance_new"
     t.integer "private_pension_insurance_old"
     t.integer "fixed_tax_deduction_amount"
-    t.integer "special_tax_for_specified_family"
+    t.integer "special_deduction_for_specified_family"
     t.index ["yyyy", "employee_id"], name: "index_exemptions_on_yyyy_and_employee_id", unique: true
   end
 

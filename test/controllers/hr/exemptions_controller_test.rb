@@ -84,7 +84,7 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
     sign_in admin
     amount = 630_000
     post :create, :params => {:exemption => valid_exemption_params(employee_id: @employee_id).deep_merge(
-      special_tax_for_specified_family: amount, dependent_family_members_attributes: {
+      special_deduction_for_specified_family: amount, dependent_family_members_attributes: {
         "0" => {
           exemption_type: EXEMPTION_TYPE_FAMILY,
           family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_19_23,
@@ -94,7 +94,7 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
         })}, :xhr => true
     assert_response :success
     exemption = Exemption.last
-    assert_equal amount, exemption.special_tax_for_specified_family
+    assert_equal amount, exemption.special_deduction_for_specified_family
     assert_equal [FAMILY_SUB_TYPE_DEPENDENTS_19_23], exemption.dependent_family_members.pluck(:family_sub_type)
     assert_equal [NON_RESIDENT_CODE_UNDER_30_OR_OVER_70], exemption.dependent_family_members.pluck(:non_resident_code)
     assert_template 'common/reload'
@@ -124,7 +124,7 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
     params = valid_exemption_params.dup
     params.delete(:yyyy)
     patch :update, :params => {:id => exemption.id, :exemption => params.deep_merge(
-      special_tax_for_specified_family: amount, dependent_family_members_attributes: {
+      special_deduction_for_specified_family: amount, dependent_family_members_attributes: {
         "0" => {
           exemption_type: EXEMPTION_TYPE_FAMILY,
           family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_19_23,
@@ -133,7 +133,7 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
           }
         })}, :xhr => true
     assert_response :success
-    assert_equal amount, exemption.reload.special_tax_for_specified_family
+    assert_equal amount, exemption.reload.special_deduction_for_specified_family
     assert_equal [FAMILY_SUB_TYPE_DEPENDENTS_19_23], exemption.dependent_family_members.pluck(:family_sub_type)
     assert_equal [NON_RESIDENT_CODE_UNDER_30_OR_OVER_70], exemption.dependent_family_members.pluck(:non_resident_code)
     assert_template 'common/reload'

@@ -130,8 +130,25 @@ module HyaccConst
   # 控除対象区分
   EXEMPTION_TYPES = {
     EXEMPTION_TYPE_SPOUSE = 1 => '控除対象配偶者',
-    EXEMPTION_TYPE_FAMILY = 2 => '控除対象扶養親族',
+    EXEMPTION_TYPE_FAMILY = 2 => '控除対象扶養親族等',
     EXEMPTION_TYPE_UNDER_16 = 3 => '16歳未満扶養親族',
+  }
+
+  # 控除対象親族等の補助区分
+  FAMILY_SUB_TYPES = {
+    FAMILY_SUB_TYPE_DEPENDENTS_19_23 = 1 => '特定扶養', #19歳以上23歳未満
+    FAMILY_SUB_TYPE_DEPENDENTS_OVER_70_WITH = 2 => '老人扶養（同居）',
+    FAMILY_SUB_TYPE_DEPENDENTS_OVER_70_WITHOUT = 3 => '老人扶養（同居以外）',
+    FAMILY_SUB_TYPE_DEPENDENTS_OTHER = 4 => 'その他扶養', # 16歳以上19歳未満、または23歳以上70歳未満
+    FAMILY_SUB_TYPE_SPECIFIED = 5 => '特定' # 特定親族特別控除対象
+  }
+
+  # 控除対象親族等の非居住区分
+  NON_RESIDENT_CODES = {
+    NON_RESIDENT_CODE_UNDER_30_OR_OVER_70 = '01' => '30歳未満または70歳以上',
+    NON_RESIDENT_CODE_30_70_STUDENT = '02' => '30歳以上70歳未満、留学生',
+    NON_RESIDENT_CODE_30_70_DISABLED = '03' => '30歳以上70歳未満、障害者',
+    NON_RESIDENT_CODE_30_70_ALLOWANCE = '04' => '30歳以上70歳未満、38万以上送金'
   }
 
   # 金融口座区分

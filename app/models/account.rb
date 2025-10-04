@@ -90,13 +90,13 @@ class Account < ApplicationRecord
       if parent.is_leaf_on_settlement_report
         false
       else
-        is_settlement_report_account
+        is_settlement_report_account?
       end
     else
       # 子供のうち1つでも決算書科目でなければtrueを返す
       leaf_on_settlement_report = false
       children.each do |child|
-        unless child.is_settlement_report_account
+        unless child.is_settlement_report_account?
           leaf_on_settlement_report = true
         end
       end

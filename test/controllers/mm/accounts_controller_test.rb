@@ -151,7 +151,7 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
         :sub_account_type=>SUB_ACCOUNT_TYPE_NORMAL,
         :code=>"6666",
         :name=>"テスト科目",
-        :is_settlement_report_account=>"true",
+        :is_settlement_report_account => 'true',
         :account_type=>"2",
         :tax_type=>"1",
         :dc_type=>"2",
@@ -177,7 +177,7 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
     patch mm_account_path(Account.find_by_code(6666)), params: {
       :account=>{
         :name=>"テスト科目",
-        :is_settlement_report_account=>"true",
+        :is_settlement_report_account => 'true',
         :account_type=>"2",
         :tax_type=>"1",
         :dc_type=>"2",

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_07_30_024101) do
+ActiveRecord::Schema.define(version: 2025_10_04_095353) do
 
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2025_07_30_024101) do
     t.integer "display_order"
     t.string "path", default: "", null: false
     t.integer "trade_type", default: 1, null: false
-    t.boolean "is_settlement_report_account", default: true, null: false
+    t.boolean "is_settlement_report_account", default: false, null: false
     t.integer "depreciation_method", limit: 1
     t.boolean "is_trade_account_payable", default: false, null: false
     t.boolean "journalizable", default: true, null: false

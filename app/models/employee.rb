@@ -29,7 +29,11 @@ class Employee < ApplicationRecord
   def self.name_is(name)
     where('last_name = ? or first_name = ? or concat(last_name, first_name) = ?', name, name, name)
   end
-  
+
+  def code
+    id
+  end
+
   # デフォルト所属部門
   def default_branch(raise_error: true)
     be = branch_employees.where(default_branch: true).first

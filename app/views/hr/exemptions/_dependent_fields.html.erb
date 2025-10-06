@@ -5,7 +5,7 @@
   <td><%= f.text_field :kana %></td>
   <td><%= f.text_field :my_number, maxlength: 12 %></td>
   <td><%= f.select :family_sub_type, family_sub_types, {include_blank: true}, class: "family_sub_type" %></td>
-  <td class="text-center"><%= f.check_box :live_in, class: "live_in" %></td>
+  <td class="text-center"><%= f.check_box :non_resident, {class: "non_resident", checked: !f.object.non_resident}, "0", "1" %></td>
   <td><%= f.select :non_resident_code, non_resident_codes, {include_blank: true}, class: "non_resident_code" %></td>
   <td class="text-center"><%= f.check_box :_destroy %></td>
 </tr>
@@ -14,7 +14,7 @@
   function updateRowState($row) {
     var exemptionType = $row.find('.exemption_type').val();
     var $familySubType = $row.find('.family_sub_type');
-    var $liveIn = $row.find('.live_in');
+    var $nonResident = $row.find('.non_resident');
     var $nonResidentCode = $row.find('.non_resident_code');
 
     function setHidden($el, value) {
@@ -44,15 +44,15 @@
         setHidden($nonResidentCode, '');
         $nonResidentCode.val('').prop('disabled', true);
 
-        $liveIn.prop('checked', true).prop('disabled', true);
-        setHidden($liveIn, '1');
+        $nonResident.prop('checked', true).prop('disabled', true);
+        setHidden($nonResident, '0');
         return;
       } else {
-        $liveIn.prop('disabled', false);
-        setHidden($liveIn, $liveIn.prop('checked') ? '1' : '0');
+        $nonResident.prop('disabled', false);
+        setHidden($nonResident, $nonResident.prop('checked') ? '0' : '1');
       }
 
-      if (!$liveIn.prop('checked')) {
+      if (!$nonResident.prop('checked')) {
         $nonResidentCode.prop('disabled', false);
         removeHidden($nonResidentCode);
 
@@ -76,8 +76,8 @@
       removeHidden($familySubType);
       setHidden($familySubType, '');
 
-      $liveIn.prop('disabled', false);
-      setHidden($liveIn, $liveIn.prop('checked') ? '1' : '0');
+      $nonResident.prop('disabled', false);
+      setHidden($nonResident, $nonResident.prop('checked') ? '0' : '1');
 
       removeHidden($nonResidentCode);
       $nonResidentCode.val('').prop('disabled', true);
@@ -85,7 +85,7 @@
     }
   }
 
-  $(document).on('change', '.exemption_type, .live_in, .family_sub_type', function() {
+  $(document).on('change', '.exemption_type, .non_resident, .family_sub_type', function() {
     updateRowState($(this).closest('tr'));
   });
 

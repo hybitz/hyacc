@@ -157,7 +157,7 @@ ja:
       exemption/dependent_family_members:
         family_sub_type: 扶養親族等区分
         non_resident_code: 非居住者区分
-        live_in: 国内居住者
+        non_resident: 非居住者
 
       fiscal_year:
         annual_adjustment_account_id: 年末調整還付金精算の勘定科目
@@ -330,10 +330,10 @@ ja:
       default_branches_duplicated: 所属部門のデフォルト設定が重複しています。
       default_branch_required: デフォルトの所属部門を設定してください。
       exemption_type_family_required: は控除区分が「控除対象扶養親族等」の場合のみ登録できます。
-      required_to_be: でなければいけません。
+      cannot_select_dependents_over_70_with: は扶養親族等区分に「老人扶養（同居）」を選択できません。
       dependents_over_70_not_allowed: は扶養親族等区分が「老人扶養（同居）」の場合、登録できません。
       under_30_or_over_70_only: は「30歳未満または70歳以上」でなければなりません。
-      not_allowed_when_live_in: は国内居住者の場合、登録できません。
+      not_allowed_for_residents: は国内居住者の場合、登録できません。
 
   text:
     hide_detail: 詳細を隠す

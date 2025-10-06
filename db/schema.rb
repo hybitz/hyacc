@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_10_04_095353) do
+ActiveRecord::Schema.define(version: 2025_10_06_060447) do
 
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
@@ -266,11 +266,11 @@ ActiveRecord::Schema.define(version: 2025_10_04_095353) do
     t.string "name", null: false
     t.string "kana", null: false
     t.string "my_number"
-    t.boolean "live_in", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "family_sub_type"
     t.string "non_resident_code"
+    t.boolean "non_resident", default: false, null: false
   end
 
   create_table "depreciations", id: :integer, charset: "utf8mb3", force: :cascade do |t|

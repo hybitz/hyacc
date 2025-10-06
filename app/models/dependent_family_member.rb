@@ -1,8 +1,8 @@
 class DependentFamilyMember < ApplicationRecord
   belongs_to :exemption
   validates_presence_of :name, :kana
-  validates :family_sub_type, presence: true, if: -> {exemption_type == 2}
-  validates :non_resident_code, presence: true, if: -> {exemption_type == 2 && non_resident?}
+  validates :family_sub_type, presence: true, if: -> {exemption_type == EXEMPTION_TYPE_FAMILY}
+  validates :non_resident_code, presence: true, if: -> {exemption_type == EXEMPTION_TYPE_FAMILY && non_resident?}
 
   before_validation do
     self.non_resident_code = nil if non_resident_code.blank?
@@ -11,9 +11,4 @@ class DependentFamilyMember < ApplicationRecord
 
   validates_with Validators::NonResidentCodeValidator
   validates_with Validators::ExemptionTypeRestrictionValidator
-
-  def non_resident?
-    !live_in?
-  end
-
 end

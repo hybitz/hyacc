@@ -5,7 +5,7 @@ class ExemptionTypeRestrictionValidatorTest < ActiveSupport::TestCase
 
   def setup
     @dfm = DependentFamilyMember.first
-    @dfm.live_in = false
+    @dfm.non_resident = true
   end
 
   def test_should_reject_family_sub_type_and_non_resident_code_if_exemption_type_is_not_family

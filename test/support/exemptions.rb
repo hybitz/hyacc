@@ -12,7 +12,7 @@ module Exemptions
       :dependent_family_members_attributes => {"0" => {:exemption_type => '3',
                                                        :name => '山田二郎',
                                                           :kana => 'ヤマダジロウ',
-                                                          :live_in => '1',
+                                                          :non_resident => '0',
                                                           :_destroy => '0'}}
     }
   end
@@ -26,7 +26,7 @@ module Exemptions
       :dependent_family_members_attributes => {"0" => {:exemption_type => '3',
                                                        :name => '',
                                                           :kana => 'ヤマダジロウ',
-                                                          :live_in => '1',
+                                                          :non_resident => '0',
                                                           :_destroy => '0'}}
     }
   end

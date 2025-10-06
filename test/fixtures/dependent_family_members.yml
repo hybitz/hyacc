@@ -4,7 +4,7 @@ one:
   name: "営業　次郎"
   kana: "ジロウ　エイギョウ"
   my_number: "123456789012"
-  live_in: true
+  non_resident: false
 two:
   id: 2
   exemption_id: 35
@@ -12,6 +12,6 @@ two:
   name: "営業 太郎"
   kana: "タロウ エイギョウ"
   my_number: "987654321098"
-  live_in: true
+  non_resident: false
 
 

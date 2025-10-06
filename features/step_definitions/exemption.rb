@@ -81,7 +81,7 @@ end
 end
 
 ならば /^国内居住者を選択すれば非居住区分は無効化され、送信値は空になる$/ do
-  check 'exemption_dependent_family_members_attributes_0_live_in'
+  check 'exemption_dependent_family_members_attributes_0_non_resident'
   assert find('#exemption_dependent_family_members_attributes_0_non_resident_code').disabled?
   assert_equal '', find('#exemption_dependent_family_members_attributes_0_non_resident_code').value
   assert has_selector?('input[type="hidden"][name="exemption[dependent_family_members_attributes][0][non_resident_code]"][value=""]', visible: false)
@@ -103,7 +103,7 @@ end
 
 かつ /^控除区分が控除対象扶養親族等で非居住を選択すれば以下の組み合わせで選択項目を制限される$/ do |ast_table|
   select '控除対象扶養親族等', from: 'exemption[dependent_family_members_attributes][0][exemption_type]'
-  uncheck 'exemption_dependent_family_members_attributes_0_live_in'
+  uncheck 'exemption_dependent_family_members_attributes_0_non_resident'
   assert_not find('select#exemption_dependent_family_members_attributes_0_family_sub_type').disabled?
   assert_not find('select#exemption_dependent_family_members_attributes_0_non_resident_code').disabled?
 
@@ -112,7 +112,7 @@ end
   rows[1..-1].each do |r|
     current_family_sub_type = r[0]
     new_non_resident_code = r[1]
-    new_live_in = r[2]
+    new_non_resident_ui = r[2]
 
     select current_family_sub_type, from: 'exemption[dependent_family_members_attributes][0][family_sub_type]'
 
@@ -130,13 +130,13 @@ end
       assert_not has_selector?('input[type="hidden"][name="exemption[dependent_family_members_attributes][0][non_resident_code]"]:not([value=""])', visible: false)
     end
 
-    case new_live_in
+    case new_non_resident_ui
     when '国内居住者に固定'
-      assert find('#exemption_dependent_family_members_attributes_0_live_in').checked?
-      assert find('#exemption_dependent_family_members_attributes_0_live_in').disabled?
-      assert has_selector?('input[type="hidden"][name="exemption[dependent_family_members_attributes][0][live_in]"][value="1"]', visible: false)
+      assert find('#exemption_dependent_family_members_attributes_0_non_resident').checked?
+      assert find('#exemption_dependent_family_members_attributes_0_non_resident').disabled?
+      assert has_selector?('input[type="hidden"][name="exemption[dependent_family_members_attributes][0][non_resident]"][value="0"]', visible: false)
     when '制限しない'
-      assert_not find('#exemption_dependent_family_members_attributes_0_live_in').disabled?
+      assert_not find('#exemption_dependent_family_members_attributes_0_non_resident').disabled?
     end
   end
 end

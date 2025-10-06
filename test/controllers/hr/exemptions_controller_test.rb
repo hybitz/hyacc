@@ -88,7 +88,7 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
         "0" => {
           exemption_type: EXEMPTION_TYPE_FAMILY,
           family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_19_23,
-          live_in: false,
+          non_resident: true,
           non_resident_code: NON_RESIDENT_CODE_UNDER_30_OR_OVER_70
           }
         })}, :xhr => true
@@ -128,7 +128,7 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
         "0" => {
           exemption_type: EXEMPTION_TYPE_FAMILY,
           family_sub_type: FAMILY_SUB_TYPE_DEPENDENTS_19_23,
-          live_in: false,
+          non_resident: true,
           non_resident_code: NON_RESIDENT_CODE_UNDER_30_OR_OVER_70
           }
         })}, :xhr => true

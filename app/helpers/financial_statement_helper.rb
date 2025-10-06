@@ -10,7 +10,7 @@ module FinancialStatementHelper
     return false if account.deleted?
     
     # 決算書科目以外は表示しない
-    return false unless account.is_settlement_report_account
+    return false unless account.is_settlement_report_account?
     
     # 検索条件に部門指定がない場合は全社での出力なので内部取引は表示しない
     if branch_id.to_i == 0

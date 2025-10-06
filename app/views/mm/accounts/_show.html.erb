@@ -34,7 +34,7 @@
 <% end %>
 
 <p>
-  <b>決算書科目:</b> <%= @account.is_settlement_report_account ? '出力対象' : '出力対象外' %>
+  <b>決算書科目:</b> <%= @account.is_settlement_report_account? ? '出力対象' : '出力対象外' %>
 </p>
 <p>
   <b>仕訳登録可能:</b> <%= @account.journalizable? ? 'はい' : 'いいえ' %>

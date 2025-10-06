@@ -118,7 +118,7 @@ class FinancialStatementsController < Base::HyaccController
 
   def get_net_sum( account )
     # 決算書科目のみが対象
-    return nil unless account.is_settlement_report_account
+    return nil unless account.is_settlement_report_account?
 
     ret = {}
     ret[account.code] = {}

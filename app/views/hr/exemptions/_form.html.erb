@@ -32,6 +32,8 @@
 
     $.get('<%= url_for action: 'add_dependent_family_member' %>', params, function(html) {
       table.find('tbody').append(html);
+      $(trigger).closest('form').closest('.ui-dialog-content')
+      .dialog("option", "position", { my: "center", at: "center", of: window });
     });
   }
 
@@ -82,6 +84,10 @@
       <th colspan="2">小規模共済掛金</th><td><%= f.text_field :small_scale_mutual_aid, class: 'amount' %></td>
     </tr>
     <tr>
+      <th colspan="2">特定親族特別控除</th><td><%= f.text_field :special_deduction_for_specified_family, class: 'amount' %></td>
+      <th colspan="2"></th><td></td>
+    </tr>
+    <tr>
     <th colspan="2">住宅借入金等特別控除可能額</th><td><%= f.text_field :max_mortgage_deduction, class: 'amount' %></td>
     <th colspan="2">住宅借入金等特別控除適用数</th><td><%= f.text_field :num_of_house_loan, class: 'amount' %></td>
     </tr>
@@ -115,26 +121,28 @@
       <th colspan="2">摘要欄</th><td colspan='4'><%= f.text_area :remarks, maxlength: '500', size: '60x3' %></td>
     </tr>
   </table>
-  <table width="400">
+  <table class="table table-sm">
   <thead>
     <tr>
       <th>控除区分</th>
       <th>氏名</th>
       <th>カナ氏名</th>
       <th>マイナンバー</th>
+      <th>扶養親族等区分</th>
       <th>国内居住者</th>
+      <th>非居住者区分</th>
       <th>削除</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="dependent-tbody">
     <% @c.dependent_family_members.each_with_index do |dfm, i| %>
       <%= render 'dependent_fields', dfm: dfm, index: i %>
-    <% end %>  
+    <% end %>
   </tbody>
   <tfoot>
     <tr>
-      <td colspan="6" align="right">
-        <a href="" onclick="add_dependent_family_member(this); return false;">扶養家族追加</a>
+      <td colspan="12" align="right">
+        <a href="" onclick="add_dependent_family_member(this); return false;" id="add-dependent-button">扶養親族等追加</a>
       </td>
     </tr>
   </tfoot>

@@ -12,6 +12,10 @@ module HyaccViewHelper
   def exemption_types
     revert_and_sort( EXEMPTION_TYPES )
   end
+
+  def family_sub_types
+    revert_and_sort( FAMILY_SUB_TYPES )
+  end
   
   def financial_account_types
     revert_and_sort( FINANCIAL_ACCOUNT_TYPES )
@@ -23,6 +27,10 @@ module HyaccViewHelper
   
   def mortgage_deduction_types
     revert_and_sort( MORTGAGE_DEDUCTION_TYPES )
+  end
+
+  def non_resident_codes
+    revert_and_sort( NON_RESIDENT_CODES )
   end
   
   def settlement_types

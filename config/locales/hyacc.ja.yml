@@ -148,11 +148,16 @@ ja:
         last_name: 姓
         my_number: マイナンバー
         name_kana: 姓名（カナ）
-        num_of_dependent: 扶養親族の数
+        num_of_dependent: 扶養親族等の数
         position: 役職
         sex: 性別
         social_insurance_birthday: 被保険者生年月日
         social_insurance_reference_number: 被保険者整理番号
+
+      exemption/dependent_family_members:
+        family_sub_type: 扶養親族等区分
+        non_resident_code: 非居住者区分
+        non_resident: 非居住者
 
       fiscal_year:
         annual_adjustment_account_id: 年末調整還付金精算の勘定科目
@@ -294,6 +299,7 @@ ja:
         spouse: 配偶者控除
         disabled_persons: 障害者控除
         basic: 基礎控除
+        special_tax_for_specified_family: 特定親族特別控除
         num_of_house_loan: 住宅借入金等特別控除適用数
         max_mortgage_deduction: 住宅借入金等特別控除可能額
         date_of_start_living_1: 居住開始年月日（1回目）
@@ -323,6 +329,11 @@ ja:
       branch_employees_duplicated: 所属部門が重複しています。
       default_branches_duplicated: 所属部門のデフォルト設定が重複しています。
       default_branch_required: デフォルトの所属部門を設定してください。
+      exemption_type_family_required: は控除区分が「控除対象扶養親族等」の場合のみ登録できます。
+      cannot_select_dependents_over_70_with: は扶養親族等区分に「老人扶養（同居）」を選択できません。
+      dependents_over_70_not_allowed: は扶養親族等区分が「老人扶養（同居）」の場合、登録できません。
+      under_30_or_over_70_only: は「30歳未満または70歳以上」でなければなりません。
+      not_allowed_for_residents: は国内居住者の場合、登録できません。
 
   text:
     hide_detail: 詳細を隠す

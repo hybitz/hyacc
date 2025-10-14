@@ -235,6 +235,9 @@ hyacc.Journal.prototype._init = function() {
     this._refresh_tax_rate_all({visibility_only: true});
     this._refresh_total_amount();
   }
+  $(this.selector).submit(function() {
+    $(this).find('fieldset[disabled]').prop('disabled', false);
+  });
 };
 
 hyacc.Journal.prototype._init_event_handlers = function() {

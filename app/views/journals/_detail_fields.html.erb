@@ -34,7 +34,7 @@
       <a href="#" class="flip_detail_button"><%= message_for_details %></a>
     </td>
     <td nowrap>
-      <a href="#" class="delete_detail_button">削除</a>
+      <a href="#" class="<%= ["delete_detail_button", ("disabled_link" if @receipt_edit_only)].compact.join(" ") %>">削除</a>
     </td>
   </tr>
   <tr style="<%= style_for_detail(jd) %>">

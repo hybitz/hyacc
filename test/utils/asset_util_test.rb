@@ -8,6 +8,12 @@ class AssetUtilTest < ActiveSupport::TestCase
     @new_journal = Journal.find(@old_journal.id)
   end
 
+  def test_no_update_should_skip_asset_validation
+    assert_nothing_raised do
+      AssetUtil.validate_assets(@new_journal, @old_journal)
+    end
+  end
+
   def test_receipt_only_update_should_skip_asset_validation
     @new_journal.build_receipt(file: 'new_receipt.pdf')
 

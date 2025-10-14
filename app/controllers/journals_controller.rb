@@ -72,6 +72,13 @@ class JournalsController < Base::HyaccController
     unless can_edit(@journal)
       redirect_to :action => 'index' and return
     end
+
+    @receipt_edit_only = AssetUtil.receipt_edit_only?(@journal)
+
+    if @receipt_edit_only
+      flash.now[:notice] = "この伝票は償却対象の資産が存在するため、領収書の追加・差し替え・削除のみ可能です。"
+      flash[:is_error_message] = false
+    end
   end
 
   def update

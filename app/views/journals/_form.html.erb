@@ -16,54 +16,58 @@
   <%= flash_notice %>
   <%= f.hidden_field 'lock_version' %>
 
-  <table class="journalTable">
-    <tr>
-      <th><%= justify('年月') %></th>
-      <th><%= justify('日') %></th>
-      <th><%= justify('摘要') %></th>
-      <th><%= justify('借方金額') %></th>
-      <th><%= justify('貸方金額') %></th>
-    </tr>
-    <tr>
-      <td><%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText' %></td>
-      <td><%= f.text_field :day, :maxlength => 2, :class => 'dayText' %></td>
-      <td><%= f.text_field :remarks, :size => 60, :maxlength => 250, :class => 'remarksText' %></td>
-      <td class="amount debit_amount_sum"></td>
-      <td class="amount credit_amount_sum"></td>
-    </tr>
-  </table>
+  <fieldset <%= 'disabled' if @receipt_edit_only %>>
+    <table class="journalTable">
+      <tr>
+        <th><%= justify('年月') %></th>
+        <th><%= justify('日') %></th>
+        <th><%= justify('摘要') %></th>
+        <th><%= justify('借方金額') %></th>
+        <th><%= justify('貸方金額') %></th>
+      </tr>
+      <tr>
+        <td><%= f.text_field :ym, :maxlength => 6, :class => 'yearMonthText' %></td>
+        <td><%= f.text_field :day, :maxlength => 2, :class => 'dayText' %></td>
+        <td><%= f.text_field :remarks, :size => 60, :maxlength => 250, :class => 'remarksText' %></td>
+        <td class="amount debit_amount_sum"></td>
+        <td class="amount credit_amount_sum"></td>
+      </tr>
+    </table>
+  </fieldset>
 
   <%= render 'receipt_fields', f: f %>
 
-  <table class="journalTable journal_details">
-    <thead>
-      <tr>
-        <th>貸借</th>
-        <th>勘定科目</th>
-        <th>補助科目</th>
-        <th>計上部門</th>
-        <th>金　額</th>
-        <th colspan="2">消費税</th>
-        <th>合計</th>
-        <th colspan="2">
-          <a href="#" onclick="journal.flip_details(true); return false;">表示</a>
-          <span>／</span>
-          <a href="#" onclick="journal.flip_details(false); return false;">隠す</a>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @journal.normal_details.each_with_index do |jd, i| %>
-        <%= render 'detail_fields', jd: jd, index: i %>
-      <% end %>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="8"></td>
-        <td align="center" colspan="2">
-          <%= link_to '明細追加', '#', onclick: 'journal.add_detail(this); return false;' %>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+  <fieldset <%= 'disabled' if @receipt_edit_only %>>
+    <table class="journalTable journal_details">
+      <thead>
+        <tr>
+          <th>貸借</th>
+          <th>勘定科目</th>
+          <th>補助科目</th>
+          <th>計上部門</th>
+          <th>金　額</th>
+          <th colspan="2">消費税</th>
+          <th>合計</th>
+          <th colspan="2">
+            <a href="#" onclick="journal.flip_details(true); return false;">表示</a>
+            <span>／</span>
+            <a href="#" onclick="journal.flip_details(false); return false;">隠す</a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @journal.normal_details.each_with_index do |jd, i| %>
+          <%= render 'detail_fields', jd: jd, index: i %>
+        <% end %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="8"></td>
+          <td align="center" colspan="2">
+            <%= link_to '明細追加', '#', onclick: 'journal.add_detail(this); return false;', class: ('disabled_link' if @receipt_edit_only) %>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </fieldset>
 <% end %>

@@ -22,7 +22,13 @@ module AssetUtil
     ret
   end
 
+  def self.receipt_edit_only?(jh)
+    get_assets(jh).any? {|a| !a.status_created?}
+  end
+
   def self.validate_assets(new_journal, old_journal = nil)
+    return if journal_and_details_unchanged?(new_journal, old_journal)
+
     if old_journal.present?
       if new_journal.present?
         validate_assets_on_update(new_journal, old_journal)
@@ -33,6 +39,15 @@ module AssetUtil
   end
 
   private
+
+  def self.journal_and_details_unchanged?(new_journal, old_journal)
+    return false unless new_journal && old_journal
+
+    jh_changed = new_journal.changed?
+    jd_changed = new_journal.journal_details.any?(&:changed?)
+    return true if !jh_changed && !jd_changed
+    false
+  end
 
   def self.validate_assets_on_update(new_journal, old_journal)
     get_assets(old_journal).each do |a|

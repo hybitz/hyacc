@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '>= 3.2.9', '< 3.3.0'
-gem 'rails', '~> 6.1.7', '>= 6.1.7.10'
+gem 'rails', '~> 7.0.0'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
-gem 'bootsnap', '>= 1.4.4', require: false
+gem 'bootsnap', require: false
 gem 'bootstrap'
 gem 'carrierwave', '< 3.0.0'
 gem 'carrierwave-i18n'
@@ -40,7 +40,7 @@ gem 'public_suffix', '< 6.0.0'
 gem 'puma'
 gem 'rails-i18n'
 gem 'remotipart'
-gem 'sass-rails', '>= 6'
+gem 'sassc-rails'
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'turbolinks', '~> 5'
@@ -62,8 +62,6 @@ group :development do
   gem 'listen', '~> 3.3'
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'rails-erd'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 4.1.0'
 end
 

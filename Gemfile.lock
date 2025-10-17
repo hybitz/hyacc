@@ -101,14 +101,14 @@ GEM
       ssrf_filter (~> 1.0)
     carrierwave-i18n (0.3.0)
     cgi (0.5.0)
-    chef-config (18.8.11)
+    chef-config (18.8.46)
       addressable
-      chef-utils (= 18.8.11)
+      chef-utils (= 18.8.46)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       tomlrb (~> 1.2)
-    chef-utils (18.8.11)
+    chef-utils (18.8.46)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
@@ -440,7 +440,7 @@ GEM
     ruby-vips (2.2.5)
       ffi (~> 1.12)
       logger
-    rubyzip (3.1.1)
+    rubyzip (3.2.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)

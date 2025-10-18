@@ -1,8 +1,8 @@
 1:
   employee_id: 1
   qualification_id: 1
-  qualified_on: <%= 3.years.ago %>
+  qualified_on: <%= 3.years.ago.to_fs %>
 2:
   employee_id: 10
   qualification_id: 1
-  qualified_on: <%= 1.year.ago %>
+  qualified_on: <%= 1.year.ago.to_fs %>

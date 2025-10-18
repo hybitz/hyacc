@@ -6,7 +6,7 @@
   <b>氏名:</b> <%= @user.employee.fullname %>
 </p>
 <p>
-  <b>入社日:</b> <%= @user.employee.employment_date %>
+  <b>入社日:</b> <%= @user.employee.employment_date.to_fs %>
 </p>
 <p>
   <b>性別:</b> <%= @user.employee.sex_name %>

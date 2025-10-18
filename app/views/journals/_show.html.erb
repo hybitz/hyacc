@@ -52,7 +52,7 @@
   </table>
 </form>
 <div style="float: right; margin: 5px 10px 0 10px;">
-  <span title="<%= @journal.create_user_name %> が <%= @journal.created_at.to_fs(:ymd) %> に登録">登録者: <%= @journal.create_user_name %></span>
+  <span title="<%= @journal.create_user_name %> が <%= @journal.created_at.to_fs %> に登録">登録者: <%= @journal.create_user_name %></span>
   /
-  <span title="<%= @journal.update_user_name %> が <%= @journal.updated_at.to_fs(:ymd) %> に更新">更新者: <%= @journal.update_user_name %></span>
+  <span title="<%= @journal.update_user_name %> が <%= @journal.updated_at.to_fs %> に更新">更新者: <%= @journal.update_user_name %></span>
 </div>

@@ -17,4 +17,4 @@ RUN sudo chown -R ${USER}:${USER} ./ && \
 ADD Rakefile ./
 ADD config ./config
 RUN sudo chown -R ${USER}:${USER} ./ && \
-    bundle exec rake dad:setup:base RAILS_ENV=production
+    bundle exec rake dad:setup:base RAILS_ENV=production SECRET_KEY_BASE_DUMMY=true

@@ -15,4 +15,4 @@ ADD . ./
 RUN sudo chown -R ${USER}:${USER} ./ && \
     yarn install && \
     yarn cache clean && \
-    bundle exec rake assets:precompile
+    bundle exec rake assets:precompile SECRET_KEY_BASE_DUMMY=true SECRET_KEY_BASE=dummy

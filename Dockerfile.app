@@ -9,7 +9,7 @@ ENV RAILS_ENV=${rails_env}
 ADD Rakefile ./
 ADD config ./config
 RUN sudo chown -R ${USER}:${USER} ./ && \
-    bundle exec rake dad:setup:app
+    bundle exec rake dad:setup:app SECRET_KEY_BASE_DUMMY=true SECRET_KEY_BASE=dummy
 
 ADD . ./
 RUN sudo chown -R ${USER}:${USER} ./ && \

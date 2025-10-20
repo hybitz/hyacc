@@ -14,7 +14,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_show
     sign_in admin
-    get :show, :params => {:id => user.id}, :xhr => true
+    get :show, params: {id: user.id}, xhr: true
 
     assert_response :success
     assert_template 'show'
@@ -49,8 +49,8 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_equal 'test_create', u.employee.last_name
     assert_equal 'a', u.employee.first_name
     assert_equal 'M', u.employee.sex
-    assert_equal '2009-01-01', u.employee.employment_date.to_s
-    assert_equal '2000-01-01', u.employee.birth.to_s
+    assert_equal '2009-01-01', u.employee.employment_date.to_fs
+    assert_equal '2000-01-01', u.employee.birth.to_fs
     assert_equal 2, u.employee.default_branch.id
   end
 
@@ -69,7 +69,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_編集
     sign_in admin
-    get :edit, :xhr => true, :params => {:id => user.id}
+    get :edit, xhr: true, params: {id: user.id}
 
     assert_response :success
     assert_template 'edit'

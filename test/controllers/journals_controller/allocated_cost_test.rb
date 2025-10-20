@@ -12,7 +12,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert_equal 2, branch.children.size
     
     post_jh = Journal.new
-    post_jh.remarks = '費用配賦_子部門に均等' + Time.now.to_s
+    post_jh.remarks = '費用配賦_子部門に均等' + SecureRandom.uuid
     post_jh.ym = 200908
     post_jh.day = 13
     post_jh.journal_details << JournalDetail.new
@@ -108,7 +108,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert_equal 1, branch.siblings.size
 
     post_jh = Journal.new
-    post_jh.remarks = '費用配賦_同列部門に均等' + Time.now.to_s
+    post_jh.remarks = '費用配賦_同列部門に均等' + SecureRandom.uuid
     post_jh.ym = 200908
     post_jh.day = 18
     jd = post_jh.journal_details.build
@@ -538,7 +538,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   end
 
   def test_auto_journal_type_accrued_expense
-    remarks = 'test_auto_journal_type_accrued_expense' + Time.now.to_s
+    remarks = 'test_auto_journal_type_accrued_expense' + SecureRandom.uuid
     
     post_jh = Journal.new
     post_jh.remarks = remarks
@@ -608,7 +608,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   end
 
   def test_auto_journal_type_date_input_expense
-    remarks = 'test_auto_journal_type_date_input_expense ' + Time.now.to_s
+    remarks = 'test_auto_journal_type_date_input_expense ' + SecureRandom.uuid
     
     post_jh = Journal.new
     post_jh.remarks = remarks 
@@ -688,7 +688,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
 
     post_jh = Journal.new
-    post_jh.remarks = '法人税配賦テスト' + Time.now.to_s
+    post_jh.remarks = '法人税配賦テスト' + SecureRandom.uuid
     post_jh.ym = 200911
     post_jh.day = 3
     post_jh.journal_details << JournalDetail.new
@@ -765,7 +765,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   
   def test_振替伝票の登録_配賦なし
     post_jh = Journal.new
-    post_jh.remarks = '振替伝票の登録_配賦なし' + Time.now.to_s
+    post_jh.remarks = '振替伝票の登録_配賦なし' + SecureRandom.uuid
     post_jh.ym = 200908
     post_jh.day = 14
 

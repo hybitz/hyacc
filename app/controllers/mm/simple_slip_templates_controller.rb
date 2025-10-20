@@ -73,7 +73,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   end
   
   def get_keywords
-    app_id = "#{Rails.application.secrets.yahoo_api_app_id}"
+    app_id = ENV['YAHOO_API_APP_ID']
     remarks = params[:remarks]
     request_id = SecureRandom.alphanumeric(5)
     url = "https://jlp.yahooapis.jp/FuriganaService/V2/furigana"

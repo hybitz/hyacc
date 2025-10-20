@@ -300,7 +300,7 @@ module Auto::Journal
 
       # 消費税率
       tax_rate = TaxJp::ConsumptionTax.rate_on(journal.date)
-      Rails.logger.debug "tax_rate=#{tax_rate}, date=#{journal.date}"
+      Rails.logger.debug "tax_rate=#{tax_rate}, date=#{journal.date.to_fs}"
 
       # 明細の作成
       ## ￥０の明細を作成しない

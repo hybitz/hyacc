@@ -12,7 +12,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     assert sa = SubAccount.find_by(sub_account_type: SUB_ACCOUNT_TYPE_CORPORATE_TAX, code: '200')
 
     post_jh = Journal.new
-    post_jh.remarks = '法人税等の決済区分テスト' + Time.now.to_s
+    post_jh.remarks = SecureRandom.uuid
     post_jh.ym = 200911
     post_jh.day = 25
     post_jh.journal_details << JournalDetail.new
@@ -35,7 +35,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     post_jh.journal_details[1].detail_no = 2
 
     assert_difference 'Journal.count', 7 do
-      post :create, :xhr => true, :params => {
+      post :create, xhr: true, params: {
         :journal => {
           :ym => post_jh.ym,
           :day => post_jh.day,
@@ -68,7 +68,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
     end
     
     # 仕訳内容の確認
-    list = Journal.where(:ym => post_jh.ym, :day => post_jh.day)
+    list = Journal.where(ym: post_jh.ym, day: post_jh.day)
     
     assert_equal 7, list.length, "自動仕訳が6つ作成されるので合計7仕訳"
     jh = list[0]

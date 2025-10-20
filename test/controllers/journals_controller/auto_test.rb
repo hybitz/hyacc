@@ -62,7 +62,7 @@ class JournalsController::AutoTest < ActionController::TestCase
   end
 
   def test_create_branch_and_branch
-    remarks = "支店間取引の自動仕訳テスト #{Time.now}"
+    remarks = '支店間取引の自動仕訳テスト' + SecureRandom.uuid
 
     assert_difference 'Journal.count', 3 do
       post :create, :params => {
@@ -93,7 +93,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = Journal.where(:ym => 200812, :day => 2)
+    list = Journal.where(ym: 200812, day: 2)
     assert_equal 3, list.length, "自動仕訳が２つ作成されるので合計３仕訳"
     jh = list[0]
     assert_equal remarks, jh.remarks
@@ -120,7 +120,7 @@ class JournalsController::AutoTest < ActionController::TestCase
 
   def test_create_allocate_assets_of_head_office
     post_jh = Journal.new
-    post_jh.remarks = '資産配賦テスト' + Time.now.to_s
+    post_jh.remarks = '資産配賦テスト' + SecureRandom.uuid
     post_jh.ym = 200908
     post_jh.day = 17
     post_jh.lock_version = 0
@@ -212,7 +212,7 @@ class JournalsController::AutoTest < ActionController::TestCase
 
   def test_create_allocate_assets_of_branch_office
     post_jh = Journal.new
-    post_jh.remarks = '資産配賦テスト' + Time.now.to_s
+    post_jh.remarks = '資産配賦テスト' + SecureRandom.uuid
     post_jh.ym = 200908
     post_jh.day = 16
     post_jh.lock_version = 0
@@ -318,7 +318,7 @@ class JournalsController::AutoTest < ActionController::TestCase
 
   def test_create_not_allocate_assets
     post_jh = Journal.new
-    post_jh.remarks = '費用配賦テスト' + Time.now.to_s
+    post_jh.remarks = '費用配賦テスト' + SecureRandom.uuid
     post_jh.ym = 200908
     post_jh.day = 15
     post_jh.journal_details << JournalDetail.new
@@ -370,7 +370,7 @@ class JournalsController::AutoTest < ActionController::TestCase
     end
 
     # 仕訳内容の確認
-    list = Journal.where(:ym => post_jh.ym, :day => post_jh.day)
+    list = Journal.where(ym: post_jh.ym, day: post_jh.day)
     assert_equal 1, list.length, "自動仕訳は作成されないので合計１仕訳"
     jh = list[0]
     assert_equal post_jh.remarks, jh.remarks

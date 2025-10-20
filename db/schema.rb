@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_10_06_060447) do
-
+ActiveRecord::Schema[7.0].define(version: 2025_10_17_023643) do
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", default: "", null: false
@@ -29,8 +28,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.boolean "is_trade_account_payable", default: false, null: false
     t.boolean "journalizable", default: true, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "depreciable", default: false, null: false
     t.boolean "personal_only", default: false, null: false
     t.boolean "company_only", default: false, null: false
@@ -48,7 +47,7 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -59,8 +58,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -90,8 +89,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.decimal "business_use_ratio", precision: 5, scale: 2
     t.integer "journal_detail_id", null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "lock_version", default: 0, null: false
     t.index ["code"], name: "index_assets_on_code", unique: true
   end
@@ -104,8 +103,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.time "from"
     t.time "to"
     t.string "holiday_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "bank_accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
@@ -113,8 +112,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "name", default: "", null: false
     t.string "holder_name", null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "bank_id", null: false
     t.integer "bank_office_id"
     t.integer "financial_account_type", default: 0, null: false
@@ -128,8 +127,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "name", null: false
     t.string "code", limit: 3, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "disabled", default: false, null: false
     t.string "address"
   end
@@ -138,8 +137,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "name", null: false
     t.string "code", limit: 4, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "disabled", default: false, null: false
     t.integer "company_id", null: false
     t.integer "lt_30k_same_office"
@@ -155,8 +154,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "branch_id", null: false
     t.integer "employee_id", null: false
     t.boolean "default_branch", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "deleted", default: false, null: false
   end
 
@@ -169,8 +168,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "path", default: "/", null: false
     t.integer "cost_ratio", default: 100, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "business_office_id"
     t.string "formal_name", null: false
   end
@@ -181,8 +180,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "prefecture_name", limit: 16, null: false
     t.string "address1"
     t.string "address2"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "lock_version", default: 0, null: false
     t.string "tel", limit: 13
     t.string "prefecture_code", limit: 2, null: false
@@ -197,8 +196,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "description"
     t.decimal "deemed_tax_ratio", precision: 3, scale: 2, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["name"], name: "index_bisiness_types_on_name", unique: true
   end
 
@@ -213,8 +212,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "project_size"
     t.string "role"
     t.string "process"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "hardware_skill"
     t.string "os_skill"
     t.string "db_skill"
@@ -231,8 +230,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "type_of", default: 0, null: false
     t.string "admin_email"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "business_type_id"
     t.integer "lock_version", default: 0, null: false
     t.string "pay_day_definition", default: "0,25", null: false
@@ -249,8 +248,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.boolean "is_order_placement", default: false, null: false
     t.string "address", default: ""
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "disabled", default: false, null: false
     t.boolean "is_investment", default: false, null: false
     t.string "formal_name"
@@ -266,8 +265,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "name", null: false
     t.string "kana", null: false
     t.string "my_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "family_sub_type"
     t.string "non_resident_code"
     t.boolean "non_resident", default: false, null: false
@@ -279,8 +278,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "amount_at_start", null: false
     t.integer "amount_at_end", null: false
     t.boolean "depreciated", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "employee_bank_accounts", charset: "utf8mb3", force: :cascade do |t|
@@ -288,8 +287,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "code", null: false
     t.integer "bank_id", null: false
     t.integer "bank_office_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "employees", id: :integer, charset: "utf8mb3", force: :cascade do |t|
@@ -301,8 +300,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "address"
     t.string "sex", limit: 1, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.date "birth", null: false
     t.integer "user_id"
     t.string "my_number", limit: 12
@@ -319,8 +318,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
   create_table "exemptions", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.integer "yyyy", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "company_id", null: false
     t.integer "num_of_house_loan"
     t.integer "max_mortgage_deduction"
@@ -358,8 +357,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "report_type", null: false
     t.integer "fiscal_year", null: false
     t.integer "max_node_level", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "report_style"
   end
 
@@ -368,8 +367,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "account_id", null: false
     t.string "account_name", null: false
     t.integer "amount", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "financial_statement_header_id"
   end
 
@@ -379,8 +378,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "closing_status", default: 0, null: false
     t.integer "tax_management_type", default: 1, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "lock_version", default: 0, null: false
     t.integer "consumption_entry_type", limit: 1
     t.integer "accepted_amount_of_excess_depreciation", default: 0, null: false
@@ -390,8 +389,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
   end
 
   create_table "inhabitant_taxes", id: :integer, charset: "utf8mb3", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "employee_id", null: false
     t.integer "ym", null: false
     t.integer "amount"
@@ -402,8 +401,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "input_type", limit: 1, null: false
     t.string "input_value", limit: 30, default: ""
     t.integer "frequency", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "input_value2", limit: 30, default: ""
     t.index ["user_id", "input_type", "input_value", "input_value2"], name: "index_input_frequencies_for_unique_key", unique: true
   end
@@ -411,8 +410,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
   create_table "investments", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.integer "shares", default: 0, null: false
     t.integer "trading_value", default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "customer_id", null: false
     t.integer "ym", null: false
     t.integer "day", null: false
@@ -439,8 +438,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "note"
     t.integer "tax_type", default: 1, null: false
     t.integer "main_detail_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "settlement_type", limit: 1
     t.decimal "tax_rate", precision: 4, scale: 3, default: "0.0", null: false
     t.integer "allocation_type"
@@ -460,8 +459,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "transfer_from_detail_id"
     t.integer "create_user_id", null: false
     t.integer "update_user_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "lock_version", default: 0, null: false
     t.integer "company_id", null: false
     t.boolean "deleted", default: false, null: false
@@ -480,14 +479,14 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "name", null: false
     t.string "value"
     t.date "effective_at", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "notifications", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "message"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "deleted", default: false, null: false
     t.integer "category", null: false
     t.integer "ym"
@@ -502,8 +501,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "hours_of_day_off_work", default: 0
     t.integer "hours_of_early_work", default: 0
     t.integer "hours_of_late_night_work", default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "employee_id", null: false
     t.boolean "is_bonus", default: false, null: false
     t.integer "commuting_allowance", default: 0, null: false
@@ -534,8 +533,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "name", null: false
     t.integer "allowance", default: 0, null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "receipts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
@@ -543,8 +542,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "file"
     t.string "original_filename"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "rents", id: :integer, charset: "utf8mb3", force: :cascade do |t|
@@ -554,8 +553,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "rent_type", null: false
     t.integer "usage_type", null: false
     t.string "address"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "zip_code", limit: 7
     t.date "start_from", null: false
     t.date "end_to"
@@ -565,16 +564,16 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "name", limit: 32, null: false
     t.string "section", limit: 32
     t.integer "value", default: 0, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["name", "section"], name: "index_sequences_on_name_and_section", unique: true
   end
 
   create_table "sessions", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "session_id", default: "", null: false
     t.text "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["session_id"], name: "index_sessions_on_session_id"
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
@@ -583,8 +582,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "user_id", null: false
     t.integer "account_id", null: false
     t.string "shortcut_key", limit: 10, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "simple_slip_templates", id: :integer, charset: "utf8mb3", force: :cascade do |t|
@@ -602,8 +601,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "tax_amount"
     t.string "focus_on_complete"
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.decimal "tax_rate", precision: 4, scale: 3
     t.index ["remarks"], name: "index_simple_slip_templates_on_remarks"
   end
@@ -613,8 +612,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "qualification_id", null: false
     t.date "qualified_on", null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "sub_accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
@@ -622,8 +621,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.string "name", default: "", null: false
     t.integer "account_id", null: false
     t.boolean "deleted", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "sub_account_type", limit: 2, default: 1, null: false
     t.boolean "social_expense_number_of_people_required", default: false, null: false
   end
@@ -632,16 +631,16 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.integer "journal_id", null: false
     t.boolean "should_include_tax", default: false, null: false
     t.boolean "checked", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "user_notifications", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "notification_id", null: false
     t.boolean "visible", default: true, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["notification_id"], name: "fk_user_notifications_notifications"
     t.index ["user_id", "notification_id"], name: "index_user_notifications_on_user_id_and_notification_id", unique: true
   end
@@ -657,22 +656,22 @@ ActiveRecord::Schema.define(version: 2025_10_06_060447) do
     t.boolean "show_details", default: true, null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "otp_secret_key"
     t.integer "second_factor_attempts_count", default: 0
     t.boolean "use_two_factor_authentication", default: false, null: false
     t.boolean "admin", default: false, null: false
     t.string "direct_otp"
-    t.datetime "direct_otp_sent_at"
-    t.datetime "totp_timestamp"
+    t.datetime "direct_otp_sent_at", precision: nil
+    t.datetime "totp_timestamp", precision: nil
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login_id"], name: "index_users_on_login_id", unique: true
     t.index ["otp_secret_key"], name: "index_users_on_otp_secret_key", unique: true

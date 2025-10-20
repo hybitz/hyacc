@@ -212,7 +212,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 2
     @request.session[PayrollFinder] = finder
     ym = 200904
-    pay_day = Employee.find(2).company.get_actual_pay_day_for(ym)
+    pay_day = Employee.find(2).company.get_actual_pay_day_for(ym).to_fs
 
     post :auto_calc, params: {payroll: {ym: ym, employee_id: 2, base_salary: 394000, pay_day: pay_day}}, xhr: true
 
@@ -232,7 +232,7 @@ class Hr::PayrollsControllerTest < ActionController::TestCase
     finder.employee_id = 1
     @request.session[PayrollFinder] = finder
     ym = 200811
-    pay_day = Employee.find(1).company.get_actual_pay_day_for(ym)
+    pay_day = Employee.find(1).company.get_actual_pay_day_for(ym).to_fs
     
     get :auto_calc, params: {payroll: {ym: ym, employee_id: 1, base_salary: 424000, pay_day: pay_day}}, xhr: true
 

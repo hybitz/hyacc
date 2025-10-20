@@ -51,7 +51,7 @@ class JournalsController::CrudTest < ActionController::TestCase
   end
 
   def test_登録
-    remarks = '振替伝票テスト' + Time.now.to_s
+    remarks = '振替伝票テスト'
 
     assert_difference 'Journal.count', 1 do
       post :create, xhr: true, params: {

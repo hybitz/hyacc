@@ -26,7 +26,6 @@ spec:
         }
       }
       environment {
-        DISABLE_SPRING = 'true'
         HEADLESS = 'true'
         RAILS_ENV = 'test'
         REMOTE = 'true'

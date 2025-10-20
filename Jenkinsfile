@@ -39,7 +39,6 @@ spec:
       }
       environment {
         COVERAGE = 'true'
-        DISABLE_SPRING = 'true'
         FORMAT = 'junit'
         RAILS_ENV = 'test'
       }
@@ -78,7 +77,6 @@ spec:
         }
       }
       environment {
-        DISABLE_SPRING = 'true'
         HEADLESS = 'true'
         RAILS_ENV = 'test'
         REMOTE = 'true'

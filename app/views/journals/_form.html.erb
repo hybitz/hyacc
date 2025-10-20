@@ -60,14 +60,17 @@
           <%= render 'detail_fields', jd: jd, index: i %>
         <% end %>
       </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="8"></td>
-          <td align="center" colspan="2">
-            <%= link_to '明細追加', '#', onclick: 'journal.add_detail(this); return false;', class: ('disabled_link' if @receipt_edit_only) %>
-          </td>
-        </tr>
-      </tfoot>
+
+      <% unless @receipt_edit_only %>
+        <tfoot>
+          <tr>
+            <td colspan="8"></td>
+            <td align="center" colspan="2">
+              <%= link_to '明細追加', '#', onclick: 'journal.add_detail(this); return false;' %>
+            </td>
+          </tr>
+        </tfoot>
+      <% end %>
     </table>
   </fieldset>
 <% end %>

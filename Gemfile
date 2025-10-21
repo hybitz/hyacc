@@ -36,7 +36,6 @@ gem 'nokogiri', force_ruby_platform: true
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
-gem 'public_suffix', '< 6.0.0'
 gem 'puma'
 gem 'rails-i18n'
 gem 'remotipart'
@@ -47,7 +46,6 @@ gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'wicked_pdf', '< 2.0.0'
 gem 'will_paginate'
-gem 'zeitwerk', '< 2.7.0'
 
 group :itamae do
   gem 'mysql2', '>= 0.4.4', '< 0.6.0'
@@ -59,7 +57,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen', '~> 3.3'
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'rails-erd'
   gem 'web-console', '>= 4.1.0'

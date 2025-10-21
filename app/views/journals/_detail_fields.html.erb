@@ -34,7 +34,9 @@
       <a href="#" class="flip_detail_button"><%= message_for_details %></a>
     </td>
     <td nowrap>
-      <a href="#" class="delete_detail_button">削除</a>
+      <% unless @receipt_edit_only %>
+        <a href="#" class="delete_detail_button %>">削除</a>
+      <% end %>
     </td>
   </tr>
   <tr style="<%= style_for_detail(jd) %>">

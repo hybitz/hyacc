@@ -325,6 +325,32 @@ class JournalsController::CrudTest < ActionController::TestCase
     assert_equal 'inhabitant_tax.csv', @journal.receipt.original_filename
   end
 
+  def test_更新_ステータスが償却待以降の資産がある場合でも領収書は添付できること
+    jh = Asset.find_by(status: ASSET_STATUS_WAITING).journal_detail.journal
+    assert_nil jh.receipt
+
+    patch :update, xhr: true, params: {
+      id: jh.id,
+      journal: {
+        lock_version: jh.lock_version,
+        receipt_attributes: {
+          file: upload_file('inhabitant_tax.csv')
+        }
+      }
+    }
+
+    assert @journal = assigns(:journal)
+    assert @journal.errors.empty?, journal.errors.full_messages.join("\n")
+    assert_response :success
+    assert_template 'common/reload'
+    
+    assert @journal = Journal.find(jh.id)
+    assert_equal jh.create_user_id, @journal.create_user_id
+    assert_equal user.id, @journal.update_user_id
+    assert @journal.receipt.file?
+    assert_equal 'inhabitant_tax.csv', @journal.receipt.original_filename
+  end
+
   def test_Trac_99_バリデーションエラー時に金額が正しいか
     jh = Journal.find(11)
 

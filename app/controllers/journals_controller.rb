@@ -72,26 +72,39 @@ class JournalsController < Base::HyaccController
     unless can_edit(@journal)
       redirect_to :action => 'index' and return
     end
+
+    @receipt_edit_only = AssetUtil.receipt_edit_only?(@journal)
+
+    if @receipt_edit_only
+      flash.now[:notice] = "この伝票は償却対象の資産が存在するため、領収書の追加・差し替え・削除のみ可能です。"
+      flash[:is_error_message] = false
+    end
   end
 
   def update
     @journal = Journal.find(params[:id])
-    old = @journal.copy
-    @journal.attributes = journal_params
-    @journal.slip_type = decide_slip_type(old)
-
-    begin
-      @journal.transaction do
-        @journal.save_with_tax!
+    if AssetUtil.receipt_edit_only?(@journal)
+      begin
+        @journal.transaction do
+          @journal.update!(receipt_only_params)
+        end
+        handle_success
+      rescue => e
+        handle_failure(e)
       end
+    else
+      old = @journal.copy
+      @journal.attributes = journal_params
+      @journal.slip_type = decide_slip_type(old)
 
-      flash[:notice] = '伝票を更新しました。'
-      render 'common/reload'
-
-    rescue => e
-      handle(e)
-      setup_view_attributes
-      render 'edit'
+      begin
+        @journal.transaction do
+          @journal.save_with_tax!
+        end
+        handle_success
+      rescue => e
+        handle_failure(e)
+      end
     end
   end
 
@@ -175,6 +188,24 @@ class JournalsController < Base::HyaccController
     end
 
     ret
+  end
+
+  def receipt_only_params
+    params.require(:journal).permit(
+      :lock_version,
+      receipt_attributes: [:id, :deleted, :original_filename, :file, :file_cache]
+    )
+  end
+
+  def handle_success
+    flash[:notice] = '伝票を更新しました。'
+    render 'common/reload'
+  end
+
+  def handle_failure(e)
+    handle(e)
+    setup_view_attributes
+    render 'edit'
   end
 
   def new_journal

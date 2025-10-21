@@ -22,6 +22,10 @@ module AssetUtil
     ret
   end
 
+  def self.receipt_edit_only?(jh)
+    get_assets(jh).any? {|a| !a.status_created?}
+  end
+
   def self.validate_assets(new_journal, old_journal = nil)
     if old_journal.present?
       if new_journal.present?

@@ -571,9 +571,6 @@ DEPENDENCIES
   momentjs-rails
   mousetrap-rails
   mysql2 (>= 0.4.4, < 0.6.0)
-  net-imap
-  net-pop
-  net-smtp
   nokogiri
   nostalgic
   omniauth

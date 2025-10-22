@@ -28,9 +28,6 @@ gem 'mimemagic'
 gem 'mini_magick', '~> 4.8'
 gem 'momentjs-rails'
 gem 'mousetrap-rails'
-gem 'net-imap', require: false
-gem 'net-pop', require: false
-gem 'net-smtp', require: false
 gem 'nostalgic'
 gem 'nokogiri', force_ruby_platform: true
 gem 'omniauth'

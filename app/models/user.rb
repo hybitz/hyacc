@@ -2,8 +2,13 @@ class User < ApplicationRecord
   validates :login_id, presence: true, uniqueness: {case_sensitive: false}
   validates_format_of :login_id, with: /\A[a-zA-Z0-9._]+\z/, allow_blank: true
 
-  devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2]
+  if Rails.env.production?
+    devise :rememberable, :trackable, :validatable,
+           :omniauthable, omniauth_providers: [:google_oauth2]
+  else
+    devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable,
+           :omniauthable, omniauth_providers: [:google_oauth2]
+  end
 
   validates_format_of :password, with: /\A[!-~]*\z/, allow_blank: true  
   validates_format_of :google_account, allow_nil: true, allow_blank: true, with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/

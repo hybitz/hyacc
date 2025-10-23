@@ -1,5 +1,5 @@
 <%
-  prefix = "journal[journal_details_attributes[#{index}]]"
+  prefix = "journal[journal_details_attributes][#{index}]"
 %>
 <%= fields_for prefix, jd do |f| %>
   <tr data-detail_id="<%= jd.id %>" data-index="<%= index %>" style="<%= 'display: none;' if jd.deleted? %>">

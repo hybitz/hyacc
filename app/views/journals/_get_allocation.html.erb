@@ -1,4 +1,4 @@
-<%= fields_for "journal[journal_details_attributes[#{index}]]", jd do |f| %>
+<%= fields_for "journal[journal_details_attributes][#{index}]", jd do |f| %>
   <div id="jd_<%= index %>_allocation">
     <% if jd.allocatable? %>
       <strong><%= jd.account.account_type_name %>配賦</strong>

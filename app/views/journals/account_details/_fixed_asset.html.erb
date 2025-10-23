@@ -1,5 +1,5 @@
 <%
-  prefix = "journal[journal_details_attributes[#{index}]]"
+  prefix = "journal[journal_details_attributes][#{index}]"
 %>
 <% if jd.asset and jd.asset.persisted? %>
   <%= fields_for prefix, jd do |f| %>

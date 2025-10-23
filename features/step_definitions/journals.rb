@@ -83,7 +83,7 @@ end
       attach_file '領収書', @journal.receipt.file.path if @journal.receipt.present?
 
       @journal.journal_details.each_with_index do |detail, i|
-        prefix = "journal[journal_details_attributes[#{i}]]"
+        prefix = "journal[journal_details_attributes][#{i}]"
 
         select detail.dc_type_name, from: "#{prefix}[dc_type]"
         select detail.account_name, from: "#{prefix}[account_id]"
@@ -129,13 +129,13 @@ end
 
 もし /^借方に家賃と光熱費を入力します。$/ do
   with_capture do
-    select '借方', from: 'journal[journal_details_attributes[0]][dc_type]'
-    select '地代家賃', from: 'journal[journal_details_attributes[0]][account_id]'
-    fill_in 'journal[journal_details_attributes[0]][input_amount]', with: 78000
+    select '借方', from: 'journal[journal_details_attributes][0][dc_type]'
+    select '地代家賃', from: 'journal[journal_details_attributes][0][account_id]'
+    fill_in 'journal[journal_details_attributes][0][input_amount]', with: 78000
 
-    select '借方', from: 'journal[journal_details_attributes[1]][dc_type]'
-    select '光熱費', from: 'journal[journal_details_attributes[1]][account_id]'
-    fill_in 'journal[journal_details_attributes[1]][input_amount]', with: 15000
+    select '借方', from: 'journal[journal_details_attributes][1][dc_type]'
+    select '光熱費', from: 'journal[journal_details_attributes][1][account_id]'
+    fill_in 'journal[journal_details_attributes][1][input_amount]', with: 15000
   end
 end
 
@@ -143,10 +143,10 @@ end
   with_capture do
     click_on '明細追加'
 
-    select '借方', from: 'journal[journal_details_attributes[2]][dc_type]'
-    select '諸会費', from: 'journal[journal_details_attributes[2]][account_id]'
-    fill_in 'journal[journal_details_attributes[2]][input_amount]', :with => 3000
-    fill_in 'journal[journal_details_attributes[2]][note]', :with => '町内会費として'
+    select '借方', from: 'journal[journal_details_attributes][2][dc_type]'
+    select '諸会費', from: 'journal[journal_details_attributes][2][account_id]'
+    fill_in 'journal[journal_details_attributes][2][input_amount]', with: 3000
+    fill_in 'journal[journal_details_attributes][2][note]', with: '町内会費として'
   end
 end
 
@@ -154,9 +154,9 @@ end
   with_capture do
     click_on '明細追加'
 
-    select '貸方', from: 'journal[journal_details_attributes[3]][dc_type]'
-    select '小口現金', from: 'journal[journal_details_attributes[3]][account_id]'
-    fill_in 'journal[journal_details_attributes[3]][input_amount]', with: 96000
+    select '貸方', from: 'journal[journal_details_attributes][3][dc_type]'
+    select '小口現金', from: 'journal[journal_details_attributes][3][account_id]'
+    fill_in 'journal[journal_details_attributes][3][input_amount]', with: 96000
   end
 end
 

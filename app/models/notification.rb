@@ -3,7 +3,7 @@ class Notification < ApplicationRecord
 
   has_many :user_notifications
 
-  enum category: {
+  enum :category, {
     report_submission: 1,
     annual_determination: 2,
     ad_hoc_revision: 3,

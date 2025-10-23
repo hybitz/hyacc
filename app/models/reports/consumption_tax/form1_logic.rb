@@ -1,5 +1,3 @@
-require 'reports/consumption_tax/base_logic'
-
 module Reports
   module ConsumptionTax
 

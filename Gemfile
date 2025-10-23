@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '>= 3.2.9', '< 3.3.0'
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.2.0'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
@@ -23,7 +23,6 @@ gem 'i18n-js', '< 4.0.0'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails', '~> 4.5.1'
 gem 'jquery-ui-rails'
-gem 'mail', '~> 2.7.1'
 gem 'mimemagic'
 gem 'mini_magick', '~> 4.8'
 gem 'momentjs-rails'

@@ -47,7 +47,7 @@ module Base
         rescue => e
           handle(e)
           format.html { redirect_to :action => 'index', :commit=>''}
-          format.xml  { render :xml => @data.errors, :status => :unprocessable_entity }
+          format.xml  { render :xml => @data.errors, :status => :unprocessable_content }
         end
       end
     end
@@ -74,7 +74,7 @@ module Base
           format.js   { render :show }
         else
           format.html { render partial: "form" }
-          format.xml  { render xml: @data.errors, :status => :unprocessable_entity }
+          format.xml  { render xml: @data.errors, :status => :unprocessable_content }
           format.js   { render js: "alert('#{@data.errors.full_messages.join('\n')}');" }
         end
       end

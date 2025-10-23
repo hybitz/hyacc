@@ -18,12 +18,12 @@ class UserNotificationsController < Base::HyaccController
       .where(notifications: {deleted: false})
       .find_by(id: params[:id])
 
-    return head :unprocessable_entity if un.nil?
+    return head :unprocessable_content if un.nil?
 
     if un.update(user_notification_params)
       render json: { message: 'ok' }
     else
-      head :unprocessable_entity
+      head :unprocessable_content
     end
   end
 

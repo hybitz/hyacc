@@ -23,13 +23,6 @@ spec:
             name: hyacc-config
         - secretRef:
             name: hyacc-secret
-        env:
-        - name: RAILS_LOG_TO_STDOUT
-          value: 'true'
-        - name: RAILS_SERVE_STATIC_FILES
-          value: 'true'
-        - name: PORT
-          value: '3000'
         command: ['bundle', 'exec', 'rails', 's']
       - name: memcached
         image: memcached:1.4.39

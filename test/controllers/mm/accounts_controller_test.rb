@@ -53,9 +53,8 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_new_fail_by_missing_parent_id
-    assert_raise ActiveRecord::RecordNotFound do
-      get new_mm_account_path
-    end
+    get new_mm_account_path
+    assert_response :not_found
   end
 
   def test_登録

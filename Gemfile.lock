@@ -126,7 +126,7 @@ GEM
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
-    closer (0.18.1)
+    closer (0.18.2)
       capybara (>= 3.0)
       cucumber (>= 7.1, < 10.0)
       selenium-webdriver (>= 4.8, <= 5.0)

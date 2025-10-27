@@ -173,19 +173,19 @@ end
 end
 
 もし /^以下のような振替日は不正$/ do |ast_table|
-  sign_in :login_id => user.login_id unless current_user
+  sign_in login_id: user.login_id unless current_user
   click_on '振替伝票'
   assert has_title?('振替伝票')
   click_on '追加'
   assert has_dialog?(/振替伝票.*追加/)
 
   normalize_table(ast_table).each do |row|
-    prefix = 'journal_journal_details_attributes_1_'
+    prefix = 'journal_journal_details_attributes_1'
     year, month, day = row[0].split('-')
 
-    fill_in "#{prefix}_auto_journal_year", :with => year
-    fill_in "#{prefix}_auto_journal_month", :with => month
-    fill_in "#{prefix}_auto_journal_day", :with => day
+    fill_in "#{prefix}_auto_journal_year", with: year
+    fill_in "#{prefix}_auto_journal_month", with: month
+    fill_in "#{prefix}_auto_journal_day", with: day
     capture
     accept_alert do
       click_on '登録'

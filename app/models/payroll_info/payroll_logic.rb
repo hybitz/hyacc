@@ -182,7 +182,7 @@ module PayrollInfo
     def get_total_exemption
       e = get_exemptions
 
-      get_health_insurance + get_employee_pention + get_employment_insurance + 
+      get_health_insurance + get_employee_pention + get_employment_insurance + get_income_adjustment_deduction +
           e.small_scale_mutual_aid.to_i + e.life_insurance_deduction.to_i +
           e.earthquake_insurance_premium.to_i + e.social_insurance_selfpay.to_i + e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i +
           e.disabled_persons.to_i + e.basic.to_i + e.previous_social_insurance.to_i + e.special_deduction_for_specified_family.to_i
@@ -388,6 +388,20 @@ module PayrollInfo
         end
       end
       amount
+    end
+
+    # 所得金額調整控除
+    def get_income_adjustment_deduction
+      base_salary = get_total_base_salary_include_previous
+      e = get_exemptions
+      deduction = 0
+
+      if base_salary > 8_500_000 && e.income_adjustment_deduction_reason.present?
+        upper_limit = [base_salary, 10_000_000].min
+        deduction = ((upper_limit - 8_500_000) * 0.1).ceil
+      end
+
+      deduction
     end
 
     private

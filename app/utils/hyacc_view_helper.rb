@@ -24,6 +24,10 @@ module HyaccViewHelper
   def focus_on_completes
     revert_and_sort( FOCUS_ON_COMPLETES )
   end
+
+  def income_adjustment_deduction_reasons
+    revert_and_sort( INCOME_ADJUSTMENT_DEDUCTION_REASONS )
+  end
   
   def mortgage_deduction_types
     revert_and_sort( MORTGAGE_DEDUCTION_TYPES )

@@ -82,6 +82,32 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     assert_equal 18610, withholding_taxes["20120106"]
   end
 
+  def test_get_income_adjustment_deduction
+    p = Payroll.new(ym: 202501, pay_day: '2025-02-25', employee: employee, base_salary: 8_500_000)
+    p.create_user_id = p.update_user_id = employee.id
+    p.save!
+    logic = logic_builder(2025)
+    assert_equal 8_500_000, logic.get_total_base_salary_include_previous
+    e = logic.get_exemptions
+    assert e.income_adjustment_deduction_reason.present?
+    assert_equal 0, logic.get_income_adjustment_deduction
+
+    p.update!(base_salary: 8_500_001)
+    assert_equal 1, logic.get_income_adjustment_deduction
+
+    p.update!(base_salary: 9_999_991)
+    assert_equal 150_000, logic.get_income_adjustment_deduction
+
+    p.update!(base_salary: 10_000_000)
+    assert_equal 150_000, logic.get_income_adjustment_deduction
+
+    p.update!(base_salary: 15_000_000)
+    assert_equal 150_000, logic.get_income_adjustment_deduction
+
+    e.update!(income_adjustment_deduction_reason: nil)
+    assert_equal 0, logic.get_income_adjustment_deduction
+  end
+
   private
 
   def logic_builder(calendar_year)

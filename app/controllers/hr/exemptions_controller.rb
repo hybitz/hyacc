@@ -90,7 +90,7 @@ class Hr::ExemptionsController < Base::HyaccController
       :life_insurance_premium_old, :life_insurance_premium_new,
       :care_insurance_premium, :private_pension_insurance_old, :private_pension_insurance_new,
       :earthquake_insurance_premium, :social_insurance_selfpay, :special_tax_for_spouse, :spouse,
-      :dependents, :disabled_persons, :basic, :special_deduction_for_specified_family,
+      :dependents, :disabled_persons, :basic, :special_deduction_for_specified_family, :income_adjustment_deduction_reason,
       :num_of_house_loan, :max_mortgage_deduction, :date_of_start_living_1,
       :mortgage_deduction_code_1, :year_end_balance_1, :date_of_start_living_2,
       :mortgage_deduction_code_2, :year_end_balance_2,

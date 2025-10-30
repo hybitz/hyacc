@@ -17,6 +17,7 @@ module Reports
         model.withholding_tax = get_withholding_tax                 # 源泉徴収税額
         model.mortgage_deduction = get_mortgage_deduction
         model.mortgage_deductible = get_mortgage_deductible
+        model.income_adjustment_deduction = get_income_adjustment_deduction   # 所得金額調整控除額
         model.social_insurance = get_social_insurance               # 給与から控除された社会保険料等の金額
         e = get_exemptions
         model.exemption = e                                         # 配偶者控除額
@@ -89,6 +90,11 @@ module Reports
         withholding_tax_before_deduction = logic.get_withholding_tax_before_mortgage_deduction.to_i
         mortgage_deductible > withholding_tax_before_deduction ? mortgage_deductible : nil
       end
+
+      def get_income_adjustment_deduction
+        logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
+        logic.get_income_adjustment_deduction
+      end
     end
 
     class DetailModel
@@ -102,6 +108,7 @@ module Reports
       attr_accessor :withholding_tax # 源泉徴収税額
       attr_accessor :mortgage_deduction # 住宅ローン控除額
       attr_accessor :mortgage_deductible # 住宅ローン控除可能額
+      attr_accessor :income_adjustment_deduction # 所得金額調整控除額
       attr_accessor :social_insurance # 社会保険料等の金額
       attr_accessor :small_scale_mutual_aid # 小規模共済掛金の金額
       attr_accessor :social_insurance_selfpay # 給与から控除していない自己負担社会保険料

@@ -174,7 +174,7 @@
         <td colspan="2" rowspan="2" class="item">基礎控除の額</td>
         <td colspan="2" rowspan="2" class="text-end"><%= to_amount(@data.exemption.basic, show_zero: true) %></td>
         <td colspan="2" rowspan="2" class="item">所得金額<br>調整控除額</td>
-        <td colspan="2" rowspan="2"></td>
+        <td colspan="2" rowspan="2" class="text-end"><%= to_amount(@data.income_adjustment_deduction) %></td>
       </tr>
       <tr>
         <td colspan="2" class="item"></td>

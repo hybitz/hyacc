@@ -165,7 +165,7 @@ module PayrollInfo
     # 給与所得控除後
     def get_after_deduction
       # みなし給与で計算
-      [0, get_total_deemed_salary - get_deduction].max
+      [0, get_total_deemed_salary - get_deduction - get_income_adjustment_deduction].max
     end
 
     def get_exemptions
@@ -182,7 +182,7 @@ module PayrollInfo
     def get_total_exemption
       e = get_exemptions
 
-      get_health_insurance + get_employee_pention + get_employment_insurance + get_income_adjustment_deduction +
+      get_health_insurance + get_employee_pention + get_employment_insurance +
           e.small_scale_mutual_aid.to_i + e.life_insurance_deduction.to_i +
           e.earthquake_insurance_premium.to_i + e.social_insurance_selfpay.to_i + e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i +
           e.disabled_persons.to_i + e.basic.to_i + e.previous_social_insurance.to_i + e.special_deduction_for_specified_family.to_i
@@ -390,7 +390,7 @@ module PayrollInfo
       amount
     end
 
-    # 所得金額調整控除
+    # 所得金額調整控除額
     def get_income_adjustment_deduction
       base_salary = get_total_base_salary_include_previous
       e = get_exemptions

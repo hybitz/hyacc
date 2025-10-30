@@ -34,8 +34,16 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     logic = logic_builder(2008)
     # みなし給与のため給与を4000で除して端数を削除後に4000を掛ける
     assert_equal 2_652_000 - 975_600, logic.get_after_deduction
+
+    p = Payroll.new(ym: 202501, pay_day: '2025-02-25', employee: employee, base_salary: 10_000_000)
+    p.create_user_id = p.update_user_id = employee.id
+    p.save!
+    logic = logic_builder(2025)
+    assert_equal 150_000, logic.get_income_adjustment_deduction
+    assert_equal 1_950_000, logic.get_deduction
+    assert_equal 10_000_000 - 1_950_000 - 150_000, logic.get_after_deduction
   end
-    
+
   def test_get_total_exemption
     logic = logic_builder(2008)
     # 3565000（基本給）

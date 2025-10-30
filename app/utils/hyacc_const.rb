@@ -151,6 +151,14 @@ module HyaccConst
     NON_RESIDENT_CODE_30_70_ALLOWANCE = '04' => '30歳以上70歳未満、38万以上送金'
   }
 
+  # 所得金額調整控除要件
+  INCOME_ADJUSTMENT_DEDUCTION_REASONS = {
+    SELF_SPECIAL_DISABLED = 1 => '本人が特別障害者',
+    SPOUSE_SPECIAL_DISABLED = 2 => '同一生計配偶者が特別障害者',
+    DEPENDENT_SPECIAL_DISABLED = 3 => '扶養親族が特別障害者',
+    DEPENDENT_UNDER_23 = 4 => '扶養親族が年齢23歳未満'
+  }
+
   # 金融口座区分
   FINANCIAL_ACCOUNT_TYPES = {
     FINANCIAL_ACCOUNT_TYPE_SAVING = 1 => '普通預金', # 銀行口座

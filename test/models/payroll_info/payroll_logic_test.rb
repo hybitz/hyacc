@@ -34,8 +34,16 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     logic = logic_builder(2008)
     # みなし給与のため給与を4000で除して端数を削除後に4000を掛ける
     assert_equal 2_652_000 - 975_600, logic.get_after_deduction
+
+    p = Payroll.new(ym: 202501, pay_day: '2025-02-25', employee: employee, base_salary: 10_000_000)
+    p.create_user_id = p.update_user_id = employee.id
+    p.save!
+    logic = logic_builder(2025)
+    assert_equal 150_000, logic.get_income_adjustment_deduction
+    assert_equal 1_950_000, logic.get_deduction
+    assert_equal 10_000_000 - 1_950_000 - 150_000, logic.get_after_deduction
   end
-    
+
   def test_get_total_exemption
     logic = logic_builder(2008)
     # 3565000（基本給）
@@ -80,6 +88,32 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     logic = logic_builder(2012)
     withholding_taxes = logic.get_withholding_taxes(false)
     assert_equal 18610, withholding_taxes["20120106"]
+  end
+
+  def test_get_income_adjustment_deduction
+    p = Payroll.new(ym: 202501, pay_day: '2025-02-25', employee: employee, base_salary: 8_500_000)
+    p.create_user_id = p.update_user_id = employee.id
+    p.save!
+    logic = logic_builder(2025)
+    assert_equal 8_500_000, logic.get_total_base_salary_include_previous
+    e = logic.get_exemptions
+    assert e.income_adjustment_deduction_reason.present?
+    assert_equal 0, logic.get_income_adjustment_deduction
+
+    p.update!(base_salary: 8_500_001)
+    assert_equal 1, logic.get_income_adjustment_deduction
+
+    p.update!(base_salary: 9_999_991)
+    assert_equal 150_000, logic.get_income_adjustment_deduction
+
+    p.update!(base_salary: 10_000_000)
+    assert_equal 150_000, logic.get_income_adjustment_deduction
+
+    p.update!(base_salary: 15_000_000)
+    assert_equal 150_000, logic.get_income_adjustment_deduction
+
+    e.update!(income_adjustment_deduction_reason: nil)
+    assert_equal 0, logic.get_income_adjustment_deduction
   end
 
   private

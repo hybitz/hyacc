@@ -1,7 +1,7 @@
 module Assets
   def valid_asset_params
     {
-      :name => '資産' + time_string,
+      :name => '資産' + SecureRandom.uuid,
     }
   end
   

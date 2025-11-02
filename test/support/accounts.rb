@@ -25,7 +25,7 @@ module Accounts
   def account_params
     {
       code: '9999',
-      name: time_string,
+      name: SecureRandom.uuid,
       dc_type: DC_TYPE_DEBIT,
       account_type: ACCOUNT_TYPE_ASSET,
       tax_type: TAX_TYPE_NONTAXABLE,

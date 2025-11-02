@@ -3,7 +3,7 @@ module Profiles
 
   def profile_params
     {
-      :email => "test@#{time_string}.example.com",
+      :email => "test@#{SecureRandom.uuid}.example.com",
       :slips_per_page => '20',
       :account_count_of_frequencies => '10',
       :show_details => true,

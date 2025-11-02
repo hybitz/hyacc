@@ -5,7 +5,7 @@
 end
 
 もし /^口座情報を入力し、登録をクリック$/ do
-  @name = 'テスト' + time_string
+  @name = 'テスト' + SecureRandom.uuid
   fill_in '口座番号', with: '1234567'
   fill_in '口座名', with: @name
   fill_in '口座名義', with: '名義人'

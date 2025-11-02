@@ -9,7 +9,7 @@ module Careers
       :start_from => Date.today - 4.months,
       :end_to => Date.today - 1.month,
       :customer_id => Customer.not_deleted.first.id,
-      :project_name => 'テストプロジェクト' + time_string
+      :project_name => 'テストプロジェクト' + SecureRandom.uuid
     }
   end
   

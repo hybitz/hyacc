@@ -2,7 +2,7 @@ module BusinessOffices
 
   def business_office_params
     {
-      name: '事業所' + time_string,
+      name: '事業所' + SecureRandom.uuid,
       prefecture_code: '01',
       business_outline: '事業の内容'
     }

@@ -1,5 +1,5 @@
 <% require 'csv' %>
-<% CSV.foreach("test/data/#{File.basename(__FILE__).split('.').first}.csv", headers: true) do |row| %>
+<% CSV.foreach("test/data/#{File.basename(__FILE__, '.yml')}.csv", headers: true) do |row| %>
 <%= row['id'] %>:
 <% row.headers.each do |column| %>
   <%= column %>: <%= row[column] %>

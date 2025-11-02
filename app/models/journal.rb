@@ -349,22 +349,22 @@ class Journal < ApplicationRecord
 
   # 明細に含まれる勘定科目、補助科目、計上部門から伝票検索キーを作成
   def update_finder_key
-    key = '-'
+    parts = ['-']
     journal_details.each do |jd|
       next if jd.deleted?
 
-      key << jd.account.code << ','
+      parts << jd.account.code << ','
 
       # 補助科目は指定なしの場合がある
       unless jd.sub_account_id.nil?
-        key << jd.sub_account_id.to_s
+        parts << jd.sub_account_id.to_s
       end
-      key << ','
-      key << jd.branch.id.to_s
-      key << '-'
+      parts << ','
+      parts << jd.branch.id.to_s
+      parts << '-'
     end
 
-    self.finder_key = key
+    self.finder_key = parts.join
   end
 
   def set_update_user_id

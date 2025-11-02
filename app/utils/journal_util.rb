@@ -11,33 +11,33 @@ module JournalUtil
   end
 
   def self.finder_key_rlike(account_code, sub_account_id, branch_id)
-    ret = ".*-"
+    parts = ['.*-']
 
     # 勘定科目
     if account_code.present?
-      ret << account_code.to_s
+      parts << account_code.to_s
     else
-      ret << "[0-9]*"
+      parts << '[0-9]*'
     end
-    ret << ","
+    parts << ','
 
     # 補助科目
     if sub_account_id.to_i > 0
-      ret << sub_account_id.to_s
+      parts << sub_account_id.to_s
     else
-      ret << "[0-9]*"
+      parts << '[0-9]*'
     end
-    ret << ","
+    parts << ','
 
     # 計上部門
     if branch_id.to_i > 0
-      ret << branch_id.to_s
+      parts << branch_id.to_s
     else
-      ret << "[0-9]*"
+      parts << '[0-9]*'
     end
-    ret << "-.*"
+    parts << '-.*'
 
-    ret
+    parts.join
   end
 
   # 伝票直前までの累計金額の取得

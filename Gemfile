@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '>= 3.2.9', '< 3.3.0'
+ruby '>= 3.2.9', '< 3.5.0'
 gem 'rails', '~> 7.2.0'
 
 gem 'activerecord-session_store'
@@ -10,6 +10,7 @@ gem 'bootsnap', require: false
 gem 'bootstrap'
 gem 'carrierwave', '< 3.0.0'
 gem 'carrierwave-i18n'
+gem 'csv'
 gem 'daddy'
 gem 'dalli'
 gem 'devise'

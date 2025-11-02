@@ -9,8 +9,8 @@ module BankAccounts
     {
       :bank_id => bank.id,
       :code => '1234567',
-      :name => '銀行口座' + time_string,
-      :holder_name => '名義' + time_string,
+      :name => '銀行口座' + SecureRandom.uuid,
+      :holder_name => '名義' + SecureRandom.uuid,
       :financial_account_type => FINANCIAL_ACCOUNT_TYPE_SAVING
     }
   end

@@ -303,7 +303,10 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     that._refresh_total_amount();
   })
   .delegate('[name*="\\[ym\\]"]', 'change', function() {
-    that._refresh_tax_rate_all();
+    var val = $(this).val();
+    if (val.length === 6) {
+      that._refresh_tax_rate_all();
+    }
   });
 };
 
@@ -348,6 +351,47 @@ hyacc.Journal.prototype._init_ym = function() {
   Mousetrap.bindGlobal('ctrl+y', function(e) {
     e.preventDefault();
     that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();
+  });
+
+  that.get_ym().blur(function() {
+    var $input = $(this); 
+    var ym = toInt($input.val());
+    if (ym >= 1 && ym <= 12) {
+      var now = new Date();
+      var m = now.getMonth() + 1;
+      var diff = Math.abs(m - ym);
+
+      if (diff == 0) {
+        $input.val(now.getFullYear() * 100 + now.getMonth() + 1);
+      } else {
+        var last_year = new Date(now.getFullYear() - 1, ym - 1, now.getDate());
+        var current_year = new Date(now.getFullYear(), ym - 1, now.getDate());
+        var next_year = new Date(now.getFullYear() + 1, ym - 1, now.getDate());
+
+        var diff = Math.abs(last_year - now);
+        var diff2 = Math.abs(current_year - now);
+        var diff3 = Math.abs(next_year - now);
+
+        var closest = diff;
+        if (diff2 < closest) {
+          closest = diff2;
+        }
+        if (diff3 < closest) {
+          closest = diff3;
+        }
+
+        if (closest == diff) {
+          ym = last_year.getFullYear() * 100 + last_year.getMonth() + 1;
+        } else if (closest == diff2) {
+          ym = current_year.getFullYear() * 100 + current_year.getMonth() + 1;
+        } else if (closest == diff3) {
+          ym = next_year.getFullYear() * 100 + next_year.getMonth() + 1;
+        }
+
+        $input.val(ym.toString());
+      }
+      $input.trigger('change');
+    }
   });
 };
 
@@ -402,7 +446,6 @@ hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options) {
   } else {
     taxRatePercentField.val('').prop('disabled', true);
   }
-
   this._refresh_tax_amount(trigger, options);
 };
 
@@ -427,7 +470,6 @@ hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   } else {
     taxAmountField.val('').prop('disabled', true);
   }
-
   this._refresh_total_amount();
 };
 

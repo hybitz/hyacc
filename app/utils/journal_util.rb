@@ -213,7 +213,7 @@ module JournalUtil
       sum + b.branch_employees
         .joins(:employee)
         .where(employees: {deleted: false})
-        .where(branch_employees: {default_branch: true})
+        .where(default_branch: true)
         .count
     end
 
@@ -224,7 +224,7 @@ module JournalUtil
       numerator = b.branch_employees
         .joins(:employee)
         .where(employees: {deleted: false})
-        .where(branch_employees: {default_branch: true})
+        .where(default_branch: true)
         .count
       next if numerator == 0
 

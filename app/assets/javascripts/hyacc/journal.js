@@ -380,11 +380,11 @@ hyacc.Journal.prototype._init_ym = function() {
           closest = diff3;
         }
 
-        if (closest == diff) {
+        if (closest === diff) {
           ym = last_year.getFullYear() * 100 + last_year.getMonth() + 1;
-        } else if (closest == diff2) {
+        } else if (closest === diff2) {
           ym = current_year.getFullYear() * 100 + current_year.getMonth() + 1;
-        } else if (closest == diff3) {
+        } else if (closest === diff3) {
           ym = next_year.getFullYear() * 100 + next_year.getMonth() + 1;
         }
 

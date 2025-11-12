@@ -55,5 +55,11 @@ class JournalUtilTest < ActiveSupport::TestCase
     assert_not_includes ret.keys, b_2_2
     assert_equal 50, ret[b]
     assert_equal 50, ret[b_2]
+
+    b_2.employees.update_all(disabled: true)
+    ret = JournalUtil.make_capitation(100, b.reload.self_and_descendants)
+    assert_equal 1, ret.size
+    assert_not_includes ret.keys, b_2
+    assert_equal 100, ret[b]
   end
 end

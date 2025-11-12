@@ -212,7 +212,7 @@ module JournalUtil
     denominator = branches.inject(0) do |sum, b|
       sum + b.branch_employees
         .joins(:employee)
-        .where(employees: {deleted: false})
+        .where(employees: {deleted: false, disabled: false})
         .where(default_branch: true)
         .count
     end
@@ -223,7 +223,7 @@ module JournalUtil
     branches.each do |b|
       numerator = b.branch_employees
         .joins(:employee)
-        .where(employees: {deleted: false})
+        .where(employees: {deleted: false, disabled: false})
         .where(default_branch: true)
         .count
       next if numerator == 0

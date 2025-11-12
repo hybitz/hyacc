@@ -209,20 +209,31 @@ module JournalUtil
   def self.make_capitation(cost, branches)
     ret = {}
 
-    denominator = branches.inject(0){|sum, b| sum + b.branch_employees.where(default_branch: true).size }
+    denominator = branches.inject(0) do |sum, b|
+      sum + b.branch_employees
+        .joins(:employee)
+        .where(employees: {deleted: false, disabled: false})
+        .where(default_branch: true)
+        .count
+    end
+
     total = 0
     branch_for_leftover = nil
 
     branches.each do |b|
-      numerator = b.branch_employees.where(default_branch: true).size
+      numerator = b.branch_employees
+        .joins(:employee)
+        .where(employees: {deleted: false, disabled: false})
+        .where(default_branch: true)
+        .count
       next if numerator == 0
-      
+
       branch_for_leftover ||= b
       amount = cost * numerator / denominator
       ret[b] = amount
       total += amount
     end
-    
+
     ret[branch_for_leftover] += (cost - total) if total > 0
 
     ret

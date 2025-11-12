@@ -11,7 +11,7 @@ class JournalUtilTest < ActiveSupport::TestCase
     assert be.update(default_branch: false)
     ret = JournalUtil.make_capitation(100, b.reload.self_and_descendants)
     assert_equal 0, ret.size
-    
+
     assert be.update(default_branch: true)
     ret = JournalUtil.make_capitation(100, b.reload.self_and_descendants)
     assert_equal 1, ret.size
@@ -40,5 +40,26 @@ class JournalUtilTest < ActiveSupport::TestCase
     assert_equal 25, ret[b_2]
     assert_equal 25, ret[b_2_2]
     assert_equal 25, ret[b_3]
+
+    b_3.employees.update_all(deleted: true)
+    ret = JournalUtil.make_capitation(100, b.reload.self_and_descendants)
+    assert_equal 3, ret.size
+    assert_not_includes ret.keys, b_3
+    assert_equal 34, ret[b]
+    assert_equal 33, ret[b_2]
+    assert_equal 33, ret[b_2_2]
+
+    b_2_2.branch_employees.update_all(deleted: true)
+    ret = JournalUtil.make_capitation(100, b.reload.self_and_descendants)
+    assert_equal 2, ret.size
+    assert_not_includes ret.keys, b_2_2
+    assert_equal 50, ret[b]
+    assert_equal 50, ret[b_2]
+
+    b_2.employees.update_all(disabled: true)
+    ret = JournalUtil.make_capitation(100, b.reload.self_and_descendants)
+    assert_equal 1, ret.size
+    assert_not_includes ret.keys, b_2
+    assert_equal 100, ret[b]
   end
 end

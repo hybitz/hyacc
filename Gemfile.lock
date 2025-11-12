@@ -115,14 +115,14 @@ GEM
       ssrf_filter (~> 1.0)
     carrierwave-i18n (0.3.0)
     cgi (0.5.0)
-    chef-config (18.8.46)
+    chef-config (18.8.54)
       addressable
-      chef-utils (= 18.8.46)
+      chef-utils (= 18.8.54)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       tomlrb (~> 1.2)
-    chef-utils (18.8.46)
+    chef-utils (18.8.54)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
@@ -200,19 +200,19 @@ GEM
       activemodel
     erb (5.1.3)
     erubi (1.13.1)
-    excon (1.3.0)
+    excon (1.3.1)
       logger
     execjs (2.10.0)
     faraday (2.14.0)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-net_http (3.4.1)
-      net-http (>= 0.5.0)
+    faraday-net_http (3.4.2)
+      net-http (~> 0.5)
     ffi (1.17.2-x86_64-linux-gnu)
     ffi-yajl (2.6.0)
       libyajl2 (>= 1.2)
-    fog-aws (3.33.0)
+    fog-aws (3.33.1)
       base64 (>= 0.2, < 0.4)
       fog-core (~> 2.6)
       fog-json (~> 1.1)
@@ -228,7 +228,7 @@ GEM
     fog-xml (0.1.5)
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
-    formatador (1.2.2)
+    formatador (1.2.3)
       reline
     fullcalendar-rails (3.9.0.0)
       jquery-rails (>= 4.0.5, < 5.0.0)
@@ -260,7 +260,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor (>= 1.0.0)
-    itamae-plugin-recipe-daddy (0.1.35)
+    itamae-plugin-recipe-daddy (0.1.36)
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-passenger (~> 0.1)
       itamae-plugin-recipe-selenium (~> 0.1)
@@ -280,7 +280,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (8.0.0)
       railties (>= 3.2.16)
-    json (2.15.2)
+    json (2.16.0)
     jwt (3.1.2)
       base64
     libyajl2 (2.1.0)
@@ -307,7 +307,7 @@ GEM
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (5.26.0)
+    minitest (5.26.1)
     minitest-reporters (1.7.1)
       ansi
       builder
@@ -351,7 +351,7 @@ GEM
       racc (~> 1.4)
     nostalgic (0.7.0)
       rails (>= 6.0)
-    oauth2 (2.0.17)
+    oauth2 (2.0.18)
       faraday (>= 0.17.3, < 4.0)
       jwt (>= 1.0, < 4.0)
       logger (~> 1.2)
@@ -464,7 +464,7 @@ GEM
       psych (>= 4.0.0)
       tsort
     regexp_parser (2.11.3)
-    reline (0.6.2)
+    reline (0.6.3)
       io-console (~> 0.5)
     remotipart (1.4.4)
     responders (3.2.0)
@@ -555,7 +555,7 @@ GEM
       concurrent-ruby (~> 1.0)
     uglifier (4.2.1)
       execjs (>= 0.3.0, < 3)
-    uri (1.1.0)
+    uri (1.1.1)
     useragent (0.16.11)
     version_gem (1.1.9)
     warden (1.2.9)

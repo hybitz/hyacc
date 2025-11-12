@@ -237,12 +237,13 @@ end
   fill_in 'journal_journal_details_attributes_0_input_amount', with: '10000'
 end
 
-もし /^以下のように年月の入力があると税率と税額が更新される$/ do |ast_table|
+もし /^以下のように年月の入力があると税率、税額、合計が更新される$/ do |ast_table|
   rows = normalize_table(ast_table)
   rows[1..-1].each do |r|
     ym_input        = r[0]
     expected_rate   = r[1]
     expected_amount = r[2]
+    expected_total_amount = r[3]
 
     fill_in 'journal_ym', with: ym_input
     find('#journal_ym').send_keys(:tab)
@@ -252,6 +253,11 @@ end
 
     actual_tax_amount = find('#journal_journal_details_attributes_0_tax_amount').value
     assert_equal expected_amount, actual_tax_amount
+
+    tax_input = find('#journal_journal_details_attributes_0_tax_amount')
+    row = tax_input.find(:xpath, './ancestor::tr')
+    actual_total_amount = row.find('td.amount_sum').text.delete(',')
+    assert_equal expected_total_amount, actual_total_amount
   end
 end
 

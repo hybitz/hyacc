@@ -361,7 +361,7 @@ hyacc.Journal.prototype._init_ym = function() {
       var m = now.getMonth() + 1;
       var diff = Math.abs(m - ym);
 
-      if (diff == 0) {
+      if (diff === 0) {
         $input.val(now.getFullYear() * 100 + now.getMonth() + 1);
       } else {
         var last_year = new Date(now.getFullYear() - 1, ym - 1, now.getDate());

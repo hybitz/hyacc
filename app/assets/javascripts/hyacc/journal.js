@@ -303,7 +303,10 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     that._refresh_total_amount();
   })
   .delegate('[name*="\\[ym\\]"]', 'change', function() {
-    that._refresh_tax_rate_all();
+    var val = $(this).val();
+    if (val.length === 6) {
+      that._refresh_tax_rate_all();
+    }
   });
 };
 
@@ -348,6 +351,14 @@ hyacc.Journal.prototype._init_ym = function() {
   Mousetrap.bindGlobal('ctrl+y', function(e) {
     e.preventDefault();
     that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();
+  });
+
+  that.get_ym().blur(function() {
+    var newYm = hyacc.ym.normalizeYm($(this).val());
+    if (newYm) {
+      $(this).val(newYm);
+      $(this).trigger('change');
+    }
   });
 };
 
@@ -402,7 +413,6 @@ hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options) {
   } else {
     taxRatePercentField.val('').prop('disabled', true);
   }
-
   this._refresh_tax_amount(trigger, options);
 };
 
@@ -427,7 +437,6 @@ hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   } else {
     taxAmountField.val('').prop('disabled', true);
   }
-
   this._refresh_total_amount();
 };
 

@@ -193,6 +193,74 @@ end
   end
 end
 
+もし /^以下のような年月は6桁に変換される$/ do |ast_table|
+  sign_in login_id: user.login_id unless current_user
+  click_on '振替伝票'
+  assert has_title?('振替伝票')
+  click_on '追加'
+  assert has_dialog?(/振替伝票.*追加/)
+
+  normalize_table(ast_table).each do |row|
+    input_val = row[0]
+
+    fill_in 'journal_ym', with: input_val
+    find('#journal_ym').send_keys(:tab)
+
+    val = find('#journal_ym').value
+    assert_equal 6, val.length
+  end
+end
+
+もし /^以下のような年月は変換されない$/ do |ast_table|
+  assert has_dialog?(/振替伝票.*追加/)
+
+  normalize_table(ast_table).each do |row|
+    input_val = row[0]
+
+    fill_in 'journal_ym', with: input_val
+    find('#journal_ym').send_keys(:tab)
+
+    val = find('#journal_ym').value
+    assert_equal input_val, val
+  end
+end
+
+もし /^消費税に外税、金額に10000を入力する$/ do
+  sign_in login_id: user.login_id unless current_user
+  click_on '振替伝票'
+  assert has_title?('振替伝票')
+  click_on '追加'
+  assert has_dialog?(/振替伝票.*追加/)
+
+  select '外税', from: 'journal_journal_details_attributes_0_tax_type'
+
+  fill_in 'journal_journal_details_attributes_0_input_amount', with: '10000'
+end
+
+もし /^以下のように年月の入力があると税率、税額、合計が更新される$/ do |ast_table|
+  rows = normalize_table(ast_table)
+  rows[1..-1].each do |r|
+    ym_input        = r[0]
+    expected_rate   = r[1]
+    expected_amount = r[2]
+    expected_total_amount = r[3]
+
+    fill_in 'journal_ym', with: ym_input
+    find('#journal_ym').send_keys(:tab)
+
+    actual_rate = find('#journal_journal_details_attributes_0_tax_rate_percent').value
+    assert_equal expected_rate, actual_rate
+
+    actual_tax_amount = find('#journal_journal_details_attributes_0_tax_amount').value
+    assert_equal expected_amount, actual_tax_amount
+
+    tax_input = find('#journal_journal_details_attributes_0_tax_amount')
+    row = tax_input.find(:xpath, './ancestor::tr')
+    actual_total_amount = row.find('td.amount_sum').text.delete(',')
+    assert_equal expected_total_amount, actual_total_amount
+  end
+end
+
 かつ /^電子領収書(も|が)(登録|削除)されている$/ do |prefix, action|
   find('#journals_table tbody').all('tr').each do |tr|
     if tr.text.include?(@journal.remarks)

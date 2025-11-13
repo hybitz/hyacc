@@ -124,6 +124,127 @@ end
   end
 end
 
+もし /^登録画面で以下のような年月は6桁に変換される$/ do |ast_table|
+  sign_in login_id: user.login_id unless current_user
+  assert a = Account.find_by_name('小口現金')
+
+  within '.menu' do
+    assert has_link?(a.name)
+    click_on a.name
+  end
+
+  form_selector ='#new_simple_slip'
+  assert has_selector?(form_selector)
+
+  normalize_table(ast_table).each do |row|
+    input_val = row[0]
+
+    within form_selector do
+      fill_in 'simple_slip_ym', with: input_val
+      find('#simple_slip_ym').send_keys(:tab)
+      val = find('#simple_slip_ym').value
+      assert_equal 6, val.length
+    end
+  end
+end
+
+もし /^編集画面で以下のような年月は6桁に変換される$/ do |ast_table|
+  sign_in login_id: user.login_id unless current_user
+  assert a = Account.find_by_name('小口現金')
+
+  within '.menu' do
+    assert has_link?(a.name)
+    click_on a.name
+  end
+
+  if all('#slipTable tbody tr').empty?
+    within '#new_simple_slip' do
+      fill_in 'simple_slip_ym', with: '202401'
+      fill_in 'simple_slip_day', with: '1'
+      fill_in 'simple_slip_remarks', with: 'テスト'
+      fill_in 'simple_slip_amount_increase', with: '1000'
+    end
+    click_on '登録'
+    assert has_selector?('#slipTable tbody tr')
+  end
+
+  assert tr = first('#slipTable tbody tr')
+  within tr do
+    find('td a.show').click
+  end
+  assert has_dialog?(/#{a.name}.*/)
+  within '.ui-dialog-buttonset' do
+    find('button', text: '編集').click
+  end
+
+  form_selector = '#edit_simple_slip'
+  assert has_selector?(form_selector)
+
+  normalize_table(ast_table).each do |row|
+    input_val = row[0]
+    within form_selector do
+      fill_in 'simple_slip_ym', with: input_val
+      find('#simple_slip_ym').send_keys(:tab)
+      val = find('#simple_slip_ym').value
+      assert_equal 6, val.length
+    end
+  end
+end
+
+もし /^(登録|編集)画面で以下のような年月は変換されない$/ do |action, ast_table|
+  form_selector = action == '登録' ? '#new_simple_slip' : "#edit_simple_slip"
+  assert has_selector?(form_selector)
+
+  normalize_table(ast_table).each do |row|
+    input_val = row[0]
+
+    within form_selector do
+      fill_in 'simple_slip_ym', with: input_val
+      find('#simple_slip_ym').send_keys(:tab)
+
+      val = find('#simple_slip_ym').value
+      assert_equal input_val, val
+    end
+  end
+end
+
+もし /^(登録|編集)画面で消費税に(外税|内税)、(増加|減少)金額に10000を入力する$/ do |action, tax_type, amount_type|
+  form_selector = action == '登録' ? '#new_simple_slip' : '#edit_simple_slip'
+  amount_selector = amount_type == '増加' ? 'simple_slip_amount_increase' : 'simple_slip_amount_decrease'
+  assert has_selector?(form_selector)
+  within form_selector do
+    fill_in 'simple_slip_amount_increase', with: ''
+    select tax_type, from: 'simple_slip_tax_type'
+    fill_in amount_selector, with: '10000'
+  end
+end
+
+もし /^(登録|編集)画面で以下のように年月の入力があると税率、税額、合計が更新される$/ do |action, ast_table|
+  form_selector = action == '登録' ? '#new_simple_slip' : "#edit_simple_slip"
+  assert has_selector?(form_selector)
+  rows = normalize_table(ast_table)
+  rows[1..-1].each do |r|
+    ym_input        = r[0]
+    expected_rate   = r[1]
+    expected_amount = r[2]
+    expected_total_amount = r[3]
+    within form_selector do
+      fill_in 'simple_slip_ym', with: ym_input
+      find('#simple_slip_ym').send_keys(:tab)
+
+      actual_rate = find('#simple_slip_tax_rate_percent').value
+      assert_equal expected_rate, actual_rate
+
+      side = find('#simple_slip_amount_increase').value.present? ? 'increase' : 'decrease'
+      actual_tax_amount = find("#simple_slip_tax_amount_#{side}").value
+      assert_equal expected_amount, actual_tax_amount
+
+      actual_total_amount = find("div.sum_amount_#{side}").text.delete(',')
+      assert_equal expected_total_amount, actual_total_amount
+    end
+  end
+end
+
 ならば /^(小口現金|普通預金|未払金（従業員）)の一覧に遷移する$/ do |account_name|
   assert account = Account.where(:name => account_name).first
 

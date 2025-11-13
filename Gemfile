@@ -8,7 +8,7 @@ gem 'activerecord-session_store'
 gem 'acts_as_tree'
 gem 'bootsnap', require: false
 gem 'bootstrap'
-gem 'carrierwave', '< 3.0.0'
+gem 'carrierwave'
 gem 'carrierwave-i18n'
 gem 'csv'
 gem 'daddy'

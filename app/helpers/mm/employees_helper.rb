@@ -1,18 +1,17 @@
 module Mm::EmployeesHelper
   
   def render_duration(year, month)
-    ret = ''
+    parts = []
     
     if year > 0
-      ret << year.to_s << "年"
+      parts << "#{year}年"
     end
     
     if month > 0
-      ret << month.to_s << "ヶ月"
+      parts << "#{month}ヶ月"
     end
     
-    ret = '1ヶ月' if ret.blank?
-    ret
+    parts.empty? ? '1ヶ月' : parts.join
   end
 
   def get_start_ym_of_retirement_savings(employee)

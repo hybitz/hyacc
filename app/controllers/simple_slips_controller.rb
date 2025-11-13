@@ -23,7 +23,7 @@ class SimpleSlipsController < Base::HyaccController
     query = 'account_id <> ? and (keywords like ? or remarks like ?) and deleted=?', my_account.id, like, like, false
     templates = SimpleSlipTemplate.where(query)
 
-    json = '['
+    json_parts = []
     templates.each_with_index do |t, index|
       if t.account_id.to_i > 0
         account = Account.find(t.account_id)
@@ -53,8 +53,8 @@ class SimpleSlipsController < Base::HyaccController
       # 金額が０円の場合は、空白にする（そのほうが入力が楽）
       amount = t.amount.to_i > 0 ? t.amount.to_s : ''
 
-      json << ',' if index > 0
-      json << <<-"JSON"
+      json_parts << ',' if index > 0
+      json_parts << <<-"JSON"
         {
           "label":"#{t.remarks}",
           "remarks":"#{t.remarks}",
@@ -74,7 +74,7 @@ class SimpleSlipsController < Base::HyaccController
         }
       JSON
     end
-    json << ']'
+    json = '[' + json_parts.join + ']'
 
     render json: json
   end

@@ -99,7 +99,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
 
     response = http.post(uri.path, param_dic.to_json, headers)
     response_body = JSON.parse(response.body).deep_symbolize_keys
-    keywords = ''
+    keyword_parts = []
     elements = response_body.dig(:result, :word)
     if elements
       elements.each do |elem|
@@ -108,12 +108,13 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
         roman = elem[:roman]
         next if surface == '代' || surface == '料'
         if furigana.present?
-          keywords << " " << surface << " " + furigana << " " << roman if furigana.size > 1
+          keyword_parts << " #{surface} #{furigana} #{roman}" if furigana.size > 1
         else
-          keywords << " " << surface if surface.size > 1
+          keyword_parts << " #{surface}" if surface.size > 1
         end
       end
     end
+    keywords = keyword_parts.join
 
     if HyaccLogger.debug?
       HyaccLogger.debug "\n  url=#{uri.host}\n  remarks=#{remarks}\n  keywords=#{keywords}\n  request_id=#{request_id}\n  response_id=#{response_body[:id]}  "

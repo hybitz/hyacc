@@ -9,7 +9,7 @@ module Auto::TransferJournal::TransferJournalUtil
     elsif a.account_type == ACCOUNT_TYPE_ASSET
       return original_remarks + '【資産配賦】'
     else
-      HyaccLogger.error ERR_INVALID_ACCOUNT_TYPE << "account_id=#{account_id}"
+      HyaccLogger.error "#{ERR_INVALID_ACCOUNT_TYPE}account_id=#{account_id}"
       raise HyaccException.new(ERR_INVALID_ACCOUNT_TYPE)
     end
   end

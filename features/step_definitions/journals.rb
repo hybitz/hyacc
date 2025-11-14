@@ -225,6 +225,33 @@ end
   end
 end
 
+もし /^1月31日に2を入力した場合は2月に変換される$/ do
+  assert has_dialog?(/振替伝票.*追加/)
+
+  page.execute_script <<~JS
+    window._originalDate = Date;
+    window.Date = function(...args) {
+      if (args.length === 0) {
+        return new window._originalDate(2025, 0, 31);
+      }
+      return new window._originalDate(...args);
+    };
+  JS
+
+  fill_in 'journal_ym', with: '2'
+  find('#journal_ym').send_keys(:tab)
+
+  val = find('#journal_ym').value
+  assert_match(/\d{4}02/, val)
+
+  page.execute_script <<~JS
+    if (window._originalDate) {
+      window.Date = window._originalDate;
+      delete window._originalDate;
+    }
+  JS
+end
+
 もし /^消費税に外税、金額に10000を入力する$/ do
   sign_in login_id: user.login_id unless current_user
   click_on '振替伝票'

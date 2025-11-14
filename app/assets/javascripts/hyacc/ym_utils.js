@@ -11,24 +11,24 @@ hyacc.ym.normalizeYm = function(value) {
     if (diff == 0) {
       return (now.getFullYear() * 100 + m).toString();
     } else {
-      var last_year = new Date(now.getFullYear() - 1, ym - 1, now.getDate());
-      var current_year = new Date(now.getFullYear(), ym - 1, now.getDate());
-      var next_year = new Date(now.getFullYear() + 1, ym - 1, now.getDate());
+      var lastYear = new Date(now.getFullYear() - 1, ym - 1, 1);
+      var currentYear = new Date(now.getFullYear(), ym - 1, 1);
+      var nextYear = new Date(now.getFullYear() + 1, ym - 1, 1);
 
-      var diff = Math.abs(last_year - now);
-      var diff2 = Math.abs(current_year - now);
-      var diff3 = Math.abs(next_year - now);
+      var lastDiff = Math.abs(lastYear - now);
+      var currentDiff = Math.abs(currentYear - now);
+      var nextDiff = Math.abs(nextYear - now);
 
-      var closest = diff;
-      if (diff2 < closest) closest = diff2;
-      if (diff3 < closest) closest = diff3;
+      var closest = lastDiff;
+      if (currentDiff < closest) closest = currentDiff;
+      if (nextDiff < closest) closest = nextDiff;
 
-      if (closest == diff) {
-        ym = last_year.getFullYear() * 100 + (last_year.getMonth() + 1);
-      } else if (closest == diff2) {
-        ym = current_year.getFullYear() * 100 + (current_year.getMonth() + 1);
+      if (closest == lastDiff) {
+        ym = lastYear.getFullYear() * 100 + (lastYear.getMonth() + 1);
+      } else if (closest == currentDiff) {
+        ym = currentYear.getFullYear() * 100 + (currentYear.getMonth() + 1);
       } else {
-        ym = next_year.getFullYear() * 100 + (next_year.getMonth() + 1);
+        ym = nextYear.getFullYear() * 100 + (nextYear.getMonth() + 1);
       }
       return ym.toString();
     }

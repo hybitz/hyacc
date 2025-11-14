@@ -208,6 +208,35 @@ end
   end
 end
 
+もし /^(登録|編集)画面で1月31日に年月に2を入力した場合は2月に変換される$/ do |action|
+  form_selector = action == '登録' ? '#new_simple_slip' : "#edit_simple_slip"
+  assert has_selector?(form_selector)
+  within form_selector do
+    page.execute_script <<~JS
+      window._originalDate = Date;
+      window.Date = function(...args) {
+        if (args.length === 0) {
+          return new window._originalDate(2025, 0, 31);
+        }
+        return new window._originalDate(...args);
+      };
+    JS
+
+    fill_in 'simple_slip_ym', with: '2'
+    find('#simple_slip_ym').send_keys(:tab)
+
+    val = find('#simple_slip_ym').value
+    assert_match(/\d{4}02/, val)
+
+    page.execute_script <<~JS
+      if (window._originalDate) {
+        window.Date = window._originalDate;
+        delete window._originalDate;
+      }
+    JS
+  end
+end
+
 もし /^(登録|編集)画面で消費税に(外税|内税)、(増加|減少)金額に10000を入力する$/ do |action, tax_type, amount_type|
   form_selector = action == '登録' ? '#new_simple_slip' : '#edit_simple_slip'
   amount_selector = amount_type == '増加' ? 'simple_slip_amount_increase' : 'simple_slip_amount_decrease'

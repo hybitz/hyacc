@@ -14,8 +14,8 @@ options.buttons.push(
       <% else %>
         hyacc.current_dialog().close();
         $.post('<%= url_for change_status_bs_asset_path(@asset) %>', {
-          status: '<%= HyaccConst::ASSET_STATUS_WAITING %>',
-          lock_version: '<%= @asset.lock_version %>',
+          status: <%= HyaccConst::ASSET_STATUS_WAITING %>,
+          lock_version: <%= @asset.lock_version %>,
           authenticity_token: '<%= form_authenticity_token %>'
         });
       <% end %>
@@ -32,8 +32,8 @@ options.buttons.push(
       click: function() {
         hyacc.current_dialog().close();
         $.post('<%= url_for change_status_bs_asset_path(@asset) %>', {
-          status: '<%= HyaccConst::ASSET_STATUS_CREATED %>',
-          lock_version: '<%= @asset.lock_version %>',
+          status: <%= HyaccConst::ASSET_STATUS_CREATED %>,
+          lock_version: <%= @asset.lock_version %>,
           authenticity_token: '<%= form_authenticity_token %>'
         });
       }
@@ -50,8 +50,8 @@ options.buttons.push(
         if (confirm('<%= "#{current_company.current_fiscal_year_int}年度分を償却します。よろしいですか？" %>')) {
           hyacc.current_dialog().close();
           $.post('<%= url_for change_status_bs_asset_path(@asset) %>', {
-            status: '<%= HyaccConst::ASSET_STATUS_DEPRECIATING %>',
-            lock_version: '<%= @asset.lock_version %>',
+            status: <%= HyaccConst::ASSET_STATUS_DEPRECIATING %>,
+            lock_version: <%= @asset.lock_version %>,
             authenticity_token: '<%= form_authenticity_token %>'
           });
         }

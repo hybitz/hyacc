@@ -49,6 +49,20 @@ class JournalUtilTest < ActiveSupport::TestCase
     assert_equal 33, ret[b_2]
     assert_equal 33, ret[b_2_2]
 
+    ret = JournalUtil.make_capitation(1, b.reload.self_and_descendants)
+    assert_equal 3, ret.size
+    assert_not_includes ret.keys, b_3
+    assert_equal 1, ret[b]
+    assert_equal 0, ret[b_2]
+    assert_equal 0, ret[b_2_2]
+
+    ret = JournalUtil.make_capitation(2, b.reload.self_and_descendants)
+    assert_equal 3, ret.size
+    assert_not_includes ret.keys, b_3
+    assert_equal 2, ret[b]
+    assert_equal 0, ret[b_2]
+    assert_equal 0, ret[b_2_2]
+
     b_2_2.branch_employees.update_all(deleted: true)
     ret = JournalUtil.make_capitation(100, b.reload.self_and_descendants)
     assert_equal 2, ret.size

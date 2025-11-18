@@ -234,7 +234,7 @@ module JournalUtil
       total += amount
     end
 
-    ret[branch_for_leftover] += (cost - total) if total > 0
+    ret[branch_for_leftover] += (cost - total) if branch_for_leftover
 
     ret
   end

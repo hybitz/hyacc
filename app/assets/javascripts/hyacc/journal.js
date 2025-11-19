@@ -315,7 +315,6 @@ hyacc.Journal.prototype._init_shortcut = function() {
   var input_selector = '[name*="\\[input_amount\\]"]';
   var that = this;
 
-  Mousetrap.unbind('down');
   Mousetrap.bindGlobal('down', function(e) {
     if ($(e.target).is(input_selector)) {
       e.preventDefault();
@@ -324,7 +323,6 @@ hyacc.Journal.prototype._init_shortcut = function() {
     }
   });
 
-  Mousetrap.unbind('up');
   Mousetrap.bindGlobal('up', function(e) {
     if ($(e.target).is(input_selector)) {
       e.preventDefault();
@@ -343,7 +341,6 @@ hyacc.Journal.prototype._init_validation = function() {
 
 hyacc.Journal.prototype._init_day = function() {
   var that = this;
-  Mousetrap.unbind('ctrl+d');
   Mousetrap.bindGlobal('ctrl+d', function(e) {
     e.preventDefault();
     that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
@@ -352,7 +349,6 @@ hyacc.Journal.prototype._init_day = function() {
 
 hyacc.Journal.prototype._init_ym = function() {
   var that = this;
-  Mousetrap.unbind('ctrl+y');
   Mousetrap.bindGlobal('ctrl+y', function(e) {
     e.preventDefault();
     that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();

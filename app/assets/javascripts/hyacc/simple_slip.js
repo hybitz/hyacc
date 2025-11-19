@@ -49,7 +49,6 @@ hyacc.SimpleSlip.prototype._init = function() {
 
 hyacc.SimpleSlip.prototype._init_day = function() {
   var that = this;
-  Mousetrap.unbind('ctrl+d');
   Mousetrap.bindGlobal('ctrl+d', function(e) {
     e.preventDefault();
     that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
@@ -58,7 +57,6 @@ hyacc.SimpleSlip.prototype._init_day = function() {
 
 hyacc.SimpleSlip.prototype._init_ym = function() {
   var that = this;
-  Mousetrap.unbind('ctrl+y');
   Mousetrap.bindGlobal('ctrl+y', function(e) {
     e.preventDefault();
     that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();

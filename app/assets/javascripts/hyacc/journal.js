@@ -234,6 +234,7 @@ hyacc.Journal.prototype._init = function() {
     this._init_ym();
     this._refresh_tax_rate_all({visibility_only: true});
     this._refresh_total_amount();
+    this.get_day().focus().select();
   }
 };
 

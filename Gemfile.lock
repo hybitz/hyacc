@@ -307,7 +307,7 @@ GEM
     mini_magick (4.13.2)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (5.26.1)
+    minitest (5.26.2)
     minitest-reporters (1.7.1)
       ansi
       builder

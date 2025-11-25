@@ -11,7 +11,8 @@
 $ sudo yum install git
 $ git clone [https://github.com/ichylinux/daddy.git または git@github.com:ichylinux/daddy.git]
 $ pushd daddy
-$ bin/dad local
+$   bin/dad local
+$   bin/dad docker
 $ popd
 ```
 ## Hyaccのインストール
@@ -23,7 +24,7 @@ $ cd hyacc
 ### 各種ミドルウェアのインストール
 ```
 $ bundle config without 'itamae'
-$ sudo bundle
+$ bundle
 $ bundle exec rake dad:setup
 ```
 ### DBの初期化

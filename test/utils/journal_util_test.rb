@@ -83,4 +83,31 @@ class JournalUtilTest < ActiveSupport::TestCase
     end
     assert_equal ERR_NO_CAPITATION_TARGET_BRANCH_EXISTS, error.message
   end
+
+  def test_make_capitation_when_parent_branch_has_more_employees
+    c = create_company
+    assert b = c.branches.create(code: 'TEST', name: 'テスト', formal_name: 'テスト')
+    assert create_employee(company: c, branch: b).branch_employees.last.update(default_branch: true)
+    assert create_employee(company: c, branch: b).branch_employees.last.update(default_branch: true)
+    assert_equal 2, b.employees.where(deleted: false, disabled: false).size
+
+    assert b_2 = c.branches.create(code: 'TEST', name: 'テスト2', formal_name: 'テスト2', parent: b)
+    assert create_employee(company: c, branch: b_2)
+    assert_equal 1, b_2.employees.where(deleted: false, disabled: false).size
+
+    ret = JournalUtil.make_capitation(100, b.reload.self_and_descendants, b.id)
+    assert_equal 2, ret.size
+    assert_equal 67, ret[b]
+    assert_equal 33, ret[b_2]
+
+    ret = JournalUtil.make_capitation(2, b.reload.self_and_descendants, b.id)
+    assert_equal 2, ret.size
+    assert_equal 1, ret[b]
+    assert_equal 1, ret[b_2]
+
+    ret = JournalUtil.make_capitation(1, b.reload.self_and_descendants, b.id)
+    assert_equal 2, ret.size
+    assert_equal 0, ret[b]
+    assert_equal 1, ret[b_2]
+  end
 end

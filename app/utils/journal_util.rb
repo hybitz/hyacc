@@ -236,8 +236,9 @@ module JournalUtil
       raise ERR_NO_CAPITATION_TARGET_BRANCH_EXISTS
     end
 
-    if ret.values.all?{|v| v.to_i == 0}
-      branch_for_leftover = ret.keys.find{|k| k.id != parent_branch_id}
+    non_parents = ret.keys.reject{|k| k.id == parent_branch_id}
+    if non_parents.all?{|k| ret[k].to_i == 0}
+      branch_for_leftover = non_parents.first
     end
 
     ret[branch_for_leftover] += (cost - total)

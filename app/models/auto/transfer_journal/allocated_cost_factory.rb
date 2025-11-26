@@ -33,6 +33,7 @@ module Auto::TransferJournal
       JournalUtil.make_allocated_cost(@src_jd).each do |branch, cost|
         # 自身の負担分を作成しない
         next if branch.id == @src_jd.branch_id
+        next if cost.to_i == 0
 
         # 本社費用負担
         jd = jh.journal_details.build

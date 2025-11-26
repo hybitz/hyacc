@@ -218,7 +218,6 @@ module JournalUtil
 
     denominator = employee_counts.values.sum
 
-
     total = 0
     branch_for_leftover = nil
 
@@ -232,7 +231,7 @@ module JournalUtil
       total += amount
     end
 
-    if branch_for_leftover.blank? || (ret.size == 1 && ret.keys.first.id == parent_branch_id)
+    if branch_for_leftover.nil? || (ret.size == 1 && ret.keys.first.id == parent_branch_id)
       raise ERR_NO_CAPITATION_TARGET_BRANCH_EXISTS
     end
 

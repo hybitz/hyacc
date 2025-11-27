@@ -247,13 +247,17 @@ hyacc.SimpleSlip.reset = function() {
   if (window._reset_simple_slip) return;
   window._reset_simple_slip = true;
 
-  $(document).on('keydown.hyacc_restore_focus', function(e) {
+  $(document).on('keydown.hyacc_simple_slip', function(e) {
     if (e.key === "Escape") {
       hyacc.SimpleSlip.reset();
     }
   });
 
-  $(document).on('click', '.ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-buttonpane button', function() {
+  $(document).on('click.hyacc_simple_slip', '.ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-buttonpane button', function() {
     hyacc.SimpleSlip.reset();
   });
 })();
+
+hyacc.SimpleSlip.unbindDocumentHandlers = function() {
+  $(document).off('.hyacc_simple_slip');
+};

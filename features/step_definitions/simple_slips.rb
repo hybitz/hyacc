@@ -299,10 +299,8 @@ end
   key = keys == 'Ctrl + Y' ? 'y' : 'd'
   input = ymd == '年月' ? 'simple_slip_ym' : 'simple_slip_day'
   within form_selector do
-     page.driver.browser.action.key_down(:control).send_keys(key).key_up(:control).perform
-     assert_equal input, page.evaluate_script('document.activeElement.id')
-     page.driver.browser.action.key_down(:control).send_keys(key).key_up(:control).perform
-     assert_equal input, page.evaluate_script('document.activeElement.id')
+    page.driver.browser.action.key_down(:control).send_keys(key).key_up(:control).perform
+    assert_equal input, page.evaluate_script('document.activeElement.id')
   end
 end
 

@@ -236,3 +236,24 @@ hyacc.SimpleSlip.prototype.validate_slip = function() {
 
   return true;
 };
+
+hyacc.SimpleSlip.reset = function() {
+  simple_slip = new hyacc.SimpleSlip('#new_simple_slip', {
+    my_sub_account_id: $('#finder_sub_account_id').val()
+  });
+};
+
+(function() {
+  if (window._reset_simple_slip) return;
+  window._reset_simple_slip = true;
+
+  $(document).on('keydown.hyacc_restore_focus', function(e) {
+    if (e.key === "Escape") {
+      hyacc.SimpleSlip.reset();
+    }
+  });
+
+  $(document).on('click', '.ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-buttonpane button', function() {
+    hyacc.SimpleSlip.reset();
+  });
+})();

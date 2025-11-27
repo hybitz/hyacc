@@ -27,6 +27,7 @@ module Auto::TransferJournal
       JournalUtil.make_allocated_cost(@src_jd).each do |branch, cost|
         # 自身の仮負債を作成しない
         next if branch.id == @src_jd.branch_id
+        next if cost.to_i == 0
 
         # 仮資産（借方）
         jd = jh.journal_details.build

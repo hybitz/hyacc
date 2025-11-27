@@ -184,7 +184,7 @@ module JournalUtil
       make_allocation(journal_detail.amount, branches)
     when ALLOCATION_TYPE_SHARE_BY_EMPLOYEE
       branches = journal_detail.branch.self_and_descendants
-      make_capitation(journal_detail.amount, branches)
+      make_capitation(journal_detail.amount, branches, journal_detail.branch_id)
     when ALLOCATION_TYPE_EVEN_BY_CHILDREN
       branches = journal_detail.branch.children
       make_allocation(journal_detail.amount, branches)
@@ -206,26 +206,23 @@ module JournalUtil
     ret
   end
 
-  def self.make_capitation(cost, branches)
+  def self.make_capitation(cost, branches, parent_branch_id)
     ret = {}
+    branch_ids = branches.pluck(:id)
+    employee_counts = BranchEmployee
+      .joins(:employee)
+      .where(employees: {deleted: false, disabled: false})
+      .where(branch_id: branch_ids, default_branch: true, deleted: false)
+      .group(:branch_id)
+      .count
 
-    denominator = branches.inject(0) do |sum, b|
-      sum + b.branch_employees
-        .joins(:employee)
-        .where(employees: {deleted: false, disabled: false})
-        .where(default_branch: true)
-        .count
-    end
+    denominator = employee_counts.values.sum
 
     total = 0
     branch_for_leftover = nil
 
     branches.each do |b|
-      numerator = b.branch_employees
-        .joins(:employee)
-        .where(employees: {deleted: false, disabled: false})
-        .where(default_branch: true)
-        .count
+      numerator = employee_counts[b.id] || 0
       next if numerator == 0
 
       branch_for_leftover ||= b
@@ -234,8 +231,16 @@ module JournalUtil
       total += amount
     end
 
-    ret[branch_for_leftover] += (cost - total) if total > 0
+    if branch_for_leftover.nil? || (ret.size == 1 && ret.keys.first.id == parent_branch_id)
+      raise ERR_NO_CAPITATION_TARGET_BRANCH_EXISTS
+    end
 
+    non_parents = ret.keys.reject{|k| k.id == parent_branch_id}
+    if non_parents.all?{|k| ret[k].to_i == 0}
+      branch_for_leftover = non_parents.first
+    end
+
+    ret[branch_for_leftover] += (cost - total)
     ret
   end
 

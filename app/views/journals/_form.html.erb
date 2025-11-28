@@ -10,9 +10,11 @@
       sub_accounts_path: '<%= sub_accounts_path(format: 'json') %>'
     });
   });
+
+  enable_ymd_shortcut();
 </script>
 
-<%= form_with model: @journal, html: {id: 'journal_form', enctype: 'multipart/form-data'}, data: {remote: true} do |f| %>
+<%= form_with model: @journal, html: {id: 'journal_form', class: 'ymd_shortcut_enabled', enctype: 'multipart/form-data'}, data: {remote: true} do |f| %>
   <%= flash_notice %>
   <%= f.hidden_field 'lock_version' %>
 

@@ -15,7 +15,6 @@ hyacc.SimpleSlip.prototype._init = function() {
     var that = this;
 
     this._init_ym();
-    this._init_day();
 
     $(this.selector).find('.accountSelect').change(function() {
       $.getJSON($(this).attr('accounts_path') + '/'+ $(this).val(), {order: 'code'}, function(account) {
@@ -47,20 +46,8 @@ hyacc.SimpleSlip.prototype._init = function() {
   }
 };
 
-hyacc.SimpleSlip.prototype._init_day = function() {
-  var that = this;
-  Mousetrap.bindGlobal('ctrl+d', function(e) {
-    e.preventDefault();
-    that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
-  });
-};
-
 hyacc.SimpleSlip.prototype._init_ym = function() {
   var that = this;
-  Mousetrap.bindGlobal('ctrl+y', function(e) {
-    e.preventDefault();
-    that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();
-  });
   
   that.get_ym().blur(function() {
     var newYm = hyacc.ym.normalizeYm($(this).val());
@@ -235,29 +222,4 @@ hyacc.SimpleSlip.prototype.validate_slip = function() {
   }
 
   return true;
-};
-
-hyacc.SimpleSlip.reset = function() {
-  simple_slip = new hyacc.SimpleSlip('#new_simple_slip', {
-    my_sub_account_id: $('#finder_sub_account_id').val()
-  });
-};
-
-(function() {
-  if (window._reset_simple_slip) return;
-  window._reset_simple_slip = true;
-
-  $(document).on('keydown.hyacc_simple_slip', function(e) {
-    if (e.key === "Escape") {
-      hyacc.SimpleSlip.reset();
-    }
-  });
-
-  $(document).on('click.hyacc_simple_slip', '.ui-dialog .ui-dialog-titlebar-close, .ui-dialog .ui-dialog-buttonpane button', function() {
-    hyacc.SimpleSlip.reset();
-  });
-})();
-
-hyacc.SimpleSlip.unbindDocumentHandlers = function() {
-  $(document).off('.hyacc_simple_slip');
 };

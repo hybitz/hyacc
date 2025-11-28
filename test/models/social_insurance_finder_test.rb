@@ -22,7 +22,7 @@ class SocialInsuranceFinderTest < ActiveSupport::TestCase
       base_salary: 300000, create_user_id: 1, update_user_id: 1)
   end
 
-  def test_employees_are_sorted_by_social_insurance_referene_number
+  def test_employees_are_sorted_by_social_insurance_reference_number
     result = @finder.list_payrolls_by_employee.map(&:first)
 
     assert_equal [@employee3, @employee1, @employee2], result

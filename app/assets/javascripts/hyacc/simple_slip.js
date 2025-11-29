@@ -15,7 +15,6 @@ hyacc.SimpleSlip.prototype._init = function() {
     var that = this;
 
     this._init_ym();
-    this._init_day();
 
     $(this.selector).find('.accountSelect').change(function() {
       $.getJSON($(this).attr('accounts_path') + '/'+ $(this).val(), {order: 'code'}, function(account) {
@@ -47,20 +46,8 @@ hyacc.SimpleSlip.prototype._init = function() {
   }
 };
 
-hyacc.SimpleSlip.prototype._init_day = function() {
-  var that = this;
-  Mousetrap.bindGlobal('ctrl+d', function(e) {
-    e.preventDefault();
-    that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
-  });
-};
-
 hyacc.SimpleSlip.prototype._init_ym = function() {
   var that = this;
-  Mousetrap.bindGlobal('ctrl+y', function(e) {
-    e.preventDefault();
-    that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();
-  });
   
   that.get_ym().blur(function() {
     var newYm = hyacc.ym.normalizeYm($(this).val());

@@ -230,7 +230,6 @@ hyacc.Journal.prototype._init = function() {
     this._init_shortcut();
     this._init_validation();
     this._init_event_handlers();
-    this._init_day();
     this._init_ym();
     this._refresh_tax_rate_all({visibility_only: true});
     this._refresh_total_amount();
@@ -339,20 +338,8 @@ hyacc.Journal.prototype._init_validation = function() {
   });
 };
 
-hyacc.Journal.prototype._init_day = function() {
-  var that = this;
-  Mousetrap.bindGlobal('ctrl+d', function(e) {
-    e.preventDefault();
-    that.get_day().animate({scrollTop: 0}, 'fast').focus().select();
-  });
-};
-
 hyacc.Journal.prototype._init_ym = function() {
   var that = this;
-  Mousetrap.bindGlobal('ctrl+y', function(e) {
-    e.preventDefault();
-    that.get_ym().animate({scrollTop: 0}, 'fast').focus().select();
-  });
 
   that.get_ym().blur(function() {
     var newYm = hyacc.ym.normalizeYm($(this).val());

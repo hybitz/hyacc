@@ -34,7 +34,7 @@ function get_ymd_shortcut_enabled_form(target) {
   return form;
 }
 
-function enable_ymd_shortcut(e) {
+function enable_ymd_shortcut() {
   Mousetrap.bindGlobal('ctrl+y', function(e) {
     e.preventDefault();
     let form = get_ymd_shortcut_enabled_form(e.target);

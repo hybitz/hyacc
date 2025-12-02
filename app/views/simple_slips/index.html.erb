@@ -18,9 +18,11 @@
       }
     });
   });
+
+  enable_ymd_shortcut();
 </script>
 
-<%= form_with model: @simple_slip, id: 'new_simple_slip' do |f| %>
+<%= form_with model: @simple_slip, id: 'new_simple_slip', class: 'ymd_shortcut_enabled' do |f| %>
   <%= render 'common/message' %>
 
   <table id="slipTable" class="slipTable">

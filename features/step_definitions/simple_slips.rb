@@ -274,6 +274,76 @@ end
   end
 end
 
+もし /^簡易伝票の一覧を開く$/ do
+  sign_in login_id: user.login_id unless current_user
+  assert a = Account.find_by_name('小口現金')
+
+  within '.menu' do
+    assert has_link?(a.name)
+    click_on a.name
+  end
+
+  assert has_selector?('#new_simple_slip')
+end
+
+もし /^日の入力欄にフォーカスされている$/ do
+  form_selector = page.has_selector?('#edit_simple_slip') ? '#edit_simple_slip' : '#new_simple_slip'
+
+  within form_selector do
+    assert_equal 'simple_slip_day', page.evaluate_script('document.activeElement.id')
+  end
+end
+
+もし /^(.*?)を押すと(.*?)の入力欄にフォーカスが移動する$/ do |keys, ymd|
+  form_selector = page.has_selector?('#edit_simple_slip') ? '#edit_simple_slip' : '#new_simple_slip'
+  key = keys == 'Ctrl + Y' ? 'y' : 'd'
+  input = ymd == '年月' ? 'simple_slip_ym' : 'simple_slip_day'
+  within form_selector do
+    page.driver.browser.action.key_down(:control).send_keys(key).key_up(:control).perform
+    assert_equal input, page.evaluate_script('document.activeElement.id')
+  end
+end
+
+もし /^簡易伝票の編集ダイアログを開く$/ do
+  sign_in login_id: user.login_id unless current_user
+  assert a = Account.find_by_name('小口現金')
+
+  within '.menu' do
+    assert has_link?(a.name)
+    click_on a.name
+  end
+
+  if all('#slipTable tbody tr').empty?
+    within '#new_simple_slip' do
+      fill_in 'simple_slip_ym', with: '202401'
+      fill_in 'simple_slip_day', with: '1'
+      fill_in 'simple_slip_remarks', with: 'テスト'
+      fill_in 'simple_slip_amount_increase', with: '1000'
+    end
+    click_on '登録'
+    assert has_selector?('#slipTable tbody tr')
+  end
+
+  assert tr = first('#slipTable tbody tr')
+  within tr do
+    find('td a.show').click
+  end
+  assert has_dialog?(/#{a.name}.*/)
+  within '.ui-dialog-buttonset' do
+    find('button', text: '編集').click
+  end
+
+  assert has_selector?('#edit_simple_slip')
+end
+
+もし /^簡易伝票の編集ダイアログを閉じる$/ do
+  assert has_selector?('#edit_simple_slip')
+  within('.ui-dialog-buttonpane') do
+    click_on '閉じる'
+  end
+  assert has_no_selector?('#edit_simple_slip')
+end
+
 ならば /^(小口現金|普通預金|未払金（従業員）)の一覧に遷移する$/ do |account_name|
   assert account = Account.where(:name => account_name).first
 

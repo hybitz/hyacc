@@ -16,7 +16,7 @@
   <% end %>
 </div>
 
-<%= form_with model: @simple_slip, id: 'edit_simple_slip', data: {remote: true} do |f| %>
+<%= form_with model: @simple_slip, id: 'edit_simple_slip', class: 'ymd_shortcut_enabled', data: {remote: true} do |f| %>
   <%= render 'common/message' %>
   <table class="slipTable">
     <tr>

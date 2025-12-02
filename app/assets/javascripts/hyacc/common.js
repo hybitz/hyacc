@@ -26,6 +26,28 @@ function getWindowSize() {
   }
 }
 
+function get_ymd_shortcut_enabled_form(target) {
+  let form = $(target).closest('.ymd_shortcut_enabled');
+  if (form.length === 0) {
+    form = $('.ymd_shortcut_enabled').first();
+  }
+  return form;
+}
+
+function enable_ymd_shortcut() {
+  Mousetrap.bindGlobal('ctrl+y', function(e) {
+    e.preventDefault();
+    let form = get_ymd_shortcut_enabled_form(e.target);
+    form.find('input[name*=\\[ym\\]]').animate({scrollTop: 0}, 'fast').focus().select();
+  });
+
+  Mousetrap.bindGlobal('ctrl+d', function(e) {
+    e.preventDefault();
+    let form = get_ymd_shortcut_enabled_form(e.target);
+    form.find('input[name*=\\[day\\]]').animate({scrollTop: 0}, 'fast').focus().select();
+  });
+}
+
 // 参考：http://www.geocities.co.jp/SiliconValley/4334/unibon/javascript/formatnumber.html
 // (すべての変数に格納する値は0オリジンとする) 
 function toAmount( amount ) { // 引数の例としては 95839285734.3245

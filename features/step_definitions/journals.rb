@@ -252,16 +252,19 @@ end
   JS
 end
 
-もし /^消費税に外税、金額に10000を入力する$/ do
+もし /^10000を金額欄に入力する$/ do
   sign_in login_id: user.login_id unless current_user
   click_on '振替伝票'
   assert has_title?('振替伝票')
   click_on '追加'
   assert has_dialog?(/振替伝票.*追加/)
 
-  select '外税', from: 'journal_journal_details_attributes_0_tax_type'
-
   fill_in 'journal_journal_details_attributes_0_input_amount', with: '10000'
+end
+
+もし /^(.*?)を消費税の表示方法に選択する$/ do |tax_type|
+  assert has_dialog?(/振替伝票.*追加/)
+  select tax_type, from: 'journal_journal_details_attributes_0_tax_type'
 end
 
 もし /^以下のように年月の入力があると税率、税額、合計が更新される$/ do |ast_table|

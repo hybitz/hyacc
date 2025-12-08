@@ -28,12 +28,12 @@ spec:
   - name: app
     image: ${ECR}/${APP_NAME}/test:latest
     imagePullPolicy: Always
-    resources:
-      requests:
-        memory: 256Mi
     command:
     - cat
     tty: true
+    resources:
+      requests:
+        memory: 256Mi
 """
         }
       }

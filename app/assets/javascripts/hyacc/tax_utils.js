@@ -1,4 +1,3 @@
-var hyacc = hyacc || {};
 hyacc.tax = hyacc.tax || {};
 
 hyacc.tax.setRateField = function(context, options) {

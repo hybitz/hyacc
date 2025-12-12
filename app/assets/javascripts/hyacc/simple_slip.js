@@ -42,6 +42,14 @@ hyacc.SimpleSlip.prototype._init = function() {
       return that.validate_slip();
     });
 
+    var form = $(this.selector);
+    var taxType = form.find('[name*="\\[tax_type\\]"]').val();
+    if (taxType == tax.NONTAXABLE) {
+      form.find('[name*="\\[tax_amount_increase\\]"]').val('').prop('disabled', true);
+      form.find('[name*="\\[tax_amount_decrease\\]"]').val('').prop('disabled', true);
+      form.find('[name*="\\[tax_rate_percent\\]"]').val('').prop('disabled', true);
+    }
+
     this.get_day().focus().select();
   }
 };
@@ -107,21 +115,7 @@ hyacc.SimpleSlip.prototype.set_my_sub_account_id = function(my_sub_account_id) {
 
 hyacc.SimpleSlip.prototype.update_tax_rate = function(taxAmountIncrease, taxAmountDecrease) {
   var form = $(this.selector);
-  var ymField = form.find('[name*=\\[ym\\]]');
-  var taxTypeSelect = form.find('[name*=\\[tax_type\\]]');
-  var taxRatePercentField = form.find('[name*=\\[tax_rate_percent\\]]');
-
-  var taxType = taxTypeSelect.val();
-  var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
-  var taxRate = tax.getRateOn(date);
-
-  if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
-    taxRatePercentField.val(taxRate * 100).attr('disabled', false);
-  } else {
-    // 非課税の場合は消費税入力欄を非活性にする
-    taxRatePercentField.val('').attr('disabled', true);
-  }
-
+  hyacc.tax.setRateField(form);
   this.update_tax_amount(taxAmountIncrease, taxAmountDecrease);
 };
 

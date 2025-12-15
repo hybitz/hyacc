@@ -47,7 +47,7 @@ hyacc.SimpleSlip.prototype._init = function() {
     if (taxType == tax.NONTAXABLE) {
       form.find('[name*="\\[tax_amount_increase\\]"]').val('').prop('disabled', true);
       form.find('[name*="\\[tax_amount_decrease\\]"]').val('').prop('disabled', true);
-      form.find('[name*="\\[tax_rate_percent\\]"]').val('').prop('disabled', true);
+      hyacc.tax.setRateField(form);
     }
 
     this.get_day().focus().select();

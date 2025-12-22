@@ -7,6 +7,7 @@ user1:
   employment_date: 2008-04-01
   sex: M
   birth: 1990-01-01
+  social_insurance_reference_number: 10
 
 user2:
   id: 2
@@ -17,6 +18,7 @@ user2:
   employment_date: 2009-01-01
   sex: M
   birth: 1990-01-02
+  social_insurance_reference_number: nil
 
 user3:
   id: 3
@@ -57,6 +59,7 @@ user6:
   employment_date: 2009-01-01
   sex: F
   birth: 1990-01-06
+  social_insurance_reference_number: 1
 
 user7:
   id: 7

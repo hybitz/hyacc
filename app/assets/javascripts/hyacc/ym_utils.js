@@ -1,4 +1,3 @@
-var hyacc = hyacc || {};
 hyacc.ym = hyacc.ym || {};
 
 hyacc.ym.normalizeYm = function(value) {

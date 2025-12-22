@@ -383,24 +383,7 @@ hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options) {
   options = options || {};
 
   var detail = $(trigger).closest('tr[data-detail_id]');
-  var taxAmountField = detail.find('input[name*="\\[tax_amount\\]"]');
-  var taxRatePercentField = detail.find('input[name*="\\[tax_rate_percent\\]"]');
-  var taxType = this._get_tax_type(detail);
-
-  // 内税／外税の場合は消費税を計算
-  if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
-    if (!options.visibility_only) {
-      var ymField = $('input[name="journal\\[ym\\]"]');
-      var date = ymField.val().substring(0, 4) + '-' + ymField.val().substring(4, 6) + '-01';
-      var taxRate = tax.getRateOn(date);
-
-      taxRatePercentField.val(parseInt(taxRate * 100));
-    }
-
-    taxRatePercentField.prop('disabled', false);
-  } else {
-    taxRatePercentField.val('').prop('disabled', true);
-  }
+  hyacc.tax.setRateField(detail, options);
   this._refresh_tax_amount(trigger, options);
 };
 

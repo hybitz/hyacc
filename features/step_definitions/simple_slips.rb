@@ -243,6 +243,7 @@ end
   assert has_selector?(form_selector)
   within form_selector do
     fill_in 'simple_slip_amount_increase', with: ''
+    fill_in 'simple_slip_amount_decrease', with: ''
     select tax_type, from: 'simple_slip_tax_type'
     fill_in amount_selector, with: '10000'
   end

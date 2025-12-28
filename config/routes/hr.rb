@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :exemptions do
       collection do
         get 'add_dependent_family_member'
+        get 'get_employees'
       end
     end
   end

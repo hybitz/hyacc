@@ -67,6 +67,10 @@ class Hr::ExemptionsController < Base::HyaccController
     render partial: 'dependent_fields', locals: {dfm: @dfm, index: params[:index]}
   end
 
+  def get_employees
+    render partial: 'get_employees'
+  end
+
   private
 
   def finder
@@ -79,9 +83,7 @@ class Hr::ExemptionsController < Base::HyaccController
   
   def finder_params
     if params[:finder]
-      params.require(:finder).permit(
-          :calendar_year, :employee_id
-        )
+      params.require(:finder).permit(:calendar_year, :employee_id)
     end
   end
 

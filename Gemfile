@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '>= 3.2.9', '< 3.5.0'
+ruby '~> 3.4.0'
 gem 'rails', '~> 7.2.0'
 
 gem 'activerecord-session_store'
@@ -65,7 +65,7 @@ group :test do
   gem 'closer', require: false
   gem 'cucumber-rails', require: false
   gem 'database_cleaner', require: false
-  gem 'minitest'
+  gem 'minitest', '~> 5.0'
   gem 'minitest-reporters'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'

@@ -35,7 +35,7 @@ function get_ymd_shortcut_enabled_form(target) {
 }
 
 function enable_ymd_shortcut() {
-  Mousetrap.bindGlobal('ctrl+y', function(e) {
+  Mousetrap.bindGlobal(['ctrl+y', 'ctrl+m'], function(e) {
     e.preventDefault();
     let form = get_ymd_shortcut_enabled_form(e.target);
     form.find('input[name*=\\[ym\\]]').animate({scrollTop: 0}, 'fast').focus().select();

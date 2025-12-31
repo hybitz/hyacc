@@ -7,8 +7,6 @@ class FinancialReturnStatementsController < Base::HyaccController
     case finder.report_type.to_i
     when REPORT_TYPE_TRADE_ACCOUNT_PAYABLE
       render_trade_account_payable
-    when REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE
-      render_trade_account_receivable
     else
       logic = "Reports::#{finder.report_type.camelize}Logic".constantize.new(finder)
       @model = logic.build_model
@@ -36,13 +34,6 @@ class FinancialReturnStatementsController < Base::HyaccController
     logic = Reports::TradeAccountPayableLogic.new
     @report = logic.get_trade_account_payable_model(finder)
     render :trade_account_payable
-  end
-
-  # 売掛金の内訳書
-  def render_trade_account_receivable
-    logic = Reports::TradeAccountReceivableLogic.new
-    @report = logic.get_trade_account_receivable_model(finder)
-    render :trade_account_receivable
   end
 
 end

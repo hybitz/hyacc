@@ -12,14 +12,21 @@
     <th>名称（氏名）</th>
     <th>所在地（住所）</th>
   </tr>
-  <% @report.each_with_index do |t, index| %>
+  <% @model.details.each_with_index do |d, index| %>
   <tr>
       <td class="text-center">売掛</td>
-      <td><%= t.customer_name %></td>
-      <td><%= t.address %></td>
-      <td class="text-end"><%= to_amount(t.account_receivable) %></td>
-      <td class="text-center"><%= t.remarks %></td>
+      <td><%= d.customer_name %></td>
+      <td><%= d.address %></td>
+      <td class="text-end"><%= to_amount(d.amount) %></td>
+      <td class="text-center"><%= d.remarks %></td>
   </tr>
   <% end %>
+  <tr style="font-weight: bold;">
+      <th class="text-center">計</th>
+      <th></th>
+      <th></th>
+      <th class="text-end"><%= to_amount(@model.total_amount) %></th>
+      <th></th>
+  </tr>
 </table>
 </div>

@@ -1,9 +1,9 @@
 module Reports
-  class TradeAccountReceivableLogic
-    include HyaccConst
+  class TradeAccountReceivableLogic < BaseLogic
 
-    def get_trade_account_receivable_model(finder)
-      res = []
+    def build_model
+      ret = TradeAccountReceivableModel.new
+
       ymd = finder.end_year_month_day_of_fiscal_year.to_s
       a = Account.find_by_code(ACCOUNT_CODE_RECEIVABLE)
       
@@ -17,23 +17,40 @@ module Reports
         sum = value - credits[key] unless credits[key].nil?
         if sum > 0
           c = Customer.find(key)
-          t = Reports::TradeAccountReceivableModel.new
-          t.customer_id = key
-          t.customer_name = c.formal_name_on(ymd.to_date)
-          t.account_receivable = sum
-          t.address = c.address
-          t.remarks = c.enterprise_number
-          res.push(t)
+          d = Reports::TradeAccountReceivableDetailModel.new
+          d.customer_id = key
+          d.customer_name = c.formal_name_on(ymd.to_date)
+          d.amount = sum
+          d.address = c.address
+          d.remarks = c.enterprise_number
+          ret.add_detail(d)
         end
       end
-      res
+
+      ret
     end
   end
 
   class TradeAccountReceivableModel
+    attr_accessor :details
+  
+    def initialize
+      @details = []
+    end
+
+    def add_detail(detail)
+      self.details << detail
+    end
+
+    def total_amount
+      details.sum(&:amount)
+    end
+  end
+
+  class TradeAccountReceivableDetailModel
     attr_accessor :customer_id
     attr_accessor :customer_name
-    attr_accessor :account_receivable
+    attr_accessor :amount
     attr_accessor :address
     attr_accessor :remarks
   end

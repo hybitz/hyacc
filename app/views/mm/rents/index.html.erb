@@ -11,8 +11,8 @@
     <th>郵便番号</th>
     <th>所在地</th>
     <th>貸主の名称</th>
-    <th>状態</th>
-    <th colspan="2"></th>
+    <th class="text-center">状態</th>
+    <th></th>
   </tr>
 
   <% @rents.each do |r| %>
@@ -25,9 +25,11 @@
       <td><%= r.zip_code %></td>
       <td><%= r.address %></td>
       <td><%= r.customer.formal_name %></td>
-      <td><%= HyaccConst::RENT_STATUS_TYPES[ r.status ] %></td>
-      <td><%= link_to '編集', edit_mm_rent_path(r), remote: true %></td>
-      <td><%= link_to '削除', [:mm, r], data: {confirm: '削除しますか？'}, method: :delete %></td>
+      <td class="text-center"><%= HyaccConst::RENT_STATUS_TYPES[ r.status ] %></td>
+      <td>
+        <%= link_to '編集', edit_mm_rent_path(r), remote: true, class: 'btn btn-sm btn-light' %>
+        <%= link_to '削除', [:mm, r], data: {confirm: '削除しますか？'}, method: :delete, class: 'btn btn-sm btn-light' %>
+      </td>
     </tr>
   <% end %>
 </table>

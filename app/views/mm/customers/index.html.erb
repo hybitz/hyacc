@@ -1,7 +1,7 @@
 <%= render 'common/search' %>
 <%= flash_notice %>
 
-<table class="customers table table-bordered">
+<table class="customers table table-hover">
   <thead>
     <tr>
       <th class="text-center"><%= Customer.human_attribute_name :code %></th>
@@ -17,7 +17,7 @@
   </thead>
   <tbody>
     <% @customers.each do |c| %>
-      <tr class="hover">
+      <tr>
         <td class="center"><%= c.code %></td>
         <td><%= c.formal_name %></td>
         <td><%= c.name %></td>
@@ -27,9 +27,9 @@
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_investment %>
         <td class="text-center"><%= HyaccConst::DISABLED_TYPES[c.disabled] %></td>
         <td class="text-center">
-          <%= link_to '参照', mm_customer_path(c), remote: true, class: 'btn btn-light' %>
-          <%= link_to '編集', edit_mm_customer_path(c), remote: true, class: 'btn btn-light' %>
-          <%= link_to '削除', mm_customer_path(c), method: 'delete', class: 'btn btn-light', data: {confirm: "#{c.name} を削除します。よろしいですか？"} %>
+          <%= link_to '参照', mm_customer_path(c), remote: true, class: 'btn btn-sm btn-light' %>
+          <%= link_to '編集', edit_mm_customer_path(c), remote: true, class: 'btn btn-sm btn-light' %>
+          <%= link_to '削除', mm_customer_path(c), method: 'delete', class: 'btn btn-sm btn-light', data: {confirm: "#{c.name} を削除します。よろしいですか？"} %>
         </td>
       </tr>
     <% end %>

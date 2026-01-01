@@ -1,9 +1,9 @@
-<table>
+<table class="table table-hover">
   <tr>
     <th>氏名</th>
     <th>所属部門</th>
-    <th>業務経歴</th>
-    <th>状態</th>
+    <th class="text-center">業務経歴</th>
+    <th class="text-center">状態</th>
     <th></th>
   </tr>
 
@@ -11,9 +11,9 @@
     <tr>
       <td><%= e.fullname %></td>
       <td><%= e.default_branch_name %></td>
-      <td align="right"><%= e.years_of_career %>年</td>
-      <td><%= e.disabled_name %></td>
-      <td><a href="<%= url_for :action=>:show, :id=>e %>">参照</a></td>
+      <td class="text-center"><%= e.years_of_career %>年</td>
+      <td class="text-center"><%= e.disabled_name %></td>
+      <td class="text-center"><%= link_to '参照', {action: 'show', id: e}, class: 'btn btn-sm btn-light' %></td>
     </tr>
   <% end %>
 </table>

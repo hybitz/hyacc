@@ -23,6 +23,10 @@ class Report::WithholdingSlipController < ReportController
     end
   end
 
+  def get_employees
+    render partial: 'get_employees'
+  end
+
   private
 
   def finder

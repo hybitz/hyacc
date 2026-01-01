@@ -1,0 +1,6 @@
+<div class="input-group">
+  <div class="input-group-text">従業員</div>
+  <%= collection_select('finder', 'employee_id', finder.employees, 'id', 'fullname', {include_blank: true}, class: 'form-select') %>
+  <a href='#' onclick='$("#finder_employee_id").val(""); return false;' class="input-group-text">×</a>
+</div>
+

@@ -1,4 +1,20 @@
 <div id="search" class="search">
+  <script>
+    $(document).on('turbolinks:load', function() {
+      const calendar_year = $('select[name="finder\\[calendar_year\\]"]');
+
+      const get_employees = function() {
+        const url = '<%= url_for action: 'get_employees' %>';
+        const params = {finder: {calendar_year: calendar_year.val()}, format: 'html'};
+        $.get(url, params, function(html) {
+          $('#search .employees').html(html);
+        });
+      };
+
+      calendar_year.change(get_employees);
+    });
+  </script>
+
   <%= form_tag({action: 'index'}, method: 'get', class: 'row') do %>
     <div class="col-auto">
       <div class="input-group">
@@ -8,12 +24,8 @@
       </div>
     </div>
     
-    <div class="col-auto">
-      <div class="input-group">
-        <div class="input-group-text">従業員</div>
-        <%= collection_select('finder', 'employee_id', finder.employees, 'id', 'fullname', {include_blank: true}, class: 'form-select') %>
-        <a href='#' onclick='$("#finder_employee_id").val(""); return false;' class="input-group-text">×</a>
-      </div>
+    <div class="col-auto employees">
+      <%= render 'get_employees' %>
     </div>
     
     <div class="col-auto">

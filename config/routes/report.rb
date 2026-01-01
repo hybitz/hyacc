@@ -3,6 +3,10 @@ Rails.application.routes.draw do
     resources :consumption_tax_statements, only: 'index'
     resources :employment_insurances, only: ['index']
     resources :ledgers, only: ['index', 'show']
-    resources :withholding_slip, only: 'index'
+    resources :withholding_slip, only: 'index' do
+      collection do
+        get 'get_employees'
+      end
+    end
   end
 end

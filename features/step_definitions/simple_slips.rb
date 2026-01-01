@@ -295,7 +295,7 @@ end
   end
 end
 
-もし /^(.*?)を押す(と|ても)(.*?)の入力欄にフォーカスが移動する$/ do |keys, _, ymd|
+もし /^(.*?)を押(すと|しても)(.*?)の入力欄にフォーカスが移動する$/ do |keys, _, ymd|
   form_selector = page.has_selector?('#edit_simple_slip') ? '#edit_simple_slip' : '#new_simple_slip'
   key = case keys
         when 'Ctrl + Y'

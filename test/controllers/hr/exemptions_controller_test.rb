@@ -113,7 +113,7 @@ class Hr::ExemptionsControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, params: {id: @exemption.id, exemption: valid_exemption_params(employee_id: @exemption.employee_id)}, xhr: true
+    patch :update, params: {id: @exemption.id, exemption: valid_exemption_params(employee_id: @exemption.employee_id, yyyy: @exemption.yyyy)}, xhr: true
     assert_response :success
     assert_template 'common/reload'
   end

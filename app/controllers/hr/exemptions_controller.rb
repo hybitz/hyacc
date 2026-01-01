@@ -84,6 +84,8 @@ class Hr::ExemptionsController < Base::HyaccController
   def finder_params
     if params[:finder]
       params.require(:finder).permit(:calendar_year, :employee_id)
+    else
+      {}
     end
   end
 

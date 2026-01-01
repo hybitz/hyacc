@@ -295,9 +295,18 @@ end
   end
 end
 
-もし /^(.*?)を押すと(.*?)の入力欄にフォーカスが移動する$/ do |keys, ymd|
+もし /^(.*?)を押す(と|ても)(.*?)の入力欄にフォーカスが移動する$/ do |keys, _, ymd|
   form_selector = page.has_selector?('#edit_simple_slip') ? '#edit_simple_slip' : '#new_simple_slip'
-  key = keys == 'Ctrl + Y' ? 'y' : 'd'
+  key = case keys
+        when 'Ctrl + Y'
+          'y'
+        when 'Ctrl + M'
+          'm'
+        when 'Ctrl + D'
+          'd'
+        else
+          raise "想定していないショートカットキーです。#{keys}"
+        end
   input = ymd == '年月' ? 'simple_slip_ym' : 'simple_slip_day'
   within form_selector do
     page.driver.browser.action.key_down(:control).send_keys(key).key_up(:control).perform

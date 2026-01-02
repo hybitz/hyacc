@@ -1,0 +1,57 @@
+<div style="margin: 10px;">
+<p style="font-weight: bold;">買掛金（未払金　未払費用）の内訳書</p>
+
+<table class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th rowspan="2">科目</th>
+      <th colspan="2">相手先</th>
+      <th rowspan="2">期末現在高</th>
+      <th rowspan="2" width="30%">摘要</th>
+    </tr>
+    <tr>
+      <th>名称（氏名）</th>
+      <th>所在地（住所）</th>
+    </tr>
+  </thead>
+  
+  <% @model.details.each_with_index do |d, index| %>
+    <tr>
+      <td><%= d.account.name %></td>
+      <td><%= d.name %></td>
+      <td><%= d.address %></td>
+      <td class="amount"><%= to_amount(d.amount_at_end) %></td>
+      <td><%= d.remarks %></td>
+    </tr>
+    <% if should_display_sum(@model, index) %>
+      <tr>
+        <td>計</td>
+        <td></td>
+        <td></td>
+        <td class="amount"><%= to_amount(@model.amountSumByAccount[d.account.code]) %></td>
+        <td></td>
+      </tr>
+    <% end %>
+    <% if should_display_empty_row(@model, index) %>
+      <tr>
+        <td>&nbsp;</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+  <% end %>
+
+  <tfoot>
+    <tr style="font-weight: bold;">
+      <td>計</td>
+      <td class="bg-light"></td>
+      <td class="bg-light"></td>
+      <td class="amount"><%= to_amount(@model.amountSum) %></td>
+      <td></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+

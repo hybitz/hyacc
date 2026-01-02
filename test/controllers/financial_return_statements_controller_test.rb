@@ -13,7 +13,7 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
     sign_in user
     get :index, params: {commit: true, finder: trade_account_payable_finder}
     assert_response :success
-    assert_template :trade_account_payable
+    assert_template 'financial_return_statements/trade_account_payable/00000000'
   end
 
   def test_15_地代家賃等の内訳書

@@ -226,7 +226,7 @@ module HyaccConst
     REPORT_TYPE_BS = 1 => '貸借対照表',
     REPORT_TYPE_PL = 2 => '損益計算書',
     REPORT_TYPE_CF = 3 => 'キャッシュフロー計算書',
-    REPORT_TYPE_TRADE_ACCOUNT_PAYABLE = 4 => '⑨買掛金の内訳書',
+    REPORT_TYPE_TRADE_ACCOUNT_PAYABLE = 'trade_account_payable' => '⑨買掛金の内訳書',
     REPORT_TYPE_APPENDIX_01 = 'appendix_01' => '別表1　各事業年度の所得に係る申告書',
     REPORT_TYPE_APPENDIX_01_NEXT = 'appendix_01_next' => '別表1　次葉',
     REPORT_TYPE_RENT = 'rent' => '⑮地代家賃等の内訳書',

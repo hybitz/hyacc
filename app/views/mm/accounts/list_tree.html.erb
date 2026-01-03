@@ -15,7 +15,7 @@
     });
     
     $('#account_tree').bind('tree.move', function(e) {
-      $.post('<%= url_for :action => 'update_tree' %>', {
+      $.post('<%= url_for action: 'update_tree' %>', {
         authenticity_token: '<%= form_authenticity_token %>',
         moved: e.move_info.moved_node.id,
         target: e.move_info.target_node.id,

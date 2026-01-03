@@ -7,7 +7,7 @@ class Mm::AccountsController < Base::HyaccController
   end
 
   def list_tree
-    @accounts = Account.where('parent_id is null and code != ?', ACCOUNT_CODE_VARIOUS).order(:display_order)
+    @accounts = Account.where('parent_id is null and code != ? and deleted = ?', ACCOUNT_CODE_VARIOUS, false).order(:display_order)
     session[:current_list_action] = action_name
   end
 

@@ -23,8 +23,8 @@ class AccountFinder
 
   def list
     return unless self.account_type.to_i > 0
-    
-    ret = Account.where(:account_type => self.account_type).order('path')
+
+    ret = Account.where(account_type: self.account_type, deleted: false).order('path')
     ret = ret.select{|a| a.is_leaf} if leaf_only?
     ret
   end

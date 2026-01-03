@@ -20,7 +20,7 @@ class Mm::AccountsHelperTest < ActionView::TestCase
 
   def test_convert_account_to_json_with_children
     account = Account.find_by_code('1100') # 流動資産 - 子要素を持つ
-    assert account.children.present?, "勘定科目に子要素があること"
+    assert account.children.where(deleted: false).present?, "勘定科目に子要素があること"
     
     result = convert_account_to_json(account)
     
@@ -29,7 +29,7 @@ class Mm::AccountsHelperTest < ActionView::TestCase
     assert_match(/children: \[/, result)
     
     # 子要素が含まれていることを確認
-    account.children.each do |child|
+    account.children.where(deleted: false).each do |child|
       assert_match(/id: #{child.id}/, result)
     end
   end

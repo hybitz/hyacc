@@ -1,7 +1,18 @@
-<div class="m-2">
-  <%= form_tag({action: 'index'}, method: 'get', class: 'form form-inline') do %>
-    <label class="m-2">勘定科目区分：<%= select 'finder', 'account_type', finder.account_types, {}, class: 'form-control' %></label>
-    <label class="m-2">リーフのみ表示：<%= check_box 'finder', 'leaf_only' %></label>
+<%= form_tag({action: 'index'}, method: 'get', class: 'row') do %>
+  <div class="col-auto">
+    <div class="input-group">
+      <label class="input-group-text">勘定科目区分</label>
+      <%= select 'finder', 'account_type', finder.account_types, {}, class: 'form-select' %>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="input-group">
+      <div class="input-group-text">
+        <label><%= check_box 'finder', 'leaf_only', class: 'me-1' %> リーフのみ表示</label>
+      </div>
+    </div>
+  </div>
+  <div class="col-auto">
     <%= submit_tag '表示', class: 'btn btn-light' %>
-  <% end %>
-</div>
+  </div>
+<% end %>

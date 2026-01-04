@@ -175,8 +175,8 @@ end
       fill_in 'finder_remarks', with: remark
       click_on '表示'
       
-      assert tr = first('#slipTable tbody tr')
-      within tr do
+      assert has_selector?('#slipTable tbody tr', text: remark)
+      within first('#slipTable tbody tr') do
         find('td a.show').click
       end
       assert has_dialog?(/#{account.name}.*/)

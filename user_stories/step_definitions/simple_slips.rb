@@ -196,7 +196,7 @@ end
   end
 end
 
-もし /^出経費を従業員が立て替えて支払い$/ do |ast_table|
+もし /^出張経費を従業員が立て替えて支払い$/ do |ast_table|
   assert @account = Account.find_by_name('未払金（従業員）')
 
   normalize_table(ast_table)[1..-1].each do |row|

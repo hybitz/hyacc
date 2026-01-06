@@ -40,6 +40,11 @@ module Reports
       (pre_corporate_tax_amount / 100).floor * 100
     end
 
+    # 差引確定法人税額
+    def final_corporate_tax_amount
+      corporate_tax_amount - interim_corporate_tax_amount
+    end
+
     # 課税標準法人税額
     def standard_corporate_tax_amount
       appendix_01_next_model.corporate_tax_amount
@@ -54,5 +59,11 @@ module Reports
     def local_corporate_tax_amount
       (pre_local_corporate_tax_amount / 100).floor * 100
     end
+
+    # 差引確定地方法人税額
+    def final_local_corporate_tax_amount
+      local_corporate_tax_amount - interim_local_corporate_tax_amount
+    end
+
   end
 end

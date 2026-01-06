@@ -124,7 +124,7 @@
       <tr>
         <td class="text-center px-4"><%= justify('差引確定法人税額') %><span>(13)-(14)</span><%= justify('（中間申告の場合はその税額とし、マイナスの場合は (22) へ記入）') %></td>
         <td class="text-center">15</td>
-        <td></td>
+        <td class="text-end"><%= to_amount(@model.final_corporate_tax_amount) %></td>
       </tr>
       <tr>
         <td colspan="10"></td>
@@ -214,7 +214,7 @@
       <tr>
         <td class="text-center px-4"><%= justify('差引確定地方法人税額') %><span>(38)-(39)</span><%= justify('（中間申告の場合はその税額とし、マイナスの場合は (42) へ記入）') %></td>
         <td class="text-center">40</td>
-        <td class="text-end"></td>
+        <td class="text-end"><%= to_amount(@model.final_local_corporate_tax_amount) %></td>
       </tr>
     </tbody>
   </table>

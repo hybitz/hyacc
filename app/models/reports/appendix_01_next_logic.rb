@@ -19,16 +19,17 @@ module Reports
       (appendix_04_model.income_amount / 1000).floor * 1000
     end
 
-    # 法人税
+    # 丸め前法人税額
     def pre_corporate_tax_amount
       income_amount * 0.15
     end
 
-    # 法人税
+    # 法人税額
     def corporate_tax_amount
       (pre_corporate_tax_amount / 1000).floor * 1000
     end
 
+    # 地方法人税額額
     def local_corporate_tax_amount
       corporate_tax_amount * 0.103
     end

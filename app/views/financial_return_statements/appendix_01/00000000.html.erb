@@ -25,7 +25,7 @@
       <tr>
         <td class="text-center px-4"><%= justify('法人税額') %><span>(48)+(49)+(50)</span></td>
         <td class="text-center">2</td>
-        <td></td>P
+        <td class="text-end"><%= to_amount(@model.pre_corporate_tax_amount) %></td>
         <td class="text-center" px-4><%= justify('外国税額') %><span>（別表六(二)「23」）</span></td>
         <td class="text-center">17</td>
         <td></td>
@@ -82,7 +82,7 @@
       <tr>
         <td class="text-center px-4"><%= justify('法人税額計') %><span>(2)-(3)+(4)+(6)+(8)</span></td>
         <td class="text-center">9</td>
-        <td></td>
+        <td class="text-end"><%= to_amount(@model.pre_corporate_tax_amount) %></td>
         <td class="text-center px-4"><%= justify('') %><span></span></td>
         <td class="text-center">24</td>
         <td></td>
@@ -111,12 +111,12 @@
       <tr>
         <td class="text-center px-4"><%= justify('差引所得に対する法人税額') %><span>(9)-(10)-(11)-(12)</span></td>
         <td class="text-center">13</td>
-        <td></td>
+        <td class="text-end"><%= to_amount(@model.corporate_tax_amount) %></td>
       </tr>
       <tr>
         <td class="text-center px-4"><%= justify('中間申告分の法人税額') %><span></span></td>
         <td class="text-center">14</td>
-        <td></td>
+        <td class="text-end"><%= to_amount(@model.interim_corporate_tax_amount) %></td>
         <td class="text-center px-4" rowspan="2" colspan="2"><%= justify('翌期へ繰り越す欠損金額') %><span>（別表七(一)「5の合計」）</span></td>
         <td class="text-center" rowspan="2">27</td>
         <td rowspan="2"></td>
@@ -133,7 +133,7 @@
         <td class="text-center" style="width: 2em;" rowspan="13"><%= split_with_br('この申告書による地方法人税額の計算') %></td>
         <td class="text-center px-4" style="width: 30%;"><%= justify('所得の金額に対する法人税額') %><span>（(2)-(3)+(4)+(6)+(9の外書)<br>-別表六(二)付表六「7の計」）</span></td>
         <td class="text-center" style="width: 2em;">28</td>
-        <td class="text-end"></td>
+        <td class="text-end"><%= to_amount(@model.pre_corporate_tax_amount) %></td>
         <td rowspan="13" style="width: 1em;"></td>
         <td class="text-center" style="width: 2em;" rowspan="6"><%= split_with_br('この申告による還付金額') %></td>
         <td class="text-center" style="width: 30%;" rowspan="2"><%= justify('外国税額の還付金額') %><span>（別表六(一)「6の③」）</span></td>
@@ -149,7 +149,7 @@
       <tr>
         <td class="text-center px-4"><%= justify('課税標準法人税額') %><span>(28)+(29)</span></td>
         <td class="text-center">30</td>
-        <td class="text-end"></td>
+        <td class="text-end"><%= to_amount(@model.standard_corporate_tax_amount) %></td>
         <td class="text-center" rowspan="2"><%= justify('中間納付額') %><span>(39)-(38)</span></td>
         <td class="text-center" rowspan="2">42</td>
         <td class="text-end" rowspan="2"></td>
@@ -157,7 +157,7 @@
       <tr>
         <td class="text-center px-4"><%= justify('地方法人税額') %><span>(53)</span></td>
         <td class="text-center">31</td>
-        <td class="text-end"></td>
+        <td class="text-end"><%= to_amount(@model.pre_local_corporate_tax_amount) %></td>
       </tr>
       <tr>
         <td class="text-center px-4"><%= justify('税額控除超過額相当額の加算額') %><span>（別表六(二)付表六「14の計」）</span></td>
@@ -175,7 +175,7 @@
       <tr>
         <td class="text-center px-4"><%= justify('所得地方法人税額') %><span>(31)+(32)+(33)</span></td>
         <td class="text-center">34</td>
-        <td class="text-end"></td>
+        <td class="text-end"><%= to_amount(@model.pre_local_corporate_tax_amount) %></td>
         <td></td>
         <td class="text-center px-4"><%= justify('この申告が修正申告である') %><%= justify('場合のこの申告により納付') %><%= justify('すべき地方法人税額') %><span>(61)</span></td>
         <td class="text-center">44</td>
@@ -204,12 +204,12 @@
       <tr>
         <td class="text-center px-4"><%= justify('差引地方法人税額') %><span>(34)-(35)-(36)-(37)</span></td>
         <td class="text-center">38</td>
-        <td class="text-end"></td>
+        <td class="text-end"><%= to_amount(@model.local_corporate_tax_amount) %></td>
       </tr>
       <tr>
         <td class="text-center px-4"><%= justify('中間申告分の地方法人税額') %></td>
         <td class="text-center">39</td>
-        <td class="text-end"></td>
+        <td class="text-end"><%= to_amount(@model.interim_local_corporate_tax_amount) %></td>
       </tr>
       <tr>
         <td class="text-center px-4"><%= justify('差引確定地方法人税額') %><span>(38)-(39)</span><%= justify('（中間申告の場合はその税額とし、マイナスの場合は (42) へ記入）') %></td>

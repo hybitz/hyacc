@@ -5,22 +5,6 @@ module Reports
 
       protected
 
-      # 当期の中間申告した金額を取得する
-      def get_this_term_interim_amount(account_code, sub_account_id = nil)
-        query = <<EOF
-          select sum(jd.amount) as amount from journal_details jd
-          inner join journals j on (j.id = jd.journal_id)
-          inner join accounts a on (a.id = jd.account_id)
-          where j.ym >= ? and j.ym <= ?
-            and a.code = ?
-            and jd.sub_account_id = ?
-            and jd.dc_type = a.dc_type
-            and jd.settlement_type = ?
-EOF
-        result = execute_query(query, start_ym, end_ym, account_code, sub_account_id, SETTLEMENT_TYPE_HALF)
-        result.first['amount']
-      end
-
       # 課税仕入額（税抜）
       def get_taxable_purchase_amount(tax_rate)
         query = <<EOF

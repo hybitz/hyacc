@@ -24,6 +24,10 @@
           <th class="text-center">買掛金科目</th>
           <th class="text-center">仮受金科目</th>
         <% end %>
+
+        <% if finder.account_type_asset? %>
+          <th class="text-center">仮払金科目</th>
+        <% end %>
     
         <% if finder.account_type_capital? %>
           <th class="text-center">利益積立金科目</th>
@@ -44,6 +48,10 @@
         <% if finder.account_type_debt? %>
           <td class="text-center"><%= image_tag 'check.png' if a.is_trade_account_payable? %></td>
           <td class="text-center"><%= image_tag 'check.png' if a.is_suspense_receipt_account? %></td>
+        <% end %>
+
+        <% if finder.account_type_asset? %>
+          <td class="text-center"><%= image_tag 'check.png' if a.is_temporary_payment_account? %></td>
         <% end %>
     
         <td>

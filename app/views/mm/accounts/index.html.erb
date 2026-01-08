@@ -52,7 +52,6 @@
         <% if finder.account_type_asset? %>
           <td class="text-center"><%= image_tag 'check.png' if a.is_temporary_payment_account? %></td>
         <% end %>
-    
         <td>
           <%= link_to '編集', {:action => 'edit', :id => a}, :remote => true %>
           <%= link_to '子科目追加', {:action => 'new', :parent_id => a}, :remote => true %>

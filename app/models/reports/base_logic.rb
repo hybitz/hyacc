@@ -149,8 +149,21 @@ EOF
       operating_income_amount + non_operating_profit_amount - non_operating_expense_amount
     end
 
-    # 税引前当期利益を取得する
-    def get_pretax_profit_amount
+    # 繰越損益金を取得する
+    def carried_forward_profit_amount
+      profit_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_PROFIT).first
+      expense_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_EXPENSE).first
+      corporate_tax_account = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
+
+      profit = VMonthlyLedger.net_sum(start_ym, end_ym, profit_account.id, nil, branch_id)
+      expense = VMonthlyLedger.net_sum(start_ym, end_ym, expense_account.id, nil, branch_id)
+      corporate_tax = VMonthlyLedger.net_sum(start_ym, end_ym, corporate_tax_account.id, nil, branch_id)
+
+      profit - expense + corporate_tax
+    end
+
+    # 当期利益を取得する
+    def get_profit_amount
       profit_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_PROFIT).first
       expense_account = Account.where('account_type = ? and parent_id is null', ACCOUNT_TYPE_EXPENSE).first
       profit = VMonthlyLedger.net_sum(start_ym, end_ym, profit_account.id, nil, branch_id)

@@ -21,7 +21,7 @@
   end
 
   with_capture do
-    assert has_no_selector?('.ui-dialog')
+    assert has_no_dialog?
     assert col = find('#payroll_table thead tr').all('th').index{|th| th.has_link?(@ym) }
 
     find_tr '#payroll_table', '基本給' do |tr|
@@ -31,7 +31,7 @@
 
     pay_day = current_company.get_actual_pay_day_for(@ym).strftime('%m月%d日')
     click_on pay_day
-    assert has_selector?('.ui-dialog')
+    assert has_dialog?
   end
 end
 

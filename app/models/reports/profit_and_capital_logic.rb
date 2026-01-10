@@ -8,7 +8,12 @@ module Reports
       d.no = 1
       d.name = '利益準備金'
       d.amount_at_start = get_amount_at_start(ACCOUNT_CODE_REVENUE_RESERVE)
-      d.amount_increase = get_this_term_amount(ACCOUNT_CODE_REVENUE_RESERVE)
+      amount = get_this_term_amount(ACCOUNT_CODE_REVENUE_RESERVE)
+      if amount < 0
+        d.amount_decrease = -amount
+      else
+        d.amount_increase = amount
+      end
 
       d = ret.new_detail
       d.no = 2

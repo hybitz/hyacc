@@ -65,13 +65,13 @@ module Reports
     def get_amount_at_start(account_code, sub_account_id = nil)
       a = Account.where(code: account_code, deleted: false).first
       last_year_end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(finder.fiscal_year - 1, finder.start_month_of_fiscal_year )
-      VMonthlyLedger.net_sum(nil, last_year_end_ym, a.id, sub_account_id, branch_id)
+      VMonthlyLedger.net_sum(nil, last_year_end_ym, a.id, sub_account_id, branch_id) || 0
     end
     
     # 期末時点での累計金額を取得する
     def get_amount_at_end(account_code, sub_account_id = nil)
       a = Account.where(code: account_code, deleted: false).first
-      VMonthlyLedger.net_sum(nil, end_ym, a.id, sub_account_id, branch_id)
+      VMonthlyLedger.net_sum(nil, end_ym, a.id, sub_account_id, branch_id) || 0
     end
 
       # 当期の中間申告した金額を取得する
@@ -87,25 +87,25 @@ module Reports
             and jd.settlement_type = ?
 EOF
         result = execute_query(query, start_ym, end_ym, account_code, sub_account_id, SETTLEMENT_TYPE_HALF)
-        result.first['amount']
+        (result.first && result.first['amount']) || 0
       end
 
     # 当期に増減した金額を取得する
     def get_this_term_amount(account_code, sub_account_id = nil)
       a = Account.where(code: account_code, deleted: false).first
-      VMonthlyLedger.net_sum(start_ym, end_ym, a.id, sub_account_id, branch_id)
+      VMonthlyLedger.net_sum(start_ym, end_ym, a.id, sub_account_id, branch_id) || 0
     end
 
     # 当期の借方金額を取得する
     def get_this_term_debit_amount(account_code, sub_account_id = nil)
       a = Account.where(code: account_code, deleted: false).first
-      VMonthlyLedger.get_debit_sum_amount(start_ym, end_ym, a.id, sub_account_id, branch_id)
+      VMonthlyLedger.get_debit_sum_amount(start_ym, end_ym, a.id, sub_account_id, branch_id) || 0
     end
 
     # 当期の貸方金額を取得する
     def get_this_term_credit_amount(account_code, sub_account_id = nil)
       a = Account.where(code: account_code, deleted: false).first
-      VMonthlyLedger.get_credit_sum_amount(start_ym, end_ym, a.id, sub_account_id, branch_id)
+      VMonthlyLedger.get_credit_sum_amount(start_ym, end_ym, a.id, sub_account_id, branch_id) || 0
     end
 
     # 売上総利益を取得する

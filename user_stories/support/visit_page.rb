@@ -67,6 +67,7 @@ module VisitPage
     assert current_user || sign_in(User.first)
 
     visit '/'
+    assert has_selector?('#calendar')
     click_on '人事労務'
     click_on '賃金台帳'
     assert has_title?('賃金台帳')

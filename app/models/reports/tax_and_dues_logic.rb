@@ -104,7 +104,11 @@ module Reports
     attr_accessor :business_tax_at_start_second
     attr_accessor :business_tax_at_half
     attr_accessor :business_tax_at_full
-    
+
+    def previous_fiscal_year
+      fiscal_year.company.get_fiscal_year(fiscal_year.fiscal_year - 1)
+    end
+
     def total_corporate_tax_payable_at_start
       @corporate_tax_payable_at_start_first.to_i + @corporate_tax_payable_at_start_second.to_i
     end

@@ -34,7 +34,14 @@
       </tr>
       <tr>
           <td rowspan="5" width="20px" align="center">法人税及び地方法人税</td>
-          <td colspan="2">令和　・　・<br/>令和　・　・</td>
+          <td colspan="2">
+            <% if @model.corporate_tax_payable_at_start_first.present? %>
+              令和 <%= to_wareki(@model.fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br/>
+              令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %>
+            <% else %>
+              令和　・　・<br/>令和　・　・
+            <% end %>
+          </td>
           <td width="20" align="center">1</td>
           <td align="right"><%= to_amount(@model.corporate_tax_payable_at_start_first) %></td>
           <td class="bg-light"></td>
@@ -44,7 +51,10 @@
           <td></td>
       </tr>
       <tr>
-          <td colspan="2">令和　・　・<br/>令和　・　・</td>
+          <td colspan="2">
+              令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br/>
+              令和 <%= to_wareki(@model.previous_fiscal_year.end_day, only_date: true, format: '%y ・ %m ・ %d') %>
+          </td>
           <td align="center">2</td>
           <td class="text-end"><%= to_amount(@model.corporate_tax_payable_at_start_second) %></td>
           <td class="bg-light"></td>
@@ -89,7 +99,14 @@
       </tr>
       <tr>
           <td rowspan="5" width="20px" class="text-center">道府県民税</td>
-          <td colspan="2">令和　・　・<br/>令和　・　・</td>
+          <td colspan="2">
+            <% if @model.prefectural_tax_payable_at_start_first.present? %>
+              令和 <%= to_wareki(@model.fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br/>
+              令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %>
+            <% else %>
+              令和　・　・<br/>令和　・　・
+            <% end %>
+          </td>
           <td width="20" class="text-center">6</td>
           <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_first) %></td>
           <td class="bg-light"></td>
@@ -99,7 +116,10 @@
           <td></td>
       </tr>
       <tr>
-          <td colspan="2">令和　・　・<br/>令和　・　・</td>
+          <td colspan="2">
+              令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br/>
+              令和 <%= to_wareki(@model.previous_fiscal_year.end_day, only_date: true, format: '%y ・ %m ・ %d') %>
+          </td>
           <td class="text-center">7</td>
           <td class="text-end"><%= to_amount(@model.prefectural_tax_payable_at_start_second, show_zero: true) %></td>
           <td class="bg-light"></td>
@@ -121,7 +141,7 @@
       </tr>
       <tr>
           <td class="text-center">確定</td>
-          <td class="text-end">9</td>
+          <td class="text-center">9</td>
           <td class="bg-light"></td>
           <td class="text-end"><%= to_amount(@model.prefectural_tax_at_full, show_zero: true) %></td>
           <td colspan="3" class="bg-light"></td>
@@ -144,7 +164,14 @@
       </tr>
       <tr>
           <td rowspan="5" width="20px" align="center">市町村民税</td>
-          <td colspan="2">令和　・　・<br/>令和　・　・</td>
+          <td colspan="2">
+            <% if @model.municipal_inhabitants_tax_payable_at_start_first.present? %>
+              令和 <%= to_wareki(@model.fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br/>
+              令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %>
+            <% else %>
+              令和　・　・<br/>令和　・　・
+            <% end %>
+          </td>
           <td width="20" align="center">11</td>
           <td align="right"><%= to_amount(@model.municipal_inhabitants_tax_payable_at_start_first) %></td>
           <td class="bg-light"></td>
@@ -154,7 +181,10 @@
           <td></td>
       </tr>
       <tr>
-          <td colspan="2">令和　・　・<br/>令和　・　・</td>
+          <td colspan="2">
+              令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br/>
+              令和 <%= to_wareki(@model.previous_fiscal_year.end_day, only_date: true, format: '%y ・ %m ・ %d') %>
+          </td>
           <td align="center">12</td>
           <td align="right"><%= to_amount(@model.municipal_inhabitants_tax_payable_at_start_second) %></td>
           <td class="bg-light"></td>
@@ -209,7 +239,10 @@
           <td></td>
       </tr>
       <tr>
-          <td colspan="2">令和　・　・<br/>令和　・　・</td>
+          <td colspan="2">
+              令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br/>
+              令和 <%= to_wareki(@model.previous_fiscal_year.end_day, only_date: true, format: '%y ・ %m ・ %d') %>
+          </td>
           <td class="text-center">17</td>
           <td></td>
           <td class="text-end"><%= to_amount(@model.business_tax_at_start_second, show_zero: true) %></td>

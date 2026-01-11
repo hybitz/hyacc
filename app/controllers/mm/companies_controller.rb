@@ -53,7 +53,7 @@ class Mm::CompaniesController < Base::HyaccController
 
   def company_params
     permitted = [
-      :logo, :admin_email, :business_type_id, :day_of_pay_day_definition, :month_of_pay_day_definition, :enterprise_number, :labor_insurance_number, :social_insurance_number, :employment_insurance_type, :retirement_savings_after
+      :logo, :business_type_id, :day_of_pay_day_definition, :month_of_pay_day_definition, :enterprise_number, :labor_insurance_number, :social_insurance_number, :employment_insurance_type, :retirement_savings_after
     ]
    
     ret = params.require(:company).permit(permitted)

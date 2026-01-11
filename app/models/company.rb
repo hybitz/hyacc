@@ -11,7 +11,6 @@ class Company < ApplicationRecord
 
   validates :name, presence: true
   validates :founded_date, presence: true
-  validates :admin_email, email: {allow_blank: true}
   validates :enterprise_number, numericality: {allow_blank: true}
   validates :labor_insurance_number, numericality: {allow_blank: true}, length: {is: 14, allow_blank: true}
   validates :retirement_savings_after, numericality: {allow_blank: true, only_integer: true, greater_than_or_equal_to: 1}

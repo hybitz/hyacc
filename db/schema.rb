@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_29_021225) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_11_155749) do
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", default: "", null: false
@@ -228,7 +228,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_29_021225) do
     t.string "logo", default: ""
     t.date "founded_date", null: false
     t.integer "type_of", default: 0, null: false
-    t.string "admin_email"
     t.boolean "deleted", default: false, null: false
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil

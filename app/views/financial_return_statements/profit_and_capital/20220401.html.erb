@@ -43,10 +43,10 @@
         <td class="text-end"><%= to_amount(sr.amount_at_end, show_zero: sr.has_change?) %></td>
       </tr>
     <% end %>
-    
+
     <tr>
         <td colspan="2">未収還付道府県民税</td>
-        <td align="center">24</td>
+        <td align="center">23</td>
         <td></td>
         <td></td>
         <td></td>
@@ -54,7 +54,7 @@
     </tr>
     <tr>
         <td colspan="2">未収還付市町村民税</td>
-        <td align="center">25</td>
+        <td align="center">24</td>
         <td></td>
         <td></td>
         <td></td>
@@ -62,7 +62,7 @@
     </tr>
     <tr>
         <td colspan="2">繰越損益金（損は赤）</td>
-        <td align="center">26</td>
+        <td align="center">25</td>
         <td></td>
         <td align="right"></td>
         <td align="right"><%= to_amount(@model.carried_forward_profit_amount) %></td>
@@ -70,21 +70,23 @@
     </tr>
     <tr>
         <td colspan="2">納税充当金</td>
-        <td align="center">27</td>
+        <td align="center">26</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
     </tr>
     <tr>
-      <td rowspan="6" width="30px">未納法人税等</td>
+      <td rowspan="8" width="30px">未納法人税等</td>
       <td rowspan="2">未納法人税<br/>(附帯税を除く｡)</td>
-      <td rowspan="2" class="align-middle text-center">28</td>
-      <td rowspan="2" class="align-middle">△</td>
-      <td rowspan="2" class="align-middle">△</td>
-      <td>中間 △</td>
+      <td rowspan="2" class="align-middle text-center">27</td>
+      <td rowspan="2" class="profit_and_capital"><div>△</div><div><%= to_amount(@model.corporate_taxes_payable_amount_at_start) %></div></td>
+      <td rowspan="2" class="profit_and_capital"><div>△</div><div><%= to_amount(@model.corporate_taxes_payable_amount_decrease) %></div></td>
+      <td class="profit_and_capital">
+        <div>中間 △</div><div><%= to_amount(@model.corporate_taxes_payable_amount_interim) %></div>
+      </td>
       <td rowspan="2" class="profit_and_capital">
-        <div>△</div><div><%= to_amount(@model.corporate_taxes_payable_amount) %></div>
+        <div>△</div><div><%= to_amount(@model.corporate_taxes_payable_amount_at_end) %></div>
       </td>
     </tr>
     <tr>
@@ -93,13 +95,30 @@
       </td>
     </tr>
     <tr>
-      <td rowspan="2">未納道府県民税<br/>(均等割額及び利子割額を含む｡)</td>
+      <td rowspan="2">未払通貨税効果額<br/>(付帯税の額に係る部分の金額を除く。)</td>
+      <td rowspan="2" class="align-middle text-center">28</td>
+      <td rowspan="2" class="profit_and_capital"></td>
+      <td rowspan="2" class="profit_and_capital"></td>
+      <td>中間</td>
+      <td rowspan="2" class="profit_and_capital">
+        <div></div><div></div>
+      </td>
+    </tr>
+    <tr>
+      <td class="profit_and_capital">
+        <div>確定</div><div></div>
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="2">未納道府県民税<br/>(均等割額を含む｡)</td>
       <td rowspan="2" class="align-middle text-center">29</td>
       <td rowspan="2" class="profit_and_capital"><div>△</div><div><%= to_amount(@model.perfectual_tax_payable_amount_at_start) %></div></td>
       <td rowspan="2" class="profit_and_capital"><div>△</div><div><%= to_amount(@model.perfectual_tax_payable_amount_decrease) %></div></td>
-      <td>中間 △</td>
+      <td class="profit_and_capital">
+        <div>中間 △</div><div><%= to_amount(@model.perfectual_tax_payable_amount_interim) %></div>
+      </td>
       <td rowspan="2" class="profit_and_capital">
-        <div>△</div><div><%= to_amount(@model.perfectual_tax_payable_amount_increase) %></div>
+        <div>△</div><div><%= to_amount(@model.perfectual_tax_payable_amount_at_end) %></div>
       </td>
     </tr>
     <tr>

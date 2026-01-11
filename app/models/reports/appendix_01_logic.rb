@@ -11,8 +11,8 @@ module Reports
       ret.appendix_04_model = appendix_04_logic.build_model
 
       # TODO 定数化
-      ret.interim_corporate_tax_amount = get_this_term_interim_amount('1885', CORPORATE_TAX_TYPE_CORPORATE_TAX)
-      ret.interim_local_corporate_tax_amount = get_this_term_interim_amount('1885', CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
+      ret.interim_corporate_tax_amount = get_this_term_interim_amount(ACCOUNT_CODE_TEMP_PAY_CORPORATE_TAXES, CORPORATE_TAX_TYPE_CORPORATE_TAX)
+      ret.interim_local_corporate_tax_amount = get_this_term_interim_amount(ACCOUNT_CODE_TEMP_PAY_CORPORATE_TAXES, CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX)
 
       ret
     end

@@ -5,7 +5,7 @@ module Reports
       ret = Appendix04Model.new
       ret.company = Company.find(finder.company_id)
       ret.fiscal_year = ret.company.get_fiscal_year(finder.fiscal_year)
-      ret.pretax_profit_amount = get_pretax_profit_amount
+      ret.pretax_profit_amount = get_profit_amount
       ret.corporate_tax_amount = get_corporate_tax_amount
       ret.corporate_inhabitant_tax_amount = get_corporate_inhabitant_tax_amount
       ret.business_tax_amount = get_business_tax_amount

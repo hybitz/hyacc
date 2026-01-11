@@ -6,6 +6,11 @@ class Mm::CompaniesController < Base::HyaccController
 
   def show
     @company = Company.find(current_company.id)
+    @include_deleted = params[:include_deleted] == 'true'
+
+    @business_offices = @include_deleted ? 
+      BusinessOffice.where(company_id: @company.id).order(:id) : 
+      @company.business_offices
     
     # 資本金を算出する
     unless @company.personal?

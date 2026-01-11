@@ -1,5 +1,16 @@
 <div class="table-responsive">
-  <h4>事業所</h4>
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h4 class="mb-0">事業所</h4>
+    <div class="form-check">
+      <%= form_tag mm_company_path(@company), method: :get, class: 'd-inline' do %>
+        <%= check_box_tag :include_deleted, 'true', @include_deleted, 
+            class: 'form-check-input', 
+            id: 'include_deleted',
+            onchange: 'this.form.submit();' %>
+        <%= label_tag :include_deleted, '削除された事業所も表示', class: 'form-check-label' %>
+      <% end %>
+    </div>
+  </div>
   <table class="table table-striped">
     <thead>
       <tr>
@@ -14,9 +25,14 @@
       </tr>
     </thead>
     <tbody>
-      <% @company.business_offices.each do |bo| %>
-        <tr>
-          <td><%= bo.name %></td>
+      <% @business_offices.each do |bo| %>
+        <tr class="<%= 'text-muted' if bo.deleted? %>">
+          <td>
+            <%= bo.name %>
+            <% if bo.deleted? %>
+              <span class="badge bg-secondary ms-2">削除済み</span>
+            <% end %>
+          </td>
           <td><%= bo.zip_code %></td>
           <td><%= bo.prefecture_name %></td>
           <td><%= bo.address1 %><%= bo.address2 %></td>
@@ -24,8 +40,10 @@
           <td><%= bo.responsible_person&.fullname %></td>
           <td><%= bo.business_outline %></td>
           <td class="text-end">
-            <%= link_to '編集', edit_mm_business_office_path(bo), class: 'btn btn-light btn-small', remote: true %>
-            <%= link_to '削除', mm_business_office_path(bo), class: 'btn btn-light btn-small', data: {confirm: '削除します。よろしいですか？'}, method: 'delete' %>
+            <% unless bo.deleted? %>
+              <%= link_to '編集', edit_mm_business_office_path(bo), class: 'btn btn-light btn-small', remote: true %>
+              <%= link_to '削除', mm_business_office_path(bo), class: 'btn btn-light btn-small', data: {confirm: '削除します。よろしいですか？'}, method: 'delete' %>
+            <% end %>
           </td>
         </tr>
       <% end %>

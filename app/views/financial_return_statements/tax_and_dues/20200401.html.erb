@@ -13,7 +13,7 @@
   </table>    
   <table class="table table-bordered table-hover">
       <tr>
-          <td rowspan="3" colspan="4" align="center">税目及び事業年度</td>
+          <td rowspan="3" colspan="4" class="text-center">税目及び事業年度</td>
           <td rowspan="2" class="text-center" style="width: 13%;">期首現在<br>未納税額</td>
           <td rowspan="2" class="text-center" style="width: 13%;">当期発生税額</td>
           <td colspan="7" class="text-center"><%= justify('　当期中の納付税額　') %></td>
@@ -25,15 +25,15 @@
           <td colspan="2" class="text-center" style="width: 13%;">損金経理に<br>よる納付</td>
       </tr>
       <tr>
-          <td align="center">①</td>
-          <td align="center">②</td>
-          <td colspan="3" align="center">③</td>
-          <td colspan="2" align="center">④</td>
-          <td colspan="2" align="center">⑤</td>
-          <td align="center">⑥</td>
+          <td class="text-center">①</td>
+          <td class="text-center">②</td>
+          <td colspan="3" class="text-center">③</td>
+          <td colspan="2" class="text-center">④</td>
+          <td colspan="2" class="text-center">⑤</td>
+          <td class="text-center">⑥</td>
       </tr>
       <tr>
-          <td rowspan="5" width="20px" align="center">法人税及び地方法人税</td>
+          <td rowspan="5" width="20px" class="text-center">法人税及び地方法人税</td>
           <td colspan="2">
             <% if @model.corporate_tax_payable_at_start_first.present? %>
               令和 <%= to_wareki(@model.fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br>
@@ -42,7 +42,7 @@
               令和　・　・<br>令和　・　・
             <% end %>
           </td>
-          <td width="20" align="center">1</td>
+          <td width="20" class="text-center">1</td>
           <td align="right"><%= to_amount(@model.corporate_tax_payable_at_start_first) %></td>
           <td class="bg-light diagonal-line"></td>
           <td colspan="3"></td>
@@ -55,7 +55,7 @@
               令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br>
               令和 <%= to_wareki(@model.previous_fiscal_year.end_day, only_date: true, format: '%y ・ %m ・ %d') %>
           </td>
-          <td align="center">2</td>
+          <td class="text-center">2</td>
           <td class="text-end"><%= to_amount(@model.corporate_tax_payable_at_start_second) %></td>
           <td class="bg-light diagonal-line"></td>
           <td colspan="3"></td>
@@ -65,8 +65,8 @@
       </tr>
       <tr>
           <td width="40" rowspan="2">当期分</td>
-          <td width="100" align="center">中間</td>
-          <td align="center">3</td>
+          <td width="100" class="text-center">中間</td>
+          <td class="text-center">3</td>
           <td class="bg-light diagonal-line"></td>
           <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_half, show_zero: true) %></td>
           <td colspan="3"></td>
@@ -75,8 +75,8 @@
           <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_half - @model.total_corporate_tax_paid_at_half, show_zero: true) %></td>
       </tr>
       <tr>
-          <td align="center">確定</td>
-          <td align="center">4</td>
+          <td class="text-center">確定</td>
+          <td class="text-center">4</td>
           <td class="bg-light diagonal-line"></td>
           <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_full, show_zero: true) %></td>
           <td colspan="3" class="bg-light diagonal-line"></td>
@@ -85,8 +85,8 @@
           <td class="text-end"><%= to_amount(@model.total_corporate_tax_at_full - @model.total_corporate_tax_paid_at_full, show_zero: true) %></td>
       </tr>
       <tr>
-          <td colspan="2" align="center">計</td>
-          <td align="center">5</td>
+          <td colspan="2" class="text-center">計</td>
+          <td class="text-center">5</td>
           <td class="text-end"><%= to_amount(@model.total_corporate_tax_payable_at_start) %></td>
           <td class="text-end"><%= to_amount(@model.total_corporate_tax) %></td>
           <td colspan="3"></td>
@@ -163,7 +163,7 @@
           <td colspan="14"></td>
       </tr>
       <tr>
-          <td rowspan="5" width="20px" align="center">市町村民税</td>
+          <td rowspan="5" width="20px" class="text-center">市町村民税</td>
           <td colspan="2">
             <% if @model.municipal_inhabitants_tax_payable_at_start_first.present? %>
               令和 <%= to_wareki(@model.fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br>
@@ -172,7 +172,7 @@
               令和　・　・<br>令和　・　・
             <% end %>
           </td>
-          <td width="20" align="center">11</td>
+          <td width="20" class="text-center">11</td>
           <td align="right"><%= to_amount(@model.municipal_inhabitants_tax_payable_at_start_first) %></td>
           <td class="bg-light diagonal-line"></td>
           <td colspan="3"></td>
@@ -185,7 +185,7 @@
               令和 <%= to_wareki(@model.previous_fiscal_year.start_day, only_date: true, format: '%y ・ %m ・ %d') %><br>
               令和 <%= to_wareki(@model.previous_fiscal_year.end_day, only_date: true, format: '%y ・ %m ・ %d') %>
           </td>
-          <td align="center">12</td>
+          <td class="text-center">12</td>
           <td align="right"><%= to_amount(@model.municipal_inhabitants_tax_payable_at_start_second) %></td>
           <td class="bg-light diagonal-line"></td>
           <td colspan="3"></td>
@@ -195,8 +195,8 @@
       </tr>
       <tr>
           <td width="40" rowspan="2">当期分</td>
-          <td width="80" align="center">中間</td>
-          <td align="center">13</td>
+          <td width="80" class="text-center">中間</td>
+          <td class="text-center">13</td>
           <td class="bg-light diagonal-line"></td>
           <td align="right"><%= to_amount(@model.municipal_inhabitants_tax_at_half) %></td>
           <td colspan="3"></td>
@@ -205,8 +205,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center">確定</td>
-          <td align="center">14</td>
+          <td class="text-center">確定</td>
+          <td class="text-center">14</td>
           <td class="bg-light diagonal-line"></td>
           <td align="right"><%= to_amount(@model.municipal_inhabitants_tax_at_full) %></td>
           <td colspan="3" class="bg-light diagonal-line"></td>
@@ -215,8 +215,8 @@
           <td></td>
       </tr>
       <tr>
-          <td colspan="2" align="center">計</td>
-          <td align="center">15</td>
+          <td colspan="2" class="text-center">計</td>
+          <td class="text-center">15</td>
           <td align="right"><%= to_amount(@model.municipal_inhabitants_tax_payable_at_start_total) %></td>
           <td align="right"><%= to_amount(@model.municipal_inhabitants_tax_at_total) %></td>
           <td colspan="3"></td>
@@ -275,10 +275,10 @@
           <td colspan="14"></td>
       </tr>
       <tr>
-          <td rowspan="10" width="20px" align="center">その他</td>
+          <td rowspan="10" width="20px" class="text-center">その他</td>
           <td rowspan="4">損金算入のもの</td>
-          <td align="center">利子税</td>
-          <td align="center">20</td>
+          <td class="text-center">利子税</td>
+          <td class="text-center">20</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -287,8 +287,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center">延滞金<br>(延納に係るもの)</td>
-          <td align="center">21</td>
+          <td class="text-center">延滞金<br>(延納に係るもの)</td>
+          <td class="text-center">21</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -297,8 +297,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center"></td>
-          <td align="center">22</td>
+          <td class="text-center"></td>
+          <td class="text-center">22</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -307,8 +307,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center"></td>
-          <td align="center">23</td>
+          <td class="text-center"></td>
+          <td class="text-center">23</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -318,8 +318,8 @@
       </tr>
       <tr>
           <td rowspan="6">損金不算入のもの</td>
-          <td align="center">加算税及び加算金</td>
-          <td align="center">24</td>
+          <td class="text-center">加算税及び加算金</td>
+          <td class="text-center">24</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -328,8 +328,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center">延滞税</td>
-          <td align="center">25</td>
+          <td class="text-center">延滞税</td>
+          <td class="text-center">25</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -338,8 +338,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center">延滞金<br>(延納分を除く。)</td>
-          <td align="center">26</td>
+          <td class="text-center">延滞金<br>(延納分を除く。)</td>
+          <td class="text-center">26</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -348,8 +348,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center">過怠税</td>
-          <td align="center">27</td>
+          <td class="text-center">過怠税</td>
+          <td class="text-center">27</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -358,8 +358,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center"></td>
-          <td align="center">28</td>
+          <td class="text-center"></td>
+          <td class="text-center">28</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -368,8 +368,8 @@
           <td></td>
       </tr>
       <tr>
-          <td align="center"></td>
-          <td align="center">29</td>
+          <td class="text-center"></td>
+          <td class="text-center">29</td>
           <td></td>
           <td></td>
           <td colspan="3"></td>
@@ -380,58 +380,58 @@
   </table>
   <table class="table table-bordered table-hover">
       <tr>
-          <td colspan="9" align="center"><b>納　　税　　充　　当　　金　　の　　計　　算</b></td>
+          <td colspan="9" class="text-center"><b>納　　税　　充　　当　　金　　の　　計　　算</b></td>
       </tr>
       <tr>
-          <td colspan="2" align="center">期首納税充当金</td>
-          <td width="20px" align="center">30</td>
+          <td colspan="2" class="text-center">期首納税充当金</td>
+          <td width="20px" class="text-center">30</td>
           <td width="120px"></td>
-          <td rowspan="5" width="20px" align="center">取崩額</td>
-          <td rowspan="4" width="20px" align="center">その他</td>
+          <td rowspan="5" width="20px" class="text-center">取崩額</td>
+          <td rowspan="4" width="20px" class="text-center">その他</td>
           <td width="240px">損金算入のもの</td>
-          <td width="20px" align="center">36</td>
+          <td width="20px" class="text-center">36</td>
           <td width="120px"></td>
       </tr>
       <tr>
-          <td rowspan="3" width="20px" align="center">繰入額</td>
-          <td width="240px" align="center">損金の額に算入した納税充当金</td>
-          <td width="20px" align="center">31</td>
+          <td rowspan="3" width="20px" class="text-center">繰入額</td>
+          <td width="240px" class="text-center">損金の額に算入した納税充当金</td>
+          <td width="20px" class="text-center">31</td>
           <td></td>
           <td>損金不算入のもの</td>
-          <td width="20px" align="center">37</td>
+          <td width="20px" class="text-center">37</td>
           <td></td>
       </tr>
       <tr>
           <td></td>
-          <td width="20px" align="center">32</td>
+          <td width="20px" class="text-center">32</td>
           <td></td>
           <td></td>
-          <td width="20px" align="center">38</td>
+          <td width="20px" class="text-center">38</td>
           <td></td>
       </tr>
       <tr>
-          <td align="center">計<br>(31)+(32)</td>
-          <td width="20px" align="center">33</td>
+          <td class="text-center">計<br>(31)+(32)</td>
+          <td width="20px" class="text-center">33</td>
           <td></td>
           <td>仮払税金消却</td>
-          <td width="20px" align="center">39</td>
+          <td width="20px" class="text-center">39</td>
           <td></td>
       </tr>
       <tr>
-          <td rowspan="2" width="20px" align="center">取崩額</td>
-          <td align="center">法人税額等<br>(5の③)＋(10の③)＋(15の③)</td>
-          <td align="center">34</td>
+          <td rowspan="2" width="20px" class="text-center">取崩額</td>
+          <td class="text-center">法人税額等<br>(5の③)＋(10の③)＋(15の③)</td>
+          <td class="text-center">34</td>
           <td></td>
-          <td colspan="2" align="center">計<br>(34)＋(35)＋(36)＋(37)＋(38)＋(39)</td>
-          <td align="center">40</td>
+          <td colspan="2" class="text-center">計<br>(34)＋(35)＋(36)＋(37)＋(38)＋(39)</td>
+          <td class="text-center">40</td>
           <td></td>
       </tr>
       <tr>
-          <td align="center">事業税<br>（19の③）</td>
-          <td align="center">35</td>
+          <td class="text-center">事業税<br>（19の③）</td>
+          <td class="text-center">35</td>
           <td></td>
-          <td colspan="3" align="center">期末納税充当金<br>(30)＋(33)－(40)</td>
-          <td align="center">41</td>
+          <td colspan="3" class="text-center">期末納税充当金<br>(30)＋(33)－(40)</td>
+          <td class="text-center">41</td>
           <td></td>
       </tr>
   </table>

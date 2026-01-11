@@ -191,7 +191,7 @@
         <td></td>
     </tr>
     <tr>
-        <td align="center">小　　　　　　　計　　　</td>
+        <td class="text-center">小　　　　　　　計　　　</td>
         <td class="text-center">21</td>
         <td colspan="2" align="right"><%= to_amount(@model.decrease_amount) %></td>
         <td align="right"><%= to_amount(@model.decrease_amount) %></td>
@@ -199,7 +199,7 @@
         <td></td>
     </tr>
     <tr>
-        <td colspan="2" align="center">仮　　　　　　　　　計<br/>(1)＋(11)－(21)</td>
+        <td colspan="2" class="text-center">仮　　　　　　　　　計<br/>(1)＋(11)－(21)</td>
         <td class="text-center">22</td>
         <td colspan="2" align="right"><%= to_amount(@model.provisional_amount) %></td>
         <td align="right"><%= to_amount(@model.decrease_amount) %></td>
@@ -247,7 +247,7 @@
         <td style="background-color: lightgrey"></td>
     </tr>
     <tr>
-        <td colspan="2" align="center">合　　　　　　　　　計<br/>((22)から( 2 7 )までの計)</td>
+        <td colspan="2" class="text-center">合　　　　　　　　　計<br/>((22)から( 2 7 )までの計)</td>
         <td class="text-center">28</td>
         <td colspan="2" align="right"><%= to_amount(@model.total_amount) %></td>
         <td></td>
@@ -271,7 +271,7 @@
         <td style="background-color: lightgrey"></td>
     </tr>
     <tr>
-        <td colspan="2" align="center">総　　　　　　　　　計<br/>((28)＋(29)－(30))又は((28)＋(29)＋(30))</td>
+        <td colspan="2" class="text-center">総　　　　　　　　　計<br/>((28)＋(29)－(30))又は((28)＋(29)＋(30))</td>
         <td class="text-center">31</td>
         <td colspan="2" align="right"><%= to_amount(@model.grand_total_amount) %></td>
         <td></td>
@@ -319,7 +319,7 @@
         <td></td>
     </tr>
     <tr>
-        <td colspan="2" align="center">差　　　　引　　　　計<br/>((31)から(36)までの計)</td>
+        <td colspan="2" class="text-center">差　　　　引　　　　計<br/>((31)から(36)までの計)</td>
         <td class="text-center">37</td>
         <td colspan="2" align="right"><%= to_amount(@model.balance_amount) %></td>
         <td></td>

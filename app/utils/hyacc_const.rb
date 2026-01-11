@@ -239,6 +239,7 @@ module HyaccConst
     REPORT_TYPE_WITHHOLDING_DETAILS = 21 => '給与所得の源泉徴収票',
     REPORT_TYPE_WITHHOLDING_CALC = 22 => '給与所得・退職所得等の所得税徴収高計算書',
     REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE = 'trade_account_receivable' => '③売掛金（未収入金）の内訳書',
+    REPORT_TYPE_TEMPORARY_PAYMENT_AND_LOAN = 'temporary_payment_and_loan' => '④仮払金（前渡金）の内訳書／貸付金及び受取利息の内訳書',
     REPORT_TYPE_TRADE_ACCOUNT_SAVINGS = 'savings' => '①預貯金等の内訳書',
     REPORT_TYPE_INVESTMENT_SECURITIES = 'investment_securities' => '⑥有価証券の内訳書',
     REPORT_TYPE_SUSPENSE_RECEIPT = 'suspense_receipt' => '⑩仮受金の内訳書、源泉所得税預り金の内訳',
@@ -412,6 +413,7 @@ module HyaccConst
   ACCOUNT_CODE_TEMPORARY_ASSETS  = '1851' # 仮資産
   ACCOUNT_CODE_TEMPORARY_PAYMENT = '1881' # 仮払金
   ACCOUNT_CODE_TEMPORARY_PAYMENT_EMPLOYEE = '1882' # 仮払金（従業員）
+  ACCOUNT_CODE_TEMPORARY_PAYMENT_CUSTOMER = '1883' # 仮払金（取引先）
   ACCOUNT_CODE_ALLOCATED_COST = '8888' # 配賦費用
   ACCOUNT_CODE_ALLOCATED_TAXES = '8988' # 配賦法人税等
   ACCOUNT_CODE_SHARED_COST = '8889' # 分担費用

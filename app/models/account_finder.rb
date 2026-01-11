@@ -17,6 +17,10 @@ class AccountFinder
     self.account_type.to_i == ACCOUNT_TYPE_DEBT
   end
 
+  def account_type_asset?
+    self.account_type.to_i == ACCOUNT_TYPE_ASSET
+  end
+
   def account_type_capital?
     self.account_type.to_i == ACCOUNT_TYPE_CAPITAL
   end

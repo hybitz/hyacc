@@ -3,11 +3,11 @@
     <h4 class="mb-0">事業所</h4>
     <div class="form-check">
       <%= form_tag mm_company_path(@company), method: :get, class: 'd-inline' do %>
-        <%= check_box_tag :include_deleted, 'true', @include_deleted, 
+        <%= check_box_tag :include_disabled, 'true', @include_disabled, 
             class: 'form-check-input', 
-            id: 'include_deleted',
+            id: 'include_disabled',
             onchange: 'this.form.submit();' %>
-        <%= label_tag :include_deleted, '削除された事業所も表示', class: 'form-check-label' %>
+        <%= label_tag :include_disabled, '無効になった事業所も表示', class: 'form-check-label' %>
       <% end %>
     </div>
   </div>
@@ -26,11 +26,11 @@
     </thead>
     <tbody>
       <% @business_offices.each do |bo| %>
-        <tr class="<%= 'text-muted' if bo.deleted? %>">
+        <tr class="<%= 'text-muted' if bo.disabled? %>">
           <td>
             <%= bo.name %>
-            <% if bo.deleted? %>
-              <span class="badge bg-secondary ms-2">削除済み</span>
+            <% if bo.disabled? %>
+              <span class="badge bg-secondary ms-2">無効</span>
             <% end %>
           </td>
           <td><%= bo.zip_code %></td>
@@ -42,6 +42,11 @@
           <td class="text-end">
             <% unless bo.deleted? %>
               <%= link_to '編集', edit_mm_business_office_path(bo), class: 'btn btn-light btn-small', remote: true %>
+              <% if bo.disabled? %>
+                <%= link_to '有効にする', enable_mm_business_office_path(bo), class: 'btn btn-light btn-small', data: {confirm: '有効にします。よろしいですか？'}, method: 'post' %>
+              <% else %>
+                <%= link_to '無効にする', disable_mm_business_office_path(bo), class: 'btn btn-light btn-small', data: {confirm: '無効にします。よろしいですか？'}, method: 'post' %>
+              <% end %>
               <%= link_to '削除', mm_business_office_path(bo), class: 'btn btn-light btn-small', data: {confirm: '削除します。よろしいですか？'}, method: 'delete' %>
             <% end %>
           </td>

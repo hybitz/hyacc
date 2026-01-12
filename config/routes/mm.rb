@@ -19,7 +19,12 @@ Rails.application.routes.draw do
     end
 
     resources :branches
-    resources :business_offices
+    resources :business_offices do
+      member do
+        post 'disable'
+        post 'enable'
+      end
+    end
     resources :careers
 
     resources :companies, only: ['index', 'show', 'edit', 'update'] do

@@ -145,7 +145,7 @@
       <td colspan="2"><%= justify('差引合計額') %></td>
       <td class="text-center">31</td>
       <td class="text-end"><%= to_amount(@model.total_amount_at_start) %></td>
-      <td class="text-end"><%= to_amount(@model.total_amount_decrease) %></td>
+      <td class="text-end">▲ <%= to_amount(@model.total_amount_decrease) %></td>
       <td class="text-end"><%= to_amount(@model.total_amount_increase) %></td>
       <td class="text-end"><%= to_amount(@model.total_amount_at_end) %></td>
     </tr>

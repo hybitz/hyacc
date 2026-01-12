@@ -161,8 +161,8 @@ module Reports
 
     def total_amount_decrease
       ret = surplus_reserves.inject(0){|sum, d| sum + d.amount_decrease }
-      ret -= corporate_taxes_payable_amount_decrease
-      ret -= perfectual_tax_payable_amount_decrease
+      ret += corporate_taxes_payable_amount_decrease
+      ret += perfectual_tax_payable_amount_decrease
       ret
     end
 

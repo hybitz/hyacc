@@ -48,7 +48,7 @@ end
   capture
 
   click_on '登録'
-  assert_equal '/users/sign_in', current_path
+  assert wait_until { '/users/sign_in' == current_path }
 end
 
 もし /^ログイン画面が表示されるので、登録したログインIDとパスワードでログイン$/ do

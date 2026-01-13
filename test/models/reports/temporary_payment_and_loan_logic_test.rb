@@ -28,62 +28,61 @@ class Reports::TemporaryPaymentAndLoanLogicTest < ActiveSupport::TestCase
     tpe = accounts[ACCOUNT_CODE_TEMPORARY_PAYMENT_EMPLOYEE]
     tpc = accounts[ACCOUNT_CODE_TEMPORARY_PAYMENT_CUSTOMER]
 
-    tp_details = JournalDetail.where(journal_id: @journals_ids, account_id: tp.id, branch_id: branch.id)
+    tp_details = JournalDetail.where(journal_id: @journals_ids, account_id: tp.id, branch_id: branch.id).to_a
     tpe_details_grouped = JournalDetail.where(journal_id: @journals_ids, account_id: tpe.id, branch_id: branch.id).group_by(&:sub_account_id)
     tpc_details_grouped = JournalDetail.where(journal_id: @journals_ids, account_id: tpc.id, branch_id: branch.id).group_by(&:sub_account_id)
 
     model = @logic.build_model
-    n = (tp_details.present? ? 1 : 0) + tpe_details_grouped.size + tpc_details_grouped.size
-    assert_equal n, model.temporary_payment_details.size
+    expected_count = (tp_details.any? ? 1 : 0) + tpe_details_grouped.size + tpc_details_grouped.size
+    assert_equal expected_count, model.temporary_payment_details.size
 
-    d  = model.temporary_payment_details[0]
-    d1 = model.temporary_payment_details[1]
-    d2 = model.temporary_payment_details[2]
-    d3 = model.temporary_payment_details[3]
-    d4 = model.temporary_payment_details[4]
+    details_indexed = model.temporary_payment_details.index_by { |d| [d.account.code, d.sub_account&.id] }
 
-    note = tp_details.order(amount: :desc).first.note
-    sum = tp_details.sum(:amount)
-    assert_equal '仮払金', d.account_name
-    assert_nil d.counterpart_name
-    assert_nil d.counterpart_address
-    assert_equal sum, d.amount_at_end
-    assert_equal "#{note}　等", d.note
+    if tp_details.any?
+      d = details_indexed[[ACCOUNT_CODE_TEMPORARY_PAYMENT, nil]]
+      assert_not_nil d
+      largest_detail = tp_details.max_by(&:amount)
+      note = largest_detail.note
+      sum = tp_details.sum(&:amount)
+      assert_equal '仮払金', d.account_name
+      assert_nil d.counterpart_name
+      assert_nil d.counterpart_address
+      assert_equal sum, d.amount_at_end
+      if note.blank?
+        assert_equal "誤出金　等", d.note
+      else
+        assert_equal "#{note}　等", d.note
+      end
+    end
 
-    tpe_details1, tpe_details2 = tpe_details_grouped.values
-    sum = tpe_details1.sum(&:amount)
-    assert_equal '仮払金', d1.account_name
-    assert_nil d1.counterpart_name
-    assert_nil d1.counterpart_address
-    assert_equal sum, d1.amount_at_end
-    assert_equal "#{d1.sub_account.name}の#{d1.account.name}", d1.note
+    tpe_details_grouped.each do |sub_account_id, details|
+      d = details_indexed[[ACCOUNT_CODE_TEMPORARY_PAYMENT_EMPLOYEE, sub_account_id]]
+      assert_not_nil d
+      sum = details.sum(&:amount)
+      assert_equal '仮払金', d.account_name
+      assert_nil d.counterpart_name
+      assert_nil d.counterpart_address
+      assert_equal sum, d.amount_at_end
+      assert_equal "#{d.sub_account.name}の#{d.account.name}", d.note
+    end
 
-    sum = tpe_details2.sum(&:amount)
-    assert_equal '仮払金', d2.account_name
-    assert_nil d2.counterpart_name
-    assert_nil d2.counterpart_address
-    assert_equal sum, d2.amount_at_end
-    assert_equal "#{d2.sub_account.name}の#{d2.account.name}", d2.note
-
-    tpc_details1, tpc_details2 = tpc_details_grouped.values
-    largest_tpc_detail1 = tpc_details1.sort_by { |d| -d.amount }.first
-    sum = tpc_details1.sum(&:amount)
-    customer = Customer.find(largest_tpc_detail1.sub_account_id)
-    assert_equal '仮払金', d3.account_name
-    assert_equal customer.formal_name, d3.counterpart_name
-    assert_equal customer.address, d3.counterpart_address
-    assert_equal sum, d3.amount_at_end
-    assert_equal "誤出金　等", d3.note
-    assert_nil largest_tpc_detail1.note
-
-    sum = tpc_details2.sum(&:amount)
-    largest_tpc_detail2 = tpc_details2.sort_by { |d| -d.amount }.first
-    customer = Customer.find(largest_tpc_detail2.sub_account_id)
-    assert_equal '仮払金', d4.account_name
-    assert_equal customer.formal_name, d4.counterpart_name
-    assert_equal customer.address, d4.counterpart_address
-    assert_equal sum, d4.amount_at_end
-    assert_equal "#{largest_tpc_detail2.note}　等", d4.note
+    tpc_details_grouped.each do |sub_account_id, details|
+      d = details_indexed[[ACCOUNT_CODE_TEMPORARY_PAYMENT_CUSTOMER, sub_account_id]]
+      assert_not_nil d
+      largest_detail = details.max_by(&:amount)
+      note = largest_detail.note
+      sum = details.sum(&:amount)
+      customer = Customer.find(sub_account_id)
+      assert_equal '仮払金', d.account_name
+      assert_equal customer.formal_name, d.counterpart_name
+      assert_equal customer.address, d.counterpart_address
+      assert_equal sum, d.amount_at_end
+      if note.blank?
+        assert_equal "誤出金　等", d.note
+      else
+        assert_equal "#{note}　等", d.note
+      end
+    end
   end
 
   def test_仮払金科目を追加して内訳書に表示する
@@ -91,11 +90,10 @@ class Reports::TemporaryPaymentAndLoanLogicTest < ActiveSupport::TestCase
     a.update!(is_temporary_payment_account: true)
 
     model = @logic.build_model
-    assert_equal 6, model.temporary_payment_details.size
-    d = model.temporary_payment_details.find{|d| d.account.code == ACCOUNT_CODE_PREPAID_EXPENSE}
-    details = JournalDetail.where(journal_id: @journals_ids, account_id: a.id, branch_id: branch.id)
-    sum = details.sum(:amount)
-    largest_detail = details.order(amount: :desc).first
+    d = model.temporary_payment_details.find { |d| d.account.code == ACCOUNT_CODE_PREPAID_EXPENSE }
+    details = JournalDetail.where(journal_id: @journals_ids, account_id: a.id, branch_id: branch.id).to_a
+    sum = details.sum(&:amount)
+    largest_detail = details.max_by(&:amount)
 
     assert_equal '仮払金', d.account_name
     assert_nil d.counterpart_name

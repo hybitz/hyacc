@@ -17,10 +17,6 @@ class AccountFinder
     self.account_type.to_i == ACCOUNT_TYPE_DEBT
   end
 
-  def account_type_capital?
-    self.account_type.to_i == ACCOUNT_TYPE_CAPITAL
-  end
-
   def list
     return unless self.account_type.to_i > 0
 

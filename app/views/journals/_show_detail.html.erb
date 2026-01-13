@@ -15,7 +15,7 @@
   </td>
 </tr>
 <tr style="<%= style_for_detail(jd) %>">
-  <td rowspan="3" align="center">計上日<br/>振替</td>
+  <td rowspan="3" class="text-center">計上日<br/>振替</td>
   <td colspan="2">
     <input type="checkbox" value="<%= HyaccConst::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>"
            <%= jd.auto_journal_type == HyaccConst::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE ? 'checked' : '' %> />

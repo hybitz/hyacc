@@ -32,7 +32,7 @@
           <td class="amount"><%= to_amount(d.amount_at_start) %></td>
           <td class="amount"><%= to_amount(d.amount_depreciated) %></td>
           <td class="amount"><%= to_amount(d.amount_at_end, :show_zero => true) %></td>
-          <td align="center"><%= d.depreciated? ? '償却済' : '償却予定' %></td>
+          <td class="text-center"><%= d.depreciated? ? '償却済' : '償却予定' %></td>
         </tr>
       <% end %>
     </table>

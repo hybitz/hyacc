@@ -99,7 +99,6 @@ ja:
         tel: 電話番号
 
       company:
-        admin_email: 管理者メールアドレス
         business_type: 事業区分
         enterprise_number: 法人番号
         fiscal_year: 会計年度

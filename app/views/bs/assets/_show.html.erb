@@ -10,7 +10,7 @@
     <th>計上部門</th>
   </tr>
   <tr>
-    <td align="center"><%= @asset.code %></td>
+    <td class="text-center"><%= @asset.code %></td>
     <td colspan="2"><%= @asset.name %></td>
     <td class="amount"><%= to_amount(@asset.amount) %></td>
     <td><%= @asset.account.name %></td>
@@ -27,7 +27,7 @@
   <tr>
     <td><%= @asset.date %></td>
     <td><%= @asset.depreciation_method_name %></td>
-    <td align="center"><%= @asset.durable_years %>年</td>
+    <td class="text-center"><%= @asset.durable_years %>年</td>
     <td class="amount"><%= @asset.depreciation_limit %></td>
     <td colspan="3"><%= @asset.remarks %></td>
   </tr>

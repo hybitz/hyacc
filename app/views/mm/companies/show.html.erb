@@ -34,15 +34,6 @@
         <%= button_tag 'キャンセル', onclick: 'company.cancel(this)', class: 'btn btn-light btn-small' %>
       </td>
     </tr>
-    <tr>
-      <th>管理者メールアドレス</th>
-      <td><%= @company.admin_email %></td>
-      <td class="text-center">
-        <%= link_to '変更', edit_mm_company_path(@company, field: 'admin'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
-        <%= button_tag '更新', onclick: 'company.update(this);' %>
-        <%= button_tag 'キャンセル', onclick: 'company.cancel(this)' %>
-      </td>
-    </tr>
   
     <% unless @company.personal? %>
       <tr>

@@ -45,11 +45,11 @@
       <td class="accountName"><%= t.account.name if t.account %></td>
       <td class="subAccountName"><%= t.sub_account.name if t.sub_account %></td>
       <td class="branchName"><%= t.branch.name if t.branch %></td>
-      <td align="center"><%= t.dc_type_name %></td>
-      <td align="center"><%= t.tax_type_name %></td>
+      <td class="text-center"><%= t.dc_type_name %></td>
+      <td class="text-center"><%= t.tax_type_name %></td>
       <td class="amount"><%= to_amount(t.amount) %></td>
       <td class="amount"><%= to_amount(t.tax_amount) %></td>
-      <td align="center"><%= t.focus_on_complete_name %></td>
+      <td class="text-center"><%= t.focus_on_complete_name %></td>
       <td><%= link_to '編集', {:action => :edit, :id => t.id}, :remote => true %></td>
       <td><%= link_to '削除', {:action => 'destroy', :id => t.id}, data: {confirm: '削除します。よろしいですか？'}, :method => 'delete' %></td>
       <td><%= link_to '詳細を表示', '#', :onclick => 'flipDetail(this); return false;' %></td>

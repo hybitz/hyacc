@@ -41,6 +41,40 @@ class Mm::BusinessOfficesController < Base::HyaccController
     end
   end
   
+  def disable
+    begin
+      @bo = BusinessOffice.find(params[:id])
+      @bo.disabled = true
+      
+      @bo.transaction do
+        @bo.save!
+      end
+      
+      flash[:notice] = "#{@bo.name} を無効にしました。"
+    rescue => e
+      handle(e)
+    end
+    
+    redirect_to mm_companies_path
+  end
+
+  def enable
+    begin
+      @bo = BusinessOffice.find(params[:id])
+      @bo.disabled = false
+      
+      @bo.transaction do
+        @bo.save!
+      end
+      
+      flash[:notice] = "#{@bo.name} を有効にしました。"
+    rescue => e
+      handle(e)
+    end
+    
+    redirect_to mm_companies_path
+  end
+
   def destroy
     begin
       @bo = BusinessOffice.find(params[:id])

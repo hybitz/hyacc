@@ -37,12 +37,6 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
     assert_template :edit_logo
   end
 
-  def test_管理者の編集
-    get :edit, :xhr => true, :params => {:id => current_company.id, :field => 'admin'}
-    assert_response :success
-    assert_template :edit_admin
-  end
-
   def test_法人番号の編集
     get :edit, xhr: true, params: {id: current_company.id, field: 'enterprise_number'}
     assert_response :success

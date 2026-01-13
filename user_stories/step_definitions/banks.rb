@@ -16,15 +16,13 @@
     fill_in 'bank[name]', :with => @bank.name
     within '.bank_offices' do
       click_on '追加'
-      assert has_selector?('tr', :count => 3)
-  
-      all('input').each do |input|
-        case input['id']
-        when /code/
-          fill_in input['id'], :with => @bank_office.code
-        when /name/
-          fill_in input['id'], :with => @bank_office.name
-        end
+      assert has_selector?('tbody tr', count: 1)
+
+      within 'tbody tr:last-child' do
+        code_field = find('input[id*="code"]')
+        name_field = find('input[id*="name"]')
+        fill_in code_field['id'], with: @bank_office.code
+        fill_in name_field['id'], with: @bank_office.name
       end
     end
 

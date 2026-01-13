@@ -41,8 +41,8 @@
       <td class="amount"><%= @simple_slip.amount_decrease %></td>
     </tr>
     <tr class="cashRow">
-      <td rowspan="3" valign="middle" align="center">計上日<br>振替</td>
-      <td align="center" style="border-right-style: none;">
+      <td rowspan="3" valign="middle" class="text-center">計上日<br>振替</td>
+      <td class="text-center" style="border-right-style: none;">
         <%= f.check_box :auto_journal_type, {include_hidden: false, disabled: true}, HyaccConst::AUTO_JOURNAL_TYPE_PREPAID_EXPENSE %>
       </td>
       <td style="border-left-style: none;">&nbsp;翌月</td>
@@ -52,7 +52,7 @@
           <%= render_account_details @simple_slip.account_id %>
         </div>
       </td>
-      <td nowrap align="center">
+      <td nowrap class="text-center">
         <%= @simple_slip.tax_type_name %>
         <% unless @simple_slip.nontaxable? %>
           <%= @simple_slip.tax_rate_percent %>
@@ -63,7 +63,7 @@
       <td class="amount"><%= @simple_slip.tax_amount_decrease %></td>
     </tr>
     <tr class="cashRow">
-      <td align="center" style="border-right-style: none;">
+      <td class="text-center" style="border-right-style: none;">
         <%= f.check_box :auto_journal_type, {include_hidden: false, disabled: true}, HyaccConst::AUTO_JOURNAL_TYPE_ACCRUED_EXPENSE %>
       </td>
       <td style="border-left-style: none;">&nbsp;前月</td>
@@ -76,7 +76,7 @@
       </td>
     </tr>
     <tr class="cashRow">
-      <td align="center" style="border-right-style: none;">
+      <td class="text-center" style="border-right-style: none;">
         <%= f.check_box :auto_journal_type, {include_hidden: false, disabled: true}, HyaccConst::AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE %>
       </td>
       <td nowrap style="border-left-style: none;">

@@ -1,7 +1,6 @@
 もし /^金融口座をクリックし、一覧を表示する$/ do
   click_on '金融口座'
-  assert has_title?('金融口座')
-  assert_url '/bank_accounts(\?.*)?'
+  assert has_selector?('.mm.bank_accounts')
 end
 
 もし /^口座情報を入力し、登録をクリック$/ do

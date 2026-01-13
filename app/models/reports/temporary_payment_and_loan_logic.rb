@@ -7,36 +7,13 @@ module Reports
 
       temporary_payment_accounts = Account.where(is_temporary_payment_account: true, deleted: false)
       temporary_payment_accounts.each do |a|
-        sub_accounts = a.sub_accounts
+        sub_accounts = a.sub_accounts.presence || [nil]
 
-        if sub_accounts.present?
-          sub_accounts.each do |sa|
-            amount_at_end = get_amount_at_end_self_only(a.code, sa.id)
-            next if amount_at_end == 0
-
-            detail = ret.new_temporary_payment_detail
-            detail.account = a
-            detail.amount_at_end = amount_at_end
-            detail.branch_id = branch_id
-            detail.company = company
-            detail.end_ym = end_ym
-            detail.end_ymd = end_ymd
-            detail.start_ym = start_ym
-            detail.sub_account = sa
-            ret.temporary_payment_details << detail
-          end
-        else
-          amount_at_end = get_amount_at_end_self_only(a.code)
+        sub_accounts.each do |sa|
+          amount_at_end = get_amount_at_end_self_only(a.code, sa&.id)
           next if amount_at_end == 0
 
-          detail = ret.new_temporary_payment_detail
-          detail.account = a
-          detail.amount_at_end = amount_at_end
-          detail.branch_id = branch_id
-          detail.company = company
-          detail.end_ym = end_ym
-          detail.end_ymd = end_ymd
-          detail.start_ym = start_ym
+          detail = build_temporary_payment_detail(ret, a, sa, amount_at_end)
           ret.temporary_payment_details << detail
         end
       end
@@ -86,6 +63,19 @@ module Reports
     end
 
     private
+
+    def build_temporary_payment_detail(ret, account, sub_account, amount_at_end)
+      detail = ret.new_temporary_payment_detail
+      detail.account = account
+      detail.amount_at_end = amount_at_end
+      detail.branch_id = branch_id
+      detail.company = company
+      detail.end_ym = end_ym
+      detail.end_ymd = end_ymd
+      detail.start_ym = start_ym
+      detail.sub_account = sub_account
+      detail
+    end
 
     def get_amount_at_end_self_only(account_code, sub_account_id = nil)
       a = Account.find_by(code: account_code, deleted: false)
@@ -194,6 +184,11 @@ module Reports
       if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
         customer.address_on(end_ymd) if customer
       end
+    end
+
+    # TODO: 利率の列の値を算出するロジックを実装する
+    def interest_rate
+      nil
     end
 
     private

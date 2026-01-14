@@ -18,46 +18,7 @@ module Reports
         end
       end
 
-      loan_accounts = []
-      
-      loan_accounts.each do |a|
-        sub_accounts = a.sub_accounts
-        
-        if sub_accounts.present?
-          sub_accounts.each do |sa|
-            amount_at_end = get_amount_at_end(a.code, sa.id)
-            interest_received = get_this_term_debit_amount(ACCOUNT_CODE_INTEREST_RECEIVED, sa.id)
-            next if amount_at_end == 0 && interest_received == 0
-
-            detail = ret.new_loan_detail
-            detail.account = a
-            detail.amount_at_end = amount_at_end
-            detail.interest_received = interest_received
-            detail.branch_id = branch_id
-            detail.company = company
-            detail.end_ym = end_ym
-            detail.end_ymd = end_ymd
-            detail.start_ym = start_ym
-            detail.sub_account = sa
-            ret.loan_details << detail
-          end
-        else
-          amount_at_end = get_amount_at_end(a.code, nil)
-          interest_received = get_this_term_debit_amount(ACCOUNT_CODE_INTEREST_RECEIVED, nil)
-          next if amount_at_end == 0 && interest_received == 0
-
-          detail = ret.new_loan_detail
-          detail.account = a
-          detail.amount_at_end = amount_at_end
-          detail.interest_received = interest_received
-          detail.branch_id = branch_id
-          detail.company = company
-          detail.end_ym = end_ym
-          detail.end_ymd = end_ymd
-          detail.start_ym = start_ym
-          ret.loan_details << detail
-        end
-      end
+      # TODO: LoanDetailに関する処理を実装する
       
       ret
     end
@@ -98,9 +59,10 @@ module Reports
       TemporaryPaymentDetailModel.new
     end
 
-    def new_loan_detail
-      LoanDetailModel.new
-    end
+    # TODO: LoanDetailModelの実装後に有効化する
+    # def new_loan_detail
+    #   LoanDetailModel.new
+    # end
   end
   
   class TemporaryPaymentDetailModel
@@ -163,40 +125,7 @@ module Reports
     end
   end
   
-  class LoanDetailModel
-    include HyaccConst
-
-    attr_accessor :account, :amount_at_end, :interest_received, :branch_id, :company, :end_ym, :end_ymd, :start_ym, :sub_account
-
-    def account_name
-      account&.name
-    end
-
-    def counterpart_name
-      if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-        customer.formal_name_on(end_ymd) if customer
-      elsif sub_account
-        sub_account.name
-      end
-    end
-
-    def counterpart_address
-      if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
-        customer.address_on(end_ymd) if customer
-      end
-    end
-
-    # TODO: 利率の列の値を算出するロジックを実装する
-    def interest_rate
-      nil
-    end
-
-    private
-
-    def customer
-      @customer ||= Customer.find_by_code(sub_account.code)
-    end
-  end
+  # TODO: LoanDetailModelクラスを実装する
 end
 
 

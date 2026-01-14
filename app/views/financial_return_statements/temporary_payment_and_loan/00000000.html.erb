@@ -49,16 +49,16 @@
       </tr>
     </thead>
     <tbody>
+      <%# TODO: LoanDetailに関する処理を実装する %>
       <% 12.times do |i| %>
-        <% d = @model.loan_details[i] || @model.new_loan_detail %>
         <tr>
-          <td><%= d.account_name %></td>
-          <td><%= d.counterpart_name %></td>
-          <td><%= d.counterpart_address %></td>
           <td></td>
-          <td class="text-end"><%= to_amount(d.amount_at_end) %></td>
-          <td class="text-end"><%= to_amount(d.interest_received) %></td>
-          <td class="text-center"><%# TODO: 利率の列の値を表示する %></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-end"></td>
+          <td class="text-end"></td>
+          <td class="text-center"></td>
           <td></td>
         </tr>
       <% end %>

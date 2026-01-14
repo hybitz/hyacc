@@ -90,7 +90,7 @@ GEM
     benchmark (0.5.0)
     bigdecimal (4.0.1)
     bindex (0.8.1)
-    bootsnap (1.20.1)
+    bootsnap (1.21.0)
       msgpack (~> 1.2)
     bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
@@ -209,7 +209,7 @@ GEM
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
     ffi (1.17.3-x86_64-linux-gnu)
-    ffi-yajl (2.7.5)
+    ffi-yajl (2.7.6)
       libyajl2 (>= 2.1)
       yajl
     fog-aws (3.33.1)
@@ -301,7 +301,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0924)
+    mime-types-data (3.2026.0113)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -461,7 +461,7 @@ GEM
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
     rake (13.3.1)
-    rdoc (7.0.3)
+    rdoc (7.1.0)
       erb
       psych (>= 4.0.0)
       tsort
@@ -542,7 +542,7 @@ GEM
     tilt (2.7.0)
     timeout (0.6.0)
     tomlrb (1.3.0)
-    train-core (3.15.2)
+    train-core (3.16.0)
       addressable (~> 2.5)
       ffi (>= 1.16.0, < 1.18)
       json (>= 1.8, < 3.0)

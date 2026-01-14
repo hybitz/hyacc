@@ -150,7 +150,7 @@ module Base::ViewAttributeHandler
         REPORT_TYPE_APPENDIX_04,
         REPORT_TYPE_APPENDIX_05_01,
         REPORT_TYPE_APPENDIX_05_02,
-        REPORT_TYPE_DIVIDEND_RECEIVED,
+        REPORT_TYPE_APPENDIX_08,
         REPORT_TYPE_SOCIAL_EXPENSE
       ]
     else

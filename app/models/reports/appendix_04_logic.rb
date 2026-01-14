@@ -14,8 +14,8 @@ module Reports
       se_logic = SocialExpenseLogic.new(finder)
       ret.social_expense_model = se_logic.build_model
 
-      dr_logic = DividendReceivedLogic.new(finder)
-      ret.dividend_received_model = dr_logic.build_model
+      dr_logic = Appendix08Logic.new(finder)
+      ret.appendix_08_model = dr_logic.build_model
       
       ret
     end
@@ -30,7 +30,7 @@ module Reports
     attr_accessor :corporate_inhabitant_tax_amount
     attr_accessor :business_tax_amount
     attr_accessor :social_expense_model
-    attr_accessor :dividend_received_model
+    attr_accessor :appendix_08_model
     attr_accessor :exective_bonus_amount
 
     def company_name
@@ -61,7 +61,7 @@ module Reports
     # 減算の小計
     def decrease_amount
       fiscal_year.accepted_amount_of_excess_depreciation + 
-        dividend_received_model.non_deductible_amount + 
+        appendix_08_model.non_deductible_amount + 
         fiscal_year.approved_loss_amount_of_business_tax
     end
     
@@ -71,7 +71,7 @@ module Reports
     end
     
     def decrease_outflow_amount
-      dividend_received_model.non_deductible_amount 
+      appendix_08_model.non_deductible_amount 
     end
 
     # 仮計

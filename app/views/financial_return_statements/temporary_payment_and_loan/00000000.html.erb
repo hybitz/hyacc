@@ -15,15 +15,15 @@
       </tr>
     </thead>
     <tbody>
-      <% 12.times do |i| %>
-        <% d = @model.temporary_payment_details[i] || @model.new_temporary_payment_detail %>
+      <% 11.times do |i| %>
+        <% d = @model.temporary_payment_details[i] %>
         <tr>
-          <td><%= d.account_name %></td>
-          <td><%= d.counterpart_name %></td>
-          <td><%= d.counterpart_address %></td>
+          <td><%= d&.account_name %></td>
+          <td><%= d&.counterpart_name %></td>
+          <td><%= d&.counterpart_address %></td>
           <td></td>
-          <td class="text-end"><%= to_amount(d.amount_at_end) %></td>
-          <td><%= d.note %></td>
+          <td class="text-end"><%= to_amount(d&.amount_at_end) %></td>
+          <td><%= d&.note %></td>
         </tr>
       <% end %>
     </tbody>
@@ -35,7 +35,6 @@
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-        <th rowspan="2" class="align-middle"><%= justify('科目') %></th>
         <th colspan="3"><%= justify('　貸付先　') %></th>
         <th rowspan="2" class="align-middle"><%= justify('期末現在高') %></th>
         <th rowspan="2" class="align-middle"><%= justify('期中の受取利息額') %></th>
@@ -50,9 +49,8 @@
     </thead>
     <tbody>
       <%# TODO: LoanDetailに関する処理を実装する %>
-      <% 12.times do |i| %>
+      <% 7.times do |i| %>
         <tr>
-          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -62,6 +60,14 @@
           <td></td>
         </tr>
       <% end %>
+      <tr>
+        <td colspan="3"><%= justify('計') %></td>
+        <td class="text-end"></td>
+        <td class="text-end"></td>
+        <td></td>
+        <td></td>
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>

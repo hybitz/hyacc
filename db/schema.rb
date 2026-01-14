@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_12_111624) do
     t.boolean "system_required", default: false, null: false
     t.boolean "sub_account_editable", default: false, null: false
     t.boolean "is_suspense_receipt_account", default: false, null: false
+    t.boolean "is_temporary_payment_account", default: false, null: false
     t.index ["code"], name: "index_accounts_on_code", unique: true
     t.index ["name"], name: "index_accounts_on_name", unique: true
   end

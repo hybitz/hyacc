@@ -1,0 +1,74 @@
+<div class="container" style="max-width: 1280px;">
+  <div><h4><strong>仮払金（前渡金）の内訳書</strong></h4></div>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th rowspan="2" class="align-middle"><%= justify('科目') %></th>
+        <th colspan="3"><%= justify('　相手先　') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('期末現在高') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('　摘要　') %></th>
+      </tr>
+      <tr>
+        <th><%= justify('　名称（氏名）　') %></th>
+        <th><%= justify('　所在地（住所）　') %></th>
+        <th><%= justify('　法人・代表者との関係　') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% 11.times do |i| %>
+        <% d = @model.temporary_payment_details[i] %>
+        <tr>
+          <td><%= d&.account_name %></td>
+          <td><%= d&.counterpart_name %></td>
+          <td><%= d&.counterpart_address %></td>
+          <td></td>
+          <td class="text-end"><%= to_amount(d&.amount_at_end) %></td>
+          <td><%= d&.note %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <hr class="my-4"/>
+
+  <div><h4><strong>貸付金及び受取利息の内訳書</strong></h4></div>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <th colspan="3"><%= justify('　貸付先　') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('期末現在高') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('期中の受取利息額') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('利率') %></th>
+        <th rowspan="2" class="align-middle"><%= justify('担保の内容') %></th>
+      </tr>
+      <tr>
+        <th><%= justify('　名称（氏名）　') %></th>
+        <th><%= justify('　所在地（住所）　') %></th>
+        <th><%= justify('　法人・代表者との関係　') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%# TODO: LoanDetailに関する処理を実装する %>
+      <% 7.times do |i| %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-end"></td>
+          <td class="text-end"></td>
+          <td class="text-center"></td>
+          <td></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="3"><%= justify('計') %></td>
+        <td class="text-end"></td>
+        <td class="text-end"></td>
+        <td></td>
+        <td></td>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

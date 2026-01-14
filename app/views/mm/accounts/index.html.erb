@@ -24,6 +24,10 @@
           <th class="text-center">買掛金科目</th>
           <th class="text-center">仮受金科目</th>
         <% end %>
+
+        <% if finder.account_type_asset? %>
+          <th class="text-center">仮払金科目</th>
+        <% end %>
     
         <th></th>
       </tr>
@@ -41,7 +45,10 @@
           <td class="text-center"><%= image_tag 'check.png' if a.is_trade_account_payable? %></td>
           <td class="text-center"><%= image_tag 'check.png' if a.is_suspense_receipt_account? %></td>
         <% end %>
-    
+
+        <% if finder.account_type_asset? %>
+          <td class="text-center"><%= image_tag 'check.png' if a.is_temporary_payment_account? %></td>
+        <% end %>
         <td>
           <%= link_to '編集', {:action => 'edit', :id => a}, :remote => true %>
           <%= link_to '子科目追加', {:action => 'new', :parent_id => a}, :remote => true %>

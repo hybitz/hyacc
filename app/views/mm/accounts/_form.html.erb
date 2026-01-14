@@ -88,6 +88,13 @@
       </tr>
     <% end %>
 
+    <% if @account.asset? %>
+      <tr>
+        <th><%= f.label :is_temporary_payment_account %></th>
+        <td><%= f.select :is_temporary_payment_account, {'はい': true, 'いいえ': false} %></td>
+      </tr>
+    <% end %>
+
     <tr>
       <th><%= f.label :sub_account_type %></th>
       <td>

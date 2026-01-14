@@ -48,6 +48,12 @@
 </p>
 <% end %>
 
+<% if @account.asset? %>
+<p>
+  <b>仮払金科目:</b> <%= @account.is_temporary_payment_account? ? 'はい' : 'いいえ' %>
+</p>
+<% end %>
+
 <p>
   <b>登録日時:</b> <%= @account.created_at %>
 </p>

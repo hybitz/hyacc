@@ -11,8 +11,8 @@ module Reports
       ret.business_tax_amount = get_business_tax_amount
       ret.exective_bonus_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_BONUS)
       
-      se_logic = SocialExpenseLogic.new(finder)
-      ret.social_expense_model = se_logic.build_model
+      se_logic = Appendix15Logic.new(finder)
+      ret.appendix_15_model = se_logic.build_model
 
       dr_logic = Appendix08Logic.new(finder)
       ret.appendix_08_model = dr_logic.build_model
@@ -29,8 +29,8 @@ module Reports
     attr_accessor :corporate_tax_amount
     attr_accessor :corporate_inhabitant_tax_amount
     attr_accessor :business_tax_amount
-    attr_accessor :social_expense_model
     attr_accessor :appendix_08_model
+    attr_accessor :appendix_15_model
     attr_accessor :exective_bonus_amount
 
     def company_name

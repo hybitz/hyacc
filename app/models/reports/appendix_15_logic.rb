@@ -1,8 +1,8 @@
 module Reports
-  class SocialExpenseLogic < BaseLogic
+  class Appendix15Logic < BaseLogic
 
     def build_model
-      model = SocialExpenseModel.new
+      model = Appendix15Model.new
       model.fiscal_year = finder.fiscal_year
       model.company = company
       model.capital_stock = get_capital_stock_amount
@@ -11,7 +11,7 @@ module Reports
       model.add_detail(detail)
 
       model.details.size.upto(11).each do
-        model.add_detail(SocialExpenseDetailModel.new)
+        model.add_detail(Appendix15DetailModel.new)
       end
 
       model
@@ -28,7 +28,7 @@ module Reports
     private
 
     def build_detail_model(header)
-      ret = SocialExpenseDetailModel.new
+      ret = Appendix15DetailModel.new
       ret.account = Account.find_by_code(ACCOUNT_CODE_SOCIAL_EXPENSE)
 
       Journal.where(conditions).includes(:journal_details).find_each do |jh|
@@ -86,7 +86,7 @@ module Reports
 
   end
 
-  class SocialExpenseModel
+  class Appendix15Model
     attr_accessor :company
     attr_accessor :fiscal_year
     attr_accessor :capital_stock
@@ -218,7 +218,7 @@ module Reports
 
   end
 
-  class SocialExpenseDetailModel
+  class Appendix15DetailModel
     attr_accessor :account
     # 支出額
     attr_accessor :amount

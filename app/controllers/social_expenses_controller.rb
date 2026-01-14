@@ -3,7 +3,7 @@ class SocialExpensesController < Base::HyaccController
 
   def index
     @journals = finder.list
-    @social_expense_logic = Reports::SocialExpenseLogic.new(finder)
+    @social_expense_logic = Reports::Appendix15Logic.new(finder)
   end
 
   private

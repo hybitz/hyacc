@@ -90,12 +90,13 @@ GEM
     benchmark (0.5.0)
     bigdecimal (4.0.1)
     bindex (0.8.1)
-    bootsnap (1.21.0)
+    bootsnap (1.21.1)
       msgpack (~> 1.2)
     bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
     builder (3.3.0)
-    byebug (12.0.0)
+    byebug (13.0.0)
+      reline (>= 0.6.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -115,14 +116,14 @@ GEM
     carrierwave-i18n (3.1.0)
       carrierwave (>= 3.0.0, < 4)
     cgi (0.5.1)
-    chef-config (18.8.54)
+    chef-config (18.9.4)
       addressable
-      chef-utils (= 18.8.54)
+      chef-utils (= 18.9.4)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       tomlrb (~> 1.2)
-    chef-utils (18.8.54)
+    chef-utils (18.9.4)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
@@ -532,7 +533,7 @@ GEM
     sys-uname (1.4.1)
       ffi (~> 1.1)
       memoist3 (~> 1.0.0)
-    tax_jp (1.7.0)
+    tax_jp (1.7.1)
       bootstrap (~> 5.3)
       concurrent-ruby (< 1.3.5)
       csv (>= 3.2, < 4.0)

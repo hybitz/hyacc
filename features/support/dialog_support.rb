@@ -3,7 +3,7 @@ module DialogSupport
   def has_dialog?(options = {})
     options = {title: options} if options.is_a?(String) || options.is_a?(Regexp)
 
-    assert_selector("div.ui-dialog", visible: true)
+    assert wait_until { has_selector?("div.ui-dialog", visible: true) }
 
     if options[:title]
       assert_selector("span.ui-dialog-title", text: options[:title])
@@ -15,7 +15,7 @@ module DialogSupport
   def has_no_dialog?(options = {})
     options = {title: options} if options.is_a?(String) || options.is_a?(Regexp)
 
-    assert_no_selector("div.ui-dialog")
+    assert wait_until { has_no_selector?("div.ui-dialog") }
 
     if options[:title]
       assert_no_selector("span.ui-dialog-title", text: options[:title])

@@ -7,7 +7,7 @@ class SimpleSlipsController::CorporateTaxTest < ActionController::TestCase
 
     remarks = "法人税の決算区分が正しく登録されていること#{Time.new}"
     assert a = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
-    assert sa = SubAccount.where(:sub_account_type => SUB_ACCOUNT_TYPE_CORPORATE_TAX, :code => '200').first
+    assert sa = a.get_sub_account_by_code(CORPORATE_TAX_TYPE_CORPORATE_TAX)
 
     post :create, :params => {
       :account_code => ACCOUNT_CODE_CASH,

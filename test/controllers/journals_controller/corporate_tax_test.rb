@@ -9,7 +9,7 @@ class JournalsController::CorporateTaxTest < ActionController::TestCase
   
   def test_create_allocated_tax_cost
     assert a = Account.find_by_code(ACCOUNT_CODE_CORPORATE_TAXES)
-    assert sa = SubAccount.find_by(sub_account_type: SUB_ACCOUNT_TYPE_CORPORATE_TAX, code: '200')
+    assert sa = a.get_sub_account_by_code(CORPORATE_TAX_TYPE_MUNICIPAL_INHABITANTS_TAX)
 
     post_jh = Journal.new
     post_jh.remarks = SecureRandom.uuid

@@ -1,4 +1,4 @@
-<% if @account.has_normal_sub_accounts %>
+<% if @account.has_normal_sub_accounts or @account.is_social_expense? %>
   <div>
     <b>補助科目</b>
     <div class="subAccountRowHeader">

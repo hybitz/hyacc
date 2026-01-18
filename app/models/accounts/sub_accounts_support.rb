@@ -122,9 +122,13 @@ module Accounts::SubAccountsSupport
   def has_order_placement
     self.journalizable and self.sub_account_type == SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
   end
-  
+
   def has_sub_accounts?
     sub_accounts_all.present?
+  end
+
+  def is_social_expense?
+    sub_account_type == SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
   end
 
   def sub_accounts

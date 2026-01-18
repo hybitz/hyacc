@@ -195,7 +195,7 @@ class Account < ApplicationRecord
   
   def set_sub_account_editable
     case sub_account_type
-    when SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
+    when SUB_ACCOUNT_TYPE_NORMAL
       self.sub_account_editable = true
     else
       self.sub_account_editable = false

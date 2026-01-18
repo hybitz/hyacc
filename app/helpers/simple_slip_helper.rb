@@ -14,7 +14,7 @@ module SimpleSlipHelper
     "green"
   end
   
-  def get_sub_account_title( account )
+  def get_sub_account_title(account)
     case account.sub_account_type
     when SUB_ACCOUNT_TYPE_NORMAL
       '補助科目'

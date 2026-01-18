@@ -150,7 +150,8 @@ class JournalDetail < ApplicationRecord
 
     # 接待交際費の飲食の場合は人数必須
     if account.sub_account_type == SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
-      if SubAccount.find(sub_account_id).social_expense_number_of_people_required
+      social_expense = account.get_sub_account_by_id(sub_account_id)
+      if social_expense&.social_expense_number_of_people_required?
         if social_expense_number_of_people.to_i == 0
           errors.add(:social_expense_number_of_people, :blank)
         end

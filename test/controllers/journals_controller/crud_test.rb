@@ -188,28 +188,28 @@ class JournalsController::CrudTest < ActionController::TestCase
 
   def test_接待交際費で交際費人数なしでの登録がエラーになること
     assert_no_difference 'Journal.count' do
-      post :create, :xhr => true, :params => {
-        :journal => {
-          :remarks => "接待交際費テスト",
-          :lock_version => "0",
-          :day => "07",
-          :ym => "200907",
-          :journal_details_attributes => {
-            '1'=> {
+      post :create, xhr: true, params: {
+        journal: {
+          remarks: "接待交際費テスト",
+          lock_version: "0",
+          day: "07",
+          ym: "200907",
+          journal_details_attributes: {
+            '1' => {
               :sub_account_id=>"19",
               :branch_id=>"1",
               :account_id=>"23",
               :tax_amount=>"4",
-              :input_amount=>"100",
+              :input_amount=>"1000",
               :note=>"",
               :tax_type => TAX_TYPE_INCLUSIVE,
               :tax_rate_percent => 5,
               :dc_type=>"1"
             },
-            '2'=> {
+            '2' => {
               :branch_id=>"1",
               :account_id=>"2",
-              :input_amount=>"100",
+              :input_amount=>"1000",
               :note=>"",
               :tax_type=>"1",
               :dc_type=>"2"

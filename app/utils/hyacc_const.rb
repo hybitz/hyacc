@@ -92,6 +92,13 @@ module HyaccConst
     CORPORATE_TAX_TYPE_REGIONAL_CORPORATE_TAX = 5 => '地方法人税'
   }
 
+  # 接待交際費区分
+  SOCIAL_EXPENSE_TYPES = {
+    SOCIAL_EXPENSE_TYPE_FOOD_AND_DRINK = 100 => '飲食等',
+    SOCIAL_EXPENSE_TYPE_SOUVENIR = 200 => '土産',
+    SOCIAL_EXPENSE_TYPE_OTHERS = 900 => 'その他'
+  }
+
   DEFAULT_PAY_DAY_DEFINITION = "1,25"
   
   # 減価償却方法

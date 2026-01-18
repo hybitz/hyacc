@@ -107,12 +107,11 @@ class FirstBootController < ApplicationController
     end
 
     if @c.personal?
-      Account.where(:company_only => true).delete_all
-      Account.where('depreciable = ?', true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_AMOUNT])
-      SubAccount.update_all(['social_expense_number_of_people_required = ?', false])
+      Account.where(company_only: true).delete_all
+      Account.where(depreciable: true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_AMOUNT])
     else
-      Account.where(:personal_only => true).delete_all
-      Account.where('depreciable = ?', true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_RATE])
+      Account.where(personal_only: true).delete_all
+      Account.where(depreciable: true).update_all(['depreciation_method = ?', DEPRECIATION_METHOD_FIXED_RATE])
     end
   end
 

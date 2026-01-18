@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_15_144225) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_18_090000) do
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", default: "", null: false
@@ -626,7 +626,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_15_144225) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "sub_account_type", limit: 2, default: 1, null: false
-    t.boolean "social_expense_number_of_people_required", default: false, null: false
   end
 
   create_table "tax_admin_infos", id: :integer, charset: "utf8mb3", force: :cascade do |t|

@@ -53,7 +53,7 @@ module Auto::Journal
         jd.detail_no = jh.journal_details.size
         jd.dc_type = DC_TYPE_CREDIT
         jd.account_id = asset.account_id
-        jd.sub_account_id = asset.sub_account_id
+        jd.sub_account_id = asset.journal_detail.sub_account_id
         jd.branch_id = asset.branch_id
         jd.tax_type = TAX_TYPE_NONTAXABLE
         jd.amount = amount

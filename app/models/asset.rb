@@ -1,6 +1,5 @@
 class Asset < ApplicationRecord
   belongs_to :account
-  belongs_to :sub_account, optional: true
   belongs_to :branch
   belongs_to :journal_detail
 

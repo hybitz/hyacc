@@ -5,7 +5,6 @@
       <th>資産コード</th>
       <th>資産名</th>
       <th>勘定科目</th>
-      <th>補助科目</th>
       <th>部門</th>
       <th>取得年月日</th>
       <th>償却方法</th>
@@ -23,7 +22,6 @@
         <td><%= asset.code %></td>
         <td><%= asset.name %></td>
         <td><%= asset.account.name %></td>
-        <td><%= asset.sub_account.name if asset.sub_account %></td>
         <td><%= asset.branch.name %></td>
         <td class="text-center"><%= asset.date %></td>
         <td class="text-center"><%= asset.depreciation_method_name %></td>

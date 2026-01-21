@@ -151,6 +151,7 @@ module Base::ViewAttributeHandler
         REPORT_TYPE_APPENDIX_05_01,
         REPORT_TYPE_APPENDIX_05_02,
         REPORT_TYPE_APPENDIX_08,
+        REPORT_TYPE_APPENDIX_14_02,
         REPORT_TYPE_APPENDIX_15
       ]
     else

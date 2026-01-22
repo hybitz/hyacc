@@ -198,7 +198,6 @@ class JournalDetail < ApplicationRecord
         asset.depreciation_limit = 1 # 平成19年度以降は1年まで償却可能
       end
       asset.account = account
-      asset.sub_account_id = sub_account_id
       asset.branch = branch
       asset.ym = journal.ym
       asset.day = journal.day

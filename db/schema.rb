@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_19_083638) do
+ActiveRecord::Schema[7.2].define(version: 2026_01_22_015816) do
   create_table "accounts", id: :integer, charset: "utf8mb3", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", default: "", null: false
@@ -77,7 +77,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_19_083638) do
     t.integer "status", limit: 1, null: false
     t.integer "account_id", null: false
     t.integer "branch_id", null: false
-    t.integer "sub_account_id"
     t.integer "durable_years", limit: 2
     t.bigint "ym", null: false
     t.integer "day", limit: 2, null: false

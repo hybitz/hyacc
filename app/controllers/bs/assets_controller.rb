@@ -100,7 +100,7 @@ class Bs::AssetsController < Base::HyaccController
 
   def asset_params
     params.require(:asset).permit(
-        :code, :name, :account_id, :branch_id, :sub_account_id, :durable_years, :ym, :day,
+        :code, :name, :account_id, :branch_id, :durable_years, :ym, :day,
         :amount, :depreciation_method, :depreciation_limit, :remarks, :business_use_ratio, :lock_version)
   end
 

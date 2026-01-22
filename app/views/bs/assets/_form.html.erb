@@ -7,7 +7,6 @@
       <th colspan="2">資産名</th>
       <th>取得価額</th>
       <th>勘定科目</th>
-      <th>補助科目</th>
       <th>計上部門</th>
     </tr>
     <tr>
@@ -18,7 +17,6 @@
       <td colspan="2"><%= f.text_field :name, :class => 'nameText' %></td>
       <td class="amount"><%= to_amount(@asset.amount) %></td>
       <td><%= @asset.account.name %></td>
-      <td><%= @asset.sub_account.name if @asset.sub_account %></td>
       <td><%= @asset.branch.name %></td>
     </tr>
     <tr>

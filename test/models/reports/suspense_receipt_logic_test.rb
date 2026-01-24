@@ -27,26 +27,26 @@ class Reports::SuspenseReceiptLogicTest < ActiveSupport::TestCase
     logic = Reports::SuspenseReceiptLogic.new(finder)
 
     @model = logic.build_model
-    assert_equal  ['不明入金2万円　等'], @model.details.map {|d| d.note if d.account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}
+    assert_equal  ['不明入金2万円　等'], @model.details.map {|d| d.note if d.account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}.compact
  
     @journal3.update!(company_id: company.id)
     assert_equal [true, false], [@journal3.company == company, @journal3.fiscal_year == @fiscal_year]
     @model = logic.build_model
-    assert_equal  ['不明入金2万円　等'], @model.details.map {|d| d.note if d.account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}
+    assert_equal  ['不明入金2万円　等'], @model.details.map {|d| d.note if d.account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}.compact
 
     @journal3.update!(ym: @fiscal_year.end_year_month + 1)
     assert_equal [true, false], [@journal3.company == company, @journal3.fiscal_year == @fiscal_year]
     @model = logic.build_model
-    assert_equal  ['不明入金2万円　等'], @model.details.map {|d| d.note if d.account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}
+    assert_equal  ['不明入金2万円　等'], @model.details.map {|d| d.note if d.account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}.compact
 
     @journal3.update!(ym: @fiscal_year.start_year_month)
     assert_equal [true, true], [@journal3.company == company, @journal3.fiscal_year == @fiscal_year]
     @model = logic.build_model
-    assert_equal  ['不明入金3万円　等'], @model.details.map {|d| d.note if d.account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}
+    assert_equal  ['不明入金3万円　等'], @model.details.map {|d| d.note if d.account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}.compact
 
     JournalDetail.where(account_id: @account.id).map {|jd| jd.update!(note: nil)}
     @model = logic.build_model
-    assert_equal  ['誤入金　等'], @model.details.map {|d| d.note if d.account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}
+    assert_equal  ['誤入金　等'], @model.details.map {|d| d.note if d.account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}.compact
   end
 
   def test_取引先からの仮受金の摘要欄を部門別に表示する
@@ -62,7 +62,7 @@ class Reports::SuspenseReceiptLogicTest < ActiveSupport::TestCase
     logic = Reports::SuspenseReceiptLogic.new(finder)
     
     @model1 = logic.build_model
-    assert_equal  ['不明入金10万円　等'], @model1.details.map {|d| d.note if d.account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}
+    assert_equal  ['不明入金10万円　等'], @model1.details.map {|d| d.note if d.account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}.compact
 
     finder = ReportFinder.new(user)
     finder.fiscal_year = @fiscal_year.fiscal_year
@@ -71,7 +71,7 @@ class Reports::SuspenseReceiptLogicTest < ActiveSupport::TestCase
     logic = Reports::SuspenseReceiptLogic.new(finder)
 
     @model = logic.build_model
-    assert_equal  ['不明入金2万円　等'], @model.details.map {|d| d.note if d.account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}
+    assert_equal  ['不明入金2万円　等'], @model.details.map {|d| d.note if d.account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}.compact
 
     finder = ReportFinder.new(user)
     finder.fiscal_year = @fiscal_year.fiscal_year
@@ -80,7 +80,7 @@ class Reports::SuspenseReceiptLogicTest < ActiveSupport::TestCase
     logic = Reports::SuspenseReceiptLogic.new(finder)
 
     @model = logic.build_model
-    assert_equal  ['不明入金10万円　等'], @model.details.map {|d| d.note if d.account.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}
+    assert_equal  ['不明入金10万円　等'], @model.details.map {|d| d.note if d.account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER}.compact
   end
 
 end

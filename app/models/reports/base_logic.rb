@@ -60,19 +60,6 @@ module Reports
     def end_day
       Date.strptime(end_ymd, '%Y%m%d')
     end
-    
-    # 期首時点での累計金額を取得する
-    def get_amount_at_start(account_code, sub_account_id = nil)
-      a = Account.where(code: account_code, deleted: false).first
-      last_year_end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(finder.fiscal_year - 1, finder.start_month_of_fiscal_year )
-      VMonthlyLedger.net_sum(nil, last_year_end_ym, a.id, sub_account_id, branch_id) || 0
-    end
-    
-    # 期末時点での累計金額を取得する
-    def get_amount_at_end(account_code, sub_account_id = nil)
-      a = Account.where(code: account_code, deleted: false).first
-      VMonthlyLedger.net_sum(nil, end_ym, a.id, sub_account_id, branch_id) || 0
-    end
 
     # 当期の中間申告した金額を取得する
     def get_this_term_interim_amount(account_code, sub_account_id = nil)
@@ -199,6 +186,25 @@ EOF
     end
 
     protected
+
+    # 期首時点での累計金額を取得する（指定した勘定科目の子科目を含めて）
+    def get_amount_at_start(account_code, sub_account_id = nil)
+      a = Account.where(code: account_code, deleted: false).first
+      last_year_end_ym = HyaccDateUtil.get_end_year_month_of_fiscal_year(finder.fiscal_year - 1, finder.start_month_of_fiscal_year )
+      VMonthlyLedger.net_sum(nil, last_year_end_ym, a.id, sub_account_id, branch_id) || 0
+    end
+
+    # 期末時点での累計金額を取得する（指定した勘定科目の子科目を含めて）
+    def get_amount_at_end(account_code, sub_account_id = nil)
+      a = Account.where(code: account_code, deleted: false).first
+      VMonthlyLedger.net_sum(nil, end_ym, a.id, sub_account_id, branch_id) || 0
+    end
+
+    # 期末時点での累計金額を取得する（自勘定科目を単独で）
+    def get_amount_at_end_self_only(account_code, sub_account_id = nil)
+      a = Account.find_by(code: account_code, deleted: false)
+      VMonthlyLedger.net_sum(nil, end_ym, a.id, sub_account_id, branch_id, include_children: false)
+    end
 
     def execute_query(*sql_array)
       sanitized_sql = ActiveRecord::Base.__send__(:sanitize_sql_array, sql_array)

@@ -17,9 +17,9 @@ module DialogSupport
 
     assert wait_until do
       begin
-        has_no_selector?("div.ui-dialog")
+        return has_no_selector?("div.ui-dialog")
       rescue Selenium::WebDriver::Error::UnknownError => e
-        e.message.include?('Node with given id does not belong to the document')
+        return e.message.include?('Node with given id does not belong to the document')
       end
     end
 

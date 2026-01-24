@@ -34,7 +34,7 @@ module Reports
       detail.end_ymd = end_ymd
       detail.start_ym = start_ym
       detail.sub_account = sub_account
-      temporary_payment_details << detail
+      detail
     end
 
   end

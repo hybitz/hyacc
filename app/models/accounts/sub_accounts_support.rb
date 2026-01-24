@@ -96,31 +96,31 @@ module Accounts::SubAccountsSupport
   end
   
   def has_bank_accounts
-    self.journalizable and [SUB_ACCOUNT_TYPE_SAVING_ACCOUNT, SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT].include? self.sub_account_type
+    journalizable? and [SUB_ACCOUNT_TYPE_SAVING_ACCOUNT, SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT].include? sub_account_type
   end
   
   def has_customers
-    self.journalizable and self.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+    journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
   end
   
   def has_employees
-    self.journalizable and self.sub_account_type == SUB_ACCOUNT_TYPE_EMPLOYEE
+    journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_EMPLOYEE
   end
 
   def has_normal_sub_accounts
-    self.journalizable and [SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_DONATION].include? self.sub_account_type 
+    journalizable? and [SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_DONATION].include? sub_account_type 
   end
   
   def has_rents
-    self.journalizable and self.sub_account_type == SUB_ACCOUNT_TYPE_RENT
+    journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_RENT
   end
   
   def has_order_entry
-    self.journalizable and self.sub_account_type == SUB_ACCOUNT_TYPE_ORDER_ENTRY
+    journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_ORDER_ENTRY
   end
   
   def has_order_placement
-    self.journalizable and self.sub_account_type == SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
+    journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
   end
 
   def has_sub_accounts?

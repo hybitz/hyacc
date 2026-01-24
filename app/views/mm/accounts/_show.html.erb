@@ -78,7 +78,7 @@
       <th>更新日時</th>
       <td><%= @account.updated_at.to_fs %></td>
     </tr>
-    <% if @account.journalizable %>
+    <% if @account.journalizable? %>
     <tr>
       <th>補助科目区分</th>
       <td><%= @account.sub_account_type_name %></td>

@@ -11,7 +11,7 @@
       <%= account.name %>
     </td>
     <td id="<%= account.code %>_amount" align="right">
-      <%= link_to_if account.journalizable,
+      <%= link_to_if account.journalizable?,
           to_amount( @sum[account.code][:amount], show_zero: true ),
           { :controller => 'ledgers',
             :finder=>{

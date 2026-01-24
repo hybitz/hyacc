@@ -6,26 +6,34 @@ module Reports
       ret.end_ym = end_ym
 
       Account.where(is_suspense_receipt_account: true, deleted: false).each do |a|
-        sub_accounts = a.sub_accounts
+        sub_accounts = a.sub_accounts.presence || [nil]
         
         sub_accounts.each do |sa|
-          amount_at_end = get_amount_at_end(a.code, sa.id)
+          amount_at_end = get_amount_at_end_self_only(a.code, sa&.id)
           next if amount_at_end == 0
 
-          detail = ret.new_detail
-          detail.account = a
-          detail.amount_at_end = amount_at_end
-          detail.branch_id = branch_id
-          detail.company = company
-          detail.end_ym = end_ym
-          detail.end_ymd = end_ymd
-          detail.start_ym = start_ym
-          detail.sub_account = sa
+          detail = build_detail_model(a, sa, amount_at_end)
           ret.details << detail
         end
       end
       
+      ret.fill_details(12)
       ret
+    end
+
+    private
+
+    def build_detail_model(account, sub_account, amount_at_end)
+      detail = SuspenseReceiptDetailModel.new
+      detail.account = account
+      detail.amount_at_end = amount_at_end
+      detail.branch_id = branch_id
+      detail.company = company
+      detail.end_ym = end_ym
+      detail.end_ymd = end_ymd
+      detail.start_ym = start_ym
+      detail.sub_account = sub_account
+      detail
     end
   end
   
@@ -36,8 +44,10 @@ module Reports
       @details ||= []
     end
 
-    def new_detail
-      SuspenseReceiptDetailModel.new
+    def fill_details(min_count)
+      (details.size ... min_count).each do
+        details << SuspenseReceiptDetailModel.new
+      end
     end
 
     def income_tax_detail

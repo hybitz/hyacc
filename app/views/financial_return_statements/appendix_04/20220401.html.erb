@@ -96,10 +96,10 @@
       <tr>
         <td><%= justify('交際費等の損金不算入額') %></td>
         <td class="text-center">8</td>
-        <td></td>
+        <td class="text-end"><%= to_amount(@model.appendix_15_model.non_deduction_after_2014, show_zero: true) %></td>
         <td class="bg-light"></td>
         <td class="text-center">その他</td>
-        <td></td>
+        <td class="text-end"><%= to_amount(@model.appendix_15_model.non_deduction_after_2014, show_zero: true) %></td>
       </tr>
       <tr>
         <td class="text-center"><%= justify('通算法人に係る加算額') %>(別表四付表「5」)</td>

@@ -15,8 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      <% 12.times do |i| %>
-        <% d = @model.details[i] || @model.new_detail %>
+      <% @model.details.each do |d| %>
         <tr>
           <td><%= d.account_name %></td>
           <td></td>

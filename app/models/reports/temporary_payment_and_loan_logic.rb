@@ -12,7 +12,8 @@ module Reports
           amount_at_end = get_amount_at_end_self_only(a.code, sa&.id)
           next if amount_at_end == 0
 
-          ret.build_temporary_payment_detail(a, sa, amount_at_end, branch_id, company, end_ym, end_ymd, start_ym)
+          detail = build_temporary_payment_detail(a, sa, amount_at_end)
+          ret.temporary_payment_details << detail
         end  
       end
 
@@ -23,23 +24,7 @@ module Reports
 
     private
 
-    def get_amount_at_end_self_only(account_code, sub_account_id = nil)
-      a = Account.find_by(code: account_code, deleted: false)
-      VMonthlyLedger.net_sum(nil, end_ym, a.id, sub_account_id, branch_id, include_children: false)
-    end
-  end
-  
-  class TemporaryPaymentAndLoanModel
-
-    def temporary_payment_details
-      @temporary_payment_details ||= []
-    end
-
-    def loan_details
-      @loan_details ||= []
-    end
-
-    def build_temporary_payment_detail(account, sub_account, amount_at_end, branch_id, company, end_ym, end_ymd, start_ym)
+    def build_temporary_payment_detail(account, sub_account, amount_at_end)
       detail = TemporaryPaymentDetailModel.new
       detail.account = account
       detail.amount_at_end = amount_at_end
@@ -50,6 +35,18 @@ module Reports
       detail.start_ym = start_ym
       detail.sub_account = sub_account
       temporary_payment_details << detail
+    end
+
+  end
+  
+  class TemporaryPaymentAndLoanModel
+
+    def temporary_payment_details
+      @temporary_payment_details ||= []
+    end
+
+    def loan_details
+      @loan_details ||= []
     end
 
   end

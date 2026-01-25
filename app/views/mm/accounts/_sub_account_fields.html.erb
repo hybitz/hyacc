@@ -3,13 +3,13 @@
     <td>
       <%= f.hidden_field :id %>
       <%= f.hidden_field :deleted %>
-      <%= f.text_field :code %>
+      <%= f.text_field :code, class: 'form-control form-control-sm' %>
     </td>
     <td>
-      <%= f.text_field :name %>
+      <%= f.text_field :name, class: 'form-control form-control-sm' %>
     </td>
     <td>
-      <%= f.select :deleted, deleted_types %>
+      <%= f.select :deleted, deleted_types, {}, class: 'form-control form-control-sm' %>
     </td>
   </tr>
 <% end %>

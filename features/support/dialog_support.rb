@@ -21,7 +21,7 @@ module DialogSupport
       rescue Selenium::WebDriver::Error::UnknownError => e
         return e.message.include?('Node with given id does not belong to the document')
       end
-    end
+    }
 
     if options[:title]
       assert_no_selector("span.ui-dialog-title", text: options[:title])

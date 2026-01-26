@@ -1,8 +1,11 @@
-<%= form_tag({action: controller.action_name }, method: 'get') do %>
-  <table class="none_border" cellpadding="3">
-    <tr>
-      <td class="none_border"><%= select('finder', 'year', calendar_years) %>年6月〜翌年5月</td>
-      <td class="none_border"><%= submit_tag "表示" %></td>
-    </tr>
-  </table>
+<%= form_tag({action: controller.action_name}, method: 'get', class: 'row align-items-center') do %>
+  <div class="col-auto">
+    <div class="input-group">
+      <%= select('finder', 'year', calendar_years, {}, class: 'form-select') %>
+      <div class="input-group-text">年6月〜翌年5月</div>
+    </div>
+  </div>
+  <div class="col-auto">
+    <%= submit_tag '表示', class: 'btn btn-light' %>
+  </div>
 <% end %>

@@ -156,7 +156,7 @@ module Reports
 
     def non_deductible_amount_from_donations_total_amount_excl_foreign_affiliate
       # 「資本等を有する法人」は「一般寄附金の損金算入限度額」も差し引く
-      donations_total_amount_excl_foreign_affiliate - deductible_limit_amount_for_general_donations - deductible_amount_for_public_interest - donations_designated_amount
+      [donations_total_amount_excl_foreign_affiliate - deductible_limit_amount_for_general_donations - deductible_amount_for_public_interest - donations_designated_amount, 0].max
     end
 
     def total_non_deductible_amount

@@ -185,7 +185,7 @@
       <td rowspan="4" class="text-center">損<br>金<br>不<br>算<br>入<br>額</td>
       <td colspan="2" class="text-center"><%=justify("同上のうち損金の額に算入されない金額")%><div class="small">(20)-((9)又は(13))-(17)-(18)</div></td>
       <td class="text-center">21</td>
-      <td class="text-end"><%= to_amount(@model.non_deductible_amount_from_donations_total_amount_excl_foreign_affiliate) %></td>
+      <td class="text-end"><%= to_amount(@model.non_deductible_amount_from_donations_total_amount_excl_foreign_affiliate, show_zero: true) %></td>
       <td colspan="5"></td>
       </tr>
       <tr>

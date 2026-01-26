@@ -143,7 +143,7 @@ class JournalDetail < ApplicationRecord
     return unless account
 
     # 仕訳登録可能な勘定科目かどうか
-    unless account.journalizable
+    unless account.journalizable?
       Rails.logger.warn ERR_NOT_JOURNALIZABLE_ACCOUNT + " account_id=#{account_id}"
       errors.add(:account, ERR_NOT_JOURNALIZABLE_ACCOUNT)
     end

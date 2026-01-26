@@ -13,7 +13,7 @@
 
   <% @sum[account_code][:ym].each do |ym| %>
   <td id="<%= account_code + '_' + ym[:ym].to_s %>" align="right">
-    <%= link_to_if @sum[account_code][:account].journalizable,
+    <%= link_to_if @sum[account_code][:account].journalizable?,
        to_amount( ym[:amount], :show_zero => true ),
        { :controller => 'ledgers',
          'finder[fiscal_year]'=>@finder.fiscal_year,

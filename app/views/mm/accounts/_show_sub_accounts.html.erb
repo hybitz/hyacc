@@ -1,51 +1,50 @@
 <% if @account.has_normal_sub_accounts or @account.is_social_expense? %>
-  <div>
-    <b>補助科目</b>
-    <div class="subAccountRowHeader">
-      <div class="code">補助科目コード</div>
-      <div class="name">補助科目名</div>
-    </div>
-    
+  <div class="mt-3">
     <% if @account.sub_accounts.present? %>
-    <% @account.sub_accounts.each{|sa| %>
-      <div class="subAccountRow">
-        <div class="code"><%= sa.code %></div>
-        <div class="name"><%= sa.name %></div>
-      </div>
-      <div style="clear:left;"></div>
-    <% }%>
-    <% else %>
-    <div style="clear:left;">
-      補助科目は設定されていません。
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered mb-2">
+        <thead class="thead-light">
+          <tr>
+            <th>補助科目コード</th>
+            <th>補助科目名</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @account.sub_accounts.each do |sa| %>
+            <tr>
+              <td><%= sa.code %></td>
+              <td><%= sa.name %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
-    <% end %>
-  </div>
-<% end %>
-
-<% if @account.has_bank_accounts %>
-  <div>
-    <%= link_to '金融口座管理へ', controller: 'bank_accounts' %>
-  </div>
-<% end %>
-
-<% if @account.has_customers %>
-  <div>
-    <%= link_to '取引先管理へ', controller: 'customers' %>
-  </div>
-<% end %>
-
-<% if @account.has_employees %>
-  <div>
-    <% if current_company.personal? %>
-      <%= link_to 'ユーザ管理へ', controller: '/mm/users' %>
     <% else %>
-      <%= link_to '従業員管理へ', controller: '/mm/employees' %>
+    <div class="text-muted">補助科目は設定されていません。</div>
     <% end %>
   </div>
 <% end %>
 
-<% if @account.has_rents %>
-  <div>
-    <%= link_to '地代家賃管理へ', controller: 'rents' %>
-  </div>
-<% end %>
+<div class="mt-3">
+  <% if @account.has_bank_accounts %>
+    <div><%= link_to '金融口座管理へ', controller: 'bank_accounts' %></div>
+  <% end %>
+
+  <% if @account.has_customers %>
+    <div><%= link_to '取引先管理へ', controller: 'customers' %></div>
+  <% end %>
+
+  <% if @account.has_employees %>
+    <div>
+      <% if current_company.personal? %>
+        <%= link_to 'ユーザ管理へ', controller: '/mm/users' %>
+      <% else %>
+        <%= link_to '従業員管理へ', controller: '/mm/employees' %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @account.has_rents %>
+    <div><%= link_to '地代家賃管理へ', controller: 'rents' %></div>
+  <% end %>
+</div>

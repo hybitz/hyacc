@@ -174,7 +174,7 @@ GEM
       itamae-plugin-recipe-daddy
       itamae-plugin-resource-pip
       ohai
-    dalli (4.0.0)
+    dalli (4.0.1)
       logger
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)

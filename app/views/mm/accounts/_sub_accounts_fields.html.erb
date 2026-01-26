@@ -9,7 +9,7 @@
     });
   }
 </script>
-<table>
+<table class="table table-sm table-bordered mb-2">
   <tr>
     <th>コード</th>
     <th>補助科目名</th>
@@ -21,8 +21,8 @@
   <% end %>
   
   <tr>
-    <td colspan="4" style="text-align: right;">
-      <%= link_to '追加', '#', :onclick => 'add_sub_account(this); return false;' %>
+    <td colspan="4" class="text-right">
+      <%= link_to '追加', '#', class: 'btn btn-link p-0', onclick: 'add_sub_account(this); return false;' %>
     </td>
   </tr>
 </table>

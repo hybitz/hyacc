@@ -1,37 +1,45 @@
 <%= render 'common/search' %>
 <%= flash_notice %>
 
-<% if @careers.present? %>
-  <table class="careers">
-    <tr>
-      <th>期間</th>
-      <th>氏名</th>
-      <th>取引先</th>
-      <th>プロジェクト名</th>
-      <th colspan="2"></th>
-    </tr>
-    
-    <% @careers.each do |c| %>
-      <tr class="hover">
-        <td><%= c.start_from %> ～ <%= c.end_to %></td>
-        <td><%= c.employee.fullname %></td>
-        <td><%= c.customer_name %></td>
-        <td><%= c.project_name %></td>
-        <td><%= link_to '編集', edit_mm_career_path(c), remote: true %></td>
-        <td><%= link_to '削除', mm_career_path(c), data: {confirm: '削除します。よろしいですか？'}, method: :delete %></td>
-      </tr>
-    <% end %>
-  </table>
-  <%= will_paginate @careers %>
-  <%= link_to '追加', new_mm_career_path, class: 'add', remote: true if @customers.present? %>
-<% elsif @careers %>
-  <div>該当するデータが見つかりませんでした。</div>
-  <% if @customers.present? %>
-    <%= link_to '追加', new_mm_career_path, class: 'add', remote: true %>
-  <% else %>
-    業務経歴を追加するには受注先の登録が必要です。
-    <div>
-      <%= link_to '取引先管理へ', mm_customers_path %>
+<div class="careers-page">
+  <% if @careers.present? %>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover careers">
+        <tr>
+          <th>期間</th>
+          <th>氏名</th>
+          <th>取引先</th>
+          <th>プロジェクト名</th>
+          <th colspan="2" class="actions"></th>
+        </tr>
+
+        <% @careers.each do |c| %>
+          <tr class="hover">
+            <td><%= c.start_from %> ～ <%= c.end_to %></td>
+            <td><%= c.employee.fullname %></td>
+            <td><%= c.customer_name %></td>
+            <td><%= c.project_name %></td>
+            <td class="actions"><%= link_to '編集', edit_mm_career_path(c), remote: true, class: 'btn btn-sm btn-light' %></td>
+            <td class="actions"><%= link_to '削除', mm_career_path(c), data: {confirm: '削除します。よろしいですか？'}, method: :delete, class: 'btn btn-sm btn-light' %></td>
+          </tr>
+        <% end %>
+      </table>
     </div>
+    <div class="careers-footer">
+      <%= will_paginate @careers %>
+      <%= link_to '追加', new_mm_career_path, class: 'add btn btn-light', remote: true if @customers.present? %>
+    </div>
+  <% elsif @careers %>
+    <div class="alert alert-warning">該当するデータが見つかりませんでした。</div>
+    <% if @customers.present? %>
+      <%= link_to '追加', new_mm_career_path, class: 'add btn btn-light', remote: true %>
+    <% else %>
+      <div class="alert alert-info">
+        業務経歴を追加するには受注先の登録が必要です。
+        <div class="mt-2">
+          <%= link_to '取引先管理へ', mm_customers_path, class: 'btn btn-light' %>
+        </div>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
+</div>

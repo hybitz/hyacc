@@ -234,6 +234,7 @@ module HyaccConst
     REPORT_TYPE_APPENDIX_05_01 = 'appendix_05_01' => '別表5(1)　利益積立金額及び資本金等の計算に関する明細書',
     REPORT_TYPE_APPENDIX_05_02 = 'appendix_05_02' => '別表5(2)　租税公課の納付状況等に関する明細書',
     REPORT_TYPE_APPENDIX_08 = 'appendix_08' => '別表8　受取配当等の益金不算入に関する明細書',
+    REPORT_TYPE_APPENDIX_14_02 = 'appendix_14_02' => '別表14(2)　寄附金の損金算入に関する明細書',
     REPORT_TYPE_APPENDIX_15 = 'appendix_15' => '別表15　交際費等の損金算入に関する明細書',
     REPORT_TYPE_WITHHOLDING_SUMMARY = 20 => '給与所得の源泉徴収等の法定調書合計表',
     REPORT_TYPE_WITHHOLDING_DETAILS = 21 => '給与所得の源泉徴収票',
@@ -453,5 +454,6 @@ module HyaccConst
   SUB_ACCOUNT_CODE_DONATION_PUBLIC_INTEREST = '300' # 特定公益増進法人等
   SUB_ACCOUNT_CODE_DONATION_FULLY_CONTROLLED = '400' # 完全支配関係法人
   SUB_ACCOUNT_CODE_DONATION_FOREIGN_AFFILIATE = '500' # 国外関連者・本店等
+  SUB_ACCOUNT_CODE_DONATION_NON_CERTIFIED_TRUST = '600' # 特定公益信託（認定外）
 
 end

@@ -5,7 +5,7 @@ end
 前提 /^(.*?)が(.*?)を表示している$/ do |name, page|
   sign_in name: name
   click_on page
-  assert has_title?(page)
+  assert wait_until { has_title?(page) }
   capture
 end
 
@@ -33,7 +33,7 @@ end
       when '更新'
         assert has_no_dialog?
       end
-      assert has_selector?('.notice', text: "伝票を#{action}しました。")
+      assert wait_until { has_selector?('.notice', text: "伝票を#{action}しました。") }
     else
       case action
       when '登録', '更新'

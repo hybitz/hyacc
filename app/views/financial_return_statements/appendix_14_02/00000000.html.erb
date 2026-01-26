@@ -1,0 +1,287 @@
+<div class="container" style="max-width: 1280px;">
+  <table class="table table-bordered my-0">
+    <tr>
+      <td rowspan="2" colspan="3" class="align-middle text-center" style="width: 45%;"><h4><strong>寄附金の損金算入に関する明細書</strong></h4></td>
+      <td rowspan="2" colspan="2" class="align-middle text-center">事業<br/>年度</td>
+      <td class="align-middle text-center"><strong><%= to_wareki(@finder.start_day) %></strong></td>
+      <td rowspan="2" class="align-middle text-center">法人名</td>
+      <td rowspan="2" colspan="2" class="align-middle text-center"><strong><%= current_company.name %></strong></td>
+    </tr>
+    <tr>
+      <td class="align-middle text-center"><strong><%= to_wareki(@finder.end_day) %></strong></td>
+    </tr>
+  </table>
+  <table class="table table-bordered my-0">
+    <tr>
+      <td colspan="5" class="text-center" style="width: 50%;"><strong>公益法人等以外の法人の場合</strong></td>
+      <% # 公益法人等の入力項目は未対応 %>
+      <td colspan="5" class="text-center" style="width: 50%;"><strong>公益法人等の場合</strong></td>
+    </tr>
+    <tr>
+        <td rowspan="13" align="center" style="width: 5%;">一<br/>般<br/>寄<br/>附<br/>金<br/>の<br/>損<br/>金<br/>算<br/>入<br/>限<br/>度<br/>額<br/>の<br/>計<br/>算</td>
+        <td rowspan="6" align="center" style="width: 3%;">支<br/>出<br/>し<br/>た<br/>寄<br/>附<br/>金<br/>の<br/>額</td>
+        <td class="text-center"><%= justify('指定寄附金等の金額') %><div class="small">(41の計)</div></td>
+        <td class="text-center">1</td>
+        <td class="text-end" style="width: 10%;"><%= to_amount(@model.donations_designated_amount) %></td>
+        <td rowspan="10" align="center" style="width: 5%;">損<br/>金<br/>算<br/>入<br/>限<br/>度<br/>額<br/>の<br/>計<br/>算</td>
+        <td rowspan="4" align="center" style="width: 3%;">支<br/>出<br/>し<br/>た<br/>寄<br/>附<br/>金<br/>の<br/>額</td>
+        <td class="text-center"><%= justify('長期給付事業への繰入利子額') %></td>
+        <td class="text-center">25</td>
+        <td style="width: 10%;"></td>
+    </tr>
+    <tr>
+        <td class="text-center"><%= justify('特定公益増進法人等に対する寄附金額') %><div class="small">(42の計)</div></td>
+        <td class="text-center">2</td>
+        <td class="text-end"><%= to_amount(@model.donations_public_interest_amount) %></td>
+        <td class="text-center"><%= justify('同上以外のみなし寄附金額') %></td>
+        <td class="text-center">26</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><%= justify('その他の寄附金額') %></td>
+        <td class="text-center">3</td>
+        <td class="text-end"><%= to_amount(@model.donations_others_amount_incl_foreign_affiliate_and_non_certified_trust) %></td>
+        <td><%= justify('その他の寄附金額') %></td>
+        <td class="text-center">27</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="text-center">計<div class="small">(1)＋(2)＋(3)</div></td>
+        <td class="text-center">4</td>
+        <td class="text-end"><%= to_amount(@model.donations_total_amount) %></td>
+        <td class="text-center">計<div class="small">(25)＋(26)＋(27)</div></td>
+        <td class="text-center">28</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="text-center"><%= justify('完全支配関係がある法人に対する寄附金額') %></td>
+        <td class="text-center">5</td>
+        <td class="text-end"><%= to_amount(@model.donations_fully_controlled_amount) %></td>
+        <td colspan="2" class="text-center"><%= justify('所得金額仮計')%><div class="small">（別表四「26の①」）</div></td>
+        <td class="text-center">29</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="text-center">計<div class="small">(4)＋(5)</div></td>
+        <td class="text-center">6</td>
+        <td class="text-end"><%= to_amount(@model.donations_total_amount_incl_fully_controlled) %></td>
+        <td colspan="2" class="text-center"><%= justify('寄附金支出前所得金額')%><div class="small">(28)＋(29)<div class="small">（マイナスの場合は0）</div></td>
+        <td class="text-center">30</td>
+        <td></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="text-center"><%= justify('所得金額仮計')%><div class="small">（別表四「26の①」）</div></td>
+        <td class="text-center">7</td>
+        <td class="text-end"><%= to_amount(@model.provisional_income_amount) %></td>
+        <td colspan="2" class="text-center">同上の<sup>20又は50</sup>/<sub>100</sub>相当額<div class="small">〔<sup>50</sup>/<sub>100</sub>相当額が年200万円に満たない場合（当該法人が公益社団法人又は公益財団法人である場合を除く。)は、年200万円〕</div></td>
+        <td class="text-center">31</td>
+        <td></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="text-center"><%= justify('寄附金支出前所得金額') %><div class="small">(6)＋(7)<div class="small">（マイナスの場合は0）</div></td>
+      <td class="text-center">8</td>
+      <td class="text-end"><%= to_amount(@model.provisional_income_amount_incl_donations) %></td>
+      <td colspan="2" class="text-center"><%= justify('公益社団法人又は公益財団法人の公益法人特別限度額') %><div class="small">（別表十四(二)付表一「3」）</div></td>
+      <td class="text-center">32</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="text-center">同上の<sup>2.5又は1.25</sup>/<sub>100</sub>相当額</td>
+      <td class="text-center">9</td>
+      <td class="text-end"><%= to_amount(@model.provisional_income_amount_incl_donations_2_5_rate) %></td>
+      <td colspan="2" class="text-center"><%= justify('長期給付事業を行う共済組合等の損金算入限度額') %><div class="small">((25)と融資額の年5.5%相当額のうち少ない金額）</div></td>
+      <td class="text-center">33</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="text-center"><%=justify("期末の資本金の額及び資本準備") %><%= justify("金の額の合計額又は出資金の額")%><div class="small">（別表五(一)「32の④」＋「33の④」）</div></td>
+      <td class="text-center">10</td>
+      <td class="text-end"><%= to_amount(@model.capital_stock_end_amount) %></td>
+      <td colspan="2" class="text-center"><%= justify('損金算入限度額') %><div class="small">(31)、((31)と(32)のうち多い金額）又は((31)と(33)のうち多い金額）</div></td>
+      <td class="text-center">34</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="text-center"><%=justify("同上の月数換算額")%><div class="small">(10)×/<sub>12</sub></div></td>
+      <td class="text-center">11</td>    
+      <td class="text-end"><%= to_amount(@model.capital_stock_end_amount_by_business_month) %></td>
+      <td colspan="3" class="text-center"><%= justify('指定寄附金等の金額') %><div class="small">（41の計）</div></td>
+      <td class="text-center">35</td>    
+      <td></td>
+    </tr>
+      <tr>
+      <td colspan="2" class="text-center">同上の<sup>2.5</sup>/<sub>1,000</sub>相当額</td>
+      <td class="text-center">12</td>    
+      <td class="text-end"><%= to_amount(@model.capital_stock_end_amount_by_business_month_0_25_rate) %></td>
+      <td colspan="3" class="text-center"><%=justify("国外関連者に対する寄附金額及び完全支配関係がある法人に対する寄附金額")%></td>
+      <td class="text-center">36</td>    
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="text-center"><%=justify("一般寄附金の損金算入限度額")%><div class="small">((9)+(12))×<sup>1</sup>/<sub>4</sub></div></td>
+      <td class="text-center">13</td>    
+      <td class="text-end"><%= to_amount(@model.deductible_limit_amount_for_general_donations) %></td>
+      <td colspan="3" class="text-center"><%=justify("(28)の寄附金額のうち同上の寄附金以外の寄附金額")%><div class="small">(28)-(36)</div></td>
+      <td class="text-center">37</td>    
+      <td></td>
+    </tr>
+      <tr>
+      <td rowspan="3" align="center" style="padding: 5px;">
+      <div style="display: flex; justify-content: center; gap: 2px; font-size: 0.7em; line-height: 1.1;">
+        <div style="writing-mode: vertical-rl;">特定公益増進法人等に</div>
+        <div style="writing-mode: vertical-rl;">対する寄附金の特別損</div>
+        <div style="writing-mode: vertical-rl;">金算入限度額の計算</div>
+      </div>
+    </td>
+      <td colspan="2" class="text-center">寄附金支出前所得金額の<sup>6.25</sup>/<sub>100</sub>相当額<div class="small">(8)×<sup>6.25</sup>/<sub>100</sub></div></td>
+      <td class="text-center">14</td>    
+      <td class="text-end"><%= to_amount(@model.provisional_income_amount_incl_donations_6_25_rate) %></td>
+      <td rowspan="3" class="text-center">損<br>金<br>不<br>算<br>入<br>額</td>
+      <td colspan="2" class="text-center"><%=justify("同上のうち損金の額に算入されない金額")%><div class="small">(37)-(34)-(35)</div></td>
+      <td class="text-center">38</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="text-center"><%=justify("期末の資本金の額及び資本準備金の額の合計額")%><div>又は出資金の額の月数換算額の<sup>3.75</sup>/<sub>1,000</sub>相当額</div><div class="small">(11)×<sup>3.75</sup>/<sub>1,000</sub></div></td>
+      <td class="text-center">15</td>    
+      <td class="text-end"><%= to_amount(@model.capital_stock_end_amount_by_business_month_0_375_rate) %></td>
+      <td colspan="2" class="text-center"><%=justify("国外関連者に対する寄附金額及び完全支配関係がある法人に対する寄附金額")%><div class="small">(36)</div></td>
+      <td class="text-center">39</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="text-center"><%=justify("特定公益増進法人等に対する寄附金の特別損金算入限度額")%><div class="small">((14)+(15))×<sup>1</sup>/<sub>2</sub></div></td>
+      <td class="text-center">16</td>    
+      <td class="text-end"><%= to_amount(@model.special_deductible_limit_amount_for_public_interest) %></td>
+      <td colspan="2" class="text-center">計<div class="small">(38)+(39)</div></td>
+      <td class="text-center">40</td>    
+      <td></td>
+    </tr>
+    <tr>
+      <td colspan="3" class="text-center"><%=justify("特定公益増進法人等に対する寄附金の損金算入額")%><div class="small">((2)と((14)又は(16))のうち少ない金額)</div></td>
+      <td class="text-center">17</td>
+      <td class="text-end"><%= to_amount(@model.deductible_amount_for_public_interest) %></td>
+      <td colspan="5"></td>
+    </tr>
+    <tr>
+    <td colspan="3" class="text-center"><%=justify("指定寄附金等の金額")%><div class="small">(1)</div></td>
+    <td class="text-center">18</td>
+    <td class="text-end"><%= to_amount(@model.donations_designated_amount) %></td>
+    <td colspan="5"></td>
+  </tr>
+      <tr>
+      <td colspan="3" class="text-center"><%=justify("国外関連者に対する寄附金額及び")%><%= justify("本店等に対する内部寄附金額")%></td>
+      <td class="text-center">19</td>
+      <td class="text-end"><%= to_amount(@model.donations_foreign_affiliate_amount) %></td>
+      <td colspan="5"></td>
+      </tr>
+      <tr>
+      <td colspan="3" class="text-center"><%=justify("(4)の寄附金額のうち同上の寄附金以外の寄附金額")%><div class="small">(4)-(19)</div></td>
+      <td class="text-center">20</td>
+      <td class="text-end"><%= to_amount(@model.donations_total_amount_excl_foreign_affiliate) %></td>
+      <td colspan="5"></td>
+      </tr>
+      <tr>
+      <td rowspan="4" class="text-center">損<br>金<br>不<br>算<br>入<br>額</td>
+      <td colspan="2" class="text-center"><%=justify("同上のうち損金の額に算入されない金額")%><div class="small">(20)-((9)又は(13))-(17)-(18)</div></td>
+      <td class="text-center">21</td>
+      <td class="text-end"><%= to_amount(@model.non_deductible_amount_from_donations_total_amount_excl_foreign_affiliate, show_zero: true) %></td>
+      <td colspan="5"></td>
+      </tr>
+      <tr>
+      <td colspan="2" class="text-center"><%=justify("国外関連者に対する寄附金額及び本店等に対する内部寄附金額")%><div class="small">(19)</div></td>
+      <td class="text-center">22</td>
+      <td class="text-end"><%= to_amount(@model.donations_foreign_affiliate_amount) %></td>
+      <td colspan="5"></td>
+      </tr>
+      <tr>
+      <td colspan="2" class="text-center"><%=justify("完全支配関係がある法人に対する寄附金額")%><div class="small">(5)</div></td>
+      <td class="text-center">23</td>
+      <td class="text-end"><%= to_amount(@model.donations_fully_controlled_amount) %></td>
+      <td colspan="5"></td>
+      </tr>
+      <tr>
+      <td colspan="2" class="text-center">計<div class="small">(21)+(22)+(23)</div></td>
+      <td class="text-center">24</td>
+      <td class="text-end"><%= to_amount(@model.total_non_deductible_amount) %></td>
+      <td colspan="5"></td>
+      </tr>
+  </table>
+  <table class="table table-bordered my-0">
+    <tr>
+      <td colspan="5" class="text-center"><strong>指定寄附金等に関する明細</strong></td>
+    </tr>
+    <tr>
+      <td rowspan="2" class="text-center" style="width:20%;">寄附した日</td>
+      <td rowspan="2" class="text-center" style="width:20%;">寄附先</td>
+      <td rowspan="2" class="text-center" style="width:20%;">告示番号</td>
+      <td rowspan="2" class="text-center" style="width:20%;">寄附金の使途</td>
+      <td class="text-center" style="width:20%;">寄附金額</td>
+    </tr>
+    <tr>
+      <td class="small text-center" style="padding-top:0;padding-bottom:0;height:1em;"><small>41</small></td>
+    </tr>
+    <% @model.donations_designated_details.each do |jd| %>
+    <tr>
+      <td><%= to_wareki(jd.ymd) %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-end"><%= to_amount(jd.amount) %></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td class="text-center" colspan="4">計</td>
+      <td class="text-end"><%= to_amount(@model.donations_designated_amount) %></td>
+    </tr>
+  </table>
+  <table class="table table-bordered my-0">
+    <tr>
+      <td colspan="5" class="text-center"><strong>特定公益増進法人若しくは認定特定非営利活動法人等に対する寄附金又は認定特定公益信託に対する支出金の明細</strong></td>
+    </tr>
+    <tr>
+      <td rowspan="2" class="text-center" style="width:20%;">寄付した日又は支出した日</td>
+      <td rowspan="2" class="text-center" style="width:20%;">寄附先又は受託者</td>
+      <td rowspan="2" class="text-center" style="width:20%;">所在地</td>
+      <td rowspan="2" class="text-center" style="width:20%;">寄附金の使途又は認定特定信託の名称</td>
+      <td class="text-center" style="width:20%;">寄附金額又は支出金額</td>
+    </tr>
+    <tr>
+      <td class="small text-center" style="padding-top:0;padding-bottom:0;height:1em;"><small>42</small></td>
+    </tr>
+    <% @model.donations_public_interest_details.each do |jd| %>
+    <tr>
+      <td><%= to_wareki(jd.ymd) %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-end"><%= to_amount(jd.amount) %></td>
+    </tr>
+    <% end %>
+    <tr>
+      <td class="text-center" colspan="4">計</td>
+      <td class="text-end"><%= to_amount(@model.donations_public_interest_amount) %></td>
+    </tr>
+  </table>
+  <table class="table table-bordered my-0">
+    <tr>
+      <td colspan="5" class="text-center"><strong>その他の寄附金のうち特定公益信託（認定特定公益信託を除く。）に対する支出金の明細</strong></td>
+    </tr>
+    <tr>
+      <td class="text-center" style="width:20%;">支出した日</td>
+      <td class="text-center" style="width:20%;">受託者</td>
+      <td class="text-center" style="width:20%;">所在地</td>
+      <td class="text-center" style="width:20%;">特定公益信託の名称</td>
+      <td class="text-center" style="width:20%;">支出金額</td>
+    </tr>
+    <% @model.donations_non_certified_trust_details.each do |jd| %>
+    <tr>
+      <td><%= to_wareki(jd.ymd) %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="text-end"><%= to_amount(jd.amount) %></td>
+    </tr>
+    <% end %>
+  </table>
+</div>

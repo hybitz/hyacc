@@ -9,7 +9,7 @@
       assert has_link?(a.name)
       click_on a.name
     end
-    assert has_selector?('#slipTable')
+    assert wait_until { has_selector?('#slipTable') }
     assert has_title?(a.name)
   end
 end
@@ -358,7 +358,7 @@ end
   assert account = Account.where(:name => account_name).first
 
   with_capture do
-    assert has_title?(account.name)
+    assert wait_until { has_title?(account.name) }
   end
 end
 

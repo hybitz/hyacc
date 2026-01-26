@@ -28,7 +28,7 @@ module DialogSupport
     end
 
     true
-  }
+  end
 
   def within_dialog(options = {})
     assert has_dialog?(options)

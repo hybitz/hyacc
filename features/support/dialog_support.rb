@@ -17,9 +17,10 @@ module DialogSupport
 
     assert wait_until {
       begin
-        return has_no_selector?("div.ui-dialog")
-      rescue Selenium::WebDriver::Error::UnknownError => e
-        return e.message.include?('Node with given id does not belong to the document')
+        has_no_selector?("div.ui-dialog")
+      rescue Selenium::WebDriver::Error::UnknownError,
+             Selenium::WebDriver::Error::StaleElementReferenceError => e
+        false
       end
     }
 
@@ -28,7 +29,7 @@ module DialogSupport
     end
 
     true
-  }
+  end
 
   def within_dialog(options = {})
     assert has_dialog?(options)

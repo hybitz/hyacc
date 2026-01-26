@@ -1,5 +1,5 @@
 ならば /^元帳に遷移する$/ do
-  assert has_title?('元帳')
+  assert wait_until { has_title?('元帳') }
   assert_url '/ledgers'
 end
 

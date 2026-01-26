@@ -1,7 +1,19 @@
 <div style="margin: 20px;">
-  <%= form_tag({:action => 'index'}, :method => 'get') do %>
-    年度：<%= select('finder', 'fiscal_year', fiscal_years ) %>
-    計上部門：<%= select('finder', 'branch_id', to_options( @branches ) ) %>
-    <%= submit_tag "表示" %>
+  <%= form_tag({action: 'index'}, method: 'get', class: 'row align-items-center') do %>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">年度</div>
+        <%= select('finder', 'fiscal_year', fiscal_years, {}, class: 'form-select') %>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">計上部門</div>
+        <%= select('finder', 'branch_id', to_options(@branches), {}, class: 'form-select') %>
+      </div>
+    </div>
+    <div class="col-auto">
+      <%= submit_tag '表示', class: 'btn btn-light' %>
+    </div>
   <% end %>
 </div>

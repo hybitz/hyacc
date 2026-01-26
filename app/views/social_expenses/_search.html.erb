@@ -1,7 +1,19 @@
 <div class="search">
-  <%= form_tag({:action => 'index'}, :method => 'get') do %>
-    年度：<%= select 'finder', 'fiscal_year', calendar_years %>
-    部門：<%= collection_select('finder', 'branch_id', finder.branches, 'id', 'name', :include_blank => true) %>
-    <%= submit_tag '表示' %>
+  <%= form_tag({action: 'index'}, method: 'get', class: 'row align-items-center') do %>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">年度</div>
+        <%= select 'finder', 'fiscal_year', calendar_years, {}, class: 'form-select' %>
+      </div>
+    </div>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">部門</div>
+        <%= collection_select('finder', 'branch_id', finder.branches, 'id', 'name', {include_blank: true}, class: 'form-select') %>
+      </div>
+    </div>
+    <div class="col-auto">
+      <%= submit_tag '表示', class: 'btn btn-light' %>
+    </div>
   <% end %>
 </div>

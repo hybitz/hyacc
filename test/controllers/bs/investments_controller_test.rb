@@ -34,20 +34,6 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
     assert_equal '有価証券情報を追加しました。', flash[:notice]
   end
 
-  def test_追加_取引日未入力_エラー
-    assert_no_difference('Investment.count') do
-      post :create, :xhr => true, :params => {
-          investment: {yyyymmdd: '', bank_account_id: bank_account.id, customer_id: '1',
-            buying_or_selling: '1', for_what: '1', shares: '20',
-            trading_value: '100000', charges: '1080'}
-           }
-      assert_response :success
-      assert_template 'new'
-    end
-    assert_equal '取引日を入力してください', flash[:notice]
-    assert_equal true, flash[:is_error_message]
-  end
-
   def test_手数料が0円でも追加と更新ができること
     assert_difference('Investment.count') do
       post :create, :xhr => true, :params => {

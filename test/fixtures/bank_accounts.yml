@@ -16,3 +16,11 @@
   name: みずほ銀行
   holder_name: 株式会社テストA
   financial_account_type: 1
+3:
+  id: 3
+  company_id: 1
+  bank_id: 1
+  code: 300
+  name: 証券口座
+  holder_name: 株式会社テストA
+  financial_account_type: 4

@@ -3,10 +3,6 @@ class Investment < ApplicationRecord
   belongs_to :bank_account
   belongs_to :journal_detail
 
-  validates :yyyymmdd, :presence => true, format: {
-    with: /\d{4}-\d{2}-\d{2}/,
-    message: 'のフォーマットが不正です'
-  }
   validates :buying_or_selling, :presence => true
   validates_numericality_of :shares, :greater_than => 0
   validates_numericality_of :trading_value, :greater_than_or_equal_to => 0

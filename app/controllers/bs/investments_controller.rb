@@ -97,13 +97,12 @@ class Bs::InvestmentsController < Base::HyaccController
   end
   
   def save_investment!
-    if @investment.yyyymmdd.blank?
-      raise HyaccException.new("取引日を入力してください")
-    end
-    
     @investment.transaction do
        # 取引金額が0円（単元株数変更対応）の場合も自動仕訳しない
       if @investment.journal_detail_id.nil? && @investment.trading_value != 0
+        DateValidator.new(attributes: [:yyyymmdd]).validate(@investment)
+        raise ActiveRecord::RecordInvalid.new(@investment) if @investment.errors[:yyyymmdd].any?
+        
         param = Auto::Journal::InvestmentParam.new(@investment, current_user)
         factory = Auto::Journal::InvestmentFactory.get_instance(param)
         factory.make_journals.each do |jh|

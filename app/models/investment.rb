@@ -1,15 +1,20 @@
 class Investment < ApplicationRecord
   belongs_to :customer
   belongs_to :bank_account
-  belongs_to :journal_detail
+  belongs_to :journal_detail, optional: true
 
   validates :buying_or_selling, :presence => true
   validates_numericality_of :shares, :greater_than => 0
   validates_numericality_of :trading_value, :greater_than_or_equal_to => 0
   validates_numericality_of :charges, :greater_than_than_or_equal_to => 0
+  validates :yyyymmdd, date: true
   
   attr_accessor :buying_or_selling
   attr_accessor :yyyymmdd
+  
+  def yyyymmdd_before_type_cast
+    yyyymmdd
+  end
   
   before_save :set_ym_and_day
   before_save :set_trading_value

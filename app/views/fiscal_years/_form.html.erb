@@ -4,17 +4,23 @@
 
   <h4><%= @fiscal_year.fiscal_year %>年度</h4>
   <table class="table table-hover">
-    <hhead>
-      <tr>
-        <th>締め状態</th>
-        <th>消費税</th>
-        <th>消費税申告</th>
-      </tr>
-    </thead>
     <tbody>
       <tr>
+        <th>締め状態</th>
         <td class="text-center"><%= f.select :closing_status, closing_status, {}, class: 'form-select' %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h5>消費税</h5>
+  <table class="table table-hover">
+    <tbody>
+      <tr>
+        <th>経理方式</th>
         <td class="text-center"><%= f.select :tax_management_type, tax_management_types, {}, class: 'form-select' %></td>
+      </tr>
+      <tr>
+        <th>課税方式</th>
         <td class="text-center"><%= f.select :consumption_entry_type, consumption_entry_types, {include_blank: true}, class: 'form-select' %></td>
       </tr>
     </tbody>

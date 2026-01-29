@@ -16,7 +16,9 @@ module Reports
 
       dr_logic = Appendix08Logic.new(finder)
       ret.appendix_08_model = dr_logic.build_model
-      
+
+      dn_logic = Appendix1402Logic.new(finder)
+      ret.appendix_14_02_model = dn_logic.build_model(ret.provisional_amount)
       ret
     end
 
@@ -31,6 +33,7 @@ module Reports
     attr_accessor :business_tax_amount
     attr_accessor :appendix_08_model
     attr_accessor :appendix_15_model
+    attr_accessor :appendix_14_02_model
     attr_accessor :exective_bonus_amount
 
     def company_name

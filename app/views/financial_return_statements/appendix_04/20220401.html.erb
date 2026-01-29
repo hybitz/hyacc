@@ -249,10 +249,10 @@
       <tr>
         <td colspan="2" class="text-center"><%= justify('寄付金の損金不算入額') %>(別表十四(二)「24」又は「40」)</td>
         <td class="text-center">27</td>
-        <td></td>
+        <td class="text-end"><%= to_amount(@model.appendix_14_02_model.non_deductible_amount) %></td>
         <td class="bg-light"></td>
         <td class="text-center">その他</td>
-        <td></td>
+        <td class="text-end"><%= to_amount(@model.appendix_14_02_model.non_deductible_amount) %></td>
       </tr>
       <tr>
         <td colspan="2" class="text-center"><%= justify('沖縄の認定法人又は国家戦略特別区域における指定法人の所得の特別控除額') %>(別表十(一)「15」若しくは別表十(二)「10」又は別表十(一)「16」若しくは別表十(二)「11」)</td>

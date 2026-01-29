@@ -57,4 +57,11 @@ module FinancialReturnStatements
       :report_type => REPORT_TYPE_INVESTMENT_SECURITIES
     }
   end
+
+  def appendix_14_02_finder(fiscal_year)
+    {
+      :fiscal_year => fiscal_year,
+      :report_type => REPORT_TYPE_APPENDIX_14_02
+    }
+  end
 end

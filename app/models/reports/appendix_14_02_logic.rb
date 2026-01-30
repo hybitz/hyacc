@@ -13,7 +13,7 @@ module Reports
       ret = Appendix1402Model.new
       ret.company = company
       ret.fiscal_year = finder.fiscal_year
-      ret.capital_stock_end_amount = Appendix0501Logic.new(finder).build_model.capital_stocks.select{|d|[32, 33].include?(d.no)}.inject(0){|sum, d| sum + d.amount_at_end}
+      ret.appendix_0501_model = Appendix0501Logic.new(finder).build_model
 
       ret.provisional_income_amount = provisional_income_amount_from_appendix04
       
@@ -96,10 +96,11 @@ module Reports
   end 
   
   class Appendix1402Model
-    attr_accessor :company, :fiscal_year, :capital_stock_end_amount, :provisional_income_amount
+    attr_accessor :company, :fiscal_year, :provisional_income_amount
     attr_accessor :donations_designated_details, :donations_public_interest_details, :donations_non_certified_trust_details
     attr_accessor :donations_designated_amount, :donations_public_interest_amount, :donations_non_certified_trust_amount
     attr_accessor :donations_fully_controlled_amount, :donations_foreign_affiliate_amount, :donations_others_amount
+    attr_accessor :appendix_0501_model
 
     def donations_others_amount_incl_foreign_affiliate_and_non_certified_trust
       donations_others_amount + donations_foreign_affiliate_amount + donations_non_certified_trust_amount
@@ -113,6 +114,10 @@ module Reports
       donations_total_amount + donations_fully_controlled_amount
     end
 
+    def capital_stock_end_amount
+      appendix_0501_model.capital_stocks.select{|d|[32, 33].include?(d.no)}.inject(0){|sum, d| sum + d.amount_at_end}
+    end
+    
     def provisional_income_amount_incl_donations
       [provisional_income_amount + donations_total_amount_incl_fully_controlled, 0].max
     end

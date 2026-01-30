@@ -31,10 +31,10 @@ module Reports
     attr_accessor :corporate_tax_amount
     attr_accessor :corporate_inhabitant_tax_amount
     attr_accessor :business_tax_amount
-    attr_accessor :appendix_08_model
-    attr_accessor :appendix_15_model
-    attr_accessor :appendix_14_02_model
     attr_accessor :exective_bonus_amount
+    attr_accessor :appendix_08_model
+    attr_accessor :appendix_14_02_model
+    attr_accessor :appendix_15_model
 
     def company_name
       company.name

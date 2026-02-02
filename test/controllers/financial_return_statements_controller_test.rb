@@ -44,6 +44,15 @@ class FinancialReturnStatementsControllerTest < ActionController::TestCase
     assert_template 'financial_return_statements/appendix_05_01/00000000'
   end
 
+  def test_別表14_2_寄附金の損金算入に関する明細書
+    sign_in user
+    fiscal_year = user.employee.company.current_fiscal_year_int
+    get :index, params: {commit: true, finder: appendix_14_02_finder(fiscal_year)}
+    assert_response :success
+    assert_template 'financial_return_statements/appendix_14_02/00000000'
+    assert_instance_of Reports::Appendix1402Model, assigns(:model)
+  end
+
   def test_別表5_2_租税公課の納付状況等に関する明細書
     sign_in user
     get :index, params: {commit: true, finder: appendix_05_02_finder}

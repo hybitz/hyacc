@@ -33,5 +33,16 @@ class Reports::Appendix1402LogicTest < ActiveSupport::TestCase
     assert_nil model.donations_non_certified_trust_details[1].ymd
     assert_nil model.donations_non_certified_trust_details[2].ymd
   end
+
+  def test_appendix1402_gets_provisional_amount_from_appendix04
+    finder = ReportFinder.new(user)
+    finder.fiscal_year = 2026
+    finder.company_id = company.id
+
+    appendix04_core = Reports::Appendix04Logic.new(finder).build_core_model
+    appendix1402_model = Reports::Appendix1402Logic.new(finder).build_model
+
+    assert_equal appendix04_core.provisional_amount, appendix1402_model.provisional_income_amount
+  end
 end
 

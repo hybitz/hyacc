@@ -9,7 +9,9 @@ module Reports
     # ・下段の明細は日付、金額のみ対応
     include HyaccConst
 
-    def build_model(provisional_income_amount_from_appendix04)
+    def build_model
+      provisional_income_amount_from_appendix04 = Appendix04Logic.new(finder).build_core_model.provisional_amount
+
       ret = Appendix1402Model.new
       ret.company = company
       ret.fiscal_year = finder.fiscal_year

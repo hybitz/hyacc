@@ -1,7 +1,7 @@
 module Reports
   class Appendix04Logic < BaseLogic
 
-    def build_model
+    def build_core_model
       ret = Appendix04Model.new
       ret.company = Company.find(finder.company_id)
       ret.fiscal_year = ret.company.get_fiscal_year(finder.fiscal_year)
@@ -10,16 +10,20 @@ module Reports
       ret.corporate_inhabitant_tax_amount = get_corporate_inhabitant_tax_amount
       ret.business_tax_amount = get_business_tax_amount
       ret.exective_bonus_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_BONUS)
-      
+
       se_logic = Appendix15Logic.new(finder)
       ret.appendix_15_model = se_logic.build_model
 
       dr_logic = Appendix08Logic.new(finder)
       ret.appendix_08_model = dr_logic.build_model
 
-      dn_logic = Appendix1402Logic.new(finder)
-      ret.appendix_14_02_model = dn_logic.build_model(ret.provisional_amount)
       ret
+    end
+
+    def build_model
+      core = build_core_model
+      core.appendix_14_02_model = Appendix1402Logic.new(finder).build_model
+      core
     end
 
   end

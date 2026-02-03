@@ -90,7 +90,7 @@ GEM
     benchmark (0.5.0)
     bigdecimal (4.0.1)
     bindex (0.8.1)
-    bootsnap (1.21.1)
+    bootsnap (1.22.0)
       msgpack (~> 1.2)
     bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
@@ -174,7 +174,7 @@ GEM
       itamae-plugin-recipe-daddy
       itamae-plugin-resource-pip
       ohai
-    dalli (4.1.0)
+    dalli (4.2.0)
       logger
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
@@ -282,7 +282,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (8.0.0)
       railties (>= 3.2.16)
-    json (2.18.0)
+    json (2.18.1)
     jwt (3.1.2)
       base64
     libyajl2 (2.1.0)
@@ -302,7 +302,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2026.0113)
+    mime-types-data (3.2026.0127)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake

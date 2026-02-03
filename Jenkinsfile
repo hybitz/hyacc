@@ -55,45 +55,6 @@ spec:
         always { publishUnitResult() }
       }
     }
-    stage('e2e') {
-      agent {
-        kubernetes {
-          inheritFrom 'default mysql chrome'
-          yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: app
-    image: ${ECR}/${APP_NAME}/test:latest
-    imagePullPolicy: Always
-    resources:
-      requests:
-        memory: 256Mi
-    command:
-    - cat
-    tty: true
-"""
-        }
-      }
-      environment {
-        HEADLESS = 'true'
-        RAILS_ENV = 'test'
-        REMOTE = 'true'
-      }
-      steps {
-        container('app') {
-          ansiColor('xterm') {
-            sh "bundle exec rake dad:db:create"
-            sh "bundle exec rails db:reset"
-            sh 'bundle exec rake dad:test'
-          }
-        }
-      }
-      post {
-        always { publishE2EResult() }
-      }
-    }
     stage('release') {
       agent { kubernetes { inheritFrom 'kaniko' } }
       environment {
@@ -125,7 +86,7 @@ spec:
   }
   post {
     success {
-      build job: 'hyacc-user_stories', wait: false
+      build job: 'hyacc-features', wait: false
     }
   }
 }
@@ -133,8 +94,4 @@ spec:
 def publishUnitResult() {
   junit 'test/reports/**/*.xml'
   publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'coverage', reportName: 'Coverage', reportFiles: 'index.html'])
-}
-
-def publishE2EResult() {
-  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'features/reports', reportName: 'Features', reportFiles: 'index.html'])
 }

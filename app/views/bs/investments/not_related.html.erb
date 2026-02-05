@@ -1,25 +1,23 @@
 
-<% if @journal_details %>
+<% if @journals %>
 <%= render 'common/message' %>
   <table id="investment_container">
     <tr>
       <th>年月</th>
       <th>日</th>
       <th>摘要</th>
-      <th>勘定科目</th>
       <th>金額</th>
       <th>伝票</th>
       <th />
     </tr>
-    <% Array(@journal_details).each do |jd| %>
+    <% Array(@journals).each do |jh| %>
     <tr class="hover">
-        <td><%= jd.journal.ym %></td>
-        <td><%= jd.journal.day %></td>
-        <td><%= jd.journal.remarks %></td>
-        <td><%= jd.account_name %></td>
-        <td class="amount"><%= to_amount(jd.journal.amount) %></td>
-        <td><%= link_to '参照', journal_path(jd.journal.id), remote: true %></td>
-        <td><%= link_to '関連付け', relate_bs_investments_path(journal_id: jd.journal.id), remote: true %></td>
+        <td><%= jh.ym %></td>
+        <td><%= jh.day %></td>
+        <td><%= jh.remarks %></td>
+        <td class="amount"><%= to_amount(jh.amount) %></td>
+        <td><%= link_to '参照', journal_path(jh.id), remote: true %></td>
+        <td><%= link_to '関連付け', relate_bs_investments_path(journal_id: jh.id), remote: true %></td>
     </tr>
     <% end %>
 </table>

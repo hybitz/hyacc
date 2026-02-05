@@ -38,6 +38,9 @@ input[type="text"], input[type="password"], select, select.form-select {
   &:disabled {
     background: #EEEEEE;
   }
+  &.readonly-as-disabled {
+    background: #EEEEEE;
+  }
 }
 
 input[type="file"] {

@@ -1,13 +1,13 @@
 module Auto::Journal
 
   class InvestmentFactory < Auto::AutoJournalFactory
-    
+
     def initialize( auto_journal_param )
       super( auto_journal_param )
       @investment = auto_journal_param.investment
       @user = auto_journal_param.user
     end
-    
+
     def make_journals
       ret = []
 
@@ -16,7 +16,7 @@ module Auto::Journal
       split = @investment.yyyymmdd.split("-")
       ym = split[0..1].join
       day = split[2]
-      
+
       jh = Journal.new
       jh.company = @user.employee.company
       jh.ym = ym
@@ -28,7 +28,7 @@ module Auto::Journal
 
       tax_rate = TaxJp::ConsumptionTax.rate_on(jh.date)
       tax_management_type = jh.company.get_fiscal_year(ym.to_i).tax_management_type
-      
+
       # 明細の作成
       ## 有価証券
       jd = jh.journal_details.build
@@ -39,7 +39,7 @@ module Auto::Journal
       jd.tax_type = TAX_TYPE_NONTAXABLE
       jd.amount = @investment.trading_value.to_i
       @investment.journal_detail = jd
-      
+
       ## 売却益
       ## TODO 売却損にまだ未対応
       if @investment.gains > 0
@@ -56,7 +56,7 @@ module Auto::Journal
         paid_fee_amount = (@investment.charges / (1 + tax_rate)).ceil
         temp_pay_tax_amount = @investment.charges - paid_fee_amount
       else
-        paid_fee_amount = @investment.charges 
+        paid_fee_amount = @investment.charges
         temp_pay_tax_amount = 0
       end
 
@@ -72,7 +72,7 @@ module Auto::Journal
         jd.tax_type = TAX_TYPE_NONTAXABLE
         tax_detail = jd
       end
-       
+
       ## 支払手数料
       if paid_fee_amount > 0
         account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
@@ -111,7 +111,7 @@ module Auto::Journal
         jd.dc_type = DC_TYPE_DEBIT
         jd.amount = @investment.trading_value.to_i + @investment.gains - @investment.charges.to_i
       end
-      
+
       ret << jh
       ret
     end

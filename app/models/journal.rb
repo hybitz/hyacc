@@ -4,6 +4,7 @@ class Journal < ApplicationRecord
 
   belongs_to :company
   belongs_to :depreciation, inverse_of: 'journals', optional: true
+  belongs_to :investment, optional: true
   belongs_to :payroll, optional: true
 
   has_many :journal_details, inverse_of: 'journal', dependent: :destroy

@@ -1,22 +1,26 @@
 module Auto::Journal
 
   class InvestmentFactory < Auto::AutoJournalFactory
-
+    
     def initialize( auto_journal_param )
       super( auto_journal_param )
       @investment = auto_journal_param.investment
       @user = auto_journal_param.user
     end
-
+    
     def make_journals
       ret = []
+
+      # Investmentは売却時にbefore_saveでtrading_valueを負数として保存する。
+      # 伝票明細のamountは常に正数（貸借で表現）である前提のため、ここでは絶対値を使用する。
+      trading_value = @investment.trading_value.to_i.abs
 
       account_code = @investment.for_what == SECURITIES_TYPE_FOR_TRADING ? ACCOUNT_CODE_TRADING_SECURITIES : ACCOUNT_CODE_INVESTMENT_SECURITIES
       branch_id = @user.employee.company.head_branch.id
       split = @investment.yyyymmdd.split("-")
       ym = split[0..1].join
       day = split[2]
-
+      
       jh = Journal.new
       jh.company = @user.employee.company
       jh.ym = ym
@@ -28,7 +32,7 @@ module Auto::Journal
 
       tax_rate = TaxJp::ConsumptionTax.rate_on(jh.date)
       tax_management_type = jh.company.get_fiscal_year(ym.to_i).tax_management_type
-
+      
       # 明細の作成
       ## 有価証券
       jd = jh.journal_details.build
@@ -37,8 +41,7 @@ module Auto::Journal
       jd.account_id = Account.find_by_code(account_code).id
       jd.branch_id = branch_id
       jd.tax_type = TAX_TYPE_NONTAXABLE
-      jd.amount = @investment.trading_value.to_i
-      @investment.journal_detail = jd
+      jd.amount = trading_value
 
       ## 売却益
       ## TODO 売却損にまだ未対応
@@ -56,7 +59,7 @@ module Auto::Journal
         paid_fee_amount = (@investment.charges / (1 + tax_rate)).ceil
         temp_pay_tax_amount = @investment.charges - paid_fee_amount
       else
-        paid_fee_amount = @investment.charges
+        paid_fee_amount = @investment.charges 
         temp_pay_tax_amount = 0
       end
 
@@ -72,7 +75,7 @@ module Auto::Journal
         jd.tax_type = TAX_TYPE_NONTAXABLE
         tax_detail = jd
       end
-
+       
       ## 支払手数料
       if paid_fee_amount > 0
         account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
@@ -106,12 +109,12 @@ module Auto::Journal
       jd.tax_type = TAX_TYPE_NONTAXABLE
       if @investment.buying?
         jd.dc_type = DC_TYPE_CREDIT
-        jd.amount = @investment.trading_value.to_i + @investment.gains + @investment.charges.to_i
+        jd.amount = trading_value + @investment.gains + @investment.charges.to_i
       else
         jd.dc_type = DC_TYPE_DEBIT
-        jd.amount = @investment.trading_value.to_i + @investment.gains - @investment.charges.to_i
+        jd.amount = trading_value + @investment.gains - @investment.charges.to_i
       end
-
+      
       ret << jh
       ret
     end

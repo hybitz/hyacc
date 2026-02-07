@@ -8,7 +8,6 @@ attributes1:
   ym: 201503
   day: 1
   bank_account_id: 3
-  journal_detail_id: 78985
   for_what: 1
 attributes2:
   id: 2
@@ -20,7 +19,6 @@ attributes2:
   ym: 201603
   day: 10
   bank_account_id: 3
-  journal_detail_id: 78996
   for_what: 1
 attributes3:
   id: 3
@@ -32,5 +30,4 @@ attributes3:
   ym: 201603
   day: 20
   bank_account_id: 3
-  journal_detail_id: 79059
   for_what: 1

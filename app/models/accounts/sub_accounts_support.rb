@@ -33,8 +33,14 @@ module Accounts::SubAccountsSupport
         @sub_accounts_cache << ba unless ba.deleted?
         @sub_accounts_all_cache << ba
       end
-    when SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT
-      BankAccount.where(financial_account_type: FINANCIAL_ACCOUNT_TYPE_GENERAL).each do |ba|
+    when SUB_ACCOUNT_TYPE_GENERAL_AND_SPECIFIC_ACCOUNT
+      # 一般・特定口座（特定（源泉徴収あり/なし）含む）を補助科目として扱う
+      securities_types = [
+        FINANCIAL_ACCOUNT_TYPE_GENERAL,
+        FINANCIAL_ACCOUNT_TYPE_SPECIFIC,
+        FINANCIAL_ACCOUNT_TYPE_SPECIFIC_WITHHOLD
+      ]
+      BankAccount.where(financial_account_type: securities_types).each do |ba|
         @sub_accounts_cache << ba unless ba.deleted?
         @sub_accounts_all_cache << ba
       end
@@ -96,7 +102,7 @@ module Accounts::SubAccountsSupport
   end
   
   def has_bank_accounts
-    journalizable? and [SUB_ACCOUNT_TYPE_SAVING_ACCOUNT, SUB_ACCOUNT_TYPE_GENERAL_ACCOUNT].include? sub_account_type
+    journalizable? and [SUB_ACCOUNT_TYPE_SAVING_ACCOUNT, SUB_ACCOUNT_TYPE_GENERAL_AND_SPECIFIC_ACCOUNT].include? sub_account_type
   end
   
   def has_customers

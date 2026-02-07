@@ -21,9 +21,6 @@ class JournalDetail < ApplicationRecord
   has_one :asset, dependent: :destroy
   accepts_nested_attributes_for :asset
 
-  has_one :investment, dependent: :destroy
-  accepts_nested_attributes_for :investment
-
   has_one :tax_detail, foreign_key: :main_detail_id, class_name: 'JournalDetail', dependent: :destroy
   belongs_to :main_detail, class_name: 'JournalDetail', optional: true
 

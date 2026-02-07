@@ -16,3 +16,36 @@
   name: みずほ銀行
   holder_name: 株式会社テストA
   financial_account_type: 1
+
+3:
+  id: 3
+  company_id: 1
+  bank_id: 1
+  bank_office_id: 1
+  code: 300
+  name: 証券口座（一般）
+  holder_name: 株式会社テストA
+  financial_account_type: 3
+  for_payroll: false
+
+4:
+  id: 4
+  company_id: 1
+  bank_id: 1
+  bank_office_id: 1
+  code: 400
+  name: 証券口座（特定・源泉なし）
+  holder_name: 株式会社テストA
+  financial_account_type: 4
+  for_payroll: false
+
+5:
+  id: 5
+  company_id: 1
+  bank_id: 1
+  bank_office_id: 1
+  code: 500
+  name: 証券口座（特定・源泉あり）
+  holder_name: 株式会社テストA
+  financial_account_type: 5
+  for_payroll: false

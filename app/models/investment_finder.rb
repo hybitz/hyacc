@@ -1,5 +1,6 @@
 class InvestmentFinder
   include ActiveModel::Model
+  include HyaccConst
   include Pagination
   include CompanyAware
   include BankAccountAware
@@ -19,56 +20,54 @@ class InvestmentFinder
     @order || 'ym, day'
   end
   
-  def is_not_related_to_journal_detail
-    journal_details_for_investment.each do |jd|
-      if not Investment.exists?(journal_detail_id: jd.id)
-        return true
-      end
-    end
-    return false
-  end
-  
-  def journal_details_not_related
-    journal_details = []
-    journal_details_for_investment.each do |jd|
-      if not Investment.exists?(journal_detail_id: jd.id)
-        journal_details << jd
-      end
-    end
-    journal_details
+  def is_not_related_to_journal
+    journals_for_investment.where(investment_id: nil).exists?
   end
 
-  def journal_details_for_investment
-    investment_ids = Account.where(Account.arel_table[:path].matches('%' + ACCOUNT_CODE_SECURITIES + '%')).pluck(:id)
-    JournalDetail.where(:account_id => investment_ids)
+  def journals_not_related
+    journals_for_investment.where(investment_id: nil)
+  end
+
+  # 伝票一枚に対して有価証券明細は一つであると想定する。複数ある場合は最後の明細で上書きされる。
+  def journals_for_investment
+    investment_account_ids = Account.where(Account.arel_table[:path].matches('%' + ACCOUNT_CODE_SECURITIES + '%')).pluck(:id)
+    Journal
+      .joins(:journal_details)
+      .where(journal_details: { account_id: investment_account_ids })
+      .distinct
   end
   
   def set_investment_from_journal(journal_id)
     investment = Investment.new
     investment_ids = Account.where(Account.arel_table[:path].matches('%' + ACCOUNT_CODE_SECURITIES + '%')).pluck(:id)
     paid_fee_id = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).id
+    deposits_paid_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_PAID).id
     investment_securities_id = Account.find_by_code(ACCOUNT_CODE_INVESTMENT_SECURITIES).id
-    
+
     jh = Journal.find(journal_id)
+    investment.journal = jh
     investment.yyyymmdd = jh.ym.to_s.insert(4, '-') + '-' + "%02d" % jh.day.to_s
-    
+
     jh.journal_details.each do |jd|
       if investment_ids.include?(jd.account_id)
         investment.buying_or_selling = jd.dc_type == DC_TYPE_DEBIT ? '1' : '0'
-        investment.for_what = jd.account_id == investment_securities_id ? SECURITIES_TYPE_FOR_INVESTMENT : ACCOUNT_CODE_TRADING_SECURITIES
+        investment.for_what = jd.account_id == investment_securities_id ? SECURITIES_TYPE_FOR_INVESTMENT : SECURITIES_TYPE_FOR_TRADING
         investment.trading_value = jd.amount
-        investment.journal_detail_id = jd.id
       end
       if paid_fee_id == jd.account_id
         investment.charges = jd.amount
       end
+      # 預け金明細の補助科目（証券口座）を bank_account_id に引き継ぐ
+      if jd.account_id == deposits_paid_id && jd.sub_account_id.present?
+        investment.bank_account_id = jd.sub_account_id
+      end
     end
-    
+
     investment
   end
   
   private
-  
+
   def conditions
     ym_range = get_ym_range
     sql = SqlBuilder.new

@@ -1,5 +1,4 @@
 class Investment < ApplicationRecord
-  include HyaccConst
 
   belongs_to :customer
   belongs_to :bank_account

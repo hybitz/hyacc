@@ -1,11 +1,10 @@
 class Bs::InvestmentsController < Base::HyaccController
   include BankAccountsAware
 
-  view_attribute :customers, only: [:new,:create,:edit,:update,:relate], conditions: {is_investment: true, deleted: false}
+  view_attribute :customers, only: [:new,:create,:edit,:update], conditions: {is_investment: true, deleted: false}
   helper_method :finder
 
   def index
-    check_if_related
     @investments = finder.list if params[:commit]
   end
 
@@ -14,8 +13,7 @@ class Bs::InvestmentsController < Base::HyaccController
   end
 
   def create
-    @investment = Investment.new(investment_params.except(:journal_id))
-    set_existing_journal_from_params
+    @investment = Investment.new(investment_params)
     begin
       save_investment!
       flash[:notice] = '有価証券情報を追加しました。'
@@ -36,7 +34,7 @@ class Bs::InvestmentsController < Base::HyaccController
     begin
       @investment.transaction do
         destroy_investment!
-        @investment = Investment.new(investment_params.except(:journal_id))
+        @investment = Investment.new(investment_params)
         save_investment!
       end
 
@@ -47,11 +45,6 @@ class Bs::InvestmentsController < Base::HyaccController
       handle(e)
       render :edit
     end
-  end
-  
-  def relate
-    @investment = finder.set_investment_from_journal(params[:journal_id])
-    render :new
   end
 
   def destroy
@@ -66,10 +59,6 @@ class Bs::InvestmentsController < Base::HyaccController
     end
   end
 
-  def not_related
-    @journals = finder.journals_not_related
-  end
-  
   private
 
   def finder
@@ -89,21 +78,12 @@ class Bs::InvestmentsController < Base::HyaccController
 
   def investment_params
     params.require(:investment).permit(:name, :yyyymmdd, :sub_account_id, :customer_id, :buying_or_selling, :for_what,
-                                       :shares, :trading_value, :bank_account_id, :charges, :gains, :journal_id)
+                                       :shares, :trading_value, :bank_account_id, :charges, :gains)
   end
-  
-  def check_if_related
-    @has_not_related = finder.is_not_related_to_journal
-  end
-  
+
   def save_investment!
     @investment.transaction do
-      existing_journal = @investment.journal.present? && @investment.journal.persisted?
-
-      if existing_journal
-        @investment.save!
-        @investment.journal.update_column(:investment_id, @investment.id)
-      elsif @investment.trading_value != 0
+      if @investment.trading_value != 0
         @investment.save!
         # 自動仕訳を作成
         param = Auto::Journal::InvestmentParam.new(@investment, current_user)
@@ -120,7 +100,7 @@ class Bs::InvestmentsController < Base::HyaccController
       end
     end
   end
-  
+
   def destroy_investment!
     @investment.transaction do
       if @investment.journal.nil?
@@ -137,13 +117,6 @@ class Bs::InvestmentsController < Base::HyaccController
         end
       end
     end
-  end
-
-  def set_existing_journal_from_params
-    journal_id = investment_params[:journal_id]
-    return if journal_id.blank?
-    jh = Journal.find_by(id: journal_id)
-    @investment.journal = jh if jh
   end
 
 end

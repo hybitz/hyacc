@@ -31,16 +31,6 @@ class Investment < ApplicationRecord
     buying_or_selling == '0'
   end
 
-  def journal_id
-    journal&.id
-  end
-
-  def linked_to_transfer_slip?
-    return false unless journal.present?
-
-    journal.slip_type != SLIP_TYPE_INVESTMENT
-  end
-
   def yyyymmdd_before_type_cast
     yyyymmdd
   end

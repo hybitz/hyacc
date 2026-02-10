@@ -7,6 +7,11 @@ module JournalHelper
       return false
     end
 
+    # 有価証券画面から登録した伝票は編集不可
+    if jh.slip_type == SLIP_TYPE_INVESTMENT
+      return false
+    end
+
     # 自動振替伝票は編集不可
     ! jh.auto?
   end

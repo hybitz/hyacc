@@ -41,7 +41,7 @@ class Bs::InvestmentsController < Base::HyaccController
       flash[:notice] = '有価証券情報を更新しました。'
       render 'common/reload'
 
-    rescue Exception => e
+    rescue => e
       handle(e)
       render :edit
     end

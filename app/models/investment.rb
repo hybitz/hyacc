@@ -1,5 +1,4 @@
 class Investment < ApplicationRecord
-
   belongs_to :customer
   belongs_to :bank_account
   has_one :journal, dependent: :destroy

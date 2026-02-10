@@ -1,6 +1,5 @@
 class InvestmentFinder
   include ActiveModel::Model
-  include HyaccConst
   include Pagination
   include CompanyAware
   include BankAccountAware

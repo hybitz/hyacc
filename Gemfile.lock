@@ -116,14 +116,15 @@ GEM
     carrierwave-i18n (3.1.0)
       carrierwave (>= 3.0.0, < 4)
     cgi (0.5.1)
-    chef-config (18.9.4)
+    chef-config (19.1.164)
       addressable
-      chef-utils (= 18.9.4)
+      chef-utils (= 19.1.164)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
+      racc
       tomlrb (~> 1.2)
-    chef-utils (18.9.4)
+    chef-utils (19.1.164)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
@@ -166,7 +167,7 @@ GEM
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
     cucumber-tag-expressions (6.1.2)
-    daddy (0.11.3)
+    daddy (0.12.0)
       docker-api
       highline
       i18n
@@ -262,7 +263,7 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor (>= 1.0.0)
-    itamae-plugin-recipe-daddy (0.1.36)
+    itamae-plugin-recipe-daddy (0.1.37)
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-passenger (~> 0.1)
       itamae-plugin-recipe-selenium (~> 0.1)

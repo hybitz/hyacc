@@ -2,13 +2,8 @@ module JournalHelper
   include HyaccConst
 
   def can_edit(jh)
-    # 台帳登録は編集不可
-    if jh.slip_type == SLIP_TYPE_AUTO_TRANSFER_PAYROLL
-      return false
-    end
-
-    # 有価証券画面から登録した伝票は編集不可
-    if jh.slip_type == SLIP_TYPE_INVESTMENT
+    # 専用機能で管理している給与や有価証券は編集不可
+    if [SLIP_TYPE_AUTO_TRANSFER_PAYROLL, SLIP_TYPE_INVESTMENT].include?(jh.slip_type)
       return false
     end
 

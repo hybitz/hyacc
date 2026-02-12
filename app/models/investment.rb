@@ -2,7 +2,6 @@ class Investment < ApplicationRecord
   belongs_to :customer
   belongs_to :bank_account
   has_one :journal, dependent: :destroy
-  accepts_nested_attributes_for :journal
 
   validates :yyyymmdd, presence: true, date: true
   validates :buying_or_selling, :presence => true

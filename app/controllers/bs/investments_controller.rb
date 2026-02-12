@@ -27,7 +27,7 @@ class Bs::InvestmentsController < Base::HyaccController
   def edit
     @investment = Investment.find(params[:id])
   end
-  
+
   def update
     @investment = Investment.find(params[:id])
 
@@ -68,10 +68,10 @@ class Bs::InvestmentsController < Base::HyaccController
       @finder.fiscal_year ||= current_company.fiscal_year
       @finder.order = 'ym desc, day desc'
     end
-    
+
     @finder
   end
-  
+
   def finder_params
     params.fetch(:finder, {}).permit(:fiscal_year, :bank_account_id)
   end
@@ -103,19 +103,15 @@ class Bs::InvestmentsController < Base::HyaccController
 
   def destroy_investment!
     @investment.transaction do
-      if @investment.journal.nil?
-        @investment.destroy
-      else
-        jh = @investment.journal
-        # 有価証券の登録で追加した自動仕訳伝票の場合のみ関連伝票を削除
-        if SLIP_TYPE_INVESTMENT == jh.slip_type
-          @investment.destroy
-        else
-          jh.update_column(:investment_id, nil)
-          @investment.reload
-          @investment.destroy
-        end
+      jh = @investment.journal
+      # 伝票区分が有価証券以外の伝票に紐づいている場合は伝票を残し、関連のみ外す。
+      # マイグレーション（journal_detail → journal の investment_id 移行）により、
+      # 一般振替など伝票区分が有価証券でない既存伝票が investment_id を持っている場合がある。
+      if jh.present? && SLIP_TYPE_INVESTMENT != jh.slip_type
+        jh.update_column(:investment_id, nil)
+        @investment.reload
       end
+      @investment.destroy
     end
   end
 

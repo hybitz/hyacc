@@ -26,9 +26,7 @@ module JournalHelper
   end
 
   def message_for_details
-    show = current_user.show_details if show.nil?
-
-    if show
+    if current_user.show_details
       '詳細を隠す'
     else
       '詳細を表示'

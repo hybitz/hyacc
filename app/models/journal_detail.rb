@@ -11,9 +11,6 @@ class JournalDetail < ApplicationRecord
   attr_accessor :auto_journal_month
   attr_accessor :auto_journal_day
 
-  # 有価証券用の入力フィールド
-  attr_accessor :investment_id
-
   belongs_to :journal, inverse_of: 'journal_details'
   belongs_to :account
   belongs_to :branch

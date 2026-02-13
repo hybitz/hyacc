@@ -13,12 +13,12 @@
     <tr>
       <th><%= f.label :bank_account_id %></th>
       <td><%= "金融口座マスタに証券口座が登録されていません。" if securities_accounts.empty? %>
-          <%= f.select :bank_account_id, to_options(securities_accounts), {} if securities_accounts.present? %></td>
+          <%= f.select :bank_account_id, to_options(securities_accounts) if securities_accounts.present? %></td>
     </tr>
     <tr>
       <th><%= f.label :customer_name %></th>
       <td><%= "取引先マスタに投資先が登録されていません。" if @customers.length == 0 %>
-          <%= f.select :customer_id, to_options(@customers), {} if @customers.length > 0 %></td>
+          <%= f.select :customer_id, to_options(@customers) if @customers.length > 0 %></td>
     </tr>
     <tr>
       <th><%= f.label :buying_or_selling %></th>

@@ -1,12 +1,9 @@
 class Investment < ApplicationRecord
   belongs_to :customer
   belongs_to :bank_account
-  belongs_to :journal_detail
+  has_one :journal, dependent: :destroy
 
-  validates :yyyymmdd, :presence => true, format: {
-    with: /\d{4}-\d{2}-\d{2}/,
-    message: 'のフォーマットが不正です'
-  }
+  validates :yyyymmdd, presence: true, date: true
   validates :buying_or_selling, :presence => true
   validates_numericality_of :shares, :greater_than => 0
   validates_numericality_of :trading_value, :greater_than_or_equal_to => 0
@@ -30,6 +27,10 @@ class Investment < ApplicationRecord
 
   def selling?
     buying_or_selling == '0'
+  end
+
+  def yyyymmdd_before_type_cast
+    yyyymmdd
   end
 
   private

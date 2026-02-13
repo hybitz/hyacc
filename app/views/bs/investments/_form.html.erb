@@ -8,25 +8,25 @@
   <table>
     <tr>
       <th><%= f.label :yyyymmdd %></th>
-      <td><%= f.text_field :yyyymmdd, :class => 'datepicker' %></td>
+      <td><%= f.text_field :yyyymmdd, class: 'datepicker' %></td>
     </tr>
     <tr>
       <th><%= f.label :bank_account_id %></th>
       <td><%= "金融口座マスタに証券口座が登録されていません。" if securities_accounts.empty? %>
-          <%= f.select :bank_account_id, to_options(securities_accounts) if securities_accounts.present? %></td>
+          <%= f.select :bank_account_id, to_options(securities_accounts), {} if securities_accounts.present? %></td>
     </tr>
     <tr>
       <th><%= f.label :customer_name %></th>
       <td><%= "取引先マスタに投資先が登録されていません。" if @customers.length == 0 %>
-          <%= f.select :customer_id, to_options(@customers) if @customers.length > 0 %></td>
+          <%= f.select :customer_id, to_options(@customers), {} if @customers.length > 0 %></td>
     </tr>
     <tr>
       <th><%= f.label :buying_or_selling %></th>
-      <td><%= f.radio_button :buying_or_selling, '1', {:checked => true} %>購入　<%= f.radio_button :buying_or_selling, '0' %>売却</td>
+      <td><%= f.radio_button :buying_or_selling, '1', { checked: @investment.buying_or_selling.blank? || @investment.buying_or_selling == '1' } %>購入　<%= f.radio_button :buying_or_selling, '0', { checked: @investment.buying_or_selling == '0' } %>売却</td>
     </tr>
     <tr>
       <th><%= f.label :for_what %></th>
-      <td><%= f.radio_button :for_what, HyaccConst::SECURITIES_TYPE_FOR_TRADING, {:checked => true} %>売買目的（1年以内）　<%= f.radio_button :for_what, HyaccConst::SECURITIES_TYPE_FOR_INVESTMENT %>投資目的（1年越え）</td>
+      <td><%= f.radio_button :for_what, HyaccConst::SECURITIES_TYPE_FOR_TRADING, { checked: @investment.for_what.blank? || @investment.for_what.to_s == HyaccConst::SECURITIES_TYPE_FOR_TRADING.to_s } %>売買目的（1年以内）　<%= f.radio_button :for_what, HyaccConst::SECURITIES_TYPE_FOR_INVESTMENT, { checked: @investment.for_what.present? && @investment.for_what.to_s == HyaccConst::SECURITIES_TYPE_FOR_INVESTMENT.to_s } %>投資目的（1年越え）</td>
     </tr>
     <tr>
       <th><%= f.label :shares %></th>
@@ -45,5 +45,4 @@
       <td><%= f.text_field :charges %></td>
     </tr>
   </table>
-  <%= f.hidden_field :journal_detail_id %>
 <% end %>

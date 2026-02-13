@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_01_22_015816) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_02_100003) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", default: "", null: false
@@ -468,7 +468,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_01_22_015816) do
     t.boolean "auto", default: false, null: false
     t.integer "payroll_id"
     t.string "type"
+    t.integer "investment_id"
     t.index ["company_id", "ym", "day"], name: "index_journal_headers_on_company_id_and_date"
+    t.index ["investment_id"], name: "index_journals_on_investment_id"
     t.index ["transfer_from_detail_id"], name: "index_journal_headers_transfer_from_detail_id"
     t.index ["transfer_from_id"], name: "index_journals_on_transfer_from_id"
     t.index ["ym"], name: "index_journals_on_ym"

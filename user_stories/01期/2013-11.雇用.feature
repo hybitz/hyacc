@@ -8,7 +8,7 @@
   シナリオ: 従業員を雇用
     * 従業員 花子 を登録
       | ログインID　  | eigyo |
-      | パスワード　　 | testtest |
+      | パスワード　　 | testpassword20260217 |
       | メールアドレス | eigyo@example.com |
       | 姓　　　　　　 | 営業 |
       | 名　　　　　　 | 花子 |

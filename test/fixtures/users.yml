@@ -3,7 +3,7 @@ first:
   login_id: user1
   slips_per_page: 180
   email: user1@example.com
-  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378
 
 user2:
@@ -12,7 +12,7 @@ user2:
   admin: true
   slips_per_page: 20
   email: user2@example.com
-  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378
   
 user3:
@@ -21,7 +21,7 @@ user3:
   admin: true
   slips_per_page: 10
   email: user3@example.com
-  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378
 
 user4:
@@ -30,7 +30,7 @@ user4:
   admin: true
   slips_per_page: 30
   email: user4@example.com
-  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378
 
 user5:
@@ -39,7 +39,7 @@ user5:
   admin: true
   slips_per_page: 30
   email: user5@example.com
-  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378
 
 user6:
@@ -47,7 +47,7 @@ user6:
   login_id: user6
   slips_per_page: 30
   email: user6@example.com
-  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378
 
   
@@ -56,7 +56,7 @@ user8:
   login_id: user8
   slips_per_page: 30
   email: user8@example.com
-  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378
   
 user9:
@@ -64,5 +64,5 @@ user9:
   login_id: user9
   slips_per_page: 30
   email: user9@example.com
-  encrypted_password: '$2a$10$4ejws5/9IBHOl8iVPAVr6uk7ZIkis.ibWPU43UGIJ.ySZtYzSwDm.'
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378

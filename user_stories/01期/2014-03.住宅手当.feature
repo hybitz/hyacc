@@ -10,7 +10,7 @@
 
     * 従業員 三郎 を登録
       | ログインID　  | saburou |
-      | パスワード　　 | testtest |
+      | パスワード　　 | testpassword20260217 |
       | メールアドレス | saburou@example.com |
       | 姓　　　　　　 | 山田 |
       | 名　　　　　　 | 三郎 |

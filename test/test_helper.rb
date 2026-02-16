@@ -47,7 +47,7 @@ end
 class ActionDispatch::IntegrationTest
 
   def sign_in(user)
-    post user_session_path, params: {user: {login_id: user.login_id, password: 'testtest'}}
+    post user_session_path, params: {user: {login_id: user.login_id, password: 'testpassword20260217'}}
     assert_response :redirect
     assert_redirected_to root_path
 

@@ -589,6 +589,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-session_store
   acts_as_tree
+  bcrypt
   bootsnap
   bootstrap
   byebug

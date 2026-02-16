@@ -32,7 +32,7 @@ class FirstBootControllerTest < ActionController::TestCase
         },
         :fy => {:tax_management_type => TAX_MANAGEMENT_TYPE_EXEMPT},
         :e => {:last_name => '山田', :first_name => '花子', :sex => SEX_TYPE_F, :birth => 20.years.ago},
-        :u => {:login_id => 'test', :password => 'testtest', :email => 'test@example.com'}
+        :u => {:login_id => 'test', :password => 'testpassword20260217', :email => 'test@example.com'}
     }
 
     assert @c = assigns(:c)
@@ -54,7 +54,7 @@ class FirstBootControllerTest < ActionController::TestCase
         },
         :fy => {:tax_management_type => TAX_MANAGEMENT_TYPE_EXCLUSIVE},
         :e => {:last_name => '山田', :first_name => '花子', :sex => SEX_TYPE_F, :birth => 30.years.ago},
-        :u => {:login_id => 'test', :password => 'testtest', :email => 'test@example.com'}
+        :u => {:login_id => 'test', :password => 'testpassword20260217', :email => 'test@example.com'}
     }
 
     assert @c = assigns(:c)

@@ -17,7 +17,7 @@ module Login
     unless @_current_user&.login_id == user.login_id
       visit '/users/sign_in'
       fill_in 'ログインID', with: user.login_id
-      fill_in 'パスワード', with: 'testtest'
+      fill_in 'パスワード', with: 'testpassword20260217'
       click_on 'ログイン'
     end
 

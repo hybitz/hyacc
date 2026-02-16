@@ -8,7 +8,7 @@
   シナリオ: 従業員を雇用
     * 従業員 次郎 を登録
       | ログインID　  | jirou |
-      | パスワード　　 | testtest |
+      | パスワード　　 | testpassword20260217 |
       | メールアドレス | jirou@example.com |
       | 姓　　　　　　 | 開発 |
       | 名　　　　　　 | 次郎 |

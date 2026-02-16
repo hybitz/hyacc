@@ -8,7 +8,7 @@ module Login
       visit '/users/sign_in'
       assert has_selector?('form.new_user')
       fill_in 'ログインID', with: user.login_id
-      fill_in 'パスワード', with: 'testtest'
+      fill_in 'パスワード', with: 'testpassword20260217'
       click_on 'ログイン'
       assert has_link?('ログアウト')
     end

@@ -33,7 +33,7 @@ class Bs::InvestmentsController < Base::HyaccController
 
     begin
       @investment.transaction do
-        @investment.destroy!
+        destroy_investment!
         @investment = Investment.new(investment_params)
         save_investment!
       end
@@ -50,7 +50,7 @@ class Bs::InvestmentsController < Base::HyaccController
   def destroy
     @investment = Investment.find(params[:id])
     begin
-      @investment.destroy!
+      destroy_investment!
       flash[:notice] = '有価証券情報を削除しました。'
       redirect_to :action => :index
     rescue => e
@@ -98,6 +98,20 @@ class Bs::InvestmentsController < Base::HyaccController
         # 取引金額が0円（単元株数変更対応）の場合は自動仕訳しない
         @investment.save!
       end
+    end
+  end
+
+  def destroy_investment!
+    @investment.transaction do
+      jh = @investment.journal
+      # 伝票区分が有価証券以外の伝票に紐づいている場合は伝票を残し、関連のみ外す。
+      # マイグレーション（journal_detail → journal の investment_id 移行）により、
+      # 一般振替など伝票区分が有価証券でない既存伝票が investment_id を持っている場合がある。
+      if jh.present? && SLIP_TYPE_INVESTMENT != jh.slip_type
+        jh.update_column(:investment_id, nil)
+        @investment.reload
+      end
+      @investment.destroy
     end
   end
 

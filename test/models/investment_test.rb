@@ -4,7 +4,6 @@ class InvestmentTest < ActiveSupport::TestCase
 
   def test_save_購入ではsharesとtrading_valueが正のまま保存される
     investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
-    investment.buying_or_selling = 1
     investment.save!
     investment.reload
     assert investment.buying?

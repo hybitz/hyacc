@@ -11,9 +11,7 @@ module Auto::Journal
     def make_journals
       ret = []
 
-      # Investmentは売却時にbefore_saveでtrading_valueを負数として保存する。
-      # 伝票明細のamountは常に正数（貸借で表現）である前提のため、ここでは絶対値を使用する。
-      trading_value = @investment.trading_value.to_i.abs
+      trading_value = @investment.trading_value
 
       account_code = @investment.for_what == SECURITIES_TYPE_FOR_TRADING ? ACCOUNT_CODE_TRADING_SECURITIES : ACCOUNT_CODE_INVESTMENT_SECURITIES
       branch_id = @user.employee.company.head_branch.id

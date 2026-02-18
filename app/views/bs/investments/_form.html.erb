@@ -22,7 +22,7 @@
     </tr>
     <tr>
       <th><%= f.label :buying_or_selling %></th>
-      <td><%= f.radio_button :buying_or_selling, '1', { checked: @investment.buying_or_selling.blank? || @investment.buying_or_selling == '1' } %>購入　<%= f.radio_button :buying_or_selling, '0', { checked: @investment.buying_or_selling == '0' } %>売却</td>
+      <td><%= f.radio_button :buying_or_selling, '1', { checked: @investment.buying_or_selling.blank? || @investment.buying_or_selling == 1 } %>購入　<%= f.radio_button :buying_or_selling, '0', { checked: @investment.buying_or_selling == 0 } %>売却</td>
     </tr>
     <tr>
       <th><%= f.label :for_what %></th>

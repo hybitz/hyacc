@@ -1,5 +1,6 @@
 attributes1:
   id: 1
+  buying_or_selling: 1
   shares: 100
   trading_value: 240000
   created_at: 2016-03-28 03:59:41
@@ -11,6 +12,7 @@ attributes1:
   for_what: 1
 attributes2:
   id: 2
+  buying_or_selling: 1
   shares: 500
   trading_value: 100000
   created_at: 2016-03-28 04:00:09
@@ -22,8 +24,9 @@ attributes2:
   for_what: 1
 attributes3:
   id: 3
-  shares: -300
-  trading_value: -330000
+  buying_or_selling: 0
+  shares: 300
+  trading_value: 330000
   created_at: 2016-03-28 04:15:14
   updated_at: 2016-03-28 04:15:14
   customer_id: 24

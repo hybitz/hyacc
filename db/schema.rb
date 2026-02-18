@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_02_02_100003) do
+ActiveRecord::Schema[7.2].define(version: 2026_02_18_100002) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "code", default: "", null: false
     t.string "name", default: "", null: false
@@ -417,10 +417,11 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_02_100003) do
     t.integer "ym", null: false
     t.integer "day", null: false
     t.integer "bank_account_id", null: false
-    t.integer "journal_detail_id"
     t.integer "for_what", null: false
     t.integer "charges", default: 0, null: false
     t.integer "gains", default: 0, null: false
+    t.integer "journal_detail_id"
+    t.integer "buying_or_selling", default: 1, null: false
   end
 
   create_table "journal_details", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|

@@ -2,6 +2,27 @@ require 'test_helper'
 
 class InvestmentTest < ActiveSupport::TestCase
 
+  def test_save_購入ではsharesとtrading_valueが正のまま保存される
+    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
+    investment.buying_or_selling = 1
+    investment.save!
+    investment.reload
+    assert investment.buying?
+    assert_equal 20, investment.shares
+    assert_equal 100_000, investment.trading_value
+  end
+
+  def test_save_売却ではsharesとtrading_valueが正のまま保存される
+    investment = Investment.new(
+      investment_params.merge(charges: 0, bank_account_id: bank_account.id, buying_or_selling: 0, gains: 0)
+    )
+    investment.save!
+    investment.reload
+    assert investment.selling?
+    assert_equal 20, investment.shares
+    assert_equal 100_000, investment.trading_value
+  end
+
   def test_set_yyyymmdd
     investment = Investment.first
     assert_equal 201503, investment.ym

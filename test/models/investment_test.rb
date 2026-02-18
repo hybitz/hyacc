@@ -72,4 +72,13 @@ class InvestmentTest < ActiveSupport::TestCase
     end
   end
 
+  def test_有価証券以外の伝票に紐づいているときは削除できない
+    investment = Investment.find(2)
+    jh = Journal.where.not(slip_type: SLIP_TYPE_INVESTMENT).first
+    jh.update_column(:investment_id, investment.id)
+
+    assert_raises(HyaccException) { investment.destroy }
+    assert Investment.exists?(investment.id)
+  end
+
 end

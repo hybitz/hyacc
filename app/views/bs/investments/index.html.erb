@@ -1,7 +1,6 @@
 <%= render 'search' %>
-<% if @investments %>
 <%= render 'common/message' %>
-
+<% if @investments %>
 <div class="col-md-8">
   <table class="table table-striped table-hover">
     <thead>
@@ -26,7 +25,7 @@
           <td class="right"><%= '△' if inv.selling? %><%= to_amount(inv.trading_value + inv.gains) %></td>
           <td class="center">
             <%= link_to '編集', edit_bs_investment_path(inv), remote: true, class: 'btn btn-light btn-sm' %>
-            <%= link_to '削除', bs_investment_path(inv),
+            <%= link_to '削除', bs_investment_path(inv, index_query_params),
                   data: {confirm: '伝票を削除します。よろしいですか？'}, method: :delete, class: 'btn btn-light btn-sm' %>
           </td>
         </tr>
@@ -41,4 +40,6 @@
     </tfoot>
   </table>
 </div>
+<% else %>
+<div class="col-md-8"></div>
 <% end %>

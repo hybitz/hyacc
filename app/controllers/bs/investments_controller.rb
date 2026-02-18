@@ -2,7 +2,7 @@ class Bs::InvestmentsController < Base::HyaccController
   include BankAccountsAware
 
   view_attribute :customers, only: [:new,:create,:edit,:update], conditions: {is_investment: true, deleted: false}
-  helper_method :finder
+  helper_method :finder, :index_query_params
 
   def index
     @investments = finder.list if params[:commit]
@@ -55,7 +55,7 @@ class Bs::InvestmentsController < Base::HyaccController
       redirect_to :action => :index
     rescue => e
       handle(e)
-      redirect_to :action => :index
+      redirect_to :action => :index, params: index_query_params
     end
   end
 
@@ -74,6 +74,18 @@ class Bs::InvestmentsController < Base::HyaccController
 
   def finder_params
     params.fetch(:finder, {}).permit(:fiscal_year, :bank_account_id)
+  end
+
+  def index_query_params
+    p = {}
+    p[:commit] = params[:commit] if params[:commit].present?
+    if params[:finder].present?
+      p[:finder] = {
+        fiscal_year: params[:finder][:fiscal_year],
+        bank_account_id: params[:finder][:bank_account_id]
+      }.compact
+    end
+    p
   end
 
   def investment_params

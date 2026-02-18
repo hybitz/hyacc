@@ -9,7 +9,7 @@ class Bs::InvestmentsController < Base::HyaccController
   end
 
   def new
-    @investment = Investment.new
+    @investment = Investment.new(buying_or_selling: 1)
   end
 
   def create

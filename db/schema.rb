@@ -421,7 +421,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_02_18_100002) do
     t.integer "charges", default: 0, null: false
     t.integer "gains", default: 0, null: false
     t.integer "journal_detail_id"
-    t.integer "buying_or_selling", default: 1, null: false
+    t.integer "buying_or_selling", null: false
   end
 
   create_table "journal_details", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|

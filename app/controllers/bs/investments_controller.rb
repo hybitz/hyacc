@@ -2,7 +2,7 @@ class Bs::InvestmentsController < Base::HyaccController
   include BankAccountsAware
 
   view_attribute :customers, only: [:new,:create,:edit,:update], conditions: {is_investment: true, deleted: false}
-  helper_method :finder
+  helper_method :finder, :index_query_params
 
   def index
     @investments = finder.list if params[:commit]
@@ -33,7 +33,7 @@ class Bs::InvestmentsController < Base::HyaccController
 
     begin
       @investment.transaction do
-        destroy_investment!
+        @investment.destroy!
         @investment = Investment.new(investment_params)
         save_investment!
       end
@@ -50,12 +50,12 @@ class Bs::InvestmentsController < Base::HyaccController
   def destroy
     @investment = Investment.find(params[:id])
     begin
-      destroy_investment!
+      @investment.destroy!
       flash[:notice] = '有価証券情報を削除しました。'
       redirect_to :action => :index
     rescue => e
       handle(e)
-      redirect_to :action => :index
+      redirect_to :action => :index, params: index_query_params
     end
   end
 
@@ -74,6 +74,18 @@ class Bs::InvestmentsController < Base::HyaccController
 
   def finder_params
     params.fetch(:finder, {}).permit(:fiscal_year, :bank_account_id)
+  end
+
+  def index_query_params
+    p = {}
+    p[:commit] = params[:commit] if params[:commit].present?
+    if params[:finder].present?
+      p[:finder] = {
+        fiscal_year: params[:finder][:fiscal_year],
+        bank_account_id: params[:finder][:bank_account_id]
+      }.compact
+    end
+    p
   end
 
   def investment_params
@@ -98,20 +110,6 @@ class Bs::InvestmentsController < Base::HyaccController
         # 取引金額が0円（単元株数変更対応）の場合は自動仕訳しない
         @investment.save!
       end
-    end
-  end
-
-  def destroy_investment!
-    @investment.transaction do
-      jh = @investment.journal
-      # 伝票区分が有価証券以外の伝票に紐づいている場合は伝票を残し、関連のみ外す。
-      # マイグレーション（journal_detail → journal の investment_id 移行）により、
-      # 一般振替など伝票区分が有価証券でない既存伝票が investment_id を持っている場合がある。
-      if jh.present? && SLIP_TYPE_INVESTMENT != jh.slip_type
-        jh.update_column(:investment_id, nil)
-        @investment.reload
-      end
-      @investment.destroy
     end
   end
 

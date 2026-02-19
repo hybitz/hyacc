@@ -21,7 +21,7 @@ spec:
     imagePullPolicy: Always
     resources:
       requests:
-        memory: 256Mi
+        memory: 384Mi
     command:
     - cat
     tty: true
@@ -34,50 +34,16 @@ spec:
             sh "bundle exec rake dad:db:create"
             sh "bundle exec rails db:reset"
             sh 'bundle exec rake dad:test'
-          }
-        }
-      }
-      post {
-        always { publishE2EResult('Featues') }
-      }
-    }
-    stage('user_stories') {
-      agent {
-        kubernetes {
-          inheritFrom 'default mysql chrome'
-          yaml """
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: app
-    image: ${ECR}/${APP_NAME}/test:latest
-    imagePullPolicy: Always
-    resources:
-      requests:
-        memory: 256Mi
-    command:
-    - cat
-    tty: true
-"""
-        }
-      }
-      steps {
-        container('app') {
-          ansiColor('xterm') {
-            sh "bundle exec rake dad:db:create"
-            sh "bundle exec rails db:reset"
             sh 'bundle exec rake dad:test user_stories'
           }
         }
       }
       post {
-        always { publishE2EResult('UserStories') }
+        always {
+          publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'features/reports', reportName: 'Features', reportFiles: 'index.html'])
+          publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'user_stories/reports', reportName: 'UserStories', reportFiles: 'index.html'])
+        }
       }
     }
   }
-}
-
-def publishE2EResult(reportName) {
-  publishHTML(target: [allowMissing: true, alwaysLinkToLastBuild: true, reportDir: 'features/reports', reportName: reportName, reportFiles: 'index.html'])
 }

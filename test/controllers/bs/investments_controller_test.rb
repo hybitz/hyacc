@@ -21,6 +21,23 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
     journal_detail_ids.each { |id| assert_nil JournalDetail.find_by(id: id) }
   end
 
+  def test_有価証券以外の伝票に紐づいているときは削除できずfinderを維持して一覧に戻る
+    investment = Investment.find(2)
+    jh = Journal.where.not(slip_type: SLIP_TYPE_INVESTMENT).first
+    jh.update_column(:investment_id, investment.id)
+
+    delete :destroy, params: {
+      id: investment.id,
+      finder: { fiscal_year: 2016, bank_account_id: 3 },
+      commit: '表示'
+    }
+
+    assert_redirected_to bs_investments_path(finder: { fiscal_year: 2016, bank_account_id: 3 }, commit: '表示')
+    assert_equal ERR_INVESTMENT_UNLINK_REQUIRED, flash[:notice]
+    assert flash[:is_error_message]
+    assert Investment.exists?(investment.id)
+  end
+
   def test_新規一括登録で3階層が一度に保存される
     assert_difference(['Investment.count', 'Journal.count']) do
       post :create, xhr: true, params: {

@@ -54,7 +54,9 @@ module Reports
     # 期末時点の株数と購入額合計
     def get_total_shares_and_trading_values
       sql = SqlBuilder.new
-      sql.append('select customer_id, bank_account_id, sum(shares) as shares, sum(trading_value) as trading_value')
+      sql.append('select customer_id, bank_account_id,')
+      sql.append('  sum(case when buying_or_selling = 1 then shares else -shares end) as shares,')
+      sql.append('  sum(case when buying_or_selling = 1 then trading_value else -trading_value end) as trading_value')
       sql.append('from investments')
       sql.append('where ym <= ?', end_ym)
       sql.append('group by customer_id, bank_account_id')

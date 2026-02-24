@@ -10,14 +10,11 @@ class Investment < ApplicationRecord
   validates_numericality_of :shares, :greater_than => 0
   validates_numericality_of :trading_value, :greater_than_or_equal_to => 0
   validates_numericality_of :charges, :greater_than_than_or_equal_to => 0
-  
-  attr_accessor :buying_or_selling
+
   attr_accessor :yyyymmdd
-  
+
   before_save :set_ym_and_day
-  before_save :set_trading_value
   before_destroy :ensure_journal_is_investment_slip
-  after_find :set_buying_or_sellng
   after_find :set_yyyymmdd
 
   def deal_date
@@ -25,11 +22,11 @@ class Investment < ApplicationRecord
   end
 
   def buying?
-    buying_or_selling == '1'
+    buying_or_selling == 1
   end
 
   def selling?
-    buying_or_selling == '0'
+    buying_or_selling == 0
   end
 
   def yyyymmdd_before_type_cast
@@ -53,22 +50,6 @@ class Investment < ApplicationRecord
   end
 
   def set_yyyymmdd
-    self.yyyymmdd = self.ym.to_s[0,4] + '-' + self.ym.to_s[4,2] + '-' + self.day.to_s.rjust(2, '0') 
-  end
-
-  def set_trading_value
-    if selling?
-      self.shares = self.shares * -1
-      self.trading_value = self.trading_value * -1
-    end
-  end
-
-  def set_buying_or_sellng
-    self.buying_or_selling = '1'
-    if self.trading_value < 0 || self.shares < 0
-      self.shares = self.shares * -1
-      self.trading_value = self.trading_value * -1
-      self.buying_or_selling = '0'
-    end
+    self.yyyymmdd = self.ym.to_s[0,4] + '-' + self.ym.to_s[4,2] + '-' + self.day.to_s.rjust(2, '0')
   end
 end

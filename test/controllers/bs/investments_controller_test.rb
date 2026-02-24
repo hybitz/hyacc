@@ -92,9 +92,10 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_追加
+  def test_追加では購入が初期値で設定される
     get :new, xhr: true
     assert_response :success
+    assert_equal 1, assigns(:investment).buying_or_selling
   end
 
   def test_手数料が0円でも追加と更新ができること

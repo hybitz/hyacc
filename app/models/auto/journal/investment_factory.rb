@@ -11,8 +11,6 @@ module Auto::Journal
     def make_journals
       ret = []
 
-      trading_value = @investment.trading_value
-
       account_code = @investment.for_what == SECURITIES_TYPE_FOR_TRADING ? ACCOUNT_CODE_TRADING_SECURITIES : ACCOUNT_CODE_INVESTMENT_SECURITIES
       branch_id = @user.employee.company.head_branch.id
       split = @investment.yyyymmdd.split("-")
@@ -39,7 +37,7 @@ module Auto::Journal
       jd.account_id = Account.find_by_code(account_code).id
       jd.branch_id = branch_id
       jd.tax_type = TAX_TYPE_NONTAXABLE
-      jd.amount = trading_value
+      jd.amount = @investment.trading_value
 
       ## 売却益
       ## TODO 売却損にまだ未対応
@@ -107,10 +105,10 @@ module Auto::Journal
       jd.tax_type = TAX_TYPE_NONTAXABLE
       if @investment.buying?
         jd.dc_type = DC_TYPE_CREDIT
-        jd.amount = trading_value + @investment.gains + @investment.charges.to_i
+        jd.amount = @investment.trading_value + @investment.gains + @investment.charges.to_i
       else
         jd.dc_type = DC_TYPE_DEBIT
-        jd.amount = trading_value + @investment.gains - @investment.charges.to_i
+        jd.amount = @investment.trading_value + @investment.gains - @investment.charges.to_i
       end
 
       ret << jh

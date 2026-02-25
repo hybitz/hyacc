@@ -1,6 +1,4 @@
 class Investment < ApplicationRecord
-  include HyaccErrors
-
   belongs_to :customer
   belongs_to :bank_account
   has_one :journal, dependent: :destroy
@@ -14,7 +12,6 @@ class Investment < ApplicationRecord
   attr_accessor :yyyymmdd
 
   before_save :set_ym_and_day
-  before_destroy :ensure_journal_is_investment_slip
   after_find :set_yyyymmdd
 
   def deal_date
@@ -34,14 +31,6 @@ class Investment < ApplicationRecord
   end
 
   private
-
-  def ensure_journal_is_investment_slip
-    jh = journal
-    return unless jh.present?
-    return if jh.slip_type == SLIP_TYPE_INVESTMENT
-
-    raise HyaccException.new(ERR_INVESTMENT_UNLINK_REQUIRED)
-  end
 
   def set_ym_and_day
     split = self.yyyymmdd.split("-")

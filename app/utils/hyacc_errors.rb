@@ -25,7 +25,6 @@ module HyaccErrors
   ERR_INVALID_TAX_TYPE = "不正な消費税区分です。"
   ERR_ILLEGAL_STATE = "予期せぬ状態です。"
   ERR_ILLEGAL_TAX_DETAIL = "消費税は税抜経理方式の場合のみ指定可能です。"
-  ERR_INVESTMENT_UNLINK_REQUIRED = "有価証券以外の伝票に紐づいているため削除できません。"
   ERR_NO_CAPITATION_TARGET_BRANCH_EXISTS = "人頭割で配賦できる部門がありません。"
   ERR_NOT_JOURNALIZABLE_ACCOUNT = "仕訳が登録できない勘定科目が指定されています。"
   ERR_OVERRIDE_NEEDED = "サブクラスでの実装が必要です。"

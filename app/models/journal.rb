@@ -18,7 +18,7 @@ class Journal < ApplicationRecord
   accepts_nested_attributes_for :tax_admin_info
 
   validates_presence_of :company_id, :ym, :day, :remarks
-  validates_format_of :ym, :with => /[0-9]{6}/ # TODO 月をもっと正確にチェック
+  validates_format_of :ym, :with => /\A[0-9]{6}\z/ # TODO 月をもっと正確にチェック
   validates_with JournalValidator
 
   has_one :receipt, -> { where deleted: false }, inverse_of: 'journal'

@@ -17,6 +17,8 @@ module AccountDetails
         FixedAssetRenderer.new(account)
       elsif account.settlement_type_required?
         SettlementTypeRenderer.new(account)
+      elsif account.path.include? ACCOUNT_CODE_DONATION
+        DonationRenderer.new(account)
       else
         nil
       end

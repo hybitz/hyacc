@@ -18,6 +18,10 @@ class JournalDetail < ApplicationRecord
   has_one :asset, dependent: :destroy
   accepts_nested_attributes_for :asset
 
+  has_one :journal_detail_donation_recipient, dependent: :destroy
+  has_one :donation_recipient, through: :journal_detail_donation_recipient
+  accepts_nested_attributes_for :journal_detail_donation_recipient, allow_destroy: true, reject_if: :reject_blank_donation_recipient?
+
   has_one :tax_detail, foreign_key: :main_detail_id, class_name: 'JournalDetail', dependent: :destroy
   belongs_to :main_detail, class_name: 'JournalDetail', optional: true
 
@@ -175,6 +179,11 @@ class JournalDetail < ApplicationRecord
   end
 
   private
+
+  # 寄付先未選択の場合は JDR を作らない（DB は NOT NULL のため）。_destroy のときは除外しない
+  def reject_blank_donation_recipient?(attrs)
+    attrs['donation_recipient_id'].blank? && attrs['_destroy'].to_s != '1'
+  end
 
   def set_asset
     return unless dc_type == DC_TYPE_DEBIT

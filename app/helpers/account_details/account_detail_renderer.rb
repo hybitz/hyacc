@@ -13,7 +13,7 @@ module AccountDetails
       account = Account.find(account_id)
       if account.path.include? ACCOUNT_CODE_SOCIAL_EXPENSE
         SocialExpenseRenderer.new(account)
-      elsif account.depreciable
+      elsif account.depreciable?
         FixedAssetRenderer.new(account)
       elsif account.settlement_type_required?
         SettlementTypeRenderer.new(account)

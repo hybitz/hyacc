@@ -7,8 +7,6 @@ module Reports
     # ・寄附金は借方のみ計上されるケースのみ対応
     # ・「その他の寄附金額」（3行目）の欄には「国外関連者に対する寄附金額及び本店等に対する内部寄附金額」(19行目)と「特定公益信託(認定特定公益信託を除く。)に対する支出金」も含めるという前提で計算する
     # ・下段の明細は日付、金額のみ対応
-    include HyaccConst
-
     def build_model
       provisional_income_amount_from_appendix04 = Appendix04Logic.new(finder).build_core_model.provisional_amount
 
@@ -40,8 +38,11 @@ module Reports
       [donations.size, 3].max.times do |i|
         jd = donations[i]
         detail = Appendix1402DetailModel.new
-        detail.ymd = build_date_from_journal(jd.journal) if jd.present?
-        detail.amount = jd.amount if jd.present?
+        if jd.present?
+          detail.ymd = build_date_from_journal(jd.journal)
+          detail.amount = jd.amount
+          detail.donation_recipient = jd.journal_detail_donation_recipient&.donation_recipient
+        end
         details << detail
       end
       details
@@ -56,15 +57,6 @@ module Reports
 
     private
 
-    DONATION_SUB_ACCOUNT_CODES = {
-      designated: SUB_ACCOUNT_CODE_DONATION_DESIGNATED,
-      public_interest: SUB_ACCOUNT_CODE_DONATION_PUBLIC_INTEREST,
-      non_certified_trust: SUB_ACCOUNT_CODE_DONATION_NON_CERTIFIED_TRUST,
-      fully_controlled: SUB_ACCOUNT_CODE_DONATION_FULLY_CONTROLLED,
-      foreign_affiliate: SUB_ACCOUNT_CODE_DONATION_FOREIGN_AFFILIATE,
-      others: SUB_ACCOUNT_CODE_DONATION_OTHERS
-    }.freeze
-
     def fetch_and_group_donations(ym_start, ym_end)
       cache_key = [ym_start, ym_end, branch_id]
       @donation_journal_details_cache ||= {}
@@ -76,7 +68,9 @@ module Reports
 
       donation_details = JournalDetail.where(account_id: account_id, sub_account_id: sub_accounts.values)
       donation_details = donation_details.where(branch_id: branch_id) if branch_id > 0
-      donation_details = donation_details.joins(:journal).where("journals.ym >= ? and journals.ym <= ?", ym_start, ym_end).includes(:journal).to_a
+      donation_details = donation_details.joins(:journal)
+        .where("journals.ym >= ? and journals.ym <= ?", ym_start, ym_end)
+        .includes(:journal, journal_detail_donation_recipient: :donation_recipient).to_a
 
       grouped = donation_details.group_by(&:sub_account_id)
       result = {}
@@ -189,6 +183,7 @@ module Reports
   class Appendix1402DetailModel
     attr_accessor :ymd
     attr_accessor :amount
+    attr_accessor :donation_recipient
   end
    
 end

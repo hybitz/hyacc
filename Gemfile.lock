@@ -175,7 +175,7 @@ GEM
       itamae-plugin-recipe-daddy
       itamae-plugin-resource-pip
       ohai
-    dalli (4.2.0)
+    dalli (4.3.3)
       logger
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
@@ -604,7 +604,7 @@ DEPENDENCIES
   cucumber
   cucumber-rails
   daddy
-  dalli
+  dalli (< 5.0.0)
   database_cleaner
   devise
   devise-i18n

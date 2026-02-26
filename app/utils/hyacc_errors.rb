@@ -1,6 +1,7 @@
 module HyaccErrors
 
   ERR_ACCOUNT_ALREADY_USED = "既に伝票の存在する勘定科目のため削除できません。"
+  ERR_DONATION_RECIPIENT_LINKED = "振替伝票に紐づいているため削除できません。"
   ERR_AMOUNT_UNBALANCED_BY_BRANCH = "部門別で貸借の金額が一致しません。"
   ERR_CANNOT_CHANGE_ASSET_NOT_STATUS_CREATED = "償却対象の資産が存在するため変更できません。"
   ERR_CANNOT_CHANGE_SUB_ACCOUNT_TYPE = "既に伝票の存在する勘定科目のため補助科目区分を変更できません。"

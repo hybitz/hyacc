@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     end
 
     resources :customers
+    resources :donation_recipients
 
     resources :employees do
       collection do

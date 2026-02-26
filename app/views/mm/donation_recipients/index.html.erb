@@ -1,0 +1,29 @@
+<div class="mt-4 col-md-6">
+  <%= flash_notice %>
+
+  <table class="table table-sm table-hover">
+    <thead>
+      <tr>
+        <th class="text-nowrap" style="width: 35%;"><%= DonationRecipient.human_attribute_name :kind %></th>
+        <th style="width: 60%;"><%= DonationRecipient.human_attribute_name :name %></th>
+        <th class="text-center text-nowrap" style="width: 1%;"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @donation_recipients.each do |dr| %>
+        <tr>
+          <td class="align-middle text-nowrap"><%= donation_recipient_kind_label(dr.kind) %></td>
+          <td class="align-middle"><%= dr.name %></td>
+          <td class="text-center text-nowrap">
+            <%= link_to '参照', mm_donation_recipient_path(dr), remote: true, class: 'btn btn-light' %>
+            <%= link_to '編集', edit_mm_donation_recipient_path(dr), remote: true, class: 'btn btn-light' %>
+            <%= link_to '削除', mm_donation_recipient_path(dr), method: :delete, class: 'btn btn-light', data: { confirm: "寄付先「#{dr.name}」を削除します。\nよろしいですか？" } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @donation_recipients %>
+  <%= link_to '追加', new_mm_donation_recipient_path, class: 'add btn btn-light', remote: true %>
+</div>

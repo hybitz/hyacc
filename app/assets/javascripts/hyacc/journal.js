@@ -272,7 +272,9 @@ hyacc.Journal.prototype._init_event_handlers = function() {
           dc_type: params.dc_type,
           detail_id: params.detail_id
         };
-        if (subAccountId) detailParams.sub_account_id = subAccountId;
+        if (subAccountId) {
+          detailParams.sub_account_id = subAccountId;
+        }
         $.get(that.options.get_account_detail_path, detailParams, function(html) {
           $('#journal_details_' + params.index + '_account_detail').html(html);
         });

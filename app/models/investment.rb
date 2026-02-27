@@ -19,11 +19,11 @@ class Investment < ApplicationRecord
   end
 
   def buying?
-    buying_or_selling == 1
+    buying_or_selling == SECURITIES_TRANSACTION_TYPE_BUYING
   end
 
   def selling?
-    buying_or_selling == 0
+    buying_or_selling == SECURITIES_TRANSACTION_TYPE_SELLING
   end
 
   def yyyymmdd_before_type_cast

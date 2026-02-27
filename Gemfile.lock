@@ -82,7 +82,7 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
     acts_as_tree (2.9.1)
       activerecord (>= 3.0.0)
-    addressable (2.8.8)
+    addressable (2.8.9)
       public_suffix (>= 2.0.2, < 8.0)
     ansi (1.5.0)
     base64 (0.3.0)
@@ -90,7 +90,7 @@ GEM
     benchmark (0.5.0)
     bigdecimal (4.0.1)
     bindex (0.8.1)
-    bootsnap (1.22.0)
+    bootsnap (1.23.0)
       msgpack (~> 1.2)
     bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
@@ -190,8 +190,8 @@ GEM
       railties (>= 7.0)
       responders
       warden (~> 1.2.3)
-    devise-i18n (1.15.0)
-      devise (>= 4.9.0)
+    devise-i18n (1.16.0)
+      devise (>= 5.0.0)
       rails-i18n
     diff-lcs (1.6.2)
     docile (1.4.1)
@@ -271,7 +271,7 @@ GEM
       itamae-plugin-resource-pip (~> 1.1)
     itamae-plugin-recipe-passenger (0.1.8)
       itamae (~> 1.10, >= 1.10.4)
-    itamae-plugin-recipe-selenium (0.5.4)
+    itamae-plugin-recipe-selenium (0.5.5)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.0)
       itamae (~> 1.2)
@@ -304,7 +304,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2026.0127)
+    mime-types-data (3.2026.0224)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -382,7 +382,7 @@ GEM
       logger
       rack (>= 2.2.3)
       rack-protection
-    omniauth-google-oauth2 (1.2.1)
+    omniauth-google-oauth2 (1.2.2)
       jwt (>= 2.9.2)
       oauth2 (~> 2.0)
       omniauth (~> 2.0)
@@ -494,7 +494,7 @@ GEM
       tilt
     schash (0.1.2)
     securerandom (0.4.1)
-    selenium-webdriver (4.40.0)
+    selenium-webdriver (4.41.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
@@ -510,7 +510,7 @@ GEM
     snaky_hash (2.0.3)
       hashie (>= 0.1.0, < 6)
       version_gem (>= 1.1.8, < 3)
-    specinfra (2.94.1)
+    specinfra (2.94.2)
       base64
       net-scp
       net-ssh (>= 2.7)
@@ -533,7 +533,7 @@ GEM
       actionpack (>= 6.0, < 8.0)
       activesupport (>= 6.0, < 8.0)
       railties (>= 6.0, < 8.0)
-    sys-uname (1.4.1)
+    sys-uname (1.5.0)
       ffi (~> 1.1)
       memoist3 (~> 1.0.0)
     tax_jp (1.8.0)

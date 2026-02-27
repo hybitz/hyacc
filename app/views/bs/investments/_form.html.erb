@@ -22,11 +22,11 @@
     </tr>
     <tr>
       <th><%= f.label :buying_or_selling %></th>
-      <td><%= f.radio_button :buying_or_selling, HyaccConst::SECURITIES_TRANSACTION_TYPE_BUYING.to_s, { checked: @investment.buying_or_selling == HyaccConst::SECURITIES_TRANSACTION_TYPE_BUYING } %>購入　<%= f.radio_button :buying_or_selling, HyaccConst::SECURITIES_TRANSACTION_TYPE_SELLING.to_s, { checked: @investment.buying_or_selling == HyaccConst::SECURITIES_TRANSACTION_TYPE_SELLING } %>売却</td>
+      <td><%= f.radio_button :buying_or_selling, HyaccConst::SECURITIES_TRANSACTION_TYPE_BUYING, { checked: @investment.buying_or_selling == HyaccConst::SECURITIES_TRANSACTION_TYPE_BUYING } %>購入　<%= f.radio_button :buying_or_selling, HyaccConst::SECURITIES_TRANSACTION_TYPE_SELLING, { checked: @investment.buying_or_selling == HyaccConst::SECURITIES_TRANSACTION_TYPE_SELLING } %>売却</td>
     </tr>
     <tr>
       <th><%= f.label :for_what %></th>
-      <td><%= f.radio_button :for_what, HyaccConst::SECURITIES_TYPE_FOR_TRADING, { checked: @investment.for_what.blank? || @investment.for_what.to_s == HyaccConst::SECURITIES_TYPE_FOR_TRADING.to_s } %>売買目的（1年以内）　<%= f.radio_button :for_what, HyaccConst::SECURITIES_TYPE_FOR_INVESTMENT, { checked: @investment.for_what.present? && @investment.for_what.to_s == HyaccConst::SECURITIES_TYPE_FOR_INVESTMENT.to_s } %>投資目的（1年越え）</td>
+      <td><%= f.radio_button :for_what, HyaccConst::SECURITIES_TYPE_FOR_TRADING, { checked: @investment.for_what.blank? || @investment.for_what == HyaccConst::SECURITIES_TYPE_FOR_TRADING } %>売買目的（1年以内）　<%= f.radio_button :for_what, HyaccConst::SECURITIES_TYPE_FOR_INVESTMENT, { checked: @investment.for_what.present? && @investment.for_what == HyaccConst::SECURITIES_TYPE_FOR_INVESTMENT } %>投資目的（1年越え）</td>
     </tr>
     <tr>
       <th><%= f.label :shares %></th>

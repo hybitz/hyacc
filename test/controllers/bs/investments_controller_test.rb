@@ -8,7 +8,7 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
 
   def test_削除で3階層が連鎖して物理削除される
     post :create, xhr: true, params: {
-      investment: { yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING.to_s, for_what: '1', shares: '20', trading_value: '100000', charges: '0' }
+      investment: { yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING, for_what: '1', shares: '20', trading_value: '100000', charges: '0' }
     }
     assert_response :success
     investment = Investment.order(:id).last
@@ -24,7 +24,7 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
   def test_新規一括登録で3階層が一度に保存される
     assert_difference(['Investment.count', 'Journal.count']) do
       post :create, xhr: true, params: {
-        investment: { yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING.to_s, for_what: '1', shares: '20', trading_value: '100000', charges: '0' }
+        investment: { yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING, for_what: '1', shares: '20', trading_value: '100000', charges: '0' }
       }
     end
     assert_response :success
@@ -38,7 +38,7 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
   def test_売却でも自動仕訳を作成できること
     assert_difference(['Investment.count', 'Journal.count']) do
       post :create, xhr: true, params: {
-        investment: { yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_SELLING.to_s, for_what: '1', shares: '20', trading_value: '100000', charges: '0', gains: '0' }
+        investment: { yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_SELLING, for_what: '1', shares: '20', trading_value: '100000', charges: '0', gains: '0' }
       }
     end
     assert_response :success
@@ -82,7 +82,7 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
   end
 
   def test_手数料が0円でも追加と更新ができること
-    params = { yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING.to_s, for_what: '1', shares: '20', trading_value: '100000', charges: '0' }
+    params = { yyyymmdd: '2016-03-27', bank_account_id: bank_account.id, customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING, for_what: '1', shares: '20', trading_value: '100000', charges: '0' }
     assert_difference('Investment.count') do
       post :create, xhr: true, params: { investment: params }
       assert_response :success
@@ -100,7 +100,7 @@ class Bs::InvestmentsControllerTest < ActionController::TestCase
   def test_更新_エラー
     assert_no_difference('Investment.count') do
       patch :update, xhr: true, params: {
-        investment: { yyyymmdd: '2015-03-27', bank_account_id: '3', customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING.to_s, for_what: '1', shares: '0', trading_value: '240000', charges: '0' },
+        investment: { yyyymmdd: '2015-03-27', bank_account_id: '3', customer_id: '1', buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING, for_what: '1', shares: '0', trading_value: '240000', charges: '0' },
         id: 1
       }
       assert_response :success

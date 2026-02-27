@@ -255,6 +255,12 @@ module HyaccConst
     REPORT_STYLE_YEARLY = 2 => '年間',
   }
 
+  # 有価証券売買区分
+  SECURITIES_TRANSACTION_TYPES = {
+    SECURITIES_TRANSACTION_TYPE_BUYING = 1 => '購入',
+    SECURITIES_TRANSACTION_TYPE_SELLING = 0 => '売却',
+  }
+
   # 有価証券目的区分
   SECURITIES_TYPES = {
     SECURITIES_TYPE_FOR_TRADING = 1 => '売買目的（1年以内）',

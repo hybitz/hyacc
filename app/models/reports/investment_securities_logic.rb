@@ -55,8 +55,8 @@ module Reports
     def get_total_shares_and_trading_values
       sql = SqlBuilder.new
       sql.append('select customer_id, bank_account_id,')
-      sql.append('  sum(case when buying_or_selling = 1 then shares else -shares end) as shares,')
-      sql.append('  sum(case when buying_or_selling = 1 then trading_value else -trading_value end) as trading_value')
+      sql.append("  sum(case when buying_or_selling = #{SECURITIES_TRANSACTION_TYPE_BUYING} then shares else -shares end) as shares,")
+      sql.append("  sum(case when buying_or_selling = #{SECURITIES_TRANSACTION_TYPE_BUYING} then trading_value else -trading_value end) as trading_value")
       sql.append('from investments')
       sql.append('where ym <= ?', end_ym)
       sql.append('group by customer_id, bank_account_id')

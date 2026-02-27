@@ -13,7 +13,7 @@ class InvestmentTest < ActiveSupport::TestCase
 
   def test_save_売却ではsharesとtrading_valueが正のまま保存される
     investment = Investment.new(
-      investment_params.merge(charges: 0, bank_account_id: bank_account.id, buying_or_selling: 0, gains: 0)
+      investment_params.merge(charges: 0, bank_account_id: bank_account.id, buying_or_selling: SECURITIES_TRANSACTION_TYPE_SELLING, gains: 0)
     )
     investment.save!
     investment.reload

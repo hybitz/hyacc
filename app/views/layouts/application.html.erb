@@ -11,9 +11,6 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
     <script>
-      I18n.defaultLocale = '<%= I18n.default_locale %>';
-      I18n.locale = '<%= I18n.locale %>';
-
       $(document).on('page:fetch', function() {
         $('body').css('cursor', 'wait');
       });

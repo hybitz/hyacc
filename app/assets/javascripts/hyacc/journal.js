@@ -29,10 +29,10 @@ hyacc.Journal.prototype.flip_details = function(show) {
 
     if (show) {
       that._show_detail(detail);
-      link.text(I18n.t('text.hide_detail'));
+      that._set_flip_button_state(link, true);
     } else {
       that._hide_detail(detail);
-      link.text(I18n.t('text.show_detail'));
+      that._set_flip_button_state(link, false);
     }
   });
 };
@@ -41,12 +41,12 @@ hyacc.Journal.prototype.flip_detail = function(trigger) {
   var detail = this._get_detail(trigger);
   var link = $(trigger);
 
-  if (link.text() == I18n.t('text.hide_detail')) {
+  if (this._is_detail_shown(detail)) {
     this._hide_detail(detail);
-    link.text(I18n.t('text.show_detail'));
+    this._set_flip_button_state(link, false);
   } else {
     this._show_detail(detail);
-    link.text(I18n.t('text.hide_detail'));
+    this._set_flip_button_state(link, true);
   }
 };
 
@@ -219,6 +219,26 @@ hyacc.Journal.prototype._hide_detail = function(detail) {
   $(detail).nextUntil('tr[data-detail_id]').hide();
   if (this._is_deleted(detail)) {
     detail.hide();
+  }
+};
+
+hyacc.Journal.prototype._is_detail_shown = function(detail) {
+  return $(detail).nextUntil('tr[data-detail_id]').filter(':visible').length > 0;
+};
+
+hyacc.Journal.prototype._set_flip_button_state = function(link, shown) {
+  var hideText = (typeof I18n !== 'undefined' && I18n && I18n.t) ? I18n.t('text.hide_detail') : '詳細を隠す';
+  var showText = (typeof I18n !== 'undefined' && I18n && I18n.t) ? I18n.t('text.show_detail') : '詳細を表示';
+  var text = shown ? hideText : showText;
+  $(link).attr('aria-expanded', shown ? 'true' : 'false');
+  $(link).attr('title', text);
+
+  var label = $(link).find('.flip_detail_label');
+  if (label.length > 0) {
+    label.text(text);
+  } else {
+    // フォールバック（旧マークアップ向け）
+    $(link).text(text);
   }
 };
 

@@ -30,13 +30,13 @@
       <%= f.text_field :tax_amount, :class => 'amountText' %>
     </td>
     <td class="amount amount_sum" nowrap></td>
-    <td nowrap>
-      <a href="#" class="flip_detail_button"><%= message_for_details %></a>
-    </td>
-    <td nowrap>
+    <td class="text-center" nowrap>
       <% unless @receipt_edit_only %>
         <a href="#" class="delete_detail_button %>">削除</a>
       <% end %>
+    </td>
+    <td class="text-center">
+      <%= render 'flip_detail_button' %>
     </td>
   </tr>
   <tr style="<%= style_for_detail(jd) %>">

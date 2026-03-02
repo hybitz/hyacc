@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '~> 3.4.0'
-gem 'rails', '~> 8.0.0'
+gem 'rails', '~> 8.1.0'
 
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
@@ -33,7 +33,7 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'puma'
-gem 'rails-i18n', '~> 8.0.0'
+gem 'rails-i18n', '~> 8.0'
 gem 'remotipart'
 gem 'sassc-rails'
 gem 'sprockets-rails'

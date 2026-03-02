@@ -279,6 +279,25 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     $.getJSON(that.options.sub_accounts_path, params, function(json) {
         replace_options('tr[data-index="' + params.index + '"] [name*="\\[sub_account_id\\]"]', json);
         detail.addClass('sub_account_ready');
+        var subAccountSelect = detail.find('select[name*="[sub_account_id]"]');
+        var subAccountId = subAccountSelect.val();
+        if (!subAccountId && json.length > 0) {
+          subAccountId = json[0].id;
+          subAccountSelect.val(subAccountId);
+        }
+        var detailParams = {
+          index: params.index,
+          account_id: params.account_id,
+          branch_id: params.branch_id,
+          dc_type: params.dc_type,
+          detail_id: params.detail_id
+        };
+        if (subAccountId) {
+          detailParams.sub_account_id = subAccountId;
+        }
+        $.get(that.options.get_account_detail_path, detailParams, function(html) {
+          $('#journal_details_' + params.index + '_account_detail').html(html);
+        });
       });
 
     $.getJSON(that.options.get_tax_type_path, params, function(json) {
@@ -286,11 +305,21 @@ hyacc.Journal.prototype._init_event_handlers = function() {
       that._refresh_tax_rate(detail);
     });
 
-    $.get(that.options.get_account_detail_path, params, function(html) {
-        $('#journal_details_' + params.index + '_account_detail').html(html);
-      });
-
     that._refresh_allocation(detail);
+  })
+  .delegate('select[name*="\\[sub_account_id\\]"]', 'change', function() {
+    var detail = that._get_detail(this);
+    var params = {
+      index: detail.data('index'),
+      account_id: that._get_account_id(detail),
+      branch_id: that._get_branch_id(detail),
+      dc_type: that._get_dc_type(detail),
+      detail_id: detail.data('detail_id'),
+      sub_account_id: $(this).val()
+    };
+    $.get(that.options.get_account_detail_path, params, function(html) {
+      $('#journal_details_' + params.index + '_account_detail').html(html);
+    });
   })
   .delegate('[name*="\\[branch_id\\]"]', 'change', function() {
     var detail = that._get_detail(this);

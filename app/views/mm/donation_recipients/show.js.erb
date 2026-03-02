@@ -1,0 +1,18 @@
+var options = {
+  title: '寄付先　参照'
+};
+
+options.buttons = [];
+
+options.buttons.push(
+  {
+    text: '編集',
+    class: 'btn btn-light',
+    click: function() {
+      hyacc.current_dialog().close();
+      $.get('<%= url_for edit_mm_donation_recipient_path(@donation_recipient) %>');
+    }
+  }
+);
+
+hyacc.current_dialog(options).show('<%=j render 'show' %>');

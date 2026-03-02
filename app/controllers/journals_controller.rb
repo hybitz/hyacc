@@ -10,6 +10,8 @@ class JournalsController < Base::HyaccController
   def get_account_detail
     jd = JournalDetail.find(params[:detail_id]) if params[:detail_id].present?
     jd ||= JournalDetail.new
+    jd.account_id = params[:account_id] if params[:account_id].present?
+    jd.sub_account_id = params[:sub_account_id] if params[:sub_account_id].present?
 
     renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
     if renderer
@@ -174,7 +176,8 @@ class JournalsController < Base::HyaccController
           :input_amount, :tax_type, :tax_rate_percent, :tax_amount,
           :social_expense_number_of_people, :settlement_type, :note, :allocation_type,
           :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,
-          :asset_attributes => [:id, :lock_version]
+          :asset_attributes => [:id, :lock_version],
+          :journal_detail_donation_recipient_attributes => [:id, :donation_recipient_id, :_destroy]
       ],
       :receipt_attributes => [:id, :deleted, :original_filename, :file, :file_cache]
     ]

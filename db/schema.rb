@@ -282,6 +282,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_26_100000) do
     t.datetime "updated_at", precision: nil
   end
 
+  create_table "donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "company_id", null: false
+    t.string "kind", limit: 3, null: false
+    t.string "name", null: false
+    t.string "announcement_number"
+    t.string "purpose"
+    t.string "address"
+    t.string "purpose_or_name"
+    t.string "trust_name"
+    t.boolean "deleted", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employee_bank_accounts", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.string "code", null: false
@@ -421,6 +435,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_26_100000) do
     t.integer "charges", default: 0, null: false
     t.integer "gains", default: 0, null: false
     t.integer "buying_or_selling", null: false
+  end
+
+  create_table "journal_detail_donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "journal_detail_id", null: false
+    t.integer "donation_recipient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["journal_detail_id"], name: "index_journal_detail_donation_recipients_on_journal_detail_id", unique: true
   end
 
   create_table "journal_details", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|

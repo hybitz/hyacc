@@ -1,0 +1,34 @@
+<%
+  prefix = "journal[journal_details_attributes][#{index}]"
+  donation_kinds = HyaccConst::DONATION_RECIPIENT_SUB_ACCOUNT_CODES
+  sub_kind = jd.sub_account&.code.to_s
+  show_select = jd.sub_account_id.present? && donation_kinds.include?(sub_kind)
+  donation_recipients = show_select ? current_company.donation_recipients.where(kind: sub_kind).order(:name) : []
+%>
+<%= fields_for prefix, jd do |f| %>
+  <% if show_select %>
+    <% jdr = jd.journal_detail_donation_recipient.presence || jd.build_journal_detail_donation_recipient %>
+    <%= f.fields_for :journal_detail_donation_recipient, jdr do |jdr_form| %>
+      <span class="donation-recipient-fields">
+        <%= jdr_form.hidden_field :_destroy, value: jdr.marked_for_destruction? ? '1' : '0', class: 'donationRecipientDestroy' %>
+        <%= jdr_form.hidden_field :id if jdr.persisted? %>
+        寄付先：
+        <%= jdr_form.select :donation_recipient_id,
+              options_from_collection_for_select(donation_recipients, :id, :label_for_select, jdr.donation_recipient_id),
+              { include_blank: '未選択' },
+              class: 'donationRecipientSelect' %>
+      </span>
+    <% end %>
+  <% end %>
+<% end %>
+
+<script>
+(function() {
+  $(document).off('change.donationRecipientSelect').on('change.donationRecipientSelect', '.donationRecipientSelect', function() {
+    var $sel = $(this);
+    var $wrap = $sel.closest('.donation-recipient-fields');
+    var $destroy = $wrap.find('.donationRecipientDestroy');
+    if ($destroy.length) $destroy.val($sel.val() === '' ? '1' : '0');
+  });
+})();
+</script>

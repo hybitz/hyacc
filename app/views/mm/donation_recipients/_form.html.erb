@@ -1,0 +1,56 @@
+<%= form_with model: [:mm, @donation_recipient], data: { remote: true } do |f| %>
+  <%= flash_notice %>
+  <table class="table table-sm">
+    <tr>
+      <th><%= f.label :kind %></th>
+      <td>
+        <% kind_locked = @donation_recipient.persisted? && @donation_recipient.journal_detail_donation_recipients.exists? %>
+        <%= f.select :kind, donation_recipient_kind_options, {}, class: 'donation-recipient-kind', disabled: kind_locked, data: { kind: @donation_recipient.kind } %>
+        <% if kind_locked %>
+          <span class="text-muted small">（振替伝票に紐づいているため変更できません）</span>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= f.label :name %></th>
+      <td><%= f.text_field :name, size: 40 %></td>
+    </tr>
+    <% # 指定(100): 告示番号・使途 %>
+    <tr class="donation-recipient-fields kind-100" style="<%= 'display:none' unless @donation_recipient.kind == HyaccConst::SUB_ACCOUNT_CODE_DONATION_DESIGNATED %>">
+      <th><%= f.label :announcement_number %></th>
+      <td><%= f.text_field :announcement_number, size: 30 %></td>
+    </tr>
+    <tr class="donation-recipient-fields kind-100" style="<%= 'display:none' unless @donation_recipient.kind == HyaccConst::SUB_ACCOUNT_CODE_DONATION_DESIGNATED %>">
+      <th><%= f.label :purpose %></th>
+      <td><%= f.text_field :purpose, size: 40 %></td>
+    </tr>
+    <% # 特定公益増進(300): 所在地・使途又は名称。認定外(600): 所在地・特定公益信託の名称（所在地は共通のため1フィールド） %>
+    <tr class="donation-recipient-fields kind-300 kind-600" style="<%= 'display:none' unless (HyaccConst::DONATION_RECIPIENT_SUB_ACCOUNT_CODES - [HyaccConst::SUB_ACCOUNT_CODE_DONATION_DESIGNATED]).include?(@donation_recipient.kind.to_s) %>">
+      <th><%= f.label :address %></th>
+      <td><%= f.text_field :address, size: 50 %></td>
+    </tr>
+    <tr class="donation-recipient-fields kind-300" style="<%= 'display:none' unless @donation_recipient.kind == HyaccConst::SUB_ACCOUNT_CODE_DONATION_PUBLIC_INTEREST %>">
+      <th><%= f.label :purpose_or_name %></th>
+      <td><%= f.text_field :purpose_or_name, size: 40 %></td>
+    </tr>
+    <% # 認定外(600): 特定公益信託の名称 %>
+    <tr class="donation-recipient-fields kind-600" style="<%= 'display:none' unless @donation_recipient.kind == HyaccConst::SUB_ACCOUNT_CODE_DONATION_NON_CERTIFIED_TRUST %>">
+      <th><%= f.label :trust_name %></th>
+      <td><%= f.text_field :trust_name, size: 40 %></td>
+    </tr>
+  </table>
+<% end %>
+
+<script>
+(function() {
+  var kindSelect = document.querySelector('.donation-recipient-kind');
+  if (!kindSelect) return;
+  function toggleRows() {
+    var kind = kindSelect.value;
+    document.querySelectorAll('.donation-recipient-fields').forEach(function(tr) {
+      tr.style.display = tr.classList.contains('kind-' + kind) ? '' : 'none';
+    });
+  }
+  kindSelect.addEventListener('change', toggleRows);
+})();
+</script>

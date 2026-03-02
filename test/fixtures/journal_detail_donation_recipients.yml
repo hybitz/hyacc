@@ -1,0 +1,6 @@
+linked_to_one:
+  id: 1
+  journal_detail_id: 49649
+  donation_recipient_id: 1
+  created_at: 2025-01-01 00:00:00
+  updated_at: 2025-01-01 00:00:00

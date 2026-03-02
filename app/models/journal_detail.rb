@@ -29,7 +29,7 @@ class JournalDetail < ApplicationRecord
   validates_with Validators::SubAccountPresenceValidator
   validates :branch_id, presence: true
   validates_format_of :social_expense_number_of_people, with: /[0-9]{0,3}/
-  validates_format_of :settlement_type, with: /[0-9]{0,1}/
+  validates_format_of :settlement_type, with: /\A[0-9]{0,1}\z/
   validates :amount, presence: true
   validates_with Validators::TaxRateValidator
 

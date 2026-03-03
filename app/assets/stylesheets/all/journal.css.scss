@@ -21,3 +21,31 @@
     height: 20px;
   }
 }
+
+.flip_detail_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  text-decoration: none;
+  border: 1px solid transparent;
+  color: inherit;
+
+  &:hover {
+    background: #f3f4f6;
+    border-color: #d1d5db;
+  }
+
+  .flip_detail_svg {
+    display: block;
+    transition: transform 120ms ease;
+  }
+
+  &[aria-expanded="true"] {
+    .flip_detail_svg {
+      transform: rotate(180deg);
+    }
+  }
+}

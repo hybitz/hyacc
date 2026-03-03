@@ -2,6 +2,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hyacc
+  annotations:
+    alb.ingress.kubernetes.io/healthcheck-path: /up
+    alb.ingress.kubernetes.io/success-codes: 200
 spec:
   selector:
     app: hyacc-app

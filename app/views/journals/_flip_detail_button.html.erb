@@ -1,0 +1,11 @@
+<a href="#"
+   class="flip_detail_button"
+   aria-expanded="<%= current_user.show_details ? 'true' : 'false' %>"
+   title="<%= message_for_details %>">
+  <span class="flip_detail_icon" aria-hidden="true">
+    <svg class="flip_detail_svg" viewBox="0 0 20 20" width="16" height="16" focusable="false" aria-hidden="true">
+      <path d="M5.5 7.5l4.5 4.5 4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </span>
+  <span class="visually-hidden flip_detail_label"><%= message_for_details %></span>
+</a>

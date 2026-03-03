@@ -6,8 +6,7 @@ module Mm::DonationRecipientsHelper
   end
 
   def donation_recipient_kind_label(kind)
-    code = kind.to_s
-    donation_sub_account_labels[code] || code
+    donation_sub_account_labels[kind] || kind
   end
 
   private

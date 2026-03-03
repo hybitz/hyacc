@@ -19,31 +19,29 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     dr = donation_recipients(:one)
 
     assert_difference 'Journal.count', 1 do
-      assert_difference 'JournalDetailDonationRecipient.count', 1 do
-        post :create, xhr: true, params: {
-          journal: {
-            ym: '200803',
-            day: '04',
-            remarks: '寄付金明細で寄付先を選択して登録',
-            journal_details_attributes: {
-              '1' => {
-                dc_type: 1,
-                account_id: DONATION_ACCOUNT_ID,
-                sub_account_id: DONATION_SUB_ACCOUNT_ID,
-                branch_id: 2,
-                input_amount: 1000,
-                journal_detail_donation_recipient_attributes: { donation_recipient_id: dr.id }
-              },
-              '2' => {
-                dc_type: 2,
-                account_id: 2,
-                branch_id: 2,
-                input_amount: 1000
-              }
+      post :create, xhr: true, params: {
+        journal: {
+          ym: '200803',
+          day: '04',
+          remarks: '寄付金明細で寄付先を選択して登録',
+          journal_details_attributes: {
+            '1' => {
+              dc_type: 1,
+              account_id: DONATION_ACCOUNT_ID,
+              sub_account_id: DONATION_SUB_ACCOUNT_ID,
+              branch_id: 2,
+              input_amount: 1000,
+              donation_recipient_id: dr.id
+            },
+            '2' => {
+              dc_type: 2,
+              account_id: 2,
+              branch_id: 2,
+              input_amount: 1000
             }
           }
         }
-      end
+      }
     end
 
     assert_response :success
@@ -52,15 +50,14 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     assert jh = Journal.find(assigns(:journal).id)
     donation_detail = jh.journal_details.find { |jd| jd.account_id == DONATION_ACCOUNT_ID }
     assert donation_detail
-    assert donation_detail.journal_detail_donation_recipient
-    assert_equal dr.id, donation_detail.journal_detail_donation_recipient.donation_recipient_id
+    assert_equal dr.id, donation_detail.donation_recipient_id
   end
 
   def test_更新_寄付金明細で寄付先を変更できる
     jh = Journal.find(49)
     jd = jh.journal_details.find(49649)
     assert jd.account_id == DONATION_ACCOUNT_ID
-    assert jd.journal_detail_donation_recipient.present?
+    assert jd.donation_recipient_id.present?
 
     dr = donation_recipients(:for_deletion)
     patch :update, xhr: true, params: {
@@ -78,59 +75,55 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     assert_template 'common/reload'
 
     jd.reload
-    assert_equal dr.id, jd.journal_detail_donation_recipient.donation_recipient_id
+    assert_equal dr.id, jd.donation_recipient_id
   end
 
   def test_更新_寄付金明細で寄付先を外せる
     jh = Journal.find(49)
     jd = jh.journal_details.find(49649)
     assert jd.account_id == DONATION_ACCOUNT_ID
-    assert jd.journal_detail_donation_recipient.present?
+    assert jd.donation_recipient_id.present?
 
-    assert_difference 'JournalDetailDonationRecipient.count', -1 do
-      patch :update, xhr: true, params: {
-        id: jh.id,
-        journal: {
-          ym: jh.ym,
-          day: jh.day,
-          remarks: jh.remarks,
-          lock_version: jh.lock_version,
-          journal_details_attributes: journal_details_attributes_for_update_with_destroy(jh, jd)
-        }
+    patch :update, xhr: true, params: {
+      id: jh.id,
+      journal: {
+        ym: jh.ym,
+        day: jh.day,
+        remarks: jh.remarks,
+        lock_version: jh.lock_version,
+        journal_details_attributes: journal_details_attributes_for_update_with_clear(jh, jd)
       }
-    end
+    }
 
     assert_response :success
     assert_template 'common/reload'
-    assert_nil jd.reload.journal_detail_donation_recipient
+    assert_nil jd.reload.donation_recipient_id
   end
 
   def test_登録_寄付金明細で寄付先なしで登録できる
     assert_difference 'Journal.count', 1 do
-      assert_no_difference 'JournalDetailDonationRecipient.count' do
-        post :create, xhr: true, params: {
-          journal: {
-            ym: '200803',
-            day: '05',
-            remarks: '寄付金明細で寄付先未選択で登録',
-            journal_details_attributes: {
-              '1' => {
-                dc_type: 1,
-                account_id: DONATION_ACCOUNT_ID,
-                sub_account_id: DONATION_SUB_ACCOUNT_ID,
-                branch_id: 2,
-                input_amount: 2000
-              },
-              '2' => {
-                dc_type: 2,
-                account_id: 2,
-                branch_id: 2,
-                input_amount: 2000
-              }
+      post :create, xhr: true, params: {
+        journal: {
+          ym: '200803',
+          day: '05',
+          remarks: '寄付金明細で寄付先未選択で登録',
+          journal_details_attributes: {
+            '1' => {
+              dc_type: 1,
+              account_id: DONATION_ACCOUNT_ID,
+              sub_account_id: DONATION_SUB_ACCOUNT_ID,
+              branch_id: 2,
+              input_amount: 2000
+            },
+            '2' => {
+              dc_type: 2,
+              account_id: 2,
+              branch_id: 2,
+              input_amount: 2000
             }
           }
         }
-      end
+      }
     end
 
     assert_response :success
@@ -138,7 +131,7 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     jh = Journal.find(assigns(:journal).id)
     donation_detail = jh.journal_details.find { |jd| jd.account_id == DONATION_ACCOUNT_ID }
     assert donation_detail
-    assert_nil donation_detail.journal_detail_donation_recipient
+    assert_nil donation_detail.donation_recipient_id
   end
 
   private
@@ -155,18 +148,12 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
         tax_type: detail.tax_type || 1
       }
       attrs[idx.to_s][:sub_account_id] = detail.sub_account_id if detail.sub_account_id.present?
-      if detail.id == donation_detail.id
-        jdr = detail.journal_detail_donation_recipient
-        attrs[idx.to_s][:journal_detail_donation_recipient_attributes] = {
-          id: jdr.id,
-          donation_recipient_id: new_donation_recipient_id
-        }
-      end
+      attrs[idx.to_s][:donation_recipient_id] = new_donation_recipient_id if detail.id == donation_detail.id
     end
     attrs
   end
 
-  def journal_details_attributes_for_update_with_destroy(jh, donation_detail)
+  def journal_details_attributes_for_update_with_clear(jh, donation_detail)
     attrs = {}
     jh.journal_details.order(:detail_no).each_with_index do |detail, idx|
       attrs[idx.to_s] = {
@@ -178,10 +165,7 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
         tax_type: detail.tax_type || 1
       }
       attrs[idx.to_s][:sub_account_id] = detail.sub_account_id if detail.sub_account_id.present?
-      if detail.id == donation_detail.id
-        jdr = detail.journal_detail_donation_recipient
-        attrs[idx.to_s][:journal_detail_donation_recipient_attributes] = { id: jdr.id, _destroy: '1' }
-      end
+      attrs[idx.to_s][:donation_recipient_id] = nil if detail.id == donation_detail.id
     end
     attrs
   end

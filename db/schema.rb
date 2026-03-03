@@ -437,14 +437,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_26_100000) do
     t.integer "buying_or_selling", null: false
   end
 
-  create_table "journal_detail_donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "journal_detail_id", null: false
-    t.integer "donation_recipient_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["journal_detail_id"], name: "index_journal_detail_donation_recipients_on_journal_detail_id", unique: true
-  end
-
   create_table "journal_details", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "journal_id", null: false
     t.integer "detail_no", null: false
@@ -466,6 +458,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_26_100000) do
     t.integer "settlement_type", limit: 1
     t.decimal "tax_rate", precision: 4, scale: 3, default: "0.0", null: false
     t.integer "allocation_type"
+    t.integer "donation_recipient_id"
     t.index ["journal_id", "detail_no"], name: "journal_details_journal_header_id_and_detail_no_index", unique: true
     t.index ["main_detail_id"], name: "index_journal_details_main_detail_id"
   end

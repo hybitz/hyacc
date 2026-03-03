@@ -41,7 +41,7 @@ module Reports
         if jd.present?
           detail.ymd = build_date_from_journal(jd.journal)
           detail.amount = jd.amount
-          detail.donation_recipient = jd.journal_detail_donation_recipient&.donation_recipient
+          detail.donation_recipient = jd.donation_recipient
         end
         details << detail
       end
@@ -70,7 +70,7 @@ module Reports
       donation_details = donation_details.where(branch_id: branch_id) if branch_id > 0
       donation_details = donation_details.joins(:journal)
         .where("journals.ym >= ? and journals.ym <= ?", ym_start, ym_end)
-        .includes(:journal, journal_detail_donation_recipient: :donation_recipient).to_a
+        .includes(:journal, :donation_recipient).to_a
 
       grouped = donation_details.group_by(&:sub_account_id)
       result = {}

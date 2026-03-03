@@ -2,8 +2,7 @@ class DonationRecipient < ApplicationRecord
   include HyaccErrors
 
   belongs_to :company
-  has_many :journal_detail_donation_recipients
-  has_many :journal_details, through: :journal_detail_donation_recipients
+  has_many :journal_details
 
   validates :kind, presence: true, inclusion: { in: DONATION_RECIPIENT_SUB_ACCOUNT_CODES }
   validates :name, presence: true

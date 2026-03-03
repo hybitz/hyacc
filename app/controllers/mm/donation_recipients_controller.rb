@@ -36,7 +36,7 @@ class Mm::DonationRecipientsController < Base::HyaccController
   def update
     @donation_recipient = current_company.donation_recipients.find(params[:id])
     params_to_assign = donation_recipient_params
-    params_to_assign = params_to_assign.except(:kind) if @donation_recipient.journal_detail_donation_recipients.exists?
+    params_to_assign = params_to_assign.except(:kind) if @donation_recipient.journal_details.exists?
     @donation_recipient.attributes = params_to_assign
 
     begin
@@ -56,7 +56,7 @@ class Mm::DonationRecipientsController < Base::HyaccController
     @donation_recipient = current_company.donation_recipients.find(params[:id])
 
     begin
-      if @donation_recipient.journal_detail_donation_recipients.exists?
+      if @donation_recipient.journal_details.exists?
         raise HyaccException.new(ERR_DONATION_RECIPIENT_LINKED)
       end
 

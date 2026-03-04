@@ -1,15 +1,23 @@
 require 'test_helper'
 
 class JournalsController::DonationRecipientTest < ActionController::TestCase
-  DONATION_ACCOUNT_ID = 104
-  DONATION_SUB_ACCOUNT_ID = 42
+  def donation_account
+    @donation_account ||= Account.find_by(code: ACCOUNT_CODE_DONATION)
+  end
 
   def setup
     sign_in user
   end
 
-  def test_get_account_detail_寄付金勘定で寄付先パーシャルが返る
-    get :get_account_detail, xhr: true, params: { account_id: DONATION_ACCOUNT_ID, sub_account_id: DONATION_SUB_ACCOUNT_ID, index: 1 }
+  def test_get_sub_account_detail_寄付金勘定で寄付先パーシャルが返る
+    get :get_sub_account_detail, xhr: true, params: { account_id: donation_account.id, sub_account_id: donation_account.sub_accounts.first.id, index: 1 }
+    assert_response :success
+    assert_includes response.body, '寄付先'
+    assert_includes response.body, 'donationRecipientSelect'
+  end
+
+  def test_get_sub_account_detail_寄付金勘定でsub_account_idなしでも寄付先パーシャルが返る
+    get :get_sub_account_detail, xhr: true, params: { account_id: donation_account.id, index: 1 }
     assert_response :success
     assert_includes response.body, '寄付先'
     assert_includes response.body, 'donationRecipientSelect'
@@ -27,8 +35,8 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
           journal_details_attributes: {
             '1' => {
               dc_type: 1,
-              account_id: DONATION_ACCOUNT_ID,
-              sub_account_id: DONATION_SUB_ACCOUNT_ID,
+              account_id: donation_account.id,
+              sub_account_id: donation_account.sub_accounts.first.id,
               branch_id: 2,
               input_amount: 1000,
               donation_recipient_id: dr.id
@@ -48,7 +56,7 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     assert_template 'common/reload'
 
     assert jh = Journal.find(assigns(:journal).id)
-    donation_detail = jh.journal_details.find { |jd| jd.account_id == DONATION_ACCOUNT_ID }
+    donation_detail = jh.journal_details.find { |jd| jd.account_id == donation_account.id }
     assert donation_detail
     assert_equal dr.id, donation_detail.donation_recipient_id
   end
@@ -56,7 +64,7 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
   def test_更新_寄付金明細で寄付先を変更できる
     jh = Journal.find(49)
     jd = jh.journal_details.find(49649)
-    assert jd.account_id == DONATION_ACCOUNT_ID
+    assert jd.account_id == donation_account.id
     assert jd.donation_recipient_id.present?
 
     dr = donation_recipients(:for_deletion)
@@ -81,7 +89,7 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
   def test_更新_寄付金明細で寄付先を外せる
     jh = Journal.find(49)
     jd = jh.journal_details.find(49649)
-    assert jd.account_id == DONATION_ACCOUNT_ID
+    assert jd.account_id == donation_account.id
     assert jd.donation_recipient_id.present?
 
     patch :update, xhr: true, params: {
@@ -110,8 +118,8 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
           journal_details_attributes: {
             '1' => {
               dc_type: 1,
-              account_id: DONATION_ACCOUNT_ID,
-              sub_account_id: DONATION_SUB_ACCOUNT_ID,
+              account_id: donation_account.id,
+              sub_account_id: donation_account.sub_accounts.first.id,
               branch_id: 2,
               input_amount: 2000
             },
@@ -129,7 +137,7 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     assert_response :success
     assert_template 'common/reload'
     jh = Journal.find(assigns(:journal).id)
-    donation_detail = jh.journal_details.find { |jd| jd.account_id == DONATION_ACCOUNT_ID }
+    donation_detail = jh.journal_details.find { |jd| jd.account_id == donation_account.id }
     assert donation_detail
     assert_nil donation_detail.donation_recipient_id
   end

@@ -10,10 +10,26 @@ class JournalsController < Base::HyaccController
   def get_account_detail
     jd = JournalDetail.find(params[:detail_id]) if params[:detail_id].present?
     jd ||= JournalDetail.new
+
+    renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
+    if renderer
+      render partial: renderer.get_template(controller_name), locals: {jd: jd, index: params[:index]}
+    else
+      head :ok
+    end
+  end
+
+  # 補助科目が決まった時点の詳細入力部分を取得する（寄付先フォームなど）
+  def get_sub_account_detail
+    jd = JournalDetail.find(params[:detail_id]) if params[:detail_id].present?
+    jd ||= JournalDetail.new
     jd.account_id = params[:account_id] if params[:account_id].present?
     jd.sub_account_id = params[:sub_account_id] if params[:sub_account_id].present?
 
-    renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
+    renderer = AccountDetails::SubAccountDetailRenderer.get_instance(params[:account_id], params[:sub_account_id])
+    unless renderer
+      renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id])
+    end
     if renderer
       render partial: renderer.get_template(controller_name), locals: {jd: jd, index: params[:index]}
     else

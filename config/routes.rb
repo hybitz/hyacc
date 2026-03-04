@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     collection do
       get 'add_detail'
       get 'get_account_detail'
+      get 'get_sub_account_detail'
       get 'get_allocation'
       get 'get_tax_type'
     end

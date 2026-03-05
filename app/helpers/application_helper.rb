@@ -125,11 +125,9 @@ module ApplicationHelper
   end
 
   # 勘定科目別の詳細を表示する
-  # jd.sub_account_id が無くても account が寄付金なら SubAccountDetailRenderer を試す（初期表示で寄付先フォームが出る）
   def render_account_details(account_id, locals = {})
     jd = locals[:jd]
-    renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account_id, jd&.sub_account_id)
-    renderer ||= AccountDetails::AccountDetailRenderer.get_instance(account_id)
+    renderer = AccountDetails::AccountDetailRenderer.get_instance(account_id, jd&.sub_account_id)
     if renderer
       render renderer.get_template(controller.controller_name), locals
     else

@@ -7,7 +7,6 @@ module AccountDetails
       return nil unless account_id.to_i > 0
 
       account = Account.find(account_id)
-      return nil unless account.path.include?(ACCOUNT_CODE_DONATION)
 
       if sub_account_id.present?
         sub_account = account.get_sub_account_by_id(sub_account_id.to_i)

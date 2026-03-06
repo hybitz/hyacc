@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_04_100001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_06_100001) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -410,7 +410,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_04_100001) do
 
   create_table "investments", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "bank_account_id", null: false
-    t.integer "buying_or_selling", null: false
+    t.integer "buying_or_selling"
     t.integer "charges", default: 0, null: false
     t.datetime "created_at", precision: nil
     t.integer "customer_id", null: false
@@ -422,6 +422,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_04_100001) do
     t.integer "trading_value", default: 0, null: false
     t.datetime "updated_at", precision: nil
     t.integer "ym", null: false
+    t.check_constraint "(`buying_or_selling` is not null) or (`securities_transaction_type` is not null)", name: "chk_investments_transaction_type"
   end
 
   create_table "journal_details", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|

@@ -19,6 +19,21 @@ class JournalsController < Base::HyaccController
     end
   end
 
+  # 補助科目が決まった時点の詳細入力部分を取得する（寄付先フォームなど）
+  def get_sub_account_detail
+    jd = JournalDetail.find(params[:detail_id]) if params[:detail_id].present?
+    jd ||= JournalDetail.new
+    jd.account_id = params[:account_id] if params[:account_id].present?
+    jd.sub_account_id = params[:sub_account_id] if params[:sub_account_id].present?
+
+    renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id], params[:sub_account_id])
+    if renderer
+      render partial: renderer.get_template(controller_name), locals: {jd: jd, index: params[:index]}
+    else
+      head :ok
+    end
+  end
+
   def index
     @journals = finder.list(per_page: current_user.slips_per_page)
   end
@@ -171,6 +186,7 @@ class JournalsController < Base::HyaccController
       :ym, :day, :remarks, :amount, :lock_version,
       :journal_details_attributes => [
           :id, :_destroy, :dc_type, :account_id, :branch_id, :sub_account_id,
+          :donation_recipient_id,
           :input_amount, :tax_type, :tax_rate_percent, :tax_amount,
           :social_expense_number_of_people, :settlement_type, :note, :allocation_type,
           :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,

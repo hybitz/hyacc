@@ -1,0 +1,22 @@
+<%
+  prefix = "journal[journal_details_attributes][#{index}]"
+  donation_kinds = HyaccConst::DONATION_RECIPIENT_SUB_ACCOUNT_CODES
+  sub_kind = if jd.sub_account_id.present?
+    jd.sub_account.code
+  elsif jd.account.code == HyaccConst::ACCOUNT_CODE_DONATION && jd.account.sub_accounts.first.present?
+    jd.account.sub_accounts.first.code
+  end
+  show_select = sub_kind.present? && donation_kinds.include?(sub_kind)
+  donation_recipients = show_select ? current_company.donation_recipients.where(kind: sub_kind).order(:name) : []
+%>
+<%= fields_for prefix, jd do |f| %>
+  <% if show_select %>
+    <span class="donation-recipient-fields">
+      寄付先：
+      <%= f.select :donation_recipient_id,
+            options_from_collection_for_select(donation_recipients, :id, :label_for_select, jd.donation_recipient_id),
+            { include_blank: '未選択' },
+            class: 'donationRecipientSelect' %>
+    </span>
+  <% end %>
+<% end %>

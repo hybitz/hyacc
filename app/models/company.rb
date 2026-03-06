@@ -22,6 +22,8 @@ class Company < ApplicationRecord
 
   has_many :qualifications, -> { where deleted: false }, inverse_of: 'company'
 
+  has_many :donation_recipients, -> { where deleted: false }
+
   has_many :journals, -> { where deleted: false }
 
   attr_accessor :day_of_pay_day_definition

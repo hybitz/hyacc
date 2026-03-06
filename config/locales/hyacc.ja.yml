@@ -24,6 +24,7 @@ ja:
       journal_detail: 仕訳明細
       payroll: 給与
       qualification: 資格
+      donation_recipient: 寄付先
       receipt: 領収書
       rent: 地代家賃
       sub_account: 補助科目
@@ -232,6 +233,15 @@ ja:
       qualification:
         name: 資格名
         allowance: 手当単価
+
+      donation_recipient:
+        kind: 種別
+        name: 名称
+        announcement_number: 告示番号
+        purpose: 使途
+        address: 所在地
+        purpose_or_name: 使途又は名称
+        trust_name: 特定公益信託の名称
 
       receipt:
         file: 領収書

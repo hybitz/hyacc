@@ -1,0 +1,45 @@
+<p>
+  <b><%= DonationRecipient.human_attribute_name :kind %>:</b>
+  <%= donation_recipient_kind_label(@donation_recipient.kind) %>
+</p>
+
+<p>
+  <b><%= DonationRecipient.human_attribute_name :name %>:</b>
+  <%= @donation_recipient.name %>
+</p>
+
+<% # 指定(100): 告示番号・使途 %>
+<% if @donation_recipient.kind == HyaccConst::SUB_ACCOUNT_CODE_DONATION_DESIGNATED %>
+  <p>
+    <b><%= DonationRecipient.human_attribute_name :announcement_number %>:</b>
+    <%= @donation_recipient.announcement_number %>
+  </p>
+  <p>
+    <b><%= DonationRecipient.human_attribute_name :purpose %>:</b>
+    <%= @donation_recipient.purpose %>
+  </p>
+<% end %>
+
+<% # 特定公益増進(300): 所在地・使途又は名称 %>
+<% if @donation_recipient.kind == HyaccConst::SUB_ACCOUNT_CODE_DONATION_PUBLIC_INTEREST %>
+  <p>
+    <b><%= DonationRecipient.human_attribute_name :address %>:</b>
+    <%= @donation_recipient.address %>
+  </p>
+  <p>
+    <b><%= DonationRecipient.human_attribute_name :purpose_or_name %>:</b>
+    <%= @donation_recipient.purpose_or_name %>
+  </p>
+<% end %>
+
+<% # 認定外(600): 所在地・特定公益信託の名称 %>
+<% if @donation_recipient.kind == HyaccConst::SUB_ACCOUNT_CODE_DONATION_NON_CERTIFIED_TRUST %>
+  <p>
+    <b><%= DonationRecipient.human_attribute_name :address %>:</b>
+    <%= @donation_recipient.address %>
+  </p>
+  <p>
+    <b><%= DonationRecipient.human_attribute_name :trust_name %>:</b>
+    <%= @donation_recipient.trust_name %>
+  </p>
+<% end %>

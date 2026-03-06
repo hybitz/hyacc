@@ -20,6 +20,7 @@ class Reports::Appendix1402LogicTest < ActiveSupport::TestCase
     assert_equal 3, model.donations_designated_details.size
     assert_equal Date.new(2026, 1, 10), model.donations_designated_details[0].ymd
     assert_equal 1000, model.donations_designated_details[0].amount
+    assert_equal donation_recipients(:one).id, model.donations_designated_details[0].donation_recipient.id
     assert_nil model.donations_designated_details[1].ymd
     assert_nil model.donations_designated_details[2].ymd
 

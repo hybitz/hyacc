@@ -282,6 +282,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_26_100000) do
     t.datetime "updated_at", precision: nil
   end
 
+  create_table "donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "company_id", null: false
+    t.string "kind", limit: 3, null: false
+    t.string "name", null: false
+    t.string "announcement_number"
+    t.string "purpose"
+    t.string "address"
+    t.string "purpose_or_name"
+    t.string "trust_name"
+    t.boolean "deleted", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employee_bank_accounts", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.string "code", null: false
@@ -444,6 +458,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_26_100000) do
     t.integer "settlement_type", limit: 1
     t.decimal "tax_rate", precision: 4, scale: 3, default: "0.0", null: false
     t.integer "allocation_type"
+    t.integer "donation_recipient_id"
     t.index ["journal_id", "detail_no"], name: "journal_details_journal_header_id_and_detail_no_index", unique: true
     t.index ["main_detail_id"], name: "index_journal_details_main_detail_id"
   end

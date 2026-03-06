@@ -14,6 +14,7 @@ class JournalDetail < ApplicationRecord
   belongs_to :journal, inverse_of: 'journal_details'
   belongs_to :account
   belongs_to :branch
+  belongs_to :donation_recipient, optional: true
 
   has_one :asset, dependent: :destroy
   accepts_nested_attributes_for :asset

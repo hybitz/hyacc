@@ -281,18 +281,14 @@ hyacc.Journal.prototype._init_event_handlers = function() {
         detail.addClass('sub_account_ready');
       });
 
-    $.get(that.options.get_account_detail_path, {
-      index: params.index,
-      account_id: params.account_id,
-      detail_id: params.detail_id
-    }, function(html) {
-      $('#journal_details_' + params.index + '_account_detail').html(html);
-    });
-
     $.getJSON(that.options.get_tax_type_path, params, function(json) {
       that._set_tax_type(detail, json.tax_type);
       that._refresh_tax_rate(detail);
     });
+
+    $.get(that.options.get_account_detail_path, params, function(html) {
+        $('#journal_details_' + params.index + '_account_detail').html(html);
+      });
 
     that._refresh_allocation(detail);
   })

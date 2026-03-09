@@ -2,6 +2,14 @@ require 'test_helper'
 
 class InvestmentTest < ActiveSupport::TestCase
 
+  def test_save_でsecurities_transaction_typeにも書き込まれる
+    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
+    investment.save!
+    investment.reload
+
+    assert_equal investment.buying_or_selling, investment.securities_transaction_type
+  end
+
   def test_save_購入ではsharesとtrading_valueが正のまま保存される
     investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
     investment.save!
@@ -20,6 +28,36 @@ class InvestmentTest < ActiveSupport::TestCase
     assert investment.selling?
     assert_equal 20, investment.shares
     assert_equal 100_000, investment.trading_value
+  end
+
+  def test_save_売却でもsecurities_transaction_typeに書き込まれる
+    investment = Investment.new(
+      investment_params.merge(charges: 0, bank_account_id: bank_account.id, buying_or_selling: SECURITIES_TRANSACTION_TYPE_SELLING, gains: 0)
+    )
+    investment.save!
+    investment.reload
+
+    assert_equal investment.buying_or_selling, investment.securities_transaction_type
+    assert_equal SECURITIES_TRANSACTION_TYPE_SELLING, investment.securities_transaction_type
+  end
+
+  def test_updateでbuying_or_sellingを変更するとsecurities_transaction_typeも更新される
+    investment = Investment.first
+    investment.buying_or_selling = SECURITIES_TRANSACTION_TYPE_SELLING
+    investment.save!
+    investment.reload
+
+    assert_equal SECURITIES_TRANSACTION_TYPE_SELLING, investment.buying_or_selling
+    assert_equal SECURITIES_TRANSACTION_TYPE_SELLING, investment.securities_transaction_type
+  end
+
+  def test_buying_or_sellingとsecurities_transaction_typeが両方nilならinvalid
+    investment = Investment.first
+    investment.buying_or_selling = nil
+    investment.securities_transaction_type = nil
+
+    assert_not investment.valid?
+    assert investment.errors[:buying_or_selling].present?
   end
 
   def test_set_yyyymmdd

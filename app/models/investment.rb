@@ -12,6 +12,7 @@ class Investment < ApplicationRecord
   attr_accessor :yyyymmdd
 
   before_save :set_ym_and_day
+  before_save :set_securities_transaction_type
   after_find :set_yyyymmdd
 
   def deal_date
@@ -36,6 +37,10 @@ class Investment < ApplicationRecord
     split = self.yyyymmdd.split("-")
     self.ym = split[0..1].join
     self.day = split[2]
+  end
+
+  def set_securities_transaction_type
+    self.securities_transaction_type = buying_or_selling
   end
 
   def set_yyyymmdd

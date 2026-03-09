@@ -63,7 +63,7 @@
                   account_id: $(this).val(),
                   order: 'code'
                 };
-                $.get('<%= sub_accounts_path(:format => 'json') %>', params, function(json) {
+                $.get('<%= sub_accounts_path(format: 'json') %>', params, function(json) {
                   reloadSubAccounts(json);
                 });
               });

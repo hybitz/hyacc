@@ -281,7 +281,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
         detail.addClass('sub_account_ready');
       });
 
-    $.get(that.options.get_sub_account_detail_path, {
+    $.get(that.options.get_account_detail_path, {
       index: params.index,
       account_id: params.account_id,
       detail_id: params.detail_id
@@ -304,7 +304,8 @@ hyacc.Journal.prototype._init_event_handlers = function() {
       detail_id: detail.data('detail_id'),
       sub_account_id: $(this).val()
     };
-    $.get(that.options.get_sub_account_detail_path, params, function(html) {
+    var subDetailReq = $.get(that.options.get_sub_account_detail_path, params, function(html) {
+      if (subDetailReq.status === 204) return;
       $('#journal_details_' + params.index + '_account_detail').html(html);
     });
   })

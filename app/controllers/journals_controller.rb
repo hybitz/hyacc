@@ -26,11 +26,11 @@ class JournalsController < Base::HyaccController
     jd.account_id = params[:account_id] if params[:account_id].present?
     jd.sub_account_id = params[:sub_account_id] if params[:sub_account_id].present?
 
-    renderer = AccountDetails::AccountDetailRenderer.get_instance(params[:account_id], params[:sub_account_id])
+    renderer = AccountDetails::SubAccountDetailRenderer.get_instance(params[:account_id], params[:sub_account_id])
     if renderer
       render partial: renderer.get_template(controller_name), locals: {jd: jd, index: params[:index]}
     else
-      head :ok
+      head :no_content
     end
   end
 

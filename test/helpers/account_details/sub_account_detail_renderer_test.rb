@@ -14,4 +14,9 @@ class AccountDetails::SubAccountDetailRendererTest < ActiveSupport::TestCase
     renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account_id, nil)
     assert_instance_of AccountDetails::DonationRenderer, renderer
   end
+
+  def test_get_instance_寄付金以外の勘定ではnilを返す
+    account_id = Account.where.not(code: ACCOUNT_CODE_DONATION).first.id
+    assert_nil AccountDetails::SubAccountDetailRenderer.get_instance(account_id, nil)
+  end
 end

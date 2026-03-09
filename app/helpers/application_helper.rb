@@ -126,8 +126,12 @@ module ApplicationHelper
 
   # 勘定科目別の詳細を表示する
   def render_account_details(account_id, locals = {})
-    jd = locals[:jd]
-    renderer = AccountDetails::AccountDetailRenderer.get_instance(account_id, jd&.sub_account_id)
+    account = Account.find(account_id)
+    renderer = AccountDetails::AccountDetailRenderer.get_instance(account_id)
+    if account.path.include?(ACCOUNT_CODE_DONATION)
+      renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account_id, locals[:jd]&.sub_account_id)
+    end
+
     if renderer
       render renderer.get_template(controller.controller_name), locals
     else

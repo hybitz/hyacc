@@ -23,6 +23,19 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     assert_includes response.body, 'donationRecipientSelect'
   end
 
+  def test_get_sub_account_detail_寄付金勘定で補助科目がその他のときは寄付先フォームを出さない
+    others = SubAccount.find_by(code: SUB_ACCOUNT_CODE_DONATION_OTHERS, account_id: donation_account.id)
+    get :get_sub_account_detail, xhr: true, params: { account_id: donation_account.id, sub_account_id: others.id, index: 1 }
+    assert_response :success
+    assert_not_includes response.body, 'donationRecipientSelect'
+  end
+
+  def test_get_sub_account_detail_寄付金以外の勘定ではno_contentを返す
+    account_id = Account.find_by(code: ACCOUNT_CODE_SOCIAL_EXPENSE).id
+    get :get_sub_account_detail, xhr: true, params: { account_id: account_id, index: 1 }
+    assert_response :no_content
+  end
+
   def test_登録_寄付金明細で寄付先を選択できる
     dr = donation_recipients(:one)
 

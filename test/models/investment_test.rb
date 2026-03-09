@@ -30,27 +30,27 @@ class InvestmentTest < ActiveSupport::TestCase
     assert_equal 100_000, investment.trading_value
   end
 
-  # リネーム移行用の一時的な DB 制約のテスト。旧カラム削除時に本テストも削除する。
-  def test_DB制約_buying_or_sellingがNULLでもsecurities_transaction_typeがあれば保存できる
-    investment = Investment.first
-
-    investment.update_columns(buying_or_selling: nil, securities_transaction_type: SECURITIES_TRANSACTION_TYPE_BUYING)
+  def test_save_売却でもsecurities_transaction_typeに書き込まれる
+    investment = Investment.new(
+      investment_params.merge(charges: 0, bank_account_id: bank_account.id, buying_or_selling: SECURITIES_TRANSACTION_TYPE_SELLING, gains: 0)
+    )
+    investment.save!
     investment.reload
 
-    assert_nil investment.buying_or_selling
-    assert_equal SECURITIES_TRANSACTION_TYPE_BUYING, investment.securities_transaction_type
+    assert_equal investment.buying_or_selling, investment.securities_transaction_type
+    assert_equal SECURITIES_TRANSACTION_TYPE_SELLING, investment.securities_transaction_type
   end
 
-  # リネーム移行用の一時的な DB 制約のテスト。旧カラム削除時に本テストも削除する。
-  def test_DB制約_buying_or_sellingとsecurities_transaction_typeが両方NULLは保存できない
+  def test_updateでbuying_or_sellingを変更するとsecurities_transaction_typeも更新される
     investment = Investment.first
+    investment.buying_or_selling = SECURITIES_TRANSACTION_TYPE_SELLING
+    investment.save!
+    investment.reload
 
-    assert_raises(ActiveRecord::StatementInvalid) do
-      investment.update_columns(buying_or_selling: nil, securities_transaction_type: nil)
-    end
+    assert_equal SECURITIES_TRANSACTION_TYPE_SELLING, investment.buying_or_selling
+    assert_equal SECURITIES_TRANSACTION_TYPE_SELLING, investment.securities_transaction_type
   end
 
-  # 新カラムのみを使う運用に切り替える際には、新カラム前提に書き換える。
   def test_buying_or_sellingとsecurities_transaction_typeが両方nilならinvalid
     investment = Investment.first
     investment.buying_or_selling = nil

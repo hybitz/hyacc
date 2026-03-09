@@ -22,7 +22,9 @@ class SubAccountsControllerTest < ActionController::TestCase
     get :index, params: { account_id: 39, order: 'code' }, format: 'json'
     assert_response :success
     json = JSON.parse(response.body)
-    codes = json.map { |h| SubAccount.find(h['id']).code }
+    sub_account_ids = json.map { |h| h['id'] }
+    sub_accounts_by_id = SubAccount.where(id: sub_account_ids).index_by(&:id)
+    codes = json.map { |h| sub_accounts_by_id[h['id'].to_i].code }
     assert_equal codes.sort, codes
   end
 end

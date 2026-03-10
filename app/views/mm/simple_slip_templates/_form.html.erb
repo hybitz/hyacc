@@ -3,7 +3,7 @@
     $(document).ready(function() {
       // キーワード生成
       $('input[value=キーワード生成]').click(function() {
-        var url = '<%= url_for :action => :get_keywords %>';
+        var url = '<%= url_for action: :get_keywords %>';
         var params = {remarks: $('#simple_slip_template_remarks').val()};
         $.get(url, params, function(data) {
           $('#simple_slip_template_keywords').val(data);
@@ -14,7 +14,7 @@
       var initial_value = '<%= @simple_slip_template.sub_account_id %>';
       $('#simple_slip_template_account_id').change(function(eventData) {
         var account = $(this);
-        var url = '<%= url_for :action => 'get_sub_accounts' %>';
+        var url = '<%= url_for action: 'get_sub_accounts' %>';
         var params = {account_id: account.val(), selected: initial_value, format: 'html'};
         $.get(url, params, function(data) {
           account.closest('td').next().html(data);

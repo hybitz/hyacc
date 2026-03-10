@@ -47,7 +47,7 @@
 
   <%# 子科目を再帰的に表示 %>
   <% account.children.each do |a| %>
-    <%= render 'line_bs_monthly', :account_code => a.code %>
+    <%= render 'line_bs_monthly', account_code: a.code %>
   <% end %>
 
   <%# 合計行を表示する %>

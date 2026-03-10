@@ -11,14 +11,14 @@
 
   <tbody>
     <% bank_offices.each_with_index do |bo, i| %>
-      <%= render 'bank_office_fields', :bank_office => bo, :index => i %>
+      <%= render 'bank_office_fields', bank_office: bo, index: i %>
     <% end %>
   </tbody>
 
   <tfoot>
     <tr>
       <td colspan="4">
-        <%= link_to '追加', {:action => 'add_bank_office'}, :onclick => 'banks.add_bank_office(this); return false;', class: 'btn btn-light' %>
+        <%= link_to '追加', {action: 'add_bank_office'}, onclick: 'banks.add_bank_office(this); return false;', class: 'btn btn-light' %>
       </td>
     </tr>
   </tfoot>

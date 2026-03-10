@@ -82,8 +82,8 @@
         <td><%= @company.pay_day_definition_jp %></td>
         <td class="text-center">
           <%= link_to '変更', edit_mm_company_path(@company, field: 'pay_day_definition'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
-          <%= button_tag '更新', :onclick => 'company.update(this);' %>
-          <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+          <%= button_tag '更新', onclick: 'company.update(this);' %>
+          <%= button_tag 'キャンセル', onclick: 'company.cancel(this)' %>
         </td>
       </tr>
     <% end %>
@@ -93,8 +93,8 @@
       <td><%= @company.business_type_name %></td>
       <td class="text-center">
         <%= link_to '変更', edit_mm_company_path(@company, field: 'business_type'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
-        <%= button_tag '更新', :onclick => 'company.update(this);' %>
-        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+        <%= button_tag '更新', onclick: 'company.update(this);' %>
+        <%= button_tag 'キャンセル', onclick: 'company.cancel(this)' %>
       </td>
     </tr>
     <tr>
@@ -102,8 +102,8 @@
       <td><%= @company.employment_insurance_type_name %></td>
       <td class="text-center">
         <%= link_to '変更', edit_mm_company_path(@company, field: 'employment_insurance_type'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
-        <%= button_tag '更新', :onclick => 'company.update(this);' %>
-        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+        <%= button_tag '更新', onclick: 'company.update(this);' %>
+        <%= button_tag 'キャンセル', onclick: 'company.cancel(this)' %>
       </td>
     </tr>
     <tr>
@@ -111,8 +111,8 @@
       <td><%= "入社#{@company.retirement_savings_after}年目から" if @company.retirement_savings_after %></td>
       <td class="text-center">
         <%= link_to '変更', edit_mm_company_path(@company, field: 'retirement_savings_after'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
-        <%= button_tag '更新', :onclick => 'company.update(this);' %>
-        <%= button_tag 'キャンセル', :onclick => 'company.cancel(this)' %>
+        <%= button_tag '更新', onclick: 'company.update(this);' %>
+        <%= button_tag 'キャンセル', onclick: 'company.cancel(this)' %>
       </td>
     </tr>
   </table>

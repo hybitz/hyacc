@@ -4,7 +4,7 @@
       index: $(trigger).closest('table').find('tr').length,
       format: 'html'
     };
-    $.get('<%= url_for :action => 'add_sub_account' %>', params, function(html) {
+    $.get('<%= url_for action: 'add_sub_account' %>', params, function(html) {
       $(trigger).closest('tr').before(html);
     });
   }

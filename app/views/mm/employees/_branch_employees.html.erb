@@ -6,7 +6,7 @@
       format: 'html'
     };
 
-    $.get('<%= url_for :action => 'add_branch' %>', params, function(html) {
+    $.get('<%= url_for action: 'add_branch' %>', params, function(html) {
       table.find('tbody').append(html);
     });
   }

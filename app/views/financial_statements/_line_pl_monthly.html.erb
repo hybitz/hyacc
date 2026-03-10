@@ -14,14 +14,14 @@
   <% @sum[account_code][:ym].each do |ym| %>
   <td id="<%= account_code + '_' + ym[:ym].to_s %>" align="right">
     <%= link_to_if @sum[account_code][:account].journalizable?,
-       to_amount( ym[:amount], :show_zero => true ),
-       { :controller => 'ledgers',
+       to_amount( ym[:amount], show_zero: true ),
+       { controller: 'ledgers',
          'finder[fiscal_year]'=>@finder.fiscal_year,
          'finder[account_id]'=>@sum[account_code][:account].id,
          'finder[branch_id]'=>@finder.branch_id,
-         :ym=>ym[:ym],
+         ym: ym[:ym],
        },
-       :style => 'text-decoration: none;'
+       style: 'text-decoration: none;'
     %>
   </td>
   <% end %>

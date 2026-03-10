@@ -13,14 +13,14 @@
     <td id="<%= account.code %>_amount" align="right">
       <%= link_to_if account.journalizable?,
           to_amount( @sum[account.code][:amount], show_zero: true ),
-          { :controller => 'ledgers',
-            :finder=>{
-              :fiscal_year=>@finder.fiscal_year,
-                :account_id=>account.id,
-                :branch_id=>@finder.branch_id,
+          { controller: 'ledgers',
+            finder: {
+              fiscal_year: @finder.fiscal_year,
+                account_id: account.id,
+                branch_id: @finder.branch_id,
               }
           },
-          :style => 'text-decoration: none;'
+          style: 'text-decoration: none;'
       %>
     </td>
     <td id="<%= account.code  %>_ratio" align="right"></td>

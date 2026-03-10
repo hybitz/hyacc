@@ -24,7 +24,7 @@ var options = {
       class: 'btn btn-light',
       click: function() {
         hyacc.current_dialog().close();
-        $.get('<%= new_mm_branch_path(:parent_id => @branch.id) %>');
+        $.get('<%= new_mm_branch_path(parent_id: @branch.id) %>');
       }
     }
   ]

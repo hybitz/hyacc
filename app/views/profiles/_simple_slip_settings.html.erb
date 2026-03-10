@@ -12,7 +12,7 @@
 
   <tbody>
     <% @profile.simple_slip_settings.each_with_index do |sss, i| %>
-      <%= render 'simple_slip_setting_fields', :sss => sss, :index => i %>
+      <%= render 'simple_slip_setting_fields', sss: sss, index: i %>
     <% end %>
   </tbody>
 

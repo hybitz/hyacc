@@ -92,7 +92,7 @@
     <%= form_tag action: 'index' do %>
       <label for="ymd">精算日</label>：<%= text_field_tag 'ymd', @ymd, class: 'datepicker' %>
       <label for="finder_account_id">精算科目</label>：
-      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", {selected: @frequency&.input_value ||}) %>
+      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", {selected: @frequency&.input_value || nil}) %>
 
       <span id="finder_sub_account_id_title" style="display: none;">
         <label for="finder_sub_account_id">補助科目</label>：

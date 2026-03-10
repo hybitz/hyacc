@@ -23,12 +23,14 @@ class JournalsController < Base::HyaccController
   def get_sub_account_detail
     jd = JournalDetail.find(params[:detail_id]) if params[:detail_id].present?
     jd ||= JournalDetail.new
-    jd.account_id = params[:account_id] if params[:account_id].present?
-    jd.sub_account_id = params[:sub_account_id] if params[:sub_account_id].present?
+    view_jd = jd.dup
+    view_jd.id = jd.id if jd.persisted?
+    view_jd.account_id = params[:account_id] if params[:account_id].present?
+    view_jd.sub_account_id = params[:sub_account_id] if params[:sub_account_id].present?
 
     renderer = AccountDetails::SubAccountDetailRenderer.get_instance(params[:account_id], params[:sub_account_id])
     if renderer
-      render partial: renderer.get_template(controller_name), locals: {jd: jd, index: params[:index]}
+      render partial: renderer.get_template(controller_name), locals: {jd: view_jd, index: params[:index]}
     else
       head :no_content
     end

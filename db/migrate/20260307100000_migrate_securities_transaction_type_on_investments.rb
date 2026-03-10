@@ -4,6 +4,7 @@ class MigrateSecuritiesTransactionTypeOnInvestments < ActiveRecord::Migration[8.
       UPDATE investments
       SET securities_transaction_type = buying_or_selling
       WHERE securities_transaction_type IS NULL
+        AND buying_or_selling IS NOT NULL
     SQL
   end
 

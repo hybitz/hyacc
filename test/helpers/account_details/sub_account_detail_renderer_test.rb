@@ -19,4 +19,10 @@ class AccountDetails::SubAccountDetailRendererTest < ActiveSupport::TestCase
     account_id = Account.where.not(code: ACCOUNT_CODE_DONATION).first.id
     assert_nil AccountDetails::SubAccountDetailRenderer.get_instance(account_id, nil)
   end
+
+  def test_get_instance_寄付金ではdonationのテンプレートを返す
+    account_id = Account.find_by(code: ACCOUNT_CODE_DONATION).id
+    renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account_id, nil)
+    assert_equal 'journals/account_details/donation', renderer.get_template('journals')
+  end
 end

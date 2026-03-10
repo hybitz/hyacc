@@ -14,7 +14,7 @@ module AccountDetails
         return nil unless sub_account
       end
 
-      DonationRenderer.new(account)
+      DonationRenderer.new
     end
   end
 

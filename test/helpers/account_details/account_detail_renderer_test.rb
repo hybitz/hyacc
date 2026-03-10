@@ -6,10 +6,4 @@ class AccountDetails::AccountDetailRendererTest < ActiveSupport::TestCase
     renderer = AccountDetails::AccountDetailRenderer.get_instance(account_id)
     assert_nil renderer
   end
-
-  def test_donation_renderer_get_template
-    account = Account.find_by(code: ACCOUNT_CODE_DONATION)
-    renderer = AccountDetails::DonationRenderer.new(account)
-    assert_equal 'journals/account_details/donation', renderer.get_template('journals')
-  end
 end

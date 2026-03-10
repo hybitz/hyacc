@@ -9,20 +9,20 @@
   <td>
     <%= collection_select_code_and_name(:simple_slip, :account_id, @accounts, :id, :name,
           {
-            :selected => @simple_slip.account_id,
-            :frequencies => @frequencies},
-            :class => 'accountSelect',
-            :accounts_path => accounts_path(purified_params),
-            :sub_accounts_path => sub_accounts_path(purified_params),
-            :account_details_path => url_for(:action => 'get_account_details', :account_code => params[:account_code])
+            selected: @simple_slip.account_id,
+            frequencies: @frequencies},
+            class: 'accountSelect',
+            accounts_path: accounts_path(purified_params),
+            sub_accounts_path: sub_accounts_path(purified_params),
+            account_details_path: url_for(action: 'get_account_details', account_code: params[:account_code])
           ) %>
   </td>
   <td>
-    <%= f.select :sub_account_id, f.object.sub_accounts, {}, :class => 'subAccountSelect', :style => 'width: 100%;' %>
+    <%= f.select :sub_account_id, f.object.sub_accounts, {}, class: 'subAccountSelect', style: 'width: 100%;' %>
     <%= hide_if_no_options("##{@simple_slip.new_record? ? 'new_simple_slip' : 'edit_simple_slip'} .subAccountSelect") %>
   </td>
   <td class="branchName">
-    <%= f.collection_select :branch_id, @branches, :id, :name, {}, :class => 'branchSelect', :style => 'width: 100%;' %>
+    <%= f.collection_select :branch_id, @branches, :id, :name, {}, class: 'branchSelect', style: 'width: 100%;' %>
   </td>
   <td class="amount"><%= f.text_field :amount_increase, class: 'amountText', onchange: 'simple_slip.update_tax_amount();' %></td>
   <td class="amount"><%= f.text_field :amount_decrease, class: 'amountText', onchange: 'simple_slip.update_tax_amount();' %></td>

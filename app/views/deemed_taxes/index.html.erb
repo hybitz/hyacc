@@ -15,32 +15,32 @@
     </tr>
     <tr>
         <th>課税売上高</th>
-        <td align="right"><%= to_amount @dtm.imposition_sales_amount, :show_zero=>true %> 円</td>
+        <td align="right"><%= to_amount @dtm.imposition_sales_amount, show_zero: true %> 円</td>
     </tr> 
     <tr>
         <th>課税標準額</th>
-        <td align="right"><%= to_amount @dtm.imposition_base_amount, :show_zero=>true %> 円</td>
+        <td align="right"><%= to_amount @dtm.imposition_base_amount, show_zero: true %> 円</td>
     </tr> 
     <tr>
         <th>消費税</th>
-        <td align="right"><%= to_amount @dtm.tax_amount, :show_zero=>true %> 円</td>
+        <td align="right"><%= to_amount @dtm.tax_amount, show_zero: true %> 円</td>
     </tr> 
     <tr>
         <th>地方消費税</th>
-        <td align="right"><%= to_amount @dtm.local_tax_amount, :show_zero=>true %> 円</td>
+        <td align="right"><%= to_amount @dtm.local_tax_amount, show_zero: true %> 円</td>
     </tr> 
     <tr>
         <th>納税額</th>
-        <td align="right"><%= to_amount @dtm.total_tax_amount, :show_zero=>true %> 円</td>
+        <td align="right"><%= to_amount @dtm.total_tax_amount, show_zero: true %> 円</td>
     </tr>
     <tr>
         <th>仕訳金額</th>
-        <td align="right"><%= to_amount @dtm.journal_amount, :show_zero=>true %> 円</td>
+        <td align="right"><%= to_amount @dtm.journal_amount, show_zero: true %> 円</td>
     </tr>
 </table>
 
 <% if @dtm.total_tax_amount > 0 %>
   <div style="margin:10px;">
-      <%= link_to '仕訳作成', {:action => :create}, data: {confirm: '消費税仕訳を作成します。よろしいですか？'}, :method=>:post %>
+      <%= link_to '仕訳作成', {action: :create}, data: {confirm: '消費税仕訳を作成します。よろしいですか？'}, method: :post %>
   </div>
 <% end %>

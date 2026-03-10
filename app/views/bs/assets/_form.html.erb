@@ -14,7 +14,7 @@
         <%= f.hidden_field :lock_version %>
         <%= @asset.code %>
       </td>
-      <td colspan="2"><%= f.text_field :name, :class => 'nameText' %></td>
+      <td colspan="2"><%= f.text_field :name, class: 'nameText' %></td>
       <td class="amount"><%= to_amount(@asset.amount) %></td>
       <td><%= @asset.account.name %></td>
       <td><%= @asset.branch.name %></td>

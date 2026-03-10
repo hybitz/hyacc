@@ -5,14 +5,14 @@
     $('#finder_account_id').change(function() {
       hide_sub_accounts();
 
-      $.get('<%= url_for :controller => 'sub_accounts', :format => 'json' %>',
+      $.get('<%= url_for controller: 'sub_accounts', format: 'json' %>',
         {order: 'code', account_id: $(this).val()},
         function(data) {
           reload_sub_accounts(data);
 
           // 初回は入力頻度からデフォルトの補助科目を選択しておく
           if (! initialized) {
-            $('#finder_sub_account_id').val(<%= @frequency ? @frequency.input_value2 : '' %>);
+            $('#finder_sub_account_id').val(<%= @frequency&.input_value2 || '' %>);
             initialized = true;
           }
         }
@@ -65,7 +65,7 @@
       return false;
     }
 
-    var url = '<%= url_for :action => 'create' %>';
+    var url = '<%= url_for action: 'create' %>';
     var params = {
       authenticity_token: '<%= form_authenticity_token %>',
       journal_id: journal_id,
@@ -87,13 +87,12 @@
 </script>
   
 <div style="margin:10px;">
-  <span style="margin:5px;">仮負債合計金額 <%= number_to_currency(@sum, :unit => '', :precision => 0) %> 円</span>
+  <span style="margin:5px;">仮負債合計金額 <%= number_to_currency(@sum, unit: '', precision: 0) %> 円</span>
   <div style="margin:5px;">
-    <%= form_tag :action => 'index' do %>
+    <%= form_tag action: 'index' do %>
       <label for="ymd">精算日</label>：<%= text_field_tag 'ymd', @ymd, class: 'datepicker' %>
       <label for="finder_account_id">精算科目</label>：
-      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name",
-            {:selected => @frequency ? @frequency.input_value : nil}) %>
+      <%= collection_select_code_and_name("finder", "account_id", @accounts, "id", "name", {selected: @frequency&.input_value ||}) %>
 
       <span id="finder_sub_account_id_title" style="display: none;">
         <label for="finder_sub_account_id">補助科目</label>：
@@ -133,7 +132,7 @@
             <td class="center">
               <div id="status_<%= debt.id.to_s %>">
               <% if debt.closed_id %>
-                <%= render 'closed_link', :closed_id => debt.closed_id %>
+                <%= render 'closed_link', closed_id: debt.closed_id %>
               <% else %>
                 <input type="button" value="精算" onclick="close_journal(<%= debt.id %>, <%= debt.branch_id %>);" />
               <% end %>

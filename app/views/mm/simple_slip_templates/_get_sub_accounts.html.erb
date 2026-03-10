@@ -1,5 +1,5 @@
 <% if sub_accounts.present? %>
   <%= fields_for 'simple_slip_template' do |f| %>
-    <%= f.collection_select :sub_account_id, sub_accounts, :id, :name, :selected => params[:selected], :include_blank => true %>
+    <%= f.collection_select :sub_account_id, sub_accounts, :id, :name, selected: params[:selected], include_blank: true %>
   <% end %>
 <% end %>

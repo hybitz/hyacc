@@ -1,3 +1,3 @@
 <% if @sub_accounts.present? %>
-  <%= collection_select("finder", "sub_account_id", @sub_accounts, "id", "name", :include_blank => true) %>
+  <%= collection_select("finder", "sub_account_id", @sub_accounts, "id", "name", include_blank: true) %>
 <% end %>

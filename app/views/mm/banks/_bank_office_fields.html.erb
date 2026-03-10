@@ -1,4 +1,4 @@
-<%= fields_for "bank[bank_offices_attributes]", bank_office, :index => index do |f| %>
+<%= fields_for "bank[bank_offices_attributes]", bank_office, index: index do |f| %>
   <tr class="bank_office">
     <td class="code">
       <% if f.object.new_record? %>

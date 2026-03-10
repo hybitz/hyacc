@@ -8,7 +8,7 @@
 
   function load_insurance() {
     var form = $(this).closest('form');
-    var url = '<%= url_for :action => 'auto_calc' %>';
+    var url = '<%= url_for action: 'auto_calc' %>';
     var params = form.serialize();
 
     $.getJSON(url, params, function(taxes) {

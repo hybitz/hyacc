@@ -15,7 +15,7 @@
       寄付先：
       <%= f.select :donation_recipient_id,
             options_from_collection_for_select(donation_recipients, :id, :label_for_select, jd.donation_recipient_id),
-            { include_blank: '未選択' },
+            { include_blank: true },
             class: 'donationRecipientSelect' %>
     </span>
   <% end %>

@@ -130,6 +130,10 @@ module ApplicationHelper
     renderer = AccountDetails::AccountDetailRenderer.get_instance(account_id)
     if account.path.include?(ACCOUNT_CODE_DONATION)
       renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account_id, locals[:jd]&.sub_account_id)
+      if renderer
+        donation_locals = renderer.build_locals(locals[:jd], locals[:index], current_company)
+        return render renderer.get_template(controller.controller_name), donation_locals
+      end
     end
 
     if renderer

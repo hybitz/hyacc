@@ -9,7 +9,7 @@ class Bs::InvestmentsController < Base::HyaccController
   end
 
   def new
-    @investment = Investment.new(buying_or_selling: SECURITIES_TRANSACTION_TYPE_BUYING)
+    @investment = Investment.new(securities_transaction_type: SECURITIES_TRANSACTION_TYPE_BUYING)
   end
 
   def create
@@ -89,7 +89,7 @@ class Bs::InvestmentsController < Base::HyaccController
   end
 
   def investment_params
-    params.require(:investment).permit(:name, :yyyymmdd, :sub_account_id, :customer_id, :buying_or_selling, :for_what,
+    params.require(:investment).permit(:name, :yyyymmdd, :sub_account_id, :customer_id, :securities_transaction_type, :for_what,
                                        :shares, :trading_value, :bank_account_id, :charges, :gains)
   end
 

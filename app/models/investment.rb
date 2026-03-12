@@ -7,7 +7,7 @@ class Investment < ApplicationRecord
   validates :securities_transaction_type, :presence => true
   validates_numericality_of :shares, :greater_than => 0
   validates_numericality_of :trading_value, :greater_than_or_equal_to => 0
-  validates_numericality_of :charges, :greater_than_than_or_equal_to => 0
+  validates_numericality_of :charges, :greater_than_or_equal_to => 0
 
   attr_accessor :yyyymmdd
 

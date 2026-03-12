@@ -126,18 +126,26 @@ module ApplicationHelper
 
   # 勘定科目別の詳細を表示する
   def render_account_details(account_id, locals = {})
-    account = Account.find(account_id)
     renderer = AccountDetails::AccountDetailRenderer.get_instance(account_id)
-    if account.path.include?(ACCOUNT_CODE_DONATION)
-      renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account_id, locals[:jd]&.sub_account_id)
-      if renderer
-        donation_locals = renderer.build_locals(locals[:jd], locals[:index], current_company)
-        return render renderer.get_template(controller.controller_name), donation_locals
-      end
-    end
-
     if renderer
       render renderer.get_template(controller.controller_name), locals
+    else
+      render plain: ''
+    end
+  end
+
+  # 補助科目別の詳細を表示する（寄付先など）
+  def render_sub_account_details(account_id, sub_account_id, locals = {})
+    jd = locals[:jd]
+
+    if controller.action_name == 'show' && jd.donation_recipient_id.nil?
+      return render plain: ''
+    end
+
+    renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account_id, sub_account_id)
+    if renderer
+      sub_locals = renderer.build_locals(jd, locals[:index], current_company)
+      render renderer.get_template(controller.controller_name), sub_locals
     else
       render plain: ''
     end

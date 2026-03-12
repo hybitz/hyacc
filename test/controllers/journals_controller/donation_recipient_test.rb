@@ -36,6 +36,50 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     assert_response :no_content
   end
 
+  def test_編集画面で寄付先パーシャルに紐づけ済みの寄付先名が表示される
+    jd = JournalDetail.where(account_id: donation_account.id).where.not(donation_recipient_id: nil).first
+    jh = jd.journal
+    dr = jd.donation_recipient
+
+    get :edit, xhr: true, params: { id: jh.id }
+    assert_response :success
+    assert_includes response.body, '寄付先'
+    assert_includes response.body, dr.name
+  end
+
+  def test_編集画面で未紐付の寄付先パーシャルと寄付先フォームが表示される
+    sub_account_ids = SubAccount.where(account_id: donation_account.id, code: DONATION_RECIPIENT_SUB_ACCOUNT_CODES).select(:id)
+    jd = JournalDetail.where(account_id: donation_account.id, donation_recipient_id: nil, sub_account_id: sub_account_ids).first
+    jh = jd.journal
+
+    get :edit, xhr: true, params: { id: jh.id }
+    assert_response :success
+    assert_includes response.body, '寄付先'
+    assert_includes response.body, 'donationRecipientSelect'
+  end
+
+  def test_参照画面で未紐付の寄付先パーシャルと寄付先フォームが表示されない
+    sub_account_ids = SubAccount.where(account_id: donation_account.id, code: DONATION_RECIPIENT_SUB_ACCOUNT_CODES).select(:id)
+    jd = JournalDetail.where(account_id: donation_account.id, donation_recipient_id: nil, sub_account_id: sub_account_ids).first
+    jh = jd.journal
+
+    get :show, xhr: true, params: { id: jh.id }
+    assert_response :success
+    assert_not_includes response.body, '寄付先'
+    assert_not_includes response.body, 'donationRecipientSelect'
+  end
+
+  def test_参照画面で寄付先パーシャルに紐づけ済みの寄付先名が表示される
+    jd = JournalDetail.where(account_id: donation_account.id).where.not(donation_recipient_id: nil).first
+    jh = jd.journal
+    dr = jd.donation_recipient
+
+    get :show, xhr: true, params: { id: jh.id }
+    assert_response :success
+    assert_includes response.body, '寄付先'
+    assert_includes response.body, dr.name
+  end
+
   def test_登録_寄付金明細で寄付先を選択できる
     dr = donation_recipients(:one)
 

@@ -21,8 +21,8 @@
           <%= f.select :customer_id, to_options(@customers) if @customers.length > 0 %></td>
     </tr>
     <tr>
-      <th><%= f.label :buying_or_selling %></th>
-      <td><%= f.radio_button :buying_or_selling, HyaccConst::SECURITIES_TRANSACTION_TYPE_BUYING, { checked: @investment.buying_or_selling == HyaccConst::SECURITIES_TRANSACTION_TYPE_BUYING } %>購入　<%= f.radio_button :buying_or_selling, HyaccConst::SECURITIES_TRANSACTION_TYPE_SELLING, { checked: @investment.buying_or_selling == HyaccConst::SECURITIES_TRANSACTION_TYPE_SELLING } %>売却</td>
+      <th><%= f.label :securities_transaction_type %></th>
+      <td><%= f.radio_button :securities_transaction_type, HyaccConst::SECURITIES_TRANSACTION_TYPE_BUYING, { checked: @investment.securities_transaction_type == HyaccConst::SECURITIES_TRANSACTION_TYPE_BUYING } %>購入　<%= f.radio_button :securities_transaction_type, HyaccConst::SECURITIES_TRANSACTION_TYPE_SELLING, { checked: @investment.securities_transaction_type == HyaccConst::SECURITIES_TRANSACTION_TYPE_SELLING } %>売却</td>
     </tr>
     <tr>
       <th><%= f.label :for_what %></th>

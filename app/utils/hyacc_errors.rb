@@ -9,6 +9,7 @@ module HyaccErrors
   ERR_DB = "DB処理でエラーが発生しました。"
   ERR_DC_AMOUNT_NOT_THE_SAME = "貸借の金額が一致していません。"
   ERR_DEFAULT_BRANCH_NOT_FOUND = "デフォルトの所属部署が存在しません。"
+  ERR_DONATION_RECIPIENT_LINKED = "寄付先に紐づいているため削除できません。"
   ERR_DUPLICATED_ASSET_CODE = "資産コードが重複しています。"
   ERR_DUPLICATEE_CARRY_FORWARD_JOURNAL = "繰越仕訳が重複して登録されています。"
   ERR_FILE_ALREADY_EXISTS = "既に存在するファイル名です。ファイル名を変更して下さい。"

@@ -279,7 +279,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     $.getJSON(that.options.sub_accounts_path, params, function(json) {
         replace_options('tr[data-index="' + params.index + '"] [name*="\\[sub_account_id\\]"]', json);
         detail.addClass('sub_account_ready');
-      });
+    });
 
     $.getJSON(that.options.get_tax_type_path, params, function(json) {
       that._set_tax_type(detail, json.tax_type);
@@ -288,9 +288,24 @@ hyacc.Journal.prototype._init_event_handlers = function() {
 
     $.get(that.options.get_account_detail_path, params, function(html) {
         $('#journal_details_' + params.index + '_account_detail').html(html);
-      });
+    });
 
     that._refresh_allocation(detail);
+  })
+  .delegate('select[name*="\\[sub_account_id\\]"]', 'change', function() {
+    var detail = that._get_detail(this);
+    var params = {
+      index: detail.data('index'),
+      account_id: that._get_account_id(detail),
+      detail_id: detail.data('detail_id'),
+      sub_account_id: $(this).val()
+    };
+    $.get(that.options.get_sub_account_detail_path, params, function(html, _text_status, jq_xhr) {
+      if (jq_xhr.status === 204) {
+        return;
+      }
+      $('#journal_details_' + params.index + '_account_detail').html(html);
+    });
   })
   .delegate('[name*="\\[branch_id\\]"]', 'change', function() {
     var detail = that._get_detail(this);

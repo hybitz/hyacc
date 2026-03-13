@@ -221,13 +221,13 @@
     <tr>
       <td class="small text-center" style="padding-top:0;padding-bottom:0;height:1em;"><small>41</small></td>
     </tr>
-    <% @model.donations_designated_details.each do |jd| %>
+    <% @model.donations_designated_details.each do |detail| %>
     <tr>
-      <td><%= to_wareki(jd.ymd) %></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-end"><%= to_amount(jd.amount) %></td>
+      <td><%= to_wareki(detail.ymd) %></td>
+      <td><%= detail.donation_recipient&.name %></td>
+      <td><%= detail.donation_recipient&.announcement_number %></td>
+      <td><%= detail.donation_recipient&.purpose %></td>
+      <td class="text-end"><%= to_amount(detail.amount) %></td>
     </tr>
     <% end %>
     <tr>
@@ -249,13 +249,13 @@
     <tr>
       <td class="small text-center" style="padding-top:0;padding-bottom:0;height:1em;"><small>42</small></td>
     </tr>
-    <% @model.donations_public_interest_details.each do |jd| %>
+    <% @model.donations_public_interest_details.each do |detail| %>
     <tr>
-      <td><%= to_wareki(jd.ymd) %></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-end"><%= to_amount(jd.amount) %></td>
+      <td><%= to_wareki(detail.ymd) %></td>
+      <td><%= detail.donation_recipient&.name %></td>
+      <td><%= detail.donation_recipient&.address %></td>
+      <td><%= detail.donation_recipient&.purpose_or_name %></td>
+      <td class="text-end"><%= to_amount(detail.amount) %></td>
     </tr>
     <% end %>
     <tr>
@@ -274,13 +274,13 @@
       <td class="text-center" style="width:20%;">特定公益信託の名称</td>
       <td class="text-center" style="width:20%;">支出金額</td>
     </tr>
-    <% @model.donations_non_certified_trust_details.each do |jd| %>
+    <% @model.donations_non_certified_trust_details.each do |detail| %>
     <tr>
-      <td><%= to_wareki(jd.ymd) %></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-end"><%= to_amount(jd.amount) %></td>
+      <td><%= to_wareki(detail.ymd) %></td>
+      <td><%= detail.donation_recipient&.name %></td>
+      <td><%= detail.donation_recipient&.address %></td>
+      <td><%= detail.donation_recipient&.trust_name %></td>
+      <td class="text-end"><%= to_amount(detail.amount) %></td>
     </tr>
     <% end %>
   </table>

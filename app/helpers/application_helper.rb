@@ -134,4 +134,21 @@ module ApplicationHelper
     end
   end
 
+  # 補助科目別の詳細を表示する（寄付先など）
+  def render_sub_account_details(account_id, sub_account_id, locals = {})
+    jd = locals[:jd]
+
+    if controller.action_name == 'show' && jd.donation_recipient_id.nil?
+      return render plain: ''
+    end
+
+    renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account_id, sub_account_id)
+    if renderer
+      sub_locals = renderer.build_locals(jd, locals[:index], current_company)
+      render renderer.get_template(controller.controller_name), sub_locals
+    else
+      render plain: ''
+    end
+  end
+
 end

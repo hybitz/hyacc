@@ -11,6 +11,7 @@ module AccountDetails
       return nil unless account_id.to_i > 0
 
       account = Account.find(account_id)
+
       if account.path.include? ACCOUNT_CODE_SOCIAL_EXPENSE
         SocialExpenseRenderer.new(account)
       elsif account.depreciable?

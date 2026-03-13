@@ -1,0 +1,14 @@
+<%
+  prefix = "journal[journal_details_attributes][#{index}]"
+%>
+<%= fields_for prefix, jd do |f| %>
+  <% if show_select %>
+    <span class="donation-recipient-fields">
+      寄付先：
+      <%= f.select :donation_recipient_id,
+            options_from_collection_for_select(donation_recipients, :id, :label_for_select, jd.donation_recipient_id),
+            { include_blank: true },
+            class: 'donationRecipientSelect' %>
+    </span>
+  <% end %>
+<% end %>

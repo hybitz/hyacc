@@ -1,0 +1,52 @@
+one:
+  id: 1
+  company_id: 1
+  kind: '100'
+  name: テスト寄付先
+  announcement_number: '1-2345'
+  purpose: テスト使途
+  deleted: false
+  created_at: 2025-01-01 00:00:00
+  updated_at: 2025-01-01 00:00:00
+
+deleted_one:
+  id: 2
+  company_id: 1
+  kind: '300'
+  name: 論理削除済み寄付先
+  deleted: true
+  created_at: 2025-01-01 00:00:00
+  updated_at: 2025-01-01 00:00:00
+
+for_deletion:
+  id: 3
+  company_id: 1
+  kind: '100'
+  name: 削除テスト用寄付先
+  announcement_number: '9-9999'
+  purpose: 削除テスト
+  deleted: false
+  created_at: 2025-01-01 00:00:00
+  updated_at: 2025-01-01 00:00:00
+
+public_interest:
+  id: 4
+  company_id: 1
+  kind: '300'
+  name: 特定公益増進テスト
+  address: 東京都千代田区
+  purpose_or_name: 使途名
+  deleted: false
+  created_at: 2025-01-01 00:00:00
+  updated_at: 2025-01-01 00:00:00
+
+non_certified_trust:
+  id: 5
+  company_id: 1
+  kind: '600'
+  name: 非認定信託テスト
+  address: 大阪府大阪市
+  trust_name: 信託名
+  deleted: false
+  created_at: 2025-01-01 00:00:00
+  updated_at: 2025-01-01 00:00:00

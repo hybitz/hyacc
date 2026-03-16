@@ -3,8 +3,8 @@ hyacc.current_dialog = function(options) {
   return this._dialogs.top() || new hyacc.Dialog(options);
 };
 
-hyacc.Dialog = function(options) {
-  this.options = options || {};
+hyacc.Dialog = function(options = {}) {
+  this.options = options;
   this.title = options.title;
   hyacc._dialogs.push(this);
 };

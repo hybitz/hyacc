@@ -1,7 +1,6 @@
 hyacc.tax = hyacc.tax || {};
 
-hyacc.tax.setRateField = function(context, options) {
-  options = options || {};
+hyacc.tax.setRateField = function(context, options = {}) {
   const taxRatePercentField = context.find('input[name*="\\[tax_rate_percent\\]"]');
   const taxTypeField = context.find('select[name*="\\[tax_type\\]"], input[name*="\\[tax_type\\]"]');
   const taxType = taxTypeField.val();

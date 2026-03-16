@@ -403,17 +403,13 @@ hyacc.Journal.prototype._refresh_allocation = function(detail) {
   });
 };
 
-hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options) {
-  options = options || {};
-
+hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options = {}) {
   const detail = $(trigger).closest('tr[data-detail_id]');
   hyacc.tax.setRateField(detail, options);
   this._refresh_tax_amount(trigger, options);
 };
 
-hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
-  options = options || {};
-
+hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options = {}) {
   const detail = $(trigger).closest('tr[data-detail_id]');
   const taxAmountField = detail.find('input[name*="\\[tax_amount\\]"]');
   const taxRatePercentField = detail.find('input[name*="\\[tax_rate_percent\\]"]');

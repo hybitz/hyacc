@@ -12,7 +12,7 @@ hyacc.SimpleSlip.prototype._init = function() {
       this.set_my_sub_account_id(this.options.my_sub_account_id);
     }
 
-    var that = this;
+    const that = this;
 
     this._init_ym();
 
@@ -42,8 +42,8 @@ hyacc.SimpleSlip.prototype._init = function() {
       return that.validate_slip();
     });
 
-    var form = $(this.selector);
-    var taxType = form.find('[name*="\\[tax_type\\]"]').val();
+    const form = $(this.selector);
+    const taxType = form.find('[name*="\\[tax_type\\]"]').val();
     if (taxType == tax.NONTAXABLE) {
       form.find('[name*="\\[tax_amount_increase\\]"]').val('').prop('disabled', true);
       form.find('[name*="\\[tax_amount_decrease\\]"]').val('').prop('disabled', true);
@@ -55,10 +55,10 @@ hyacc.SimpleSlip.prototype._init = function() {
 };
 
 hyacc.SimpleSlip.prototype._init_ym = function() {
-  var that = this;
-  
+  const that = this;
+
   that.get_ym().blur(function() {
-    var newYm = hyacc.ym.normalizeYm($(this).val());
+    const newYm = hyacc.ym.normalizeYm($(this).val());
     if (newYm) {
       $(this).val(newYm);
       $(this).change();
@@ -72,7 +72,7 @@ hyacc.SimpleSlip.prototype._init_ym = function() {
 
 // 全明細の自動振替の単一選択チェック
 hyacc.SimpleSlip.prototype.check_auto_journal_types = function() {
-  var count = $(this.selector).find('input:checked[name*="\\[auto_journal_type\\]"]').length;
+  const count = $(this.selector).find('input:checked[name*="\\[auto_journal_type\\]"]').length;
 
   if (count > 1) {
     alert('自動振替は複数指定できません。');
@@ -84,13 +84,13 @@ hyacc.SimpleSlip.prototype.check_auto_journal_types = function() {
 
 // 自動振替時の日付必須チェック
 hyacc.SimpleSlip.prototype.check_auto_transfer_date = function() {
-  var form = $(this.selector);
+  const form = $(this.selector);
 
-  var auto_journal_type = form.find('input:checked[name*="\\[auto_journal_type\\]"]').val();
+  const auto_journal_type = form.find('input:checked[name*="\\[auto_journal_type\\]"]').val();
   if (auto_journal_type == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE) {
-    var year = form.find('input[name*="\\[auto_journal_year\\]"]').val().toInt();
-    var month = form.find('input[name*="\\[auto_journal_month\\]"]').val().toInt();
-    var day = form.find('input[name*="\\[auto_journal_day\\]"]').val().toInt();
+    const year = form.find('input[name*="\\[auto_journal_year\\]"]').val().toInt();
+    const month = form.find('input[name*="\\[auto_journal_month\\]"]').val().toInt();
+    const day = form.find('input[name*="\\[auto_journal_day\\]"]').val().toInt();
 
     if (! checkDate(year, month, day)) {
       alert('振替日の指定が不正です。');
@@ -114,26 +114,26 @@ hyacc.SimpleSlip.prototype.set_my_sub_account_id = function(my_sub_account_id) {
 };
 
 hyacc.SimpleSlip.prototype.update_tax_rate = function(taxAmountIncrease, taxAmountDecrease) {
-  var form = $(this.selector);
+  const form = $(this.selector);
   hyacc.tax.setRateField(form);
   this.update_tax_amount(taxAmountIncrease, taxAmountDecrease);
 };
 
 hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAmountDecrease) {
-  var form = $(this.selector);
-  var amountIncreaseField = form.find('[name*=\\[amount_increase\\]]');
-  var taxAmountIncreaseField = form.find('[name*=\\[tax_amount_increase\\]]');
-  var sumAmountIncreaseDiv = form.find('.sum_amount_increase');
-  var amountDecreaseField = form.find('[name*=\\[amount_decrease\\]]');
-  var taxAmountDecreaseField = form.find('[name*=\\[tax_amount_decrease\\]]');
-  var sumAmountDecreaseDiv = form.find('.sum_amount_decrease');
-  var taxTypeSelect = form.find('[name*=\\[tax_type\\]]');
-  var taxRatePercentField = form.find('[name*=\\[tax_rate_percent\\]]');
+  const form = $(this.selector);
+  const amountIncreaseField = form.find('[name*=\\[amount_increase\\]]');
+  const taxAmountIncreaseField = form.find('[name*=\\[tax_amount_increase\\]]');
+  const sumAmountIncreaseDiv = form.find('.sum_amount_increase');
+  const amountDecreaseField = form.find('[name*=\\[amount_decrease\\]]');
+  const taxAmountDecreaseField = form.find('[name*=\\[tax_amount_decrease\\]]');
+  const sumAmountDecreaseDiv = form.find('.sum_amount_decrease');
+  const taxTypeSelect = form.find('[name*=\\[tax_type\\]]');
+  const taxRatePercentField = form.find('[name*=\\[tax_rate_percent\\]]');
 
-  var amount = this.validate_amount_on_one_side();
-  var taxAmount = 0;
-  var taxAmountField = null;
-  var sumAmountDiv = null;
+  const amount = this.validate_amount_on_one_side();
+  let taxAmount = 0;
+  let taxAmountField = null;
+  let sumAmountDiv = null;
   if (amountIncreaseField.val().isPresent()) {
     taxAmount = taxAmountIncrease;
     taxAmountField = taxAmountIncreaseField;
@@ -151,8 +151,8 @@ hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAm
     taxAmountDecreaseField.val('');
   }
 
-  var taxType = taxTypeSelect.val();
-  var taxRate = taxRatePercentField.val() / 100;
+  const taxType = taxTypeSelect.val();
+  const taxRate = taxRatePercentField.val() / 100;
 
   // 非課税の場合は消費税入力欄を非活性にする
   if (taxType == tax.NONTAXABLE) {
@@ -178,9 +178,9 @@ hyacc.SimpleSlip.prototype.update_tax_amount = function(taxAmountIncrease, taxAm
 };
 
 hyacc.SimpleSlip.prototype.validate_amount_on_one_side = function(showAlert) {
-  var form = $(this.selector);
-  var increase = (form.find('[name*=\\[amount_increase\\]]').val() || '').toInt();
-  var decrease = (form.find('[name*=\\[amount_decrease\\]]').val() || '').toInt();
+  const form = $(this.selector);
+  const increase = (form.find('[name*=\\[amount_increase\\]]').val() || '').toInt();
+  const decrease = (form.find('[name*=\\[amount_decrease\\]]').val() || '').toInt();
 
   if (increase == 0 && decrease == 0) {
     if ( showAlert ) {

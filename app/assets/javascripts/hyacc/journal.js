@@ -5,9 +5,9 @@ hyacc.Journal = function(selector, options) {
 };
 
 hyacc.Journal.prototype.add_detail = function(trigger) {
-  var tbody = $(trigger).closest('table').find('tbody');
+  const tbody = $(trigger).closest('table').find('tbody');
 
-  var params = {
+  const params = {
     index: this._get_details().last().data('index') + 1,
     format: 'html'
   };
@@ -18,14 +18,14 @@ hyacc.Journal.prototype.add_detail = function(trigger) {
 };
 
 hyacc.Journal.prototype.flip_details = function(show) {
-  var that = this;
+  const that = this;
   this._get_details().each(function() {
     if (that._is_deleted(this)) {
       return true;
     }
 
-    var detail = $(this);
-    var link = detail.find('.flip_detail_button');
+    const detail = $(this);
+    const link = detail.find('.flip_detail_button');
 
     if (show) {
       that._show_detail(detail);
@@ -38,8 +38,8 @@ hyacc.Journal.prototype.flip_details = function(show) {
 };
 
 hyacc.Journal.prototype.flip_detail = function(trigger) {
-  var detail = this._get_detail(trigger);
-  var link = $(trigger);
+  const detail = this._get_detail(trigger);
+  const link = $(trigger);
 
   if (this._is_detail_shown(detail)) {
     this._hide_detail(detail);
@@ -51,10 +51,10 @@ hyacc.Journal.prototype.flip_detail = function(trigger) {
 };
 
 hyacc.Journal.prototype.remove_receipt = function(trigger) {
-  var td = $(trigger).closest('td');
+  const td = $(trigger).closest('td');
   td.hide();
 
-  var tr = td.closest('tr');
+  const tr = td.closest('tr');
   tr.find('input[name*="\[deleted\]"]').val(true);
   tr.find('input[name*="\[original_filename\]"]').remove();
   tr.find('input.receipt').show();
@@ -63,18 +63,18 @@ hyacc.Journal.prototype.remove_receipt = function(trigger) {
 
 // 自動振替時の日付必須チェック
 hyacc.Journal.prototype._check_auto_journal_dates = function() {
-  var errors = [];
+  const errors = [];
 
-  var that = this;
+  const that = this;
   this._get_details().each(function(i) {
     if (that._is_deleted(this)) {
       return true;
     }
 
     if (that._get_auto_journal_type(this) == AUTO_JOURNAL_TYPE_DATE_INPUT_EXPENSE) {
-      var year = toInt(that._get_auto_journal_year(this));
-      var month = toInt(that._get_auto_journal_month(this));
-      var day = toInt(that._get_auto_journal_day(this));
+      const year = toInt(that._get_auto_journal_year(this));
+      const month = toInt(that._get_auto_journal_month(this));
+      const day = toInt(that._get_auto_journal_day(this));
 
       if (! checkDate(year, month, day)) {
         errors.push('【明細' + (i+1) + '】振替日の指定が不正です。');
@@ -93,18 +93,18 @@ hyacc.Journal.prototype._check_auto_journal_dates = function() {
 
 // 全明細の自動振替の単一選択チェック
 hyacc.Journal.prototype._check_auto_journal_types = function() {
-  var errors = [];
+  const errors = [];
 
-  var that = this;
+  const that = this;
   this._get_details().each(function(i) {
     if (that._is_deleted(this)) {
       return true;
     }
 
-    var tr = $(this);
-    var count = 0;
+    let tr = $(this);
+    let count = 0;
 
-    for (var j = 0; j < 3; j ++) {
+    for (let j = 0; j < 3; j ++) {
       tr = $(tr).next();
       if ($(tr).find('input[name*="\\[auto_journal_type\\]"]').prop('checked')) {
         count ++;
@@ -130,11 +130,11 @@ hyacc.Journal.prototype._get_account_id = function(detail) {
 };
 
 hyacc.Journal.prototype._get_auto_journal_type = function(detail) {
-  var tr = detail;
-  for (var i = 0; i < 3; i ++) {
-    var tr = $(tr).next();
-    var checkbox = $(tr).find('input[name*="\\[auto_journal_type\\]"]');
-    var checked = checkbox.prop('checked');
+  let tr = detail;
+  for (let i = 0; i < 3; i ++) {
+    tr = $(tr).next();
+    const checkbox = $(tr).find('input[name*="\\[auto_journal_type\\]"]');
+    const checked = checkbox.prop('checked');
     if (checked) {
       return checkbox.val();
     }
@@ -144,17 +144,17 @@ hyacc.Journal.prototype._get_auto_journal_type = function(detail) {
 };
 
 hyacc.Journal.prototype._get_auto_journal_year = function(detail) {
-  var tr = $(detail).next().next().next();
+  const tr = $(detail).next().next().next();
   return $(tr).find('input[name*="\\[auto_journal_year\\]"]').val();
 };
 
 hyacc.Journal.prototype._get_auto_journal_month = function(detail) {
-  var tr = $(detail).next().next().next();
+  const tr = $(detail).next().next().next();
   return $(tr).find('input[name*="\\[auto_journal_month\\]"]').val();
 };
 
 hyacc.Journal.prototype._get_auto_journal_day = function(detail) {
-  var tr = $(detail).next().next().next();
+  const tr = $(detail).next().next().next();
   return $(tr).find('input[name*="\\[auto_journal_day\\]"]').val();
 };
 
@@ -175,7 +175,7 @@ hyacc.Journal.prototype._get_details = function() {
 };
 
 hyacc.Journal.prototype._get_input_amount = function(detail) {
-  var ret = $(detail).find('input[name*="\\[input_amount\\]"]').val();
+  let ret = $(detail).find('input[name*="\\[input_amount\\]"]').val();
 
   ret = parseInt(ret);
   if (isNaN(ret)) {
@@ -186,18 +186,18 @@ hyacc.Journal.prototype._get_input_amount = function(detail) {
 };
 
 hyacc.Journal.prototype._get_next_detail = function(trigger) {
-  var detail = this._get_detail(trigger);
+  const detail = this._get_detail(trigger);
   return detail.next().next().next().next();
 };
 
 
 hyacc.Journal.prototype._get_prev_detail = function(trigger) {
-  var detail = this._get_detail(trigger);
+  const detail = this._get_detail(trigger);
   return detail.prev().prev().prev().prev();
 };
 
 hyacc.Journal.prototype._get_tax_amount = function(detail) {
-  var ret = $(detail).find('input[name*="\\[tax_amount\\]"]').val();
+  let ret = $(detail).find('input[name*="\\[tax_amount\\]"]').val();
 
   ret = parseInt(ret);
   if (isNaN(ret)) {
@@ -227,13 +227,13 @@ hyacc.Journal.prototype._is_detail_shown = function(detail) {
 };
 
 hyacc.Journal.prototype._set_flip_button_state = function(link, shown) {
-  var hideText = (typeof I18n !== 'undefined' && I18n && I18n.t) ? I18n.t('text.hide_detail') : '詳細を隠す';
-  var showText = (typeof I18n !== 'undefined' && I18n && I18n.t) ? I18n.t('text.show_detail') : '詳細を表示';
-  var text = shown ? hideText : showText;
+  const hideText = (typeof I18n !== 'undefined' && I18n && I18n.t) ? I18n.t('text.hide_detail') : '詳細を隠す';
+  const showText = (typeof I18n !== 'undefined' && I18n && I18n.t) ? I18n.t('text.show_detail') : '詳細を表示';
+  const text = shown ? hideText : showText;
   $(link).attr('aria-expanded', shown ? 'true' : 'false');
   $(link).attr('title', text);
 
-  var label = $(link).find('.flip_detail_label');
+  const label = $(link).find('.flip_detail_label');
   if (label.length > 0) {
     label.text(text);
   } else {
@@ -258,15 +258,15 @@ hyacc.Journal.prototype._init = function() {
 };
 
 hyacc.Journal.prototype._init_event_handlers = function() {
-  var that = this;
+  const that = this;
 
   this._get_details().each(function() {
     $(this).addClass('sub_account_ready');
   });
 
   $(this.selector).delegate('select[name*="\\[account_id\\]"]', 'change', function() {
-    var detail = that._get_detail(this);
-    var params = {
+    const detail = that._get_detail(this);
+    const params = {
       index: detail.data('index'),
       account_id: $(this).val(),
       branch_id: that._get_branch_id(detail),
@@ -293,8 +293,8 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     that._refresh_allocation(detail);
   })
   .delegate('select[name*="\\[sub_account_id\\]"]', 'change', function() {
-    var detail = that._get_detail(this);
-    var params = {
+    const detail = that._get_detail(this);
+    const params = {
       index: detail.data('index'),
       account_id: that._get_account_id(detail),
       detail_id: detail.data('detail_id'),
@@ -308,11 +308,11 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     });
   })
   .delegate('[name*="\\[branch_id\\]"]', 'change', function() {
-    var detail = that._get_detail(this);
+    const detail = that._get_detail(this);
     that._refresh_allocation(detail);
   })
   .delegate('[name*="\\[dc_type\\]"]', 'change', function() {
-    var detail = that._get_detail(this);
+    const detail = that._get_detail(this);
     that._refresh_total_amount();
     that._refresh_allocation(detail);
   })
@@ -338,7 +338,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     that._refresh_total_amount();
   })
   .delegate('[name*="\\[ym\\]"]', 'change', function() {
-    var val = $(this).val();
+    const val = $(this).val();
     if (val.length === 6) {
       that._refresh_tax_rate_all();
     }
@@ -346,13 +346,13 @@ hyacc.Journal.prototype._init_event_handlers = function() {
 };
 
 hyacc.Journal.prototype._init_shortcut = function() {
-  var input_selector = '[name*="\\[input_amount\\]"]';
-  var that = this;
+  const input_selector = '[name*="\\[input_amount\\]"]';
+  const that = this;
 
   Mousetrap.bindGlobal('down', function(e) {
     if ($(e.target).is(input_selector)) {
       e.preventDefault();
-      var detail = that._get_detail(e.target);
+      const detail = that._get_detail(e.target);
       that._get_next_detail(detail).find(input_selector).focus().select();
     }
   });
@@ -360,24 +360,24 @@ hyacc.Journal.prototype._init_shortcut = function() {
   Mousetrap.bindGlobal('up', function(e) {
     if ($(e.target).is(input_selector)) {
       e.preventDefault();
-      var detail = that._get_detail(e.target);
+      const detail = that._get_detail(e.target);
       that._get_prev_detail(detail).find(input_selector).focus().select();
     }
   });
 };
 
 hyacc.Journal.prototype._init_validation = function() {
-  var that = this;
+  const that = this;
   $(this.selector).submit(function() {
     return that._validate_journal();
   });
 };
 
 hyacc.Journal.prototype._init_ym = function() {
-  var that = this;
+  const that = this;
 
   that.get_ym().blur(function() {
-    var newYm = hyacc.ym.normalizeYm($(this).val());
+    const newYm = hyacc.ym.normalizeYm($(this).val());
     if (newYm) {
       $(this).val(newYm);
       $(this).trigger('change');
@@ -402,7 +402,7 @@ hyacc.Journal.prototype._set_deleted = function(detail, deleted) {
 };
 
 hyacc.Journal.prototype._refresh_allocation = function(detail) {
-  var params = {
+  const params = {
     account_id: this._get_account_id(detail),
     branch_id: this._get_branch_id(detail),
     dc_type: this._get_dc_type(detail),
@@ -417,7 +417,7 @@ hyacc.Journal.prototype._refresh_allocation = function(detail) {
 hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options) {
   options = options || {};
 
-  var detail = $(trigger).closest('tr[data-detail_id]');
+  const detail = $(trigger).closest('tr[data-detail_id]');
   hyacc.tax.setRateField(detail, options);
   this._refresh_tax_amount(trigger, options);
 };
@@ -425,16 +425,16 @@ hyacc.Journal.prototype._refresh_tax_rate = function(trigger, options) {
 hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
   options = options || {};
 
-  var detail = $(trigger).closest('tr[data-detail_id]');
-  var taxAmountField = detail.find('input[name*="\\[tax_amount\\]"]');
-  var taxRatePercentField = detail.find('input[name*="\\[tax_rate_percent\\]"]');
-  var taxType = this._get_tax_type(detail);
+  const detail = $(trigger).closest('tr[data-detail_id]');
+  const taxAmountField = detail.find('input[name*="\\[tax_amount\\]"]');
+  const taxRatePercentField = detail.find('input[name*="\\[tax_rate_percent\\]"]');
+  const taxType = this._get_tax_type(detail);
 
   // 内税／外税の場合は消費税を計算
   if (taxType == tax.INCLUSIVE || taxType == tax.EXCLUSIVE) {
     if (!options.visibility_only) {
-      var amount = this._get_input_amount(detail);
-      var taxRate = taxRatePercentField.val() * 0.01;
+      const amount = this._get_input_amount(detail);
+      const taxRate = taxRatePercentField.val() * 0.01;
 
       taxAmountField.val(tax.calcTaxAmount(taxType, taxRate, amount));
     }
@@ -447,33 +447,33 @@ hyacc.Journal.prototype._refresh_tax_amount = function(trigger, options) {
 };
 
 hyacc.Journal.prototype._refresh_tax_rate_all = function(options) {
-  var that = this;
+  const that = this;
   this._get_details().each(function() {
     that._refresh_tax_rate(this, options);
   });
 };
 
 hyacc.Journal.prototype._refresh_total_amount = function() {
-  var debitAmount = 0;
-  var creditAmount = 0;
+  let debitAmount = 0;
+  let creditAmount = 0;
 
-  var that = this;
+  const that = this;
   this._get_details().each(function() {
     if (that._is_deleted(this)) {
       return true;
     }
 
-    var amount = that._get_input_amount(this);
-    var taxAmount = that._get_tax_amount(this);
+    let amount = that._get_input_amount(this);
+    const taxAmount = that._get_tax_amount(this);
 
-    var taxType = that._get_tax_type(this);
+    const taxType = that._get_tax_type(this);
     if (taxType == tax.EXCLUSIVE) {
       amount += taxAmount;
     }
 
     $(this).find('.amount_sum').text(toAmount(amount));
 
-    var dcType = that._get_dc_type(this);
+    const dcType = that._get_dc_type(this);
     if (dcType == DC_TYPE_DEBIT) {
       debitAmount += amount;
     } else if (dcType == DC_TYPE_CREDIT) {
@@ -488,7 +488,7 @@ hyacc.Journal.prototype._refresh_total_amount = function() {
 };
 
 hyacc.Journal.prototype._remove_detail = function(trigger) {
-  var detail = $(trigger).closest('tr[data-detail_id]');
+  const detail = $(trigger).closest('tr[data-detail_id]');
   this._set_deleted(detail, true);
   this._hide_detail(detail);
 };
@@ -498,15 +498,15 @@ hyacc.Journal.prototype._show_detail = function(detail) {
 };
 
 hyacc.Journal.prototype._validate_amount = function() {
-  var errors = [];
+  const errors = [];
 
-  var that = this;
+  const that = this;
   this._get_details().each(function(i) {
     if (that._is_deleted(this)) {
       return true;
     }
 
-    var amount = parseInt($(this).find('input[name*="\\[input_amount\\]"]').val());
+    const amount = parseInt($(this).find('input[name*="\\[input_amount\\]"]').val());
     if (isNaN(amount) || amount == 0) {
       errors.push((i + 1) + '行目の金額が未入力です。');
     }
@@ -521,8 +521,8 @@ hyacc.Journal.prototype._validate_amount = function() {
 };
 
 hyacc.Journal.prototype._validate_amount_balance = function() {
-  var debit = $(this.selector).find('.debit_amount_sum').text();
-  var credit = $(this.selector).find('.credit_amount_sum').text();
+  const debit = $(this.selector).find('.debit_amount_sum').text();
+  const credit = $(this.selector).find('.credit_amount_sum').text();
 
   if (debit != credit) {
     alert('貸借の金額が一致しません。\n借方: ' + debit + ' != 貸方: ' + credit);

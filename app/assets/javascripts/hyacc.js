@@ -1,1 +1,1 @@
-var hyacc = {};
+const hyacc = {};

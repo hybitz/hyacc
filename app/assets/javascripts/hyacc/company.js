@@ -5,7 +5,7 @@ hyacc.Company = function(options) {
 
 hyacc.Company.prototype.edit = function(trigger) {
   $.get($(trigger).attr('href'), {format: 'html'}, function(html) {
-    var tr = $(trigger).closest('tr');
+    const tr = $(trigger).closest('tr');
     tr.find('td').first().html(html);
     tr.find('td').last().find('a').hide();
     tr.find('td').last().find('button').show();
@@ -13,7 +13,7 @@ hyacc.Company.prototype.edit = function(trigger) {
 };
 
 hyacc.Company.prototype.update = function(trigger) {
-  var form = $(trigger).closest('tr').find('form')[0];
+  const form = $(trigger).closest('tr').find('form')[0];
   Rails.fire(form, 'submit');
 };
 
@@ -22,7 +22,7 @@ hyacc.Company.prototype.cancel = function(trigger) {
 };
 
 hyacc.Company.prototype._init = function() {
-  var that = this;
+  const that = this;
   $(document).ready(function() {
     $(that.selector).find('button').hide();
   });

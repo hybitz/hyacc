@@ -10,11 +10,11 @@ hyacc.Dialog = function(options) {
 };
 
 hyacc.Dialog.prototype._init_buttons = function() {
-  var that = this;
-  var ret = [];
+  const that = this;
+  const ret = [];
 
   if (that.options.buttons) {
-    for (var i = 0; i < that.options.buttons.length; i ++) {
+    for (let i = 0; i < that.options.buttons.length; i ++) {
       ret.push(that.options.buttons[i]);
     }
   }
@@ -24,7 +24,7 @@ hyacc.Dialog.prototype._init_buttons = function() {
       text: that.options.submit,
       class: 'btn btn-light',
       click: function() {
-        var form = that.jq_dialog.dialog('widget').find('form').first()[0];
+        const form = that.jq_dialog.dialog('widget').find('form').first()[0];
         Rails.fire(form, 'submit');
       }
     });
@@ -42,7 +42,7 @@ hyacc.Dialog.prototype._init_buttons = function() {
 };
 
 hyacc.Dialog.prototype.open = function(url) {
-  var that = this;
+  const that = this;
   $.get(url, function(html) {
     that.show(html);
   });
@@ -52,7 +52,7 @@ hyacc.Dialog.prototype.show = function(html) {
   if (this.jq_dialog) {
     this.jq_dialog.html(html);
   } else {
-    var that = this;
+    const that = this;
     this.jq_dialog = $('<div class="dialog_wrapper">' + html + '</div>').dialog({
       modal: true,
       title: that.title,

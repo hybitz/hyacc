@@ -1,8 +1,8 @@
-var bank_accounts = {};
+const bank_accounts = {};
 
 bank_accounts.update_bank_offices = function(trigger, target_selector) {
-  var url = $(trigger).attr('href');
-  var params = {
+  const url = $(trigger).attr('href');
+  const params = {
     bank_id: $(trigger).val(),
     order: 'code',
     format: 'json'

@@ -75,7 +75,7 @@ hyacc.Journal.prototype._check_auto_journal_dates = function() {
       const day = toInt(this._get_auto_journal_day(el));
 
       if (! checkDate(year, month, day)) {
-        errors.push('【明細' + (i+1) + '】振替日の指定が不正です。');
+        errors.push(`【明細${i+1}】振替日の指定が不正です。`);
         this._show_detail(el);
       }
     }
@@ -109,7 +109,7 @@ hyacc.Journal.prototype._check_auto_journal_types = function() {
     }
 
     if (count > 1) {
-      errors.push('【明細' + (i+1) + '】自動振替は複数指定できません。');
+      errors.push(`【明細${i+1}】自動振替は複数指定できません。`);
       this._show_detail(el);
     }
   });
@@ -272,7 +272,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
 
     detail.removeClass('sub_account_ready');
     $.getJSON(this.options.sub_accounts_path, params, (json) => {
-        replace_options('tr[data-index="' + params.index + '"] [name*="\\[sub_account_id\\]"]', json);
+        replace_options(`tr[data-index="${params.index}"] [name*="\\[sub_account_id\\]"]`, json);
         detail.addClass('sub_account_ready');
     });
 
@@ -282,7 +282,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
     });
 
     $.get(this.options.get_account_detail_path, params, (html) => {
-        $('#journal_details_' + params.index + '_account_detail').html(html);
+        $(`#journal_details_${params.index}_account_detail`).html(html);
     });
 
     this._refresh_allocation(detail);
@@ -299,7 +299,7 @@ hyacc.Journal.prototype._init_event_handlers = function() {
       if (jq_xhr.status === 204) {
         return;
       }
-      $('#journal_details_' + params.index + '_account_detail').html(html);
+      $(`#journal_details_${params.index}_account_detail`).html(html);
     });
   })
   .delegate('[name*="\\[branch_id\\]"]', 'change', (e) => {
@@ -399,7 +399,7 @@ hyacc.Journal.prototype._refresh_allocation = function(detail) {
   };
 
   $.get(this.options.get_allocation_path, params, (html) => {
-    $('#jd_' + params.index + '_allocation').html(html);
+    $(`#jd_${params.index}_allocation`).html(html);
   });
 };
 
@@ -494,7 +494,7 @@ hyacc.Journal.prototype._validate_amount = function() {
 
     const amount = parseInt($(el).find('input[name*="\\[input_amount\\]"]').val());
     if (isNaN(amount) || amount == 0) {
-      errors.push((i + 1) + '行目の金額が未入力です。');
+      errors.push(`${i + 1}行目の金額が未入力です。`);
     }
   });
 
@@ -511,7 +511,7 @@ hyacc.Journal.prototype._validate_amount_balance = function() {
   const credit = $(this.selector).find('.credit_amount_sum').text();
 
   if (debit != credit) {
-    alert('貸借の金額が一致しません。\n借方: ' + debit + ' != 貸方: ' + credit);
+    alert(`貸借の金額が一致しません。\n借方: ${debit} != 貸方: ${credit}`);
     return false;
   }
 

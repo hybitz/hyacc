@@ -16,7 +16,7 @@ hyacc.SimpleSlip.prototype._init = function() {
 
     $(this.selector).find('.accountSelect').change((e) => {
       const el = $(e.currentTarget);
-      $.getJSON(el.attr('accounts_path') + '/' + el.val(), {order: 'code'}, (account) => {
+      $.getJSON(`${el.attr('accounts_path')}/${el.val()}`, {order: 'code'}, (account) => {
           replace_options($(this.selector).find('.subAccountSelect'), account.sub_accounts);
           $(this.selector).find('.taxTypeSelect').val(account.tax_type);
           this.update_tax_rate();

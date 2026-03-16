@@ -50,7 +50,7 @@ hyacc.Dialog.prototype.show = function(html) {
   if (this.jq_dialog) {
     this.jq_dialog.html(html);
   } else {
-    this.jq_dialog = $('<div class="dialog_wrapper">' + html + '</div>').dialog({
+    this.jq_dialog = $(`<div class="dialog_wrapper">${html}</div>`).dialog({
       modal: true,
       title: this.title,
       width: this.options.width || 'auto',

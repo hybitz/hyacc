@@ -10,7 +10,7 @@ hyacc.tax.setRateField = function(context, options) {
     if (!options.visibility_only) {
       const ymField = context.closest('form').find('input[name*="\\[ym\\]"]');
       const ymVal = ymField.val().toString();
-      const date = ymVal.substring(0, 4) + '-' + ymVal.substring(4, 6) + '-01';
+      const date = `${ymVal.substring(0, 4)}-${ymVal.substring(4, 6)}-01`;
       const taxRate = tax.getRateOn(date);
       taxRatePercentField.val(parseInt(taxRate * 100));
     }

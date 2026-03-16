@@ -126,7 +126,7 @@ function replace_options(selector, json, include_blank) {
     }
 
     for (let i = 0; i < json.length; i ++) {
-      select.append('<option value="' + json[i].id + '">' + json[i].name + '</option>');
+      select.append(`<option value="${json[i].id}">${json[i].name}</option>`);
      }
 
     select.show();

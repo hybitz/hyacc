@@ -224,8 +224,8 @@ hyacc.Journal.prototype._is_detail_shown = function(detail) {
 };
 
 hyacc.Journal.prototype._set_flip_button_state = function(link, shown) {
-  const hideText = (typeof I18n !== 'undefined' && I18n && I18n.t) ? I18n.t('text.hide_detail') : '詳細を隠す';
-  const showText = (typeof I18n !== 'undefined' && I18n && I18n.t) ? I18n.t('text.show_detail') : '詳細を表示';
+  const hideText = '詳細を隠す';
+  const showText = '詳細を表示';
   const text = shown ? hideText : showText;
   $(link).attr('aria-expanded', shown ? 'true' : 'false');
   $(link).attr('title', text);

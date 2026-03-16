@@ -1,12 +1,11 @@
 function findElementByClassName( elem, className ) {
-    for (let i = 0; i < elem.childNodes.length; i ++) {
-      const child = elem.childNodes[i];
+    for (const child of elem.childNodes) {
       if (child.getAttributeNode == undefined) {
         continue;
       }
 
 	  const clazz = child.getAttributeNode('class');
-      if (clazz != null && clazz.value == className) {
+      if (clazz?.value == className) {
         return child;
       }
     }
@@ -110,8 +109,8 @@ function replaceOptions(selectId, jsonText, includeBlank){
   	  select.options[select.options.length] = new Option("", "");
     }
     
-    for (let i = 0; i < json.length; i++) {
-  	  select.options[select.options.length] = new Option(json[i].name, json[i].id);
+    for (const item of json) {
+      select.options[select.options.length] = new Option(item.name, item.id);
     }
   }  
 }
@@ -125,8 +124,8 @@ function replace_options(selector, json, include_blank) {
       select.append('<option value=""></option>');
     }
 
-    for (let i = 0; i < json.length; i ++) {
-      select.append(`<option value="${json[i].id}">${json[i].name}</option>`);
+    for (const item of json) {
+      select.append(`<option value="${item.id}">${item.name}</option>`);
      }
 
     select.show();

@@ -13,8 +13,8 @@ hyacc.Dialog.prototype._init_buttons = function() {
   const ret = [];
 
   if (this.options.buttons) {
-    for (let i = 0; i < this.options.buttons.length; i ++) {
-      ret.push(this.options.buttons[i]);
+    for (const button of this.options.buttons) {
+      ret.push(button);
     }
   }
 

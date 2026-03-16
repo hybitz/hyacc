@@ -1,8 +1,6 @@
 <%= form_for [:mm, @account], remote: true do |f| %>
-  <div class="mb-2">
-    <%= flash_notice %>
-  </div>
-  
+  <%= flash_notice %>
+
   <script>
     $(document).ready(function() {
       $('#account_sub_account_type').change(function() {

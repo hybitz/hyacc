@@ -1,7 +1,5 @@
 <%= form_with model: [:mm, @donation_recipient], data: { remote: true } do |f| %>
-  <div class="mb-2">
-    <%= flash_notice %>
-  </div>
+  <%= flash_notice %>
 
   <table class="table table-sm mb-0" style="min-width: 40em;">
     <% kind_locked = @donation_recipient.persisted? && @donation_recipient.journal_details.exists? %>

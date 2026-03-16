@@ -4,7 +4,7 @@ hyacc.Company = function(options) {
 };
 
 hyacc.Company.prototype.edit = function(trigger) {
-  $.get($(trigger).attr('href'), {format: 'html'}, function(html) {
+  $.get($(trigger).attr('href'), {format: 'html'}, (html) => {
     const tr = $(trigger).closest('tr');
     tr.find('td').first().html(html);
     tr.find('td').last().find('a').hide();
@@ -22,8 +22,7 @@ hyacc.Company.prototype.cancel = function(trigger) {
 };
 
 hyacc.Company.prototype._init = function() {
-  const that = this;
-  $(document).ready(function() {
-    $(that.selector).find('button').hide();
+  $(document).ready(() => {
+    $(this.selector).find('button').hide();
   });
 };

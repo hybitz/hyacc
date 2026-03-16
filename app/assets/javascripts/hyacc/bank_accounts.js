@@ -8,7 +8,7 @@ bank_accounts.update_bank_offices = function(trigger, target_selector) {
     format: 'json'
   };
 
-  $.get(url, params, function(json) {
+  $.get(url, params, (json) => {
     replace_options(target_selector, json, true);
   });
 };

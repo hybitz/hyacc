@@ -10,21 +10,20 @@ hyacc.Dialog = function(options) {
 };
 
 hyacc.Dialog.prototype._init_buttons = function() {
-  const that = this;
   const ret = [];
 
-  if (that.options.buttons) {
-    for (let i = 0; i < that.options.buttons.length; i ++) {
-      ret.push(that.options.buttons[i]);
+  if (this.options.buttons) {
+    for (let i = 0; i < this.options.buttons.length; i ++) {
+      ret.push(this.options.buttons[i]);
     }
   }
 
-  if (that.options.submit) {
+  if (this.options.submit) {
     ret.push({
-      text: that.options.submit,
+      text: this.options.submit,
       class: 'btn btn-light',
-      click: function() {
-        const form = that.jq_dialog.dialog('widget').find('form').first()[0];
+      click: () => {
+        const form = this.jq_dialog.dialog('widget').find('form').first()[0];
         Rails.fire(form, 'submit');
       }
     });
@@ -33,8 +32,8 @@ hyacc.Dialog.prototype._init_buttons = function() {
   ret.push({
     text: '閉じる',
     class: 'btn btn-light',
-    click: function() {
-      that.close();
+    click: () => {
+      this.close();
     }
   });
 
@@ -42,9 +41,8 @@ hyacc.Dialog.prototype._init_buttons = function() {
 };
 
 hyacc.Dialog.prototype.open = function(url) {
-  const that = this;
-  $.get(url, function(html) {
-    that.show(html);
+  $.get(url, (html) => {
+    this.show(html);
   });
 };
 
@@ -52,18 +50,18 @@ hyacc.Dialog.prototype.show = function(html) {
   if (this.jq_dialog) {
     this.jq_dialog.html(html);
   } else {
-    const that = this;
     this.jq_dialog = $('<div class="dialog_wrapper">' + html + '</div>').dialog({
       modal: true,
-      title: that.title,
-      width: that.options.width || 'auto',
-      open: that.options.open || function() {
+      title: this.title,
+      width: this.options.width || 'auto',
+      open: this.options.open || function() {
+        // jQuery UI sets `this` to the dialog element here — must stay a regular function
         $(this).dialog('widget').find('.ui-dialog-titlebar button').last().focus();
       },
-      close: function() {
-        that.close();
+      close: () => {
+        this.close();
       },
-      buttons: that._init_buttons()
+      buttons: this._init_buttons()
     });
   }
 };

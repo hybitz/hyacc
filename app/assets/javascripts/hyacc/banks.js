@@ -8,7 +8,7 @@ banks.add_bank_office = function(trigger) {
     format: 'html'
   };
 
-  $.get(url, params, function(html) {
+  $.get(url, params, (html) => {
     table.find('tbody').append(html);
   });
 };

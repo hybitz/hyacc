@@ -2,7 +2,7 @@ const simple_slips = {};
 
 simple_slips.copy = function(trigger) {
   const url = $(trigger).attr('href');
-  $.getJSON(url, function(data) {
+  $.getJSON(url, (data) => {
     $('#simple_slip_remarks').val(data.remarks);
     $('#simple_slip_account_id').val(data.account_id);
     $('#simple_slip_sub_account_id').val(data.sub_account_id);
@@ -36,13 +36,13 @@ simple_slips.calc_sum = function(options) {
   }
 
   if (!options.only_color) {
-    table.find('tr[slip_id]').each(function() {
-      sum += toInt($(this).find('.amountIncrease').text());
-      sum -= toInt($(this).find('.amountDecrease').text());
-      $(this).find('.amountSum').text(toAmount(sum));
+    table.find('tr[slip_id]').each((_, el) => {
+      sum += toInt($(el).find('.amountIncrease').text());
+      sum -= toInt($(el).find('.amountDecrease').text());
+      $(el).find('.amountSum').text(toAmount(sum));
 
       if (sum < 0) {
-        $(this).find('.amountSum').css('color', 'red');
+        $(el).find('.amountSum').css('color', 'red');
       }
     });
   }

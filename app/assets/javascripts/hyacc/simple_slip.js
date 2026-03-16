@@ -12,34 +12,31 @@ hyacc.SimpleSlip.prototype._init = function() {
       this.set_my_sub_account_id(this.options.my_sub_account_id);
     }
 
-    const that = this;
-
     this._init_ym();
 
-    $(this.selector).find('.accountSelect').change(function() {
-      $.getJSON($(this).attr('accounts_path') + '/'+ $(this).val(), {order: 'code'}, function(account) {
-          replace_options($(that.selector).find('.subAccountSelect'), account.sub_accounts);
-          $(that.selector).find('.taxTypeSelect').val(account.tax_type);
-          that.update_tax_rate();
+    $(this.selector).find('.accountSelect').change((e) => {
+      const el = $(e.currentTarget);
+      $.getJSON(el.attr('accounts_path') + '/' + el.val(), {order: 'code'}, (account) => {
+          replace_options($(this.selector).find('.subAccountSelect'), account.sub_accounts);
+          $(this.selector).find('.taxTypeSelect').val(account.tax_type);
+          this.update_tax_rate();
       });
 
-      $.get($(this).attr('account_details_path'), {account_id: $(this).val()},
-        function(html) {
-          $(that.selector).find('.account_detail').html(html);
-        }
-      );
+      $.get(el.attr('account_details_path'), {account_id: el.val()}, (html) => {
+          $(this.selector).find('.account_detail').html(html);
+      });
     });
 
-    $(this.selector).find('.taxTypeSelect').change(function() {
-      that.update_tax_rate();
+    $(this.selector).find('.taxTypeSelect').change(() => {
+      this.update_tax_rate();
     });
 
-    $(this.selector).find('.taxRatePercentText').change(function() {
-      that.update_tax_amount();
+    $(this.selector).find('.taxRatePercentText').change(() => {
+      this.update_tax_amount();
     });
 
-    $(this.selector).submit(function() {
-      return that.validate_slip();
+    $(this.selector).submit(() => {
+      return this.validate_slip();
     });
 
     const form = $(this.selector);
@@ -55,17 +52,15 @@ hyacc.SimpleSlip.prototype._init = function() {
 };
 
 hyacc.SimpleSlip.prototype._init_ym = function() {
-  const that = this;
-
-  that.get_ym().blur(function() {
-    const newYm = hyacc.ym.normalizeYm($(this).val());
+  this.get_ym().blur((e) => {
+    const newYm = hyacc.ym.normalizeYm($(e.target).val());
     if (newYm) {
-      $(this).val(newYm);
-      $(this).change();
+      $(e.target).val(newYm);
+      $(e.target).change();
     }
-  }).change(function() {
-    if ($(this).val().length == 6) {
-      that.update_tax_rate();
+  }).change((e) => {
+    if ($(e.target).val().length == 6) {
+      this.update_tax_rate();
     }
   });
 };

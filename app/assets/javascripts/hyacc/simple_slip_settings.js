@@ -7,7 +7,7 @@ simple_slip_settings.add_simple_slip_setting = function(trigger) {
     format: 'html'
   };
 
-  $.get(url, params, function(html) {
+  $.get(url, params, (html) => {
     $(trigger).closest('table').find('tbody').append(html);
   });
 };

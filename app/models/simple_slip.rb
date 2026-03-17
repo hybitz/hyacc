@@ -15,6 +15,7 @@ class SimpleSlip
   attr_accessor :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day
   attr_accessor :asset_id, :asset_code, :asset_lock_version
   attr_accessor :social_expense_number_of_people, :settlement_type
+  attr_accessor :donation_recipient_id
 
   validates :my_account_id, :presence => true
   validates_with Validators::MySubAccountPresenceValidator
@@ -186,6 +187,7 @@ class SimpleSlip
     self.sub_account_id = target_detail.sub_account_id
     self.tax_type = target_detail.tax_type
     self.tax_rate_percent = target_detail.tax_rate_percent
+    self.donation_recipient_id = target_detail.donation_recipient_id
 
     # 金額、消費税額
     if my_detail.dc_type == my_detail.account.dc_type
@@ -276,6 +278,7 @@ class SimpleSlip
     jd2.sub_account_id = sub_account_id
     jd2.input_amount = amount
     jd2.tax_amount = tax_amount
+    jd2.donation_recipient_id = donation_recipient_id
 
     # 計上日振替の設定
     jd2.auto_journal_type = auto_journal_type

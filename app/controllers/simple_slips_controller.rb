@@ -15,6 +15,18 @@ class SimpleSlipsController < Base::HyaccController
     end
   end
 
+  # 補助科目が決まった時点の詳細入力部分を取得する（寄付先フォームなど）
+  def get_sub_account_details
+    renderer = AccountDetails::SubAccountDetailRenderer.get_instance(params[:account_id], params[:sub_account_id])
+    unless renderer
+      head :no_content and return
+    end
+
+    @simple_slip = SimpleSlip.new(donation_recipient_id: params[:donation_recipient_id])
+    locals = renderer.build_locals(@simple_slip, 0, current_company)
+    render partial: renderer.get_template(controller_name), locals: locals
+  end
+
   def get_templates
     my_account = Account.find_by_code(finder.account_code)
     @simple_slip = SimpleSlip.new(:my_account_id => my_account.id)
@@ -192,7 +204,8 @@ class SimpleSlipsController < Base::HyaccController
       :sub_accounts => account.sub_accounts.collect{|sa| sa = {:id => sa.id, :name => sa.name}},
       :account_detail => account_detail,
       :tax_amount_increase => @simple_slip.tax_amount_increase,
-      :tax_amount_decrease => @simple_slip.tax_amount_decrease
+      :tax_amount_decrease => @simple_slip.tax_amount_decrease,
+      :donation_recipient_id => @simple_slip.donation_recipient_id
     }
 
     render :json => @json
@@ -220,6 +233,7 @@ class SimpleSlipsController < Base::HyaccController
       :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,
       :social_expense_number_of_people, :settlement_type,
       :asset_id, :asset_lock_version,
+      :donation_recipient_id,
       :lock_version
     ]
 

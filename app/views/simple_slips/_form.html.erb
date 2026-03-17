@@ -8,13 +8,12 @@
   <td><%= render 'form_remarks', f: f %></td>
   <td>
     <%= collection_select_code_and_name(:simple_slip, :account_id, @accounts, :id, :name,
-          {
-            selected: @simple_slip.account_id,
-            frequencies: @frequencies},
-            class: 'accountSelect',
+          { selected: @simple_slip.account_id, frequencies: @frequencies },
+          { class: 'accountSelect',
             accounts_path: accounts_path(purified_params),
-            sub_accounts_path: sub_accounts_path(purified_params),
-            account_details_path: url_for(action: 'get_account_details', account_code: params[:account_code])
+            sub_accounts_path: sub_accounts_path(format: 'json'),
+            account_details_path: url_for(action: 'get_account_details', account_code: params[:account_code]),
+            sub_account_details_path: url_for(action: 'get_sub_account_details', account_code: params[:account_code]) }
           ) %>
   </td>
   <td>
@@ -43,7 +42,12 @@
   <td rowspan="2" colspan="2">
     <%# 勘定科目ごとの入力項目 %>
     <div id="account_detail" class="account_detail" style="valign: middle; margin: 5px;">
-      <%= render_account_details @simple_slip.account_id %>
+      <div id="account_detail_account">
+        <%= render_account_details @simple_slip.account_id %>
+      </div>
+      <div id="account_detail_sub_account">
+        <%= render_sub_account_details @simple_slip.account_id, @simple_slip.sub_account_id, jd: @simple_slip, index: 0 %>
+      </div>
     </div>
   </td>
   <td nowrap align="right">

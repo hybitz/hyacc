@@ -17,14 +17,44 @@ class SimpleSlip {
 
       $(this.selector).find('.accountSelect').change((e) => {
         const el = $(e.currentTarget);
-        $.getJSON(`${el.attr('accounts_path')}/${el.val()}`, {order: 'code'}, (account) => {
-            replace_options($(this.selector).find('.subAccountSelect'), account.sub_accounts);
+        const accountId = el.val();
+        if (!accountId) return;
+
+        const subAccountsPath = el.attr('sub_accounts_path');
+        const accountsPath = el.attr('accounts_path');
+
+        if (subAccountsPath) {
+          $.getJSON(subAccountsPath, { account_id: accountId, order: 'code' }, (sub_accounts) => {
+            replace_options($(this.selector).find('.subAccountSelect'), sub_accounts);
+          });
+        }
+
+        if (accountsPath) {
+          $.getJSON(`${accountsPath}/${accountId}`, (account) => {
             $(this.selector).find('.taxTypeSelect').val(account.tax_type);
             this.update_tax_rate();
-        });
+          });
+        }
 
-        $.get(el.attr('account_details_path'), {account_id: el.val()}, (html) => {
-            $(this.selector).find('.account_detail').html(html);
+        $.get(el.attr('account_details_path'), { account_id: accountId }, (html) => {
+          $(this.selector).find('#account_detail_account').html(html);
+        });
+        $(this.selector).find('#account_detail_sub_account').html('');
+      });
+
+      $(this.selector).find('.subAccountSelect').change((e) => {
+        const accountSelect = $(this.selector).find('.accountSelect');
+        const subAccountSelect = $(e.currentTarget);
+        const url = accountSelect.attr('sub_account_details_path');
+        if (!url) return;
+        const params = {
+          account_id: accountSelect.val(),
+          sub_account_id: subAccountSelect.val(),
+          donation_recipient_id: $(this.selector).find('[name*="[donation_recipient_id]"]').val(),
+        };
+        $.get(url, params, (html, _textStatus, jqXhr) => {
+          if (jqXhr.status === 204) return;
+          $(this.selector).find('#account_detail_sub_account').html(html);
         });
       });
 

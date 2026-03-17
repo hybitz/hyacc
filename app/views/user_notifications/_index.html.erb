@@ -27,9 +27,8 @@
   });
 </script>
 
-<div style="margin: 10px;">
-  <%= flash_notice %>
-</div>
+<%= flash_notice %>
+
 <% if @user_notifications.any? || @deleted_notifications.any? %>
   <table class="table">
     <thead>

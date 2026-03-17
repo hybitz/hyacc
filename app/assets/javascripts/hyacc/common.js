@@ -1,12 +1,11 @@
 function findElementByClassName( elem, className ) {
-    for ( var i = 0; i < elem.childNodes.length; i ++ ) {
-      var child = elem.childNodes[i];
-      if ( child.getAttributeNode == undefined ) {
-        continue;	
+    for (const child of elem.childNodes) {
+      if (child.getAttributeNode == undefined) {
+        continue;
       }
-			
-	  var clazz = child.getAttributeNode('class');
-      if ( clazz != null && clazz.value == className ) {
+
+	  const clazz = child.getAttributeNode('class');
+      if (clazz?.value == className) {
         return child;
       }
     }
@@ -35,15 +34,15 @@ function get_ymd_shortcut_enabled_form(target) {
 }
 
 function enable_ymd_shortcut() {
-  Mousetrap.bindGlobal(['ctrl+y', 'ctrl+m'], function(e) {
+  Mousetrap.bindGlobal(['ctrl+y', 'ctrl+m'], (e) => {
     e.preventDefault();
-    let form = get_ymd_shortcut_enabled_form(e.target);
+    const form = get_ymd_shortcut_enabled_form(e.target);
     form.find('input[name*=\\[ym\\]]').animate({scrollTop: 0}, 'fast').focus().select();
   });
 
-  Mousetrap.bindGlobal('ctrl+d', function(e) {
+  Mousetrap.bindGlobal('ctrl+d', (e) => {
     e.preventDefault();
-    let form = get_ymd_shortcut_enabled_form(e.target);
+    const form = get_ymd_shortcut_enabled_form(e.target);
     form.find('input[name*=\\[day\\]]').animate({scrollTop: 0}, 'fast').focus().select();
   });
 }
@@ -51,14 +50,14 @@ function enable_ymd_shortcut() {
 // 参考：http://www.geocities.co.jp/SiliconValley/4334/unibon/javascript/formatnumber.html
 // (すべての変数に格納する値は0オリジンとする) 
 function toAmount( amount ) { // 引数の例としては 95839285734.3245
-    var s = "" + amount; // 確実に文字列型に変換する。例では "95839285734.3245"
-    var p = s.indexOf("."); // 小数点の位置を0オリジンで求める。例では 11
+    const s = "" + amount; // 確実に文字列型に変換する。例では "95839285734.3245"
+    let p = s.indexOf("."); // 小数点の位置を0オリジンで求める。例では 11
     if (p < 0) { // 小数点が見つからなかった時
         p = s.length; // 仮想的な小数点の位置とする
     }
-    var r = s.substring(p, s.length); // 小数点の桁と小数点より右側の文字列。例では ".3245"
-    for (var i = 0; i < p; i++) { // (10 ^ i) の位について
-        var c = s.substring(p - 1 - i, p - 1 - i + 1); // (10 ^ i) の位のひとつの桁の数字。例では "4", "3", "7", "5", "8", "2", "9", "3", "8", "5", "9" の順になる。
+    let r = s.substring(p, s.length); // 小数点の桁と小数点より右側の文字列。例では ".3245"
+    for (let i = 0; i < p; i++) { // (10 ^ i) の位について
+        const c = s.substring(p - 1 - i, p - 1 - i + 1); // (10 ^ i) の位のひとつの桁の数字。例では "4", "3", "7", "5", "8", "2", "9", "3", "8", "5", "9" の順になる。
         if (c < "0" || c > "9") { // 数字以外のもの(符合など)が見つかった
             r = s.substring(0, p - i) + r; // 残りを全部付加する
             break;
@@ -89,12 +88,12 @@ function toInt( amount ) {
  * @param {Boolean} includeBlank 先頭にブランクオプションを追加するかどうか
  */
 function replaceOptions(selectId, jsonText, includeBlank){
-  var json = jsonText;
+  let json = jsonText;
   if ( typeof jsonText == 'string' || (typeof jsonText == 'object' && jsonText.constructor == String) ) {
     json = eval(jsonText);
   }
 
-  var select = document.getElementById(selectId);
+  const select = document.getElementById(selectId);
 
   if (json == null || json.length == 0) {
     select.value = "";
@@ -110,14 +109,14 @@ function replaceOptions(selectId, jsonText, includeBlank){
   	  select.options[select.options.length] = new Option("", "");
     }
     
-    for (var i = 0; i < json.length; i++) {
-  	  select.options[select.options.length] = new Option(json[i].name, json[i].id);  
+    for (const item of json) {
+      select.options[select.options.length] = new Option(item.name, item.id);
     }
   }  
 }
 
 function replace_options(selector, json, include_blank) {
-  select = $(selector);
+  const select = $(selector);
   select.empty();
   
   if (json.length > 0) {
@@ -125,8 +124,8 @@ function replace_options(selector, json, include_blank) {
       select.append('<option value=""></option>');
     }
 
-    for (var i = 0; i < json.length; i ++) {
-      select.append('<option value="' + json[i].id + '">' + json[i].name + '</option>');
+    for (const item of json) {
+      select.append(`<option value="${item.id}">${item.name}</option>`);
      }
 
     select.show();
@@ -138,6 +137,6 @@ function replace_options(selector, json, include_blank) {
 
 // 日付の妥当性チェック
 function checkDate(year, month, day){
-  var date = new Date(year, month - 1, day);
+  const date = new Date(year, month - 1, day);
   return (date.getFullYear() == year && date.getMonth()== month - 1 && date.getDate() == day);
 };

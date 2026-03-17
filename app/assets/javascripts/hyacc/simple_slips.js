@@ -1,8 +1,8 @@
-var simple_slips = {};
+const simple_slips = {};
 
 simple_slips.copy = function(trigger) {
-  var url = $(trigger).attr('href');
-  $.getJSON(url, function(data) {
+  const url = $(trigger).attr('href');
+  $.getJSON(url, (data) => {
     $('#simple_slip_remarks').val(data.remarks);
     $('#simple_slip_account_id').val(data.account_id);
     $('#simple_slip_sub_account_id').val(data.sub_account_id);
@@ -26,29 +26,29 @@ simple_slips.copy = function(trigger) {
 };
 
 simple_slips.calc_sum = function(options) {
-  var table = $('#slipTable');
-  var rows = table.find('tr[slip_id]');
+  const table = $('#slipTable');
+  const rows = table.find('tr[slip_id]');
 
-  var before = table.find('thead tr').last().find('.amountSum');
-  var sum = toInt(before.text());
+  const before = table.find('thead tr').last().find('.amountSum');
+  let sum = toInt(before.text());
   if (sum < 0) {
     $(before).css('color', 'red');
   }
 
   if (!options.only_color) {
-    table.find('tr[slip_id]').each(function() {
-      sum += toInt($(this).find('.amountIncrease').text());
-      sum -= toInt($(this).find('.amountDecrease').text());
-      $(this).find('.amountSum').text(toAmount(sum));
+    table.find('tr[slip_id]').each((_, el) => {
+      sum += toInt($(el).find('.amountIncrease').text());
+      sum -= toInt($(el).find('.amountDecrease').text());
+      $(el).find('.amountSum').text(toAmount(sum));
 
       if (sum < 0) {
-        $(this).find('.amountSum').css('color', 'red');
+        $(el).find('.amountSum').css('color', 'red');
       }
     });
   }
 
-  var after = table.find('tfoot tr').first().find('.amountSum');
-  var sum = toInt(after.text()); // 過去伝票をページングして参照しているかもしれないので画面の計算値に依存しない
+  const after = table.find('tfoot tr').first().find('.amountSum');
+  sum = toInt(after.text()); // 過去伝票をページングして参照しているかもしれないので画面の計算値に依存しない
   if (sum < 0) {
     $(after).css('color', 'red');
   }

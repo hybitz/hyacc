@@ -1,24 +1,24 @@
 hyacc.ym = hyacc.ym || {};
 
 hyacc.ym.normalizeYm = function(value) {
-  var ym = toInt(value);
+  let ym = toInt(value);
   if (ym >= 1 && ym <= 12) {
-    var now = new Date();
-    var m = now.getMonth() + 1;
-    var diff = Math.abs(m - ym);
+    const now = new Date();
+    const m = now.getMonth() + 1;
+    const diff = Math.abs(m - ym);
 
     if (diff == 0) {
       return (now.getFullYear() * 100 + m).toString();
     } else {
-      var lastYear = new Date(now.getFullYear() - 1, ym - 1, 1);
-      var currentYear = new Date(now.getFullYear(), ym - 1, 1);
-      var nextYear = new Date(now.getFullYear() + 1, ym - 1, 1);
+      const lastYear = new Date(now.getFullYear() - 1, ym - 1, 1);
+      const currentYear = new Date(now.getFullYear(), ym - 1, 1);
+      const nextYear = new Date(now.getFullYear() + 1, ym - 1, 1);
 
-      var lastDiff = Math.abs(lastYear - now);
-      var currentDiff = Math.abs(currentYear - now);
-      var nextDiff = Math.abs(nextYear - now);
+      const lastDiff = Math.abs(lastYear - now);
+      const currentDiff = Math.abs(currentYear - now);
+      const nextDiff = Math.abs(nextYear - now);
 
-      var closest = lastDiff;
+      let closest = lastDiff;
       if (currentDiff < closest) closest = currentDiff;
       if (nextDiff < closest) closest = nextDiff;
 

@@ -21,25 +21,29 @@ class Reports::Appendix1402LogicTest < ActiveSupport::TestCase
     assert_equal Date.new(2026, 1, 10), model.donations_designated_details[0].ymd
     assert_equal 1000, model.donations_designated_details[0].amount
     assert_equal donation_recipients(:one).id, model.donations_designated_details[0].donation_recipient.id
-    assert_details_fill_count_and_others_nil model.donations_designated_details
+    assert_details_fill_count_and_others_nil model.donations_designated_details, 1
 
     assert_equal 3, model.donations_public_interest_details.size
     assert_equal Date.new(2026, 2, 5), model.donations_public_interest_details[0].ymd
     assert_equal 500, model.donations_public_interest_details[0].amount
+    assert_details_fill_count_and_others_nil model.donations_public_interest_details, 1
 
     assert_equal 3, model.donations_non_certified_trust_details.size
     assert_equal Date.new(2026, 1, 30), model.donations_non_certified_trust_details[0].ymd
     assert_equal 5000, model.donations_non_certified_trust_details[0].amount
-    assert_details_fill_count_and_others_nil model.donations_non_certified_trust_details
+    assert_details_fill_count_and_others_nil model.donations_non_certified_trust_details, 2
   end
 
   private
 
-  def assert_details_fill_count_and_others_nil(details)
+  def assert_details_fill_count_and_others_nil(details, expected_fill_count = nil)
     present_indices = details.each_index.select { |i| details[i].ymd.present? }
+    assert_equal expected_fill_count, present_indices.size
+
     details.each_with_index do |detail, idx|
-      next if present_indices.include?(idx)
-      assert_nil detail.ymd
+      if present_indices.exclude?(idx)
+        assert_nil detail.ymd
+      end
     end
   end
 

@@ -48,4 +48,53 @@ class SimpleSlipTest < ActiveSupport::TestCase
     end
   end
 
+  def test_save_寄付金かつ寄付先対象補助科目なら寄付先IDが保存される
+    don = Account.find_by_code(ACCOUNT_CODE_DONATION)
+    dr = donation_recipients(:one)
+    sa = SubAccount.find_by(account_id: don.id, code: SUB_ACCOUNT_CODE_DONATION_DESIGNATED)
+    slip = SimpleSlip.new(simple_slip_params(
+      account_id: don.id, sub_account_id: sa.id, donation_recipient_id: dr.id
+    ))
+    assert slip.save!
+    jd = Journal.find(slip.id).normal_details.find { |d| d.account_id == don.id }
+    assert_equal dr.id, jd.donation_recipient_id
+  end
+
+  def test_save_寄付金かつ寄付先対象外補助科目なら寄付先IDは保存されない
+    don = Account.find_by_code(ACCOUNT_CODE_DONATION)
+    dr = donation_recipients(:one)
+    others = SubAccount.find_by(account_id: don.id, code: SUB_ACCOUNT_CODE_DONATION_OTHERS)
+    slip = SimpleSlip.new(simple_slip_params(
+      account_id: don.id, sub_account_id: others.id, donation_recipient_id: dr.id
+    ))
+    assert slip.save!
+    jd = Journal.find(slip.id).normal_details.find { |d| d.account_id == don.id }
+    assert_nil jd.donation_recipient_id
+  end
+
+  def test_save_寄付金以外なら寄付先IDは保存されない
+    dr = donation_recipients(:one)
+    ar = Account.find_by_code(ACCOUNT_CODE_RECEIVABLE)
+    slip = SimpleSlip.new(simple_slip_params(
+      account_id: ar.id,
+      sub_account_id: ar.sub_accounts.first.id,
+      donation_recipient_id: dr.id
+    ))
+    assert slip.save!
+    jd = Journal.find(slip.id).normal_details.find { |d| d.account_id == ar.id }
+    assert_nil jd.donation_recipient_id
+  end
+
+  private
+
+  def simple_slip_params(options = {})
+    cash = Account.find_by_code(ACCOUNT_CODE_CASH)
+    valid_simple_slip_params.merge(
+      my_account_id: cash.id,
+      company_id: branch.company_id,
+      create_user_id: branch.employees.first.user_id,
+      auto_journal_type: nil
+    ).merge(options)
+  end
+
 end

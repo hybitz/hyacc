@@ -90,7 +90,7 @@ class SimpleSlip
   end
 
   def sub_account
-    account.sub_accounts.find{|sa| sa.id == sub_account_id } if sub_account_id
+    account.sub_accounts.find { |sa| sa.id == sub_account_id.to_i } if sub_account_id.to_i != 0
   end
 
   def sub_accounts
@@ -278,7 +278,13 @@ class SimpleSlip
     jd2.sub_account_id = sub_account_id
     jd2.input_amount = amount
     jd2.tax_amount = tax_amount
-    jd2.donation_recipient_id = donation_recipient_id
+
+    if account.code == ACCOUNT_CODE_DONATION &&
+       DONATION_RECIPIENT_SUB_ACCOUNT_CODES.include?(sub_account&.code)
+      jd2.donation_recipient_id = donation_recipient_id
+    else
+      jd2.donation_recipient_id = nil
+    end
 
     # 計上日振替の設定
     jd2.auto_journal_type = auto_journal_type

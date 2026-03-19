@@ -87,7 +87,8 @@ GEM
       public_suffix (>= 2.0.2, < 8.0)
     ansi (1.5.0)
     base64 (0.3.0)
-    bcrypt (3.1.21)
+    bcrypt (3.1.22)
+    benchmark (0.5.0)
     bigdecimal (4.0.1)
     bindex (0.8.1)
     bootsnap (1.23.0)
@@ -116,15 +117,15 @@ GEM
     carrierwave-i18n (3.1.0)
       carrierwave (>= 3.0.0, < 4)
     cgi (0.5.1)
-    chef-config (19.1.164)
+    chef-config (19.2.12)
       addressable
-      chef-utils (= 19.1.164)
+      chef-utils (= 19.2.12)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       racc
       tomlrb (~> 1.2)
-    chef-utils (19.1.164)
+    chef-utils (19.2.12)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
@@ -162,7 +163,7 @@ GEM
     cucumber-html-formatter (21.15.1)
       cucumber-messages (> 19, < 28)
     cucumber-messages (22.0.0)
-    cucumber-rails (4.0.0)
+    cucumber-rails (4.0.1)
       capybara (>= 3.25, < 4)
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
@@ -201,7 +202,7 @@ GEM
     drb (2.2.3)
     erb (6.0.2)
     erubi (1.13.1)
-    excon (1.4.0)
+    excon (1.4.1)
       logger
     execjs (2.10.0)
     faraday (2.14.1)
@@ -262,13 +263,10 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor (>= 1.0.0)
-    itamae-plugin-recipe-daddy (0.1.37)
+    itamae-plugin-recipe-daddy (0.1.38)
       itamae (~> 1.10, >= 1.10.2)
-      itamae-plugin-recipe-passenger (~> 0.1)
       itamae-plugin-recipe-selenium (~> 0.1)
       itamae-plugin-resource-pip (~> 1.1)
-    itamae-plugin-recipe-passenger (0.1.8)
-      itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-recipe-selenium (0.5.5)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.0)
@@ -302,7 +300,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2026.0303)
+    mime-types-data (3.2026.0317)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -345,7 +343,7 @@ GEM
       net-ssh (>= 2.6.5, < 8.0.0)
     net-smtp (0.5.1)
       net-protocol
-    net-ssh (7.3.0)
+    net-ssh (7.3.1)
     net-telnet (0.2.0)
     nio4r (2.7.5)
     nokogiri (1.19.1)
@@ -530,7 +528,7 @@ GEM
       actionpack (>= 6.0, < 9.0)
       activesupport (>= 6.0, < 9.0)
       railties (>= 6.0, < 9.0)
-    sys-uname (1.5.0)
+    sys-uname (1.5.1)
       ffi (~> 1.1)
       memoist3 (~> 1.0.0)
     tax_jp (1.8.1)
@@ -540,7 +538,7 @@ GEM
       sqlite3 (>= 1.6, < 2.0)
     thor (1.5.0)
     tilt (2.7.0)
-    timeout (0.6.0)
+    timeout (0.6.1)
     tomlrb (1.3.0)
     train-core (3.16.1)
       addressable (~> 2.5)
@@ -587,6 +585,7 @@ DEPENDENCIES
   activerecord-session_store
   acts_as_tree
   bcrypt
+  benchmark
   bootsnap
   bootstrap
   byebug

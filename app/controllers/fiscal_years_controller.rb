@@ -10,8 +10,9 @@ class FiscalYearsController < Base::HyaccController
   end
 
   def create
+    @fiscal_year = current_company.fiscal_years.build(fiscal_year_params)
+
     begin
-      @fiscal_year = current_company.fiscal_years.build(fiscal_year_params)
       @fiscal_year.transaction do
         @fiscal_year.save!
       end

@@ -7,6 +7,7 @@ gem 'rails', '~> 8.1.0'
 gem 'activerecord-session_store'
 gem 'acts_as_tree'
 gem 'bcrypt'
+gem 'benchmark'
 gem 'bootsnap', require: false
 gem 'bootstrap'
 gem 'carrierwave'

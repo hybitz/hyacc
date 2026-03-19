@@ -13,21 +13,21 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     get :get_sub_account_detail, xhr: true, params: { account_id: donation_account.id, sub_account_id: donation_account.sub_accounts.first.id, index: 1 }
     assert_response :success
     assert_includes response.body, '寄付先'
-    assert_includes response.body, 'donationRecipientSelect'
+    assert_includes response.body, 'donation_recipient_id'
   end
 
   def test_get_sub_account_detail_寄付金勘定でsub_account_idなしでも寄付先パーシャルが返る
     get :get_sub_account_detail, xhr: true, params: { account_id: donation_account.id, index: 1 }
     assert_response :success
     assert_includes response.body, '寄付先'
-    assert_includes response.body, 'donationRecipientSelect'
+    assert_includes response.body, 'donation_recipient_id'
   end
 
   def test_get_sub_account_detail_寄付金勘定で補助科目がその他のときは寄付先フォームを出さない
     others = SubAccount.find_by(code: SUB_ACCOUNT_CODE_DONATION_OTHERS, account_id: donation_account.id)
     get :get_sub_account_detail, xhr: true, params: { account_id: donation_account.id, sub_account_id: others.id, index: 1 }
     assert_response :success
-    assert_not_includes response.body, 'donationRecipientSelect'
+    assert_not_includes response.body, 'donation_recipient_id'
   end
 
   def test_get_sub_account_detail_寄付金以外の勘定ではno_contentを返す
@@ -55,7 +55,7 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     get :edit, xhr: true, params: { id: jh.id }
     assert_response :success
     assert_includes response.body, '寄付先'
-    assert_includes response.body, 'donationRecipientSelect'
+    assert_includes response.body, 'donation_recipient_id'
   end
 
   def test_参照画面で未紐付の寄付先パーシャルと寄付先フォームが表示されない
@@ -66,7 +66,7 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     get :show, xhr: true, params: { id: jh.id }
     assert_response :success
     assert_not_includes response.body, '寄付先'
-    assert_not_includes response.body, 'donationRecipientSelect'
+    assert_not_includes response.body, 'donation_recipient_id'
   end
 
   def test_参照画面で寄付先パーシャルに紐づけ済みの寄付先名が表示される

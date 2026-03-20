@@ -282,6 +282,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_20_055845) do
     t.datetime "updated_at", precision: nil
   end
 
+  create_table "donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "address"
+    t.string "announcement_number"
+    t.integer "company_id", null: false
+    t.datetime "created_at", null: false
+    t.boolean "deleted", default: false, null: false
+    t.string "kind", limit: 3, null: false
+    t.string "name", null: false
+    t.string "purpose"
+    t.string "purpose_or_name"
+    t.string "trust_name"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "employee_bank_accounts", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "bank_id", null: false
     t.integer "bank_office_id", null: false

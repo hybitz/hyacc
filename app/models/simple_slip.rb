@@ -90,7 +90,7 @@ class SimpleSlip
   end
 
   def sub_account
-    account.sub_accounts.find { |sa| sa.id == sub_account_id.to_i } if sub_account_id.to_i != 0
+    account.sub_accounts.find { |sa| sa.id == sub_account_id.to_i } if sub_account_id.to_i > 0
   end
 
   def sub_accounts

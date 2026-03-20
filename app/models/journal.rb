@@ -74,10 +74,10 @@ class Journal < ApplicationRecord
   end
 
   # 自動振替伝票が存在するか
-  def has_auto_transfers
+  def has_auto_transfers?
       return true if transfer_journals.size > 0
       journal_details.each do |jd|
-        return true if jd.has_auto_transfers
+        return true if jd.has_auto_transfers?
     end
 
     false
@@ -126,7 +126,7 @@ class Journal < ApplicationRecord
         end
 
         # 計上日振替がされているかチェック
-        if jd.has_auto_transfers
+        if jd.has_auto_transfers?
           jd.transfer_journals.each do |tj|
             case tj.slip_type
             when SLIP_TYPE_AUTO_TRANSFER_PREPAID_EXPENSE

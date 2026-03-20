@@ -6,10 +6,6 @@ module Accounts
       def cache
         self.store ||= {}
       end
-
-      def reset
-        self.store = {}
-      end    
     end
   end
 end

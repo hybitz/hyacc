@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_08_100001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_20_055845) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -282,20 +282,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_100001) do
     t.datetime "updated_at", precision: nil
   end
 
-  create_table "donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "address"
-    t.string "announcement_number"
-    t.integer "company_id", null: false
-    t.datetime "created_at", null: false
-    t.boolean "deleted", default: false, null: false
-    t.string "kind", limit: 3, null: false
-    t.string "name", null: false
-    t.string "purpose"
-    t.string "purpose_or_name"
-    t.string "trust_name"
-    t.datetime "updated_at", null: false
-  end
-
   create_table "employee_bank_accounts", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "bank_id", null: false
     t.integer "bank_office_id", null: false
@@ -473,6 +459,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_100001) do
     t.boolean "deleted", default: false, null: false
     t.integer "depreciation_id"
     t.string "finder_key", limit: 1023
+    t.boolean "has_auto_transfers"
     t.integer "investment_id"
     t.integer "lock_version", default: 0, null: false
     t.integer "payroll_id"

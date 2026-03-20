@@ -75,12 +75,11 @@ class Journal < ApplicationRecord
 
   # 自動振替伝票が存在するか
   def has_auto_transfers?
-      return true if transfer_journals.size > 0
-      journal_details.each do |jd|
-        return true if jd.has_auto_transfers?
+    if has_attribute?(:has_auto_transfers) && !has_auto_transfers.nil?
+      has_auto_transfers
+    else
+      transfer_journals.size > 0 || journal_details.any?(&:has_auto_transfers?)
     end
-
-    false
   end
 
   # 伝票と伝票に紐付いているすべての自動振替伝票をリストアップ
@@ -206,6 +205,10 @@ class Journal < ApplicationRecord
 
     # 自動仕訳を作成
     Auto::AutoJournalUtil.do_auto_transfers(self)
+
+    # 自動振替キャッシュカラムを更新
+    self.has_auto_transfers = transfer_journals.any?{|tj| !tj.marked_for_destruction? } ||
+      journal_details.any?{|jd| jd.transfer_journals.any?{|tj| !tj.marked_for_destruction? } }
 
     # 仕訳チェック
     JournalUtil.validate_journal(self, old)

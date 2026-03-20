@@ -38,6 +38,11 @@ class Slips::SlipUtils
       return false
     end
 
+    # 領収書が添付されている場合は振替伝票でのみ編集可
+    if jh.receipt.present?
+      return false
+    end
+
     true
   end
 

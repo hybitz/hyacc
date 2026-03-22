@@ -2,6 +2,53 @@ require 'test_helper'
 
 class JournalTest < ActiveSupport::TestCase
 
+  def test_has_auto_transfers_通常のsaveでもカラムが計算される
+    j = create_journal(company: Company.first, branch: Branch.first, employee: Employee.first, amount: 1000)
+    assert_equal false, j.reload.read_attribute(:has_auto_transfers)
+    assert_not j.has_auto_transfers?
+  end
+
+  def test_has_auto_transfers_自動振替がない場合はカラムがfalse
+    j = Journal.find(1)
+    assert j.save!
+    assert_equal false, j.reload.read_attribute(:has_auto_transfers)
+    assert_not j.has_auto_transfers?
+  end
+
+  def test_has_auto_transfers_伝票ヘッダに振替がある場合はカラムがtrue
+    j = Journal.find(6)
+    assert j.transfer_journals.any?
+    assert j.save!
+    assert_equal true, j.reload.read_attribute(:has_auto_transfers)
+    assert j.has_auto_transfers?
+  end
+
+  def test_has_auto_transfers_明細に振替がある場合はカラムがtrue
+    j = Journal.find(12)
+    assert j.journal_details.any? { |jd| jd.transfer_journals.any? }
+    assert j.save!
+    assert_equal true, j.reload.read_attribute(:has_auto_transfers)
+    assert j.has_auto_transfers?
+  end
+
+  def test_has_auto_transfers_振替を破棄予定にしたときカラムはfalse
+    j = Journal.find(6)
+    assert j.transfer_journals.any?
+    j.transfer_journals.each { |tj| tj.mark_for_destruction }
+    assert j.save!
+    j.reload
+    assert_equal false, j.read_attribute(:has_auto_transfers)
+    assert_not j.has_auto_transfers?
+  end
+
+  def test_has_auto_transfers_カラムがnilのデータでは関連走査にフォールバックする
+    j = Journal.find(6)
+    j.update_column(:has_auto_transfers, nil)
+    j.reload
+    assert_nil j.read_attribute(:has_auto_transfers)
+    assert j.has_auto_transfers?
+  end
+
   def test_ym
     jh = Journal.find(1)
 

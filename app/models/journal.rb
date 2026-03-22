@@ -25,7 +25,7 @@ class Journal < ApplicationRecord
   accepts_nested_attributes_for :receipt,
       reject_if: proc {|attrs| attrs['id'].blank? && attrs['file'].blank? && attrs['file_cache'].blank? }
 
-  before_save :update_sum_info, :set_update_user_id
+  before_save :update_sum_info, :set_update_user_id, :compute_has_auto_transfers
   after_save :update_tax_admin_info
 
   def self.find_closing_journals(fiscal_year, slip_type)
@@ -75,9 +75,10 @@ class Journal < ApplicationRecord
 
   # 自動振替伝票が存在するか
   def has_auto_transfers?
-    if has_attribute?(:has_auto_transfers) && !has_auto_transfers.nil?
-      has_auto_transfers
+    if has_attribute?(:has_auto_transfers) && !read_attribute(:has_auto_transfers).nil?
+      read_attribute(:has_auto_transfers)
     else
+      # TODO: 全環境でバックフィル済みで nil が無くなったら、このフォールバック分岐を削除しカラムのみ参照に統一
       transfer_journals.size > 0 || journal_details.any?(&:has_auto_transfers?)
     end
   end
@@ -205,10 +206,6 @@ class Journal < ApplicationRecord
 
     # 自動仕訳を作成
     Auto::AutoJournalUtil.do_auto_transfers(self)
-
-    # 自動振替キャッシュカラムを更新
-    self.has_auto_transfers = transfer_journals.any?{|tj| !tj.marked_for_destruction? } ||
-      journal_details.any?{|jd| jd.transfer_journals.any?{|tj| !tj.marked_for_destruction? } }
 
     # 仕訳チェック
     JournalUtil.validate_journal(self, old)
@@ -373,5 +370,11 @@ class Journal < ApplicationRecord
 
   def set_update_user_id
     self.update_user_id ||= self.create_user_id
+  end
+
+  # 破棄予定の振替伝票を除き、自動振替が1件でもあれば true
+  def compute_has_auto_transfers
+    self.has_auto_transfers = transfer_journals.any? { |tj| !tj.marked_for_destruction? } ||
+      journal_details.any? { |jd| jd.transfer_journals.any? { |tj| !tj.marked_for_destruction? } }
   end
 end

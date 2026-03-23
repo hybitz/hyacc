@@ -18,8 +18,6 @@ class SimpleSlip {
       $(this.selector).find('.accountSelect').change((e) => {
         const el = $(e.currentTarget);
         const accountId = el.val();
-        if (!accountId) return;
-
         const subAccountsPath = el.attr('sub_accounts_path');
         const accountsPath = el.attr('accounts_path');
 

@@ -23,8 +23,7 @@ simple_slips.copy = function(trigger) {
 
     const accountId = data.account_id;
     const subAccountId = data.sub_account_id;
-    const accountSelect = $('#simple_slip_account_id');
-    const subAccountDetailsPath = accountSelect.attr('sub_account_details_path') || accountSelect.attr('data-sub-account-details-path') || accountSelect.data('subAccountDetailsPath');
+    const subAccountDetailsPath = simple_slips.get_sub_account_details_path;
     if (subAccountDetailsPath && subAccountId) {
       $.get(subAccountDetailsPath, {
         account_id: accountId,

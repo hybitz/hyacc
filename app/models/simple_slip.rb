@@ -121,8 +121,8 @@ class SimpleSlip
     @auto_journal_type.to_i
   end
 
-  def has_auto_transfers
-    journal.has_auto_transfers
+  def has_auto_transfers?
+    journal.has_auto_transfers?
   end
 
   def has_accrued_expense_transfers

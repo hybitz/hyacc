@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_08_100001) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_22_000000) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -473,6 +473,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_100001) do
     t.boolean "deleted", default: false, null: false
     t.integer "depreciation_id"
     t.string "finder_key", limit: 1023
+    t.boolean "has_auto_transfers"
     t.integer "investment_id"
     t.integer "lock_version", default: 0, null: false
     t.integer "payroll_id"

@@ -6,6 +6,14 @@ class Slips::SlipUtilsTest < ActiveSupport::TestCase
     @account = Account.find_by_code(ACCOUNT_CODE_CASH)
   end
   
+  test '領収書が添付されている伝票は簡易伝票で編集できないこと' do
+    jh = create_journal()
+    assert Slips::SlipUtils.editable_as_simple_slip(jh, @account.id)
+
+    jh.build_receipt
+    assert_not Slips::SlipUtils.editable_as_simple_slip(jh, @account.id)
+  end
+
   test '配賦のチェックがついている伝票は簡易伝票で編集できないこと' do
     jh = create_journal()
     assert Slips::SlipUtils.editable_as_simple_slip(jh, @account.id)

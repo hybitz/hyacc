@@ -122,11 +122,13 @@ class Auto::Journal::InvestmentFactoryTest < ActiveSupport::TestCase
   def test_make_journals_支払手数料の補助科目を設定する
     @investment = Investment.new(investment_params)
     ym = @investment.yyyymmdd.split("-")[0..1].join.to_i
+    account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
+    sub_accounts = SubAccount.where(account_id: account.id, deleted: false)
+    assert_equal ['ATM手数料', '振込手数料', 'その他'], sub_accounts.pluck(:name)
+
     assert_equal TAX_MANAGEMENT_TYPE_EXCLUSIVE, user.employee.company.get_fiscal_year(ym).tax_management_type
     factory = Auto::Journal::InvestmentFactory.get_instance(Auto::Journal::InvestmentParam.new(@investment, user))
     journals = factory.make_journals
-    sub_accounts = Account.find_by_code(ACCOUNT_CODE_PAID_FEE).sub_accounts
-    assert_equal ["ATM手数料", "振込手数料", "その他"], sub_accounts.pluck(:name)
 
     jd = journals[0].journal_details[2]
     sub_account = sub_accounts.find{|sa| sa.name == 'その他'}
@@ -134,12 +136,15 @@ class Auto::Journal::InvestmentFactoryTest < ActiveSupport::TestCase
     assert jd.valid?
   
     sub_account.update!(deleted: true)
+    Accounts::SubAccountsRequestCache.reset
     exception = assert_raises(HyaccException) do
       factory.make_journals
     end
     assert_equal ERR_SUB_ACCOUNT_ETC_STOCKS_NEEDED, exception.message
 
     sub_accounts.map{|sa| sa.update!(deleted: true)}
+    Accounts::SubAccountsRequestCache.reset
+
     journals2 = factory.make_journals
     jd2 = journals2[0].journal_details[2]
     assert jd2.valid?

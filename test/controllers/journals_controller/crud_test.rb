@@ -481,7 +481,7 @@ class JournalsController::CrudTest < ActionController::TestCase
     finder.account_code = Account.find(3).code
     slip = finder.find(6)
     assert_not_nil slip
-    assert slip.has_auto_transfers
+    assert slip.has_auto_transfers?
 
     get :edit, :xhr => true, :params => {:id => slip.id}
     assert_response :success

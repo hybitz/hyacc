@@ -14,7 +14,7 @@
 <td class="amountDecrease"><%= to_amount( slip.slip_amount_decrease ) %></td>
 <td class="amountSum"></td>
 <td class="text-center">
-  <%= image_tag 'transform.png', title: '自動振替' if slip.has_auto_transfers %>
+  <%= image_tag 'transform.png', title: '自動振替' if slip.has_auto_transfers? %>
   <% if slip.journal.receipt.present? %>
     <%= link_to receipt_path(slip.journal.receipt) do %>
       <%= image_tag 'attachment.png', title: "領収書: #{slip.journal.receipt.original_filename}" %>

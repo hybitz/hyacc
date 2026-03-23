@@ -170,10 +170,11 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template 'common/reload'
-    assert_equal 1, Account.find_by_code(6666).sub_accounts_all.size
-    
+    account = Account.find_by_code(6666)
+    assert_equal 1, SubAccount.where(account_id: account.id).count
+
     # 補助科目なしで更新
-    patch mm_account_path(Account.find_by_code(6666)), params: {
+    patch mm_account_path(account), params: {
       :account=>{
         :name=>"テスト科目",
         :is_settlement_report_account => 'true',
@@ -189,7 +190,7 @@ class Mm::AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_template 'common/reload'
-    assert Account.find_by_code(6666).sub_accounts_all.empty?
+    assert SubAccount.where(account_id: account.id).empty?
   end
 
   def test_科目を別の科目の後ろに移動

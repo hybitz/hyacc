@@ -106,7 +106,7 @@ class JournalDetail < ApplicationRecord
   end
 
   # 自動振替伝票が存在するか
-  def has_auto_transfers
+  def has_auto_transfers?
     transfer_journals.size > 0
   end
 

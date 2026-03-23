@@ -91,8 +91,8 @@ module Slips
     end
 
     # 自動振替伝票があるか
-    def has_auto_transfers
-      @journal.has_auto_transfers
+    def has_auto_transfers?
+      @journal.has_auto_transfers?
     end
 
     private

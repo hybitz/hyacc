@@ -2,8 +2,14 @@ module Accounts::SubAccountsSupport
   include HyaccConst
   
   def initialize_sub_accounts_support
-    return if @sub_accounts_cache and @sub_accounts_all_cache
-    
+    cache_key = request_cache_key
+    cached = Accounts::SubAccountsRequestCache.cache[cache_key]
+    if cached
+      @sub_accounts_cache = cached[:active]
+      @sub_accounts_all_cache = cached[:all]
+      return
+    end
+
     @sub_accounts_cache = []
     @sub_accounts_all_cache = []
 
@@ -65,14 +71,12 @@ module Accounts::SubAccountsSupport
         @sub_accounts_all_cache << c
       end
     when SUB_ACCOUNT_TYPE_CORPORATE_TAX
-      list = []
       CORPORATE_TAX_TYPES.each {|key, value|
         tax = CorporateTax.new(id: key, code: key, name: value)
         @sub_accounts_cache << tax
         @sub_accounts_all_cache << tax
       }
     when SUB_ACCOUNT_TYPE_CONSUMPTION_TAX
-      list = []
       CONSUMPTION_TAX_TYPES.each {|key, value|
         tax = ConsumptionTax.new(id: key, code: key, name: value)
         @sub_accounts_cache << tax
@@ -87,6 +91,11 @@ module Accounts::SubAccountsSupport
     else
       raise HyaccException.new(ERR_INVALID_SUB_ACCOUNT_TYPE)
     end
+
+    Accounts::SubAccountsRequestCache.cache[cache_key] = {
+      active: @sub_accounts_cache,
+      all: @sub_accounts_all_cache
+    }
   end
 
   # コードに一致する補助科目を取得する
@@ -148,8 +157,26 @@ module Accounts::SubAccountsSupport
   end
 
   def sub_accounts_all=(values)
-    @sub_accounts_all = values.reject{|sa| sa.deleted? } 
+    @sub_accounts_cache = values.reject{|sa| sa.deleted? }
     @sub_accounts_all_cache = values
+
+    cache_key = request_cache_key
+    Accounts::SubAccountsRequestCache.cache[cache_key] = {
+      active: @sub_accounts_cache,
+      all: @sub_accounts_all_cache
+    }
+  end
+
+  private
+
+  def request_cache_key
+    case sub_account_type
+    when SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_TAX_AND_DUES,
+         SUB_ACCOUNT_TYPE_DONATION, SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
+      [sub_account_type, id]
+    else
+      sub_account_type
+    end
   end
 
 end

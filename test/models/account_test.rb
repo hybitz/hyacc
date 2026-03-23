@@ -2,6 +2,16 @@ require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
 
+  def test_補助科目のキャッシュ
+    assert_not_nil account = Account.where(sub_account_type: SUB_ACCOUNT_TYPE_NORMAL).first
+    cache_key = [account.sub_account_type, account.id]
+    account.sub_accounts_all
+    assert Accounts::SubAccountsRequestCache.cache.key?(cache_key)
+
+    Accounts::SubAccountsRequestCache.reset
+    refute Accounts::SubAccountsRequestCache.cache.key?(cache_key)
+  end
+
   def test_ルートとなる勘定科目
     expected = %w{ 資産の部 負債の部 純資産の部 収益の部 費用の部 諸口 }
     actual = Account.where(:parent_id => nil)

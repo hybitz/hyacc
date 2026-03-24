@@ -36,12 +36,13 @@ class SimpleSlipsController::DonationRecipientTest < ActionController::TestCase
     assert_response :no_content
   end
 
-  def test_copy_簡易伝票で寄付先がjsonに含まれる
+  def test_copy_簡易伝票で寄付先IDと補助科目詳細がjsonに含まれる
     get :copy, xhr: true, params: { id: 17136, account_code: ACCOUNT_CODE_RECEIVABLE }
     assert_response :success
 
     json = JSON.parse(response.body)
     assert_equal 1, json['donation_recipient_id']
+    assert_includes json['sub_account_detail'], 'donationRecipientSelect'
   end
 
 end

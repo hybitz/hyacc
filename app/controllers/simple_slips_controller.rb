@@ -192,6 +192,11 @@ class SimpleSlipsController < Base::HyaccController
     if renderer
       account_detail = render_to_string(:partial => renderer.get_template(controller_name))
     end
+    sub_renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account.id, @simple_slip.sub_account_id)
+    if sub_renderer
+      sub_locals = sub_renderer.build_locals(@simple_slip, 0, current_company)
+      sub_account_detail = render_to_string(partial: sub_renderer.get_template(controller_name), locals: sub_locals)
+    end
 
     @json = {
       :remarks => @simple_slip.remarks,
@@ -203,6 +208,7 @@ class SimpleSlipsController < Base::HyaccController
       :tax_type => get_tax_type_for_current_fy(@simple_slip.tax_type),
       :sub_accounts => account.sub_accounts.collect{|sa| sa = {:id => sa.id, :name => sa.name}},
       :account_detail => account_detail,
+      :sub_account_detail => sub_account_detail,
       :tax_amount_increase => @simple_slip.tax_amount_increase,
       :tax_amount_decrease => @simple_slip.tax_amount_decrease,
       :donation_recipient_id => @simple_slip.donation_recipient_id

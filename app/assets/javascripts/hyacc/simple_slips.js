@@ -19,25 +19,9 @@ simple_slips.copy = function(trigger) {
       $('#simple_slip_sub_account_id').val(data.sub_account_id);
     }
     $('#account_detail_account').html(data.account_detail || '');
-    $('#account_detail_sub_account').html('');
+    $('#account_detail_sub_account').html(data.sub_account_detail || '');
 
-    const accountId = data.account_id;
-    const subAccountId = data.sub_account_id;
-    const subAccountDetailsPath = simple_slips.get_sub_account_details_path;
-    if (subAccountDetailsPath && subAccountId) {
-      $.get(subAccountDetailsPath, {
-        account_id: accountId,
-        sub_account_id: subAccountId,
-        donation_recipient_id: data.donation_recipient_id || ''
-      }, (html, _textStatus, jqXhr) => {
-        if (jqXhr.status === 204) {
-          return;
-        }
-        $('#account_detail_sub_account').html(html);
-      });
-    }
-
-    simple_slip.update_tax_rate();
+    simple_slips.new_simple_slip.update_tax_rate();
     $('#simple_slip_day').focus();
   });
 };

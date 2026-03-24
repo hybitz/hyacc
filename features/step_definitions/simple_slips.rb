@@ -125,14 +125,14 @@ end
 end
 
 もし /^一覧のうち簡易入力で開ける伝票の摘要をクリックする$/ do
-  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: false)) && l[:href].to_s.include?('/simple_slips/') }
+  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: 0)) && l[:href].to_s.include?('/simple_slips/') }
   within tr do
     find('td.remarks a.show').click
   end
 end
 
 もし /^一覧のうち振替伝票として開く伝票の摘要をクリックする$/ do
-  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: false)) && l[:href].to_s.include?('/journals/') }
+  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: 0)) && l[:href].to_s.include?('/journals/') }
   within tr do
     find('td.remarks a.show').click
   end
@@ -143,7 +143,7 @@ end
 
   assert has_no_dialog?
 
-  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: false)) && l[:href].to_s.include?('/simple_slips/') }
+  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: 0)) && l[:href].to_s.include?('/simple_slips/') }
   within tr do
     find('td.remarks a.show').click
   end
@@ -158,7 +158,7 @@ end
 もし /^一覧のうち振替伝票として開く伝票の編集をクリックする$/ do
   assert has_no_dialog?
 
-  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: false)) && l[:href].to_s.include?('/journals/') }
+  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: 0)) && l[:href].to_s.include?('/journals/') }
   within tr do
     find('td.remarks a.show').click
   end

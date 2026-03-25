@@ -105,8 +105,15 @@ end
 end
 
 ならば /^振替伝票の(参照|追加|編集)ダイアログが表示される$/ do |action|
-  assert has_selector?("div.ui-dialog", :visible => true)
-  capture
+  with_capture do
+    assert has_selector?("div.ui-dialog", :visible => true)
+    case action
+    when '参照'
+      assert has_selector?('#journal_show_form')
+    when '追加', '編集'
+      assert has_selector?('#journal_form')
+    end
+  end
 end
 
 もし /^振替伝票の追加ダイアログを開きます。$/ do

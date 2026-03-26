@@ -16,5 +16,19 @@
       <th><%= f.label :position %></th>
       <td><%= f.text_field :position %></td>
     </tr>
+    <tr>
+      <th><%= f.label :full_time %></th>
+      <td>
+        <%= f.select :full_time, [['常勤', 'true'], ['非常勤', 'false']], { include_blank: true } %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= f.label :duty_description %></th>
+      <td><%= f.text_field :duty_description %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :relationship_to_representative %></th>
+      <td><%= f.text_field :relationship_to_representative %></td>
+    </tr>
   </table>
 <% end %>

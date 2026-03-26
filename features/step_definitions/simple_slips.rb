@@ -124,6 +124,52 @@ end
   end
 end
 
+もし /^一覧のうち簡易入力で開ける伝票の摘要をクリックする$/ do
+  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: 0)) && l[:href].to_s.include?('/simple_slips/') }
+  within tr do
+    find('td.remarks a.show').click
+  end
+end
+
+もし /^一覧のうち振替伝票として開く伝票の摘要をクリックする$/ do
+  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: 0)) && l[:href].to_s.include?('/journals/') }
+  within tr do
+    find('td.remarks a.show').click
+  end
+end
+
+もし /^一覧のうち簡易入力で開ける伝票の編集をクリックする$/ do
+  assert @account = Account.find_by_name(page.title)
+
+  assert has_no_dialog?
+
+  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: 0)) && l[:href].to_s.include?('/simple_slips/') }
+  within tr do
+    find('td.remarks a.show').click
+  end
+  assert has_dialog?(/#{@account.name}.*/)
+  assert has_selector?('.ui-dialog-buttonset')
+
+  within '.ui-dialog-buttonset' do
+    find('button', text: '編集').click
+  end
+end
+
+もし /^一覧のうち振替伝票として開く伝票の編集をクリックする$/ do
+  assert has_no_dialog?
+
+  assert tr = all('#slipTable tbody tr').find { |r| (l = r.first('td.remarks a.show', minimum: 0)) && l[:href].to_s.include?('/journals/') }
+  within tr do
+    find('td.remarks a.show').click
+  end
+  assert has_dialog?(/参照/)
+  assert has_selector?('.ui-dialog-buttonset')
+
+  within '.ui-dialog-buttonset' do
+    find('button', text: '編集').click
+  end
+end
+
 もし /^登録画面で以下のような年月は6桁に変換される$/ do |ast_table|
   sign_in login_id: user.login_id unless current_user
   assert a = Account.find_by_name('小口現金')

@@ -83,6 +83,21 @@
     </p>
 
     <p>
+      <b><%= @e.class.human_attribute_name :full_time %>:</b>
+      <%= @e.full_time.nil? ? '' : (@e.full_time ? '常勤' : '非常勤') %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :duty_description %>:</b>
+      <%= @e.duty_description %>
+    </p>
+
+    <p>
+      <b><%= @e.class.human_attribute_name :relationship_to_representative %>:</b>
+      <%= @e.relationship_to_representative %>
+    </p>
+
+    <p>
       <b>退職金積立開始時期:</b>
       <%= get_start_ym_of_retirement_savings(@e) %>
     </p>

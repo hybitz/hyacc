@@ -26,7 +26,10 @@ module Employees
       zip_code_effective_at: Date.today - 3.years,
       address: '北海道札幌市',
       address_effective_at: Date.today - 3.years,
-      position: '代表取締役'
+      position: '代表取締役',
+      full_time: options.fetch(:full_time, true),
+      duty_description: options[:duty_description] || '担当業務テスト',
+      relationship_to_representative: options[:relationship_to_representative] || '本人'
     }
   end
   

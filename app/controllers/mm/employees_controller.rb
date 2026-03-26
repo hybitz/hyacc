@@ -104,6 +104,7 @@ class Mm::EmployeesController < Base::HyaccController
     permitted = [
       :first_name, :last_name, :first_name_kana, :last_name_kana, :employment_date, :retirement_date,
       :sex, :business_office_id, :birth, :my_number, :social_insurance_reference_number, :executive, :position,
+      :full_time, :duty_description, :relationship_to_representative,
       :num_of_dependent, :num_of_dependent_effective_at,
       :zip_code, :zip_code_effective_at,
       :address, :address_effective_at,

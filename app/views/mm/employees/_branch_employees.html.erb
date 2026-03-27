@@ -11,12 +11,12 @@
     });
   }
 </script>
-<table id="branch_employees_table" class="table">
+<table id="branch_employees_table" class="table table-sm mb-0">
   <thead>
     <tr>
-      <th>所属部門</th>
-      <th>デフォルト</th>
-      <th>削除</th>
+      <th class="text-start">所属部門</th>
+      <th class="text-center">デフォルト</th>
+      <th class="text-center">削除</th>
     </tr>
   </thead>
   <tbody>
@@ -26,8 +26,8 @@
   </tbody>
   <tfoot>
     <tr>
-      <td colspan="3" class="right">
-        <%= link_to '部門追加', '', onclick: "add_branch(this); return false;", class: 'btn btn-small btn-light' %>
+      <td colspan="3" class="text-end">
+        <%= link_to '部門追加', '', onclick: "add_branch(this); return false;", class: 'btn btn-sm btn-light' %>
       </td>
     </tr>
   </tfoot>

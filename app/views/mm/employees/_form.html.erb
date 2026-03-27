@@ -4,22 +4,28 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8">
-        <table class="table">
+        <table class="table table-sm mb-0">
           <tr>
             <th class="nowrap"><%= f.label :last_name %><%= f.label :first_name %></th>
             <td class="input-group"><%= f.text_field :last_name, class: 'form-control' %><%= f.text_field :first_name, class: 'form-control' %></td>
           </tr>
           <tr>
-            <th class="nowrap"><%= f.label :name_kana %></th>
+            <th><%= f.label :name_kana %></th>
             <td class="input-group"><%= f.text_field :last_name_kana, class: 'form-control' %><%= f.text_field :first_name_kana, class: 'form-control' %></td>
           </tr>
           <tr>
             <th><%= f.label :sex %></th>
-            <td><%= f.select :sex, sex_types, {}, class: 'form-control', style: 'width: 4em;' %></td>
+            <td><%= f.select :sex, sex_types, {}, class: 'form-control form-control-sm', style: 'width: 4em;' %></td>
           </tr>
           <tr>
             <th><%= f.label :birth %></th>
-            <td><%= f.date_select :birth, start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true %></td>
+            <td>
+              <div class="d-inline-flex flex-wrap align-items-center gap-1">
+                <%= f.date_select :birth,
+                      { start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true },
+                      { class: 'form-control form-control-sm w-auto' } %>
+              </div>
+            </td>
           </tr>
           <tr>
             <th><%= f.label :zip_code %></th>
@@ -30,19 +36,19 @@
             <td><%= f.nostalgic_text_field :address, class: 'address' %></td>
           </tr>
           <tr>
-            <th class="nowrap"><%= f.label :my_number %></th>
-            <td><%= f.text_field :my_number, class: 'form-control text-center', style: 'width: 10em;' %></td>
+            <th><%= f.label :my_number %></th>
+            <td><%= f.text_field :my_number, class: 'form-control form-control-sm', style: 'width: 10em; max-width: 100%;' %></td>
           </tr>
           <tr>
-            <th class="nowrap"><%= f.label :social_insurance_reference_number %></th>
-            <td><%= f.text_field :social_insurance_reference_number, class: 'form-control text-center', style: 'width: 4em;' %></td>
+            <th><%= f.label :social_insurance_reference_number %></th>
+            <td><%= f.text_field :social_insurance_reference_number, class: 'form-control form-control-sm', style: 'width: 4em; max-width: 100%;' %></td>
           </tr>
           <tr>
             <th><%= f.label :num_of_dependent %></th>
             <td><%= f.nostalgic_text_field :num_of_dependent %></td>
           </tr>
-        </table>
         <%= render 'employee_bank_account' %>
+        </table>
       </div>
       <div class="col-md-4">
         <%= render 'evaluation' %>

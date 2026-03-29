@@ -101,5 +101,8 @@ user9:
   executive: true
   position: 代表取締役
   address: 東京都千代田区テスト1-1-1
+  full_time: true
+  duty_description: 経営全般
+  relationship_to_representative: 本人
 
  

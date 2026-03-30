@@ -9,8 +9,9 @@ module Reports
         detail = ExecutiveSalariesDetailModel.new
         detail.position = e.position
         detail.employee_name = e.fullname
-        detail.relationship = '本人'
-        detail.full_time = true
+        detail.relationship = e.relationship_to_representative
+        detail.full_time = e.full_time
+        detail.duty_description = e.duty_description
         detail.address = e.address_on(end_ymd)
         detail.fixed_regular_salary_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_SALARY, e.id)
         detail.other_salary_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_BONUS, e.id)
@@ -65,6 +66,7 @@ module Reports
     attr_accessor :employee_name
     attr_accessor :relationship
     attr_accessor :full_time
+    attr_accessor :duty_description
     attr_accessor :address
     # 定期同額給与
     attr_accessor :fixed_regular_salary_amount

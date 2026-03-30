@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_25_161642) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_26_120000) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -282,7 +282,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_161642) do
     t.datetime "updated_at", precision: nil
   end
 
-  create_table "donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "address"
     t.string "announcement_number"
     t.integer "company_id", null: false

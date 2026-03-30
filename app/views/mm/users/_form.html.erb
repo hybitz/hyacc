@@ -49,8 +49,10 @@
         <tr>
           <th><%= f.label :birth %></th>
           <td>
-            <div class="d-inline-flex flex-wrap align-items-center gap-1">
-              <%= f.date_select :birth, { start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true }, { class: 'form-control form-control-sm w-auto' } %>
+            <div class="d-flex flex-nowrap gap-1 align-items-center">
+              <%= f.date_select :birth,
+                    { start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true },
+                    { class: 'form-control form-control-sm w-auto', style: 'width: auto; display: inline-block; vertical-align: middle;' } %>
             </div>
           </td>
         </tr>

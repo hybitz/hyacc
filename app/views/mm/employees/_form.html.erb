@@ -6,12 +6,22 @@
       <div class="col-md-8">
         <table class="table table-sm mb-0">
           <tr>
-            <th class="nowrap"><%= f.label :last_name %><%= f.label :first_name %></th>
-            <td class="input-group"><%= f.text_field :last_name, class: 'form-control' %><%= f.text_field :first_name, class: 'form-control' %></td>
+            <th class="nowrap"><%= f.object.class.human_attribute_name(:last_name) %><%= f.object.class.human_attribute_name(:first_name) %></th>
+            <td>
+              <div class="d-flex flex-nowrap gap-0 align-items-stretch">
+                <div class="flex-grow-1 min-w-0"><%= f.text_field :last_name, class: 'form-control' %></div>
+                <div class="flex-grow-1 min-w-0"><%= f.text_field :first_name, class: 'form-control' %></div>
+              </div>
+            </td>
           </tr>
           <tr>
             <th><%= f.label :name_kana %></th>
-            <td class="input-group"><%= f.text_field :last_name_kana, class: 'form-control' %><%= f.text_field :first_name_kana, class: 'form-control' %></td>
+            <td>
+              <div class="d-flex flex-nowrap gap-0 align-items-stretch">
+                <div class="flex-grow-1 min-w-0"><%= f.text_field :last_name_kana, class: 'form-control' %></div>
+                <div class="flex-grow-1 min-w-0"><%= f.text_field :first_name_kana, class: 'form-control' %></div>
+              </div>
+            </td>
           </tr>
           <tr>
             <th><%= f.label :sex %></th>
@@ -20,10 +30,10 @@
           <tr>
             <th><%= f.label :birth %></th>
             <td>
-              <div class="d-inline-flex flex-wrap align-items-center gap-1">
+              <div class="d-flex flex-nowrap gap-1 align-items-center">
                 <%= f.date_select :birth,
                       { start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true },
-                      { class: 'form-control form-control-sm w-auto' } %>
+                      { class: 'form-control form-control-sm w-auto', style: 'width: auto; display: inline-block; vertical-align: middle;' } %>
               </div>
             </td>
           </tr>

@@ -12,3 +12,9 @@ bank_accounts.update_bank_offices = function(trigger, target_selector) {
     replace_options(target_selector, json, true);
   });
 };
+
+$(function() {
+  $(document).on('change', '#employee_employee_bank_account_attributes_bank_id', function() {
+    bank_accounts.update_bank_offices(this, '#employee_employee_bank_account_attributes_bank_office_id');
+  });
+});

@@ -1,12 +1,7 @@
-<script>
-  $(document).ready(function() {
-    $('#employee_employee_bank_account_attributes_bank_id').change(function() {
-      bank_accounts.update_bank_offices(this, '#employee_employee_bank_account_attributes_bank_office_id');
-    });
-  });
-</script>
 <%= fields_for "employee[employee_bank_account_attributes]", @e.employee_bank_account do |f| %>
-  <%= f.hidden_field :id %>
+  <tr style="display: none;">
+    <td><%= f.hidden_field :id %></td>
+  </tr>
   <tr>
     <th>金融機関名称</th>
     <td>

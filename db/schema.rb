@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_22_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_26_120000) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -282,7 +282,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_22_000000) do
     t.datetime "updated_at", precision: nil
   end
 
-  create_table "donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "donation_recipients", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "address"
     t.string "announcement_number"
     t.integer "company_id", null: false
@@ -312,15 +312,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_22_000000) do
     t.datetime "created_at", precision: nil
     t.boolean "deleted", default: false, null: false
     t.boolean "disabled", default: false, null: false
+    t.string "duty_description"
     t.date "employment_date", null: false
     t.boolean "executive", default: false, null: false
     t.string "first_name", null: false
     t.string "first_name_kana"
+    t.boolean "full_time"
     t.string "last_name", null: false
     t.string "last_name_kana"
     t.string "my_number", limit: 12
     t.integer "num_of_dependent", default: 0, null: false
     t.string "position"
+    t.string "relationship_to_representative"
     t.date "retirement_date"
     t.string "sex", limit: 1, null: false
     t.integer "social_insurance_reference_number"

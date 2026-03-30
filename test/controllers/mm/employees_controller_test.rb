@@ -28,6 +28,11 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     post :create, params: {employee: employee_params}, xhr: true
     assert_response :success
     assert_template 'common/reload'
+
+    e = assigns(:e)
+    assert_equal employee_params[:full_time], e.full_time
+    assert_equal employee_params[:duty_description], e.duty_description
+    assert_equal employee_params[:relationship_to_representative], e.relationship_to_representative
   end
 
   def test_編集
@@ -49,6 +54,11 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     patch :update, params: {id: employee.id, employee: employee_params}, xhr: true
     assert_response :success
     assert_template 'common/reload'
+
+    e = assigns(:e)
+    assert_equal employee_params[:full_time], e.full_time
+    assert_equal employee_params[:duty_description], e.duty_description
+    assert_equal employee_params[:relationship_to_representative], e.relationship_to_representative
   end
 
   def test_更新_入力エラー

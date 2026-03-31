@@ -45,15 +45,15 @@ module Reports
     end
   
     def total_executive_fixed_regular_salary_amount
-      details.inject(0){|sum, detail| sum += detail.fixed_regular_salary_amount.to_i }
+      details.inject(0){|sum, detail| sum + detail.fixed_regular_salary_amount.to_i }
     end
 
     def total_executive_other_salary_amount
-      details.inject(0){|sum, detail| sum += detail.other_salary_amount.to_i }
+      details.inject(0){|sum, detail| sum + detail.other_salary_amount.to_i }
     end
 
     def total_executive_retirement_allowance_amount
-      details.inject(0){|sum, detail| sum += detail.retirement_allowance_amount.to_i }
+      details.inject(0){|sum, detail| sum + detail.retirement_allowance_amount.to_i }
     end
 
     def total_executive_salary_amount

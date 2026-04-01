@@ -4,6 +4,8 @@ require 'minitest/mock'
 class PayrollNotificationProcessorTest < ActiveSupport::TestCase
 
   def setup
+    travel_to Time.zone.local(2025, 8, 15)
+
     @employee8 = Employee.find(8)
     BankAccount.second.update!(company_id: @employee8.company.id, for_payroll: true)
     fy = @employee8.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
@@ -29,6 +31,10 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       update_user_id: employee1.user.id,
       is_bonus: false
     )
+  end
+
+  def teardown
+    travel_back
   end
 
   def test_処理対象に関するログを出力する

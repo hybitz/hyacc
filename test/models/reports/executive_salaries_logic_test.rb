@@ -6,7 +6,6 @@ class Reports::ExecutiveSalariesLogicTest < ActiveSupport::TestCase
     finder = ReportFinder.new(user)
     finder.fiscal_year = 2016
     finder.company_id = company.id
-    finder.branch_id = branch.id
     logic = Reports::ExecutiveSalariesLogic.new(finder)
     model = logic.build_model
 

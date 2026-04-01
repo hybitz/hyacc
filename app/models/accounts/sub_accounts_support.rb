@@ -167,6 +167,18 @@ module Accounts::SubAccountsSupport
     }
   end
 
+  # 補助科目プルダウンに出す順序（寄付金は「その他」を先頭にする）
+  def sub_accounts_ordered_for_select
+    reorder_sub_accounts_for_select(HyaccUtil.sort_by_code(sub_accounts))
+  end
+
+  def reorder_sub_accounts_for_select(sorted_sub_accounts)
+    return sorted_sub_accounts unless path.include?(ACCOUNT_CODE_DONATION)
+
+    others = sorted_sub_accounts.find { |sa| sa.code == SUB_ACCOUNT_CODE_DONATION_OTHERS }
+    others ? [others] + (sorted_sub_accounts - [others]) : sorted_sub_accounts
+  end
+
   private
 
   def request_cache_key

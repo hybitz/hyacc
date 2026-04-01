@@ -8,7 +8,7 @@ class AccountsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_寄付金のとき補助科目並び替えフラグが真になること
+  def test_show_寄付金のとき補助科目JSONはその他が先頭であること
     sign_in user
     donation_account = Account.find_by(code: ACCOUNT_CODE_DONATION)
 
@@ -16,10 +16,11 @@ class AccountsControllerTest < ActionController::TestCase
     assert_response :success
 
     json = JSON.parse(response.body)
-    assert_equal true, json['requires_sub_accounts_reorder']
+    first = json['sub_accounts'].first
+    assert_equal SUB_ACCOUNT_CODE_DONATION_OTHERS, SubAccount.find(first['id']).code
   end
 
-  def test_寄付金以外のとき補助科目並び替えフラグが偽になること
+  def test_show_寄付金以外のとき補助科目JSONはcode順であること
     sign_in user
     non_donation_account = Account.find_by(code: '2161')
 
@@ -27,7 +28,10 @@ class AccountsControllerTest < ActionController::TestCase
     assert_response :success
 
     json = JSON.parse(response.body)
-    assert_equal false, json['requires_sub_accounts_reorder']
+    sub_accounts = json['sub_accounts']
+    by_id = SubAccount.where(id: sub_accounts.map { |h| h['id'] }).index_by(&:id)
+    codes = sub_accounts.map { |h| by_id[h['id'].to_i].code }
+    assert_equal codes.sort, codes
   end
 
 end

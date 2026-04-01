@@ -4,7 +4,6 @@
   $(document).ready(function() {
     simple_slip = new hyacc.SimpleSlip('#edit_simple_slip', {
       accounts_path: '<%= accounts_path(purified_params) %>',
-      sub_accounts_path: '<%= sub_accounts_path(format: 'json') %>',
       get_account_details_path: '<%= url_for(action: 'get_account_details', account_code: params[:account_code]) %>',
       get_sub_account_details_path: '<%= url_for(action: 'get_sub_account_details', account_code: params[:account_code]) %>'
     });

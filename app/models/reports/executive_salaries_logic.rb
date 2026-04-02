@@ -15,6 +15,7 @@ module Reports
         detail.address = e.address_on(end_ymd)
         detail.fixed_regular_salary_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_SALARY, e.id)
         detail.other_salary_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_BONUS, e.id)
+        detail.retirement_allowance_amount = get_this_term_amount(ACCOUNT_CODE_EXECUTIVE_RETIREMENT, e.id)
         ret.add_detail(detail)
       end
       
@@ -44,11 +45,15 @@ module Reports
     end
   
     def total_executive_fixed_regular_salary_amount
-      details.inject(0){|sum, detail| sum += detail.fixed_regular_salary_amount.to_i }
+      details.inject(0){|sum, detail| sum + detail.fixed_regular_salary_amount.to_i }
     end
 
     def total_executive_other_salary_amount
-      details.inject(0){|sum, detail| sum += detail.other_salary_amount.to_i }
+      details.inject(0){|sum, detail| sum + detail.other_salary_amount.to_i }
+    end
+
+    def total_executive_retirement_allowance_amount
+      details.inject(0){|sum, detail| sum + detail.retirement_allowance_amount.to_i }
     end
 
     def total_executive_salary_amount
@@ -72,6 +77,7 @@ module Reports
     attr_accessor :fixed_regular_salary_amount
     # その他
     attr_accessor :other_salary_amount
+    attr_accessor :retirement_allowance_amount
 
     def full_time?
       full_time

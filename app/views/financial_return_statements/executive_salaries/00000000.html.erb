@@ -11,7 +11,7 @@
       <th rowspan="3" class="text-center" style="width: 5%">常勤・<br>非常勤<br>の別　</th>
       <th rowspan="3" class="text-center" style="width: 8%">役員　<br>給与計</th>
       <th colspan="5"><%= justify('　　左の内訳　　') %></th>
-      <th rowspan="3" style="width: 8%">退職給与</th>
+      <th rowspan="3" class="text-center" style="width: 8%">退職給与</th>
     </tr>
     <tr>
       <th rowspan="2" class="text-center" style="width: 8%">使用人<br>職務分</th>
@@ -49,7 +49,7 @@
         <td rowspan="2"></td>
         <td rowspan="2"></td>
         <td rowspan="2" class="text-end"><%= to_amount(d.other_salary_amount) %></td>
-        <td rowspan="2"></td>
+        <td rowspan="2" class="text-end"><%= to_amount(d.retirement_allowance_amount) %></td>
       </tr>
       <tr>
         <td><%= d.duty_description %></td>
@@ -68,7 +68,7 @@
       <td></td>
       <td></td>
       <td class="text-end"><%= to_amount(@model.total_executive_other_salary_amount) %></td>
-      <td></td>
+      <td class="text-end"><%= to_amount(@model.total_executive_retirement_allowance_amount) %></td>
     </tr>
   </tfoot>
 </table>

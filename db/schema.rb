@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_01_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_03_000000) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -324,6 +324,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_01_120000) do
     t.integer "num_of_dependent", default: 0, null: false
     t.string "position"
     t.string "relationship_to_representative"
+    t.integer "representative_or_family_type"
     t.date "retirement_date"
     t.string "sex", limit: 1, null: false
     t.integer "social_insurance_reference_number"

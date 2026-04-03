@@ -68,6 +68,10 @@ module HyaccViewHelper
   def report_styles
     revert_and_sort( REPORT_STYLES )
   end
+
+  def representative_or_family_types
+    revert_and_sort( REPRESENTATIVE_OR_FAMILY_TYPES )
+  end
   
   def deleted_types
     hash = DELETED_TYPES.invert

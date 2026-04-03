@@ -27,6 +27,12 @@
       <td><%= f.text_field :duty_description %></td>
     </tr>
     <tr>
+      <th><%= f.label :representative_or_family_type %></th>
+      <td>
+        <%= f.select :representative_or_family_type, representative_or_family_types, { include_blank: true } %>
+      </td>
+    </tr>
+    <tr>
       <th><%= f.label :relationship_to_representative %></th>
       <td><%= f.text_field :relationship_to_representative %></td>
     </tr>

@@ -147,4 +147,10 @@ class Employee < ApplicationRecord
     end
   end
 
+  def representative_or_family_type_name
+    return nil if representative_or_family_type.nil?
+
+    REPRESENTATIVE_OR_FAMILY_TYPES[representative_or_family_type]
+  end
+
 end

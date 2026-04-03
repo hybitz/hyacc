@@ -16,5 +16,8 @@ class Reports::ExecutiveSalariesLogicTest < ActiveSupport::TestCase
     assert_equal executive.full_time, detail.full_time
     assert_equal executive.duty_description, detail.duty_description
     assert_equal executive.relationship_to_representative, detail.relationship
+
+    assert_equal 400_000, detail.retirement_allowance_amount
+    assert_equal 400_000, model.total_executive_retirement_allowance_amount
   end
 end

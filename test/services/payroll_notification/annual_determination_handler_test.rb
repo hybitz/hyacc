@@ -4,20 +4,12 @@ require 'minitest/mock'
 class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
   def setup
     @ym = 202509
-    ym_1 = 202508
     @employee = Employee.find(8)
-    BankAccount.second.update!(company_id: @employee.company.id, for_payroll: true)
-    @employee.company.fiscal_years.find_or_initialize_by(fiscal_year: 2024).save!
-    @employee.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025).save!
 
-    pr_1 = Payroll.find_or_initialize_regular_payroll(ym_1, @employee)
-    pr_1.update!(monthly_standard: 320_000)
-    @payroll = pr_1.reload.dup
-    @payroll.ym = @ym
-    @payroll.save!
+    @payroll = Payroll.find_by(ym: @ym, employee_id: @employee.id)
 
     @past_ym = (1..3).map{|i| (Date.new(@ym/100, @ym%100, 1) << i).strftime('%Y%m').to_i}
-    @past_payrolls = @past_ym.map{|ym| Payroll.find_by_ym_and_employee_id(@ym, @employee.id)}
+    @past_payrolls = @past_ym.map{|pym| Payroll.find_by_ym_and_employee_id(pym, @employee.id)}
     @context = PayrollNotification::PayrollNotificationContext.new(
       payroll: @payroll,
       ym: @ym,
@@ -26,13 +18,13 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
       past_payrolls: @past_payrolls
     )
 
-    @notification = Notification.create!(ym: @ym, category: :annual_determination, employee_id: @employee.id, deleted: false)
+    @notification = Notification.find(2)
   end
 
   def test_随時改定と重複する場合はnotificationを生成しない
     @notification.delete
-    notification = Notification.create!(ym: @past_ym[2], category: :ad_hoc_revision, employee_id: @employee.id)
-    
+    Notification.create!(ym: @past_ym[2], category: :ad_hoc_revision, employee_id: @employee.id)
+
     assert_no_changes 'Notification.where(category: :annual_determination).size' do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
     end
@@ -73,7 +65,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
   def test_先月と当月の標準月額報酬の値が異なり既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグをtrueに更新する
     message = nil
     @payroll.update!(monthly_standard: 340_000)
-    assert_not @past_payrolls[0].monthly_standard == @payroll.reload.monthly_standard
+    assert_not @past_payrolls[0].monthly_standard == @payroll.monthly_standard
 
     HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       assert_changes '@notification.reload.deleted?' do
@@ -88,7 +80,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
   def test_先月と当月の標準月額報酬の値が異なり既存のnotificationのdeletedフラグがtrueである場合はdeletedフラグを更新しない
     @notification.update!(deleted: true)
     @payroll.update!(monthly_standard: 340_000)
-    assert_not @past_payrolls[0].monthly_standard == @payroll.reload.monthly_standard
+    assert_not @past_payrolls[0].monthly_standard == @payroll.monthly_standard
 
     assert_no_changes '@notification.reload.deleted?' do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -100,7 +92,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
   def test_先月と当月の標準月額報酬の値が異なる場合はnotificationを生成しない
     @notification.delete
     @payroll.update!(monthly_standard: 340_000)
-    assert_not @past_payrolls[0].monthly_standard == @payroll.reload.monthly_standard
+    assert_not @past_payrolls[0].monthly_standard == @payroll.monthly_standard
 
     assert_no_changes 'Notification.where(category: :annual_determination).size' do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -112,8 +104,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     assert @past_payrolls[0].monthly_standard == @payroll.monthly_standard
     target_ym = 202505
 
-    pr_may = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.id)
-    pr_may.update!(extra_pay: 60_000)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 60_000)
 
     assert_changes 'Notification.where(category: :annual_determination).size' do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -137,8 +128,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     @notification.delete
     target_ym = 202505
 
-    pr_may = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.id)
-    pr_may.update!(extra_pay: 60_000)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 60_000)
 
     HyaccLogger.stub(:info, ->(msg) {messages << msg}) do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -154,9 +144,8 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     @notification.delete
     target_ym = 202505
 
-    pr_4 = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.id)
-    pr_4.update!(extra_pay: 60_000)
-  
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 60_000)
+
     failing_user = User.where(deleted: false).first
     other_users = User.where(deleted: false).where.not(id: failing_user.id)
   
@@ -198,9 +187,8 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
 
     target_ym = 202503
     date = Date.new(target_ym / 100, 2, 1)
-    @payroll.employee.update!(employment_date: date)
-    pr_march = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.id)
-    pr_march.update!(extra_pay: 60_000)
+    @employee.update!(employment_date: date)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 60_000)
 
     assert_difference 'Notification.where(category: :annual_determination).size', 1 do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -214,8 +202,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     target_ym = 202503
     date = Date.new(target_ym / 100, target_ym % 100, 1)
     @employee.update!(employment_date: date)
-    pr_march = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.reload.id)
-    pr_march.update!(extra_pay: 60_000)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 60_000)
 
     assert_difference 'Notification.where(category: :annual_determination).size', 1 do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -229,8 +216,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     target_ym = 202503
     date = Date.new(target_ym / 100, target_ym % 100, 15)
     @employee.update!(employment_date: date)
-    pr_march = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.reload.id)
-    pr_march.update!(extra_pay: 60_000)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 60_000)
 
     assert_no_difference 'Notification.where(category: :annual_determination).size' do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -244,8 +230,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     target_ym = 202504
     date = Date.new(target_ym / 100, target_ym % 100, 1)
     @employee.update!(employment_date: date)
-    pr_april = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.reload.id)
-    pr_april.update!(extra_pay: 40_000)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 40_000)
 
     assert_difference 'Notification.where(category: :annual_determination).size', 1 do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -259,8 +244,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     target_ym = 202504
     date = Date.new(target_ym / 100, target_ym % 100, 15)
     @employee.update!(employment_date: date)
-    pr_april = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.reload.id)
-    pr_april.update!(extra_pay: 40_000)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 40_000)
 
     assert_no_difference 'Notification.where(category: :annual_determination).size' do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -274,8 +258,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     target_ym = 202505
     date = Date.new(target_ym / 100, target_ym % 100, 1)
     @employee.update!(employment_date: date)
-    pr_may = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.reload.id)
-    pr_may.update!(extra_pay: 20_000)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 20_000)
 
     assert_difference 'Notification.where(category: :annual_determination).size', 1 do
       PayrollNotification::AnnualDeterminationHandler.call(@context)
@@ -289,8 +272,7 @@ class AnnualDeterminationHandlerTest < ActiveSupport::TestCase
     target_ym = 202505
     date = Date.new(target_ym / 100, target_ym % 100, 15)
     @employee.update!(employment_date: date)
-    pr_may = Payroll.find_or_initialize_regular_payroll(target_ym, @employee.reload.id)
-    pr_may.update!(extra_pay: 20_000)
+    Payroll.find_by(ym: target_ym, employee_id: @employee.id).update!(extra_pay: 20_000)
 
     assert_no_difference 'Notification.where(category: :annual_determination).size' do
       PayrollNotification::AnnualDeterminationHandler.call(@context)

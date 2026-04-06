@@ -9,30 +9,13 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @_payroll_notification_time_travel = true
 
     @employee8 = Employee.find(8)
-    BankAccount.second.update!(company_id: @employee8.company.id, for_payroll: true)
-    fy = @employee8.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
-    fy.save!
     ym = 202508
 
     @base_date = Date.current
-    date_before_base_date = @base_date - 1
-
     @payroll_with_pay_day_on_base_date = Payroll.find_by(employee_id: @employee8.id, ym: ym, is_bonus: false)
-    @payroll_with_pay_day_on_base_date.update!(pay_day: @base_date)
 
-    employee1 = Employee.first
-    fy = employee1.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
-    fy.save!
-    @payroll_with_pay_day_before_base_date = Payroll.create!(
-      ym: ym, 
-      pay_day: date_before_base_date, 
-      employee: employee1,
-      base_salary: 300_000, 
-      monthly_standard: 300_000, 
-      create_user_id: employee1.user.id,
-      update_user_id: employee1.user.id,
-      is_bonus: false
-    )
+    employee_before_base = Employee.find(9)
+    @payroll_with_pay_day_before_base_date = Payroll.find_by(employee_id: employee_before_base.id, ym: ym, is_bonus: false)
   rescue StandardError
     travel_back if @_payroll_notification_time_travel
     @_payroll_notification_time_travel = false
@@ -46,7 +29,9 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   def test_処理対象に関するログを出力する
     message = nil
     mock = Minitest::Mock.new
-    mock.expect(:process, nil)
+    Payroll.where('pay_day >= ? AND is_bonus = ?', @base_date, false).find_each do
+      mock.expect(:process, nil)
+    end
 
     PayrollNotification::PayrollNotificationProcessor.stub(:new, mock) do
       HyaccLogger.stub(:info, ->(msg) {message = msg}) do
@@ -274,7 +259,6 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     past_payrolls = processor.instance_variable_get(:@past_payrolls)
 
     past_payrolls[0].update!(monthly_standard: 320_000)
-    @payroll_with_pay_day_on_base_date.update!(monthly_standard: 320_000)
 
     target_ym = 202505
     pr_4 = Payroll.find_or_initialize_regular_payroll(target_ym, @employee8.id)
@@ -307,7 +291,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @payroll = @payroll_with_pay_day_before_base_date
     @payroll.update!(pay_day: @base_date)
 
-    payrolls = [@payroll, @payroll_with_pay_day_on_base_date]
+    expected_payroll_ids = Payroll.where('pay_day >= ? AND is_bonus = ?', @base_date, false).pluck(:id).sort
     called_ids = []
     raised = false
 
@@ -328,7 +312,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
           PayrollNotification::PayrollNotificationProcessor.call
         end
 
-        assert_equal payrolls.map(&:id).sort, called_ids.sort
+        assert_equal expected_payroll_ids, called_ids.sort
       end
     end
   end

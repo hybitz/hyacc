@@ -82,7 +82,7 @@ class AdHocNotificationCleanerTest < ActiveSupport::TestCase
     employee = Employee.find(8)
     @payroll = Payroll.find_by(ym: 202508, employee_id: employee.id)
     @notification = Notification.create!(ym: 202508, category: :ad_hoc_revision, employee_id: employee.id, deleted: false)
-    @payroll.update!(monthly_standard: 32_0000)
+    @payroll.update!(monthly_standard: 320_000)
     base_standard = @payroll.monthly_standard
 
 

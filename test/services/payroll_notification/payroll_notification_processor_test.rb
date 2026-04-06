@@ -289,7 +289,12 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @payroll = @payroll_with_pay_day_before_base_date
     @payroll.update!(pay_day: @base_date)
 
-    expected_payroll_ids = Payroll.where('pay_day >= ? AND is_bonus = ?', @base_date, false).pluck(:id).sort
+    september_payroll = Payroll.find_by!(ym: 202509, employee_id: @employee8.id, is_bonus: false)
+    expected_payroll_ids = [
+      @payroll_with_pay_day_on_base_date.id,
+      @payroll.id,
+      september_payroll.id
+    ].sort
     called_ids = []
     raised = false
 

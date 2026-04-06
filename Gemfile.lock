@@ -312,10 +312,10 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     minitest (5.27.0)
-    minitest-reporters (1.7.1)
+    minitest-reporters (1.8.0)
       ansi
       builder
-      minitest (>= 5.0)
+      minitest (>= 5.0, < 7)
       ruby-progressbar
     mixlib-cli (2.1.8)
     mixlib-config (3.0.27)
@@ -526,7 +526,7 @@ GEM
     sqlite3 (1.7.3)
       mini_portile2 (~> 2.8.0)
     sqlite3 (1.7.3-x86_64-linux)
-    ssrf_filter (1.4.0)
+    ssrf_filter (1.5.0)
     stringio (3.2.0)
     strong_actions (0.6.2)
       actionpack (>= 6.0, < 9.0)

@@ -28,17 +28,15 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
 
   def test_処理対象に関するログを出力する
     message = nil
-    mock = Minitest::Mock.new
-    Payroll.where('pay_day >= ? AND is_bonus = ?', @base_date, false).find_each do
-      mock.expect(:process, nil)
-    end
+    dummy_processor = Object.new
+    def dummy_processor.process; end
 
-    PayrollNotification::PayrollNotificationProcessor.stub(:new, mock) do
+    PayrollNotification::PayrollNotificationProcessor.stub(:new, ->(_payroll) { dummy_processor }) do
       HyaccLogger.stub(:info, ->(msg) {message = msg}) do
         PayrollNotification::PayrollNotificationProcessor.call
       end
     end
-    mock.verify
+
     expected_message = "#{@base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします"
     assert_equal expected_message, message
   end

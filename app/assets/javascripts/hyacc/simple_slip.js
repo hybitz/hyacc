@@ -26,9 +26,8 @@ class SimpleSlip {
         });
 
         $.get(this.options.get_account_details_path, { account_id: accountId }, (html) => {
-          $(this.selector).find('#account_detail_account').html(html);
+          $(this.selector).find('#account_detail').html(html);
         });
-        $(this.selector).find('#account_detail_sub_account').html('');
       });
 
       $(this.selector).find('.subAccountSelect').change((e) => {
@@ -41,7 +40,7 @@ class SimpleSlip {
         };
         $.get(this.options.get_sub_account_details_path, params, (html, _textStatus, jqXhr) => {
           if (jqXhr.status === 204) return;
-          $(this.selector).find('#account_detail_sub_account').html(html);
+          $(this.selector).find('#account_detail').html(html);
         });
       });
 

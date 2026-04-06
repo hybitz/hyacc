@@ -18,8 +18,7 @@ simple_slips.copy = function(trigger) {
       replace_options('#simple_slip_sub_account_id', data.sub_accounts);
       $('#simple_slip_sub_account_id').val(data.sub_account_id);
     }
-    $('#account_detail_account').html(data.account_detail || '');
-    $('#account_detail_sub_account').html(data.sub_account_detail || '');
+    $('#account_detail').html((data.account_detail || '') + (data.sub_account_detail || ''));
 
     simple_slips.new_simple_slip.update_tax_rate();
     $('#simple_slip_day').focus();

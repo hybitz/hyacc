@@ -14,7 +14,8 @@ bank_accounts.update_bank_offices = function(trigger, target_selector) {
 };
 
 $(function() {
-  $(document).on('change', '#employee_employee_bank_account_attributes_bank_id', function() {
-    bank_accounts.update_bank_offices(this, '#employee_employee_bank_account_attributes_bank_office_id');
+  $(document).on('change', 'select[name="employee[employee_bank_account_attributes][bank_id]"]', function() {
+    const $office = $(this).closest('table').find('select[name="employee[employee_bank_account_attributes][bank_office_id]"]');
+    bank_accounts.update_bank_offices(this, $office);
   });
 });

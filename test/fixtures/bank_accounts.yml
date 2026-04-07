@@ -49,3 +49,13 @@
   holder_name: 株式会社テストA
   financial_account_type: 5
   for_payroll: false
+
+6:
+  id: 6
+  company_id: 2
+  bank_id: 4
+  code: 600
+  name: みずほ銀行（テストB給与）
+  holder_name: 有限会社テストB
+  financial_account_type: 1
+  for_payroll: true

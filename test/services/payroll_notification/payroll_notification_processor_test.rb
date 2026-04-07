@@ -26,25 +26,11 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     travel_back if @_payroll_notification_time_travel
   end
 
-  def test_処理対象に関するログを出力する
-    message = nil
-    dummy_processor = Object.new
-    def dummy_processor.process; end
-
-    PayrollNotification::PayrollNotificationProcessor.stub(:new, ->(_payroll) { dummy_processor }) do
-      HyaccLogger.stub(:info, ->(msg) {message = msg}) do
-        PayrollNotification::PayrollNotificationProcessor.call
-      end
-    end
-
-    expected_message = "#{@base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします"
-    assert_equal expected_message, message
-  end
-
   def test_initializeとprocessは実行日以降に支払予定の給与明細であれば実行する
     september_payroll = Payroll.find_by(ym: 202509, employee_id: @employee8.id, is_bonus: false)
     expected_payroll_ids = [@payroll_with_pay_day_on_base_date, september_payroll].map(&:id).sort
 
+    message = nil
     called_ids = []
     mocks = []
 
@@ -55,11 +41,15 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       mocks << mock
       mock
     }) do
-      PayrollNotification::PayrollNotificationProcessor.call
+      HyaccLogger.stub(:info, ->(msg) {message = msg}) do
+        PayrollNotification::PayrollNotificationProcessor.call
+      end
     end
 
     mocks.each(&:verify)
 
+    expected_message = "#{@base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします"
+    assert_equal expected_message, message
     assert_equal expected_payroll_ids, called_ids.sort
   end
 

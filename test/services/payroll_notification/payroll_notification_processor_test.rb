@@ -9,30 +9,13 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @_payroll_notification_time_travel = true
 
     @employee8 = Employee.find(8)
-    BankAccount.second.update!(company_id: @employee8.company.id, for_payroll: true)
-    fy = @employee8.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
-    fy.save!
     ym = 202508
 
     @base_date = Date.current
-    date_before_base_date = @base_date - 1
-
     @payroll_with_pay_day_on_base_date = Payroll.find_by(employee_id: @employee8.id, ym: ym, is_bonus: false)
-    @payroll_with_pay_day_on_base_date.update!(pay_day: @base_date)
 
-    employee1 = Employee.first
-    fy = employee1.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025)
-    fy.save!
-    @payroll_with_pay_day_before_base_date = Payroll.create!(
-      ym: ym, 
-      pay_day: date_before_base_date, 
-      employee: employee1,
-      base_salary: 300_000, 
-      monthly_standard: 300_000, 
-      create_user_id: employee1.user.id,
-      update_user_id: employee1.user.id,
-      is_bonus: false
-    )
+    employee_before_base = Employee.find(9)
+    @payroll_with_pay_day_before_base_date = Payroll.find_by(employee_id: employee_before_base.id, ym: ym, is_bonus: false)
   rescue StandardError
     travel_back if @_payroll_notification_time_travel
     @_payroll_notification_time_travel = false
@@ -43,22 +26,11 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     travel_back if @_payroll_notification_time_travel
   end
 
-  def test_処理対象に関するログを出力する
-    message = nil
-    mock = Minitest::Mock.new
-    mock.expect(:process, nil)
-
-    PayrollNotification::PayrollNotificationProcessor.stub(:new, mock) do
-      HyaccLogger.stub(:info, ->(msg) {message = msg}) do
-        PayrollNotification::PayrollNotificationProcessor.call
-      end
-    end
-    mock.verify
-    expected_message = "#{@base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします"
-    assert_equal expected_message, message
-  end
-
   def test_initializeとprocessは実行日以降に支払予定の給与明細であれば実行する
+    september_payroll = Payroll.find_by(ym: 202509, employee_id: @employee8.id, is_bonus: false)
+    expected_payroll_ids = [@payroll_with_pay_day_on_base_date, september_payroll].map(&:id).sort
+
+    message = nil
     called_ids = []
     mocks = []
 
@@ -69,13 +41,16 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
       mocks << mock
       mock
     }) do
-      PayrollNotification::PayrollNotificationProcessor.call
+      HyaccLogger.stub(:info, ->(msg) {message = msg}) do
+        PayrollNotification::PayrollNotificationProcessor.call
+      end
     end
 
     mocks.each(&:verify)
 
-    assert_includes called_ids, @payroll_with_pay_day_on_base_date.id
-    assert_not_includes called_ids, @payroll_with_pay_day_before_base_date.id
+    expected_message = "#{@base_date.strftime('%Y年%m月%d日')}以降に支払予定の給与明細を対象とします"
+    assert_equal expected_message, message
+    assert_equal expected_payroll_ids, called_ids.sort
   end
 
   def test_initializeとprocessは実行日以降に支払予定のボーナス明細であれば実行しない
@@ -274,7 +249,6 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     past_payrolls = processor.instance_variable_get(:@past_payrolls)
 
     past_payrolls[0].update!(monthly_standard: 320_000)
-    @payroll_with_pay_day_on_base_date.update!(monthly_standard: 320_000)
 
     target_ym = 202505
     pr_4 = Payroll.find_or_initialize_regular_payroll(target_ym, @employee8.id)
@@ -307,7 +281,12 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
     @payroll = @payroll_with_pay_day_before_base_date
     @payroll.update!(pay_day: @base_date)
 
-    payrolls = [@payroll, @payroll_with_pay_day_on_base_date]
+    september_payroll = Payroll.find_by!(ym: 202509, employee_id: @employee8.id, is_bonus: false)
+    expected_payroll_ids = [
+      @payroll_with_pay_day_on_base_date.id,
+      @payroll.id,
+      september_payroll.id
+    ].sort
     called_ids = []
     raised = false
 
@@ -328,7 +307,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
           PayrollNotification::PayrollNotificationProcessor.call
         end
 
-        assert_equal payrolls.map(&:id).sort, called_ids.sort
+        assert_equal expected_payroll_ids, called_ids.sort
       end
     end
   end

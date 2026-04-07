@@ -4,3 +4,27 @@
   category: :report_submission
   deleted: false
   employee_id: nil
+
+2:
+  id: 2
+  ym: 202509
+  category: :annual_determination
+  employee_id: 8
+  deleted: false
+  message: '定時決定（AnnualDeterminationHandler向け）'
+
+3:
+  id: 3
+  ym: 202506
+  category: :ad_hoc_revision
+  employee_id: 9
+  deleted: false
+  message: '随時改定（AdHocRevisionCleaner向け）'
+
+4:
+  id: 4
+  ym: 202508
+  category: :ad_hoc_revision
+  employee_id: 9
+  deleted: false
+  message: '随時改定（AdHocRevisionHandler向け）'

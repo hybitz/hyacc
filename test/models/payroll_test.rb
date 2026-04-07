@@ -70,8 +70,8 @@ class PayrollTest < ActiveSupport::TestCase
     p1 = Payroll.find_or_initialize_regular_payroll(ym, e.id)
     assert_equal p.id, p1.id
 
-    ym = 202509
-    assert_nil Payroll.find_by(ym: ym, employee_id: e.id)
+    ym = 202511
+    assert_nil Payroll.find_by(ym: ym, employee_id: e.id, is_bonus: false)
     p2 = Payroll.find_or_initialize_regular_payroll(ym, e.id)
     assert p2.new_record?
     assert_not p2.is_bonus?

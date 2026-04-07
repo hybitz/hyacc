@@ -42,6 +42,9 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
   end
 
   def test_initializeとprocessは実行日以降に支払予定の給与明細であれば実行する
+    september_payroll = Payroll.find_by(ym: 202509, employee_id: @employee8.id, is_bonus: false)
+    expected_payroll_ids = [@payroll_with_pay_day_on_base_date, september_payroll].map(&:id).sort
+
     called_ids = []
     mocks = []
 
@@ -57,8 +60,7 @@ class PayrollNotificationProcessorTest < ActiveSupport::TestCase
 
     mocks.each(&:verify)
 
-    assert_includes called_ids, @payroll_with_pay_day_on_base_date.id
-    assert_not_includes called_ids, @payroll_with_pay_day_before_base_date.id
+    assert_equal expected_payroll_ids, called_ids.sort
   end
 
   def test_initializeとprocessは実行日以降に支払予定のボーナス明細であれば実行しない

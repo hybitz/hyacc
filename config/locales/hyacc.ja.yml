@@ -120,6 +120,7 @@ ja:
         is_order_entry: 受注フラグ
         is_order_placement: 発注フラグ
         is_investment: 投資フラグ
+        is_shareholder: 株主フラグ
         name: 取引先名（省略）
 
       customer_name: &customer_name

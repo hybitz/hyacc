@@ -70,6 +70,11 @@ module Accounts::SubAccountsSupport
         @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
+    when SUB_ACCOUNT_TYPE_SHAREHOLDER
+      Customer.where(is_shareholder: true).each do |c|
+        @sub_accounts_cache << c unless c.deleted? or c.disabled?
+        @sub_accounts_all_cache << c
+      end
     when SUB_ACCOUNT_TYPE_CORPORATE_TAX
       CORPORATE_TAX_TYPES.each {|key, value|
         tax = CorporateTax.new(id: key, code: key, name: value)
@@ -124,6 +129,10 @@ module Accounts::SubAccountsSupport
 
   def has_normal_sub_accounts
     journalizable? and [SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_DONATION].include? sub_account_type 
+  end
+
+  def has_shareholders
+    journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_SHAREHOLDER
   end
   
   def has_rents

@@ -11,6 +11,7 @@
       <th class="text-center">受注先</th>
       <th class="text-center">発注先</th>
       <th class="text-center">投資先</th>
+      <th class="text-center">株主</th>
       <th class="text-center">状態</th>
       <th></th>
     </tr>
@@ -25,6 +26,7 @@
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_entry %>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_order_placement %>
         <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_investment %>
+        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16' if c.is_shareholder %>
         <td class="text-center"><%= HyaccConst::DISABLED_TYPES[c.disabled] %></td>
         <td class="text-center">
           <%= link_to '参照', mm_customer_path(c), remote: true, class: 'btn btn-sm btn-light' %>

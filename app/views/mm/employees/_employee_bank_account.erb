@@ -1,10 +1,8 @@
 <%= fields_for "employee[employee_bank_account_attributes]", @e.employee_bank_account do |f| %>
-  <tr style="display: none;">
-    <td><%= f.hidden_field :id %></td>
-  </tr>
   <tr>
     <th>金融機関名称</th>
     <td>
+      <%= f.hidden_field :id %>
       <%= f.collection_select :bank_id, current_company.banks, :id, :name, {}, { href: bank_offices_path, class: 'form-control form-control-sm w-auto d-inline-block' } %>
     </td>
   </tr>

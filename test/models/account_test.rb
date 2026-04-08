@@ -49,7 +49,7 @@ class AccountTest < ActiveSupport::TestCase
   
   def test_sub_accounts_for_shareholder_type_only_include_shareholders
     account = Account.new(journalizable: true, sub_account_type: SUB_ACCOUNT_TYPE_SHAREHOLDER)
-    expected = Customer.where(is_shareholder: true).pluck(:id).sort
+    expected = Customer.where(is_shareholder: true, deleted: false, disabled: false).pluck(:id).sort
     actual = account.sub_accounts.map(&:id).sort
     assert_equal expected, actual
   end

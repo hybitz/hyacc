@@ -17,13 +17,13 @@ class ReportSubmissionNoticeCleanerTest < ActiveSupport::TestCase
   def test_notificationのdeletedフラグがtrueの場合は処理を中断する
     travel_to Time.zone.local(2025, 6, 15) do
       create_time = Time.current.change(month: 6).beginning_of_month
-      notification = Notification.first
+      notification = Notification.find(1)
       notification.update!(created_at: create_time, deleted: true)
 
       notification_update_called = false
       Notification.stub(:find_by, notification) do
         notification.stub(:update!, ->(*) {notification_update_called = true}) do
-          assert_no_changes "notification.reload.deleted" do
+          assert_no_changes "notification.deleted" do
             PayrollNotification::ReportSubmissionNoticeCleaner.call
           end
         end
@@ -36,7 +36,7 @@ class ReportSubmissionNoticeCleanerTest < ActiveSupport::TestCase
   def test_notificationのdeletedフラグがfalseの場合はtrueに更新する
     travel_to Time.zone.local(2025, 6, 15) do
       create_time = Time.current.change(month: 6).beginning_of_month
-      notification = Notification.first
+      notification = Notification.find(1)
       notification.update!(created_at: create_time, deleted: false)
 
       assert_changes "notification.reload.deleted" do
@@ -50,7 +50,7 @@ class ReportSubmissionNoticeCleanerTest < ActiveSupport::TestCase
   def test_更新に成功した場合は成功ログを出力する
     travel_to Time.zone.local(2025, 6, 15) do
       create_time = Time.current.change(month: 6).beginning_of_month
-      notification = Notification.first
+      notification = Notification.find(1)
       notification.update!(created_at: create_time, deleted: false)
 
       message = nil
@@ -65,7 +65,7 @@ class ReportSubmissionNoticeCleanerTest < ActiveSupport::TestCase
   def test_更新に失敗した場合は失敗ログを出力する
     travel_to Time.zone.local(2025, 6, 15) do
       create_time = Time.current.change(month: 6).beginning_of_month
-      notification = Notification.first
+      notification = Notification.find(1)
       notification.update!(created_at: create_time, deleted: false)
 
       message = nil

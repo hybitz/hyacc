@@ -8,16 +8,16 @@ class ReportSubmissionNoticeGeneratorTest < ActiveSupport::TestCase
       target_period = Time.current.change(month: 6).beginning_of_month...Time.current.change(month: 7).beginning_of_month
       assert Notification.exists?(category: :report_submission, created_at: target_period)
 
-    notification_create_called = false
-    user_notification_create_called = false
+      notification_create_called = false
+      user_notification_create_called = false
 
-    Notification.stub(:create!, ->(*) {notification_create_called = true}) do
-      UserNotification.stub(:find_or_create_by!, ->(*) {user_notification_create_called = true}) do
-        assert_no_difference "Notification.count" do
-          PayrollNotification::ReportSubmissionNoticeGenerator.call
+      Notification.stub(:create!, ->(*) {notification_create_called = true}) do
+        UserNotification.stub(:find_or_create_by!, ->(*) {user_notification_create_called = true}) do
+          assert_no_difference "Notification.count" do
+            PayrollNotification::ReportSubmissionNoticeGenerator.call
+          end
         end
       end
-    end
 
       assert_equal false, notification_create_called
       assert_equal false, user_notification_create_called

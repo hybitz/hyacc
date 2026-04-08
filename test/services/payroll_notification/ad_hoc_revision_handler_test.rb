@@ -4,16 +4,14 @@ require 'minitest/mock'
 class AdHocRevisionHandlerTest < ActiveSupport::TestCase
   def setup
     ym = 202508
-    employee = Employee.find(8)
-    BankAccount.second.update!(company_id: employee.company.id, for_payroll: true)
-    employee.company.fiscal_years.find_or_initialize_by(fiscal_year: 2025).save!
+    employee = Employee.find(9)
 
     @payroll = Payroll.find_by(ym: ym, employee_id: employee.id)
-    @payroll.update!(monthly_standard: @payroll.base_salary)
     past_ym = (1..3).map{|i| (Date.new(ym/100, ym%100, 1) << i).strftime('%Y%m').to_i}
-    @past_payrolls = past_ym.map{|ym| Payroll.find_by_ym_and_employee_id(ym, employee.id)}
+    payrolls_by_ym = Payroll.where(ym: past_ym, employee_id: employee.id, is_bonus: false).index_by(&:ym)
+    @past_payrolls = past_ym.map { |pym| payrolls_by_ym[pym] }
     @context = PayrollNotification::PayrollNotificationContext.new(
-      payroll: @payroll.reload,
+      payroll: @payroll,
       ym: ym,
       employee: employee,
       past_ym: past_ym,
@@ -21,7 +19,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     )
 
     @pr_1, @pr_2, @pr_3 = @past_payrolls
-    @notification = Notification.create!(ym: ym, category: :ad_hoc_revision, employee_id: employee.id, deleted: false)
+    @notification = Notification.find(4)
   end
 
   def test_固定的賃金に変動がない場合かつ既存のnotificationのdeletedフラグがfalseである場合はdeletedフラグをtrueに更新する
@@ -64,7 +62,6 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
 
     @pr_2.update!(housing_allowance: @pr_2.commuting_allowance + 1000)
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
-    @context.past_payrolls = @past_payrolls.map(&:reload)
 
     assert_no_changes '@notification.reload.deleted?' do
       PayrollNotification::AdHocRevisionHandler.call(@context)
@@ -77,7 +74,6 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     message = nil
     @pr_2.update!(housing_allowance: @pr_2.commuting_allowance + 1000)
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
-    @context.past_payrolls = @past_payrolls.map(&:reload)
 
     HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       assert_changes '@notification.reload.deleted?' do
@@ -95,8 +91,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @payroll.update!(housing_allowance: @payroll.housing_allowance + 400000)
   
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
-    @context.past_payrolls = @past_payrolls.map(&:reload)
-    @context.payroll = @payroll.reload
+
     assert_no_changes '@notification.reload.deleted?' do
       PayrollNotification::AdHocRevisionHandler.call(@context)
     end
@@ -113,8 +108,6 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @payroll.update!(housing_allowance: @payroll.housing_allowance + 400000)
   
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
-    @context.past_payrolls = @past_payrolls.map(&:reload)
-    @context.payroll = @payroll.reload
 
     HyaccLogger.stub(:info, ->(msg) {message = msg}) do
       assert_changes '@notification.reload.deleted?' do
@@ -134,9 +127,6 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @pr_1.update!(housing_allowance: @pr_1.housing_allowance + 400000)
     @payroll.update!(housing_allowance: @payroll.housing_allowance + 400000) 
     assert_not (@pr_3.salary_subtotal - @pr_3.extra_pay) == (@pr_2.salary_subtotal - @pr_2.extra_pay)
-
-    @context.past_payrolls = @past_payrolls.map(&:reload)
-    @context.payroll = @payroll.reload
 
     assert_difference 'Notification.count' do
       PayrollNotification::AdHocRevisionHandler.call(@context)
@@ -164,9 +154,6 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @pr_1.update!(housing_allowance: @pr_1.housing_allowance + 400000)
     @payroll.update!(housing_allowance: @payroll.housing_allowance + 400000) 
 
-    @context.past_payrolls = @past_payrolls.map(&:reload)
-    @context.payroll = @payroll.reload
-
     HyaccLogger.stub(:info, ->(msg) {messages << msg}) do
       PayrollNotification::AdHocRevisionHandler.call(@context)
     end
@@ -185,10 +172,7 @@ class AdHocRevisionHandlerTest < ActiveSupport::TestCase
     @pr_2.update!(housing_allowance: @pr_2.housing_allowance + 400_000)
     @pr_1.update!(housing_allowance: @pr_1.housing_allowance + 400_000)
     @payroll.update!(housing_allowance: @payroll.housing_allowance + 400_000)
-  
-    @context.past_payrolls = @past_payrolls.map(&:reload)
-    @context.payroll = @payroll.reload
-  
+
     failing_user = User.where(deleted: false).first
     other_users = User.where(deleted: false).where.not(id: failing_user.id)
   

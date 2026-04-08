@@ -207,8 +207,8 @@ class SimpleSlipsController < Base::HyaccController
       :amount_decrease => @simple_slip.amount_decrease,
       :tax_type => get_tax_type_for_current_fy(@simple_slip.tax_type),
       :sub_accounts => account.sub_accounts.collect{|sa| sa = {:id => sa.id, :name => sa.name}},
-      :account_detail => account_detail,
-      :sub_account_detail => sub_account_detail,
+      :account_detail => account_detail.to_s,
+      :sub_account_detail => sub_account_detail.to_s,
       :tax_amount_increase => @simple_slip.tax_amount_increase,
       :tax_amount_decrease => @simple_slip.tax_amount_decrease,
       :donation_recipient_id => @simple_slip.donation_recipient_id

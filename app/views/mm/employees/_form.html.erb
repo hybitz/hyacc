@@ -1,9 +1,17 @@
-<%= form_with model: [:mm, @e], data: {remote: true} do |f| %>
+<%= form_with model: [:mm, @e], data: {remote: true}, html: { id: 'mm_employee_form' } do |f| %>
   <%= flash_notice %>
 
   <div class="container">
     <div class="row">
       <div class="col-md-8">
+        <script>
+          $(document).ready(function() {
+            $('#mm_employee_form').on('change', 'select[name="employee[employee_bank_account_attributes][bank_id]"]', function() {
+              var $office = $(this).closest('table').find('select[name="employee[employee_bank_account_attributes][bank_office_id]"]');
+              bank_accounts.update_bank_offices(this, $office);
+            });
+          });
+        </script>
         <table class="table table-sm mb-0">
           <tr>
             <th class="nowrap"><%= f.object.class.human_attribute_name(:last_name) %><%= f.object.class.human_attribute_name(:first_name) %></th>

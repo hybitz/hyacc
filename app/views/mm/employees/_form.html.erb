@@ -14,7 +14,7 @@
         </script>
         <table class="table table-sm mb-0">
           <tr>
-            <th class="nowrap"><%= f.object.class.human_attribute_name(:last_name) %><%= f.object.class.human_attribute_name(:first_name) %></th>
+            <th class="nowrap"><%= f.label :last_name %><%= f.label :first_name %></th>
             <td>
               <div class="d-flex flex-nowrap gap-0 align-items-stretch">
                 <div class="flex-grow-1 min-w-0"><%= f.text_field :last_name, class: 'form-control' %></div>

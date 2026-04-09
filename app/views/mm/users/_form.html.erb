@@ -7,69 +7,77 @@
   <%= flash_notice %>
 
   <div>
-    <div style="float: left;">
-      <table>
+    <table class="table table-sm">
+      <tr>
+        <th class="nowrap"><%= f.label :login_id %></th>
+        <td>
+          <% if @user.new_record? %>
+            <%= f.text_field :login_id, class: 'form-control form-control-sm' %>
+          <% else %>
+            <%= @user.login_id %>
+          <% end %>
+        </td>
+      </tr>
+
+      <% if @user.new_record? %>
         <tr>
-          <th><%= f.label :login_id %></th>
+          <th><%= f.label :email %></th>
+          <td><%= f.text_field :email, class: 'form-control form-control-sm' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :password %></th>
+          <td><%= f.password_field :password, autocomplete: "new-password", class: 'form-control form-control-sm' %></td>
+        </tr>
+      <% end %>
+
+      <%= f.fields_for "employee_attributes", @user.employee do |f| %>
+        <tr>
+          <th><%= f.label :last_name %></th>
           <td>
-            <% if @user.new_record? %>
-              <%= f.text_field :login_id %>
-            <% else %>
-              <%= @user.login_id %>
-            <% end %>
+            <%= f.hidden_field :id %>
+            <%= f.text_field :last_name, class: 'form-control form-control-sm' %>
           </td>
         </tr>
-
-        <% if @user.new_record? %>
-          <tr>
-            <th><%= f.label :email %></th>
-            <td><%= f.text_field :email %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :password %></th>
-            <td><%= f.password_field :password, autocomplete: "new-password" %></td>
-          </tr>
-        <% end %>
-
-        <%= f.fields_for "employee_attributes", @user.employee do |f| %>
-          <tr>
-            <th><%= f.label :last_name %></th>
-            <td>
-              <%= f.hidden_field :id %>
-              <%= f.text_field :last_name %>
-            </td>
-          </tr>
-          <tr>
-            <th><%= f.label :first_name %></th>
-            <td><%= f.text_field :first_name %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :sex %></th>
-            <td><%= f.select :sex, sex_types %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :birth %></th>
-            <td><%= f.date_select :birth, start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :employment_date %></th>
-            <td><%= f.text_field :employment_date, class: 'datepicker' %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :zip_code %></th>
-            <td><%= f.text_field :zip_code, class: 'zip_code' %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :address %></th>
-            <td><%= f.text_field :address %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :my_number %></th>
-            <td><%= f.text_field :my_number, class: 'my_number' %></td>
-          </tr>
-          <%= render 'mm/employees/branch_employees', e: @user.employee %>
-        <% end %>
-      </table>
-    </div>
+        <tr>
+          <th><%= f.label :first_name %></th>
+          <td><%= f.text_field :first_name, class: 'form-control form-control-sm' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :sex %></th>
+          <td><%= f.select :sex, sex_types, {}, class: 'form-control form-control-sm w-auto d-inline-block' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :birth %></th>
+          <td>
+            <div class="d-flex flex-nowrap gap-1 align-items-center">
+              <%= f.date_select :birth,
+                    { start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true },
+                    { class: 'form-control form-control-sm w-auto', style: 'display: inline-block; vertical-align: middle;' } %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th><%= f.label :employment_date %></th>
+          <td><%= f.text_field :employment_date, class: 'form-control form-control-sm datepicker d-inline-block', style: 'width: 8em;' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :zip_code %></th>
+          <td><%= f.text_field :zip_code, class: 'form-control form-control-sm zip_code d-inline-block', style: 'width: 5em;' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :address %></th>
+          <td><%= f.text_field :address, class: 'form-control form-control-sm address' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :my_number %></th>
+          <td><%= f.text_field :my_number, class: 'form-control form-control-sm my_number' %></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <%= render 'mm/employees/branch_employees', e: @user.employee %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
   </div>
 <% end %>

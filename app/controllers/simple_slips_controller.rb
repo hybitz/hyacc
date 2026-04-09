@@ -17,7 +17,7 @@ class SimpleSlipsController < Base::HyaccController
 
   def get_templates
     my_account = Account.find_by_code(finder.account_code)
-    @simple_slip = SimpleSlip.new(:my_account_id => my_account.id)
+    @simple_slip = SimpleSlip.new(my_account_id: my_account.id)
 
     like = '%' + JournalUtil.escape_search(params[:query]) + '%'
     query = 'account_id <> ? and (keywords like ? or remarks like ?) and deleted=?', my_account.id, like, like, false
@@ -69,7 +69,7 @@ class SimpleSlipsController < Base::HyaccController
           "tax_rate_percent":"#{t.tax_rate_percent > 0 ? t.tax_rate_percent.to_s : nil}",
           "tax_amount":"#{tax_amount.to_s}",
           "focus_on_complete":"#{t.focus_on_complete.to_s}",
-          "sub_accounts":#{account.sub_accounts.collect{|sa| sa = {:id=>sa.id, :name=>sa.name}}.to_json},
+          "sub_accounts":#{account.sub_accounts.map {|sa| {id: sa.id, name: sa.name}}.to_json},
           "account_detail":#{account_detail ? account_detail.to_json : '""'}
         }
       JSON
@@ -117,7 +117,7 @@ class SimpleSlipsController < Base::HyaccController
       end
 
       flash[:notice] = '伝票を登録しました。'
-      redirect_to :action => :index, :account_code => @simple_slip.my_account.code
+      redirect_to action: :index, account_code: @simple_slip.my_account.code
     rescue => e
       handle(e)
       index
@@ -178,24 +178,24 @@ class SimpleSlipsController < Base::HyaccController
 
     renderer = AccountDetails::AccountDetailRenderer.get_instance(account.id)
     if renderer
-      account_detail = render_to_string(:partial => renderer.get_template(controller_name))
+      account_detail = render_to_string(partial: renderer.get_template(controller_name))
     end
 
     @json = {
-      :remarks => @simple_slip.remarks,
-      :account_id => @simple_slip.account_id,
-      :sub_account_id => @simple_slip.sub_account_id,
-      :branch_id => @simple_slip.branch_id,
-      :amount_increase => @simple_slip.amount_increase,
-      :amount_decrease => @simple_slip.amount_decrease,
-      :tax_type => get_tax_type_for_current_fy(@simple_slip.tax_type),
-      :sub_accounts => account.sub_accounts.collect{|sa| sa = {:id => sa.id, :name => sa.name}},
-      :account_detail => account_detail,
-      :tax_amount_increase => @simple_slip.tax_amount_increase,
-      :tax_amount_decrease => @simple_slip.tax_amount_decrease
+      remarks: @simple_slip.remarks,
+      account_id: @simple_slip.account_id,
+      sub_account_id: @simple_slip.sub_account_id,
+      branch_id: @simple_slip.branch_id,
+      amount_increase: @simple_slip.amount_increase,
+      amount_decrease: @simple_slip.amount_decrease,
+      tax_type: get_tax_type_for_current_fy(@simple_slip.tax_type),
+      sub_accounts: account.sub_accounts.map {|sa| {id: sa.id, name: sa.name} },
+      account_detail: account_detail,
+      tax_amount_increase: @simple_slip.tax_amount_increase,
+      tax_amount_decrease: @simple_slip.tax_amount_decrease
     }
 
-    render :json => @json
+    render json: @json
   end
 
   private
@@ -206,7 +206,7 @@ class SimpleSlipsController < Base::HyaccController
 
   def default_url_options
     {
-      :account_code => params[:account_code]
+      account_code: params[:account_code]
     }
   end
 
@@ -240,7 +240,7 @@ class SimpleSlipsController < Base::HyaccController
   def check_sub_accounts
     unless @account.sub_account_type == SUB_ACCOUNT_TYPE_NORMAL
       unless @account.has_sub_accounts?
-        render :action=>:sub_accounts_required and return
+        render action: :sub_accounts_required and return
       end
     end
   end

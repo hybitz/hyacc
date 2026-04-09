@@ -20,10 +20,10 @@ class Mm::AccountsController < Base::HyaccController
     Account.transaction do
       if position == 'inside'
         Account.where('parent_id = ?', target.id).update_all('display_order = display_order + 1')
-        moved.update!(:display_order => 0, :parent_id => target.id)
+        moved.update!(display_order: 0, parent_id: target.id)
       elsif position == 'after'
         Account.where('parent_id = ? and display_order > ?', target.parent_id, target.display_order).update_all('display_order = display_order + 1')
-        moved.update!(:display_order => target.display_order + 1, :parent_id => target.parent_id)
+        moved.update!(display_order: target.display_order + 1, parent_id: target.parent_id)
       end
     end
 
@@ -36,7 +36,7 @@ class Mm::AccountsController < Base::HyaccController
 
   def add_sub_account
     sa = SubAccount.new
-    render :partial => 'sub_account_fields', :locals => {:sub_account => sa, :index => params[:index]}
+    render partial: 'sub_account_fields', locals: {sub_account: sa, index: params[:index]}
   end
 
   def new
@@ -58,7 +58,7 @@ class Mm::AccountsController < Base::HyaccController
 
     rescue => e
       handle(e)
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -82,7 +82,7 @@ class Mm::AccountsController < Base::HyaccController
 
     rescue => e
       handle(e)
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -155,11 +155,11 @@ class Mm::AccountsController < Base::HyaccController
   end
 
   def is_already_used(account)
-    JournalDetail.where(:account_id => account).present?
+    JournalDetail.where(account_id: account).present?
   end
 
   def is_normal_sub_account_without_sub_accounts(account)
-    SubAccount.where(:account_id => account).present?
+    SubAccount.where(account_id: account).present?
   end
 
   def load_account
@@ -184,7 +184,7 @@ class Mm::AccountsController < Base::HyaccController
         next if values[:id].blank? and values[:code].blank? and values[:name].blank?
 
         sa = SubAccount.find(values[:id]) if values[:id].present?
-        sa ||= SubAccount.new(:account => @account)
+        sa ||= SubAccount.new(account: @account)
         sa.code = values[:code]
         sa.name = values[:name]
         sa.deleted = values[:deleted]
@@ -195,7 +195,7 @@ class Mm::AccountsController < Base::HyaccController
     @account.sub_accounts_all.each do |sa|
       unless new_sub_accounts.detect{|nsa| sa.id == nsa.id }
         # 既に伝票が起票されていた場合はエラー
-        if JournalDetail.where(:account_id => @account.id, :sub_account_id => sa.id).present?
+        if JournalDetail.where(account_id: @account.id, sub_account_id: sa.id).present?
           raise HyaccException.new(ERR_SUB_ACCOUNT_ALREADY_USED)
         end
 

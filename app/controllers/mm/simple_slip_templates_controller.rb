@@ -69,7 +69,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
       handle(e)
     end
 
-    redirect_to :action=>:index
+    redirect_to action: :index
   end
   
   def get_keywords
@@ -126,7 +126,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   def get_sub_accounts
     account = Account.find(params[:account_id])
     @sub_accounts = account.sub_accounts.sort{|a, b| a.code <=> b.code }
-    render :partial => 'get_sub_accounts', :locals => {:sub_accounts => @sub_accounts}
+    render partial: 'get_sub_accounts', locals: {sub_accounts: @sub_accounts}
   end
 
   private

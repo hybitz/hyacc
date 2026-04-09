@@ -59,7 +59,7 @@ class Mm::CustomersController < Base::HyaccController
     end
 
     flash[:notice] = '取引先を削除しました。'
-    redirect_to :action => :index
+    redirect_to action: :index
   end
 
   private

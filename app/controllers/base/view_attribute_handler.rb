@@ -42,7 +42,7 @@ module Base::ViewAttributeHandler
   end
 
   def load_bank_offices(bank_id, options={})
-    BankOffice.where(:bank_id => bank_id)
+    BankOffice.where(bank_id: bank_id)
   end
 
   # 勘定科目を取得します。
@@ -176,7 +176,7 @@ module Base::ViewAttributeHandler
     scope = options[:scope] || :all
     
     if scope == :all
-      employees = Employee.where(:company_id => current_company.id)
+      employees = Employee.where(company_id: current_company.id)
       employees = employees.not_deleted unless has_option?(options[:include], :deleted)
     elsif scope == :branch
       branch = get_branch(finder)

@@ -108,11 +108,11 @@ class Mm::EmployeesController < Base::HyaccController
       :num_of_dependent, :num_of_dependent_effective_at,
       :zip_code, :zip_code_effective_at,
       :address, :address_effective_at,
-      :num_of_dependents_attributes => [:id, :_destroy],
-      :zip_codes_attributes => [:id, :_destroy],
-      :addresses_attributes => [:id, :_destroy],
-      :employee_bank_account_attributes => [:id, :bank_id, :bank_office_id, :code],
-      :branch_employees_attributes => [:id, :deleted, :branch_id, :default_branch]
+      num_of_dependents_attributes: [:id, :_destroy],
+      zip_codes_attributes: [:id, :_destroy],
+      addresses_attributes: [:id, :_destroy],
+      employee_bank_account_attributes: [:id, :bank_id, :bank_office_id, :code],
+      branch_employees_attributes: [:id, :deleted, :branch_id, :default_branch]
     ]
 
     ret = params.require(:employee).permit(permitted)

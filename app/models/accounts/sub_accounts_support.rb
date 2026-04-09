@@ -55,23 +55,14 @@ module Accounts::SubAccountsSupport
         @sub_accounts_cache << r if r.status == RENT_STATUS_TYPE_USE
         @sub_accounts_all_cache << r
       end
-    when SUB_ACCOUNT_TYPE_ORDER_ENTRY
-      Customer.where(is_order_entry: true).each do |c|
-        @sub_accounts_cache << c unless c.deleted? or c.disabled?
-        @sub_accounts_all_cache << c
-      end
-    when SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
-      Customer.where(is_order_placement: true).each do |c|
-        @sub_accounts_cache << c unless c.deleted? or c.disabled?
-        @sub_accounts_all_cache << c
-      end
-    when SUB_ACCOUNT_TYPE_INVESTMENT
-      Customer.where(is_investment: true).each do |c|
-        @sub_accounts_cache << c unless c.deleted? or c.disabled?
-        @sub_accounts_all_cache << c
-      end
-    when SUB_ACCOUNT_TYPE_SHAREHOLDER
-      Customer.where(is_shareholder: true).each do |c|
+    when SUB_ACCOUNT_TYPE_ORDER_ENTRY, SUB_ACCOUNT_TYPE_ORDER_PLACEMENT, SUB_ACCOUNT_TYPE_INVESTMENT, SUB_ACCOUNT_TYPE_SHAREHOLDER
+      flag = {
+        SUB_ACCOUNT_TYPE_ORDER_ENTRY => :is_order_entry,
+        SUB_ACCOUNT_TYPE_ORDER_PLACEMENT => :is_order_placement,
+        SUB_ACCOUNT_TYPE_INVESTMENT => :is_investment,
+        SUB_ACCOUNT_TYPE_SHAREHOLDER => :is_shareholder
+      }.fetch(sub_account_type)
+      Customer.where(flag => true).each do |c|
         @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end

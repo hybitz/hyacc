@@ -36,7 +36,7 @@
           form.find('[name*="\[tax_amount_decrease\]"]').val(item.tax_amount);
         }
 
-        form.find('#account_detail').html(item.account_detail || '');
+        form.find('#account_detail').html(item.account_detail);
         if (form.find('.subAccountSelect').val()) {
           form.find('.subAccountSelect').trigger('change');
         }

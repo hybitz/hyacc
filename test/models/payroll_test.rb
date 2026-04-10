@@ -63,6 +63,15 @@ class PayrollTest < ActiveSupport::TestCase
     assert_equal 0, p2.employment_insurance
   end
 
+  def test_base_bonus_salary_for_insurance_千円未満切り捨て後に150万円を上限とする
+    p = Payroll.new(is_bonus: true, temporary_salary: 2_000_000, base_salary: 0,
+                    commuting_allowance: 0, housing_allowance: 0, qualification_allowance: 0, extra_pay: 0)
+    assert_equal 1_500_000, p.send(:base_bonus_salary_for_insurance)
+
+    p.temporary_salary = 1_499_500
+    assert_equal 1_499_000, p.send(:base_bonus_salary_for_insurance)
+  end
+
   def test_find_or_initialize_regular_payroll
     e = Employee.find(8)
     ym = 202508

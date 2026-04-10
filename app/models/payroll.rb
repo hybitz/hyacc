@@ -124,7 +124,7 @@ class Payroll < ApplicationRecord
       self.health_insurance = (health_insurance_model.health_insurance_half - 0.01).round
     end
     self.welfare_pension = (welfare_pension_model.welfare_pension_insurance_half - 0.01).round
-    self.child_and_childcare_support = (welfare_pension_model.child_and_childcare_support_half - 0.01).round
+    self.child_and_childcare_support = (health_insurance_model.child_and_childcare_support_half - 0.01).round
   end
 
   def calc_employment_insurance
@@ -170,7 +170,7 @@ class Payroll < ApplicationRecord
   end
 
   def child_and_childcare_support_all
-    welfare_pension_model.child_and_childcare_support_all.truncate
+    health_insurance_model.child_and_childcare_support_all.truncate
   end
 
   def journaled_health_insurance_company

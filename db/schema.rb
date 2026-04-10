@@ -254,6 +254,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_000000) do
     t.boolean "is_investment", default: false, null: false
     t.boolean "is_order_entry", default: false, null: false
     t.boolean "is_order_placement", default: false, null: false
+    t.boolean "is_shareholder", default: false, null: false
     t.string "name"
     t.datetime "updated_at", precision: nil
     t.index ["code"], name: "index_customers_on_code", unique: true

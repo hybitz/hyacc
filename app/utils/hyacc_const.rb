@@ -340,7 +340,8 @@ module HyaccConst
     SUB_ACCOUNT_TYPE_CONSUMPTION_TAX = 13 => '消費税',
     SUB_ACCOUNT_TYPE_TAX_AND_DUES = 14 => '租税公課',
     SUB_ACCOUNT_TYPE_TAX_DEDUCTION = 15 => '税徴収',
-    SUB_ACCOUNT_TYPE_DONATION = 16 => '寄付先'
+    SUB_ACCOUNT_TYPE_DONATION = 16 => '寄付先',
+    SUB_ACCOUNT_TYPE_SHAREHOLDER = 17 => '株主'
   }
 
   # 預り金控除区分

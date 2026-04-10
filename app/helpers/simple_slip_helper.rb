@@ -30,6 +30,8 @@ module SimpleSlipHelper
       '受注先'
     when SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
       '発注先'
+    when SUB_ACCOUNT_TYPE_SHAREHOLDER
+      '株主'
     else
       raise HyaccException.new(ERR_INVALID_SUB_ACCOUNT_TYPE)
     end

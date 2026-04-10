@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_02_120001) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_03_120000) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -520,6 +520,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_02_120001) do
     t.integer "accrued_liability", default: 0, null: false
     t.integer "annual_adjustment", default: 0, null: false
     t.integer "base_salary", default: 0, null: false
+    t.integer "child_and_childcare_support", default: 0, null: false
     t.integer "commuting_allowance", default: 0, null: false
     t.integer "create_user_id", null: false
     t.datetime "created_at", precision: nil

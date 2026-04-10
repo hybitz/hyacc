@@ -72,7 +72,7 @@ module Reports
         logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         e = logic.get_exemptions
   
-        logic.get_health_insurance + logic.get_employee_pention + logic.get_employment_insurance + e.previous_social_insurance.to_i
+        logic.get_health_insurance + logic.get_employee_pention + logic.get_employment_insurance + logic.get_child_and_childcare_support + e.previous_social_insurance.to_i
       end
   
       def get_mortgage_deduction

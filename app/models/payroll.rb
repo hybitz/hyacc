@@ -8,6 +8,7 @@ class Payroll < ApplicationRecord
   validates :commuting_allowance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :health_insurance, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :welfare_pension, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
+  validates :child_and_childcare_support, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :income_tax, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :inhabitant_tax, presence: true, numericality: { only_integer: true, greater_than_equal: 0, allow_blank: true}
   validates :annual_adjustment, numericality: { only_integer: true, allow_blank: true }
@@ -28,6 +29,9 @@ class Payroll < ApplicationRecord
   # フィールド
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
+
+  # 賞与に係る社会保険の標準賞与額の上限（健康保険・厚生年金・子ども・子育て支援金の算定基礎）
+  BONUS_STANDARD_REMUNERATION_MAX_FOR_SOCIAL_INSURANCE = 1_500_000
 
   def year
     ym / 100
@@ -57,9 +61,9 @@ class Payroll < ApplicationRecord
     salary_subtotal + temporary_salary
   end
 
-  # 社会保険料（健康保険＋厚生年金）
+  # 社会保険料（健康保険＋厚生年金＋子ども・子育て支援金）
   def social_insurance
-    health_insurance + welfare_pension
+    health_insurance + welfare_pension + child_and_childcare_support
   end
 
   # 保険料合計（社会保険＋雇用保険）
@@ -120,6 +124,7 @@ class Payroll < ApplicationRecord
       self.health_insurance = (health_insurance_model.health_insurance_half - 0.01).round
     end
     self.welfare_pension = (welfare_pension_model.welfare_pension_insurance_half - 0.01).round
+    self.child_and_childcare_support = (welfare_pension_model.child_and_childcare_support_half - 0.01).round
   end
 
   def calc_employment_insurance
@@ -164,6 +169,10 @@ class Payroll < ApplicationRecord
     welfare_pension_model.welfare_pension_insurance_all.truncate
   end
 
+  def child_and_childcare_support_all
+    welfare_pension_model.child_and_childcare_support_all.truncate
+  end
+
   def journaled_health_insurance_company
     if @_journaled_health_insurance_company.nil?
       jd = find_payroll_journal_detail(ACCOUNT_CODE_LEGAL_WELFARE, TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)
@@ -199,6 +208,24 @@ class Payroll < ApplicationRecord
     @_journaled_welfare_pension_employee
   end
 
+  def journaled_child_and_childcare_support_company
+    if @_journaled_child_and_childcare_support_company.nil?
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_LEGAL_WELFARE, TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT)
+      @_journaled_child_and_childcare_support_company = jd&.amount || 0
+    end
+
+    @_journaled_child_and_childcare_support_company
+  end
+
+  def journaled_child_and_childcare_support_employee
+    if @_journaled_child_and_childcare_support_employee.nil?
+      jd = find_payroll_journal_detail(ACCOUNT_CODE_DEPOSITS_RECEIVED, TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT)
+      @_journaled_child_and_childcare_support_employee = jd&.amount || 0
+    end
+
+    @_journaled_child_and_childcare_support_employee
+  end
+
   def base_ym
     # 当月払い、翌々月払いは未対応
     (pay_day << 1).strftime("%Y%m").to_i
@@ -216,9 +243,10 @@ class Payroll < ApplicationRecord
   end
 
   def base_bonus_salary_for_insurance
-    salary_total - (salary_total % 1000)
+    truncated = salary_total - (salary_total % 1000)
+    [truncated, BONUS_STANDARD_REMUNERATION_MAX_FOR_SOCIAL_INSURANCE].min
   end
-  
+
   def social_insurance_model
     if @social_insurance_model.nil?
       @social_insurance_model = TaxUtils.get_social_insurance(base_ym, prefecture_code, monthly_standard)

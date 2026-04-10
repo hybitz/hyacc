@@ -182,7 +182,7 @@ module PayrollInfo
     def get_total_exemption
       e = get_exemptions
 
-      get_health_insurance + get_employee_pention + get_employment_insurance +
+      get_health_insurance + get_employee_pention + get_employment_insurance + get_child_and_childcare_support +
           e.small_scale_mutual_aid.to_i + e.life_insurance_deduction.to_i +
           e.earthquake_insurance_premium.to_i + e.social_insurance_selfpay.to_i + e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i +
           e.disabled_persons.to_i + e.basic.to_i + e.previous_social_insurance.to_i + e.special_deduction_for_specified_family.to_i
@@ -288,6 +288,29 @@ module PayrollInfo
         # 厚生年金保険料(立替金)
         p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
                                                 sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_WELFARE_PENSION)).each do |d|
+          total_expense = total_expense + d.amount
+        end
+
+      end
+
+      total_expense
+    end
+
+    # 子ども・子育て支援金
+    def get_child_and_childcare_support
+      total_expense = 0
+      # calendar_year期間に支払われた給与明細を取得
+      list = Payroll.where(employee_id: @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
+
+      list.each do |p|
+        # 子ども・子育て支援金(預り金)
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT)).each do |d|
+          total_expense = total_expense + d.amount
+        end
+        # 子ども・子育て支援金(立替金)
+        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
+                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT)).each do |d|
           total_expense = total_expense + d.amount
         end
 

@@ -46,6 +46,8 @@ class TaxUtils
     
     convert_tax_jp_hi(si.health_insurance, ret)
     convert_tax_jp_wp(si.welfare_pension, ret)
+    # 月給経路: 子ども・子育て支援金は健康保険側の標準報酬月額を基礎に上書きする。
+    assign_child_and_childcare_support_from_health_grade(ret, si)
 
     ret
   end
@@ -67,8 +69,32 @@ class TaxUtils
     to.welfare_pension_insurance_half = wp.general_amount_half
     to.welfare_pension2_insurance_all = wp.particular_amount
     to.welfare_pension2_insurance_half = wp.particular_amount_half
+    # 賞与経路: 渡された salary（wp.salary）をそのまま基礎に計算する。
+    assign_child_and_childcare_support(to, wp.salary, wp.child_and_childcare_support)
     to
   end
   private_class_method :convert_tax_jp_wp
+
+  def self.assign_child_and_childcare_support_from_health_grade(insurance, si)
+    basis = si.grade.monthly_standard
+    rate = si.welfare_pension.child_and_childcare_support
+    assign_child_and_childcare_support(insurance, basis, rate)
+  end
+  private_class_method :assign_child_and_childcare_support_from_health_grade
+
+  def self.assign_child_and_childcare_support(insurance, basis, rate)
+    rate_value = rate.to_f
+    if rate_value.zero?
+      insurance.child_and_childcare_support_all = 0
+      insurance.child_and_childcare_support_half = 0
+      return insurance
+    end
+
+    full = (basis.to_i * rate_value).round(2)
+    insurance.child_and_childcare_support_all = full
+    insurance.child_and_childcare_support_half = (full / 2).floor(2)
+    insurance
+  end
+  private_class_method :assign_child_and_childcare_support
 
 end

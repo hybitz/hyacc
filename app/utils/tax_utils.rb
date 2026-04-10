@@ -69,7 +69,8 @@ class TaxUtils
     to.welfare_pension_insurance_half = wp.general_amount_half
     to.welfare_pension2_insurance_all = wp.particular_amount
     to.welfare_pension2_insurance_half = wp.particular_amount_half
-    # 賞与経路: 渡された salary（wp.salary）をそのまま基礎に計算する。
+    # ここでは渡された salary（wp.salary）をそのまま基礎に計算する。
+    # 賞与ではこの値をそのまま使い、月額給与では convert_tax_jp_si 側で標準報酬月額基準の値に上書きする。
     assign_child_and_childcare_support(to, wp.salary, wp.child_and_childcare_support)
     to
   end

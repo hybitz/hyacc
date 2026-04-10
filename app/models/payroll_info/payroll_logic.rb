@@ -301,16 +301,19 @@ module PayrollInfo
       total_expense = 0
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.where(employee_id: @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
+      deposits_received_account = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
+      advance_money_account_id = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id
+      childcare_sub_account_ids = SubAccount.where(code: TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT)
 
       list.each do |p|
         # 子ども・子育て支援金(預り金)
-        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED),
-                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT)).each do |d|
+        p.payroll_journal.journal_details.where(account_id: deposits_received_account,
+                                                sub_account_id: childcare_sub_account_ids).each do |d|
           total_expense = total_expense + d.amount
         end
         # 子ども・子育て支援金(立替金)
-        p.payroll_journal.journal_details.where(account_id: Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id,
-                                                sub_account_id: SubAccount.where(code: TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT)).each do |d|
+        p.payroll_journal.journal_details.where(account_id: advance_money_account_id,
+                                                sub_account_id: childcare_sub_account_ids).each do |d|
           total_expense = total_expense + d.amount
         end
 

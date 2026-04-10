@@ -89,7 +89,7 @@ class Mm::CustomersController < Base::HyaccController
       :formal_name, :formal_name_effective_at,
       :enterprise_number, :invoice_issuer_number,
       :address, :address_effective_at,
-      :is_order_entry, :is_order_placement, :is_investment, :disabled,
+      :is_order_entry, :is_order_placement, :is_investment, :is_shareholder, :disabled,
       names_attributes: [:id, :_destroy],
       formal_names_attributes: [:id, :_destroy],
       addresses_attributes: [:id, :_destroy]

@@ -12,7 +12,8 @@ module Customers
       invoice_issuer_number: 'T12345678i90123',
       address: '東京都新宿区テスト1-3-5',
       address_effective_at: Date.today,
-      disabled: false
+      disabled: false,
+      is_shareholder: attrs.fetch(:is_shareholder, false)
     }
   end
   

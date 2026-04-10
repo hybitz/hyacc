@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_02_120001) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_08_120000) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -254,6 +254,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_02_120001) do
     t.boolean "is_investment", default: false, null: false
     t.boolean "is_order_entry", default: false, null: false
     t.boolean "is_order_placement", default: false, null: false
+    t.boolean "is_shareholder", default: false, null: false
     t.string "name"
     t.datetime "updated_at", precision: nil
     t.index ["code"], name: "index_customers_on_code", unique: true

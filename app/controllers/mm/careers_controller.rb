@@ -1,5 +1,5 @@
 class Mm::CareersController < Base::HyaccController
-  view_attribute :customers, :conditions => ['is_order_entry=?', true]
+  view_attribute :customers, conditions: ['is_order_entry=?', true]
 
   helper_method :finder
 
@@ -50,7 +50,7 @@ class Mm::CareersController < Base::HyaccController
     c = Career.find(params[:id])
     c.destroy
     flash[:notice] = '業務経歴を削除しました。'
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
   private

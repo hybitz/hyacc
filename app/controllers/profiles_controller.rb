@@ -1,7 +1,7 @@
 class ProfilesController < Base::HyaccController
   before_action :check_current_user
 
-  view_attribute :accounts, :conditions => ['account_type in (?, ?) and journalizable=? and tax_type=? and deleted=?',
+  view_attribute :accounts, conditions: ['account_type in (?, ?) and journalizable=? and tax_type=? and deleted=?',
       ACCOUNT_TYPE_ASSET, ACCOUNT_TYPE_DEBT, true, TAX_TYPE_NONTAXABLE, false]
 
   def edit
@@ -25,7 +25,7 @@ class ProfilesController < Base::HyaccController
 
       session[:google_service] = nil
       flash[:notice] = '個人設定を更新しました。'
-      redirect_to :action => 'edit', :id => @profile.id
+      redirect_to action: 'edit', id: @profile.id
 
     rescue => e
       handle(e)
@@ -51,7 +51,7 @@ class ProfilesController < Base::HyaccController
     permitted = [
       :login_id, :password, :email, :slips_per_page, :account_count_of_frequencies, :show_details,
       :google_account,
-      :simple_slip_settings_attributes => [
+      simple_slip_settings_attributes: [
         :id, :account_id, :shortcut_key, :_destroy
       ]
     ]

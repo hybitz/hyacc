@@ -20,7 +20,7 @@ class Bs::InvestmentsController < Base::HyaccController
       render 'common/reload'
     rescue => e
       handle(e)
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -52,10 +52,10 @@ class Bs::InvestmentsController < Base::HyaccController
     begin
       @investment.destroy!
       flash[:notice] = '有価証券情報を削除しました。'
-      redirect_to :action => :index
+      redirect_to action: :index
     rescue => e
       handle(e)
-      redirect_to :action => :index, params: index_query_params
+      redirect_to action: :index, params: index_query_params
     end
   end
 

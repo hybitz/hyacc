@@ -4,6 +4,7 @@
 *.~lock.*
 .sass-cache
 capybara-*.html
+.planning/
 .project
 .rspec
 .rvmrc

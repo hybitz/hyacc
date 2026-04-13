@@ -84,7 +84,7 @@ class JournalsController < Base::HyaccController
     # 編集不可能な伝票区分の場合はエラー
     # ただし、エラーメッセージを表示するのではなく一覧画面に遷移させる
     unless can_edit(@journal)
-      redirect_to :action => 'index' and return
+      redirect_to action: 'index' and return
     end
 
     @receipt_edit_only = AssetUtil.receipt_edit_only?(@journal)
@@ -136,7 +136,7 @@ class JournalsController < Base::HyaccController
       end
     end
 
-    render :json => {:tax_type => tax_type}
+    render json: {tax_type: tax_type}
   end
 
   def destroy
@@ -175,7 +175,7 @@ class JournalsController < Base::HyaccController
     branch = current_company.branches.find(params[:branch_id])
 
     jd = JournalDetail.new(dc_type: params[:dc_type], account_id: account.id, branch_id: branch.id)
-    render :partial => 'get_allocation', locals: {jd: jd, index: params[:index]}
+    render partial: 'get_allocation', locals: {jd: jd, index: params[:index]}
   end
 
   private
@@ -183,15 +183,15 @@ class JournalsController < Base::HyaccController
   def journal_params
     permitted = [
       :ym, :day, :remarks, :amount, :lock_version,
-      :journal_details_attributes => [
-          :id, :_destroy, :dc_type, :account_id, :branch_id, :sub_account_id,
-          :donation_recipient_id,
-          :input_amount, :tax_type, :tax_rate_percent, :tax_amount,
-          :social_expense_number_of_people, :settlement_type, :note, :allocation_type,
-          :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,
-          :asset_attributes => [:id, :lock_version]
+      journal_details_attributes: [
+        :id, :_destroy, :dc_type, :account_id, :branch_id, :sub_account_id,
+        :donation_recipient_id,
+        :input_amount, :tax_type, :tax_rate_percent, :tax_amount,
+        :social_expense_number_of_people, :settlement_type, :note, :allocation_type,
+        :auto_journal_type, :auto_journal_year, :auto_journal_month, :auto_journal_day,
+        asset_attributes: [:id, :lock_version]
       ],
-      :receipt_attributes => [:id, :deleted, :original_filename, :file, :file_cache]
+      receipt_attributes: [:id, :deleted, :original_filename, :file, :file_cache]
     ]
 
     ret = params.require(:journal).permit(*permitted)

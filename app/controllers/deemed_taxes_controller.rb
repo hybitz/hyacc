@@ -30,14 +30,14 @@ class DeemedTaxesController < Base::HyaccController
       handle(e)
     end
     
-    redirect_to :action => :index
+    redirect_to action: :index
   end
 
   private
 
   def check_business_type
     unless current_company.business_type.present?
-      render :action => :business_type_required
+      render action: :business_type_required
     end
   end
 end

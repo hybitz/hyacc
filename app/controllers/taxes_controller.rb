@@ -1,6 +1,6 @@
 class TaxesController < Base::HyaccController
-  view_attribute :finder, :class => TaxFinder, :only => :index
-  view_attribute :branches, :only => :index
+  view_attribute :finder, class: TaxFinder, only: :index
+  view_attribute :branches, only: :index
 
   def index
     @journals = finder.list if finder.commit

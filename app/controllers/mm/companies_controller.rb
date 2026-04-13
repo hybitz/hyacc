@@ -48,11 +48,11 @@ class Mm::CompaniesController < Base::HyaccController
         @company.save!
       end
 
-      render :js => 'document.location.reload();'
+      render js: 'document.location.reload();'
 
     rescue => e
       handle(e)
-      render :js => "alert('#{flash.discard :notice}');"
+      render js: "alert('#{flash.discard :notice}');"
     end
   end
 
@@ -66,7 +66,7 @@ class Mm::CompaniesController < Base::HyaccController
     ret = params.require(:company).permit(permitted)
 
     if ret[:month_of_pay_day_definition].present?
-      ret = ret.merge(:pay_day_definition => ret[:month_of_pay_day_definition] + "," + ret[:day_of_pay_day_definition])
+      ret = ret.merge(pay_day_definition: ret[:month_of_pay_day_definition] + "," + ret[:day_of_pay_day_definition])
     end
 
     ret

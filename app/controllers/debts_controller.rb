@@ -1,8 +1,8 @@
 class DebtsController < Base::HyaccController
-  view_attribute :finder, :class => DebtFinder, :only => :index
-  view_attribute :branches, :only => :index
+  view_attribute :finder, class: DebtFinder, only: :index
+  view_attribute :branches, only: :index
   # 流動資産のみ対象
-  view_attribute :accounts, :only => :index, :conditions => "path like '%" + ACCOUNT_CODE_CURRENT_ASSETS + "%'"
+  view_attribute :accounts, only: :index, conditions: "path like '%" + ACCOUNT_CODE_CURRENT_ASSETS + "%'"
 
   def index
     @debts, @sum = finder.list if finder.commit
@@ -16,7 +16,7 @@ class DebtsController < Base::HyaccController
       # 選択した勘定科目をカウント
       save_input_frequencies(params)
       
-      render :partial => 'closed_link', :locals => {:closed_id => closed_id}
+      render partial: 'closed_link', locals: {closed_id: closed_id}
     rescue => e
       handle(e)
       head :internal_server_error
@@ -41,7 +41,7 @@ class DebtsController < Base::HyaccController
 
     params[:jh] = jh
     a = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
-    jh.journal_details.where(:account_id => a.id, :branch_id => params[:branch_id]).each do |jd|
+    jh.journal_details.where(account_id: a.id, branch_id: params[:branch_id]).each do |jd|
       params[:jd] = jd
     end
 
@@ -60,7 +60,7 @@ class DebtsController < Base::HyaccController
     @ymd = params[:ymd] || Date.today.end_of_month
 
     # 直近で選択した勘定科目
-    @frequency = InputFrequency.where(:user_id => current_user.id, :input_type => INPUT_TYPE_DEBT_ACCOUNT_ID).order('updated_at desc').first
+    @frequency = InputFrequency.where(user_id: current_user.id, input_type: INPUT_TYPE_DEBT_ACCOUNT_ID).order('updated_at desc').first
   end
 
 end

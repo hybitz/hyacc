@@ -63,8 +63,8 @@ module Reports
 
       return @donation_journal_details_cache[cache_key] if @donation_journal_details_cache.key?(cache_key)
 
-      sub_accounts = SubAccount.where(code: DONATION_SUB_ACCOUNT_CODES.values).pluck(:code, :id).to_h
       account_id = Account.find_by(code: ACCOUNT_CODE_DONATION).id
+      sub_accounts = SubAccount.where(account_id: account_id, code: DONATION_SUB_ACCOUNT_CODES.values).pluck(:code, :id).to_h
 
       donation_details = JournalDetail.where(account_id: account_id, sub_account_id: sub_accounts.values)
       donation_details = donation_details.where(branch_id: branch_id) if branch_id > 0

@@ -22,7 +22,7 @@ class LedgersController < Base::HyaccController
   def show
     ym = params[:id].to_i
     @ledgers = finder.list_journals(ym)
-    render :partial => 'show'
+    render partial: 'show'
   end
 
   private

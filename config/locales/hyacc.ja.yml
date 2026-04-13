@@ -120,6 +120,7 @@ ja:
         is_order_entry: 受注フラグ
         is_order_placement: 発注フラグ
         is_investment: 投資フラグ
+        is_shareholder: 株主フラグ
         name: 取引先名（省略）
 
       customer_name: &customer_name
@@ -216,6 +217,7 @@ ja:
         accrued_liability: 従業員への未払費用
         annual_adjustment: 年末調整額（過払分）
         base_salary: 基本給
+        child_and_childcare_support: 子ども・子育て支援金
         commuting_allowance: 通勤手当
         days_of_work: 労働日数
         extra_pay: 所定時間外割増賃金

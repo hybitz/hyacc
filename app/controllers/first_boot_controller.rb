@@ -8,7 +8,7 @@ class FirstBootController < ApplicationController
   helper_method :current_company
 
   def index
-    @c = Company.new(:founded_date => Date.today, :type_of => COMPANY_TYPE_PERSONAL)
+    @c = Company.new(founded_date: Date.today, type_of: COMPANY_TYPE_PERSONAL)
     @c.business_offices.build
     @fy = FiscalYear.new
     @u = User.new
@@ -51,7 +51,7 @@ class FirstBootController < ApplicationController
         @fy.company_id = @c.id
         @fy.save!
   
-        @b = @c.branches.build(:business_office => @c.business_offices.first)
+        @b = @c.branches.build(business_office: @c.business_offices.first)
         @b.code = '100'
         @b.formal_name = '本店'
         @b.save!
@@ -75,11 +75,11 @@ class FirstBootController < ApplicationController
   def company_params
     permitted = [
       :name, :founded_date, :type_of,
-      :business_offices_attributes => [:prefecture_code, :address1, :address2]
+      business_offices_attributes: [:prefecture_code, :address1, :address2]
     ]
 
     ret = params.require(:company).permit(permitted)
-    ret[:business_offices_attributes]['0'].merge!(:name => '本社')
+    ret[:business_offices_attributes]['0'].merge!(name: '本社')
     ret
   end
 
@@ -101,7 +101,7 @@ class FirstBootController < ApplicationController
       csv = ERB.new(File.read(File.join(Rails.root, 'config', 'first_boot', fixture))).result
       klass = File.basename(fixture, File.extname(fixture)).singularize.camelize.constantize
 
-      CSV.parse(csv, :headers => true).each do |row|
+      CSV.parse(csv, headers: true).each do |row|
         klass.create!(row.to_hash)
       end
     end

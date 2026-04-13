@@ -44,6 +44,11 @@
 </p>
 
 <p>
+  <b>株主フラグ:</b>
+  <%= HyaccConst::STATUS_TYPES[ @customer.is_shareholder ] %>
+</p>
+
+<p>
   <b>状態:</b>
   <%= HyaccConst::DELETED_TYPES[ @customer.deleted ] %>
 </p>

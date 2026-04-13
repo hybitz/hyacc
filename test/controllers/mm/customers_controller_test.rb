@@ -27,10 +27,12 @@ class Mm::CustomersControllerTest < ActionController::TestCase
     sign_in admin
 
     assert_difference 'Customer.count', 1 do
-      post :create, params: {customer: valid_customer_params}, xhr: true
+      post :create, params: {customer: valid_customer_params(is_shareholder: true)}, xhr: true
       assert_response :success
       assert_template 'common/reload'
     end
+
+    assert assigns(:customer).is_shareholder?
   end
 
   def test_登録_入力エラー
@@ -52,9 +54,10 @@ class Mm::CustomersControllerTest < ActionController::TestCase
 
   def test_更新
     sign_in admin
-    patch :update, :params => {:id => customer.id, :customer => valid_customer_params.except(:code)}, :xhr => true
+    patch :update, :params => {:id => customer.id, :customer => valid_customer_params(is_shareholder: true).except(:code)}, :xhr => true
     assert_response :success
     assert_template 'common/reload'
+    assert customer.reload.is_shareholder?
   end
 
   def test_更新_入力エラー

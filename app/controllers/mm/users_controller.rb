@@ -1,7 +1,7 @@
 class Mm::UsersController < Base::HyaccController
 
   def index
-    @users = User.paginate :page => params[:page], :per_page => current_user.slips_per_page
+    @users = User.paginate page: params[:page], per_page: current_user.slips_per_page
   end
 
   def show
@@ -61,7 +61,7 @@ class Mm::UsersController < Base::HyaccController
       redirect_to new_user_session_path
     else
       flash[:notice] = 'ユーザを削除しました。'
-      redirect_to :action => :index
+      redirect_to action: :index
     end
   end
 

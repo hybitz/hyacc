@@ -40,6 +40,7 @@ class PayrollFinder < Base::Finder
       sum.temporary_salary += p.temporary_salary
       sum.health_insurance += p.health_insurance
       sum.welfare_pension += p.welfare_pension
+      sum.child_and_childcare_support += p.child_and_childcare_support
       sum.employment_insurance += p.employment_insurance
       sum.income_tax += p.income_tax
       sum.inhabitant_tax += p.inhabitant_tax

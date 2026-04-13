@@ -328,7 +328,7 @@ GEM
       railties (>= 3.1)
     mousetrap-rails (1.4.6)
     msgpack (1.8.0)
-    multi_json (1.19.1)
+    multi_json (1.20.1)
     multi_test (1.1.0)
     multi_xml (0.8.1)
       bigdecimal (>= 3.1, < 5)
@@ -493,7 +493,7 @@ GEM
       tilt
     schash (0.1.2)
     securerandom (0.4.1)
-    selenium-webdriver (4.42.0)
+    selenium-webdriver (4.43.0)
       base64 (~> 0.2)
       logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)

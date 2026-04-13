@@ -12,11 +12,4 @@ class TaxUtilsTest < ActiveSupport::TestCase
     assert_equal 0, insurance.child_and_childcare_support_all
     assert_equal 0, insurance.child_and_childcare_support_half
   end
-
-  # 標準報酬月額が厚生年金の上限等級を超える場合でも、支援金は健康保険側の標準報酬月額（等級表）を基礎とする
-  def TODO_test_get_social_insurance_202606_子ども子育て支援金は厚生年金の上限額で頭打ちしない
-    insurance = TaxUtils.get_social_insurance(202606, '13', 700_000)
-    assert_equal 1633.0, insurance.child_and_childcare_support_all
-    assert_equal 816.5, insurance.child_and_childcare_support_half
-  end
 end

@@ -30,9 +30,6 @@ class Payroll < ApplicationRecord
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
 
-  # 賞与に係る社会保険の標準賞与額の上限（健康保険・厚生年金・子ども・子育て支援金の算定基礎）
-  BONUS_STANDARD_REMUNERATION_MAX_FOR_SOCIAL_INSURANCE = 1_500_000
-
   def year
     ym / 100
   end
@@ -243,8 +240,7 @@ class Payroll < ApplicationRecord
   end
 
   def base_bonus_salary_for_insurance
-    truncated = salary_total - (salary_total % 1000)
-    [truncated, BONUS_STANDARD_REMUNERATION_MAX_FOR_SOCIAL_INSURANCE].min
+    salary_total - (salary_total % 1000)
   end
 
   def social_insurance_model

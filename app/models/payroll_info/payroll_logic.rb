@@ -182,7 +182,7 @@ module PayrollInfo
     def get_total_exemption
       e = get_exemptions
 
-      get_health_insurance + get_employee_pention + get_employment_insurance + get_child_and_childcare_support +
+      get_health_insurance + get_employee_pention + get_child_and_childcare_support + get_employment_insurance +
           e.small_scale_mutual_aid.to_i + e.life_insurance_deduction.to_i +
           e.earthquake_insurance_premium.to_i + e.social_insurance_selfpay.to_i + e.special_tax_for_spouse.to_i + e.spouse.to_i + e.dependents.to_i +
           e.disabled_persons.to_i + e.basic.to_i + e.previous_social_insurance.to_i + e.special_deduction_for_specified_family.to_i

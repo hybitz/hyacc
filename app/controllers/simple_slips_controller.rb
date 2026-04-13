@@ -37,12 +37,22 @@ class SimpleSlipsController < Base::HyaccController
 
     json_parts = []
     templates.each_with_index do |t, index|
+      account_detail = nil
+      sub_account_detail = nil
+
       if t.account_id.to_i > 0
         account = Account.find(t.account_id)
         renderer = AccountDetails::AccountDetailRenderer.get_instance(account.id)
         if renderer
           account_detail = render_to_string(partial: renderer.get_template(controller_name), formats: [:html])
           HyaccLogger.debug account_detail
+        end
+
+        sub_renderer = AccountDetails::SubAccountDetailRenderer.get_instance(account.id, t.sub_account_id)
+        if sub_renderer
+          sub_slip = SimpleSlip.new
+          sub_locals = sub_renderer.build_locals(sub_slip, 0, current_company)
+          sub_account_detail = render_to_string(partial: sub_renderer.get_template(controller_name), locals: sub_locals, formats: [:html])
         end
 
         # テンプレートが画面の対象としている科目と同じ貸借区分であれば金額は減少側にセット
@@ -82,7 +92,8 @@ class SimpleSlipsController < Base::HyaccController
           "tax_amount":"#{tax_amount.to_s}",
           "focus_on_complete":"#{t.focus_on_complete.to_s}",
           "sub_accounts":#{account.sub_accounts.map {|sa| {id: sa.id, name: sa.name}}.to_json},
-          "account_detail":#{account_detail ? account_detail.to_json : '""'}
+          "account_detail":#{account_detail ? account_detail.to_json : '""'},
+          "sub_account_detail":#{sub_account_detail ? sub_account_detail.to_json : '""'}
         }
       JSON
     end

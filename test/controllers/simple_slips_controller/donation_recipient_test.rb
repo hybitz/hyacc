@@ -45,5 +45,33 @@ class SimpleSlipsController::DonationRecipientTest < ActionController::TestCase
     assert_includes json['sub_account_detail'], 'donationRecipientSelect'
   end
 
+  def test_get_templates_寄付金テンプレートでも候補と補助科目詳細が返る
+    donation_sub_account = donation_account.sub_accounts.first
+    SimpleSlipTemplate.create!(
+      remarks: '寄付金テスト',
+      keywords: '寄付金',
+      account_id: donation_account.id,
+      sub_account_id: donation_sub_account.id,
+      dc_type: 1,
+      owner_type: 1,
+      owner_id: user.id,
+      deleted: false
+    )
+
+    get :get_templates,
+        xhr: true,
+        params: {
+          account_code: ACCOUNT_CODE_RECEIVABLE,
+          query: '寄付金'
+        }
+
+    assert_response :success
+    json = JSON.parse(response.body)
+
+    donation_template = json.find { |t| t['remarks'] == '寄付金テスト' }
+    assert_not_nil donation_template
+    assert_includes donation_template['sub_account_detail'], 'donationRecipientSelect'
+  end
+
 end
 

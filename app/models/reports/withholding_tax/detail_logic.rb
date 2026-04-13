@@ -67,12 +67,12 @@ module Reports
         logic.get_withholding_tax
       end
       
-      # 社会保険料等の金額(健康保険料＋厚生年金保険料＋雇用保険料＋前職分の社会保険料等の金額)
+      # 社会保険料等の金額(健康保険料＋厚生年金保険料＋子ども・子育て支援金＋雇用保険料＋前職分の社会保険料等の金額)
       def get_social_insurance
         logic = PayrollInfo::PayrollLogic.new(@finder.calendar_year, @finder.employee_id)
         e = logic.get_exemptions
   
-        logic.get_health_insurance + logic.get_employee_pention + logic.get_employment_insurance + e.previous_social_insurance.to_i
+        logic.get_health_insurance + logic.get_employee_pention + logic.get_child_and_childcare_support + logic.get_employment_insurance + e.previous_social_insurance.to_i
       end
   
       def get_mortgage_deduction

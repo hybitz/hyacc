@@ -184,7 +184,7 @@
         <td class="text-center"><%= to_amount(@pd[:sum].salary_total) %></td>
       </tr>
       <tr>
-        <td rowspan="7" class="vertical-writing">控<br>除<br>額</td>
+        <td rowspan="8" class="vertical-writing">控<br>除<br>額</td>
         <td>健康保険料</td>
         <% @finder.get_ym_range.each do |ym| %>
         <td class="text-center"><%= to_amount(@pd[ym].health_insurance) %></td>
@@ -201,6 +201,15 @@
         <td class="text-center"><%= to_amount(@pd["b1"].welfare_pension) %></td>
         <td class="text-center"><%= to_amount(@pd["b2"].welfare_pension) %></td>
         <td class="text-center"><%= to_amount(@pd[:sum].welfare_pension) %></td>
+      </tr>
+      <tr>
+        <td><%= Payroll.human_attribute_name :child_and_childcare_support %></td>
+        <% @finder.get_ym_range.each do |ym| %>
+          <td class="text-center"><%= to_amount(@pd[ym].child_and_childcare_support) %></td>
+        <% end %>
+        <td class="text-center"><%= to_amount(@pd["b1"].child_and_childcare_support) %></td>
+        <td class="text-center"><%= to_amount(@pd["b2"].child_and_childcare_support) %></td>
+        <td class="text-center"><%= to_amount(@pd[:sum].child_and_childcare_support) %></td>
       </tr>
       <tr>
         <td>雇用保険料</td>

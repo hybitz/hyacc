@@ -17,14 +17,30 @@ class SimpleSlip {
 
       $(this.selector).find('.accountSelect').change((e) => {
         const el = $(e.currentTarget);
-        $.getJSON(`${el.attr('accounts_path')}/${el.val()}`, {order: 'code'}, (account) => {
-            replace_options($(this.selector).find('.subAccountSelect'), account.sub_accounts);
-            $(this.selector).find('.taxTypeSelect').val(account.tax_type);
-            this.update_tax_rate();
+        const accountId = el.val();
+
+        $.getJSON(`${this.options.accounts_path}/${accountId}`, (account) => {
+          replace_options($(this.selector).find('.subAccountSelect'), account.sub_accounts);
+          $(this.selector).find('.taxTypeSelect').val(account.tax_type);
+          this.update_tax_rate();
         });
 
-        $.get(el.attr('account_details_path'), {account_id: el.val()}, (html) => {
-            $(this.selector).find('.account_detail').html(html);
+        $.get(this.options.get_account_details_path, { account_id: accountId }, (html) => {
+          $(this.selector).find('#account_detail').html(html);
+        });
+      });
+
+      $(this.selector).find('.subAccountSelect').change((e) => {
+        const accountSelect = $(this.selector).find('.accountSelect');
+        const subAccountSelect = $(e.currentTarget);
+        const params = {
+          account_id: accountSelect.val(),
+          sub_account_id: subAccountSelect.val(),
+          donation_recipient_id: $(this.selector).find('[name*="[donation_recipient_id]"]').val(),
+        };
+        $.get(this.options.get_sub_account_details_path, params, (html, _textStatus, jqXhr) => {
+          if (jqXhr.status === 204) return;
+          $(this.selector).find('#account_detail').html(html);
         });
       });
 

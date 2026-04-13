@@ -36,7 +36,7 @@ class Mm::RentsController < Base::HyaccController
     rescue => e
       handle(e)
       @customers = Customer.not_deleted
-      render :action => "new"
+      render action: "new"
     end
   end
 
@@ -62,7 +62,7 @@ class Mm::RentsController < Base::HyaccController
     @rent = Rent.find(params[:id])
     @rent.destroy
 
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
   
   private

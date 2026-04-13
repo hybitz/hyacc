@@ -55,18 +55,14 @@ module Accounts::SubAccountsSupport
         @sub_accounts_cache << r if r.status == RENT_STATUS_TYPE_USE
         @sub_accounts_all_cache << r
       end
-    when SUB_ACCOUNT_TYPE_ORDER_ENTRY
-      Customer.where(is_order_entry: true).each do |c|
-        @sub_accounts_cache << c unless c.deleted? or c.disabled?
-        @sub_accounts_all_cache << c
-      end
-    when SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
-      Customer.where(is_order_placement: true).each do |c|
-        @sub_accounts_cache << c unless c.deleted? or c.disabled?
-        @sub_accounts_all_cache << c
-      end
-    when SUB_ACCOUNT_TYPE_INVESTMENT
-      Customer.where(is_investment: true).each do |c|
+    when SUB_ACCOUNT_TYPE_ORDER_ENTRY, SUB_ACCOUNT_TYPE_ORDER_PLACEMENT, SUB_ACCOUNT_TYPE_INVESTMENT, SUB_ACCOUNT_TYPE_SHAREHOLDER
+      flag = {
+        SUB_ACCOUNT_TYPE_ORDER_ENTRY => :is_order_entry,
+        SUB_ACCOUNT_TYPE_ORDER_PLACEMENT => :is_order_placement,
+        SUB_ACCOUNT_TYPE_INVESTMENT => :is_investment,
+        SUB_ACCOUNT_TYPE_SHAREHOLDER => :is_shareholder
+      }.fetch(sub_account_type)
+      Customer.where(flag => true).each do |c|
         @sub_accounts_cache << c unless c.deleted? or c.disabled?
         @sub_accounts_all_cache << c
       end
@@ -125,6 +121,10 @@ module Accounts::SubAccountsSupport
   def has_normal_sub_accounts
     journalizable? and [SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_DONATION].include? sub_account_type 
   end
+
+  def has_shareholders
+    journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_SHAREHOLDER
+  end
   
   def has_rents
     journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_RENT
@@ -165,6 +165,18 @@ module Accounts::SubAccountsSupport
       active: @sub_accounts_cache,
       all: @sub_accounts_all_cache
     }
+  end
+
+  # 補助科目プルダウンに出す順序（寄付金は「その他」を先頭にする）
+  def sub_accounts_ordered_for_select
+    reorder_sub_accounts_for_select(HyaccUtil.sort_by_code(sub_accounts))
+  end
+
+  def reorder_sub_accounts_for_select(sorted_sub_accounts)
+    return sorted_sub_accounts unless path.include?(ACCOUNT_CODE_DONATION)
+
+    others = sorted_sub_accounts.find { |sa| sa.code == SUB_ACCOUNT_CODE_DONATION_OTHERS }
+    others ? [others] + (sorted_sub_accounts - [others]) : sorted_sub_accounts
   end
 
   private

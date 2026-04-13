@@ -47,6 +47,13 @@ class AccountTest < ActiveSupport::TestCase
     assert a.invalid?, "親と違う貸借区分に変更はできない"
   end
   
+  def test_sub_accounts_for_shareholder_type_only_include_shareholders
+    account = Account.new(journalizable: true, sub_account_type: SUB_ACCOUNT_TYPE_SHAREHOLDER)
+    expected = Customer.where(is_shareholder: true, deleted: false, disabled: false).pluck(:id).sort
+    actual = account.sub_accounts.map(&:id).sort
+    assert_equal expected, actual
+  end
+
   def test_is_leaf_on_settlement_report
     a = Account.find_by_code('3170')
     assert_equal( true, a.is_leaf_on_settlement_report )
@@ -57,5 +64,11 @@ class AccountTest < ActiveSupport::TestCase
     a = Account.find_by_code('3172')
     assert_equal( false, a.is_leaf_on_settlement_report )
   end
-  
+
+  def test_sub_accounts_ordered_for_select_寄付金の補助科目はその他が先頭になること
+    account = Account.find_by(code: ACCOUNT_CODE_DONATION)
+    ordered = account.sub_accounts_ordered_for_select
+    assert_equal SUB_ACCOUNT_CODE_DONATION_OTHERS, ordered.first.code
+  end
+
 end

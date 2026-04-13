@@ -57,6 +57,8 @@ class TaxUtils
     to.health_insurance_half = hi.general_amount_half
     to.health_insurance_all_care = hi.general_amount_care
     to.health_insurance_half_care = hi.general_amount_care_half
+    to.child_and_childcare_support_all = hi.child_and_childcare_support_amount
+    to.child_and_childcare_support_half = hi.child_and_childcare_support_amount_half
     to
   end
   private_class_method :convert_tax_jp_hi
@@ -70,5 +72,4 @@ class TaxUtils
     to
   end
   private_class_method :convert_tax_jp_wp
-
 end

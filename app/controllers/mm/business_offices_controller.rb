@@ -17,7 +17,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
 
     rescue => e
       handle(e)
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -37,7 +37,7 @@ class Mm::BusinessOfficesController < Base::HyaccController
       render 'common/reload'
     rescue => e
       handle(e)
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
   
@@ -98,8 +98,8 @@ class Mm::BusinessOfficesController < Base::HyaccController
       :name, :name_effective_at, :prefecture_code, :zip_code,
       :address1, :address2, :tel, :responsible_person_id, :responsible_person_id_effective_at, :business_outline,
       :lock_version,
-      :names_attributes => [:id, :_destroy],
-      :responsible_person_ids_attributes => [:id, :_destroy]
+      names_attributes: [:id, :_destroy],
+      responsible_person_ids_attributes: [:id, :_destroy]
     ]
 
     ret = params.require(:business_office).permit(permitted)

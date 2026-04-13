@@ -65,12 +65,12 @@ class Mm::BanksController < Base::HyaccController
       handle(e)
     end
 
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
   def add_bank_office
     @bank_office = BankOffice.new
-    render :partial => 'bank_office_fields', locals: {bank_office: @bank_office, index: params[:index]}
+    render partial: 'bank_office_fields', locals: {bank_office: @bank_office, index: params[:index]}
   end  
 
   private

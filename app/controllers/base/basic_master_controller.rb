@@ -14,16 +14,16 @@ module Base
 
       respond_to do |format|
         format.html
-        format.xml  { render :xml => @list }
+        format.xml  { render xml: @list }
       end
     end
     
     def show
       @data = model_class.find(params[:id])
       respond_to do |format|
-        format.html {render :partial=>'line', :locals => {:data => @data}}
-        format.xml  {render :xml => @data }
-        format.js   {render :show}
+        format.html { render partial: 'line', locals: {data: @data} }
+        format.xml  { render xml: @data }
+        format.js   { render :show }
       end
     end
     
@@ -32,7 +32,7 @@ module Base
 
       respond_to do |format|
         format.html
-        format.xml  { render :xml => @data }
+        format.xml  { render xml: @data }
       end
     end
 
@@ -42,12 +42,12 @@ module Base
         begin
           @data.save!
           flash[:notice] = '登録に成功しました。'
-          format.html { redirect_to :action => 'index' }
-          format.xml  { render :xml => @data, :status => :created, :location => @data }
+          format.html { redirect_to action: 'index' }
+          format.xml  { render xml: @data, status: :created, location: @data }
         rescue => e
           handle(e)
-          format.html { redirect_to :action => 'index', :commit=>''}
-          format.xml  { render :xml => @data.errors, :status => :unprocessable_content }
+          format.html { redirect_to action: 'index', commit: '' }
+          format.xml  { render xml: @data.errors, status: :unprocessable_content }
         end
       end
     end
@@ -56,7 +56,7 @@ module Base
       @data = model_class.find(params[:id])
       respond_to do |format|
         format.html do
-          render :partial => 'form'
+          render partial: 'form'
         end
         format.js do
           render :edit
@@ -74,7 +74,7 @@ module Base
           format.js   { render :show }
         else
           format.html { render partial: "form" }
-          format.xml  { render xml: @data.errors, :status => :unprocessable_content }
+          format.xml  { render xml: @data.errors, status: :unprocessable_content }
           format.js   { render js: "alert('#{@data.errors.full_messages.join('\n')}');" }
         end
       end
@@ -98,11 +98,11 @@ module Base
           end
 
           flash[:notice] = "#{line_count}件のデータが登録されました"
-          redirect_to :action => 'index'
+          redirect_to action: 'index'
         end
       rescue => e
         handle(e)
-        redirect_to :action => 'new'
+        redirect_to action: 'new'
       end
     end
     
@@ -111,7 +111,7 @@ module Base
       data.destroy
 
       respond_to do |format|
-        format.html { redirect_to :action => 'index' }
+        format.html { redirect_to action: 'index' }
         format.xml  { head :ok }
       end
     end

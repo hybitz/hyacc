@@ -8,7 +8,7 @@ class Mm::BranchesController < Base::HyaccController
   end
 
   def new
-    @branch = current_company.branches.build(:parent_id => params[:parent_id])
+    @branch = current_company.branches.build(parent_id: params[:parent_id])
   end
 
   def create
@@ -53,7 +53,7 @@ class Mm::BranchesController < Base::HyaccController
     permitted = [
       :formal_name, :name,
       :business_office_id, :business_office_id_effective_at,
-      :business_office_ids_attributes => [:id, :_destroy]
+      business_office_ids_attributes: [:id, :_destroy]
     ]
 
     ret = params.require(:branch)

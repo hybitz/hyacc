@@ -90,6 +90,22 @@ module Auto::Journal
           detail.note = '会社負担厚生年金'
         end
       end
+      ### 法定福利費.子ども・子育て支援金
+      if @payroll.child_and_childcare_support > 0
+        child_and_childcare_support_half = @payroll.child_and_childcare_support_all.to_i - @payroll.child_and_childcare_support
+        if child_and_childcare_support_half != 0
+          account = Account.find_by_code(ACCOUNT_CODE_LEGAL_WELFARE)
+
+          detail = journal.journal_details.build
+          detail.detail_no = journal.journal_details.size
+          detail.dc_type = DC_TYPE_DEBIT
+          detail.account = account
+          detail.sub_account_id = account.get_sub_account_by_code(TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT).id
+          detail.branch_id = branch_id
+          detail.amount = child_and_childcare_support_half
+          detail.note = '会社負担子ども・子育て支援金'
+        end
+      end
       ### 源泉所得税
       if @payroll.income_tax > 0
         detail = journal.journal_details.build
@@ -123,10 +139,22 @@ module Auto::Journal
         detail.amount = @payroll.welfare_pension
         detail.note = '個人負担厚生年金'
       end
+      ### 子ども・子育て支援金
+      if @payroll.child_and_childcare_support > 0
+        detail = journal.journal_details.build
+        detail.detail_no = journal.journal_details.size
+        detail.dc_type = DC_TYPE_CREDIT
+        detail.account = deposits_received
+        detail.sub_account_id = deposits_received.get_sub_account_by_code(TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT).id
+        detail.branch_id = branch_id
+        detail.amount = @payroll.child_and_childcare_support
+        detail.note = '個人負担子ども・子育て支援金'
+      end
       ### 会社負担社会保険料の未払分
       accrued_expense_amount = 0
       accrued_expense_amount += (@payroll.health_insurance_all.to_i - @payroll.health_insurance) if @payroll.health_insurance > 0
       accrued_expense_amount += (@payroll.pension_all.to_i - @payroll.welfare_pension) if @payroll.welfare_pension > 0
+      accrued_expense_amount += (@payroll.child_and_childcare_support_all.to_i - @payroll.child_and_childcare_support) if @payroll.child_and_childcare_support > 0
       if accrued_expense_amount > 0
         detail = journal.journal_details.build
         detail.detail_no = journal.journal_details.size

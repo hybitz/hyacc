@@ -14,6 +14,7 @@
     $.getJSON(url, params, function(taxes) {
       form.find('input[name*="\[health_insurance\]"]').val(taxes.health_insurance);
       form.find('input[name*="\[welfare_pension\]"]').val(taxes.welfare_pension);
+      form.find('input[name*="\[child_and_childcare_support\]"]').val(taxes.child_and_childcare_support);
       form.find('input[name*="\[employment_insurance\]"]').val(taxes.employment_insurance);
       form.find('input[name*="\[income_tax\]"]').val(taxes.income_tax);
     });
@@ -48,6 +49,10 @@
         <td><%= f.text_field :health_insurance, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
         <th>厚生年金保険料</th>
         <td><%= f.text_field :welfare_pension, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
+      </tr>
+      <tr>
+        <th><%= f.label :child_and_childcare_support %></th>
+        <td><%= f.text_field :child_and_childcare_support, maxlength: 10, class: 'form-control form-control-sm text-end' %></td>
       </tr>
       <% unless @payroll.employee.executive? %>
         <tr>

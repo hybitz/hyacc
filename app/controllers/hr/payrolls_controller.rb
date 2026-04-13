@@ -143,6 +143,7 @@ class Hr::PayrollsController < Base::HyaccController
     render json: {
       health_insurance: payroll.health_insurance,
       welfare_pension: payroll.welfare_pension,
+      child_and_childcare_support: payroll.child_and_childcare_support,
       employment_insurance: payroll.employment_insurance,
       income_tax: payroll.income_tax
     }
@@ -179,7 +180,7 @@ class Hr::PayrollsController < Base::HyaccController
         :ym, :employee_id, :is_bonus,
         :days_of_work, :hours_of_work, :hours_of_day_off_work, :hours_of_early_work, :hours_of_late_night_work,
         :base_salary, :extra_pay, :temporary_salary, :commuting_allowance, :housing_allowance, :qualification_allowance, :monthly_standard,
-        :health_insurance, :welfare_pension, :income_tax, :employment_insurance, :inhabitant_tax,
+        :health_insurance, :welfare_pension, :child_and_childcare_support, :income_tax, :employment_insurance, :inhabitant_tax,
         :accrued_liability, :annual_adjustment, :misc_adjustment, :misc_adjustment_note, :pay_day, :transfer_fee)
 
     case action_name

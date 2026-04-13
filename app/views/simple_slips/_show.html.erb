@@ -50,6 +50,7 @@
         <%# 勘定科目ごとの入力項目 %>
         <div id="account_detail" class="account_detail" style="valign: middle; margin: 5px;">
           <%= render_account_details @simple_slip.account_id %>
+          <%= render_sub_account_details @simple_slip.account_id, @simple_slip.sub_account_id, jd: @simple_slip, index: 0 %>
         </div>
       </td>
       <td nowrap class="text-center">

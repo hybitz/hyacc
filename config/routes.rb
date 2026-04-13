@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     collection do
       get 'get_account_details'
       get 'get_templates'
+      get 'get_sub_account_details'
     end
     member do
       get 'copy'

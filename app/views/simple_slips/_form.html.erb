@@ -8,14 +8,8 @@
   <td><%= render 'form_remarks', f: f %></td>
   <td>
     <%= collection_select_code_and_name(:simple_slip, :account_id, @accounts, :id, :name,
-          {
-            selected: @simple_slip.account_id,
-            frequencies: @frequencies},
-            class: 'accountSelect',
-            accounts_path: accounts_path(purified_params),
-            sub_accounts_path: sub_accounts_path(purified_params),
-            account_details_path: url_for(action: 'get_account_details', account_code: params[:account_code])
-          ) %>
+          { selected: @simple_slip.account_id, frequencies: @frequencies },
+          { class: 'accountSelect' }) %>
   </td>
   <td>
     <%= f.select :sub_account_id, f.object.sub_accounts, {}, class: 'subAccountSelect', style: 'width: 100%;' %>
@@ -44,6 +38,7 @@
     <%# 勘定科目ごとの入力項目 %>
     <div id="account_detail" class="account_detail" style="valign: middle; margin: 5px;">
       <%= render_account_details @simple_slip.account_id %>
+      <%= render_sub_account_details @simple_slip.account_id, @simple_slip.sub_account_id, jd: @simple_slip, index: 0 %>
     </div>
   </td>
   <td nowrap align="right">

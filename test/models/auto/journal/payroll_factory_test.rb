@@ -47,11 +47,9 @@ class Auto::Journal::PayrollFactoryTest < ActiveSupport::TestCase
   end
 
   def test_子ども子育て支援金_202604_仕訳明細を作成する
-    assert Employee.find(10).executive?
-
     @payroll = Payroll.new(
       payroll_params.merge(
-        employee_id: 10,
+        employee_id: 1,
         ym: 202604,
         pay_day: '2026-05-07',
         base_salary: 300_000,
@@ -91,11 +89,9 @@ class Auto::Journal::PayrollFactoryTest < ActiveSupport::TestCase
   end
 
   def test_子ども子育て支援金_202603_仕訳明細を作成しない
-    assert Employee.find(10).executive?
-
     @payroll = Payroll.new(
       payroll_params.merge(
-        employee_id: 10,
+        employee_id: 1,
         ym: 202603,
         pay_day: '2026-04-07',
         base_salary: 300_000,

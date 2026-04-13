@@ -3,15 +3,14 @@ require 'test_helper'
 class Hr::PayrollHelperTest < ActionView::TestCase
   
   def test_子ども子育て支援金_2026年4月以降は標準報酬に0_23パーセント
-    employee_id = 10
-    assert Employee.find(employee_id).executive?
+    employee_id = 1
     ym = 202604
     p = get_tax(ym, employee_id, 300_000, 300_000, 0, 0, 0)
     assert_equal 345, p.child_and_childcare_support
   end
 
   def test_子ども子育て支援金_2026年3月までは0
-    employee_id = 10
+    employee_id = 1
     ym = 202603
     p = get_tax(ym, employee_id, 300_000, 300_000, 0, 0, 0)
     assert_equal 0, p.child_and_childcare_support

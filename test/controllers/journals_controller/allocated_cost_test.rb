@@ -399,7 +399,7 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     branch = Branch.find(1)
     branches = Branch.where(company_id: branch.company_id, deleted: false)
     assert_equal 3, branches.size
-    assert_equal 4, BranchEmployee.where(branch_id: branches.select(:id), default_branch: true, deleted: false).size
+    assert_equal 3, BranchEmployee.where(branch_id: branches.select(:id), default_branch: true, deleted: false).size
 
     post_jh = Journal.new
     post_jh.remarks = "費用配賦_前払費用_人頭割 #{Time.now}"
@@ -516,10 +516,10 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
     assert_equal ACCOUNT_CODE_ALLOCATED_COST, auto3.journal_details[1].account.code
     assert_equal ACCOUNT_CODE_SHARED_COST, auto3.journal_details[2].account.code
     assert_equal ACCOUNT_CODE_ALLOCATED_COST, auto3.journal_details[3].account.code
-    assert_equal 250, auto3.journal_details[0].amount
-    assert_equal 250, auto3.journal_details[1].amount
-    assert_equal 250, auto3.journal_details[2].amount
-    assert_equal 250, auto3.journal_details[3].amount
+    assert_equal 333, auto3.journal_details[0].amount
+    assert_equal 333, auto3.journal_details[1].amount
+    assert_equal 333, auto3.journal_details[2].amount
+    assert_equal 333, auto3.journal_details[3].amount
     assert_equal 2, auto3.transfer_journals.length
   
     # 自動仕訳（本支店勘定１）

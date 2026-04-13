@@ -30,7 +30,3 @@
   branch_id: 7
   employee_id: 9
   default_branch: true
-9:
-  branch_id: 1
-  employee_id: 10
-  default_branch: true

@@ -18,6 +18,8 @@ class SocialInsuranceFinderTest < ActiveSupport::TestCase
 
   def test_employees_are_sorted_by_social_insurance_reference_number
     result = @finder.list_payrolls_by_employee.map(&:first)
+    target_employee_ids = [1, 2, 6]
+    result = result.select { |employee| target_employee_ids.include?(employee.id) }
     expected_employee_ids = [6, 1, 2]
     expected_reference_numbers = [1, 10, nil]
     

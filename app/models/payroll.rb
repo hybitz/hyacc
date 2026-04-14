@@ -260,7 +260,7 @@ class Payroll < ApplicationRecord
     employee.business_office.prefecture_code
   end
 
-  def base_bonus_salary_for_insurance
+  def base_bonus_salary_for_social_insurance
     Payroll.standard_bonus_truncated_amount(salary_total)
   end
 
@@ -282,14 +282,14 @@ class Payroll < ApplicationRecord
   def base_bonus_salary_for_health_insurance
     prior = @health_standard_bonus_prior_sum ||= Payroll.health_standard_bonus_basis_of(prior_bonus_payroll_same_insurance_year)
     capped_standard_bonus_basis_for_health(
-      base_bonus_salary_for_insurance,
+      base_bonus_salary_for_social_insurance,
       prior,
       BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH
     )
   end
 
   def base_bonus_salary_for_welfare_pension
-    [base_bonus_salary_for_insurance, BONUS_STANDARD_MAX_FOR_WELFARE_PENSION].min
+    [base_bonus_salary_for_social_insurance, BONUS_STANDARD_MAX_FOR_WELFARE_PENSION].min
   end
 
   # 健康保険・子ども・子育て支援金の賞与の算定基礎

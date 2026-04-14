@@ -219,3 +219,44 @@ payroll_00151:
   employee_id: 2
   create_user_id: 1
   update_user_id: 1
+
+payroll_bonus_health_max_prior:
+  id: 152
+  ym: 202604
+  pay_day: 2026-05-10
+  employee_id: 1
+  is_bonus: true
+  temporary_salary: 5730000
+  create_user_id: 1
+  update_user_id: 1
+
+payroll_bonus_welfare_prior_month:
+  id: 153
+  ym: 202604
+  pay_day: 2026-05-10
+  employee_id: 8
+  is_bonus: true
+  temporary_salary: 2000000
+  create_user_id: 1
+  update_user_id: 1
+
+payroll_bonus_welfare_with_prior_target:
+  id: 154
+  ym: 202605
+  pay_day: 2026-06-10
+  employee_id: 8
+  is_bonus: true
+  temporary_salary: 800000
+  create_user_id: 1
+  update_user_id: 1
+
+payroll_bonus_welfare_under_max_without_prior:
+  id: 155
+  ym: 202605
+  pay_day: 2026-06-10
+  employee_id: 9
+  is_bonus: true
+  temporary_salary: 800000
+  create_user_id: 1
+  update_user_id: 1
+

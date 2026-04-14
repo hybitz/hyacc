@@ -30,6 +30,11 @@ class Payroll < ApplicationRecord
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
 
+  # 健康保険・子ども・子育て支援金に共通する標準賞与額の保険年度上限（累計・千円未満切り捨て後）
+  BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH = 5_730_000
+  # 厚生年金の標準賞与額（一回の賞与あたり・千円未満切り捨て後）
+  BONUS_STANDARD_MAX_FOR_WELFARE_PENSION = 1_500_000
+
   def year
     ym / 100
   end
@@ -100,6 +105,22 @@ class Payroll < ApplicationRecord
   # 賞与
   def self.list_bonus(ym_range, employee_id)
     Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.first, ym_range.last, true)
+  end
+
+  def self.insurance_year_start_on(pay_day)
+    pay_day.month >= 4 ? Date.new(pay_day.year, 4, 1) : Date.new(pay_day.year - 1, 4, 1)
+  end
+
+  # 賞与の標準賞与額の千円未満切り捨て
+  def self.standard_bonus_truncated_amount(salary_total)
+    salary_total - (salary_total % 1000)
+  end
+
+  # 保険年度内の前回賞与1件の標準賞与額相当（健康保険と子ども・子育て支援金の共通上限内）
+  def self.health_standard_bonus_basis_of(payroll)
+    return 0 if payroll.nil?
+
+    [Payroll.standard_bonus_truncated_amount(payroll.salary_total), BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH].min
   end
 
   # 扶養親族の数
@@ -240,7 +261,52 @@ class Payroll < ApplicationRecord
   end
 
   def base_bonus_salary_for_insurance
-    salary_total - (salary_total % 1000)
+    Payroll.standard_bonus_truncated_amount(salary_total)
+  end
+
+  # 同一保険年度内かつ ym が本賞与より前。保険年度の判定は pay_day（4/1 区切り）。
+  def prior_bonus_payroll_same_insurance_year
+    return @prior_bonus_payroll_same_insurance_year if instance_variable_defined?(:@prior_bonus_payroll_same_insurance_year)
+    return @prior_bonus_payroll_same_insurance_year = nil unless employee_id.present? && pay_day.present?
+
+    start_on = Payroll.insurance_year_start_on(pay_day)
+    ym_i = ym.to_i
+
+    rel = Payroll.where(employee_id: employee_id, is_bonus: true)
+      .where(pay_day: start_on...(start_on + 1.year))
+      .where('ym < ?', ym_i)
+
+    @prior_bonus_payroll_same_insurance_year = rel.first
+  end
+
+  def base_bonus_salary_for_health_insurance
+    prior = @health_standard_bonus_prior_sum ||= Payroll.health_standard_bonus_basis_of(prior_bonus_payroll_same_insurance_year)
+    capped_standard_bonus_basis_for_health(
+      base_bonus_salary_for_insurance,
+      prior,
+      BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH
+    )
+  end
+
+  def base_bonus_salary_for_welfare_pension
+    [base_bonus_salary_for_insurance, BONUS_STANDARD_MAX_FOR_WELFARE_PENSION].min
+  end
+
+  # 健康保険・子ども・子育て支援金の賞与の算定基礎
+  def capped_standard_bonus_basis_for_health(truncated_amount, prior, ceiling)
+    room = ceiling - prior
+    [truncated_amount, [room, 0].max].min
+  end
+
+  def zero_bonus_health_insurance_model
+    insurance = Insurance.new
+    insurance.health_insurance_all = 0
+    insurance.health_insurance_half = 0
+    insurance.health_insurance_all_care = 0
+    insurance.health_insurance_half_care = 0
+    insurance.child_and_childcare_support_all = 0
+    insurance.child_and_childcare_support_half = 0
+    insurance
   end
 
   def social_insurance_model
@@ -253,7 +319,8 @@ class Payroll < ApplicationRecord
   def health_insurance_model
     if @health_insurance_model.nil?
       if is_bonus?
-        @health_insurance_model = TaxUtils.get_health_insurance(base_ym, prefecture_code, base_bonus_salary_for_insurance)
+        base = base_bonus_salary_for_health_insurance
+        @health_insurance_model = base > 0 ? TaxUtils.get_health_insurance(base_ym, prefecture_code, base) : zero_bonus_health_insurance_model
       else
         @health_insurance_model = social_insurance_model
       end
@@ -264,7 +331,8 @@ class Payroll < ApplicationRecord
   def welfare_pension_model
     if @welfare_pension_model.nil?
       if is_bonus?
-        @welfare_pension_model = TaxUtils.get_welfare_pension(base_ym, base_bonus_salary_for_insurance)
+        base = base_bonus_salary_for_welfare_pension
+        @welfare_pension_model = TaxUtils.get_welfare_pension(base_ym, base)
       else
         @welfare_pension_model = social_insurance_model
       end

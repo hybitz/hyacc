@@ -77,4 +77,74 @@ class PayrollTest < ActiveSupport::TestCase
     assert_not p2.is_bonus?
   end
 
+  def test_health_standard_bonus_basis_of
+    p = Payroll.new(temporary_salary: 1_000_000)
+    sh = Payroll.health_standard_bonus_basis_of(p)
+    assert_equal 1_000_000, sh
+    assert_equal 0, Payroll.health_standard_bonus_basis_of(nil)
+  end
+
+  def test_health_standard_bonus_basis_of_賞与額が上限超えでも上限で頭打ち
+    p = Payroll.new(temporary_salary: 6_000_000)
+    sh = Payroll.health_standard_bonus_basis_of(p)
+    assert_equal Payroll::BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH, sh
+  end
+
+  def test_bonus_標準賞与額_厚生年金は150万で頭打ちされ健康保険はそれ以上も算定
+    e = employee
+    p = Payroll.new(
+      is_bonus: true, temporary_salary: 2_000_000,
+      employee: e, pay_day: Date.new(2025, 6, 10)
+    )
+    p.calc_social_insurance
+    p_at_max = Payroll.new(
+      is_bonus: true, temporary_salary: 1_500_000,
+      employee: e, pay_day: Date.new(2025, 7, 10)
+    )
+    p_at_max.calc_social_insurance
+    assert_equal p_at_max.welfare_pension, p.welfare_pension
+    assert p.health_insurance > p_at_max.health_insurance
+  end
+
+  def test_bonus_標準賞与額の年度上限到達後は子ども子育て支援金も健康保険と同様にゼロ算定
+    e = employee
+    prior = payrolls(:payroll_bonus_health_max_prior)
+    current = Payroll.new(
+      ym: 202605,
+      is_bonus: true, temporary_salary: 1_000_000,
+      employee: e, pay_day: Date.new(2026, 6, 10)
+    )
+    current.calc_social_insurance
+    assert_equal 0, current.health_insurance
+    assert_equal 0, current.child_and_childcare_support
+
+    reference = Payroll.new(
+      ym: 202605,
+      is_bonus: true, temporary_salary: 1_000_000,
+      employee: Employee.find(2), pay_day: Date.new(2026, 6, 10)
+    )
+    reference.calc_social_insurance
+    assert_equal prior.id, current.send(:prior_bonus_payroll_same_insurance_year).id
+    assert reference.health_insurance > 0
+    assert reference.child_and_childcare_support > 0
+  end
+
+  def test_bonus_同一保険年度に150万円超の過去賞与があっても当月厚生年金は影響を受けない
+    prior_over_max = Payroll.find_by!(
+      employee_id: 8, ym: 202604, is_bonus: true
+    )
+    with_prior = Payroll.find_by!(
+      employee_id: 8, ym: 202605, is_bonus: true, temporary_salary: 800_000
+    )
+    without_prior = Payroll.find_by!(
+      employee_id: 9, ym: 202605, is_bonus: true, temporary_salary: 800_000
+    )
+
+    assert prior_over_max.temporary_salary > Payroll::BONUS_STANDARD_MAX_FOR_WELFARE_PENSION
+    with_prior.calc_social_insurance
+    without_prior.calc_social_insurance
+
+    assert_equal with_prior.welfare_pension, without_prior.welfare_pension
+  end
+
 end

@@ -266,21 +266,16 @@ class Payroll < ApplicationRecord
 
   # 同一保険年度内かつ ym が本賞与より前。保険年度の判定は pay_day（4/1 区切り）。
   def prior_bonus_payroll_same_insurance_year
-    return @prior_bonus_payroll_same_insurance_year if instance_variable_defined?(:@prior_bonus_payroll_same_insurance_year)
-    return @prior_bonus_payroll_same_insurance_year = nil unless employee_id.present? && pay_day.present?
-
     start_on = Payroll.insurance_year_start_on(pay_day)
-    ym_i = ym.to_i
 
-    rel = Payroll.where(employee_id: employee_id, is_bonus: true)
+    Payroll.where(employee_id: employee_id, is_bonus: true)
       .where(pay_day: start_on...(start_on + 1.year))
-      .where('ym < ?', ym_i)
-
-    @prior_bonus_payroll_same_insurance_year = rel.first
+      .where('ym < ?', ym.to_i)
+      .first
   end
 
   def base_bonus_salary_for_health_insurance
-    prior = @health_standard_bonus_prior_sum ||= Payroll.health_standard_bonus_basis_of(prior_bonus_payroll_same_insurance_year)
+    prior = Payroll.health_standard_bonus_basis_of(prior_bonus_payroll_same_insurance_year)
     capped_standard_bonus_basis_for_health(
       base_bonus_salary_for_social_insurance,
       prior,

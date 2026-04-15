@@ -33,6 +33,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_equal employee_params[:full_time], e.full_time
     assert_equal employee_params[:duty_description], e.duty_description
     assert_equal employee_params[:relationship_to_representative], e.relationship_to_representative
+    assert_equal employee_params[:representative_or_family_type], e.representative_or_family_type
   end
 
   def test_編集
@@ -59,6 +60,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_equal employee_params[:full_time], e.full_time
     assert_equal employee_params[:duty_description], e.duty_description
     assert_equal employee_params[:relationship_to_representative], e.relationship_to_representative
+    assert_equal employee_params[:representative_or_family_type], e.representative_or_family_type
   end
 
   def test_更新_入力エラー

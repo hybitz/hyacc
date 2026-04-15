@@ -60,6 +60,7 @@ user6:
   sex: F
   birth: 1990-01-06
   social_insurance_reference_number: 1
+  representative_or_family_type: 2
 
 user7:
   id: 7
@@ -104,5 +105,6 @@ user9:
   full_time: true
   duty_description: 経営全般
   relationship_to_representative: 本人
+  representative_or_family_type: 1
 
  

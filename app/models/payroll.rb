@@ -293,17 +293,6 @@ class Payroll < ApplicationRecord
     [truncated_amount, [room, 0].max].min
   end
 
-  def zero_bonus_health_insurance_model
-    insurance = Insurance.new
-    insurance.health_insurance_all = 0
-    insurance.health_insurance_half = 0
-    insurance.health_insurance_all_care = 0
-    insurance.health_insurance_half_care = 0
-    insurance.child_and_childcare_support_all = 0
-    insurance.child_and_childcare_support_half = 0
-    insurance
-  end
-
   def social_insurance_model
     if @social_insurance_model.nil?
       @social_insurance_model = TaxUtils.get_social_insurance(base_ym, prefecture_code, monthly_standard)
@@ -314,8 +303,7 @@ class Payroll < ApplicationRecord
   def health_insurance_model
     if @health_insurance_model.nil?
       if is_bonus?
-        base = base_bonus_salary_for_health_insurance
-        @health_insurance_model = base > 0 ? TaxUtils.get_health_insurance(base_ym, prefecture_code, base) : zero_bonus_health_insurance_model
+        @health_insurance_model = TaxUtils.get_health_insurance(base_ym, prefecture_code, base_bonus_salary_for_health_insurance)
       else
         @health_insurance_model = social_insurance_model
       end
@@ -326,8 +314,7 @@ class Payroll < ApplicationRecord
   def welfare_pension_model
     if @welfare_pension_model.nil?
       if is_bonus?
-        base = base_bonus_salary_for_welfare_pension
-        @welfare_pension_model = TaxUtils.get_welfare_pension(base_ym, base)
+        @welfare_pension_model = TaxUtils.get_welfare_pension(base_ym, base_bonus_salary_for_welfare_pension)
       else
         @welfare_pension_model = social_insurance_model
       end

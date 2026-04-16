@@ -18,4 +18,10 @@ class EmployeeTest < ActiveSupport::TestCase
     assert_equal 20, e.age_at(Date.new(2020, 3, 1))
   end
 
+  def test_representative_or_family_type_name
+    assert_equal '代表者', Employee.find(10).representative_or_family_type_name
+    assert_equal '代表者の家族', Employee.find(6).representative_or_family_type_name
+    assert_nil Employee.find(1).representative_or_family_type_name
+  end
+
 end

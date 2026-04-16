@@ -29,7 +29,8 @@ module Employees
       position: '代表取締役',
       full_time: options.fetch(:full_time, true),
       duty_description: options[:duty_description] || '担当業務テスト',
-      relationship_to_representative: options[:relationship_to_representative] || '本人'
+      relationship_to_representative: options[:relationship_to_representative] || '本人',
+      representative_or_family_type: options.fetch(:representative_or_family_type, REPRESENTATIVE_OR_FAMILY_TYPE_REPRESENTATIVE)
     }
   end
   

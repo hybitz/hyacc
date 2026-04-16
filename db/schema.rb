@@ -325,6 +325,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_000000) do
     t.integer "num_of_dependent", default: 0, null: false
     t.string "position"
     t.string "relationship_to_representative"
+    t.integer "representative_or_family_type"
     t.date "retirement_date"
     t.string "sex", limit: 1, null: false
     t.integer "social_insurance_reference_number"

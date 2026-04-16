@@ -18,7 +18,7 @@ class Payroll < ApplicationRecord
   validates_numericality_of :days_of_work, :hours_of_work,
                             :hours_of_day_off_work, :hours_of_early_work,
                             :hours_of_late_night_work,
-                            allow_nil: true, message: "は数値で入力して下さい。"
+                            allow_nil: true, message: 'は数値で入力して下さい。'
 
   has_one :payroll_journal, class_name: 'Auto::Journal::Payroll', dependent: :destroy
   has_one :pay_journal, class_name: 'Auto::Journal::PayrollPay', dependent: :destroy
@@ -268,19 +268,13 @@ class Payroll < ApplicationRecord
   def prior_bonus_payroll_same_insurance_year
     start_on = Payroll.insurance_year_start_on(pay_day)
 
-    Payroll.where(employee_id: employee_id, is_bonus: true)
-      .where(pay_day: start_on...(start_on + 1.year))
-      .where('ym < ?', ym.to_i)
-      .first
+    pay_day_range = start_on...(start_on + 1.year)
+    Payroll.where(employee_id: employee_id, is_bonus: true, pay_day: pay_day_range).where('ym < ?', ym.to_i).first
   end
 
   def base_bonus_salary_for_health_insurance
     prior = Payroll.health_standard_bonus_basis_of(prior_bonus_payroll_same_insurance_year)
-    capped_standard_bonus_basis_for_health(
-      base_bonus_salary_for_social_insurance,
-      prior,
-      BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH
-    )
+    capped_standard_bonus_basis_for_health(base_bonus_salary_for_social_insurance, prior)
   end
 
   def base_bonus_salary_for_welfare_pension
@@ -288,8 +282,8 @@ class Payroll < ApplicationRecord
   end
 
   # 健康保険・子ども・子育て支援金の賞与の算定基礎
-  def capped_standard_bonus_basis_for_health(truncated_amount, prior, ceiling)
-    room = ceiling - prior
+  def capped_standard_bonus_basis_for_health(truncated_amount, prior)
+    room = BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH - prior
     [truncated_amount, [room, 0].max].min
   end
 

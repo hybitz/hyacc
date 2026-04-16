@@ -34,6 +34,8 @@ class JournalDetail < ApplicationRecord
   validates :amount, presence: true
   validates_with Validators::TaxRateValidator
 
+  before_validation :normalize_sub_account_and_donation_recipient_ids,
+                    if: :normalize_sub_account_and_donation_recipient_ids_required?
   before_save :set_asset
   before_save :update_names
   before_save :normalize_tax_rate
@@ -176,6 +178,33 @@ class JournalDetail < ApplicationRecord
   end
 
   private
+
+  def normalize_sub_account_and_donation_recipient_ids_required?
+    return false if marked_for_destruction?
+    return false unless normal_detail?
+
+    !new_record? && (will_save_change_to_account_id? || will_save_change_to_sub_account_id?)
+  end
+
+  def normalize_sub_account_and_donation_recipient_ids
+    return if sub_account_id.to_i == 0 && donation_recipient_id.to_i == 0
+
+    if sub_account_id.to_i != 0 && account && !account.get_sub_account_by_id(sub_account_id)
+      self.sub_account_id = nil
+    end
+
+    return if donation_recipient_id.to_i == 0
+    return if donation_recipient_applicable?
+
+    self.donation_recipient_id = nil
+  end
+
+  def donation_recipient_applicable?
+    return false unless account&.code == ACCOUNT_CODE_DONATION
+    return false unless sub_account
+
+    DONATION_RECIPIENT_SUB_ACCOUNT_CODES.include?(sub_account.code)
+  end
 
   def set_asset
     return unless dc_type == DC_TYPE_DEBIT

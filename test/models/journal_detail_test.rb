@@ -67,4 +67,62 @@ class JournalDetailTest < ActiveSupport::TestCase
     assert @jd.invalid?
     assert @jd.errors[:tax_rate].present?
   end
+
+  def test_勘定科目変更で無効な補助科目と寄付先は自動クリアされる
+    jd = JournalDetail.find(49649)
+    assert_equal ACCOUNT_CODE_DONATION, jd.account.code
+    assert jd.sub_account_id.present?
+    assert jd.donation_recipient_id.present?
+
+    other_account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
+    jd.account_id = other_account.id
+
+    jd.save!
+    jd.reload
+    assert_equal other_account.id, jd.account_id
+    assert_nil jd.sub_account_id
+    assert_nil jd.donation_recipient_id
+  end
+
+  def test_寄付金の補助科目をその他へ変更すると寄付先は自動クリアされる
+    jd = JournalDetail.find(49649)
+    assert_equal ACCOUNT_CODE_DONATION, jd.account.code
+    assert jd.donation_recipient_id.present?
+
+    others = SubAccount.find_by(code: SUB_ACCOUNT_CODE_DONATION_OTHERS, account_id: jd.account_id)
+    previous_sub_account_id = jd.sub_account_id
+    assert_not_equal others.id, previous_sub_account_id
+
+    jd.sub_account_id = others.id
+
+    jd.save!
+    jd.reload
+    assert_equal others.id, jd.sub_account_id
+    assert_nil jd.donation_recipient_id
+  end
+
+  def test_勘定科目と補助科目に変更がない更新では正規化は呼ばれない
+    jd = JournalDetail.find(49649)
+    assert_not jd.new_record?
+
+    def jd.normalize_sub_account_and_donation_recipient_ids
+      raise 'normalize_sub_account_and_donation_recipient_ids should not be called'
+    end
+
+    jd.save!
+  end
+
+  def test_new_recordでは正規化は呼ばれない
+    source = JournalDetail.find(49649)
+    jd = source.dup
+    jd.detail_no = JournalDetail.where(journal_id: jd.journal_id).maximum(:detail_no).to_i + 1
+    assert jd.new_record?
+
+    def jd.normalize_sub_account_and_donation_recipient_ids
+      raise 'normalize_sub_account_and_donation_recipient_ids should not be called'
+    end
+
+    jd.save!
+  end
+
 end

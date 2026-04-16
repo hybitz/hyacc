@@ -281,7 +281,7 @@ class Payroll < ApplicationRecord
     [base_bonus_salary_for_social_insurance, BONUS_STANDARD_MAX_FOR_WELFARE_PENSION].min
   end
 
-  # 健康保険・子ども・子育て支援金の賞与の算定基礎
+  # 健康保険、子ども・子育て支援金の賞与の算定基礎
   def capped_standard_bonus_basis_for_health(truncated_amount, prior)
     room = BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH - prior
     [truncated_amount, [room, 0].max].min

@@ -1,6 +1,6 @@
 module Reports
   class ExecutiveSalariesLogic < BaseLogic
-    # 「従業員/賃金手当」の集計・表示は未対応
+    # 「従業員/賃金手当」行は未対応（「従業員/給与手当」のみ対応）
     def build_model
       ret = ExecutiveSalariesModel.new
       ret.total_employee_salary_amount = get_this_term_amount(ACCOUNT_CODE_SALARY)

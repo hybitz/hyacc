@@ -18,7 +18,7 @@ class Payroll < ApplicationRecord
   validates_numericality_of :days_of_work, :hours_of_work,
                             :hours_of_day_off_work, :hours_of_early_work,
                             :hours_of_late_night_work,
-                            allow_nil: true, message: "は数値で入力して下さい。"
+                            allow_nil: true, message: 'は数値で入力して下さい。'
 
   has_one :payroll_journal, class_name: 'Auto::Journal::Payroll', dependent: :destroy
   has_one :pay_journal, class_name: 'Auto::Journal::PayrollPay', dependent: :destroy
@@ -29,6 +29,11 @@ class Payroll < ApplicationRecord
   # フィールド
   attr_accessor :transfer_payment      # 振込予定額の一時領域、給与明細と振込み明細の作成時に使用
   attr_accessor :grade                 # 報酬等級
+
+  # 健康保険・子ども・子育て支援金に共通する標準賞与額の保険年度上限（累計・千円未満切り捨て後）
+  BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH = 5_730_000
+  # 厚生年金の標準賞与額（一回の賞与あたり・千円未満切り捨て後）
+  BONUS_STANDARD_MAX_FOR_WELFARE_PENSION = 1_500_000
 
   def year
     ym / 100
@@ -100,6 +105,15 @@ class Payroll < ApplicationRecord
   # 賞与
   def self.list_bonus(ym_range, employee_id)
     Payroll.where('employee_id = ? and ym >= ? and ym <= ? and is_bonus = ?', employee_id, ym_range.first, ym_range.last, true)
+  end
+
+  def self.insurance_year_start_on(pay_day)
+    pay_day.month >= 4 ? Date.new(pay_day.year, 4, 1) : Date.new(pay_day.year - 1, 4, 1)
+  end
+
+  # 賞与の標準賞与額の千円未満切り捨て
+  def self.standard_bonus_truncated_amount(salary_total)
+    salary_total - (salary_total % 1000)
   end
 
   # 扶養親族の数
@@ -239,8 +253,38 @@ class Payroll < ApplicationRecord
     employee.business_office.prefecture_code
   end
 
-  def base_bonus_salary_for_insurance
-    salary_total - (salary_total % 1000)
+  def base_bonus_salary_for_social_insurance
+    Payroll.standard_bonus_truncated_amount(salary_total)
+  end
+
+  # prior_used を除いた年度上限の範囲で切り詰めた今回分の標準賞与額（健康保険・子育て支援金）
+  def apply_bonus_annual_max_for_health_insurance(truncated_amount, prior_used)
+    room = BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH - prior_used
+    [truncated_amount, [room, 0].max].min
+  end
+
+  # 同一保険年度の先行賞与の標準賞与額の累計（健康保険・子育て支援金）。年4回目以降は非対応。
+  def prior_used_bonus_basis_for_health_insurance_year
+    start_on = Payroll.insurance_year_start_on(pay_day)
+    pay_day_range = start_on...(start_on + 1.year)
+    priors = Payroll.where(employee_id: employee_id, is_bonus: true, pay_day: pay_day_range)
+                    .where('ym < ?', ym.to_i)
+
+    cumulative = 0
+    priors.each do |p|
+      truncated = Payroll.standard_bonus_truncated_amount(p.salary_total)
+      cumulative += apply_bonus_annual_max_for_health_insurance(truncated, cumulative)
+    end
+    cumulative
+  end
+
+  def base_bonus_salary_for_health_insurance
+    prior_used = prior_used_bonus_basis_for_health_insurance_year
+    apply_bonus_annual_max_for_health_insurance(base_bonus_salary_for_social_insurance, prior_used)
+  end
+
+  def base_bonus_salary_for_welfare_pension
+    [base_bonus_salary_for_social_insurance, BONUS_STANDARD_MAX_FOR_WELFARE_PENSION].min
   end
 
   def social_insurance_model
@@ -253,7 +297,7 @@ class Payroll < ApplicationRecord
   def health_insurance_model
     if @health_insurance_model.nil?
       if is_bonus?
-        @health_insurance_model = TaxUtils.get_health_insurance(base_ym, prefecture_code, base_bonus_salary_for_insurance)
+        @health_insurance_model = TaxUtils.get_health_insurance(base_ym, prefecture_code, base_bonus_salary_for_health_insurance)
       else
         @health_insurance_model = social_insurance_model
       end
@@ -264,7 +308,7 @@ class Payroll < ApplicationRecord
   def welfare_pension_model
     if @welfare_pension_model.nil?
       if is_bonus?
-        @welfare_pension_model = TaxUtils.get_welfare_pension(base_ym, base_bonus_salary_for_insurance)
+        @welfare_pension_model = TaxUtils.get_welfare_pension(base_ym, base_bonus_salary_for_welfare_pension)
       else
         @welfare_pension_model = social_insurance_model
       end

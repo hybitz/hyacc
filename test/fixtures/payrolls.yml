@@ -260,3 +260,22 @@ payroll_bonus_welfare_under_max_without_prior:
   create_user_id: 1
   update_user_id: 1
 
+payroll_bonus_health_chain_first:
+  id: 156
+  ym: 202611
+  pay_day: 2026-12-10
+  employee_id: 6
+  is_bonus: true
+  temporary_salary: 3000000
+  create_user_id: 1
+  update_user_id: 1
+
+payroll_bonus_health_chain_second:
+  id: 157
+  ym: 202612
+  pay_day: 2027-01-10
+  employee_id: 6
+  is_bonus: true
+  temporary_salary: 2000000
+  create_user_id: 1
+  update_user_id: 1

@@ -116,13 +116,6 @@ class Payroll < ApplicationRecord
     salary_total - (salary_total % 1000)
   end
 
-  # 保険年度内の前回賞与1件の標準賞与額相当（健康保険と子ども・子育て支援金の共通上限内）
-  def self.health_standard_bonus_basis_of(payroll)
-    return 0 if payroll.nil?
-
-    [Payroll.standard_bonus_truncated_amount(payroll.salary_total), BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH].min
-  end
-
   # 扶養親族の数
   def num_of_dependent
     raise '先に給与明細の年月が確定している必要があります' if ym.to_i == 0
@@ -264,27 +257,34 @@ class Payroll < ApplicationRecord
     Payroll.standard_bonus_truncated_amount(salary_total)
   end
 
-  # 同一保険年度内かつ ym が本賞与より前。保険年度の判定は pay_day（4/1 区切り）。
-  def prior_bonus_payroll_same_insurance_year
-    start_on = Payroll.insurance_year_start_on(pay_day)
+  # prior_used を除いた年度上限の範囲で切り詰めた今回分の標準賞与額（健康保険・子育て支援金）
+  def apply_bonus_annual_max_for_health_insurance(truncated_amount, prior_used)
+    room = BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH - prior_used
+    [truncated_amount, [room, 0].max].min
+  end
 
+  # 同一保険年度の先行賞与の標準賞与額の累計（健康保険・子育て支援金）。年4回目以降は非対応。
+  def prior_used_bonus_basis_for_health_insurance_year
+    start_on = Payroll.insurance_year_start_on(pay_day)
     pay_day_range = start_on...(start_on + 1.year)
-    Payroll.where(employee_id: employee_id, is_bonus: true, pay_day: pay_day_range).where('ym < ?', ym.to_i).first
+    priors = Payroll.where(employee_id: employee_id, is_bonus: true, pay_day: pay_day_range)
+                    .where('ym < ?', ym.to_i)
+
+    cumulative = 0
+    priors.each do |p|
+      truncated = Payroll.standard_bonus_truncated_amount(p.salary_total)
+      cumulative += apply_bonus_annual_max_for_health_insurance(truncated, cumulative)
+    end
+    cumulative
   end
 
   def base_bonus_salary_for_health_insurance
-    prior = Payroll.health_standard_bonus_basis_of(prior_bonus_payroll_same_insurance_year)
-    capped_standard_bonus_basis_for_health(base_bonus_salary_for_social_insurance, prior)
+    prior_used = prior_used_bonus_basis_for_health_insurance_year
+    apply_bonus_annual_max_for_health_insurance(base_bonus_salary_for_social_insurance, prior_used)
   end
 
   def base_bonus_salary_for_welfare_pension
     [base_bonus_salary_for_social_insurance, BONUS_STANDARD_MAX_FOR_WELFARE_PENSION].min
-  end
-
-  # 健康保険、子ども・子育て支援金の賞与の算定基礎
-  def capped_standard_bonus_basis_for_health(truncated_amount, prior)
-    room = BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH - prior
-    [truncated_amount, [room, 0].max].min
   end
 
   def social_insurance_model

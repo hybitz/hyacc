@@ -40,13 +40,13 @@
       <td><%= f.text_field :duty_description, class: 'form-control form-control-sm' %></td>
     </tr>
     <tr>
-      <th><%= f.label :representative_or_family_type %></th>
+      <th class="nowrap"><%= f.label :representative_or_family_type %></th>
       <td>
-        <%= f.select :representative_or_family_type, representative_or_family_types, { include_blank: true } %>
+        <%= f.select :representative_or_family_type, representative_or_family_types, { include_blank: true }, class: 'form-control form-control-sm w-auto d-inline-block' %>
       </td>
     </tr>
     <tr>
-      <th class="nowrap"><%= f.label :relationship_to_representative %></th>
+      <th><%= f.label :relationship_to_representative %></th>
       <td><%= f.text_field :relationship_to_representative, class: 'form-control form-control-sm' %></td>
     </tr>
   </table>

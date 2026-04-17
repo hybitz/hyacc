@@ -22,7 +22,7 @@ class Reports::ExecutiveSalariesLogicTest < ActiveSupport::TestCase
     assert_equal 400_000, model.total_executive_retirement_allowance_amount
   end
 
-  def test_sorted_details_represents_representative_group_first_then_salary_desc
+  def test_sorted_details_sorts_representative_group_first_then_salary_desc
     finder = ReportFinder.new(user)
     finder.fiscal_year = 2016
     finder.company_id = company.id

@@ -1,0 +1,32 @@
+class Insert2702OnAccounts < ActiveRecord::Migration[8.1]
+  include HyaccConst
+
+  def up
+    parent = Account.find_by_code(ACCOUNT_CODE_LONG_TERM_LOAN)
+
+    a = Account.find_by_code(ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH)
+    a ||= Account.new(code: ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH)
+    a.name = '長期貸付金（部門）'
+    a.dc_type = parent.dc_type
+    a.account_type = parent.account_type
+    a.display_order = 1
+    a.parent_id = parent.id
+    a.path = parent.path + '/' + ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH
+    a.journalizable = true
+    a.trade_type = TRADE_TYPE_EXTERNAL
+    a.is_settlement_report_account = false
+    a.sub_account_type = SUB_ACCOUNT_TYPE_BRANCH
+    a.tax_type = parent.tax_type
+    a.system_required = false
+    a.deleted = false
+    a.save!
+  end
+
+  def down
+    a = Account.find_by_code(ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH)
+    return unless a
+
+    a.deleted = true
+    a.save!
+  end
+end

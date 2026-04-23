@@ -255,18 +255,18 @@ module PayrollInfo
       total_expense = 0
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.where(employee_id: @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
-      deposits_received_account_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id
-      advance_money_account_id = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id
+      deposits_received_account = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
+      advance_money_account = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
       health_insurance_sub_accounts = SubAccount.where(code: TAX_DEDUCTION_TYPE_HEALTH_INSURANCE)
 
       list.each do |p|
         # 健康保険料(預り金)
-        p.payroll_journal.journal_details.where(account_id: deposits_received_account_id,
+        p.payroll_journal.journal_details.where(account_id: deposits_received_account,
                                                 sub_account_id: health_insurance_sub_accounts).each do |d|
           total_expense = total_expense + d.amount
         end
         # 健康保険料(立替金)
-        p.payroll_journal.journal_details.where(account_id: advance_money_account_id,
+        p.payroll_journal.journal_details.where(account_id: advance_money_account,
                                                 sub_account_id: health_insurance_sub_accounts).each do |d|
           total_expense = total_expense + d.amount
         end
@@ -281,18 +281,18 @@ module PayrollInfo
       total_expense = 0
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
-      deposits_received_account_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id
-      advance_money_account_id = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id
+      deposits_received_account = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
+      advance_money_account = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
       welfare_pension_sub_accounts = SubAccount.where(code: TAX_DEDUCTION_TYPE_WELFARE_PENSION)
 
       list.each do |p|
         # 厚生年金保険料(預り金)
-        p.payroll_journal.journal_details.where(account_id: deposits_received_account_id,
+        p.payroll_journal.journal_details.where(account_id: deposits_received_account,
                                                 sub_account_id: welfare_pension_sub_accounts).each do |d|
           total_expense = total_expense + d.amount
         end
         # 厚生年金保険料(立替金)
-        p.payroll_journal.journal_details.where(account_id: advance_money_account_id,
+        p.payroll_journal.journal_details.where(account_id: advance_money_account,
                                                 sub_account_id: welfare_pension_sub_accounts).each do |d|
           total_expense = total_expense + d.amount
         end
@@ -307,18 +307,18 @@ module PayrollInfo
       total_expense = 0
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.where(employee_id: @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
-      deposits_received_account_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id
-      advance_money_account_id = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id
+      deposits_received_account = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
+      advance_money_account = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
       childcare_sub_accounts = SubAccount.where(code: TAX_DEDUCTION_TYPE_CHILD_AND_CHILDCARE_SUPPORT)
 
       list.each do |p|
         # 子ども・子育て支援金(預り金)
-        p.payroll_journal.journal_details.where(account_id: deposits_received_account_id,
+        p.payroll_journal.journal_details.where(account_id: deposits_received_account,
                                                 sub_account_id: childcare_sub_accounts).each do |d|
           total_expense = total_expense + d.amount
         end
         # 子ども・子育て支援金(立替金)
-        p.payroll_journal.journal_details.where(account_id: advance_money_account_id,
+        p.payroll_journal.journal_details.where(account_id: advance_money_account,
                                                 sub_account_id: childcare_sub_accounts).each do |d|
           total_expense = total_expense + d.amount
         end
@@ -333,18 +333,18 @@ module PayrollInfo
       total_expense = 0
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.where(:employee_id => @employee_id).joins(:pay_journal).where("journals.ym like ?",  @calendar_year.to_s + '%')
-      deposits_received_account_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id
-      advance_money_account_id = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY).id
+      deposits_received_account = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
+      advance_money_account = Account.find_by_code(ACCOUNT_CODE_ADVANCE_MONEY)
       employment_insurance_sub_accounts = SubAccount.where(code: TAX_DEDUCTION_TYPE_EMPLOYMENT_INSURANCE)
 
       list.each do |p|
         # 雇用保険料(預り金)
-        p.payroll_journal.journal_details.where(account_id: deposits_received_account_id,
+        p.payroll_journal.journal_details.where(account_id: deposits_received_account,
                                                 sub_account_id: employment_insurance_sub_accounts).each do |d|
           total_expense = total_expense + d.amount
         end
         # 雇用保険料(立替金)
-        p.payroll_journal.journal_details.where(account_id: advance_money_account_id,
+        p.payroll_journal.journal_details.where(account_id: advance_money_account,
                                                 sub_account_id: employment_insurance_sub_accounts).each do |d|
           total_expense = total_expense + d.amount
         end
@@ -378,12 +378,12 @@ module PayrollInfo
       withholding_taxes = {}
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.joins(:pay_journal).where("journals.ym like ?" + conditions,  @calendar_year.to_s + '%').order("journals.ym, journals.day")
-      deposits_received_account_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id
+      deposits_received_account = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
       income_tax_sub_accounts = SubAccount.where(code: TAX_DEDUCTION_TYPE_INCOME_TAX)
 
       list.each do |p|
         # 賞与
-        p.payroll_journal.journal_details.where(account_id: deposits_received_account_id,
+        p.payroll_journal.journal_details.where(account_id: deposits_received_account,
                                                 sub_account_id: income_tax_sub_accounts,
                                                 dc_type: DC_TYPE_CREDIT).each do |d|
           yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
@@ -399,12 +399,12 @@ module PayrollInfo
       amount = 0
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.joins(:pay_journal).where("journals.ym >= ? and journals.ym <= ?", @calendar_year.to_s + '01', @calendar_year.to_s + '06')
-      deposits_received_account_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id
+      deposits_received_account = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
       income_tax_sub_accounts = SubAccount.where(code: TAX_DEDUCTION_TYPE_INCOME_TAX)
 
       list.each do |p|
         # 賞与
-        p.payroll_journal.journal_details.where(account_id: deposits_received_account_id,
+        p.payroll_journal.journal_details.where(account_id: deposits_received_account,
                                                 sub_account_id: income_tax_sub_accounts,
                                                 dc_type: DC_TYPE_CREDIT).each do |d|
           yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)
@@ -419,12 +419,12 @@ module PayrollInfo
       amount = 0
       # calendar_year期間に支払われた給与明細を取得
       list = Payroll.joins(:pay_journal).where("journals.ym >= ? and journals.ym <= ?", @calendar_year.to_s + '07', @calendar_year.to_s + '12')
-      deposits_received_account_id = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).id
+      deposits_received_account = Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED)
       income_tax_sub_accounts = SubAccount.where(code: TAX_DEDUCTION_TYPE_INCOME_TAX)
 
       list.each do |p|
         # 賞与
-        p.payroll_journal.journal_details.where(account_id: deposits_received_account_id,
+        p.payroll_journal.journal_details.where(account_id: deposits_received_account,
                                                 sub_account_id: income_tax_sub_accounts,
                                                 dc_type: DC_TYPE_CREDIT).each do |d|
           yyyymmdd = p.pay_journal.ym.to_s + format("%02d", p.pay_journal.day)

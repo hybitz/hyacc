@@ -116,6 +116,15 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     assert_equal 0, logic.get_income_adjustment_deduction
   end
 
+  def test_get_health_insurance_raise_when_required_account_missing
+    logic = logic_builder(2012)
+    Account.find_by_code(ACCOUNT_CODE_DEPOSITS_RECEIVED).update!(deleted: true)
+
+    error = assert_raise(HyaccException) { logic.get_health_insurance }
+    expected_message = "源泉徴収の計算に必要な勘定科目が登録されていません。科目コード：#{ACCOUNT_CODE_DEPOSITS_RECEIVED}"
+    assert_equal expected_message, error.message
+  end
+
   private
 
   def logic_builder(calendar_year)

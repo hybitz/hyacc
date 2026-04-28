@@ -2,7 +2,7 @@
   <% if current_company.logo.present? %>
     <div class="logo">
       <%= link_to root_path do %>
-        <%= image_tag show_logo_mm_company_path(current_company, version: 'icon'), alt: "#{current_company.name}（ホーム）" %>
+        <%= image_tag show_logo_mm_company_path(current_company, version: 'icon'), alt: "#{current_company.name}（ホーム）", title: 'ホームへ移動' %>
       <% end %>
     </div>
   <% else %>

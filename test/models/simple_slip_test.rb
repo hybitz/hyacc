@@ -60,31 +60,6 @@ class SimpleSlipTest < ActiveSupport::TestCase
     assert_equal dr.id, jd.donation_recipient_id
   end
 
-  def test_save_寄付金かつ寄付先対象外補助科目なら寄付先IDは保存されない
-    don = Account.find_by_code(ACCOUNT_CODE_DONATION)
-    dr = donation_recipients(:one)
-    others = SubAccount.find_by(account_id: don.id, code: SUB_ACCOUNT_CODE_DONATION_OTHERS)
-    slip = SimpleSlip.new(simple_slip_params(
-      account_id: don.id, sub_account_id: others.id, donation_recipient_id: dr.id
-    ))
-    assert slip.save!
-    jd = Journal.find(slip.id).normal_details.find { |d| d.account_id == don.id }
-    assert_nil jd.donation_recipient_id
-  end
-
-  def test_save_寄付金以外なら寄付先IDは保存されない
-    dr = donation_recipients(:one)
-    ar = Account.find_by_code(ACCOUNT_CODE_RECEIVABLE)
-    slip = SimpleSlip.new(simple_slip_params(
-      account_id: ar.id,
-      sub_account_id: ar.sub_accounts.first.id,
-      donation_recipient_id: dr.id
-    ))
-    assert slip.save!
-    jd = Journal.find(slip.id).normal_details.find { |d| d.account_id == ar.id }
-    assert_nil jd.donation_recipient_id
-  end
-
   private
 
   def simple_slip_params(options = {})

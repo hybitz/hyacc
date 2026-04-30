@@ -23,10 +23,10 @@
         <td><%= c.formal_name %></td>
         <td><%= c.name %></td>
         <td class="text-center"><%= c.enterprise_number %><br><%= c.invoice_issuer_number %></td>
-        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16', alt: 'チェック' if c.is_order_entry %></td>
-        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16', alt: 'チェック' if c.is_order_placement %></td>
-        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16', alt: 'チェック' if c.is_investment %></td>
-        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16', alt: 'チェック' if c.is_shareholder %></td>
+        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16', alt: 'はい', title: 'はい' if c.is_order_entry %></td>
+        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16', alt: 'はい', title: 'はい' if c.is_order_placement %></td>
+        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16', alt: 'はい', title: 'はい' if c.is_investment %></td>
+        <td class="text-center"><%= image_tag 'checkmark.gif', size: '16x16', alt: 'はい', title: 'はい' if c.is_shareholder %></td>
         <td class="text-center"><%= HyaccConst::DISABLED_TYPES[c.disabled] %></td>
         <td class="text-center">
           <%= link_to '参照', mm_customer_path(c), remote: true, class: 'btn btn-sm btn-light' %>

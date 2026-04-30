@@ -183,7 +183,9 @@ class JournalDetail < ApplicationRecord
     return false if marked_for_destruction?
     return false unless normal_detail?
 
-    !new_record? && (will_save_change_to_account_id? || will_save_change_to_sub_account_id?)
+    will_save_change_to_account_id? ||
+      will_save_change_to_sub_account_id? ||
+      will_save_change_to_donation_recipient_id?
   end
 
   def normalize_sub_account_and_donation_recipient_ids
@@ -194,7 +196,9 @@ class JournalDetail < ApplicationRecord
     end
 
     return if donation_recipient_id.to_i == 0
-    return if donation_recipient_applicable?
+
+    return if DonationRecipient.where(deleted: false).exists?(id: donation_recipient_id) &&
+              donation_recipient_applicable?
 
     self.donation_recipient_id = nil
   end

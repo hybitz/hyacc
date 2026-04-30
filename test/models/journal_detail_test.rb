@@ -101,28 +101,62 @@ class JournalDetailTest < ActiveSupport::TestCase
     assert_nil jd.donation_recipient_id
   end
 
-  def test_勘定科目と補助科目に変更がない更新では正規化は呼ばれない
+  def test_勘定科目と補助科目に変更がない更新でも不正な寄付先は自動クリアされる
     jd = JournalDetail.find(49649)
     assert_not jd.new_record?
-
-    def jd.normalize_sub_account_and_donation_recipient_ids
-      raise 'normalize_sub_account_and_donation_recipient_ids should not be called'
-    end
-
+    non_existing_recipient_id = DonationRecipient.maximum(:id).to_i + 1
+    assert_nil DonationRecipient.find_by(id: non_existing_recipient_id)
+    jd.donation_recipient_id = non_existing_recipient_id
     jd.save!
+    jd.reload
+    assert_nil jd.donation_recipient_id
   end
 
-  def test_new_recordでは正規化は呼ばれない
+  def test_new_recordでも不正な寄付先は自動クリアされる
+    source = JournalDetail.find(49649)
+    jd = source.dup
+    jd.detail_no = JournalDetail.where(journal_id: jd.journal_id).maximum(:detail_no).to_i + 1
+    assert jd.new_record?
+    non_existing_recipient_id = DonationRecipient.maximum(:id).to_i + 1
+    assert_nil DonationRecipient.find_by(id: non_existing_recipient_id)
+    jd.donation_recipient_id = non_existing_recipient_id
+    jd.save!
+    jd.reload
+    assert_nil jd.donation_recipient_id
+  end
+
+  def test_new_recordで論理削除済みの寄付先は自動クリアされる
     source = JournalDetail.find(49649)
     jd = source.dup
     jd.detail_no = JournalDetail.where(journal_id: jd.journal_id).maximum(:detail_no).to_i + 1
     assert jd.new_record?
 
-    def jd.normalize_sub_account_and_donation_recipient_ids
-      raise 'normalize_sub_account_and_donation_recipient_ids should not be called'
-    end
+    deleted_recipient = donation_recipients(:deleted_one)
+    assert deleted_recipient.deleted?
+    jd.donation_recipient_id = deleted_recipient.id
 
     jd.save!
+    jd.reload
+    assert_nil jd.donation_recipient_id
+  end
+
+  def test_new_recordで勘定科目に紐づかない補助科目は自動クリアされる
+    source = JournalDetail.find(49649)
+    jd = source.dup
+    jd.detail_no = JournalDetail.where(journal_id: jd.journal_id).maximum(:detail_no).to_i + 1
+    assert jd.new_record?
+
+    other_account = Account.find_by_code(ACCOUNT_CODE_PAID_FEE)
+    invalid_sub_account = source.sub_account_id
+    assert invalid_sub_account.present?
+
+    jd.account_id = other_account.id
+    jd.sub_account_id = invalid_sub_account
+
+    jd.save!
+    jd.reload
+    assert_equal other_account.id, jd.account_id
+    assert_nil jd.sub_account_id
   end
 
 end

@@ -27,9 +27,9 @@
     </tr>
   </thead>
   <tbody>
-    <% @model.sorted_details.each_with_index do |d, i| %>
+    <% @model.sorted_details.each do |d| %>
       <tr>
-        <% if i == 0 %>
+        <% if d.representative? %>
           <td>（代表者）<br><strong><%= d.position %></strong></td>
         <% else %>
           <td><strong><%= d.position %></strong></td>
@@ -87,13 +87,13 @@
     <tr>
       <th colspan="2"><%= justify('　役　員　給　与　') %></th>
       <td class="text-end px-4"><%= to_amount(@model.total_executive_salary_amount, show_zero: true) %></td>
-      <td class="text-end px-4"><%= to_amount(@model.sorted_details.first&.salary_amount, show_zero: true) %></td>
+      <td class="text-end px-4"><%= to_amount(@model.total_executive_salary_amount_for_representative_or_family, show_zero: true) %></td>
     </tr>
     <tr>
       <th><%= justify('　従業員　') %></th>
       <th><%= justify('　給与手当　') %></th>
       <td class="text-end px-4"><%= to_amount(@model.total_employee_salary_amount, show_zero: true) %></td>
-      <td class="text-end"></td>
+      <td class="text-end px-4"><%= to_amount(@model.total_employee_salary_amount_for_representative_or_family, show_zero: true) %></td>
     </tr>
     <tr>
       <th><%= justify('　従業員　') %></th>
@@ -106,7 +106,7 @@
     <tr>
       <th colspan="2" class="text-center">計</th>
       <td class="text-end px-4"><%= to_amount(@model.total_salary_amount, show_zero: true) %></td>
-      <td class="text-end px-4"><%= to_amount(@model.sorted_details.first&.salary_amount, show_zero: true) %></td>
+      <td class="text-end px-4"><%= to_amount(@model.total_salary_amount_for_representative_or_family, show_zero: true) %></td>
     </tr>
   </tfoot>
 </table>

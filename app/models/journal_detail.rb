@@ -34,8 +34,7 @@ class JournalDetail < ApplicationRecord
   validates :amount, presence: true
   validates_with Validators::TaxRateValidator
 
-  before_validation :normalize_sub_account_and_donation_recipient_ids,
-                    if: :normalize_sub_account_and_donation_recipient_ids_required?
+  before_validation :normalize_sub_account_and_donation_recipient_ids
   before_save :set_asset
   before_save :update_names
   before_save :normalize_tax_rate
@@ -189,6 +188,7 @@ class JournalDetail < ApplicationRecord
   end
 
   def normalize_sub_account_and_donation_recipient_ids
+    return unless normalize_sub_account_and_donation_recipient_ids_required?
     return if sub_account_id.to_i == 0 && donation_recipient_id.to_i == 0
 
     if sub_account_id.to_i != 0 && account && !account.get_sub_account_by_id(sub_account_id)

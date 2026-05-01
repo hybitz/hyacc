@@ -66,6 +66,7 @@ Rails.application.routes.draw do
   get 'mv', to: 'mv#index'
   get 'report', to: 'report#index'
   
+  get 'up' => 'rails/health#show', as: :rails_health_check
   root 'welcome#index'
 
 end

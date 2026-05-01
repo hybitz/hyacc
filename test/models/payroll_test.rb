@@ -77,4 +77,98 @@ class PayrollTest < ActiveSupport::TestCase
     assert_not p2.is_bonus?
   end
 
+  def test_standard_bonus_truncated_amountは千円未満切り捨て
+    e = employee
+    p = Payroll.new(is_bonus: true, temporary_salary: 1_234_500, employee: e, pay_day: Date.new(2025, 6, 10))
+    assert_equal 1_234_000, Payroll.standard_bonus_truncated_amount(p.salary_total)
+  end
+
+  def test_bonus_健保は573万を超える支給でも573万分まで算定
+    e = Employee.find(2)
+    p573 = Payroll.new(is_bonus: true, ym: 202605, temporary_salary: 5_730_000, employee: e, pay_day: Date.new(2026, 6, 10))
+    p600 = Payroll.new(is_bonus: true, ym: 202606, temporary_salary: 6_000_000, employee: e, pay_day: Date.new(2026, 7, 10))
+    p573.calc_social_insurance
+    p600.calc_social_insurance
+    assert_equal p573.health_insurance, p600.health_insurance
+    assert_equal p573.child_and_childcare_support, p600.child_and_childcare_support
+  end
+
+  def test_bonus_標準賞与額_厚生年金は150万で頭打ちされ健康保険はそれ以上も算定
+    e = employee
+    p = Payroll.new(
+      is_bonus: true, temporary_salary: 2_000_000,
+      employee: e, pay_day: Date.new(2025, 6, 10)
+    )
+    p.calc_social_insurance
+    p_at_max = Payroll.new(
+      is_bonus: true, temporary_salary: 1_500_000,
+      employee: e, pay_day: Date.new(2025, 7, 10)
+    )
+    p_at_max.calc_social_insurance
+    assert_equal p_at_max.welfare_pension, p.welfare_pension
+    assert p.health_insurance > p_at_max.health_insurance
+  end
+
+  def test_bonus_標準賞与額の年度上限到達後は子ども子育て支援金も健康保険と同様にゼロ算定
+    e = employee
+    prior = payrolls(:payroll_bonus_health_max_prior)
+    assert_equal e.id, prior.employee_id
+    assert_equal Payroll::BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH, prior.temporary_salary
+
+    current = Payroll.new(
+      ym: 202605,
+      is_bonus: true, temporary_salary: 1_000_000,
+      employee: e, pay_day: Date.new(2026, 6, 10)
+    )
+    current.calc_social_insurance
+    assert_equal 0, current.health_insurance
+    assert_equal 0, current.child_and_childcare_support
+
+    reference = Payroll.new(
+      ym: 202605,
+      is_bonus: true, temporary_salary: 1_000_000,
+      employee: Employee.find(2), pay_day: Date.new(2026, 6, 10)
+    )
+    reference.calc_social_insurance
+    assert reference.health_insurance > 0
+    assert reference.child_and_childcare_support > 0
+  end
+
+  def test_bonus_同一保険年度で先行2件のあと3件目の健保は573万累計で抑えられる
+    e = Employee.find(6)
+    assert_equal 3_000_000, payrolls(:payroll_bonus_health_chain_first).temporary_salary
+    assert_equal 2_000_000, payrolls(:payroll_bonus_health_chain_second).temporary_salary
+
+    third_full = Payroll.new(
+      ym: 202701, pay_day: Date.new(2027, 2, 10), employee: e, is_bonus: true,
+      temporary_salary: 1_000_000
+    )
+    third_capped = Payroll.new(
+      ym: 202702, pay_day: Date.new(2027, 3, 10), employee: e, is_bonus: true,
+      temporary_salary: 730_000
+    )
+    third_full.calc_social_insurance
+    third_capped.calc_social_insurance
+    assert_equal third_capped.health_insurance, third_full.health_insurance
+    assert_equal third_capped.child_and_childcare_support, third_full.child_and_childcare_support
+  end
+
+  def test_bonus_同一保険年度に150万円超の過去賞与があっても当月厚生年金は影響を受けない
+    prior_over_max = Payroll.find_by!(
+      employee_id: 8, ym: 202604, is_bonus: true
+    )
+    with_prior = Payroll.find_by!(
+      employee_id: 8, ym: 202605, is_bonus: true, temporary_salary: 800_000
+    )
+    without_prior = Payroll.find_by!(
+      employee_id: 9, ym: 202605, is_bonus: true, temporary_salary: 800_000
+    )
+
+    assert prior_over_max.temporary_salary > Payroll::BONUS_STANDARD_MAX_FOR_WELFARE_PENSION
+    with_prior.calc_social_insurance
+    without_prior.calc_social_insurance
+
+    assert_equal with_prior.welfare_pension, without_prior.welfare_pension
+  end
+
 end

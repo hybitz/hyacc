@@ -278,13 +278,7 @@ class SimpleSlip
     jd2.sub_account_id = sub_account_id
     jd2.input_amount = amount
     jd2.tax_amount = tax_amount
-
-    if account.code == ACCOUNT_CODE_DONATION &&
-       DONATION_RECIPIENT_SUB_ACCOUNT_CODES.include?(sub_account&.code)
-      jd2.donation_recipient_id = donation_recipient_id
-    else
-      jd2.donation_recipient_id = nil
-    end
+    jd2.donation_recipient_id = donation_recipient_id
 
     # 計上日振替の設定
     jd2.auto_journal_type = auto_journal_type

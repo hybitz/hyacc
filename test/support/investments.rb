@@ -1,6 +1,10 @@
 module Investments
   include HyaccConst
 
+  def investment_bank_account_id
+    investment_params[:bank_account_id]
+  end
+
   def investment_params
     {
       yyyymmdd: '2016-03-27',

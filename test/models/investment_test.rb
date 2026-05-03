@@ -3,7 +3,7 @@ require 'test_helper'
 class InvestmentTest < ActiveSupport::TestCase
 
   def test_save_購入ではsharesとtrading_valueが正のまま保存される
-    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
+    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: investment_bank_account_id))
     investment.save!
     investment.reload
     assert investment.buying?
@@ -13,7 +13,7 @@ class InvestmentTest < ActiveSupport::TestCase
 
   def test_save_売却ではsharesとtrading_valueが正のまま保存される
     investment = Investment.new(
-      investment_params.merge(charges: 0, bank_account_id: bank_account.id, securities_transaction_type: SECURITIES_TRANSACTION_TYPE_SELLING, gains: 0)
+      investment_params.merge(charges: 0, bank_account_id: investment_bank_account_id, securities_transaction_type: SECURITIES_TRANSACTION_TYPE_SELLING, gains: 0)
     )
     investment.save!
     investment.reload
@@ -23,7 +23,7 @@ class InvestmentTest < ActiveSupport::TestCase
   end
 
   def test_save_securities_transaction_typeが保存される
-    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
+    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: investment_bank_account_id))
     investment.save!
     investment.reload
 
@@ -62,14 +62,14 @@ class InvestmentTest < ActiveSupport::TestCase
   end
 
   def test_yyyymmddは形式に合わない値でinvalidになる
-    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
+    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: investment_bank_account_id))
     investment.yyyymmdd = '20160230'
     assert_not investment.valid?
     assert investment.errors[:yyyymmdd].any? { |m| m.include?('YYYY-MM-DD 形式') }, investment.errors[:yyyymmdd].inspect
   end
 
   def test_destroyで紐付くJournalとJournalDetailが物理削除される
-    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
+    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: investment_bank_account_id))
     investment.save!
 
     param = Auto::Journal::InvestmentParam.new(investment, user)
@@ -88,7 +88,7 @@ class InvestmentTest < ActiveSupport::TestCase
   end
 
   def test_3階層の一括登録と連鎖削除
-    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: bank_account.id))
+    investment = Investment.new(investment_params.merge(charges: 0, bank_account_id: investment_bank_account_id))
     investment.save!
 
     param = Auto::Journal::InvestmentParam.new(investment, user)

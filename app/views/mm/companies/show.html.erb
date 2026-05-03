@@ -27,7 +27,7 @@
     </tr>
     <tr>
       <th>ロゴ</th>
-      <td><%= image_tag(show_logo_mm_company_path(@company)) if @company.logo.present? %></td>
+      <td><%= image_tag(show_logo_mm_company_path(@company), alt: "#{@company.name}のロゴ", title: "#{@company.name}のロゴ") if @company.logo.present? %></td>
       <td class="text-center">
         <%= link_to '変更', edit_mm_company_path(@company, field: 'logo'), class: 'btn btn-light btn-small', onclick: 'company.edit(this); return false;' %>
         <%= button_tag '更新', onclick: 'company.update(this);', class: 'btn btn-light btn-small' %>

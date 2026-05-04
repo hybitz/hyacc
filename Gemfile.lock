@@ -89,9 +89,9 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.22)
     benchmark (0.5.0)
-    bigdecimal (4.1.1)
+    bigdecimal (4.1.2)
     bindex (0.8.1)
-    bootsnap (1.23.0)
+    bootsnap (1.24.1)
       msgpack (~> 1.2)
     bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
@@ -117,15 +117,15 @@ GEM
     carrierwave-i18n (3.1.0)
       carrierwave (>= 3.0.0, < 4)
     cgi (0.5.1)
-    chef-config (19.2.12)
+    chef-config (19.2.110)
       addressable
-      chef-utils (= 19.2.12)
+      chef-utils (= 19.2.110)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       racc
-      tomlrb (~> 1.2)
-    chef-utils (19.2.12)
+      tomlrb (>= 1.2, < 3.0)
+    chef-utils (19.2.110)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
@@ -219,7 +219,7 @@ GEM
     ffi-yajl (2.7.7)
       libyajl2 (>= 2.1)
       yajl
-    fog-aws (3.33.1)
+    fog-aws (3.33.2)
       base64 (>= 0.2, < 0.4)
       fog-core (~> 2.6)
       fog-json (~> 1.1)
@@ -229,7 +229,7 @@ GEM
       excon (~> 1.0)
       formatador (>= 0.2, < 2.0)
       mime-types
-    fog-json (1.2.0)
+    fog-json (1.3.0)
       fog-core
       multi_json (~> 1.10)
     fog-xml (0.1.5)
@@ -256,7 +256,7 @@ GEM
       ruby-vips (>= 2.0.17, < 3)
     io-console (0.8.2)
     ipaddress (0.8.3)
-    irb (1.17.0)
+    irb (1.18.0)
       pp (>= 0.6.0)
       prism (>= 1.3.0)
       rdoc (>= 4.0.0)
@@ -271,7 +271,7 @@ GEM
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-selenium (~> 0.1)
       itamae-plugin-resource-pip (~> 1.1)
-    itamae-plugin-recipe-selenium (0.5.5)
+    itamae-plugin-recipe-selenium (0.5.6)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.1)
       itamae (~> 1.2)
@@ -284,7 +284,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (8.0.0)
       railties (>= 3.2.16)
-    json (2.19.3)
+    json (2.19.4)
     jwt (3.1.2)
       base64
     libyajl2 (2.1.0)
@@ -304,7 +304,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2026.0407)
+    mime-types-data (3.2026.0414)
     mimemagic (0.4.3)
       nokogiri (~> 1)
       rake
@@ -328,15 +328,15 @@ GEM
       railties (>= 3.1)
     mousetrap-rails (1.4.6)
     msgpack (1.8.0)
-    multi_json (1.20.1)
+    multi_json (1.21.0)
     multi_test (1.1.0)
-    multi_xml (0.8.1)
+    multi_xml (0.9.0)
       bigdecimal (>= 3.1, < 5)
     mysql2 (0.5.7)
       bigdecimal
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-imap (0.6.3)
+    net-imap (0.6.4)
       date
       net-protocol
     net-pop (0.1.2)
@@ -350,7 +350,7 @@ GEM
     net-ssh (7.3.2)
     net-telnet (0.2.0)
     nio4r (2.7.5)
-    nokogiri (1.19.2)
+    nokogiri (1.19.3)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     nostalgic (0.8.0)
@@ -404,7 +404,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (8.0.0)
+    puma (8.0.1)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.6)
@@ -463,7 +463,7 @@ GEM
       thor (~> 1.0, >= 1.2.2)
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
-    rake (13.3.1)
+    rake (13.4.2)
     rdoc (7.2.0)
       erb
       psych (>= 4.0.0)
@@ -482,7 +482,7 @@ GEM
     ruby-vips (2.3.0)
       ffi (~> 1.12)
       logger
-    rubyzip (3.2.2)
+    rubyzip (3.3.0)
     sassc (2.4.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -542,11 +542,11 @@ GEM
     thor (1.5.0)
     tilt (2.7.0)
     timeout (0.6.1)
-    tomlrb (1.3.0)
-    train-core (3.16.1)
+    tomlrb (2.0.4)
+    train-core (3.16.3)
       addressable (~> 2.5)
       ffi (>= 1.16.0, < 1.18)
-      json (>= 1.8, < 3.0)
+      json (>= 2.19.2, < 3.0)
       mixlib-shellout (>= 2.0, < 4.0)
       net-scp (>= 1.2, < 5.0)
       net-ssh (>= 2.9, < 8.0)

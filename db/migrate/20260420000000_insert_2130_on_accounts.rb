@@ -5,7 +5,9 @@ class Insert2130OnAccounts < ActiveRecord::Migration[8.1]
     parent = Account.find_by_code(ACCOUNT_CODE_FIXED_ASSET)
 
     a = Account.find_by_code(ACCOUNT_CODE_INVESTMENTS_AND_OTHER_ASSETS)
-    a ||= Account.new(code: ACCOUNT_CODE_INVESTMENTS_AND_OTHER_ASSETS)
+    a ||= Account.find_by_name('投資その他の資産')
+    a ||= Account.new
+    a.code = ACCOUNT_CODE_INVESTMENTS_AND_OTHER_ASSETS
     a.name = '投資その他の資産'
     a.dc_type = parent.dc_type
     a.account_type = parent.account_type

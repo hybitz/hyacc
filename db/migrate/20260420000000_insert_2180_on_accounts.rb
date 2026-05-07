@@ -1,4 +1,4 @@
-class Insert2130OnAccounts < ActiveRecord::Migration[8.1]
+class Insert2180OnAccounts < ActiveRecord::Migration[8.1]
   include HyaccConst
 
   def up

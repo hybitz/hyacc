@@ -197,8 +197,7 @@ class JournalDetail < ApplicationRecord
 
     return if donation_recipient_id.to_i == 0
 
-    return if DonationRecipient.where(deleted: false).exists?(id: donation_recipient_id) &&
-              donation_recipient_applicable?
+    return if donation_recipient_applicable?
 
     self.donation_recipient_id = nil
   end
@@ -206,7 +205,7 @@ class JournalDetail < ApplicationRecord
   def donation_recipient_applicable?
     return false unless account&.code == ACCOUNT_CODE_DONATION
     return false unless sub_account
-    return false unless DONATION_SUB_ACCOUNT_CODES.values.include?(sub_account.code)
+    return false unless DONATION_SUB_ACCOUNT_CODES.value?(sub_account.code)
 
     recipient = DonationRecipient.where(deleted: false).find_by(id: donation_recipient_id)
     return false unless recipient

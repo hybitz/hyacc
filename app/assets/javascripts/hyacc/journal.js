@@ -271,9 +271,9 @@ class Journal {
       };
 
       detail.removeClass('sub_account_ready');
-      $.getJSON(this.options.sub_accounts_path, params, (json) => {
-          replace_options(`tr[data-index="${params.index}"] [name*="\\[sub_account_id\\]"]`, json);
-          detail.addClass('sub_account_ready');
+      const subAccountsRequest = $.getJSON(this.options.sub_accounts_path, params, (json) => {
+        replace_options(`tr[data-index="${params.index}"] [name*="\\[sub_account_id\\]"]`, json);
+        detail.addClass('sub_account_ready');
       });
 
       $.getJSON(this.options.get_tax_type_path, params, (json) => {
@@ -281,8 +281,16 @@ class Journal {
         this._refresh_tax_rate(detail);
       });
 
-      $.get(this.options.get_account_detail_path, params, (html) => {
-          $(`#journal_details_${params.index}_account_detail`).html(html);
+      const accountDetailRequest = $.get(this.options.get_account_detail_path, params, (html) => {
+        $(`#journal_details_${params.index}_account_detail`).html(html);
+      });
+
+      $.when(subAccountsRequest, accountDetailRequest).done(() => {
+        const subAccountSelect = detail.find('[name*="\\[sub_account_id\\]"]');
+        if (subAccountSelect.find('option').length > 0) {
+          subAccountSelect.val(subAccountSelect.find('option:first').val());
+          subAccountSelect.trigger('change');
+        }
       });
 
       this._refresh_allocation(detail);

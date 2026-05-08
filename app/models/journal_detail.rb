@@ -206,8 +206,16 @@ class JournalDetail < ApplicationRecord
   def donation_recipient_applicable?
     return false unless account&.code == ACCOUNT_CODE_DONATION
     return false unless sub_account
+    return false unless DONATION_SUB_ACCOUNT_CODES.values.include?(sub_account.code)
 
-    DONATION_RECIPIENT_SUB_ACCOUNT_CODES.include?(sub_account.code)
+    recipient = DonationRecipient.where(deleted: false).find_by(id: donation_recipient_id)
+    return false unless recipient
+
+    if DONATION_RECIPIENT_SUB_ACCOUNT_CODES.include?(sub_account.code)
+      recipient.kind == sub_account.code
+    else
+      recipient.kind.blank?
+    end
   end
 
   def set_asset

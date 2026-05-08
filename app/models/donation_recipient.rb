@@ -4,9 +4,10 @@ class DonationRecipient < ApplicationRecord
   belongs_to :company
   has_many :journal_details
 
-  validates :kind, presence: true, inclusion: { in: DONATION_RECIPIENT_SUB_ACCOUNT_CODES }
+  validates :kind, inclusion: { in: DONATION_RECIPIENT_SUB_ACCOUNT_CODES }, allow_blank: true
   validates :name, presence: true
 
+  before_validation :normalize_kind
   before_save :clear_irrelevant_fields_by_kind
 
   # セレクト用ラベル。識別情報（使途等）があれば「名称（値）」、なければ名称のみ
@@ -16,6 +17,10 @@ class DonationRecipient < ApplicationRecord
   end
 
   private
+
+  def normalize_kind
+    self.kind = nil if kind.blank?
+  end
 
   def identification_value_for_select
     case kind
@@ -41,6 +46,12 @@ class DonationRecipient < ApplicationRecord
       self.announcement_number = nil
       self.purpose = nil
       self.purpose_or_name = nil
+    else
+      self.announcement_number = nil
+      self.purpose = nil
+      self.address = nil
+      self.purpose_or_name = nil
+      self.trust_name = nil
     end
   end
 end

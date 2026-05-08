@@ -101,6 +101,23 @@ class JournalDetailTest < ActiveSupport::TestCase
     assert_nil jd.donation_recipient_id
   end
 
+  def test_寄付金の補助科目がその他で種別未設定寄付先なら保持される
+    jd = JournalDetail.find(49649)
+    assert_equal ACCOUNT_CODE_DONATION, jd.account.code
+
+    others = SubAccount.find_by(code: SUB_ACCOUNT_CODE_DONATION_OTHERS, account_id: jd.account_id)
+    kind_nil = donation_recipients(:kind_nil)
+    assert_nil kind_nil.kind
+
+    jd.sub_account_id = others.id
+    jd.donation_recipient_id = kind_nil.id
+
+    jd.save!
+    jd.reload
+    assert_equal others.id, jd.sub_account_id
+    assert_equal kind_nil.id, jd.donation_recipient_id
+  end
+
   def test_勘定科目と補助科目に変更がない更新でも不正な寄付先は自動クリアされる
     jd = JournalDetail.find(49649)
     assert_not jd.new_record?

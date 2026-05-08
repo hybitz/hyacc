@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_21_120001) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_07_000000) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -289,7 +289,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_120001) do
     t.integer "company_id", null: false
     t.datetime "created_at", null: false
     t.boolean "deleted", default: false, null: false
-    t.string "kind", limit: 3, null: false
+    t.string "kind", limit: 3
     t.string "name", null: false
     t.string "purpose"
     t.string "purpose_or_name"

@@ -6,7 +6,7 @@
     <tr>
       <th style="width: 10em;"><%= f.label :kind %></th>
       <td>
-        <%= f.select :kind, donation_recipient_kind_options, {}, class: 'form-control form-control-sm donation-recipient-kind', disabled: kind_locked, data: { kind: @donation_recipient.kind } %>
+        <%= f.select :kind, donation_recipient_kind_options, { include_blank: true }, class: 'form-control form-control-sm donation-recipient-kind', disabled: kind_locked %>
         <% if kind_locked %>
           <span class="text-muted small ms-2">
             （振替伝票に紐づいているため変更できません）

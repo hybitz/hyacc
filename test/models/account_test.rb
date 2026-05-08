@@ -65,10 +65,11 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal( false, a.is_leaf_on_settlement_report )
   end
 
-  def test_sub_accounts_ordered_for_select_寄付金の補助科目はその他が先頭になること
+  def test_sub_accounts_ordered_for_select_寄付金の補助科目はcode順になること
     account = Account.find_by(code: ACCOUNT_CODE_DONATION)
     ordered = account.sub_accounts_ordered_for_select
-    assert_equal SUB_ACCOUNT_CODE_DONATION_OTHERS, ordered.first.code
+    codes = ordered.map(&:code)
+    assert_equal codes.sort, codes
   end
 
 end

@@ -271,7 +271,7 @@ GEM
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-selenium (~> 0.1)
       itamae-plugin-resource-pip (~> 1.1)
-    itamae-plugin-recipe-selenium (0.5.6)
+    itamae-plugin-recipe-selenium (0.5.7)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.1)
       itamae (~> 1.2)

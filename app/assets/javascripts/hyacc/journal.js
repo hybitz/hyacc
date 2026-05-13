@@ -267,7 +267,6 @@ class Journal {
         branch_id: this._get_branch_id(detail),
         dc_type: this._get_dc_type(detail),
         detail_id: detail.data('detail_id'),
-        order: 'code',
       };
 
       detail.removeClass('sub_account_ready');

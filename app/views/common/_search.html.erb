@@ -60,8 +60,7 @@
             $(document).ready(function() {
               $('#finder_account_id').change(function() {
                 var params = {
-                  account_id: $(this).val(),
-                  order: 'code'
+                  account_id: $(this).val()
                 };
                 $.get('<%= sub_accounts_path(format: 'json') %>', params, function(json) {
                   reloadSubAccounts(json);

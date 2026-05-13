@@ -4,14 +4,14 @@ class SubAccountsControllerTest < ActionController::TestCase
   
   def test_Trac_145_地代家賃の一覧が正しく取得できること
     sign_in user
-    get :index, params: {account_id: 26, order: 'code'}, format: 'json'
+    get :index, params: {account_id: 26}, format: 'json'
     assert_response :success
   end
 
   def test_index_補助科目JSONはcode順で返すこと
     sign_in user
     account = Account.find_by(code: ACCOUNT_CODE_DONATION)
-    get :index, params: { account_id: account.id, order: 'code' }, format: 'json'
+    get :index, params: { account_id: account.id }, format: 'json'
     assert_response :success
     json = JSON.parse(response.body)
     sub_account_ids = json.map { |h| h['id'] }

@@ -167,11 +167,6 @@ module Accounts::SubAccountsSupport
     }
   end
 
-  # 補助科目プルダウンに出す順序
-  def sub_accounts_ordered_for_select
-    HyaccUtil.sort_by_code(sub_accounts)
-  end
-
   private
 
   def request_cache_key

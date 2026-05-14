@@ -30,7 +30,6 @@ Rails.application.routes.draw do
       get 'get_account_detail'
       get 'get_sub_account_detail'
       get 'get_allocation'
-      get 'get_tax_type'
     end
   end
 

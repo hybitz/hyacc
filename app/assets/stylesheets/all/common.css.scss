@@ -33,10 +33,10 @@ a.input-group-text {
 }
 
 input[type="text"], input[type="password"], select, select.form-select {
-  background: #FFFAFA;
+  background-color: #FFFAFA;
 
   &:disabled {
-    background: #EEEEEE;
+    background-color: #EEEEEE;
   }
 }
 

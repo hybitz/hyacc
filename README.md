@@ -1,5 +1,5 @@
 # 環境構築手順
-## AlmaLinux 8 を用意
+## AlmaLinux 9 を用意
 ### sudo 権限を付与
 ```
 （ユーザで）$ su
@@ -30,16 +30,16 @@ $ bundle exec rake dad:setup
 ### DBの初期化
 ```
 $ bundle exec rake dad:db:create
-$ rails db:reset
+$ bin/rails db:reset
 ```
 ### テスト
 ```
-$ rails test
+$ bin/rails test
 $ bundle exec rake dad:setup:test
 $ bundle exec rake dad:test
 ```
 ### 起動
 ```
-$ rails s
+$ bin/rails s
 ```
 ブラウザから http://localhost:3000 にアクセスして動作を確認します。

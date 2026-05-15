@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    action_text-trix (2.1.18)
+    action_text-trix (2.1.19)
       railties
     actioncable (8.1.3)
       actionpack (= 8.1.3)
@@ -91,7 +91,7 @@ GEM
     benchmark (0.5.0)
     bigdecimal (4.1.2)
     bindex (0.8.1)
-    bootsnap (1.24.1)
+    bootsnap (1.24.3)
       msgpack (~> 1.2)
     bootstrap (5.3.8)
       popper_js (>= 2.11.8, < 3)
@@ -185,7 +185,7 @@ GEM
       database_cleaner-core (~> 2.0)
     database_cleaner-core (2.0.1)
     date (3.5.1)
-    devise (5.0.3)
+    devise (5.0.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 7.0)
@@ -267,11 +267,11 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor (>= 1.0.0)
-    itamae-plugin-recipe-daddy (0.1.38)
+    itamae-plugin-recipe-daddy (0.2.0)
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-selenium (~> 0.1)
       itamae-plugin-resource-pip (~> 1.1)
-    itamae-plugin-recipe-selenium (0.5.6)
+    itamae-plugin-recipe-selenium (0.5.7)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.1)
       itamae (~> 1.2)
@@ -284,7 +284,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (8.0.0)
       railties (>= 3.2.16)
-    json (2.19.4)
+    json (2.19.5)
     jwt (3.1.2)
       base64
     libyajl2 (2.1.0)
@@ -328,9 +328,9 @@ GEM
       railties (>= 3.1)
     mousetrap-rails (1.4.6)
     msgpack (1.8.0)
-    multi_json (1.21.0)
+    multi_json (1.21.1)
     multi_test (1.1.0)
-    multi_xml (0.9.0)
+    multi_xml (0.9.1)
       bigdecimal (>= 3.1, < 5)
     mysql2 (0.5.7)
       bigdecimal

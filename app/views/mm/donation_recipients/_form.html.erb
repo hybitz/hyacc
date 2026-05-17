@@ -2,6 +2,11 @@
   <%= flash_notice %>
 
   <table class="table table-sm mb-0" style="min-width: 40em;">
+    <tr>
+      <th><%= f.label :name %></th>
+      <td><%= f.text_field :name, size: 30, class: 'form-control form-control-sm' %></td>
+    </tr>
+
     <% kind_locked = @donation_recipient.persisted? && @donation_recipient.journal_details.exists? %>
     <tr>
       <th style="width: 10em;"><%= f.label :kind %></th>
@@ -14,10 +19,7 @@
         <% end %>
       </td>
     </tr>
-    <tr>
-      <th><%= f.label :name %></th>
-      <td><%= f.text_field :name, size: 30, class: 'form-control form-control-sm' %></td>
-    </tr>
+
     <% # 指定(100): 告示番号・使途 %>
     <tr class="donation-recipient-fields kind-100" style="<%= 'display:none' unless @donation_recipient.kind == HyaccConst::SUB_ACCOUNT_CODE_DONATION_DESIGNATED %>">
       <th><%= f.label :announcement_number %></th>

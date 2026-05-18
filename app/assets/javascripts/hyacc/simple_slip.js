@@ -19,14 +19,22 @@ class SimpleSlip {
         const el = $(e.currentTarget);
         const accountId = el.val();
 
-        $.getJSON(`${this.options.accounts_path}/${accountId}`, (account) => {
+        const subAccountsRequest = $.getJSON(`${this.options.accounts_path}/${accountId}`, (account) => {
           replace_options($(this.selector).find('.subAccountSelect'), account.sub_accounts);
           $(this.selector).find('.taxTypeSelect').val(account.tax_type);
           this.update_tax_rate();
         });
 
-        $.get(this.options.get_account_details_path, { account_id: accountId }, (html) => {
+        const accountDetailRequest = $.get(this.options.get_account_details_path, { account_id: accountId }, (html) => {
           $(this.selector).find('#account_detail').html(html);
+        });
+
+        $.when(subAccountsRequest, accountDetailRequest).done(() => {
+          const subAccountSelect = $(this.selector).find('.subAccountSelect');
+          if (subAccountSelect.find('option').length > 0) {
+            subAccountSelect.val(subAccountSelect.find('option:first').val());
+            subAccountSelect.trigger('change');
+          }
         });
       });
 

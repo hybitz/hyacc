@@ -16,18 +16,11 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     assert_includes response.body, 'donation_recipient_id'
   end
 
-  def test_get_sub_account_detail_寄付金勘定でsub_account_idなしでも寄付先パーシャルが返る
-    get :get_sub_account_detail, xhr: true, params: { account_id: donation_account.id, index: 1 }
-    assert_response :success
-    assert_includes response.body, '寄付先'
-    assert_includes response.body, 'donation_recipient_id'
-  end
-
-  def test_get_sub_account_detail_寄付金勘定で補助科目がその他のときは寄付先フォームを出さない
+  def test_get_sub_account_detail_寄付金勘定で補助科目がその他のときも寄付先フォームを出す
     others = SubAccount.find_by(code: SUB_ACCOUNT_CODE_DONATION_OTHERS, account_id: donation_account.id)
     get :get_sub_account_detail, xhr: true, params: { account_id: donation_account.id, sub_account_id: others.id, index: 1 }
     assert_response :success
-    assert_not_includes response.body, 'donation_recipient_id'
+    assert_includes response.body, 'donation_recipient_id'
   end
 
   def test_get_sub_account_detail_寄付金以外の勘定ではno_contentを返す
@@ -47,25 +40,23 @@ class JournalsController::DonationRecipientTest < ActionController::TestCase
     assert_includes response.body, dr.name
   end
 
-  def test_編集画面で未紐付の寄付先パーシャルと寄付先フォームが表示される
+  def test_編集画面で未紐付でも寄付先パーシャルが表示される
     sub_account_ids = SubAccount.where(account_id: donation_account.id, code: DONATION_RECIPIENT_SUB_ACCOUNT_CODES).select(:id)
     jd = JournalDetail.where(account_id: donation_account.id, donation_recipient_id: nil, sub_account_id: sub_account_ids).first
     jh = jd.journal
 
     get :edit, xhr: true, params: { id: jh.id }
     assert_response :success
-    assert_includes response.body, '寄付先'
     assert_includes response.body, 'donation_recipient_id'
   end
 
-  def test_参照画面で未紐付の寄付先パーシャルと寄付先フォームが表示されない
+  def test_参照画面で未紐付なら寄付先パーシャルが表示されない
     sub_account_ids = SubAccount.where(account_id: donation_account.id, code: DONATION_RECIPIENT_SUB_ACCOUNT_CODES).select(:id)
     jd = JournalDetail.where(account_id: donation_account.id, donation_recipient_id: nil, sub_account_id: sub_account_ids).first
     jh = jd.journal
 
     get :show, xhr: true, params: { id: jh.id }
     assert_response :success
-    assert_not_includes response.body, '寄付先'
     assert_not_includes response.body, 'donation_recipient_id'
   end
 

@@ -57,4 +57,10 @@ class DonationRecipientTest < ActiveSupport::TestCase
     assert_not dr.valid?
     assert dr.errors[:kind].present?
   end
+
+  def test_kindがblankでも有効でnilへ正規化される
+    dr = DonationRecipient.new(kind: '', name: 'テスト', company_id: 1)
+    assert dr.valid?
+    assert_nil dr.kind
+  end
 end

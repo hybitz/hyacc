@@ -3,12 +3,12 @@
 <table class="table table-sm">
   <tbody>
     <tr>
-      <th style="width: 10em;"><%= DonationRecipient.human_attribute_name :kind %></th>
-      <td><%= donation_recipient_kind_label(@donation_recipient.kind) %></td>
-    </tr>
-    <tr>
       <th><%= DonationRecipient.human_attribute_name :name %></th>
       <td><%= @donation_recipient.name %></td>
+    </tr>
+    <tr>
+      <th style="width: 10em;"><%= DonationRecipient.human_attribute_name :kind %></th>
+      <td><%= donation_recipient_kind_label(@donation_recipient.kind) %></td>
     </tr>
 
     <% # 指定(100): 告示番号・使途 %>

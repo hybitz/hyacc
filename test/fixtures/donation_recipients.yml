@@ -50,3 +50,11 @@ non_certified_trust:
   deleted: false
   created_at: 2025-01-01 00:00:00
   updated_at: 2025-01-01 00:00:00
+
+kind_nil:
+  id: 6
+  company_id: 1
+  name: 種別未設定寄付先
+  deleted: false
+  created_at: 2025-01-01 00:00:00
+  updated_at: 2025-01-01 00:00:00

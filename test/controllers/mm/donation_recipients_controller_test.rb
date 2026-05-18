@@ -83,6 +83,20 @@ class Mm::DonationRecipientsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'テスト信託', dr.trust_name
   end
 
+  def test_種別未設定で登録できる
+    post mm_donation_recipients_path, xhr: true, params: {
+      donation_recipient: {
+        kind: '',
+        name: '種別なし寄付先'
+      }
+    }
+    assert_response :success
+    dr = assigns(:donation_recipient)
+    assert dr.persisted?
+    assert_nil dr.kind
+    assert_equal '種別なし寄付先', dr.name
+  end
+
   def test_登録_入力エラー
     assert_no_difference 'DonationRecipient.count' do
       post mm_donation_recipients_path, xhr: true, params: {

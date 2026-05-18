@@ -15,10 +15,13 @@ module AccountDetails
       sub = @sub_account || jd.sub_account
       sub_kind = sub&.code
       sub_kind ||= @account.sub_accounts.first.code
-      show_select = DONATION_RECIPIENT_SUB_ACCOUNT_CODES.include?(sub_kind)
-      donation_recipients = show_select ? company.donation_recipients.where(kind: sub_kind).order(:name) : []
+      donation_recipients = if DONATION_RECIPIENT_SUB_ACCOUNT_CODES.include?(sub_kind)
+                              company.donation_recipients.where(kind: sub_kind).order(:name)
+                            else
+                              company.donation_recipients.where(kind: nil).order(:name)
+                            end
 
-      { jd: jd, index: index, show_select: show_select, donation_recipients: donation_recipients }
+      { jd: jd, index: index, donation_recipients: donation_recipients }
     end
   end
 end

@@ -267,22 +267,27 @@ class Journal {
         branch_id: this._get_branch_id(detail),
         dc_type: this._get_dc_type(detail),
         detail_id: detail.data('detail_id'),
-        order: 'code',
       };
 
       detail.removeClass('sub_account_ready');
-      $.getJSON(this.options.sub_accounts_path, params, (json) => {
-          replace_options(`tr[data-index="${params.index}"] [name*="\\[sub_account_id\\]"]`, json);
-          detail.addClass('sub_account_ready');
-      });
 
-      $.getJSON(this.options.get_tax_type_path, params, (json) => {
-        this._set_tax_type(detail, json.tax_type);
+      const subAccountsRequest = $.getJSON(`${this.options.accounts_path}/${params.account_id}`, (account) => {
+        replace_options(`tr[data-index="${params.index}"] [name*="\\[sub_account_id\\]"]`, account.sub_accounts);
+        detail.addClass('sub_account_ready');
+        this._set_tax_type(detail, account.tax_type);
         this._refresh_tax_rate(detail);
       });
 
-      $.get(this.options.get_account_detail_path, params, (html) => {
-          $(`#journal_details_${params.index}_account_detail`).html(html);
+      const accountDetailRequest = $.get(this.options.get_account_detail_path, params, (html) => {
+        $(`#journal_details_${params.index}_account_detail`).html(html);
+      });
+
+      $.when(subAccountsRequest, accountDetailRequest).done(() => {
+        const subAccountSelect = detail.find('[name*="\\[sub_account_id\\]"]');
+        if (subAccountSelect.find('option').length > 0) {
+          subAccountSelect.val(subAccountSelect.find('option:first').val());
+          subAccountSelect.trigger('change');
+        }
       });
 
       this._refresh_allocation(detail);

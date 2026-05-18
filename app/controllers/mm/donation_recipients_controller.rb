@@ -6,7 +6,7 @@ class Mm::DonationRecipientsController < Base::HyaccController
   end
 
   def new
-    @donation_recipient = current_company.donation_recipients.build(kind: SUB_ACCOUNT_CODE_DONATION_DESIGNATED)
+    @donation_recipient = current_company.donation_recipients.build
   end
 
   def show

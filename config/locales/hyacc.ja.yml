@@ -242,7 +242,7 @@ ja:
 
       donation_recipient:
         kind: 種別
-        name: 名称
+        name: 寄付先／受託者
         announcement_number: 告示番号
         purpose: 使途
         address: 所在地

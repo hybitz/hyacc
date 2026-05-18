@@ -6,7 +6,7 @@
       hide_sub_accounts();
 
       $.get('<%= url_for controller: 'sub_accounts', format: 'json' %>',
-        {order: 'code', account_id: $(this).val()},
+        {account_id: $(this).val()},
         function(data) {
           reload_sub_accounts(data);
 

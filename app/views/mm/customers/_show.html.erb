@@ -1,54 +1,50 @@
-<p>
-  <b>取引先コード:</b>
-  <%= @customer.code %>
-</p>
+<%= flash_notice %>
 
-<p>
-  <b><%= @customer.class.human_attribute_name :formal_name %>:</b>
-  <%= @customer.formal_name %>
-</p>
-
-<p>
-  <b><%= @customer.class.human_attribute_name :name %>:</b>
-  <%= @customer.name %>
-</p>
-
-<p>
-  <b><%= @customer.class.human_attribute_name :enterprise_number %>:</b>
-  <%= @customer.enterprise_number %>
-</p>
-
-<p>
-  <b><%= @customer.class.human_attribute_name :invoice_issuer_number %>:</b>
-  <%= @customer.invoice_issuer_number %>
-</p>
-
-<p>
-  <b><%= @customer.class.human_attribute_name :address %>:</b>
-  <%= @customer.address %>
-</p>
-
-<p>
-  <b>受注フラグ:</b>
-  <%= HyaccConst::STATUS_TYPES[ @customer.is_order_entry ] %>
-</p>
-
-<p>
-  <b>発注フラグ:</b>
-  <%= HyaccConst::STATUS_TYPES[ @customer.is_order_placement ] %>
-</p>
-
-<p>
-  <b>投資フラグ:</b>
-  <%= HyaccConst::STATUS_TYPES[ @customer.is_investment ] %>
-</p>
-
-<p>
-  <b>株主フラグ:</b>
-  <%= HyaccConst::STATUS_TYPES[ @customer.is_shareholder ] %>
-</p>
-
-<p>
-  <b>状態:</b>
-  <%= HyaccConst::DELETED_TYPES[ @customer.deleted ] %>
-</p>
+<table class="table table-sm">
+  <tbody>
+    <tr>
+      <th>取引先コード</th>
+      <td><%= @customer.code %></td>
+    </tr>
+    <tr>
+      <th><%= @customer.class.human_attribute_name :formal_name %></th>
+      <td><%= @customer.formal_name %></td>
+    </tr>
+    <tr>
+      <th><%= @customer.class.human_attribute_name :name %></th>
+      <td><%= @customer.name %></td>
+    </tr>
+    <tr>
+      <th><%= @customer.class.human_attribute_name :enterprise_number %></th>
+      <td><%= @customer.enterprise_number %></td>
+    </tr>
+    <tr>
+      <th><%= @customer.class.human_attribute_name :invoice_issuer_number %></th>
+      <td><%= @customer.invoice_issuer_number %></td>
+    </tr>
+    <tr>
+      <th><%= @customer.class.human_attribute_name :address %></th>
+      <td><%= @customer.address %></td>
+    </tr>
+    <tr>
+      <th>受注フラグ</th>
+      <td><%= HyaccConst::STATUS_TYPES[@customer.is_order_entry] %></td>
+    </tr>
+    <tr>
+      <th>発注フラグ</th>
+      <td><%= HyaccConst::STATUS_TYPES[@customer.is_order_placement] %></td>
+    </tr>
+    <tr>
+      <th>投資フラグ</th>
+      <td><%= HyaccConst::STATUS_TYPES[@customer.is_investment] %></td>
+    </tr>
+    <tr>
+      <th>株主フラグ</th>
+      <td><%= HyaccConst::STATUS_TYPES[@customer.is_shareholder] %></td>
+    </tr>
+    <tr>
+      <th>状態</th>
+      <td><%= HyaccConst::DELETED_TYPES[@customer.deleted] %></td>
+    </tr>
+  </tbody>
+</table>

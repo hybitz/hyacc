@@ -6,6 +6,7 @@ pipeline {
   environment {
     APP_NAME = 'hyacc'
     KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
+    MILESTONE = "v1.0.0"
   }
   stages {
     stage('build') {
@@ -57,7 +58,7 @@ spec:
     stage('release') {
       agent { kubernetes { inheritFrom 'kaniko' } }
       environment {
-        RELEASE_TAG = "v1.0.0-${BUILD_NUMBER}"
+        RELEASE_TAG = "${MILESTONE}-${BUILD_NUMBER}"
       }
       stages {
         stage('tagging') {

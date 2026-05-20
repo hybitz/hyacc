@@ -6,7 +6,7 @@ class Insert4227OnAccounts < ActiveRecord::Migration[8.1]
 
     a = Account.find_by_code(ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_BRANCH)
     a ||= Account.new(code: ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_BRANCH)
-    a.name = '受取利息（貸付・部門）'
+    a.name = '受取利息（部門）'
     a.dc_type = parent.dc_type
     a.account_type = parent.account_type
     a.display_order = 1

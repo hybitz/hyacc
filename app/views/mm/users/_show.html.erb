@@ -41,7 +41,7 @@
     <tr>
       <th>所属部門</th>
       <td>
-        <% if @user.employee.branch_employees.any? %>
+        <% if @branch_employees.any? %>
           <table class="table table-sm mb-0">
             <thead>
               <tr>
@@ -50,7 +50,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @user.employee.branch_employees.each do |be| %>
+              <% @branch_employees.each do |be| %>
                 <tr>
                   <td><%= be.branch.name %></td>
                   <td class="text-center">

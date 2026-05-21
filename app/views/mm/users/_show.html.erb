@@ -1,13 +1,71 @@
-<p style="color: green"><%= flash[:notice] %></p>
-<p>
-  <b>ログインID:</b> <%= @user.login_id %>
-</p>
-<p>
-  <b>氏名:</b> <%= @user.employee.fullname %>
-</p>
-<p>
-  <b>入社日:</b> <%= @user.employee.employment_date.to_fs %>
-</p>
-<p>
-  <b>性別:</b> <%= @user.employee.sex_name %>
-</p>
+<%= flash_notice %>
+
+<table class="table table-sm">
+  <tbody>
+    <tr>
+      <th><%= User.human_attribute_name :login_id %></th>
+      <td><%= @user.login_id %></td>
+    </tr>
+    <tr>
+      <th><%= Employee.human_attribute_name :last_name %></th>
+      <td><%= @user.employee.last_name %></td>
+    </tr>
+    <tr>
+      <th><%= Employee.human_attribute_name :first_name %></th>
+      <td><%= @user.employee.first_name %></td>
+    </tr>
+    <tr>
+      <th><%= Employee.human_attribute_name :sex %></th>
+      <td><%= @user.employee.sex_name %></td>
+    </tr>
+    <tr>
+      <th><%= Employee.human_attribute_name :birth %></th>
+      <td><%= @user.employee.birth.to_fs %></td>
+    </tr>
+    <tr>
+      <th><%= Employee.human_attribute_name :employment_date %></th>
+      <td><%= @user.employee.employment_date.to_fs %></td>
+    </tr>
+    <tr>
+      <th><%= Employee.human_attribute_name :zip_code %></th>
+      <td><%= @user.employee.zip_code %></td>
+    </tr>
+    <tr>
+      <th><%= Employee.human_attribute_name :address %></th>
+      <td><%= @user.employee.address %></td>
+    </tr>
+    <tr>
+      <th><%= Employee.human_attribute_name :my_number %></th>
+      <td><%= @user.employee.my_number %></td>
+    </tr>
+    <tr>
+      <th>所属部門</th>
+      <td>
+        <% if @user.employee.branch_employees.any? %>
+          <table class="table table-sm mb-0">
+            <thead>
+              <tr>
+                <th>所属部門</th>
+                <th class="text-center">デフォルト</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @user.employee.branch_employees.each do |be| %>
+                <tr>
+                  <td><%= be.branch.name %></td>
+                  <td class="text-center">
+                    <% if be.default_branch? %>
+                      <%= image_tag 'checkmark.gif', size: '16x16', alt: 'はい', title: 'はい' %>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% else %>
+          <span class="text-muted">未設定</span>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,24 +1,30 @@
-<%= flash_notice %>
+<div class="m-2 col-md-8">
+  <%= flash_notice %>
 
-<table class="users">
-  <tr>
-    <th>ログインID</th>
-    <th>氏名</th>
-    <th>状態</th>
-    <th colspan="3"></th>
-  </tr>
+  <table class="users table table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="text-center"><%= User.human_attribute_name :login_id %></th>
+        <th>氏名</th>
+        <th class="text-center">状態</th>
+        <th class="text-center"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td class="text-center"><%= user.login_id %></td>
+          <td><%= link_to user.employee.fullname, {action: 'show', id: user.id}, class: 'show', remote: true %></td>
+          <td class="text-center"><%= HyaccConst::DELETED_TYPES[user.deleted] %></td>
+          <td class="text-center text-nowrap">
+            <%= link_to '編集', {action: 'edit', id: user.id}, remote: true, class: 'btn btn-sm btn-light' %>
+            <%= link_to '削除', {action: 'destroy', id: user}, data: {confirm: '削除します。よろしいですか？'}, method: :delete, class: 'btn btn-sm btn-light' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-  <% @users.each do |user| %>
-    <tr>
-      <td><%= user.login_id %></td>
-      <td><%= user.employee.fullname %></td>
-      <td><%= HyaccConst::DELETED_TYPES[user.deleted] %></td>
-      <td><%= link_to '参照', {action: 'show', id: user.id}, remote: true %></td>
-      <td><%= link_to '編集', {action: 'edit', id: user.id}, remote: true %></td>
-      <td><%= link_to '削除', {action: 'destroy', id: user}, data: {confirm: '削除します。よろしいですか？'}, method: :delete %></td>
-    </tr>
-  <% end %>
-</table>
-
-<%= will_paginate @users %>
-<%= link_to '追加', {action: 'new'}, class: 'add', remote: true %>
+  <%= will_paginate @users %>
+  <%= link_to '追加', {action: 'new'}, class: 'add btn btn-light', remote: true %>
+</div>

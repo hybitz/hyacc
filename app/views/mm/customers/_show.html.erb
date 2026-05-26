@@ -43,6 +43,10 @@
       <td><%= HyaccConst::STATUS_TYPES[@customer.is_shareholder] %></td>
     </tr>
     <tr>
+      <th>関係会社フラグ</th>
+      <td><%= HyaccConst::STATUS_TYPES[@customer.is_related_company] %></td>
+    </tr>
+    <tr>
       <th>状態</th>
       <td><%= HyaccConst::DELETED_TYPES[@customer.deleted] %></td>
     </tr>

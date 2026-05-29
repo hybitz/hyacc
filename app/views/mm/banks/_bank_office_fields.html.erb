@@ -2,15 +2,14 @@
   <tr class="bank_office">
     <td class="code">
       <% if f.object.new_record? %>
-        <%= f.text_field :code, class: 'form-control' %>
+        <%= f.text_field :code, class: 'form-control form-control-sm' %>
       <% else %>
         <%= f.hidden_field :id %>
         <%= f.object.code %>
       <% end %>
     </td>
-    <td class="name"><%= f.text_field :name, class: 'form-control' %></td>
-    <td class="address"><%= f.text_field :address, class: 'form-control' %></td>
-    <td><%= f.select :disabled, finder.disabled_types %></td>
+    <td class="name"><%= f.text_field :name, class: 'form-control form-control-sm' %></td>
+    <td class="address"><%= f.text_field :address, class: 'form-control form-control-sm' %></td>
+    <td><%= f.select :disabled, finder.disabled_types, {}, class: 'form-select form-select-sm' %></td>
   </tr>
 <% end %>
-

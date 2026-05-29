@@ -1,9 +1,76 @@
-<p>
-  <b>金融機関名称：</b>
-  <%= @bank.name %>
-</p>
+<%= flash_notice %>
 
-<p>
-  <b>状態：</b>
-  <%= HyaccConst::DISABLED_TYPES[@bank.disabled] %>
-</p>
+<table class="table table-sm">
+  <tbody>
+    <tr>
+      <th><%= @bank.class.human_attribute_name :code %></th>
+      <td><%= @bank.code %></td>
+    </tr>
+    <tr>
+      <th><%= @bank.class.human_attribute_name :name %></th>
+      <td><%= @bank.name %></td>
+    </tr>
+    <tr>
+      <th><%= @bank.class.human_attribute_name :enterprise_number %></th>
+      <td><%= @bank.enterprise_number %></td>
+    </tr>
+    <tr>
+      <th><%= @bank.class.human_attribute_name :disabled %></th>
+      <td><%= HyaccConst::DISABLED_TYPES[@bank.disabled] %></td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table table-sm mt-3">
+  <thead>
+    <tr>
+      <th colspan="3" class="text-center">振込手数料</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th class="text-center">3万円未満</th>
+      <th class="text-center">3万円以上</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>同じ支店</th>
+      <td class="text-end"><%= @bank.lt_30k_same_office %></td>
+      <td class="text-end"><%= @bank.ge_30k_same_office %></td>
+    </tr>
+    <tr>
+      <th>他の支店</th>
+      <td class="text-end"><%= @bank.lt_30k_other_office %></td>
+      <td class="text-end"><%= @bank.ge_30k_other_office %></td>
+    </tr>
+    <tr>
+      <th>他の機関</th>
+      <td class="text-end"><%= @bank.lt_30k_other_bank %></td>
+      <td class="text-end"><%= @bank.ge_30k_other_bank %></td>
+    </tr>
+  </tbody>
+</table>
+
+<table class="table table-sm bank_offices mt-3">
+  <thead>
+    <tr>
+      <th colspan="4" class="text-center">金融機関営業店</th>
+    </tr>
+    <tr>
+      <th><%= BankOffice.human_attribute_name :code %></th>
+      <th><%= BankOffice.human_attribute_name :name %></th>
+      <th><%= BankOffice.human_attribute_name :address %></th>
+      <th><%= BankOffice.human_attribute_name :disabled %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bank.bank_offices.each do |bo| %>
+      <tr>
+        <td><%= bo.code %></td>
+        <td><%= bo.name %></td>
+        <td><%= bo.address %></td>
+        <td><%= HyaccConst::DISABLED_TYPES[bo.disabled] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

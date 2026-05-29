@@ -8,6 +8,7 @@ class Bank < ApplicationRecord
   
   validates :code, presence: true
   validates :name, presence: true
+  validates_with Validators::ReferencedOnDeletionValidator
 
   has_many :bank_offices, inverse_of: 'bank'
   accepts_nested_attributes_for :bank_offices

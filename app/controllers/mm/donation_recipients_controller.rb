@@ -56,10 +56,6 @@ class Mm::DonationRecipientsController < Base::HyaccController
     @donation_recipient = current_company.donation_recipients.find(params[:id])
 
     begin
-      if @donation_recipient.journal_details.exists?
-        raise HyaccException.new(ERR_DONATION_RECIPIENT_LINKED)
-      end
-
       @donation_recipient.transaction do
         @donation_recipient.destroy_logically!
       end

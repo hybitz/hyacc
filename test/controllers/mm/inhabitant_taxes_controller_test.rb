@@ -63,10 +63,12 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
   def test_削除
     sign_in admin
+    expected_year = InhabitantTaxFinder.new.year
+
     assert_difference('InhabitantTax.count', -1) do
       delete :destroy, :params => {:id => InhabitantTax.first.id}
     end
-    assert_redirected_to :action => 'index', finder: { year: 2025 }
+    assert_redirected_to :action => 'index', finder: { year: expected_year }
   end
   
 end

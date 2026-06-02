@@ -85,6 +85,18 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_template 'common/reload'
   end
 
+  def test_個人事業主で部門付き更新できること
+    sign_in freelancer
+
+    patch :update, xhr: true, params: {id: freelancer.id}.merge(
+      user_params_for_update_with_branch_employees(freelancer)
+    )
+
+    assert_response :success
+    assert_template 'common/reload'
+    assert freelancer.employee.reload.branch_employees.any?
+  end
+
   def test_他人を削除した場合_一覧に遷移すること
     sign_in admin
     delete :destroy, :params => {:id => user.id}

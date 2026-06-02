@@ -1,33 +1,24 @@
 <%= form_with model: [:mm, @customer], data: {remote: true} do |f| %>
   <%= flash_notice %>
   <table class="table table-sm mb-0">
-    <% if @customer.new_record? %>
-      <tr>
-        <th><%= f.label :code %></th>
-        <td><%= f.text_field :code, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :formal_name %></th>
-        <td><%= f.text_field :formal_name, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :name %></th>
-        <td><%= f.text_field :name, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
-      </tr>
-    <% else %>
-      <tr>
-        <th><%= f.label :code %></th>
-        <td><%= @customer.code %></td>
-      </tr>
-      <tr>
-        <th><%= f.label :formal_name %></th>
-        <td><div style="width: 15em; max-width: 100%;"><%= f.nostalgic_text_field :formal_name %></div></td>
-      </tr>
-      <tr>
-        <th><%= f.label :name %></th>
-        <td><div style="width: 15em; max-width: 100%;"><%= f.nostalgic_text_field :name %></div></td>
-      </tr>
-    <% end %>
+    <tr>
+      <th><%= f.label :code %></th>
+      <td>
+        <% if @customer.new_record? %>
+          <%= f.text_field :code, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %>
+        <% else %>
+          <%= @customer.code %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= f.label :formal_name %></th>
+      <td class="text-nowrap"><%= f.nostalgic_text_field :formal_name %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :name %></th>
+      <td class="text-nowrap"><%= f.nostalgic_text_field :name %></td>
+    </tr>
 
     <tr>
       <th><%= f.label :enterprise_number %></th>

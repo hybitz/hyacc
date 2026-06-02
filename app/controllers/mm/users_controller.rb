@@ -5,7 +5,8 @@ class Mm::UsersController < Base::HyaccController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.includes(employee: { branch_employees: :branch }).find(params[:id])
+    @branch_employees = @user.employee.branch_employees
   end
 
   def new

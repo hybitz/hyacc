@@ -1,11 +1,13 @@
-<div>金融機関営業店</div>
-<table class="table bank_offices">
+<table class="table table-sm bank_offices mt-3">
   <thead>
     <tr>
-      <th><%= BankOffice.human_attribute_name :code %></th>
+      <th colspan="4" class="text-center">金融機関営業店</th>
+    </tr>
+    <tr>
+      <th class="text-center"><%= BankOffice.human_attribute_name :code %></th>
       <th><%= BankOffice.human_attribute_name :name %></th>
       <th><%= BankOffice.human_attribute_name :address %></th>
-      <th><%= BankOffice.human_attribute_name :disabled %></th>
+      <th class="text-center"><%= BankOffice.human_attribute_name :disabled %></th>
     </tr>
   </thead>
 

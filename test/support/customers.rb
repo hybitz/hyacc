@@ -13,7 +13,8 @@ module Customers
       address: '東京都新宿区テスト1-3-5',
       address_effective_at: Date.today,
       disabled: false,
-      is_shareholder: attrs.fetch(:is_shareholder, false)
+      is_shareholder: attrs.fetch(:is_shareholder, false),
+      is_related_company: attrs.fetch(:is_related_company, false)
     }
   end
   

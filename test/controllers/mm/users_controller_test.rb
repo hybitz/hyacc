@@ -94,13 +94,15 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert user.reload.deleted?
   end
 
-  def test_本人を削除した場合_ログアウトすること
+  def test_管理者を削除できないこと
     sign_in admin
-    delete :destroy, :params => {:id => admin.id}
+    delete :destroy, params: {id: admin.id}
 
-    assert_response :redirect
-    assert_redirected_to new_user_session_path
-    assert admin.reload.deleted?
+      assert_response :redirect
+      assert_redirected_to action: :index
+      assert_not admin.reload.deleted?
+      assert flash[:is_error_message]
+      assert_equal ERR_ADMIN_USER_CANNOT_DELETE, flash[:notice]
   end
 
   def test_ダイアログ上のエラーメッセージはフォームの項目順に表示されること

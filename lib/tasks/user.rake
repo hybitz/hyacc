@@ -24,11 +24,10 @@ namespace :hyacc do
           messages << "削除済み従業員の無効フラグを補正しました: #{count} 件"
         end
 
-        scope = User.joins(:employee)
+        count = User.joins(:employee)
                     .where(deleted: false, employees: { disabled: true })
-        count = scope.count
+                    .update_all(deleted: true)
         if count.positive?
-          scope.update_all(deleted: true)
           messages << "無効・削除済み従業員に紐づくユーザを論理削除しました: #{count} 件"
         end
       end

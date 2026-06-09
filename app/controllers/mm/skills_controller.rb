@@ -19,6 +19,7 @@ class Mm::SkillsController < Base::HyaccController
         @skill.save!
       end
 
+      flash[:notice] = "#{@skill.qualification.name} の取得情報を登録しました。"
       render 'common/reload'
 
     rescue => e
@@ -40,6 +41,7 @@ class Mm::SkillsController < Base::HyaccController
         @skill.save!
       end
 
+      flash[:notice] = "#{@skill.qualification.name} の取得情報を更新しました。"
       render 'common/reload'
 
     rescue => e
@@ -55,6 +57,7 @@ class Mm::SkillsController < Base::HyaccController
       @skill.destroy_logically!
     end
 
+    flash[:notice] = "#{@skill.qualification.name} の取得情報を削除しました。"
     render 'common/reload'
   end
 

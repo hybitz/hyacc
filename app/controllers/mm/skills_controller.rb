@@ -13,12 +13,18 @@ class Mm::SkillsController < Base::HyaccController
 
   def create
     @skill = Skill.new(skill_params)
-    
-    @skill.transaction do
-      @skill.save!
-    end
 
-    render 'common/reload'
+    begin
+      @skill.transaction do
+        @skill.save!
+      end
+
+      render 'common/reload'
+
+    rescue => e
+      handle(e)
+      render :new
+    end
   end
 
   def edit
@@ -27,13 +33,19 @@ class Mm::SkillsController < Base::HyaccController
 
   def update
     @skill = Skill.find(params[:id])
-    @skill.attributes = skill_params
-    
-    @skill.transaction do
-      @skill.save!
+
+    begin
+      @skill.transaction do
+        @skill.attributes = skill_params
+        @skill.save!
+      end
+
+      render 'common/reload'
+
+    rescue => e
+      handle(e)
+      render :edit
     end
-    
-    render 'common/reload'
   end
 
   def destroy

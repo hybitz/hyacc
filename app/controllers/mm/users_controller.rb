@@ -99,6 +99,6 @@ class Mm::UsersController < Base::HyaccController
       branch_employees_attributes: [
         :id, :branch_id, :deleted, :default_branch]
     ]
-    params.require(:employee).permit(permitted).merge(branch_ids: [])
+    params.require(:employee).permit(permitted)
   end
 end

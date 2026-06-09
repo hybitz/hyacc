@@ -80,6 +80,34 @@ module Users
     }
   end
 
+  def user_params_for_update_with_branch_employees(target_user)
+    e = target_user.employee
+    be = e.branch_employees.first
+    {
+      user: {
+        employee_attributes: {
+          id: e.id,
+          last_name: e.last_name,
+          first_name: e.first_name,
+          employment_date: e.employment_date,
+          sex: e.sex,
+          birth: e.birth,
+          my_number: e.my_number
+        }
+      },
+      employee: {
+        branch_employees_attributes: {
+          '0' => {
+            id: be.id,
+            branch_id: be.branch_id.to_s,
+            deleted: '0',
+            default_branch: '1'
+          }
+        }
+      }
+    }
+  end
+
   def user_params_with_invalid_branch_employees
     { user: {
         login_id: 'zero',

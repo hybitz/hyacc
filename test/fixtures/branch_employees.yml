@@ -11,22 +11,18 @@
   employee_id: 4
   default_branch: true
 4:
-  branch_id: 6
-  employee_id: 4
-  default_branch: true
-5:
   branch_id: 7
   employee_id: 3
   default_branch: true
-6:
+5:
   branch_id: 3
   employee_id: 6
   default_branch: true
-7:
+6:
   branch_id: 7
   employee_id: 8
   default_branch: true
-8:
+7:
   branch_id: 7
   employee_id: 9
   default_branch: true

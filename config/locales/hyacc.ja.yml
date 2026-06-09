@@ -121,6 +121,7 @@ ja:
         is_order_placement: 発注フラグ
         is_investment: 投資フラグ
         is_shareholder: 株主フラグ
+        is_related_company: 関係会社フラグ
         name: 取引先名（省略）
 
       customer_name: &customer_name

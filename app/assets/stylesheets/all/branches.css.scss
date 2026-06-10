@@ -1,5 +1,12 @@
 .branch {
-  min-width: 340px;
+  width: 340px;
+
+  table.table {
+    th {
+      width: 1%;
+      white-space: nowrap;
+    }
+  }
 
   table {
     tr.code {

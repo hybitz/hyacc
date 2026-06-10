@@ -14,12 +14,18 @@ class Mm::BranchesController < Base::HyaccController
   def create
     @branch = Branch.new(branch_params)
 
-    @branch.transaction do
-      @branch.save!
+    begin
+      @branch.transaction do
+        @branch.save!
+      end
+
+      flash[:notice] = "#{@branch.formal_name} を追加しました。"
+      render 'common/reload'
+
+    rescue => e
+      handle(e)
+      render 'new'
     end
-    
-    flash[:notice] = '部門を追加しました。'
-    render 'common/reload'
   end
 
   def edit
@@ -30,20 +36,32 @@ class Mm::BranchesController < Base::HyaccController
     @branch = load_branch
     @branch.attributes = branch_params
 
-    @branch.transaction do
-      @branch.save!
-    end
+    begin
+      @branch.transaction do
+        @branch.save!
+      end
 
-    render 'common/reload'
+      flash[:notice] = "#{@branch.formal_name} を更新しました。"
+      render 'common/reload'
+
+    rescue => e
+      handle(e)
+      render :edit
+    end
   end
 
   def destroy
     @branch = load_branch
 
+    if @branch.head_office?
+      raise HyaccException.new(ERR_BRANCH_HEAD_OFFICE) and return
+    end
+
     @branch.transaction do
       @branch.destroy_logically!
     end
 
+    flash[:notice] = "#{@branch.formal_name} を削除しました。"
     render 'common/reload'
   end
 

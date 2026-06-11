@@ -63,10 +63,15 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
   def test_削除
     sign_in admin
-    assert_difference('InhabitantTax.count', -1) do
-      delete :destroy, :params => {:id => InhabitantTax.first.id}
+
+    travel_to Time.zone.local(2026, 6, 15) do
+      expected_year = InhabitantTaxFinder.new.year
+
+      assert_difference('InhabitantTax.count', -1) do
+        delete :destroy, :params => {:id => InhabitantTax.first.id}
+      end
+      assert_redirected_to :action => 'index', finder: { year: expected_year }
     end
-    assert_redirected_to :action => 'index', finder: { year: 2025 }
   end
   
 end

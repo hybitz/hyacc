@@ -336,7 +336,7 @@ GEM
       bigdecimal
     net-http (0.9.1)
       uri (>= 0.11.1)
-    net-imap (0.6.4)
+    net-imap (0.6.4.1)
       date
       net-protocol
     net-pop (0.1.2)
@@ -404,7 +404,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (8.0.1)
+    puma (8.0.2)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.6)

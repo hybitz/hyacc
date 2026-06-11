@@ -49,6 +49,10 @@
       <td><%= f.select :is_shareholder, status_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
     <tr>
+      <th><%= f.label :is_related_company %></th>
+      <td><%= f.select :is_related_company, status_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+    </tr>
+    <tr>
       <th>状態</th>
       <td><%= f.select :disabled, HyaccConst::DISABLED_TYPES.invert, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>

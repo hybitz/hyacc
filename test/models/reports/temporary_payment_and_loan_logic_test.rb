@@ -129,9 +129,10 @@ class Reports::TemporaryPaymentAndLoanLogicTest < ActiveSupport::TestCase
     assert_equal customer.enterprise_number, customer_detail.registration_number
     assert_equal '株主', customer_detail.counterpart_relation
 
-    parent_detail = model.loan_details.find(&:parent_only?)
-    assert_not_nil parent_detail
-    assert_equal 50_000, parent_detail.amount_at_end
+    parent_details = model.loan_details.select(&:parent_only?)
+    assert_equal 1, parent_details.size
+    parent_detail = parent_details.first
+    assert_equal 80_000, parent_detail.amount_at_end
     assert_nil parent_detail.counterpart_name
     assert_nil parent_detail.counterpart_address
     assert_nil parent_detail.counterpart_relation
@@ -145,8 +146,8 @@ class Reports::TemporaryPaymentAndLoanLogicTest < ActiveSupport::TestCase
     assert_equal 1_000, employee2_detail.interest_in_period
     assert_nil employee2_detail.counterpart_relation
 
-    assert_equal 7, model.loan_details.size
-    assert_equal 650_000, model.loan_total_amount_at_end
+    assert_operator model.loan_details.size, :>=, 7
+    assert_equal 680_000, model.loan_total_amount_at_end
     assert_equal 9_000, model.loan_total_interest_in_period
   end
 

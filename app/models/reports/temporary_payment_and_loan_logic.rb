@@ -71,19 +71,16 @@ module Reports
 
         sub_accounts.each do |sa|
           amount_at_end = loan_amount_at_end(group, sa.id)
-          interest_in_period = loan_interest_in_period(group, sa.id)
-          next if amount_at_end == 0 && interest_in_period == 0
-
           detail = build_loan_detail(group, sa, amount_at_end)
+          next if detail.amount_at_end == 0 && detail.interest_in_period == 0
+
           ret.loan_details << detail
         end
       end
 
-      PARENT_LOAN_ACCOUNT_CODES.each do |parent_code|
-        amount_at_end = get_amount_at_end_self_only(parent_code, nil)
-        next if amount_at_end == 0
-
-        detail = build_loan_parent_detail(parent_code, amount_at_end)
+      amount_at_end = PARENT_LOAN_ACCOUNT_CODES.sum { |code| get_amount_at_end_self_only(code, nil) }
+      if amount_at_end != 0
+        detail = build_loan_parent_detail(PARENT_LOAN_ACCOUNT_CODES.first, amount_at_end)
         ret.loan_details << detail
       end
     end

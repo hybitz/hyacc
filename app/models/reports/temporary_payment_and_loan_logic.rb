@@ -1,5 +1,30 @@
 module Reports
   class TemporaryPaymentAndLoanLogic < BaseLogic
+    LOAN_COUNTERPARTY_ACCOUNT_GROUPS = [
+      {
+        sub_account_type: SUB_ACCOUNT_TYPE_EMPLOYEE,
+        short_term_code: ACCOUNT_CODE_SHORT_TERM_LOAN_EMPLOYEE,
+        long_term_code: ACCOUNT_CODE_LONG_TERM_LOAN_EMPLOYEE,
+        interest_code: ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_EMPLOYEE
+      },
+      {
+        sub_account_type: SUB_ACCOUNT_TYPE_BRANCH,
+        short_term_code: ACCOUNT_CODE_SHORT_TERM_LOAN_BRANCH,
+        long_term_code: ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH,
+        interest_code: ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_BRANCH
+      },
+      {
+        sub_account_type: SUB_ACCOUNT_TYPE_CUSTOMER,
+        short_term_code: ACCOUNT_CODE_SHORT_TERM_LOAN_CUSTOMER,
+        long_term_code: ACCOUNT_CODE_LONG_TERM_LOAN_CUSTOMER,
+        interest_code: ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_CUSTOMER
+      }
+    ]
+
+    PARENT_LOAN_ACCOUNT_CODES = [
+      ACCOUNT_CODE_SHORT_TERM_LOAN,
+      ACCOUNT_CODE_LONG_TERM_LOAN
+    ]
 
     def build_model
       ret = TemporaryPaymentAndLoanModel.new
@@ -14,11 +39,13 @@ module Reports
 
           detail = build_temporary_payment_detail(a, sa, amount_at_end)
           ret.temporary_payment_details << detail
-        end  
+        end
       end
 
-      # TODO: LoanDetailに関する処理を実装する
-      
+      build_loan_details(ret)
+
+      ret.fill_loan_details(7)
+
       ret
     end
 
@@ -37,8 +64,60 @@ module Reports
       detail
     end
 
+    def build_loan_details(ret)
+      LOAN_COUNTERPARTY_ACCOUNT_GROUPS.each do |group|
+        account = Account.find_by_code(group[:short_term_code])
+        sub_accounts = account.sub_accounts.presence || []
+
+        sub_accounts.each do |sa|
+          amount_at_end = loan_amount_at_end(group, sa.id)
+          interest_in_period = loan_interest_in_period(group, sa.id)
+          next if amount_at_end == 0 && interest_in_period == 0
+
+          detail = build_loan_detail(group, sa, amount_at_end)
+          ret.loan_details << detail
+        end
+      end
+
+      PARENT_LOAN_ACCOUNT_CODES.each do |parent_code|
+        amount_at_end = get_amount_at_end_self_only(parent_code, nil)
+        next if amount_at_end == 0
+
+        detail = build_loan_parent_detail(parent_code, amount_at_end)
+        ret.loan_details << detail
+      end
+    end
+
+    def build_loan_detail(group, sub_account, amount_at_end)
+      detail = LoanDetailModel.new
+      detail.sub_account_type = group[:sub_account_type]
+      detail.sub_account = sub_account
+      detail.amount_at_end = amount_at_end
+      detail.interest_in_period = loan_interest_in_period(group, sub_account.id)
+      detail.end_ymd = end_ymd
+      detail
+    end
+
+    def build_loan_parent_detail(parent_code, amount_at_end)
+      detail = LoanDetailModel.new
+      detail.parent_account_code = parent_code
+      detail.amount_at_end = amount_at_end
+      detail.interest_in_period = nil
+      detail.end_ymd = end_ymd
+      detail
+    end
+
+    def loan_amount_at_end(group, sub_account_id)
+      get_amount_at_end_self_only(group[:short_term_code], sub_account_id) +
+        get_amount_at_end_self_only(group[:long_term_code], sub_account_id)
+    end
+
+    def loan_interest_in_period(group, sub_account_id)
+      get_this_term_credit_amount(group[:interest_code], sub_account_id)
+    end
+
   end
-  
+
   class TemporaryPaymentAndLoanModel
 
     def temporary_payment_details
@@ -49,8 +128,23 @@ module Reports
       @loan_details ||= []
     end
 
+    def fill_loan_details(min_count)
+      target = [loan_details.size, min_count].max
+      (loan_details.size ... target).each do
+        loan_details << LoanDetailModel.new
+      end
+    end
+
+    def loan_total_amount_at_end
+      loan_details.sum { |d| d.amount_at_end.to_i }
+    end
+
+    def loan_total_interest_in_period
+      loan_details.sum { |d| d.interest_in_period.to_i }
+    end
+
   end
-  
+
   class TemporaryPaymentDetailModel
     include HyaccConst
 
@@ -63,7 +157,7 @@ module Reports
     def counterpart_name
       customer.formal_name_on(end_ymd) if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
     end
-  
+
     def counterpart_address
       customer.address_on(end_ymd) if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
     end
@@ -110,8 +204,84 @@ module Reports
       result = JournalDetail.find_by_sql(sql.to_a)[0]&.note
     end
   end
-  
-  # TODO: LoanDetailModelクラスを実装する
+
+  class LoanDetailModel
+    include HyaccConst
+
+    attr_accessor :sub_account_type, :sub_account, :amount_at_end, :interest_in_period
+    attr_accessor :parent_account_code, :end_ymd
+
+    def parent_only?
+      parent_account_code.present?
+    end
+
+    def registration_number
+      return unless sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+
+      sub_account.enterprise_number
+    end
+
+    def counterpart_name
+      return if parent_only?
+
+      case sub_account_type
+      when SUB_ACCOUNT_TYPE_EMPLOYEE
+        sub_account.fullname
+      when SUB_ACCOUNT_TYPE_BRANCH
+        sub_account.formal_name.presence || sub_account.name
+      when SUB_ACCOUNT_TYPE_CUSTOMER
+        sub_account.formal_name_on(end_ymd)
+      end
+    end
+
+    def counterpart_address
+      return if parent_only?
+
+      case sub_account_type
+      when SUB_ACCOUNT_TYPE_EMPLOYEE
+        sub_account.address_on(end_ymd)
+      when SUB_ACCOUNT_TYPE_CUSTOMER
+        sub_account.address_on(end_ymd)
+      end
+    end
+
+    def counterpart_relation
+      return if parent_only?
+
+      case sub_account_type
+      when SUB_ACCOUNT_TYPE_EMPLOYEE
+        employee_counterpart_relation
+      when SUB_ACCOUNT_TYPE_CUSTOMER
+        customer_counterpart_relation
+      end
+    end
+
+    # TODO 利率を取得する
+    def interest_rate
+      nil
+    end
+
+    # TODO 担保の内容を取得する
+    def collateral
+      nil
+    end
+
+    private
+
+    def employee_counterpart_relation
+      labels = []
+      labels << '役員' if sub_account.executive?
+      if sub_account.relationship_to_representative.present?
+        labels << "代表者との関係：#{sub_account.relationship_to_representative}"
+      end
+      labels.presence&.join('・')
+    end
+
+    def customer_counterpart_relation
+      labels = []
+      labels << '株主' if sub_account.is_shareholder?
+      labels << '関係会社' if sub_account.is_related_company?
+      labels.presence&.join('・')
+    end
+  end
 end
-
-

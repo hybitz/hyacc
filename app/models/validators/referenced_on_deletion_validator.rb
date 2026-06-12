@@ -25,10 +25,12 @@ module Validators
     }
 
     def validate(record)
-      return unless record.will_save_change_to_deleted? && record.deleted?
+      rule = DELETION_RULES.fetch(record.class.name) do
+        raise ArgumentError,
+              "ReferencedOnDeletionValidator: DELETION_RULES に #{record.class.name} のルールが定義されていません"
+      end
 
-      rule = DELETION_RULES[record.class.name]
-      return unless rule
+      return unless record.will_save_change_to_deleted? && record.deleted?
 
       if rule[:checks].any? { |check| check.call(record) }
         record.errors.add(:base, rule[:error])

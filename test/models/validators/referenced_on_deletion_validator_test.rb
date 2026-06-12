@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class ReferencedOnDeletionValidatorTest < ActiveSupport::TestCase
+  def test_DELETION_RULES未定義のモデルではArgumentError
+    error = assert_raises(ArgumentError) do
+      Validators::ReferencedOnDeletionValidator.new.validate(User.new)
+    end
+    assert_equal 'ReferencedOnDeletionValidator: DELETION_RULES に User のルールが定義されていません', error.message
+  end
+
   def test_Bank_参照なしで削除できる
     bank = Bank.find(2)
     assert_not BankAccount.where(bank_id: bank.id, deleted: false).exists?

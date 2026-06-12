@@ -1,17 +1,12 @@
 module Reports
   class TemporaryPaymentAndLoanLogic < BaseLogic
+    # 期中利息は受取利息（従業員）・受取利息（取引先）のみ。4221受取利息や独自に追加した4221子科目は集計対象外。
     LOAN_COUNTERPARTY_ACCOUNT_GROUPS = [
       {
         sub_account_type: SUB_ACCOUNT_TYPE_EMPLOYEE,
         short_term_code: ACCOUNT_CODE_SHORT_TERM_LOAN_EMPLOYEE,
         long_term_code: ACCOUNT_CODE_LONG_TERM_LOAN_EMPLOYEE,
         interest_code: ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_EMPLOYEE
-      },
-      {
-        sub_account_type: SUB_ACCOUNT_TYPE_BRANCH,
-        short_term_code: ACCOUNT_CODE_SHORT_TERM_LOAN_BRANCH,
-        long_term_code: ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH,
-        interest_code: ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_BRANCH
       },
       {
         sub_account_type: SUB_ACCOUNT_TYPE_CUSTOMER,
@@ -65,12 +60,15 @@ module Reports
     end
 
     def build_loan_details(ret)
+      listed_amount_at_end = 0
+
       LOAN_COUNTERPARTY_ACCOUNT_GROUPS.each do |group|
         account = Account.find_by_code(group[:short_term_code])
         sub_accounts = account.sub_accounts.presence || []
 
         sub_accounts.each do |sa|
           amount_at_end = loan_amount_at_end(group, sa.id)
+          listed_amount_at_end += amount_at_end
           detail = build_loan_detail(group, sa, amount_at_end)
           next if detail.amount_at_end == 0 && detail.interest_in_period == 0
 
@@ -78,9 +76,9 @@ module Reports
         end
       end
 
-      amount_at_end = PARENT_LOAN_ACCOUNT_CODES.sum { |code| get_amount_at_end_self_only(code, nil) }
-      if amount_at_end != 0
-        detail = build_loan_parent_detail(PARENT_LOAN_ACCOUNT_CODES.first, amount_at_end)
+      other_loan_amount_at_end = PARENT_LOAN_ACCOUNT_CODES.sum { |code| get_amount_at_end(code, nil) } - listed_amount_at_end
+      if other_loan_amount_at_end != 0
+        detail = build_other_loan_detail(other_loan_amount_at_end)
         ret.loan_details << detail
       end
     end
@@ -95,9 +93,9 @@ module Reports
       detail
     end
 
-    def build_loan_parent_detail(parent_code, amount_at_end)
+    def build_other_loan_detail(amount_at_end)
       detail = LoanDetailModel.new
-      detail.parent_account_code = parent_code
+      detail.other_loan = true
       detail.amount_at_end = amount_at_end
       detail.interest_in_period = nil
       detail.end_ymd = end_ymd
@@ -206,10 +204,10 @@ module Reports
     include HyaccConst
 
     attr_accessor :sub_account_type, :sub_account, :amount_at_end, :interest_in_period
-    attr_accessor :parent_account_code, :end_ymd
+    attr_accessor :other_loan, :end_ymd
 
-    def parent_only?
-      parent_account_code.present?
+    def other_loan?
+      other_loan == true
     end
 
     def registration_number
@@ -219,20 +217,18 @@ module Reports
     end
 
     def counterpart_name
-      return if parent_only?
+      return if other_loan?
 
       case sub_account_type
       when SUB_ACCOUNT_TYPE_EMPLOYEE
         sub_account.fullname
-      when SUB_ACCOUNT_TYPE_BRANCH
-        sub_account.formal_name.presence || sub_account.name
       when SUB_ACCOUNT_TYPE_CUSTOMER
         sub_account.formal_name_on(end_ymd)
       end
     end
 
     def counterpart_address
-      return if parent_only?
+      return if other_loan?
 
       case sub_account_type
       when SUB_ACCOUNT_TYPE_EMPLOYEE
@@ -243,7 +239,7 @@ module Reports
     end
 
     def counterpart_relation
-      return if parent_only?
+      return if other_loan?
 
       case sub_account_type
       when SUB_ACCOUNT_TYPE_EMPLOYEE

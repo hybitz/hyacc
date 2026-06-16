@@ -59,34 +59,34 @@ class Mm::EmployeesController < Base::HyaccController
 
   def disable
     @employee = Employee.find(params[:id])
-    return if reject_if_admin_employee(@employee, ERR_ADMIN_USER_CANNOT_DISABLE)
-
     @employee.disabled = true
     
     @employee.transaction do
       @employee.save!
-      @employee.user&.destroy_logically!
     end
 
-    flash[:notice] = "#{@employee.name} を無効にしました。"
-    redirect_to action: :index
+    # 無効にしたユーザがログインユーザ自身の場合は、ログアウト
+    if current_user.employee.id == @employee.id
+      reset_session
+      redirect_to root_path
+    else
+      flash[:notice] = "#{@employee.name} を無効にしました。"
+      redirect_to action: :index
+    end
   end
 
   def destroy
     @employee = Employee.find(params[:id])
-    return if reject_if_admin_employee(@employee, ERR_ADMIN_USER_CANNOT_DELETE)
-
-    unless @employee.disabled?
-      flash[:notice] = ERR_EMPLOYEE_NEEDS_DISABLE_BEFORE_DELETE
-      flash[:is_error_message] = true
-      redirect_to action: :index
-      return
-    end
-
     @employee.destroy_logically!
 
-    flash[:notice] = "#{@employee.name} を削除しました。"
-    redirect_to action: :index
+    # 削除したユーザがログインユーザ自身の場合は、ログアウト
+    if current_user.employee.id == @employee.id
+      reset_session
+      redirect_to root_path
+    else
+      flash[:notice] = "#{@employee.name} を削除しました。"
+      redirect_to action: :index
+    end
   end
 
   def add_branch
@@ -95,15 +95,6 @@ class Mm::EmployeesController < Base::HyaccController
   end
 
   private
-
-  def reject_if_admin_employee(employee, message)
-    return false unless employee.user&.admin?
-
-    flash[:notice] = message
-    flash[:is_error_message] = true
-    redirect_to action: :index
-    true
-  end
 
   def new_employee
     current_company.employees.build

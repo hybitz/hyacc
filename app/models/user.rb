@@ -15,10 +15,6 @@ class User < ApplicationRecord
 
   has_many :user_notifications
 
-  def active_for_authentication?
-    super && !deleted?
-  end
-
   def self.from_omniauth(access_token)
     data = access_token.info
 

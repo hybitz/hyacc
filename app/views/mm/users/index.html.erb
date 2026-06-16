@@ -18,9 +18,7 @@
           <td class="text-center"><%= HyaccConst::DELETED_TYPES[user.deleted] %></td>
           <td class="text-center text-nowrap">
             <%= link_to '編集', {action: 'edit', id: user.id}, remote: true, class: 'btn btn-sm btn-light' %>
-            <% unless user.admin? || user.deleted? %>
-              <%= link_to '削除', {action: 'destroy', id: user}, data: {confirm: '削除します。よろしいですか？'}, method: :delete, class: 'btn btn-sm btn-light' %>
-            <% end %>
+            <%= link_to '削除', {action: 'destroy', id: user}, data: {confirm: '削除します。よろしいですか？'}, method: :delete, class: 'btn btn-sm btn-light' %>
           </td>
         </tr>
       <% end %>

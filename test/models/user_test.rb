@@ -18,13 +18,5 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?
     assert user.errors.empty?
   end
-
-  def test_削除済みユーザはログイン不可
-    assert user.active_for_authentication?
-
-    user.update!(deleted: true)
-
-    assert_not user.active_for_authentication?
-  end
   
 end

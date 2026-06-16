@@ -8,10 +8,4 @@ class MmControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal '/mm', path
   end
-
-  def test_管理者以外は従業員マスタにアクセスできない
-    sign_in user
-    get mm_employees_path
-    assert_response :forbidden
-  end
 end

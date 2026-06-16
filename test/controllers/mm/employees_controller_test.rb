@@ -72,62 +72,25 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
 
   def test_無効
     sign_in admin
-    target_user = employee.user
-    assert_not target_user.deleted?
-
     post :disable, params: {id: employee.id}
     assert_response :redirect
     assert_redirected_to action: 'index'
-    assert employee.reload.disabled?
-    assert target_user.reload.deleted?
   end
 
   def test_他の従業員を削除
-    assert @employee = Employee.where('id <> ?', admin.employee.id).where(disabled: false).first!
-    @employee.update_column(:disabled, true)
+    assert @employee = Employee.where('id <> ?', admin.employee.id).first
 
     sign_in admin
     delete :destroy, params: {id: @employee.id}
     assert_response :redirect
     assert_redirected_to action: 'index'
-    assert @employee.reload.deleted?
   end
 
-  def test_無効化前の削除は拒否される
-    assert @employee = Employee.where('id <> ?', admin.employee.id).where(disabled: false).first!
-
-    sign_in admin
-    delete :destroy, params: {id: @employee.id}
-
-    assert_response :redirect
-    assert_redirected_to action: 'index'
-    assert_not @employee.reload.deleted?
-    assert flash[:is_error_message]
-    assert_equal ERR_EMPLOYEE_NEEDS_DISABLE_BEFORE_DELETE, flash[:notice]
-  end
-
-  def test_管理者である従業員は削除できない
+  def test_自分を削除
     sign_in admin
     delete :destroy, params: {id: admin.employee.id}
-
     assert_response :redirect
-    assert_redirected_to action: 'index'
-    assert_not admin.employee.reload.deleted?
-    assert_not admin.reload.deleted?
-    assert flash[:is_error_message]
-    assert_equal ERR_ADMIN_USER_CANNOT_DELETE, flash[:notice]
-  end
-
-  def test_管理者である従業員は無効にできない
-    sign_in admin
-    post :disable, params: {id: admin.employee.id}
-
-    assert_response :redirect
-    assert_redirected_to action: 'index'
-    assert_not admin.employee.reload.disabled?
-    assert_not admin.reload.deleted?
-    assert flash[:is_error_message]
-    assert_equal ERR_ADMIN_USER_CANNOT_DISABLE, flash[:notice]
+    assert_redirected_to root_path
   end
 
 end

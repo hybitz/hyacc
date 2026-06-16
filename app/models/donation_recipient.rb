@@ -6,6 +6,7 @@ class DonationRecipient < ApplicationRecord
 
   validates :kind, inclusion: { in: DONATION_RECIPIENT_SUB_ACCOUNT_CODES }, allow_blank: true
   validates :name, presence: true
+  validates_with Validators::ReferencedOnDeletionValidator
 
   before_validation :normalize_kind
   before_save :clear_irrelevant_fields_by_kind

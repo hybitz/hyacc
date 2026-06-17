@@ -1,5 +1,6 @@
 module SimpleSlipHelper
   include HyaccConst
+  include HyaccErrors
 
   # アクション名からフォームのPOST先を決定する
   def define_action
@@ -31,6 +32,7 @@ module SimpleSlipHelper
     when SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
       '発注先'
     else
+      Rails.logger.info "#{account.code}: #{account.name} の補助科目区分が不正です。sub_account_type=#{account.sub_account_type}"
       raise HyaccException.new(ERR_INVALID_SUB_ACCOUNT_TYPE)
     end
   end

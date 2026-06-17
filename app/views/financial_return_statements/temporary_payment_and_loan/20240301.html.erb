@@ -1,0 +1,75 @@
+<div class="container" style="max-width: 1280px;">
+  <div><h4><strong>仮払金（前渡金）の内訳書</strong></h4></div>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th rowspan="2" class="text-center" style="width: 14%">科目</th>
+        <th rowspan="2" class="text-center" style="width: 14%">登録番号<br>（法人番号）</th>
+        <th colspan="3" class="text-center" style="width: 44%">相手先</th>
+        <th rowspan="2" class="text-center" style="width: 14%">期末現在高</th>
+        <th rowspan="2" class="text-center" style="width: 14%">摘要</th>
+      </tr>
+      <tr>
+        <th class="text-center" style="width: 16%">名称（氏名）</th>
+        <th class="text-center" style="width: 20%">所在地（住所）</th>
+        <th class="text-center" style="font-size: 0.75em; width: 8%;">法人・代表<br>者との関係</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% 11.times do |i| %>
+        <% d = @model.temporary_payment_details[i] %>
+        <tr>
+          <td><%= d&.account_name %></td>
+          <td></td>
+          <td><%= d&.counterpart_name %></td>
+          <td><%= d&.counterpart_address %></td>
+          <td></td>
+          <td class="text-end"><%= to_amount(d&.amount_at_end) %></td>
+          <td><%= d&.note %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div><h4><strong>貸付金及び受取利息の内訳書</strong></h4></div>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <th rowspan="2" class="text-center" style="width: 14%">登録番号<br>（法人番号）</th>
+        <th colspan="3" class="text-center" style="width: 44%">貸付先</th>
+        <th rowspan="2" class="text-center" style="width: 14%">期末現在高</th>
+        <th rowspan="2" class="text-center" style="width: 10%">期中の受取利息額</th>
+        <th rowspan="2" class="text-center" style="width: 4%">利率</th>
+        <th rowspan="2" class="text-center" style="width: 14%">担保の内容<br><div class="text-center" style="font-size: 0.8em;">(物件の種類、数量、所在地等)</div></th>
+      </tr>
+      <tr>
+        <th class="text-center" style="width: 16%">名称（氏名）</th>
+        <th class="text-center" style="width: 20%">所在地（住所）</th>
+        <th class="text-center" style="font-size: 0.75em; width: 8%;">法人・代表<br>者との関係</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%# TODO: LoanDetailに関する処理を実装する %>
+      <% 7.times do |i| %>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-end"></td>
+          <td class="text-end"></td>
+          <td class="text-center"></td>
+          <td></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="4" class="text-center"style="font-weight: bold;">計</td>
+        <td class="text-end"></td>
+        <td class="text-end"></td>
+        <td class="text-center" style="background: linear-gradient(to top left, transparent 49%, black, transparent 51%);"></td>
+        <td class="text-center" style="background: linear-gradient(to top left, transparent 49%, black, transparent 51%);"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

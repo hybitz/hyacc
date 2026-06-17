@@ -128,8 +128,6 @@ class Mm::BanksController < Base::HyaccController
     case action_name
     when 'create'
       permitted << :code
-    when 'update'
-      permitted << :disabled
     end
 
     ret = params.require(:bank).permit(*permitted)

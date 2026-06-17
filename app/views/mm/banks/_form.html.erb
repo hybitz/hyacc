@@ -20,18 +20,6 @@
       <th><%= f.label :enterprise_number %></th>
       <td><%= f.text_field :enterprise_number, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
     </tr>
-    <% unless @bank.new_record? %>
-      <tr>
-        <th><%= f.label :disabled %></th>
-        <td>
-          <% if @bank.disabled_in_database %>
-            <%= HyaccConst::DISABLED_TYPES[@bank.disabled_in_database] %>
-          <% else %>
-            <%= f.select :disabled, HyaccConst::DISABLED_TYPES.invert, {}, class: 'form-select form-select-sm', style: 'width: 8em;' %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
   </table>
 
   <table class="table table-sm mt-3 mb-0">

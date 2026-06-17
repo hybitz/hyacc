@@ -122,7 +122,6 @@ class Mm::BanksControllerTest < ActionController::TestCase
     patch :update, params: {
       id: bank.id,
       bank: {
-        disabled: bank.disabled,
         name: bank.name,
         bank_offices_attributes: {
           '0' => {id: office.id, code: office.code, name: office.name, disabled: true}

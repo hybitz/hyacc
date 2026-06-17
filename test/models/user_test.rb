@@ -18,5 +18,21 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?
     assert user.errors.empty?
   end
-  
+
+  def test_有効なユーザはログイン可
+    assert user.active_for_authentication?
+  end
+
+  def test_削除済みユーザはログイン不可
+    assert_not users(:deleted_user).active_for_authentication?
+  end
+
+  def test_無効化済み従業員に紐づくユーザはログイン不可
+    assert_not users(:disabled_employee_user).active_for_authentication?
+  end
+
+  def test_削除済み従業員に紐づくユーザはログイン不可
+    assert_not users(:deleted_employee_user).active_for_authentication?
+  end
+
 end

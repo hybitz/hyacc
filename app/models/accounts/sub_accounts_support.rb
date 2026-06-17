@@ -1,5 +1,6 @@
 module Accounts::SubAccountsSupport
   include HyaccConst
+  include HyaccErrors
   
   def initialize_sub_accounts_support
     cache_key = request_cache_key

@@ -24,7 +24,7 @@ module HyaccErrors
   ERR_INVALID_SLIP_TYPE = "不正な伝票区分です。"
   ERR_INVALID_SOCIAL_EXPENSE_NUMBER_OF_PEOPLE = "接待交際の参加人数が不明です。"
   ERR_INVALID_SOMETHING = "が不正です。"
-  ERR_INVALID_SUB_ACCOUNT_TYPE = "補助科目タイプが不正です。"
+  ERR_INVALID_SUB_ACCOUNT_TYPE = "補助科目区分が不正です。"
   ERR_INVALID_TAX_TYPE = "不正な消費税区分です。"
   ERR_ILLEGAL_STATE = "予期せぬ状態です。"
   ERR_ILLEGAL_TAX_DETAIL = "消費税は税抜経理方式の場合のみ指定可能です。"

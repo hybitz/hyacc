@@ -72,6 +72,9 @@ ja:
         name: 金融機関名
         disabled: 状態
 
+      bank/bank_offices:
+        base: 金融機関営業店
+
       bank_office:
         bank_id: 金融機関
         code: 営業店コード

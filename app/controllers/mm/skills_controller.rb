@@ -34,10 +34,10 @@ class Mm::SkillsController < Base::HyaccController
 
   def update
     @skill = Skill.find(params[:id])
+    @skill.attributes = skill_params
 
     begin
       @skill.transaction do
-        @skill.attributes = skill_params
         @skill.save!
       end
 

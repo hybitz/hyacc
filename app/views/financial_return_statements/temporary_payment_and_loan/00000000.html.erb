@@ -46,26 +46,24 @@
       </tr>
     </thead>
     <tbody>
-      <%# TODO: LoanDetailに関する処理を実装する %>
-      <% 7.times do |i| %>
+      <% @model.loan_details.each do |d| %>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td class="text-end"></td>
-          <td class="text-end"></td>
-          <td class="text-center"></td>
-          <td></td>
+          <td><%= d.counterpart_name %></td>
+          <td><%= d.counterpart_address %></td>
+          <td><%= d.counterpart_relation %></td>
+          <td class="text-end"><%= to_amount(d.amount_at_end) %></td>
+          <td class="text-end"><%= to_amount(d.interest_in_period) %></td>
+          <td class="text-center"><%= d.interest_rate %></td>
+          <td><%= d.collateral %></td>
         </tr>
       <% end %>
       <tr>
         <td colspan="3" class="text-center" style="font-weight: bold;">計</td>
-        <td class="text-end"></td>
-        <td class="text-end"></td>
+        <td class="text-end"><%= to_amount(@model.loan_total_amount_at_end) %></td>
+        <td class="text-end"><%= to_amount(@model.loan_total_interest_in_period) %></td>
         <td style="background: linear-gradient(to top left, transparent 49%, black, transparent 51%);"></td>
         <td style="background: linear-gradient(to top left, transparent 49%, black, transparent 51%);"></td>
       </tr>
     </tbody>
   </table>
 </div>
-

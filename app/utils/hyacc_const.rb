@@ -240,7 +240,7 @@ module HyaccConst
     REPORT_TYPE_WITHHOLDING_DETAILS = 21 => '給与所得の源泉徴収票',
     REPORT_TYPE_WITHHOLDING_CALC = 22 => '給与所得・退職所得等の所得税徴収高計算書',
     REPORT_TYPE_TRADE_ACCOUNT_RECEIVABLE = 'trade_account_receivable' => '③売掛金（未収入金）の内訳書',
-    REPORT_TYPE_TEMPORARY_PAYMENT_AND_LOAN = 'temporary_payment_and_loan' => '④仮払金（前渡金）の内訳書／貸付金及び受取利息の内訳書',
+    REPORT_TYPE_TEMPORARY_PAYMENT_AND_LOAN = 'temporary_payment_and_loan' => '④仮払金（前渡金）の内訳書、貸付金及び受取利息の内訳書',
     REPORT_TYPE_TRADE_ACCOUNT_SAVINGS = 'savings' => '①預貯金等の内訳書',
     REPORT_TYPE_INVESTMENT_SECURITIES = 'investment_securities' => '⑥有価証券の内訳書',
     REPORT_TYPE_SUSPENSE_RECEIPT = 'suspense_receipt' => '⑩仮受金の内訳書、源泉所得税預り金の内訳',
@@ -390,7 +390,6 @@ module HyaccConst
   ACCOUNT_CODE_RECEIVABLE = '1551' # 売掛金
   ACCOUNT_CODE_SHORT_TERM_LOAN = '1700' # 短期貸付金
   ACCOUNT_CODE_SHORT_TERM_LOAN_EMPLOYEE = '1701' # 短期貸付金（従業員）
-  ACCOUNT_CODE_SHORT_TERM_LOAN_BRANCH = '1702' # 短期貸付金（部門）
   ACCOUNT_CODE_SHORT_TERM_LOAN_CUSTOMER = '1703' # 短期貸付金（取引先）
   ACCOUNT_CODE_ADVANCE_MONEY_FOR_BRANCH = '1831' # 立替金（部門）
   ACCOUNT_CODE_INCOME_TAXES_RECEIVABLE = '1861' # 未収還付法人税等
@@ -400,7 +399,6 @@ module HyaccConst
   ACCOUNT_CODE_INVESTMENTS_AND_OTHER_ASSETS = '2180' # 投資その他の資産
   ACCOUNT_CODE_LONG_TERM_LOAN = '2700' # 長期貸付金
   ACCOUNT_CODE_LONG_TERM_LOAN_EMPLOYEE = '2701' # 長期貸付金（従業員）
-  ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH = '2702' # 長期貸付金（部門）
   ACCOUNT_CODE_LONG_TERM_LOAN_CUSTOMER = '2703' # 長期貸付金（取引先）
   ACCOUNT_CODE_CREDIT_BY_OWNER = '2901' # 事業主貸
   ACCOUNT_CODE_BRANCH_OFFICE = '2999' # 支店勘定
@@ -430,7 +428,6 @@ module HyaccConst
   ACCOUNT_CODE_GAIN_ON_SALE_OF_SECURITIES = '6101' # 有価証券売却益
   ACCOUNT_CODE_INTEREST_RECEIVED = '4221' # 受取利息
   ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_EMPLOYEE = '4226' # 受取利息（従業員）
-  ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_BRANCH = '4227' # 受取利息（部門）
   ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_CUSTOMER = '4228' # 受取利息（取引先）
   ACCOUNT_CODE_HEAD_OFFICE = '4999' # 本店勘定
   ACCOUNT_CODE_MISCELLANEOUS_LOSS = '8822' # 雑損失

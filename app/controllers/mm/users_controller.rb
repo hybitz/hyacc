@@ -64,6 +64,7 @@ class Mm::UsersController < Base::HyaccController
 
     # 削除したユーザがログインユーザ自身の場合は、ログアウト
       if current_user.id == id
+        reset_session
         redirect_to new_user_session_path
       else
         flash[:notice] = 'ユーザを削除しました。'

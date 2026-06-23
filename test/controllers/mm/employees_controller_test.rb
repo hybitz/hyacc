@@ -73,7 +73,6 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
   def test_無効
     sign_in admin
     post :disable, params: {id: employee.id}
-    assert_response :redirect
     assert_redirected_to action: 'index'
   end
 
@@ -82,15 +81,71 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
 
     sign_in admin
     delete :destroy, params: {id: @employee.id}
-    assert_response :redirect
     assert_redirected_to action: 'index'
   end
 
-  def test_自分を削除
+  def test_ログイン可能な管理権限を持つユーザーが1人のとき_自分自身を無効にできない
+    sign_in admin
+    post :disable, params: {id: admin.employee.id}
+
+    assert_redirected_to action: 'index'
+    assert_not admin.employee.reload.disabled?
+    assert flash[:is_error_message]
+    assert_equal ERR_LAST_ACTIVE_ADMIN_DISABLE, flash[:notice]
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが1人のとき_自分自身を削除できない
     sign_in admin
     delete :destroy, params: {id: admin.employee.id}
-    assert_response :redirect
+
+    assert_redirected_to action: 'index'
+    assert_not admin.employee.reload.deleted?
+    assert flash[:is_error_message]
+    assert_equal ERR_LAST_ACTIVE_ADMIN_DELETE, flash[:notice]
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身を無効にできる
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    post :disable, params: {id: admin.employee.id}
+
     assert_redirected_to root_path
+    assert admin.employee.reload.disabled?
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身を削除できる
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    delete :destroy, params: {id: admin.employee.id}
+
+    assert_redirected_to root_path
+    assert admin.employee.reload.deleted?
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_他のadminを無効にできる
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    post :disable, params: {id: other_admin.employee.id}
+
+    assert_redirected_to action: 'index'
+    assert other_admin.employee.reload.disabled?
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_他のadminを削除できる
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    delete :destroy, params: {id: other_admin.employee.id}
+
+    assert_redirected_to action: 'index'
+    assert other_admin.employee.reload.deleted?
   end
 
 end

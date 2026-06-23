@@ -35,4 +35,9 @@ class UserTest < ActiveSupport::TestCase
     assert_not users(:deleted_employee_user).active_for_authentication?
   end
 
+  def test_would_remove_last_active_admin_非adminはfalse
+    assert_not user.admin?
+    assert_not user.would_remove_last_active_admin?
+  end
+
 end

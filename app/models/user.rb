@@ -7,6 +7,8 @@ class User < ApplicationRecord
   validates_format_of :password, with: /\A[!-~]*\z/, allow_blank: true  
   validates_format_of :google_account, allow_nil: true, allow_blank: true, with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/
 
+  validates_with Validators::LastActiveAdminValidator
+
   has_one :employee
   accepts_nested_attributes_for :employee
 
@@ -14,6 +16,26 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :simple_slip_settings, allow_destroy: true
 
   has_many :user_notifications
+
+  scope :active_admins, -> {
+    joins(:employee).where(
+      admin: true, deleted: false,
+      employees: { disabled: false, deleted: false }
+    )
+  }
+
+  def active_admin?
+    admin? && !deleted? && !employee.disabled? && !employee.deleted?
+  end
+
+  def would_remove_last_active_admin?
+    return false unless admin?
+    return false if deleted_in_database
+    return false if employee.deleted_in_database || employee.disabled_in_database
+
+    company_active_admins = self.class.active_admins.where(employees: { company_id: employee.company_id })
+    company_active_admins.where.not(id: id).none?
+  end
 
   def active_for_authentication?
     return false if deleted? || employee.disabled? || employee.deleted?

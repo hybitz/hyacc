@@ -69,7 +69,7 @@ class Mm::EmployeesController < Base::HyaccController
     # 無効にしたユーザがログインユーザ自身の場合は、ログアウト
       if current_user.employee.id == @employee.id
         reset_session
-        redirect_to new_user_session_path
+        redirect_to root_path
       else
         flash[:notice] = "#{@employee.name} を無効にしました。"
         redirect_to action: :index
@@ -91,7 +91,7 @@ class Mm::EmployeesController < Base::HyaccController
     # 削除したユーザがログインユーザ自身の場合は、ログアウト
       if current_user.employee.id == @employee.id
         reset_session
-        redirect_to new_user_session_path
+        redirect_to root_path
       else
         flash[:notice] = "#{@employee.name} を削除しました。"
         redirect_to action: :index

@@ -111,7 +111,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     sign_in admin
     post :disable, params: {id: admin.employee.id}
 
-    assert_redirected_to new_user_session_path
+    assert_redirected_to root_path
     assert admin.employee.reload.disabled?
   end
 
@@ -122,7 +122,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     sign_in admin
     delete :destroy, params: {id: admin.employee.id}
 
-    assert_redirected_to new_user_session_path
+    assert_redirected_to root_path
     assert admin.employee.reload.deleted?
   end
 

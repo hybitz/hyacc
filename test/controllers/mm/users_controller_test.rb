@@ -100,19 +100,41 @@ class Mm::UsersControllerTest < ActionController::TestCase
   def test_他人を削除した場合_一覧に遷移すること
     sign_in admin
     delete :destroy, :params => {:id => user.id}
-    assert_response :redirect
     assert_redirected_to :action => 'index'
 
     assert user.reload.deleted?
   end
 
-  def test_本人を削除した場合_ログアウトすること
+  def test_ログイン可能な管理権限を持つユーザーが1人のとき_自分自身を削除できない
     sign_in admin
-    delete :destroy, :params => {:id => admin.id}
+    delete :destroy, params: {id: admin.id}
 
-    assert_response :redirect
+    assert_redirected_to action: 'index'
+    assert_not admin.reload.deleted?
+    assert flash[:is_error_message]
+    assert_equal ERR_LAST_ACTIVE_ADMIN_DELETE, flash[:notice]
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身を削除できる
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    delete :destroy, params: {id: admin.id}
+
     assert_redirected_to new_user_session_path
     assert admin.reload.deleted?
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_他のadminを削除できる
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    delete :destroy, params: {id: other_admin.id}
+
+    assert_redirected_to action: 'index'
+    assert other_admin.reload.deleted?
   end
 
   def test_ダイアログ上のエラーメッセージはフォームの項目順に表示されること

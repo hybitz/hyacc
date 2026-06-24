@@ -57,7 +57,7 @@
       <th colspan="4" class="text-center">金融機関営業店</th>
     </tr>
     <tr>
-      <th><%= BankOffice.human_attribute_name :code %></th>
+      <th class="text-center"><%= BankOffice.human_attribute_name :code %></th>
       <th><%= BankOffice.human_attribute_name :name %></th>
       <th><%= BankOffice.human_attribute_name :address %></th>
       <th><%= BankOffice.human_attribute_name :disabled %></th>
@@ -66,10 +66,12 @@
   <tbody>
     <% @bank.bank_offices.each do |bo| %>
       <tr>
-        <td><%= bo.code %></td>
+        <td class="text-center"><%= bo.code %></td>
         <td><%= bo.name %></td>
         <td><%= bo.address %></td>
-        <td><%= HyaccConst::DISABLED_TYPES[bo.disabled] %></td>
+        <td class="<%= 'text-center' if @bank.disabled? || bo.disabled? %>">
+          <% if @bank.disabled? %>-<% else %><%= HyaccConst::DISABLED_TYPES[bo.disabled] %><% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>

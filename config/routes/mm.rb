@@ -16,6 +16,9 @@ Rails.application.routes.draw do
       collection do
         get 'add_bank_office'
       end
+      member do
+        post 'disable'
+      end
     end
 
     resources :branches

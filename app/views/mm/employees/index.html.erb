@@ -11,6 +11,9 @@
         <th class="text-center"><%= Employee.human_attribute_name :social_insurance_birthday %></th>
         <th class="text-center">業務経歴</th>
         <th class="text-center">状態</th>
+        <% if current_user.admin? %>
+          <th class="text-center"><%= User.human_attribute_name :admin %></th>
+        <% end %>
         <th></th>
       </tr>
     </thead>
@@ -29,7 +32,22 @@
             <% end %>
           </td>
           <td class="text-center"><%= e.disabled_name %></td>
-          <td class="text-center">
+          <% if current_user.admin? %>
+            <td class="text-center text-nowrap">
+              <% if e.user_loginable? %>
+                <% if e.user.admin? %>
+                  あり
+                  <%= link_to '解除', revoke_admin_mm_user_path(e.user), data: {confirm: '管理権限を解除します。よろしいですか？'}, method: :post, class: 'btn btn-sm btn-light' %>
+                <% else %>
+                  なし
+                  <%= link_to '付与', grant_admin_mm_user_path(e.user), data: {confirm: '管理権限を付与します。よろしいですか？'}, method: :post, class: 'btn btn-sm btn-light' %>
+                <% end %>
+              <% else %>
+                -
+              <% end %>
+            </td>
+          <% end %>
+          <td class="text-center text-nowrap">
             <%= link_to '編集', edit_mm_employee_path(e), remote: true, class: 'btn btn-sm btn-light' %>
             <% if e.disabled? %>
               <%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, method: 'delete', class: 'btn btn-sm btn-danger' %>

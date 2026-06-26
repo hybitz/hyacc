@@ -281,6 +281,7 @@ ja:
 
       user:
         account_count_of_frequencies: 勘定科目の優先表示数
+        admin: 管理権限
         code: "コード"
         password: パスワード
         first_name: "名前"

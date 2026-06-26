@@ -28,6 +28,12 @@
           <th><%= f.label :password %></th>
           <td><%= f.password_field :password, autocomplete: "new-password", class: 'form-control form-control-sm' %></td>
         </tr>
+        <% if current_user.admin? %>
+          <tr>
+            <th><%= f.label :admin %></th>
+            <td><%= f.check_box :admin, class: 'form-check-input' %></td>
+          </tr>
+        <% end %>
       <% end %>
 
       <%= f.fields_for "employee_attributes", @user.employee do |f| %>

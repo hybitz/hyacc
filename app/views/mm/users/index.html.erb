@@ -6,6 +6,9 @@
       <tr>
         <th class="text-center"><%= User.human_attribute_name :login_id %></th>
         <th>氏名</th>
+        <% if current_user.admin? %>
+          <th class="text-center"><%= User.human_attribute_name :admin %></th>
+        <% end %>
         <th class="text-center">状態</th>
         <th class="text-center"></th>
       </tr>
@@ -15,6 +18,21 @@
         <tr>
           <td class="text-center"><%= user.login_id %></td>
           <td><%= link_to user.employee.fullname, {action: 'show', id: user.id}, class: 'show', remote: true %></td>
+          <% if current_user.admin? %>
+            <td class="text-center text-nowrap">
+              <% if user.loginable? %>
+                <% if user.admin? %>
+                  あり
+                  <%= link_to '解除', revoke_admin_mm_user_path(user), data: {confirm: '管理権限を解除します。よろしいですか？'}, method: :post, class: 'btn btn-sm btn-light' %>
+                <% else %>
+                  なし
+                  <%= link_to '付与', grant_admin_mm_user_path(user), data: {confirm: '管理権限を付与します。よろしいですか？'}, method: :post, class: 'btn btn-sm btn-light' %>
+                <% end %>
+              <% else %>
+                -
+              <% end %>
+            </td>
+          <% end %>
           <td class="text-center"><%= HyaccConst::DELETED_TYPES[user.deleted] %></td>
           <td class="text-center text-nowrap">
             <%= link_to '編集', {action: 'edit', id: user.id}, remote: true, class: 'btn btn-sm btn-light' %>

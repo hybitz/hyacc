@@ -48,7 +48,7 @@ module Auto::TransferJournal
         jd2.detail_no = jh.journal_details.size
         jd2.dc_type = DC_TYPE_CREDIT
         jd2.account_id = allocated_cost.id
-        jd2.sub_account_id = allocated_cost.get_sub_account_by_code(branch.code).id
+        jd2.sub_account_id = branch.id
         jd2.branch = @src_jd.branch
         jd2.amount = cost
       end

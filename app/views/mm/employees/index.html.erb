@@ -33,15 +33,9 @@
           </td>
           <td class="text-center"><%= e.disabled_name %></td>
           <% if current_user.admin? %>
-            <td class="text-center text-nowrap">
+            <td class="text-center">
               <% if e.user_loginable? %>
-                <% if e.user.admin? %>
-                  あり
-                  <%= link_to '解除', revoke_admin_mm_user_path(e.user), data: {confirm: '管理権限を解除します。よろしいですか？'}, method: :post, class: 'btn btn-sm btn-light' %>
-                <% else %>
-                  なし
-                  <%= link_to '付与', grant_admin_mm_user_path(e.user), data: {confirm: '管理権限を付与します。よろしいですか？'}, method: :post, class: 'btn btn-sm btn-light' %>
-                <% end %>
+                <%= e.user.admin? ? 'あり' : 'なし' %>
               <% else %>
                 -
               <% end %>

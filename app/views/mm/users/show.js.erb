@@ -1,29 +1,18 @@
 var options = {
-  title: '<%= title + '　参照' %>'
+  title: '<%= title.present? ? title + '　参照' : '参照' %>'
 };
 
 options.buttons = [];
 
-options.buttons.push(
-  {
-    text: '編集',
-    class: 'btn btn-light',
-    click: function() {
-      hyacc.current_dialog().close();
-      $.get('<%= url_for edit_mm_employee_path(@e) %>');
-    }
-  }
-);
-
-<% if current_user.admin? && @e.user_loginable? %>
-  <% if @e.user.admin? %>
+<% if current_user.admin? && @user.loginable? %>
+  <% if @user.admin? %>
     options.buttons.push({
       text: '管理権限を解除',
       class: 'btn btn-light',
       click: function() {
         if (confirm('管理権限を解除します。よろしいですか？')) {
           hyacc.current_dialog().close();
-          var form = $('<form>', { method: 'post', action: '<%= revoke_admin_mm_user_path(@e.user) %>' });
+          var form = $('<form>', { method: 'post', action: '<%= revoke_admin_mm_user_path(@user) %>' });
           form.append($('<input>', { type: 'hidden', name: 'authenticity_token', value: '<%= form_authenticity_token %>' }));
           $('body').append(form);
           form.submit();
@@ -37,7 +26,7 @@ options.buttons.push(
       click: function() {
         if (confirm('管理権限を付与します。よろしいですか？')) {
           hyacc.current_dialog().close();
-          var form = $('<form>', { method: 'post', action: '<%= grant_admin_mm_user_path(@e.user) %>' });
+          var form = $('<form>', { method: 'post', action: '<%= grant_admin_mm_user_path(@user) %>' });
           form.append($('<input>', { type: 'hidden', name: 'authenticity_token', value: '<%= form_authenticity_token %>' }));
           $('body').append(form);
           form.submit();

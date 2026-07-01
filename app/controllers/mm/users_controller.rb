@@ -127,7 +127,7 @@ class Mm::UsersController < Base::HyaccController
         :zip_code, :address, :sex, :business_office_id, :birth, :my_number
       ]
     ]
-    permitted << :admin if current_user.admin? && action_name == 'create'
+    permitted << :admin if action_name == 'create'
 
     ret = params.require(:user).permit(permitted)
 

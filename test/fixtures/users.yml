@@ -66,3 +66,28 @@ user9:
   email: user9@example.com
   encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
   salt: 0.158920068742378
+
+deleted_user:
+  id: 10
+  login_id: deleted_user
+  deleted: true
+  slips_per_page: 30
+  email: deleted_user@example.com
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
+  salt: 0.158920068742378
+
+disabled_employee_user:
+  id: 11
+  login_id: disabled_employee_user
+  slips_per_page: 30
+  email: disabled_employee_user@example.com
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
+  salt: 0.158920068742378
+
+deleted_employee_user:
+  id: 12
+  login_id: deleted_employee_user
+  slips_per_page: 30
+  email: deleted_employee_user@example.com
+  encrypted_password: <%= BCrypt::Password.create('testpassword20260217') %>
+  salt: 0.158920068742378

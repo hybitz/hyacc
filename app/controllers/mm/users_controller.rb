@@ -55,13 +55,23 @@ class Mm::UsersController < Base::HyaccController
 
   def destroy
     id = params[:id].to_i
-    User.find(id).destroy_logically!
+    user = User.find(id)
+
+    begin
+      user.transaction do
+        user.destroy_logically!
+      end
 
     # 削除したユーザがログインユーザ自身の場合は、ログアウト
-    if current_user.id == id
-      redirect_to new_user_session_path
-    else
-      flash[:notice] = 'ユーザを削除しました。'
+      if current_user.id == id
+        reset_session
+        redirect_to new_user_session_path
+      else
+        flash[:notice] = 'ユーザを削除しました。'
+        redirect_to action: :index
+      end
+    rescue => e
+      handle(e)
       redirect_to action: :index
     end
   end
@@ -99,6 +109,6 @@ class Mm::UsersController < Base::HyaccController
       branch_employees_attributes: [
         :id, :branch_id, :deleted, :default_branch]
     ]
-    params.require(:employee).permit(permitted).merge(branch_ids: [])
+    params.require(:employee).permit(permitted)
   end
 end

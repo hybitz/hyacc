@@ -1,5 +1,6 @@
 module Accounts::SubAccountsSupport
   include HyaccConst
+  include HyaccErrors
   
   def initialize_sub_accounts_support
     cache_key = request_cache_key
@@ -84,6 +85,7 @@ module Accounts::SubAccountsSupport
         @sub_accounts_all_cache << social_expense
       end
     else
+      Rails.logger.info "#{code}: #{name} の補助科目区分が不正です。sub_account_type=#{sub_account_type}"
       raise HyaccException.new(ERR_INVALID_SUB_ACCOUNT_TYPE)
     end
 

@@ -32,6 +32,22 @@ class Mm::SkillsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template 'common/reload'
   end
+
+  def test_登録_入力エラー
+    assert_no_difference 'Skill.count' do
+      post mm_skills_path, xhr: true, params: {
+        skill: {
+          employee_id: employee.id,
+          qualification_id: qualification.id,
+          qualified_on: ''
+        }
+      }
+    end
+
+    assert_response :success
+    assert_template :new
+    assert assigns(:skill).errors[:qualified_on].present?
+  end
   
   def test_編集
     assert skill = Skill.find_by(employee_id: employee.id, qualification_id: qualification.id)
@@ -56,6 +72,18 @@ class Mm::SkillsControllerTest < ActionDispatch::IntegrationTest
     assert_template 'common/reload'
     assert @skill = assigns(:skill)
     assert_not_equal skill.qualified_on, @skill.qualified_on
+  end
+
+  def test_更新_入力エラー
+    skill = Skill.find_by(employee_id: employee.id, qualification_id: qualification.id)
+
+    patch mm_skill_path(skill), xhr: true, params: {
+      skill: { qualified_on: '' }
+    }
+
+    assert_response :success
+    assert_template :edit
+    assert assigns(:skill).errors[:qualified_on].present?
   end
 
   def test_削除

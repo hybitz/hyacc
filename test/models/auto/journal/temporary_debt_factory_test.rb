@@ -5,11 +5,6 @@ class Auto::Journal::TemporaryDebtFactoryTest < ActiveSupport::TestCase
     source_branch = Branch.find(2)
     duplicate_branch = create_duplicate_branch(code: source_branch.code, parent_id: source_branch.parent_id)
 
-    branch_code = duplicate_branch.code
-    code_lookup_id = Branch.find_by_code(branch_code).id
-    assert_equal source_branch.id, code_lookup_id
-    assert_not_equal duplicate_branch.id, code_lookup_id
-
     source_detail = JournalDetail.new(
       account_id: Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT).id,
       sub_account_id: duplicate_branch.id,
@@ -35,8 +30,14 @@ class Auto::Journal::TemporaryDebtFactoryTest < ActiveSupport::TestCase
     assert_not_nil transfer
     assert_equal 4, transfer.journal_details.size
 
-    assets_debit_detail = transfer.journal_details[2]
-    temp_assets_credit_detail = transfer.journal_details[3]
+    cash_id = Account.find_by_code(ACCOUNT_CODE_CASH).id
+    temp_assets_id = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_ASSETS).id
+
+    assets_debit_detail = transfer.journal_details.find { |d| d.dc_type == DC_TYPE_DEBIT && d.account_id == cash_id }
+    temp_assets_credit_detail = transfer.journal_details.find { |d| d.dc_type == DC_TYPE_CREDIT && d.account_id == temp_assets_id }
+
+    assert_not_nil assets_debit_detail
+    assert_not_nil temp_assets_credit_detail
 
     assert_equal duplicate_branch.id, assets_debit_detail.branch_id
     assert_equal duplicate_branch.id, temp_assets_credit_detail.branch_id

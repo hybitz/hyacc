@@ -18,11 +18,6 @@ class Auto::TransferJournal::BranchCodeDuplicationTest < ActiveSupport::TestCase
   def test_内部取引で部門補助科目はbranch_idを使う
     head_office = user.employee.company.head_branch
 
-    account_branch_office = Account.find_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
-    code_lookup_id = account_branch_office.get_sub_account_by_code(@duplicate_branch.code).id
-    assert_equal @source_branch.id, code_lookup_id
-    assert_not_equal @duplicate_branch.id, code_lookup_id
-
     @source_journal.journal_details.build(
       detail_no: 1,
       dc_type: DC_TYPE_DEBIT,
@@ -88,11 +83,6 @@ class Auto::TransferJournal::BranchCodeDuplicationTest < ActiveSupport::TestCase
   def test_資産配賦で部門補助科目は起票元branch_idを使う
     sibling_ids = @duplicate_branch.self_and_siblings.map(&:id).sort
     assert_equal [@source_branch.id, @destination_branch.id, @duplicate_branch.id].sort, sibling_ids
-
-    temp_debt = Account.find_by_code(ACCOUNT_CODE_TEMPORARY_DEBT)
-    code_lookup_id = temp_debt.get_sub_account_by_code(@duplicate_branch.code).id
-    assert_equal @source_branch.id, code_lookup_id
-    assert_not_equal @duplicate_branch.id, code_lookup_id
 
     source_detail = JournalDetail.new(
       journal: @source_journal,

@@ -15,7 +15,7 @@ options.buttons.push(
   }
 );
 
-<% if current_user.admin? && @e.user_loginable? %>
+<% if @e.user_loginable? %>
   <% if @e.user.admin? %>
     options.buttons.push({
       text: '管理権限を解除',

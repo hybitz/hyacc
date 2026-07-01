@@ -11,9 +11,7 @@
         <th class="text-center"><%= Employee.human_attribute_name :social_insurance_birthday %></th>
         <th class="text-center">業務経歴</th>
         <th class="text-center">状態</th>
-        <% if current_user.admin? %>
-          <th class="text-center"><%= User.human_attribute_name :admin %></th>
-        <% end %>
+        <th class="text-center"><%= User.human_attribute_name :admin %></th>
         <th></th>
       </tr>
     </thead>
@@ -32,15 +30,13 @@
             <% end %>
           </td>
           <td class="text-center"><%= e.disabled_name %></td>
-          <% if current_user.admin? %>
-            <td class="text-center">
-              <% if e.user_loginable? %>
-                <%= e.user.admin? ? 'あり' : 'なし' %>
-              <% else %>
-                -
-              <% end %>
-            </td>
-          <% end %>
+          <td class="text-center">
+            <% if e.user_loginable? %>
+              <%= e.user.admin? ? 'あり' : 'なし' %>
+            <% else %>
+              -
+            <% end %>
+          </td>
           <td class="text-center text-nowrap">
             <%= link_to '編集', edit_mm_employee_path(e), remote: true, class: 'btn btn-sm btn-light' %>
             <% if e.disabled? %>

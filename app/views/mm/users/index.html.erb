@@ -6,9 +6,7 @@
       <tr>
         <th class="text-center"><%= User.human_attribute_name :login_id %></th>
         <th>氏名</th>
-        <% if current_user.admin? %>
-          <th class="text-center"><%= User.human_attribute_name :admin %></th>
-        <% end %>
+        <th class="text-center"><%= User.human_attribute_name :admin %></th>
         <th class="text-center">状態</th>
         <th class="text-center"></th>
       </tr>
@@ -18,15 +16,13 @@
         <tr>
           <td class="text-center"><%= user.login_id %></td>
           <td><%= link_to user.employee.fullname, {action: 'show', id: user.id}, class: 'show', remote: true %></td>
-          <% if current_user.admin? %>
-            <td class="text-center">
-              <% if user.loginable? %>
-                <%= user.admin? ? 'あり' : 'なし' %>
-              <% else %>
-                -
-              <% end %>
-            </td>
-          <% end %>
+          <td class="text-center">
+            <% if user.loginable? %>
+              <%= user.admin? ? 'あり' : 'なし' %>
+            <% else %>
+              -
+            <% end %>
+          </td>
           <td class="text-center"><%= HyaccConst::DELETED_TYPES[user.deleted] %></td>
           <td class="text-center text-nowrap">
             <%= link_to '編集', {action: 'edit', id: user.id}, remote: true, class: 'btn btn-sm btn-light' %>

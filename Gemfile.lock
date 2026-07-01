@@ -117,15 +117,15 @@ GEM
     carrierwave-i18n (3.1.0)
       carrierwave (>= 3.0.0, < 4)
     cgi (0.5.1)
-    chef-config (19.2.110)
+    chef-config (19.3.15)
       addressable
-      chef-utils (= 19.2.110)
+      chef-utils (= 19.3.15)
       fuzzyurl
       mixlib-config (>= 2.2.12, < 4.0)
       mixlib-shellout (>= 2.0, < 4.0)
       racc
       tomlrb (>= 1.2, < 3.0)
-    chef-utils (19.2.110)
+    chef-utils (19.3.15)
       concurrent-ruby
     choice (0.2.0)
     ci_reporter (2.1.0)
@@ -168,7 +168,7 @@ GEM
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
     cucumber-tag-expressions (6.1.2)
-    daddy (0.12.0)
+    daddy (0.12.2)
       docker-api
       highline
       i18n
@@ -206,7 +206,7 @@ GEM
     drb (2.2.3)
     erb (6.0.4)
     erubi (1.13.1)
-    excon (1.4.2)
+    excon (1.5.0)
       logger
     execjs (2.10.1)
     faraday (2.14.3)
@@ -216,9 +216,8 @@ GEM
     faraday-net_http (3.4.4)
       net-http (~> 0.5)
     ffi (1.17.4-x86_64-linux-gnu)
-    ffi-yajl (2.7.7)
+    ffi-yajl (2.7.11)
       libyajl2 (>= 2.1)
-      yajl
     fog-aws (3.33.2)
       base64 (>= 0.2, < 0.4)
       fog-core (~> 2.6)
@@ -249,7 +248,7 @@ GEM
     highline (3.1.2)
       reline
     holiday_jp (0.8.1)
-    i18n (1.14.8)
+    i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
       mini_magick (>= 4.9.5, < 6)
@@ -267,11 +266,11 @@ GEM
       schash (~> 0.1.0)
       specinfra (>= 2.64.0, < 3.0.0)
       thor (>= 1.0.0)
-    itamae-plugin-recipe-daddy (0.2.0)
+    itamae-plugin-recipe-daddy (0.2.1)
       itamae (~> 1.10, >= 1.10.2)
       itamae-plugin-recipe-selenium (~> 0.1)
       itamae-plugin-resource-pip (~> 1.1)
-    itamae-plugin-recipe-selenium (0.5.7)
+    itamae-plugin-recipe-selenium (0.5.8)
       itamae (~> 1.10, >= 1.10.4)
     itamae-plugin-resource-pip (1.1.1)
       itamae (~> 1.2)
@@ -322,7 +321,7 @@ GEM
       tomlrb
     mixlib-log (3.2.3)
       ffi (>= 1.15.5)
-    mixlib-shellout (3.3.9)
+    mixlib-shellout (3.4.10)
       chef-utils
     momentjs-rails (2.29.4.1)
       railties (>= 3.1)
@@ -347,7 +346,7 @@ GEM
       net-ssh (>= 2.6.5, < 8.0.0)
     net-smtp (0.5.1)
       net-protocol
-    net-ssh (7.3.2)
+    net-ssh (7.3.3)
     net-telnet (0.2.0)
     nio4r (2.7.5)
     nokogiri (1.19.4)
@@ -363,17 +362,17 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0, >= 2.0.3)
       version_gem (~> 1.1, >= 1.1.9)
-    ohai (19.1.24)
+    ohai (19.1.40)
       base64
       chef-config (>= 14.12, < 20)
       chef-utils (>= 16.0, < 20)
       ffi (>= 1.15.5)
-      ffi-yajl (~> 2.2)
+      ffi-yajl (>= 2.2, < 3.0)
       ipaddress
       mixlib-cli (>= 1.7.0)
       mixlib-config (>= 2.0, < 4.0)
       mixlib-log (>= 2.0.1, < 4.0)
-      mixlib-shellout (~> 3.3.6)
+      mixlib-shellout (>= 3.3.6, < 3.5.0)
       plist (~> 3.1)
       train-core
       wmi-lite (~> 1.0)
@@ -543,7 +542,7 @@ GEM
     tilt (2.7.0)
     timeout (0.6.1)
     tomlrb (2.0.4)
-    train-core (3.16.3)
+    train-core (3.16.5)
       addressable (~> 2.5)
       ffi (>= 1.16.0, < 1.18)
       json (>= 2.19.2, < 3.0)
@@ -578,7 +577,6 @@ GEM
     wmi-lite (1.0.7)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yajl (0.3.4)
     zeitwerk (2.7.5)
 
 PLATFORMS
@@ -646,7 +644,7 @@ DEPENDENCIES
   will_paginate
 
 RUBY VERSION
-   ruby 3.4.8p72
+  ruby 3.4.8p72
 
 BUNDLED WITH
-   2.7.2
+  4.0.14

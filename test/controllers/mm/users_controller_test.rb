@@ -43,8 +43,9 @@ class Mm::UsersControllerTest < ActionController::TestCase
  
     assert_response :success
     
-    u = User.find_by_login_id('zero')
+    u = assigns(:user)
     assert_not_nil u
+    assert_not u.admin?
     assert_not_nil u.employee
     assert_equal 'test_create', u.employee.last_name
     assert_equal 'a', u.employee.first_name
@@ -52,6 +53,60 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_equal '2009-01-01', u.employee.employment_date.to_fs
     assert_equal '2000-01-01', u.employee.birth.to_fs
     assert_equal 2, u.employee.default_branch.id
+  end
+
+  def test_createでadminを付与できる
+    sign_in admin
+
+    params = user_params_with_valid_branch_employees
+    params[:user][:admin] = true
+
+    post :create, xhr: true, params: params
+
+    assert_response :success
+    assert assigns(:user).admin?
+  end
+
+  def test_grant_admin
+    sign_in admin
+
+    post :grant_admin, params: {id: user.id}
+
+    assert_redirected_to mm_employees_path
+    assert user.reload.admin?
+  end
+
+  def test_revoke_admin
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    post :revoke_admin, params: {id: other_admin.id}
+
+    assert_redirected_to mm_employees_path
+    assert_not other_admin.reload.admin?
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが1人のとき_adminを解除できない
+    sign_in admin
+
+    post :revoke_admin, params: {id: admin.id}
+
+    assert_redirected_to mm_employees_path
+    assert admin.reload.admin?
+    assert flash[:is_error_message]
+    assert_equal ERR_LAST_ACTIVE_ADMIN_REVOKE, flash[:notice]
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身のadminを解除できる
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    post :revoke_admin, params: {id: admin.id}
+
+    assert_redirected_to root_path
+    assert_not admin.reload.admin?
   end
 
   def test_create_with_invalid_branch_employees_params

@@ -17,10 +17,17 @@ module Validators
     private
 
     def validate_user(user)
-      return unless user.will_save_change_to_deleted? && user.deleted?
+      becoming_inactive = (user.will_save_change_to_deleted? && user.deleted?) ||
+                          (user.will_save_change_to_admin? && !user.admin?)
+      return unless becoming_inactive
       return unless user.would_remove_last_active_admin?
 
-      user.errors.add(:base, HyaccErrors::ERR_LAST_ACTIVE_ADMIN_DELETE)
+      error = if user.will_save_change_to_admin? && !user.admin?
+                HyaccErrors::ERR_LAST_ACTIVE_ADMIN_REVOKE
+              else
+                HyaccErrors::ERR_LAST_ACTIVE_ADMIN_DELETE
+              end
+      user.errors.add(:base, error)
     end
 
     def validate_employee(employee)

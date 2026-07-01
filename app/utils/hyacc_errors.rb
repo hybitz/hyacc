@@ -30,6 +30,7 @@ module HyaccErrors
   ERR_ILLEGAL_TAX_DETAIL = "消費税は税抜経理方式の場合のみ指定可能です。"
   ERR_LAST_ACTIVE_ADMIN_DELETE = "ログイン可能な管理権限を持つユーザーが0人になるため、削除できません。"
   ERR_LAST_ACTIVE_ADMIN_DISABLE = "ログイン可能な管理権限を持つユーザーが0人になるため、無効にできません。"
+  ERR_LAST_ACTIVE_ADMIN_REVOKE = "ログイン可能な管理権限を持つユーザーが0人になるため、管理権限を解除できません。"
   ERR_NO_CAPITATION_TARGET_BRANCH_EXISTS = "人頭割で配賦できる部門がありません。"
   ERR_NOT_JOURNALIZABLE_ACCOUNT = "仕訳が登録できない勘定科目が指定されています。"
   ERR_OVERRIDE_NEEDED = "サブクラスでの実装が必要です。"

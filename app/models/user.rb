@@ -24,14 +24,22 @@ class User < ApplicationRecord
     )
   }
 
+  def loginable?(employee_record = nil)
+    emp = employee_record || employee
+    !deleted? && !emp.disabled? && !emp.deleted?
+  end
+
   def active_admin?
-    admin? && !deleted? && !employee.disabled? && !employee.deleted?
+    admin? && loginable?
   end
 
   def would_remove_last_active_admin?
-    return false unless admin?
-    return false if deleted_in_database
-    return false if employee.deleted_in_database || employee.disabled_in_database
+    was_active = admin_in_database && !deleted_in_database &&
+      !employee.deleted_in_database && !employee.disabled_in_database
+    return false unless was_active
+
+    will_be_active = admin? && !deleted? && !employee.disabled? && !employee.deleted?
+    return false if will_be_active
 
     company_active_admins = self.class.active_admins.where(employees: { company_id: employee.company_id })
     company_active_admins.where.not(id: id).none?

@@ -24,4 +24,20 @@ class EmployeeTest < ActiveSupport::TestCase
     assert_nil Employee.find(1).representative_or_family_type_name
   end
 
+  def test_user_loginable_ユーザなしはfalse
+    e = Employee.new
+    assert_not e.user_loginable?
+  end
+
+  def test_user_loginable_ログイン可能なユーザがいればtrue
+    e = user.employee
+    assert e.user_loginable?
+    assert e.user.loginable?(e)
+  end
+
+  def test_user_loginable_無効化済み従業員はfalse
+    e = users(:disabled_employee_user).employee
+    assert_not e.user_loginable?
+  end
+
 end

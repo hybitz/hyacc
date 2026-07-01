@@ -21,7 +21,7 @@
     fill_in '口座番号', with: @bank_account.code
     fill_in '口座名', with: @bank_account.name
     fill_in '口座名義', with: @bank_account.holder_name
-    check '給与支払口座'
+    select 'はい', from: '給与支払口座'
   end
   capture '口座情報を入力して登録'
 

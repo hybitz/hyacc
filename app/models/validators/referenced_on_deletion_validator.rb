@@ -10,6 +10,13 @@ module Validators
           ->(record) { EmployeeBankAccount.where(bank_id: record.id).exists? },
         ],
       },
+      'BankOffice' => {
+        error: HyaccErrors::ERR_BANK_OFFICE_LINKED,
+        checks: [
+          ->(record) { BankAccount.where(bank_office_id: record.id, deleted: false).exists? },
+          ->(record) { EmployeeBankAccount.where(bank_office_id: record.id).exists? },
+        ],
+      },
       'BankAccount' => {
         error: HyaccErrors::ERR_BANK_ACCOUNT_LINKED,
         checks: [

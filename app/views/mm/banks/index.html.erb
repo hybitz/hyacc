@@ -36,7 +36,11 @@
         <td class="text-end"><%= bank.ge_30k_other_bank %></td>
         <td class="text-center">
           <%= link_to '編集', edit_mm_bank_path(bank), remote: true, class: 'btn btn-sm btn-light' %>
-          <%= link_to '削除', mm_bank_path(bank), method: :delete, class: 'btn btn-sm btn-light', data: {confirm: "#{bank.name} を削除します。よろしいですか？"} %>
+          <% if bank.disabled? %>
+            <%= link_to '削除', mm_bank_path(bank), method: :delete, class: 'btn btn-sm btn-danger', data: {confirm: "#{bank.name} を削除します。よろしいですか？"} %>
+          <% else %>
+            <%= link_to '無効', disable_mm_bank_path(bank), method: :post, class: 'btn btn-sm btn-warning', data: {confirm: "#{bank.name} の状態を無効にします。よろしいですか？"} %>
+          <% end %>
         </td>
       </tr>
     <% end %>

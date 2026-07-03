@@ -45,7 +45,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
 
   def test_参照
     sign_in admin
-    get :show, params: {id: banks(:data1).id}, xhr: true
+    get :show, params: {id: banks(:with_linked_accounts).id}, xhr: true
     assert_response :success
   end
 
@@ -72,12 +72,69 @@ class Mm::BanksControllerTest < ActionController::TestCase
 
   def test_削除
     sign_in admin
+    bank = banks(:without_linked_accounts)
 
     assert_no_difference 'Bank.count' do
-      delete :destroy, params: {id: banks(:data1).id}
+      delete :destroy, params: {id: bank.id}
       assert_response :redirect
-      assert_redirected_to :action => 'index'
+      assert_redirected_to action: 'index'
+      assert bank.reload.deleted?
     end
+  end
+
+  def test_参照ありでは削除できない
+    sign_in admin
+    bank = banks(:with_linked_accounts)
+
+    delete :destroy, params: {id: bank.id}
+    assert_redirected_to action: 'index'
+    assert_not bank.reload.deleted?
+    assert flash[:is_error_message]
+    assert_equal ERR_BANK_LINKED, flash[:notice]
+  end
+
+  def test_無効
+    sign_in admin
+    bank = banks(:without_linked_accounts)
+
+    post :disable, params: {id: bank.id}
+    assert_response :redirect
+    assert_redirected_to action: 'index'
+    assert bank.reload.disabled?
+  end
+
+  def test_参照ありでは無効化できない
+    sign_in admin
+    bank = banks(:with_linked_accounts)
+
+    post :disable, params: {id: bank.id}
+    assert_redirected_to action: 'index'
+    assert_not bank.reload.disabled?
+    assert flash[:is_error_message]
+    assert_equal ERR_BANK_DISABLE_LINKED, flash[:notice]
+  end
+
+  def test_参照ありでは営業店を無効化できない
+    sign_in admin
+    bank = banks(:with_linked_accounts)
+    office = bank_offices(:with_linked_accounts)
+
+    patch :update, params: {
+      id: bank.id,
+      bank: {
+        name: bank.name,
+        bank_offices_attributes: {
+          '0' => {id: office.id, code: office.code, name: office.name, disabled: true}
+        }
+      }
+    }, xhr: true
+
+    assert_response :success
+    assert_template 'edit'
+    assert flash[:is_error_message]
+    assert_includes flash[:notice], ERR_BANK_OFFICE_DISABLE_LINKED
+    assert_not bank.reload.disabled?
+    assert_not office.reload.disabled?
   end
 
   def test_営業店舗追加

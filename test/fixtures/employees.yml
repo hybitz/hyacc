@@ -91,6 +91,38 @@ user9:
   sex: M
   birth: 1985-08-01
 
+disabled_employee_user:
+  id: 11
+  company_id: 2
+  user_id: 11
+  disabled: true
+  last_name: 無効
+  first_name: 太郎
+  employment_date: 2009-01-01
+  sex: M
+  birth: 1990-01-11
+
+deleted_employee_user:
+  id: 12
+  company_id: 2
+  user_id: 12
+  deleted: true
+  last_name: 削除
+  first_name: 花子
+  employment_date: 2009-01-01
+  sex: F
+  birth: 1990-01-12
+
+deleted_user_employee:
+  id: 13
+  company_id: 2
+  user_id: 10
+  last_name: 削除
+  first_name: ユーザ
+  employment_date: 2009-01-01
+  sex: M
+  birth: 1990-01-10
+
 10:
   id: 10
   company_id: 1

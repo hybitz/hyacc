@@ -60,31 +60,44 @@ class Mm::EmployeesController < Base::HyaccController
   def disable
     @employee = Employee.find(params[:id])
     @employee.disabled = true
-    
-    @employee.transaction do
-      @employee.save!
-    end
+
+    begin
+      @employee.transaction do
+        @employee.save!
+      end
 
     # 無効にしたユーザがログインユーザ自身の場合は、ログアウト
-    if current_user.employee.id == @employee.id
-      reset_session
-      redirect_to root_path
-    else
-      flash[:notice] = "#{@employee.name} を無効にしました。"
+      if current_user.employee.id == @employee.id
+        reset_session
+        redirect_to root_path
+      else
+        flash[:notice] = "#{@employee.name} を無効にしました。"
+        redirect_to action: :index
+      end
+    rescue => e
+      handle(e)
       redirect_to action: :index
     end
   end
 
   def destroy
     @employee = Employee.find(params[:id])
-    @employee.destroy_logically!
+
+    begin
+      @employee.transaction do
+        @employee.destroy_logically!
+      end
 
     # 削除したユーザがログインユーザ自身の場合は、ログアウト
-    if current_user.employee.id == @employee.id
-      reset_session
-      redirect_to root_path
-    else
-      flash[:notice] = "#{@employee.name} を削除しました。"
+      if current_user.employee.id == @employee.id
+        reset_session
+        redirect_to root_path
+      else
+        flash[:notice] = "#{@employee.name} を削除しました。"
+        redirect_to action: :index
+      end
+    rescue => e
+      handle(e)
       redirect_to action: :index
     end
   end

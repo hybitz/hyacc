@@ -25,6 +25,7 @@ class Employee < ApplicationRecord
 
   validates_with Validators::DefaultBranchPresenceValidator
   validates_with Validators::UniqueBranchEmployeesValidator
+  validates_with Validators::LastActiveAdminValidator
 
   def self.name_is(name)
     where('last_name = ? or first_name = ? or concat(last_name, first_name) = ?', name, name, name)

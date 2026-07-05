@@ -4,6 +4,7 @@ module HyaccErrors
   ERR_AMOUNT_UNBALANCED_BY_BRANCH = "部門別で貸借の金額が一致しません。"
   ERR_BANK_ACCOUNT_LINKED = "既に有価証券取引の存在する金融口座のため削除できません。"
   ERR_BANK_LINKED = "既に関連口座の存在する金融機関のため削除できません。"
+  ERR_BRANCH_HEAD_OFFICE = "本店は削除できません。"
   ERR_CANNOT_CHANGE_ASSET_NOT_STATUS_CREATED = "償却対象の資産が存在するため変更できません。"
   ERR_CANNOT_CHANGE_SUB_ACCOUNT_TYPE = "既に伝票の存在する勘定科目のため補助科目区分を変更できません。"
   ERR_CLOSING_STATUS_CLOSING = "仮締状態のため処理を実行できません。"

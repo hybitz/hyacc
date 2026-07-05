@@ -1,8 +1,9 @@
 <div class="branch">
-  <%= form_for [:mm, @branch], remote: true do |f| %>
+  <%= form_with model: [:mm, @branch], data: { remote: true } do |f| %>
+    <%= flash_notice %>
     <%= f.hidden_field :parent_id if @branch.new_record? %>
 
-    <table>
+    <table class="table table-sm mb-0">
       <tbody>
         <tr>
           <th><%= f.label :business_office_id %></th>
@@ -16,7 +17,7 @@
           <th><%= f.label :code %></th>
           <td>
             <% if @branch.new_record? %>
-              <%= f.text_field :code %>
+              <%= f.text_field :code, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %>
             <% else %>
               <%= @branch.code %>
             <% end %>
@@ -24,11 +25,11 @@
         </tr>
         <tr>
           <th><%= f.label :formal_name %></th>
-          <td><%= f.text_field :formal_name %></td>
+          <td><%= f.text_field :formal_name, class: 'form-control form-control-sm' %></td>
         </tr>
         <tr>
           <th><%= f.label :name %></th>
-          <td><%= f.text_field :name %></td>
+          <td><%= f.text_field :name, class: 'form-control form-control-sm' %></td>
         </tr>
       </tbody>
     </table>

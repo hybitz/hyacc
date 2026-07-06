@@ -11,6 +11,7 @@
         <th class="text-center"><%= Employee.human_attribute_name :social_insurance_birthday %></th>
         <th class="text-center">業務経歴</th>
         <th class="text-center">状態</th>
+        <th class="text-center"><%= User.human_attribute_name :admin %></th>
         <th></th>
       </tr>
     </thead>
@@ -30,6 +31,13 @@
           </td>
           <td class="text-center"><%= e.disabled_name %></td>
           <td class="text-center">
+            <% if e.user_loginable? %>
+              <%= e.user.admin? ? 'あり' : 'なし' %>
+            <% else %>
+              -
+            <% end %>
+          </td>
+          <td class="text-center text-nowrap">
             <%= link_to '編集', edit_mm_employee_path(e), remote: true, class: 'btn btn-sm btn-light' %>
             <% if e.disabled? %>
               <%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, method: 'delete', class: 'btn btn-sm btn-danger' %>

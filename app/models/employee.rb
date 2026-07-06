@@ -73,7 +73,7 @@ class Employee < ApplicationRecord
   end
 
   def user_loginable?
-    user.present? && user.loginable?(self)
+    user.present? && user.active_for_authentication?
   end
 
   def fullname(separetor = ' ')

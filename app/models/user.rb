@@ -24,13 +24,8 @@ class User < ApplicationRecord
     )
   }
 
-  def loginable?(employee_record = nil)
-    emp = employee_record || employee
-    !deleted? && !emp.disabled? && !emp.deleted?
-  end
-
   def active_admin?
-    admin? && loginable?
+    admin? && active_for_authentication?
   end
 
   def would_remove_last_active_admin?

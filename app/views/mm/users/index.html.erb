@@ -17,7 +17,7 @@
           <td class="text-center"><%= user.login_id %></td>
           <td><%= link_to user.employee.fullname, {action: 'show', id: user.id}, class: 'show', remote: true %></td>
           <td class="text-center">
-            <% if user.loginable? %>
+            <% if user.active_for_authentication? %>
               <%= user.admin? ? 'あり' : 'なし' %>
             <% else %>
               -

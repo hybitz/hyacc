@@ -4,7 +4,7 @@ var options = {
 
 options.buttons = [];
 
-<% if @user.loginable? %>
+<% if @user.active_for_authentication? %>
   <% if @user.admin? %>
     options.buttons.push({
       text: '管理権限を解除',

@@ -32,7 +32,7 @@ class EmployeeTest < ActiveSupport::TestCase
   def test_user_loginable_ログイン可能なユーザがいればtrue
     e = user.employee
     assert e.user_loginable?
-    assert e.user.loginable?(e)
+    assert e.user.active_for_authentication?
   end
 
   def test_user_loginable_無効化済み従業員はfalse

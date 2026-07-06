@@ -35,14 +35,6 @@ class UserTest < ActiveSupport::TestCase
     assert_not users(:deleted_employee_user).active_for_authentication?
   end
 
-  def test_loginable_削除済みユーザはfalse
-    assert_not users(:deleted_user).loginable?
-  end
-
-  def test_loginable_無効化済み従業員に紐づくユーザはfalse
-    assert_not users(:disabled_employee_user).loginable?
-  end
-
   def test_active_admin_無効化済みユーザでadminフラグがtrueでもfalse
     u = users(:disabled_employee_user)
     u.admin = true

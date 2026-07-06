@@ -25,7 +25,7 @@ class Mm::CareersControllerTest < ActionController::TestCase
 
   def test_追加_employee_idを渡すと従業員が設定される
     sign_in user
-    employee = Employee.where(company_id: user.employee.company_id, deleted: false).first
+    employee = user.employee
     get :new, xhr: true, params: { employee_id: employee.id }
     assert_response :success
     assert_equal employee.id, assigns(:c).employee_id

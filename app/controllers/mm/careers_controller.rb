@@ -7,8 +7,15 @@ class Mm::CareersController < Base::HyaccController
     @careers = finder.list
   end
 
+  def show
+    @c = Career.find(params[:id])
+  end
+
   def new
     @c = Career.new
+    if params[:employee_id].present?
+      @c.employee = current_company.employees.find(params[:employee_id])
+    end
   end
 
   def create

@@ -29,7 +29,7 @@ class Mm::RentsController < Base::HyaccController
         @rent.save!
       end
 
-      flash[:notice] = "#{@rent.name} を登録しました。"
+      flash[:notice] = "#{ERB::Util.html_escape(@rent.name)} を登録しました。"
       render 'common/reload'
 
     rescue => e
@@ -47,7 +47,7 @@ class Mm::RentsController < Base::HyaccController
         @rent.update!(rent_params)
       end
 
-      flash[:notice] = "#{@rent.name} を更新しました。"
+      flash[:notice] = "#{ERB::Util.html_escape(@rent.name)} を更新しました。"
       render 'common/reload'
 
     rescue => e
@@ -61,7 +61,7 @@ class Mm::RentsController < Base::HyaccController
     @rent = Rent.find(params[:id])
     @rent.destroy
 
-    flash[:notice] = "#{@rent.name} を削除しました。"
+    flash[:notice] = "#{ERB::Util.html_escape(@rent.name)} を削除しました。"
     redirect_to action: 'index'
   end
   

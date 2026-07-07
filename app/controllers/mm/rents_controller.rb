@@ -1,6 +1,5 @@
 class Mm::RentsController < Base::HyaccController
   before_action :check_customer_exists
-  view_attribute :deleted_types
 
   helper_method :finder
 
@@ -30,7 +29,7 @@ class Mm::RentsController < Base::HyaccController
         @rent.save!
       end
 
-      flash[:notice] = '地代家賃を登録しました。'
+      flash[:notice] = "#{@rent.name} を登録しました。"
       render 'common/reload'
 
     rescue => e
@@ -48,7 +47,7 @@ class Mm::RentsController < Base::HyaccController
         @rent.update!(rent_params)
       end
 
-      flash[:notice] = '地代家賃を更新しました。'
+      flash[:notice] = "#{@rent.name} を更新しました。"
       render 'common/reload'
 
     rescue => e
@@ -62,6 +61,7 @@ class Mm::RentsController < Base::HyaccController
     @rent = Rent.find(params[:id])
     @rent.destroy
 
+    flash[:notice] = "#{@rent.name} を削除しました。"
     redirect_to action: 'index'
   end
   
@@ -86,7 +86,7 @@ class Mm::RentsController < Base::HyaccController
   
   def finder_params
     if params[:finder]
-      params.require(:finder).permit()
+      params.require(:finder).permit(:status)
     end
   end
 

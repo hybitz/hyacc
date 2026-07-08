@@ -26,6 +26,7 @@ class Employee < ApplicationRecord
   validates_with Validators::DefaultBranchPresenceValidator
   validates_with Validators::UniqueBranchEmployeesValidator
   validates_with Validators::LastActiveAdminValidator
+  include LastActiveAdminLockable
 
   def self.name_is(name)
     where('last_name = ? or first_name = ? or concat(last_name, first_name) = ?', name, name, name)
@@ -154,6 +155,17 @@ class Employee < ApplicationRecord
 
   def representative_or_family_type_name
     REPRESENTATIVE_OR_FAMILY_TYPES[representative_or_family_type]
+  end
+
+  def admin_becoming_inactive?
+    return false unless user
+    user.admin_becoming_inactive?
+  end
+
+  private
+
+  def lockable_company
+    company
   end
 
 end

@@ -40,4 +40,77 @@ class EmployeeTest < ActiveSupport::TestCase
     assert_not e.user_loginable?
   end
 
+  def test_admin_becoming_inactive_ユーザに紐付かない従業員はfalse
+    e = Employee.find(10)
+    assert_nil e.user
+    e.disabled = true
+    assert_not e.admin_becoming_inactive?
+  end
+
+  def test_admin_becoming_inactive_管理者ユーザに紐づく従業員が無効になる場合はtrue
+    e = admin.employee
+    e.disabled = true
+    assert e.admin_becoming_inactive?
+  end
+
+  def test_管理者ユーザに紐づく従業員が無効化される保存でcompanyのlock_versionが上がる
+    company = admin.employee.company
+    before_lock_version = company.lock_version
+
+    admin.employee.disabled = true
+    admin.employee.save!(validate: false)
+
+    assert_equal before_lock_version + 1, company.reload.lock_version
+  end
+
+  def test_同時に最後の2人の管理者ユーザに紐づく従業員を無効化しようとした場合_片方はStaleObjectErrorになり管理者が1人残る
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    request1 = Employee.find(admin.employee.id)
+    request2 = Employee.find(other_admin.employee.id)
+
+    request1.company
+    request2.company
+
+    request1.disabled = true
+    request2.disabled = true
+    assert request1.valid?
+    assert request2.valid?
+
+    request1.save!
+
+    assert_raises(ActiveRecord::StaleObjectError) do
+      request2.save!(validate: false)
+    end
+
+    assert Employee.find(admin.employee.id).disabled?
+    assert_not Employee.find(other_admin.employee.id).disabled?
+  end
+
+  def test_同時に最後の2人の管理者ユーザに紐づく従業員を削除しようとした場合_片方はStaleObjectErrorになり管理者が1人残る
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    request1 = Employee.find(admin.employee.id)
+    request2 = Employee.find(other_admin.employee.id)
+
+    request1.company
+    request2.company
+
+    request1.deleted = true
+    request2.deleted = true
+    assert request1.valid?
+    assert request2.valid?
+
+    request1.save!
+
+    assert_raises(ActiveRecord::StaleObjectError) do
+      request2.save!(validate: false)
+    end
+
+    assert Employee.find(admin.employee.id).deleted?
+    assert_not Employee.find(other_admin.employee.id).deleted?
+  end
+
 end

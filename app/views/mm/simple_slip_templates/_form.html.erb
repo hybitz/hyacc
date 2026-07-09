@@ -1,90 +1,88 @@
-<div style="margin: 5px;">
-  <script>
-    $(document).ready(function() {
-      // キーワード生成
-      $('input[value=キーワード生成]').click(function() {
-        var url = '<%= url_for action: :get_keywords %>';
-        var params = {remarks: $('#simple_slip_template_remarks').val()};
-        $.get(url, params, function(data) {
-          $('#simple_slip_template_keywords').val(data);
-        });
+<script>
+  $(document).ready(function() {
+    // キーワード生成
+    $('input[value=キーワード生成]').click(function() {
+      var url = '<%= url_for action: :get_keywords %>';
+      var params = {remarks: $('#simple_slip_template_remarks').val()};
+      $.get(url, params, function(data) {
+        $('#simple_slip_template_keywords').val(data);
       });
-
-      // 勘定科目の変更
-      var initial_value = '<%= @simple_slip_template.sub_account_id %>';
-      $('#simple_slip_template_account_id').change(function(eventData) {
-        var account = $(this);
-        var url = '<%= url_for action: 'get_sub_accounts' %>';
-        var params = {account_id: account.val(), selected: initial_value, format: 'html'};
-        $.get(url, params, function(data) {
-          account.closest('td').next().html(data);
-        });
-        initial_value = '';
-      }).change();
     });
-  </script>
 
-  <%= form_with model: [:mm, @simple_slip_template], data: {remote: true} do |f| %>
-    <%= flash_notice %>
+    // 勘定科目の変更
+    var initial_value = '<%= @simple_slip_template.sub_account_id %>';
+    $('#simple_slip_template_account_id').change(function(eventData) {
+      var account = $(this);
+      var url = '<%= url_for action: 'get_sub_accounts' %>';
+      var params = {account_id: account.val(), selected: initial_value, format: 'html'};
+      $.get(url, params, function(data) {
+        account.closest('td').next().html(data);
+      });
+      initial_value = '';
+    }).change();
+  });
+</script>
 
-    <%= f.hidden_field :owner_type %>
-    <%= f.hidden_field :owner_id %>
+<%= form_with model: [:mm, @simple_slip_template], data: {remote: true} do |f| %>
+  <%= flash_notice %>
 
-    <table class="table">
-      <tr>
-        <th>摘要</th>
-        <td class="text-center">
-          <%= f.text_field :remarks, class: 'form-control' %>
-        </td>
-        <td class="text-center">
-          <input type="button" value="キーワード生成"/>
-        </td>
-      </tr>
-      <tr>
-        <th>説明</th>
-        <td colspan="2" class="text-center">
-          <%= f.text_field :description, class: 'form-control' %>
-        </td>
-      </tr>
-      <tr>
-        <th>キーワード</th>
-        <td colspan="2" class="text-center">
-          <%= f.text_field :keywords, class: 'form-control' %>
-        </td>
-      </tr>
-    </table>
-    <table class="table">
-      <tr>
-        <th class="text-center">勘定科目</th>
-        <th class="text-center">補助科目</th>
-        <th class="text-center">計上部門</th>
-        <th class="text-center">貸借区分</th>
-      </tr>
-      <tr>
-        <td><%= collection_select_code_and_name 'simple_slip_template', 'account_id', finder.accounts, :id, :name, {}, class: 'accountSelect' %></td>
-        <td></td>
-        <td><%= f.collection_select :branch_id, current_company.branches, :id, :name, {include_blank: true}, class: 'branchSelect' %></td>
-        <td><%= f.select :dc_type, dc_types, {include_blank: true}, class: 'dcTypeSelect' %></td>
-      </tr>
-    </table>
-    <table class="table">
-      <tr>
-        <th class="text-center">消費税区分</th>
-        <th class="text-center">消費税率</th>
-        <th class="text-center">金額</th>
-        <th class="text-center">消費税額</th>
-        <th class="text-center">フォーカス</th>
-      </tr>
-      <tr>
-        <td><%= f.select :tax_type, tax_types, {include_blank: true}, class: 'form-control' %></td>
-        <td class="text-center" style="width: 6em;">
-          <%= f.text_field :tax_rate_percent, class: 'form-control text-center float-left', style: 'width: 3em;' %>
-          <div>%</div>
-        </td>
-        <td><%= f.text_field :amount, class: 'form-control text-end', style: 'width: 10em;' %></td>
-        <td><%= f.text_field :tax_amount, class: 'form-control text-end', style: 'width: 8em;' %></td>
-        <td><%= f.select :focus_on_complete, focus_on_completes, {include_blank: true}, class: 'form-control' %></td>
-      </tr>
-    </table>
-  <% end %>
-</div>
+  <%= f.hidden_field :owner_type %>
+  <%= f.hidden_field :owner_id %>
+
+  <table class="table table-sm mb-0">
+    <tr>
+      <th><%= SimpleSlipTemplate.human_attribute_name :remarks %></th>
+      <td>
+        <%= f.text_field :remarks, class: 'form-control form-control-sm' %>
+      </td>
+      <td>
+        <input type="button" value="キーワード生成" class="btn btn-light btn-sm"/>
+      </td>
+    </tr>
+    <tr>
+      <th><%= SimpleSlipTemplate.human_attribute_name :description %></th>
+      <td colspan="2">
+        <%= f.text_field :description, class: 'form-control form-control-sm' %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= SimpleSlipTemplate.human_attribute_name :keywords %></th>
+      <td colspan="2">
+        <%= f.text_field :keywords, class: 'form-control form-control-sm' %>
+      </td>
+    </tr>
+  </table>
+  <table class="table table-sm mb-0">
+    <tr>
+      <th><%= SimpleSlipTemplate.human_attribute_name :account_id %></th>
+      <th><%= SimpleSlipTemplate.human_attribute_name :sub_account_id %></th>
+      <th><%= SimpleSlipTemplate.human_attribute_name :branch_id %></th>
+      <th><%= SimpleSlipTemplate.human_attribute_name :dc_type %></th>
+    </tr>
+    <tr>
+      <td><%= collection_select_code_and_name 'simple_slip_template', 'account_id', finder.accounts, :id, :name, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+      <td class="subAccountCell"></td>
+      <td><%= f.collection_select :branch_id, current_company.branches, :id, :name, {include_blank: true}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+      <td><%= f.select :dc_type, dc_types, {include_blank: true}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+    </tr>
+  </table>
+  <table class="table table-sm mb-0">
+    <tr>
+      <th><%= SimpleSlipTemplate.human_attribute_name :tax_type %></th>
+      <th><%= SimpleSlipTemplate.human_attribute_name :tax_rate_percent %></th>
+      <th><%= SimpleSlipTemplate.human_attribute_name :amount %></th>
+      <th><%= SimpleSlipTemplate.human_attribute_name :tax_amount %></th>
+      <th><%= SimpleSlipTemplate.human_attribute_name :focus_on_complete %></th>
+    </tr>
+    <tr>
+      <td><%= f.select :tax_type, tax_types, {include_blank: true}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+      <td class="text-end text-nowrap" style="width: 6em;">
+        <%= f.text_field :tax_rate_percent, class: 'form-control form-control-sm d-inline-block text-end', style: 'width: 3em;' %>
+        %
+      </td>
+      <td><%= f.text_field :amount, class: 'form-control form-control-sm text-end d-inline-block', style: 'width: 10em; max-width: 100%;' %></td>
+      <td><%= f.text_field :tax_amount, class: 'form-control form-control-sm text-end d-inline-block', style: 'width: 8em; max-width: 100%;' %></td>
+      <td><%= f.select :focus_on_complete, focus_on_completes, {include_blank: true}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+    </tr>
+  </table>
+<% end %>

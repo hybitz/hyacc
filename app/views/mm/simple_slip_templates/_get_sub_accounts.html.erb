@@ -1,3 +1,4 @@
 <%= fields_for 'simple_slip_template' do |f| %>
   <%= f.collection_select :sub_account_id, sub_accounts, :id, :name, {selected: params[:selected], include_blank: true}, {class: 'form-select form-select-sm d-inline-block w-auto mw-100', disabled: sub_accounts.blank?} %>
+  <%= f.hidden_field :sub_account_id, value: '' if sub_accounts.blank? %>
 <% end %>

@@ -258,13 +258,14 @@ ja:
         file: 領収書
 
       rent:
+        customer_id: 貸主
         end_to: 契約終了日
-        rent_type: "家賃のタイプ"
-        usage_type: "使い方タイプ"
-        address: "住所"
-        name: "名前"
+        rent_type: 地代／家賃
+        usage_type: 用途
+        address: 所在地
+        name: 表示名
         start_from: 契約開始日
-        status: 地位
+        status: 状態
 
       simple_slip_setting:
         shortcut_key: ショートカットキー
@@ -285,6 +286,7 @@ ja:
 
       user:
         account_count_of_frequencies: 勘定科目の優先表示数
+        admin: 管理権限
         code: "コード"
         password: パスワード
         first_name: "名前"

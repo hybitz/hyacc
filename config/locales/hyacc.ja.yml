@@ -24,6 +24,7 @@ ja:
       journal_detail: 仕訳明細
       payroll: 給与
       qualification: 資格
+      career: 業務経歴
       donation_recipient: 寄付先
       receipt: 領収書
       rent: 地代家賃
@@ -110,6 +111,9 @@ ja:
         users: ユーザ
         social_insurance_number: 社会保険事業所整理番号
         retirement_savings_after: 退職金積立の開始時期
+
+      career:
+        project_name: プロジェクト名
 
       customer:
         address: 住所

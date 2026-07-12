@@ -9,11 +9,26 @@ class Mm::CareersControllerTest < ActionController::TestCase
     assert_template :index
   end
 
+  def test_参照
+    sign_in user
+    get :show, params: {id: career.id}, xhr: true
+    assert_response :success
+    assert_template :show
+  end
+
   def test_追加
     sign_in user
     get :new, xhr: true
     assert_response :success
     assert_template :new
+  end
+
+  def test_追加_employee_idを渡すと従業員が設定される
+    sign_in user
+    employee = user.employee
+    get :new, xhr: true, params: { employee_id: employee.id }
+    assert_response :success
+    assert_equal employee.id, assigns(:c).employee_id
   end
 
   def test_登録

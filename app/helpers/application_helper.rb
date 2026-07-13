@@ -46,7 +46,7 @@ module ApplicationHelper
     if message.present?
       ret = <<-"NOTICE"
         <#{tag} class="#{clazz}" style="margin: #{margin}px;;">
-        #{message}
+        #{ERB::Util.html_escape(message)}
         </#{tag}>
       NOTICE
       ret.html_safe

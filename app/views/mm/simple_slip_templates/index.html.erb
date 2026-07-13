@@ -1,4 +1,5 @@
 <%= render 'search' %>
+<%= flash_notice %>
 
 <% if @templates.empty? %>
   <div style="margin: 10px">登録されているテンプレートはありません。</div>
@@ -7,4 +8,4 @@
 <% end %>
 
 <%= will_paginate @templates if @templates.present? %>
-<%= link_to '追加', {action: 'new'}, class: 'btn btn-light add', remote: true %>
+<%= link_to '追加', new_mm_simple_slip_template_path(account_id: finder.account_id, remarks: finder.remarks), class: 'btn btn-light add', remote: true %>

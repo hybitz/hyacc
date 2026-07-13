@@ -31,4 +31,28 @@ class Mm::QualificationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @expected.name, @actual.name
     assert_equal @expected.allowance, @actual.allowance
   end
+
+  def test_登録_入力エラー
+    assert_no_difference 'Qualification.count' do
+      post mm_qualifications_path, xhr: true, params: {
+        qualification: {name: '', allowance: ''}
+      }
+    end
+
+    assert_response :success
+    assert_template :new
+    assert assigns(:qualification).errors[:name].present?
+    assert assigns(:qualification).errors[:allowance].present?
+  end
+
+  def test_更新_入力エラー
+    patch mm_qualification_path(qualification), xhr: true, params: {
+      qualification: {name: '', allowance: ''}
+    }
+
+    assert_response :success
+    assert_template :edit
+    assert assigns(:qualification).errors[:name].present?
+    assert assigns(:qualification).errors[:allowance].present?
+  end
 end

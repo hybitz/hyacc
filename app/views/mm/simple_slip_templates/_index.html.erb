@@ -1,68 +1,36 @@
-<script>
-  function flipDetail(link) {
-    var link = $(link);
-    var tr = link.closest('tr');
-    var detail1 = tr.next();
-    var detail2 = detail1.next();
-    
-    if (detail1.is(':visible')) {
-      link.text('詳細を表示');
-      detail1.hide();
-      detail2.hide();
-    } else {
-      link.text('詳細を隠す');
-      detail1.show();
-      detail2.show();
-    }
-  }
-
-  $(document).ready(function() {
-    var container = document.getElementById('template_container');
-    var notice = document.getElementById('notice');
-    notice.style.marginLeft = (container.offsetWidth - notice.offsetWidth) + "px";
-  });
-</script>
-
-<div id="notice"><%= flash_notice_in_span %></div>
-
-<table id="template_container" class="table">
-  <tr>
-    <th class="nowrap">摘要</th>
-    <th class="nowrap">勘定科目</th>
-    <th class="nowrap">補助科目</th>
-    <th class="nowrap">計上部門</th>
-    <th class="nowrap text-center">貸借</th>
-    <th class="nowrap text-center">消費税区分</th>
-    <th class="nowrap">金額</th>
-    <th class="nowrap">消費税額</th>
-    <th class="nowrap text-center">フォーカス項目</th>
-    <th colspan="3"></th>
-  </tr>
-
-  <% @templates.each do |t| %>
-    <tr class="hover">
-      <td class="remarks"><%= t.remarks %></td>
-      <td class="accountName"><%= t.account.name if t.account %></td>
-      <td class="subAccountName"><%= t.sub_account.name if t.sub_account %></td>
-      <td class="branchName"><%= t.branch.name if t.branch %></td>
-      <td class="text-center"><%= t.dc_type_name %></td>
-      <td class="text-center"><%= t.tax_type_name %></td>
-      <td class="amount"><%= to_amount(t.amount) %></td>
-      <td class="amount"><%= to_amount(t.tax_amount) %></td>
-      <td class="text-center"><%= t.focus_on_complete_name %></td>
-      <td><%= link_to '編集', {action: :edit, id: t.id}, remote: true %></td>
-      <td><%= link_to '削除', {action: 'destroy', id: t.id}, data: {confirm: '削除します。よろしいですか？'}, method: 'delete' %></td>
-      <td><%= link_to '詳細を表示', '#', onclick: 'flipDetail(this); return false;' %></td>
+<table class="table table-striped table-hover my-4" style="table-layout: fixed; width: 100%;">
+  <thead>
+    <tr>
+      <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :remarks %></th>
+      <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :account_id %></th>
+      <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :sub_account_id %></th>
+      <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :branch_id %></th>
+      <th class="text-center" style="width: 6.5%;"><%= SimpleSlipTemplate.human_attribute_name :dc_type %></th>
+      <th class="text-center" style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :tax_type %></th>
+      <th class="text-center" style="width: 6.5%;"><%= SimpleSlipTemplate.human_attribute_name :amount %></th>
+      <th class="text-center" style="width: 6.5%;"><%= SimpleSlipTemplate.human_attribute_name :tax_amount %></th>
+      <th class="text-center" style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :focus_on_complete %></th>
+      <th class="text-center" style="width: 11.5%;"></th>
     </tr>
-    <tr id="detail_1_<%= t.id %>" style="display:none;">
-      <td rowspan="2"></td>
-      <th colspan="5" style="text-align:center;">説明</th>
-      <th colspan="3" style="text-align:center;">キーワード</th>
-      <td rowspan="2" colspan="3"></td>
-    </tr>
-    <tr id="detail_2_<%= t.id %>" style="display:none;">
-      <td colspan="5"><%= t.description %></td>
-      <td colspan="3"><%= t.keywords %></td>
-    </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @templates.each do |t| %>
+      <tr>
+        <td><%= t.remarks %></td>
+        <td><%= t.account.name if t.account %></td>
+        <td><%= t.sub_account.name if t.sub_account %></td>
+        <td><%= t.branch.name if t.branch %></td>
+        <td class="text-center"><%= t.dc_type_name %></td>
+        <td class="text-center"><%= t.tax_type_name %></td>
+        <td class="text-end text-nowrap"><%= to_amount(t.amount) %></td>
+        <td class="text-end text-nowrap"><%= to_amount(t.tax_amount) %></td>
+        <td class="text-center"><%= t.focus_on_complete_name %></td>
+        <td class="text-center text-nowrap">
+          <%= link_to '参照', mm_simple_slip_template_path(t), remote: true, class: 'btn btn-sm btn-light' %>
+          <%= link_to '編集', edit_mm_simple_slip_template_path(t), class: 'btn btn-sm btn-light', remote: true %>
+          <%= link_to '削除', mm_simple_slip_template_path(t), data: {confirm: '削除します。よろしいですか？'}, method: :delete, class: 'btn btn-sm btn-light' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>

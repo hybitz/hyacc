@@ -32,7 +32,7 @@ a.input-group-text {
   text-decoration: none;
 }
 
-input[type="text"], input[type="password"], select, select.form-select {
+input[type="text"], input[type="password"], select, select.form-select, textarea, textarea.form-control {
   background-color: #FFFAFA;
 
   &:disabled {

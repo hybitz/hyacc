@@ -2,21 +2,21 @@
 <%= flash_notice %>
 
 <% if @skills.present? %>
-  <div class="col-md-8">
+  <div class="col-md-6">
     <table id="skill_container" class="table table-striped table-hover my-4">
       <thead>
         <tr>
           <th style="width: 70%;"><%= Qualification.human_attribute_name :name %></th>
-          <th class="text-center"><%= Skill.human_attribute_name :qualified_on %></th>
-          <th></th>
+          <th><%= Skill.human_attribute_name :qualified_on %></th>
+          <th class="text-center"></th>
         </tr>
       </thead>
       <tbody>
         <% @skills.each do |s| %>
           <tr>
             <td><%= s.qualification.name %></td>
-            <td class="text-center"><%= s.qualified_on || '-' %></td>
-            <td class="text-center">
+            <td><%= s.qualified_on || '-' %></td>
+            <td class="text-center text-nowrap">
               <% if s.new_record? %>
                 <%= link_to '追加', new_mm_skill_path(employee_id: finder.employee_id, qualification_id: s.qualification.id), class: 'btn btn-sm btn-light', remote: true %>
               <% else %>

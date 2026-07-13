@@ -4,51 +4,45 @@
   });
 </script>
 
-<%= form_for [:mm, @rent], remote: true do |f| %>
+<%= form_with model: [:mm, @rent], data: {remote: true} do |f| %>
   <%= flash_notice %>
 
-  <p>
-    <b>地代家賃</b><br />
-    <%= f.select :rent_type, rent_types %>
-  </p>
-
-  <p>
-    <b>用途</b><br />
-    <%= f.select :usage_type, rent_usage_types %>
-  </p>
-
-  <p>
-    <b>契約開始日</b><br />
-    <%= f.text_field :start_from, class: 'datepicker' %>
-  </p>
-
-  <p>
-    <b>契約終了日</b><br />
-    <%= f.text_field :end_to, class: 'datepicker' %>
-  </p>
-
-  <p>
-    <b>郵便番号</b><br />
-    <%= f.text_field :zip_code, maxlength: 7 %>
-  </p>
-
-  <p>
-    <b>住所</b><br />
-    <%= f.text_field :address %>
-  </p>
-
-  <p>
-    <b>取引先</b><br />
-    <%= f.select :customer_id, @customers.map{|c| [c.name, c.id]} %>
-  </p>
-
-  <p>
-    <b>表示名</b><br />
-    <%= f.text_field :name %>
-  </p>
-
-  <p>
-    <b>状態</b><br />
-    <%= f.select :status, rent_status_types %>
-  </p>
+  <table class="table table-sm mb-0">
+    <tr>
+      <th><%= f.label :rent_type %></th>
+      <td><%= f.select :rent_type, rent_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :name %></th>
+      <td><%= f.text_field :name, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :usage_type %></th>
+      <td><%= f.select :usage_type, rent_usage_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :start_from %></th>
+      <td><%= f.text_field :start_from, class: 'form-control form-control-sm datepicker d-inline-block', style: 'width: 8em; max-width: 100%;' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :end_to %></th>
+      <td><%= f.text_field :end_to, class: 'form-control form-control-sm datepicker d-inline-block', style: 'width: 8em; max-width: 100%;' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :zip_code %></th>
+      <td><%= f.text_field :zip_code, maxlength: 7, class: 'form-control form-control-sm d-inline-block', style: 'width: 8em; max-width: 100%;' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :address %></th>
+      <td><%= f.text_field :address, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :customer_id %></th>
+      <td><%= f.collection_select :customer_id, @customers, :id, :name, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+    </tr>
+    <tr>
+      <th><%= f.label :status %></th>
+      <td><%= f.select :status, rent_status_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
+    </tr>
+  </table>
 <% end %>

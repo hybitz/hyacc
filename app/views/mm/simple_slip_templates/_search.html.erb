@@ -1,14 +1,14 @@
 <%= form_tag({action: 'index'}, method: 'get', class: 'row') do %>
   <div class="col-md-3">
     <div class="input-group">
-      <label class="input-group-text">摘要</label>
-      <%= text_field 'finder', 'remarks', class: 'form-select' %>
+      <label class="input-group-text"><%= SimpleSlipTemplate.human_attribute_name :remarks %></label>
+      <%= text_field 'finder', 'remarks', class: 'form-control' %>
       <a href='#' onclick='$("#finder_remarks").val(""); return false;' class="input-group-text">×</a>
     </div>
   </div>
   <div class="col-auto">
     <div class="input-group">
-      <label class="input-group-text">勘定科目</label>
+      <label class="input-group-text"><%= SimpleSlipTemplate.human_attribute_name :account_id %></label>
       <%= collection_select_code_and_name(:finder, :account_id, finder.accounts, :id, :name, {include_blank: true}, class: 'form-select') %>
       <a href='#' onclick='$("#finder_account_id").val(""); return false;' class="input-group-text">×</a>
     </div>

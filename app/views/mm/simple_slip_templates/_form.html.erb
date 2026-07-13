@@ -61,7 +61,7 @@
     </tr>
     <tr>
       <td><%= collection_select_code_and_name 'simple_slip_template', 'account_id', finder.accounts, :id, :name, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
-      <td class="subAccountCell"></td>
+      <td></td>
       <td><%= f.collection_select :branch_id, current_company.branches, :id, :name, {include_blank: true}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
       <td><%= f.select :dc_type, dc_types, {include_blank: true}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>

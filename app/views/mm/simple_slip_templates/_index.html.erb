@@ -5,11 +5,11 @@
       <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :account_id %></th>
       <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :sub_account_id %></th>
       <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :branch_id %></th>
-      <th style="width: 6.5%;"><%= SimpleSlipTemplate.human_attribute_name :dc_type %></th>
-      <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :tax_type %></th>
+      <th class="text-center" style="width: 6.5%;"><%= SimpleSlipTemplate.human_attribute_name :dc_type %></th>
+      <th class="text-center" style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :tax_type %></th>
       <th class="text-center" style="width: 6.5%;"><%= SimpleSlipTemplate.human_attribute_name :amount %></th>
       <th class="text-center" style="width: 6.5%;"><%= SimpleSlipTemplate.human_attribute_name :tax_amount %></th>
-      <th style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :focus_on_complete %></th>
+      <th class="text-center" style="width: 11.5%;"><%= SimpleSlipTemplate.human_attribute_name :focus_on_complete %></th>
       <th class="text-center" style="width: 11.5%;"></th>
     </tr>
   </thead>
@@ -20,11 +20,11 @@
         <td><%= t.account.name if t.account %></td>
         <td><%= t.sub_account.name if t.sub_account %></td>
         <td><%= t.branch.name if t.branch %></td>
-        <td><%= t.dc_type_name %></td>
-        <td><%= t.tax_type_name %></td>
+        <td class="text-center"><%= t.dc_type_name %></td>
+        <td class="text-center"><%= t.tax_type_name %></td>
         <td class="text-end text-nowrap"><%= to_amount(t.amount) %></td>
         <td class="text-end text-nowrap"><%= to_amount(t.tax_amount) %></td>
-        <td><%= t.focus_on_complete_name %></td>
+        <td class="text-center"><%= t.focus_on_complete_name %></td>
         <td class="text-center text-nowrap">
           <%= link_to '参照', mm_simple_slip_template_path(t), remote: true, class: 'btn btn-sm btn-light' %>
           <%= link_to '編集', edit_mm_simple_slip_template_path(t), class: 'btn btn-sm btn-light', remote: true %>

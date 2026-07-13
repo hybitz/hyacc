@@ -72,6 +72,10 @@ class Employee < ApplicationRecord
     DISABLED_TYPES[disabled]
   end
 
+  def user_loginable?
+    user.present? && user.active_for_authentication?
+  end
+
   def fullname(separetor = ' ')
     "#{last_name}#{separetor}#{first_name}"
   end

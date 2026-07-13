@@ -10,7 +10,9 @@ class EmployeeFinder
   end
 
   def list
-    Employee.where(conditions).paginate(page: page, per_page: per_page)
+    Employee.where(conditions)
+      .includes(:user)
+      .paginate(page: page, per_page: per_page)
   end
 
   private

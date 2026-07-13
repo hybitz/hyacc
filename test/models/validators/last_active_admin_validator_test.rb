@@ -79,4 +79,24 @@ class LastActiveAdminValidatorTest < ActiveSupport::TestCase
     assert other_admin.employee.valid?
   end
 
+  def test_ログイン可能な管理権限を持つユーザーが1人のとき_adminを解除できない
+    assert admin.admin?
+    assert admin.active_admin?
+
+    admin.admin = false
+    assert admin.invalid?
+    assert_equal ERR_LAST_ACTIVE_ADMIN_REVOKE, admin.errors[:base].first
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_adminを解除できる
+    other_admin = User.find(6)
+
+    other_admin.update!(admin: true)
+    assert admin.admin?
+    assert other_admin.admin?
+
+    admin.admin = false
+    assert admin.valid?
+  end
+
 end

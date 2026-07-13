@@ -66,6 +66,10 @@ Rails.application.routes.draw do
       collection do
         get 'add_branch'
       end
+      member do
+        post 'grant_admin'
+        post 'revoke_admin'
+      end
     end
   end
 end

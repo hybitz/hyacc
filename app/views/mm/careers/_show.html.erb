@@ -1,0 +1,57 @@
+<%= flash_notice %>
+
+<table class="table table-sm mb-0">
+  <tr>
+    <th>従業員</th>
+    <td><%= @c.employee.fullname %></td>
+  </tr>
+  <tr>
+    <th>取引先</th>
+    <td><%= @c.customer_name %></td>
+  </tr>
+  <tr>
+    <th>プロジェクト名</th>
+    <td><%= @c.project_name %></td>
+  </tr>
+  <tr>
+    <th>期間</th>
+    <td><%= @c.start_from %> ～ <%= @c.end_to %></td>
+  </tr>
+  <tr>
+    <th>概要</th>
+    <td style="white-space: pre-wrap;"><%= @c.description %></td>
+  </tr>
+  <tr>
+    <th>規模</th>
+    <td><%= @c.project_size %></td>
+  </tr>
+  <tr>
+    <th>工程</th>
+    <td><%= @c.process %></td>
+  </tr>
+  <tr>
+    <th>役割</th>
+    <td><%= @c.role %></td>
+  </tr>
+  <tr>
+    <th>スキル</th>
+    <td>
+      <table class="table table-sm mb-0">
+        <tr>
+          <th>機種</th>
+          <th>OS</th>
+          <th>DB</th>
+          <th>言語</th>
+          <th>その他</th>
+        </tr>
+        <tr>
+          <td style="white-space: pre-wrap;"><%= @c.hardware_skill %></td>
+          <td style="white-space: pre-wrap;"><%= @c.os_skill %></td>
+          <td style="white-space: pre-wrap;"><%= @c.db_skill %></td>
+          <td style="white-space: pre-wrap;"><%= @c.language_skill %></td>
+          <td style="white-space: pre-wrap;"><%= @c.other_skill %></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

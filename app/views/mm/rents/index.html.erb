@@ -1,38 +1,41 @@
-<%= render 'common/search' %>
+<%= render 'search' %>
 <%= flash_notice %>
 
-<table class="table table-hover rents">
-  <tr>
-    <th>地代/家賃</th>
-    <th>表示名</th>
-    <th>用途</th>
-    <th>契約開始日</th>
-    <th>契約終了日</th>
-    <th>郵便番号</th>
-    <th>所在地</th>
-    <th>貸主の名称</th>
-    <th class="text-center">状態</th>
-    <th></th>
-  </tr>
-
-  <% @rents.each do |r| %>
-    <tr id="rent_show_<%= r.id %>" class="hover">
-      <td><%= HyaccConst::RENT_TYPES[ r.rent_type ] %></td>
-      <td><%= r.name %></td>
-      <td><%= HyaccConst::RENT_USAGE_TYPES[ r.usage_type ] %></td>
-      <td><%= r.start_from %></td>
-      <td><%= r.end_to %></td>
-      <td><%= r.zip_code %></td>
-      <td><%= r.address %></td>
-      <td><%= r.customer.formal_name %></td>
-      <td class="text-center"><%= HyaccConst::RENT_STATUS_TYPES[ r.status ] %></td>
-      <td>
-        <%= link_to '編集', edit_mm_rent_path(r), remote: true, class: 'btn btn-sm btn-light' %>
-        <%= link_to '削除', [:mm, r], data: {confirm: '削除しますか？'}, method: :delete, class: 'btn btn-sm btn-light' %>
-      </td>
+<table class="table table-striped table-hover my-4">
+  <thead>
+    <tr>
+      <th><%= Rent.human_attribute_name :rent_type %></th>
+      <th><%= Rent.human_attribute_name :name %></th>
+      <th><%= Rent.human_attribute_name :usage_type %></th>
+      <th><%= Rent.human_attribute_name :start_from %></th>
+      <th><%= Rent.human_attribute_name :end_to %></th>
+      <th><%= Rent.human_attribute_name :zip_code %></th>
+      <th><%= Rent.human_attribute_name :address %></th>
+      <th><%= Rent.human_attribute_name :customer_id %></th>
+      <th><%= Rent.human_attribute_name :status %></th>
+      <th></th>
     </tr>
-  <% end %>
+  </thead>
+  <tbody>
+    <% @rents.each do |r| %>
+      <tr id="rent_show_<%= r.id %>">
+        <td><%= HyaccConst::RENT_TYPES[r.rent_type] %></td>
+        <td><%= r.name %></td>
+        <td><%= HyaccConst::RENT_USAGE_TYPES[r.usage_type] %></td>
+        <td><%= r.start_from %></td>
+        <td><%= r.end_to %></td>
+        <td><%= r.zip_code %></td>
+        <td><%= r.address %></td>
+        <td><%= r.customer.formal_name %></td>
+        <td><%= HyaccConst::RENT_STATUS_TYPES[r.status] %></td>
+        <td class="text-center text-nowrap">
+          <%= link_to '編集', edit_mm_rent_path(r), remote: true, class: 'btn btn-sm btn-light' %>
+          <%= link_to '削除', [:mm, r], data: {confirm: '削除しますか？'}, method: :delete, class: 'btn btn-sm btn-light' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <%= will_paginate @rents %>
-<%= link_to '追加', new_mm_rent_path, class: 'btn btn-light add', remote: true %>
+<%= link_to '追加', new_mm_rent_path, class: 'add btn btn-light', remote: true %>

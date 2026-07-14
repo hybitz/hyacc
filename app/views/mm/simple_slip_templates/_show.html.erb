@@ -1,0 +1,52 @@
+<table class="table table-sm mb-0">
+  <tbody>
+    <tr>
+      <th><%= SimpleSlipTemplate.human_attribute_name :remarks %></th>
+      <td><%= @simple_slip_template.remarks %></td>
+    </tr>
+    <tr>
+      <th><%= SimpleSlipTemplate.human_attribute_name :description %></th>
+      <td><%= @simple_slip_template.description %></td>
+    </tr>
+    <tr>
+      <th><%= SimpleSlipTemplate.human_attribute_name :keywords %></th>
+      <td><%= @simple_slip_template.keywords %></td>
+    </tr>
+  </tbody>
+</table>
+<table class="table table-sm mb-0">
+  <tr>
+    <th><%= SimpleSlipTemplate.human_attribute_name :account_id %></th>
+    <th><%= SimpleSlipTemplate.human_attribute_name :sub_account_id %></th>
+    <th><%= SimpleSlipTemplate.human_attribute_name :branch_id %></th>
+    <th><%= SimpleSlipTemplate.human_attribute_name :dc_type %></th>
+  </tr>
+  <tr>
+    <td><%= @simple_slip_template.account&.name %></td>
+    <td><%= @simple_slip_template.sub_account&.name %></td>
+    <td><%= @simple_slip_template.branch&.name %></td>
+    <td><%= @simple_slip_template.dc_type_name %></td>
+  </tr>
+</table>
+<table class="table table-sm mb-0">
+  <tr>
+    <th><%= SimpleSlipTemplate.human_attribute_name :tax_type %></th>
+    <th class="text-center"><%= SimpleSlipTemplate.human_attribute_name :tax_rate_percent %></th>
+    <th class="text-center"><%= SimpleSlipTemplate.human_attribute_name :amount %></th>
+    <th class="text-center"><%= SimpleSlipTemplate.human_attribute_name :tax_amount %></th>
+    <th><%= SimpleSlipTemplate.human_attribute_name :focus_on_complete %></th>
+  </tr>
+  <tr>
+    <td><%= @simple_slip_template.tax_type_name %></td>
+    <td class="text-end text-nowrap" style="width: 6em;">
+      <%= "#{@simple_slip_template.tax_rate_percent}%" %>
+    </td>
+    <td>
+      <span class="d-inline-block text-end" style="width: 10em; max-width: 100%;"><%= to_amount(@simple_slip_template.amount) %></span>
+    </td>
+    <td>
+      <span class="d-inline-block text-end" style="width: 8em; max-width: 100%;"><%= to_amount(@simple_slip_template.tax_amount) %></span>
+    </td>
+    <td><%= @simple_slip_template.focus_on_complete_name %></td>
+  </tr>
+</table>

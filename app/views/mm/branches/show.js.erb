@@ -19,7 +19,7 @@ var options = {
             authenticity_token: '<%= form_authenticity_token %>',
             _method: 'delete'
           };
-          var result = $.post('<%= mm_branch_path(@branch) %>', params);
+          const result = $.post('<%= mm_branch_path(@branch) %>', params);
           result.then(
             function() {
               location.reload();

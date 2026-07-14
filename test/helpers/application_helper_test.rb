@@ -7,11 +7,26 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal expected, justify(input)
   end
 
-  def test_flash_notice_escapes_html
-    flash[:notice] = "<script>alert(1)</script>"
+  def test_flash_notice_preserves_br_tag
+    flash[:notice] = "エラー1<br/>エラー2"
+    result = flash_notice
+
+    assert_match(/エラー1<br>エラー2/, result)
+  end
+
+  def test_flash_notice_strips_script_tag_but_keeps_br
+    flash[:notice] = "<script>alert(1)</script><br/>エラー2"
     result = flash_notice
 
     assert_no_match(/<script>/, result)
-    assert_match(/&lt;script&gt;/, result)
+    assert_match(/alert\(1\)<br>エラー2/, result)
+  end
+
+  def test_flash_notice_strips_attributes_from_br_tag
+    flash[:notice] = "エラー1<br onmouseover=\"alert(1)\">エラー2"
+    result = flash_notice
+
+    assert_no_match(/onmouseover/, result)
+    assert_match(/エラー1<br>エラー2/, result)
   end
 end

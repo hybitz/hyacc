@@ -44,12 +44,12 @@ module ApplicationHelper
     flash.discard :notice
 
     if message.present?
-      ret = <<-"NOTICE"
-        <#{tag} class="#{clazz}" style="margin: #{margin}px;">
-        #{ERB::Util.html_escape(message)}
-        </#{tag}>
-      NOTICE
-      ret.html_safe
+      content_tag(
+        tag,
+        sanitize(message.to_s, tags: %w[br], attributes: []),
+        class: clazz,
+        style: "margin: #{margin}px;"
+      )
     else
       ""
     end

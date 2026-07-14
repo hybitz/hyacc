@@ -4,7 +4,7 @@ class Branch < ApplicationRecord
   belongs_to :company
   belongs_to :business_office, nostalgic: true, optional: true
 
-  validates :code, presence: true
+  validates :code, presence: true, uniqueness: { scope: :company_id }
   validates :formal_name, presence: true
 
   has_many :branch_employees, -> { where deleted: false }

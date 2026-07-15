@@ -1,6 +1,5 @@
 class SimpleSlipTemplate < ApplicationRecord
   include HyaccConst
-  include TaxRateAware
   
   belongs_to :account
   belongs_to :branch, optional: true
@@ -24,5 +23,13 @@ class SimpleSlipTemplate < ApplicationRecord
   def tax_type_name
     TAX_TYPES[tax_type]
   end
-  
+
+  def tax_rate_percent
+    tax_rate.nil? ? nil : (tax_rate.to_f * 100.0).to_i
+  end
+
+  def tax_rate_percent=(value)
+    self.tax_rate = value.blank? ? nil : value.to_f / 100.0
+  end
+
 end

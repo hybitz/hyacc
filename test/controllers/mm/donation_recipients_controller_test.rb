@@ -178,6 +178,6 @@ class Mm::DonationRecipientsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to action: 'index'
     assert_not dr.reload.deleted?
     assert flash[:is_error_message]
-    assert_equal ERR_DONATION_RECIPIENT_LINKED, flash[:notice]
+    assert_equal [ERR_DONATION_RECIPIENT_LINKED], flash[:notice]
   end
 end

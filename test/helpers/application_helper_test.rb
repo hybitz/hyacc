@@ -7,26 +7,40 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal expected, justify(input)
   end
 
-  def test_flash_notice_preserves_br_tag
-    flash[:notice] = "エラー1<br/>エラー2"
+  def test_flash_notice_renders_notice_lines_with_br
+    flash[:notice] = ["エラー1", "エラー2"]
     result = flash_notice
 
     assert_match(/エラー1<br>エラー2/, result)
   end
 
-  def test_flash_notice_strips_script_tag_but_keeps_br
-    flash[:notice] = "<script>alert(1)</script><br/>エラー2"
+  def test_flash_notice_escapes_notice_lines
+    flash[:notice] = ["<script>alert(1)</script>", "エラー2"]
     result = flash_notice
 
-    assert_no_match(/<script>/, result)
-    assert_match(/alert\(1\)<br>エラー2/, result)
+    assert_match(/&lt;script&gt;alert\(1\)&lt;\/script&gt;<br>エラー2/, result)
   end
 
-  def test_flash_notice_strips_attributes_from_br_tag
-    flash[:notice] = "エラー1<br onmouseover=\"alert(1)\">エラー2"
+  def test_flash_notice_escapes_message
+    flash[:notice] = "<a>地代"
     result = flash_notice
 
-    assert_no_match(/onmouseover/, result)
-    assert_match(/エラー1<br>エラー2/, result)
+    assert_match(/&lt;a&gt;地代/, result)
+  end
+
+  def test_flash_notice_escapes_br_in_message
+    flash[:notice] = "田中<br>さん を削除しました。"
+    result = flash_notice
+
+    assert_match(/田中&lt;br&gt;さん を削除しました。/, result)
+    assert_no_match(/田中<br>さん/, result)
+  end
+
+  def test_flash_notice_renders_single_notice_line_without_br
+    flash[:notice] = ["エラー1"]
+    result = flash_notice
+
+    assert_match(/エラー1/, result)
+    assert_no_match(/<br>/, result)
   end
 end

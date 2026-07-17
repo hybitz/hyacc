@@ -78,10 +78,11 @@ class Mm::BranchesControllerTest < ActionController::TestCase
     sign_in admin
     assert head_office = Branch.find_by(company_id: 1, code: 101)
 
-    exception = assert_raises(HyaccException) do
-      delete :destroy, xhr: true, params: { id: head_office.id }
-    end
-    assert_equal HyaccErrors::ERR_BRANCH_HEAD_OFFICE, exception.message
+    delete :destroy, xhr: true, params: { id: head_office.id }
+    assert_response :unprocessable_content
+    assert flash[:is_error_message]
+    assert_equal HyaccErrors::ERR_BRANCH_HEAD_OFFICE, flash[:notice]
+    assert_not head_office.reload.deleted?
   end
 
 end

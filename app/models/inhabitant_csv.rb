@@ -6,7 +6,6 @@ class InhabitantCsv
   attr_accessor :kanji_last_name
   attr_accessor :address
   attr_accessor :amounts
-  attr_accessor :csv_string
   attr_accessor :employee_id
   
   def self.load(file, current_company)
@@ -19,7 +18,6 @@ class InhabitantCsv
       model_array << row[5]  # 漢字氏名
       model_array << row[4]  # 住所
       model_array << row[9..20].join(",")  # 金額
-      model_array << row
       ic = new_by_array(model_array, current_company)
       linked = false unless ic.employee_id
       list << ic
@@ -33,7 +31,6 @@ class InhabitantCsv
     ic.kanji_last_name = arr[0].split(/　/)[0]
     ic.address = arr[1]
     ic.amounts = arr[2]
-    ic.csv_string = arr[3]
     ic.employee_id = ic.find_employee_id(current_company)
     ic
   end
@@ -41,13 +38,13 @@ class InhabitantCsv
   def self.create_csv(params)
     inhabitant_csv = params[:inhabitant_csv]
     year = params[:finder][:year]
-    next_yaer = (year.to_i + 1).to_s
+    ym_range = InhabitantTax.ym_range(year)
     return if inhabitant_csv.nil?
+
     inhabitant_csv.each do |key, value|
       employee_id = value[:employee_id]
       amounts = value[:amounts].split(",")
-      ["06","07","08","09","10","11","12","01","02","03","04","05"].each_with_index do |mm, i|
-        ym = i <= 6 ? (year + mm).to_i : (next_yaer + mm).to_i
+      ym_range.each_with_index do |ym, i|
         it = InhabitantTax.where(ym: ym, employee_id: employee_id).first
         it ||= InhabitantTax.new(ym: ym, employee_id: employee_id)
         it.amount = amounts[i]

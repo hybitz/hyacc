@@ -2,32 +2,36 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
   helper_method :finder
 
   def index
-    # if params[:commit]
-    #   @list = finder.list
-    # end
-    @list = finder.list if params[:commit] || params[:action] == "index"
+    @list = finder.list
   end
 
   def confirm
     file = params[:file]
-    @finder_year = params[:finder_year]
     if file.nil?
       redirect_to action: 'index', finder: {year: finder.year}
     else
       @list, @linked = InhabitantCsv.load(file, current_company)
+      unless @linked
+        flash[:is_error_message] = true
+        flash[:notice] = "従業員マスタと紐づけできませんでした。従業員マスタに登録してください。"
+      end
     end
   end
 
   def create
     InhabitantCsv.create_csv(params)
+    flash[:notice] = "住民税データを登録しました。"
     redirect_to action: 'index', finder: {year: finder.year}
   end
 
   def destroy
-    InhabitantTax.find(params[:id]).destroy
+    data = InhabitantTax.find(params[:id])
+    name = data.employee.fullname
+    ym = data.ym
+    data.destroy
 
-    # 削除後、indexにリダイレクトしてリスト表示
-    redirect_to action: 'index', finder: { year: finder.year }
+    flash[:notice] = "#{name}（#{ym}）の住民税を削除しました。"
+    render 'common/reload'
   end
 
   private
@@ -35,6 +39,9 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
   def finder
     if @finder.nil?
       @finder = InhabitantTaxFinder.new(finder_params)
+      @finder.company_id = current_company.id
+      @finder.page = params[:page]
+      @finder.per_page = current_user.slips_per_page
     end
     
     @finder
@@ -42,12 +49,12 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
 
   def finder_params
     return {} unless params[:finder].present?
-      
-    params.require(:finder).permit(:year)
+
+    params.require(:finder).permit(:year, :employee_id)
   end
 
   def inhabitant_tax_params
-    params.require(:inhabitant_tax).permit(:employee_id, :amount, :ym)
+    params.require(:inhabitant_tax).permit(:amount)
   end
 
 end

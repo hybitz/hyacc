@@ -19,6 +19,14 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
   end
 
   def create
+    inhabitant_csv = params[:inhabitant_csv]
+    if inhabitant_csv.blank? || inhabitant_csv.values.any? { |value| value[:employee_id].blank? }
+      flash[:is_error_message] = true
+      flash[:notice] = "従業員マスタと紐づけできませんでした。従業員マスタに登録してください。"
+      redirect_to action: 'index', finder: {year: finder.year}
+      return
+    end
+
     InhabitantCsv.create_csv(params)
     flash[:notice] = "住民税データを登録しました。"
     redirect_to action: 'index', finder: {year: finder.year}

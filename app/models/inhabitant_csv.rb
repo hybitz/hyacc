@@ -11,7 +11,7 @@ class InhabitantCsv
   def self.load(file, current_company)
     list = []
     linked = true
-    CSV.readlines(file.path).each do |row|
+    CSV.foreach(file.path) do |row|
       next unless row[5].present?
 
       model_array = []

@@ -49,6 +49,18 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     assert_equal 14, InhabitantTax.where("ym like ?", "2016%").size
     assert_equal 10, InhabitantTax.where("ym like ?", "2017%").size
   end
+
+  def test_登録_未紐付けは拒否される
+    sign_in admin
+    assert_no_difference('InhabitantTax.count') do
+      post :create, :params => {
+        :inhabitant_csv => {0 => {:amounts => '19000,18200,18200,18200,18200,18200,18200,18200,18200,18200,18200,18200'}},
+        :finder => {:year => '2016'}
+      }
+    end
+    assert_redirected_to action: 'index', finder: {year: 2016}
+    assert flash[:is_error_message]
+  end
   
   def test_参照
     sign_in admin

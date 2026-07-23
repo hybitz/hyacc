@@ -13,11 +13,10 @@
       <% @donation_recipients.each do |dr| %>
         <tr>
           <td class="align-middle text-nowrap"><%= donation_recipient_kind_label(dr.kind) %></td>
-          <td class="align-middle"><%= dr.name %></td>
+          <td class="align-middle"><%= link_to dr.name, mm_donation_recipient_path(dr), remote: true, class: 'show' %></td>
           <td class="text-center text-nowrap">
-            <%= link_to '参照', mm_donation_recipient_path(dr), remote: true, class: 'btn btn-sm btn-light' %>
             <%= link_to '編集', edit_mm_donation_recipient_path(dr), remote: true, class: 'btn btn-sm btn-light' %>
-            <%= link_to '削除', mm_donation_recipient_path(dr), method: :delete, class: 'btn btn-sm btn-light', data: { confirm: "寄付先「#{dr.name}」を削除します。\nよろしいですか？" } %>
+            <%= link_to '削除', mm_donation_recipient_path(dr), method: :delete, class: 'btn btn-sm btn-light', data: { confirm: "#{dr.name} を削除します。\nよろしいですか？" } %>
           </td>
         </tr>
       <% end %>

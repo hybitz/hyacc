@@ -2,22 +2,21 @@
   <%= flash_notice %>
 
   <table class="table table-sm mb-0" style="min-width: 40em;">
-    <tr>
-      <th><%= f.label :name %></th>
-      <td><%= f.text_field :name, size: 30, class: 'form-control form-control-sm' %></td>
-    </tr>
-
     <% kind_locked = @donation_recipient.persisted? && @donation_recipient.journal_details.exists? %>
     <tr>
       <th style="width: 10em;"><%= f.label :kind %></th>
       <td>
-        <%= f.select :kind, donation_recipient_kind_options, { include_blank: true }, class: 'form-control form-control-sm donation-recipient-kind', disabled: kind_locked %>
+        <%= f.select :kind, donation_recipient_kind_options, { include_blank: true }, class: 'form-select form-select-sm d-inline-block w-auto mw-100 donation-recipient-kind', disabled: kind_locked %>
         <% if kind_locked %>
           <span class="text-muted small ms-2">
             （振替伝票に紐づいているため変更できません）
           </span>
         <% end %>
       </td>
+    </tr>
+    <tr>
+      <th><%= f.label :name %></th>
+      <td><%= f.text_field :name, size: 30, class: 'form-control form-control-sm' %></td>
     </tr>
 
     <% # 指定(100): 告示番号・使途 %>

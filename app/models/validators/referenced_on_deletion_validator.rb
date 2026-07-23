@@ -19,7 +19,7 @@ module Validators
       'Branch' => {
         error: HyaccErrors::ERR_BRANCH_LINKED,
         checks: [
-          ->(record) { Branch.where(parent_id: record.id, deleted: false).exists? },
+          ->(record) { record.children.exists? },
           ->(record) {
             branch_ids = record.self_and_descendants.map(&:id)
             JournalDetail.where(branch_id: branch_ids).exists? ||

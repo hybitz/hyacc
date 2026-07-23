@@ -66,12 +66,24 @@ class Mm::BranchesControllerTest < ActionController::TestCase
 
   def test_削除
     sign_in admin
-    assert branch = Branch.find_by(company_id: 1, code: 102)
+    branch = branches(:for_deletion)
 
     delete :destroy, xhr: true, params: { id: branch.id }
     assert_response :success
     assert_template 'common/reload'
     assert branch.reload.deleted?
+  end
+
+  def test_紐づいているときは削除できない
+    sign_in admin
+    assert branch = Branch.find_by(company_id: 1, code: 102)
+    assert Branch.where(parent_id: branch.id, deleted: false).exists?
+
+    delete :destroy, xhr: true, params: { id: branch.id }
+    assert_response :unprocessable_content
+    assert flash[:is_error_message]
+    assert_equal HyaccErrors::ERR_BRANCH_LINKED, flash[:notice]
+    assert_not branch.reload.deleted?
   end
 
   def test_本店は削除できない

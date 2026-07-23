@@ -38,3 +38,7 @@
   branch_id: 7
   employee_id: 13
   default_branch: true
+for_deletion_deleted_employee:
+  branch_id: 8
+  employee_id: 12
+  default_branch: true

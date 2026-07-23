@@ -84,6 +84,18 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_redirected_to action: 'index'
   end
 
+  def test_紐づいているときは削除できない
+    sign_in admin
+    employee = Employee.find(6)
+    assert Exemption.where(employee_id: employee.id).exists?
+
+    delete :destroy, params: {id: employee.id}
+    assert_redirected_to action: 'index'
+    assert_not employee.reload.deleted?
+    assert flash[:is_error_message]
+    assert_equal ERR_EMPLOYEE_LINKED, flash[:notice]
+  end
+
   def test_ログイン可能な管理権限を持つユーザーが1人のとき_自分自身を無効にできない
     sign_in admin
     post :disable, params: {id: admin.employee.id}
@@ -95,11 +107,15 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
   end
 
   def test_ログイン可能な管理権限を持つユーザーが1人のとき_自分自身を削除できない
-    sign_in admin
-    delete :destroy, params: {id: admin.employee.id}
+    user = User.find(3)
+    assert user.active_admin?
+    assert User.active_admins.where(employees: { company_id: user.employee.company_id }).where.not(id: user.id).none?
+
+    sign_in user
+    delete :destroy, params: {id: user.employee.id}
 
     assert_redirected_to action: 'index'
-    assert_not admin.employee.reload.deleted?
+    assert_not user.employee.reload.deleted?
     assert flash[:is_error_message]
     assert_equal ERR_LAST_ACTIVE_ADMIN_DELETE, flash[:notice]
   end
@@ -116,14 +132,17 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身を削除できる
-    other_admin = User.find(6)
+    other_admin = User.find(9)
     other_admin.update!(admin: true)
 
-    sign_in admin
-    delete :destroy, params: {id: admin.employee.id}
+    user = User.find(3)
+    assert user.active_admin?
+    assert_equal user.employee.company_id, other_admin.employee.company_id
+    sign_in user
+    delete :destroy, params: {id: user.employee.id}
 
     assert_redirected_to root_path
-    assert admin.employee.reload.deleted?
+    assert user.employee.reload.deleted?
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_他のadminを無効にできる
@@ -138,10 +157,13 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_他のadminを削除できる
-    other_admin = User.find(6)
+    other_admin = User.find(9)
     other_admin.update!(admin: true)
 
-    sign_in admin
+    user = User.find(3)
+    assert user.active_admin?
+    assert_equal user.employee.company_id, other_admin.employee.company_id
+    sign_in user
     delete :destroy, params: {id: other_admin.employee.id}
 
     assert_redirected_to action: 'index'

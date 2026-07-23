@@ -71,12 +71,25 @@ class Mm::CustomersControllerTest < ActionController::TestCase
 
   def test_削除
     sign_in admin
+    customer = customers(:for_deletion)
 
     assert_no_difference 'Customer.count' do
       delete :destroy, :params => {:id => customer.id}
       assert_response :redirect
       assert_redirected_to :action => 'index'
     end
+  end
+
+  def test_紐づいているときは削除できない
+    sign_in admin
+    customer = Customer.find(7)
+    assert Rent.where(customer_id: customer.id).exists?
+
+    delete :destroy, :params => {:id => customer.id}
+    assert_redirected_to :action => 'index'
+    assert_not customer.reload.deleted?
+    assert flash[:is_error_message]
+    assert_equal ERR_CUSTOMER_LINKED, flash[:notice]
   end
 
 end

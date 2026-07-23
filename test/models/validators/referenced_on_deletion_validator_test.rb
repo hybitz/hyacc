@@ -68,7 +68,7 @@ class ReferencedOnDeletionValidatorTest < ActiveSupport::TestCase
     assert_not Branch.where(parent_id: branch.id, deleted: false).exists?
     assert_not JournalDetail.where(branch_id: branch.self_and_descendants.map(&:id)).exists?
     assert_not SimpleSlipTemplate.where(branch_id: branch.self_and_descendants.map(&:id), deleted: false).exists?
-    employee = employees(:deleted_employee_user)
+    employee = employees(:deleted_employee)
     assert employee.deleted?
     assert BranchEmployee.exists?(branch_id: branch.id, employee_id: employee.id, deleted: false)
 
@@ -107,7 +107,7 @@ class ReferencedOnDeletionValidatorTest < ActiveSupport::TestCase
 
   def test_Branch_削除済み従業員の所属のみのときは削除できる
     branch = branches(:for_deletion)
-    employee = employees(:deleted_employee_user)
+    employee = employees(:deleted_employee)
     assert BranchEmployee.exists?(branch_id: branch.id, employee_id: employee.id, deleted: false)
     assert employee.deleted?
 

@@ -91,7 +91,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_redirected_to action: 'index'
     assert_not admin.employee.reload.disabled?
     assert flash[:is_error_message]
-    assert_equal ERR_LAST_ACTIVE_ADMIN_DISABLE, flash[:notice]
+    assert_equal [ERR_LAST_ACTIVE_ADMIN_DISABLE], flash[:notice]
   end
 
   def test_ログイン可能な管理権限を持つユーザーが1人のとき_自分自身を削除できない
@@ -101,7 +101,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_redirected_to action: 'index'
     assert_not admin.employee.reload.deleted?
     assert flash[:is_error_message]
-    assert_equal ERR_LAST_ACTIVE_ADMIN_DELETE, flash[:notice]
+    assert_equal [ERR_LAST_ACTIVE_ADMIN_DELETE], flash[:notice]
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身を無効にできる

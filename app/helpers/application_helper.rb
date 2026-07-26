@@ -43,20 +43,21 @@ module ApplicationHelper
     flash.discard :is_error_message
     flash.discard :notice
 
-    if message.present?
-      ret = <<-"NOTICE"
-        <#{tag} class="#{clazz}" style="margin: #{margin}px;;">
-        #{message}
-        </#{tag}>
-      NOTICE
-      ret.html_safe
-    else
-      ""
-    end
+    return "" if message.blank?
+
+    content_tag(tag, format_flash_message(message), class: clazz, style: "margin: #{margin}px;")
   end
 
   def flash_notice_in_span
     flash_notice(false, 0)
+  end
+
+  def format_flash_message(message)
+    if message.is_a?(Array)
+      safe_join(message.map { |line| ERB::Util.html_escape(line) }, tag.br)
+    else
+      ERB::Util.html_escape(message)
+    end
   end
 
   def justify(text)

@@ -2,6 +2,11 @@
   <%= flash_notice %>
 
   <table class="table table-sm mb-0" style="min-width: 40em;">
+    <tr>
+      <th><%= f.label :name %></th>
+      <td><%= f.text_field :name, size: 30, class: 'form-control form-control-sm' %></td>
+    </tr>
+
     <% kind_locked = @donation_recipient.persisted? && @donation_recipient.journal_details.exists? %>
     <tr>
       <th style="width: 10em;"><%= f.label :kind %></th>
@@ -13,10 +18,6 @@
           </span>
         <% end %>
       </td>
-    </tr>
-    <tr>
-      <th><%= f.label :name %></th>
-      <td><%= f.text_field :name, size: 30, class: 'form-control form-control-sm' %></td>
     </tr>
 
     <% # 指定(100): 告示番号・使途 %>

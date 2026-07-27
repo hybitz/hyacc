@@ -95,7 +95,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_redirected_to mm_employees_path
     assert admin.reload.admin?
     assert flash[:is_error_message]
-    assert_equal ERR_LAST_ACTIVE_ADMIN_REVOKE, flash[:notice]
+    assert_equal [ERR_LAST_ACTIVE_ADMIN_REVOKE], flash[:notice]
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身のadminを解除できる
@@ -167,7 +167,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
     assert_redirected_to action: 'index'
     assert_not admin.reload.deleted?
     assert flash[:is_error_message]
-    assert_equal ERR_LAST_ACTIVE_ADMIN_DELETE, flash[:notice]
+    assert_equal [ERR_LAST_ACTIVE_ADMIN_DELETE], flash[:notice]
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身を削除できる
@@ -208,7 +208,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
       "生年月日を入力してください", 
       "入社日を入力してください", 
       "デフォルトの所属部門を設定してください。"
-    ], flash[:notice].split("<br/>")
+    ], flash[:notice]
     assert_response :success
     assert_template :new
 
@@ -237,7 +237,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
       "マイナンバーは数値で入力してください", 
       "デフォルトの所属部門を設定してください。", 
       "所属部門が重複しています。"
-    ], flash[:notice].split("<br/>")
+    ], flash[:notice]
     assert_response :success
     assert_template :new
   end

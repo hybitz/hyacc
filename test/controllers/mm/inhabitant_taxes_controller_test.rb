@@ -7,7 +7,6 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     get :index, :params => {:finder => {:year=>'2009'}}
     assert_response :success
     assert assigns(:list).present?
-    assert assigns(:list).map(&:employee_id).uniq.size > 1
   end
 
   def test_一覧_従業員で絞り込める

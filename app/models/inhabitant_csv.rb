@@ -38,7 +38,7 @@ class InhabitantCsv
   def self.create_csv(params)
     inhabitant_csv = params[:inhabitant_csv]
     return false if inhabitant_csv.blank?
-    return false if inhabitant_csv.values.any? { |value| value[:employee_id].blank? }
+    return false if inhabitant_csv.each_value.any? { |value| value[:employee_id].blank? }
 
     year = params[:finder][:year]
     ym_range = InhabitantTax.ym_range(year)

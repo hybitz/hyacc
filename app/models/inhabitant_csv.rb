@@ -17,7 +17,7 @@ class InhabitantCsv
       model_array = []
       model_array << row[5]  # 漢字氏名
       model_array << row[4]  # 住所
-      model_array << row[9..20].join(",")  # 金額
+      model_array << Array(row[9..20]).join(",")  # 金額
       ic = new_by_array(model_array, current_company)
       linked = false unless ic.employee_id
       list << ic
@@ -37,8 +37,8 @@ class InhabitantCsv
   
   def self.create_csv(params)
     inhabitant_csv = params[:inhabitant_csv]
-    return false if inhabitant_csv.blank?
-    return false if inhabitant_csv.each_value.any? { |value| value[:employee_id].blank? }
+    return :blank if inhabitant_csv.blank?
+    return :unlinked if inhabitant_csv.each_value.any? { |value| value[:employee_id].blank? }
 
     year = params[:finder][:year]
     ym_range = InhabitantTax.ym_range(year)

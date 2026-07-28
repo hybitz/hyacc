@@ -11,7 +11,11 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
       redirect_to action: 'index', finder: {year: finder.year}
     else
       @list, @linked = InhabitantCsv.load(file, current_company)
-      unless @linked
+      if @list.blank?
+        @linked = false
+        flash[:is_error_message] = true
+        flash[:notice] = "取り込む住民税データがありません。"
+      elsif !@linked
         flash[:is_error_message] = true
         flash[:notice] = "従業員マスタと紐づけできませんでした。従業員マスタに登録してください。"
       end
@@ -20,9 +24,13 @@ class Mm::InhabitantTaxesController < Base::BasicMasterController
 
   def create
     begin
-      if InhabitantCsv.create_csv(params)
+      case InhabitantCsv.create_csv(params)
+      when true
         flash[:notice] = "住民税データを登録しました。"
-      else
+      when :blank
+        flash[:is_error_message] = true
+        flash[:notice] = "取り込む住民税データがありません。"
+      when :unlinked
         flash[:is_error_message] = true
         flash[:notice] = "従業員マスタと紐づけできませんでした。従業員マスタに登録してください。"
       end

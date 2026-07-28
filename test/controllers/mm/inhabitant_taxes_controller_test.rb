@@ -62,6 +62,16 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     assert_equal '従業員マスタと紐づけできませんでした。従業員マスタに登録してください。', flash[:notice]
   end
 
+  def test_登録_データが空の場合は拒否される
+    sign_in admin
+    assert_no_difference('InhabitantTax.count') do
+      post :create, :params => {:finder => {:year => '2016'}}
+    end
+    assert_redirected_to action: 'index', finder: {year: 2016}
+    assert flash[:is_error_message]
+    assert_equal '取り込む住民税データがありません。', flash[:notice]
+  end
+
   def test_登録_不正な金額は保存されない
     sign_in admin
     assert_no_difference('InhabitantTax.count') do

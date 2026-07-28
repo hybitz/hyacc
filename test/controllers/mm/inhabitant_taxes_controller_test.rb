@@ -60,6 +60,25 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     end
     assert_redirected_to action: 'index', finder: {year: 2016}
     assert flash[:is_error_message]
+    assert_equal '従業員マスタと紐づけできませんでした。従業員マスタに登録してください。', flash[:notice]
+  end
+
+  def test_登録_不正な金額は保存されない
+    sign_in admin
+    assert_no_difference('InhabitantTax.count') do
+      post :create, :params => {
+        :inhabitant_csv => {
+          0 => {
+            :employee_id => 1,
+            :amounts => 'x,18200,18200,18200,18200,18200,18200,18200,18200,18200,18200,18200'
+          }
+        },
+        :finder => {:year => '2016'}
+      }
+    end
+    assert_redirected_to action: 'index', finder: {year: 2016}
+    assert flash[:is_error_message]
+    assert_equal ['金額は数値で入力してください'], flash[:notice]
   end
   
   def test_参照

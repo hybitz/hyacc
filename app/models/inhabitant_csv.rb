@@ -43,14 +43,16 @@ class InhabitantCsv
     year = params[:finder][:year]
     ym_range = InhabitantTax.ym_range(year)
 
-    inhabitant_csv.each_value do |value|
-      employee_id = value[:employee_id]
-      amounts = value[:amounts].split(",")
-      ym_range.each_with_index do |ym, i|
-        it = InhabitantTax.where(ym: ym, employee_id: employee_id).first
-        it ||= InhabitantTax.new(ym: ym, employee_id: employee_id)
-        it.amount = amounts[i]
-        it.save!
+    InhabitantTax.transaction do
+      inhabitant_csv.each_value do |value|
+        employee_id = value[:employee_id]
+        amounts = value[:amounts].split(",")
+        ym_range.each_with_index do |ym, i|
+          it = InhabitantTax.where(ym: ym, employee_id: employee_id).first
+          it ||= InhabitantTax.new(ym: ym, employee_id: employee_id)
+          it.amount = amounts[i]
+          it.save!
+        end
       end
     end
     true

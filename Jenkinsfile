@@ -5,7 +5,7 @@ pipeline {
   }
   environment {
     APP_NAME = 'hyacc'
-    KANIKO_OPTIONS = "--cache=${CACHE} --compressed-caching=false --build-arg registry=${ECR}"
+    KANIKO_OPTIONS = "--cache=${CACHE} --cache-repo=${ECR}/${APP_NAME}/cache --compressed-caching=false --build-arg registry=${ECR}"
     MILESTONE = "v1.0.0"
   }
   stages {

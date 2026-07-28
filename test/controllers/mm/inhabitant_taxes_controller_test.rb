@@ -79,6 +79,19 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     assert flash[:is_error_message]
     assert_equal ['金額は数値で入力してください'], flash[:notice]
   end
+
+  def test_登録_amountsが無い場合は保存されない
+    sign_in admin
+    assert_no_difference('InhabitantTax.count') do
+      post :create, :params => {
+        :inhabitant_csv => {0 => {:employee_id => 1}},
+        :finder => {:year => '2016'}
+      }
+    end
+    assert_redirected_to action: 'index', finder: {year: 2016}
+    assert flash[:is_error_message]
+    assert_equal ['金額を入力してください'], flash[:notice]
+  end
   
   def test_参照
     sign_in admin

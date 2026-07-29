@@ -63,6 +63,7 @@ class Mm::EmployeesController < Base::HyaccController
 
     begin
       @employee.transaction do
+        @employee.company_lock_version = params[:company_lock_version]
         @employee.save!
       end
 
@@ -85,6 +86,7 @@ class Mm::EmployeesController < Base::HyaccController
 
     begin
       @employee.transaction do
+        @employee.company_lock_version = params[:company_lock_version]
         @employee.destroy_logically!
       end
 

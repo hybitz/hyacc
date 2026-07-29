@@ -72,6 +72,7 @@ class Mm::UsersController < Base::HyaccController
     @user = User.find(params[:id])
     begin
       @user.transaction do
+        @user.company_lock_version = params[:company_lock_version]
         @user.update!(admin: false)
       end
 
@@ -93,6 +94,7 @@ class Mm::UsersController < Base::HyaccController
 
     begin
       user.transaction do
+        user.company_lock_version = params[:company_lock_version]
         user.destroy_logically!
       end
 

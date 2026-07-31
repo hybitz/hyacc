@@ -40,8 +40,7 @@ module Auto::Journal
       jd.tax_type = TAX_TYPE_NONTAXABLE
       
       ## 資産明細
-      branch_code = SubAccount.find(@params[:jd].sub_account_id).code
-      assets_branch_id = Branch.find_by_code(branch_code).id
+      assets_branch_id = @params[:jd].sub_account_id
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size
       jd.dc_type = DC_TYPE_DEBIT

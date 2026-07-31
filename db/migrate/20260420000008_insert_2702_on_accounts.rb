@@ -4,14 +4,14 @@ class Insert2702OnAccounts < ActiveRecord::Migration[8.1]
   def up
     parent = Account.find_by_code(ACCOUNT_CODE_LONG_TERM_LOAN)
 
-    a = Account.find_by_code(ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH)
-    a ||= Account.new(code: ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH)
+    a = Account.find_by_code('2702')
+    a ||= Account.new(code: '2702')
     a.name = '長期貸付金（部門）'
     a.dc_type = parent.dc_type
     a.account_type = parent.account_type
     a.display_order = 1
     a.parent_id = parent.id
-    a.path = parent.path + '/' + ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH
+    a.path = parent.path + '/2702'
     a.journalizable = true
     a.trade_type = TRADE_TYPE_EXTERNAL
     a.is_settlement_report_account = false
@@ -23,7 +23,7 @@ class Insert2702OnAccounts < ActiveRecord::Migration[8.1]
   end
 
   def down
-    a = Account.find_by_code(ACCOUNT_CODE_LONG_TERM_LOAN_BRANCH)
+    a = Account.find_by_code('2702')
     return unless a
 
     a.deleted = true

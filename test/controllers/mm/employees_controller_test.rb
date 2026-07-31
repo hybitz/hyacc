@@ -55,7 +55,7 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template :new
     assert flash[:is_error_message]
-    assert_equal [ERR_EMPLOYEE_BANK_ACCOUNT_INCOMPLETE], flash[:notice]
+    assert_equal ['支店名称を入力してください'], flash[:notice]
   end
 
   def test_更新_給与振込口座が不完全なら口座が削除される

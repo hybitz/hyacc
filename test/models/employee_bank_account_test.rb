@@ -20,7 +20,7 @@ class EmployeeBankAccountTest < ActiveSupport::TestCase
       code: ''
     )
     assert account.invalid?
-    assert_equal ERR_EMPLOYEE_BANK_ACCOUNT_INCOMPLETE, account.errors[:base].first
+    assert account.errors[:code].present?
   end
 
 end

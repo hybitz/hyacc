@@ -139,7 +139,9 @@ ja:
         <<: *customer_name
 
       employee_bank_account:
+        bank_id: 金融機関名称
         bank_name: 金融機関名称
+        bank_office_id: 支店名称
         bank_office_name: 支店名称
         code: 口座番号
         
@@ -167,9 +169,6 @@ ja:
         sex: 性別
         social_insurance_birthday: 被保険者生年月日
         social_insurance_reference_number: 被保険者整理番号
-
-      employee/employee_bank_account:
-        base: ""
 
       exemption/dependent_family_members:
         family_sub_type: 扶養親族等区分

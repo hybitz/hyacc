@@ -54,11 +54,16 @@ class Mm::CustomersController < Base::HyaccController
   def destroy
     @customer = Customer.find(params[:id])
 
-    @customer.transaction do
-      @customer.destroy_logically!
+    begin
+      @customer.transaction do
+        @customer.destroy_logically!
+      end
+
+      flash[:notice] = '取引先を削除しました。'
+    rescue => e
+      handle(e)
     end
 
-    flash[:notice] = '取引先を削除しました。'
     redirect_to action: :index
   end
 

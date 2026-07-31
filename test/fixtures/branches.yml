@@ -64,3 +64,21 @@
   business_office_id: 2 
   path: /7
   cost_ratio: 100
+for_deletion:
+  id: 8
+  company_id: 1
+  code: 198
+  formal_name: 削除テスト用部門
+  name: 削除テスト用部門
+  parent_id: 2
+  path: /1/2/8
+  cost_ratio: 100
+with_simple_slip_template:
+  id: 9
+  company_id: 1
+  code: 199
+  formal_name: テンプレ紐づけ用
+  name: テンプレ紐づけ用
+  parent_id: 2
+  path: /1/2/9
+  cost_ratio: 100

@@ -7,12 +7,17 @@ class Mm::EmployeesController < Base::HyaccController
   end
 
   def show
-    @e = Employee.find(params[:id])
+    @e = Employee.includes(
+      :user,
+      { employee_bank_account: [:bank, :bank_office] },
+      { branch_employees: :branch }
+    ).find(params[:id])
+    @branch_employees = @e.branch_employees
   end
 
   def new
     @e = new_employee
-    @e.build_employee_bank_account(bank: current_company.banks.first)
+    build_employee_bank_account_if_needed
   end
   
   def create
@@ -29,14 +34,14 @@ class Mm::EmployeesController < Base::HyaccController
 
     rescue => e
       handle(e)
-      render action: 'edit'
+      build_employee_bank_account_if_needed
+      render :new
     end
   end
 
   def edit
     @e = Employee.find(params[:id])
-    eba = @e.employee_bank_account
-    eba ||= @e.build_employee_bank_account(bank: current_company.banks.first)
+    build_employee_bank_account_if_needed
   end
   
   def update
@@ -53,6 +58,7 @@ class Mm::EmployeesController < Base::HyaccController
 
     rescue => e
       handle(e)
+      build_employee_bank_account_if_needed
       render action: 'edit'
     end
   end
@@ -111,6 +117,13 @@ class Mm::EmployeesController < Base::HyaccController
 
   def new_employee
     current_company.employees.build
+  end
+
+  def build_employee_bank_account_if_needed
+    return if @e.employee_bank_account
+    return if current_company.banks.empty?
+
+    @e.build_employee_bank_account
   end
   
   def employee_params

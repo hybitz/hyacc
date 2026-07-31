@@ -18,7 +18,11 @@ class Employee < ApplicationRecord
   has_many :exemptions, dependent: :destroy
 
   has_one :employee_bank_account
-  accepts_nested_attributes_for :employee_bank_account
+  accepts_nested_attributes_for :employee_bank_account,
+    reject_if: proc { |attrs|
+      attrs['id'].blank? &&
+        attrs['bank_id'].blank? && attrs['bank_office_id'].blank? && attrs['code'].blank?
+    }
 
   has_many :skills, -> {where deleted: false}, inverse_of: 'employee'
   accepts_nested_attributes_for :skills

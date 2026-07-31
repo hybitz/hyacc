@@ -40,4 +40,26 @@ class EmployeeTest < ActiveSupport::TestCase
     assert_not e.user_loginable?
   end
 
+  def test_給与振込口座_新規で全部空なら口座を作らない
+    e = executive
+    assert_nil e.employee_bank_account
+
+    e.employee_bank_account_attributes = {
+      bank_id: '', bank_office_id: '', code: ''
+    }
+    assert_nil e.employee_bank_account
+  end
+
+  def test_給与振込口座_既存で不完全なら削除される
+    e = employee
+    account = e.employee_bank_account
+    assert account
+
+    e.employee_bank_account_attributes = {
+      id: account.id, bank_id: account.bank_id, bank_office_id: '', code: account.code
+    }
+    assert e.save
+    assert_nil e.reload.employee_bank_account
+  end
+
 end

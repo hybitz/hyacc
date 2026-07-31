@@ -1,77 +1,96 @@
-<%= form_with model: [:mm, @e], data: {remote: true}, html: { id: 'mm_employee_form' } do |f| %>
+<%= form_with model: [:mm, @e], data: {remote: true}, html: { id: 'mm_employee_form', style: 'display: inline-block;' } do |f| %>
   <%= flash_notice %>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8">
-        <script>
-          $(document).ready(function() {
-            $('#mm_employee_form').on('change', 'select[name="employee[employee_bank_account_attributes][bank_id]"]', function() {
-              var $office = $(this).closest('table').find('select[name="employee[employee_bank_account_attributes][bank_office_id]"]');
-              bank_accounts.update_bank_offices(this, $office);
-            });
+  <div class="d-flex flex-nowrap align-items-start gap-3">
+    <div class="flex-shrink-0">
+      <script>
+        $(document).ready(function() {
+          var $form = $('#mm_employee_form');
+          $form.off('change.employeeBankAccount submit.employeeBankAccount');
+          $form.on('change.employeeBankAccount', 'select[name="employee[employee_bank_account_attributes][bank_id]"]', function() {
+            var $office = $(this).closest('table').find('select[name="employee[employee_bank_account_attributes][bank_office_id]"]');
+            bank_accounts.update_bank_offices(this, $office);
           });
-        </script>
-        <table class="table table-sm mb-0">
-          <tr>
-            <th class="nowrap"><%= f.label :last_name %><%= f.label :first_name %></th>
-            <td>
-              <div class="d-flex flex-nowrap gap-0 align-items-stretch">
-                <div class="flex-grow-1 min-w-0"><%= f.text_field :last_name, class: 'form-control' %></div>
-                <div class="flex-grow-1 min-w-0"><%= f.text_field :first_name, class: 'form-control' %></div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th><%= f.label :name_kana %></th>
-            <td>
-              <div class="d-flex flex-nowrap gap-0 align-items-stretch">
-                <div class="flex-grow-1 min-w-0"><%= f.text_field :last_name_kana, class: 'form-control' %></div>
-                <div class="flex-grow-1 min-w-0"><%= f.text_field :first_name_kana, class: 'form-control' %></div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th><%= f.label :sex %></th>
-            <td><%= f.select :sex, sex_types, {}, class: 'form-control form-control-sm', style: 'width: 4em;' %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :birth %></th>
-            <td>
-              <div class="d-flex flex-nowrap gap-1 align-items-center">
-                <%= f.date_select :birth,
-                      { start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true },
-                      { class: 'form-control form-control-sm w-auto', style: 'display: inline-block; vertical-align: middle;' } %>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th><%= f.label :zip_code %></th>
-            <td><%= f.nostalgic_text_field :zip_code, class: 'zip_code' %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :address %></th>
-            <td><%= f.nostalgic_text_field :address, class: 'address' %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :my_number %></th>
-            <td><%= f.text_field :my_number, class: 'form-control form-control-sm', style: 'width: 10em; max-width: 100%;' %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :social_insurance_reference_number %></th>
-            <td><%= f.text_field :social_insurance_reference_number, class: 'form-control form-control-sm', style: 'width: 4em; max-width: 100%;' %></td>
-          </tr>
-          <tr>
-            <th><%= f.label :num_of_dependent %></th>
-            <td><%= f.nostalgic_text_field :num_of_dependent %></td>
-          </tr>
-          <%= render 'employee_bank_account' %>
-        </table>
-      </div>
-      <div class="col-md-4">
-        <%= render 'evaluation' %>
-        <%= render 'branch_employees', e: @e %>
-      </div>
+          $form.on('submit.employeeBankAccount', function(e) {
+            var $id = $form.find('[name="employee[employee_bank_account_attributes][id]"]');
+            if (!$id.val()) {
+              return;
+            }
+
+            var bankId = $form.find('[name="employee[employee_bank_account_attributes][bank_id]"]').val();
+            var bankOfficeId = $form.find('[name="employee[employee_bank_account_attributes][bank_office_id]"]').val();
+            var code = $.trim($form.find('[name="employee[employee_bank_account_attributes][code]"]').val() || '');
+            if (bankId && bankOfficeId && code) {
+              return;
+            }
+
+            if (!confirm('この更新により、給与振込口座は削除されます。\nよろしいですか？')) {
+              e.preventDefault();
+              e.stopImmediatePropagation();
+              return false;
+            }
+          });
+        });
+      </script>
+      <table class="table table-sm mb-0">
+        <tr>
+          <th><%= f.label :last_name %><%= f.label :first_name %></th>
+          <td>
+            <div class="d-flex flex-nowrap">
+              <div class="flex-grow-1 min-w-0"><%= f.text_field :last_name, class: 'form-control form-control-sm' %></div>
+              <div class="flex-grow-1 min-w-0"><%= f.text_field :first_name, class: 'form-control form-control-sm' %></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th><%= f.label :name_kana %></th>
+          <td>
+            <div class="d-flex flex-nowrap">
+              <div class="flex-grow-1 min-w-0"><%= f.text_field :last_name_kana, class: 'form-control form-control-sm' %></div>
+              <div class="flex-grow-1 min-w-0"><%= f.text_field :first_name_kana, class: 'form-control form-control-sm' %></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th><%= f.label :sex %></th>
+          <td><%= f.select :sex, sex_types, {}, class: 'form-select form-select-sm d-inline-block w-auto' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :birth %></th>
+          <td>
+            <div class="d-flex flex-nowrap gap-1 align-items-center">
+              <%= f.date_select :birth,
+                    { start_year: Time.now.year - 65, end_year: Time.now.year - 18, include_blank: true },
+                    { class: 'form-select form-select-sm w-auto', style: 'vertical-align: middle;' } %>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th><%= f.label :zip_code %></th>
+          <td><%= f.nostalgic_text_field :zip_code, class: 'zip_code' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :address %></th>
+          <td><%= f.nostalgic_text_field :address, class: 'address' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :my_number %></th>
+          <td><%= f.text_field :my_number, class: 'form-control form-control-sm', style: 'width: 10em;' %></td>
+        </tr>
+        <tr>
+          <th class="text-nowrap"><%= f.label :social_insurance_reference_number %></th>
+          <td><%= f.text_field :social_insurance_reference_number, class: 'form-control form-control-sm', style: 'width: 4em;' %></td>
+        </tr>
+        <tr>
+          <th><%= f.label :num_of_dependent %></th>
+          <td><%= f.nostalgic_text_field :num_of_dependent %></td>
+        </tr>
+        <%= render 'employee_bank_account' %>
+      </table>
+    </div>
+    <div class="flex-shrink-0">
+      <%= render 'evaluation' %>
+      <%= render 'branch_employees', e: @e %>
     </div>
   </div>
 <% end %>

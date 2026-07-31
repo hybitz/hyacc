@@ -3,16 +3,16 @@
     <tr>
       <th><%= f.label :employment_date %></th>
       <td>
-        <div class="d-inline-flex flex-wrap align-items-center gap-1">
-          <%= f.date_select :employment_date, {}, { class: 'form-control form-control-sm w-auto' } %>
+        <div class="d-flex flex-nowrap gap-1 align-items-center">
+          <%= f.date_select :employment_date, {}, { class: 'form-select form-select-sm w-auto', style: 'vertical-align: middle;' } %>
         </div>
       </td>
     </tr>
     <tr>
       <th><%= f.label :retirement_date %></th>
       <td>
-        <div class="d-inline-flex flex-wrap align-items-center gap-1">
-          <%= f.date_select :retirement_date, { include_blank: true }, { class: 'form-control form-control-sm w-auto' } %>
+        <div class="d-flex flex-nowrap gap-1 align-items-center">
+          <%= f.date_select :retirement_date, { include_blank: true }, { class: 'form-select form-select-sm w-auto', style: 'vertical-align: middle;' } %>
         </div>
       </td>
     </tr>
@@ -32,7 +32,7 @@
     <tr>
       <th><%= f.label :full_time %></th>
       <td>
-        <%= f.select :full_time, [['常勤', 'true'], ['非常勤', 'false']], { include_blank: true }, class: 'form-control form-control-sm w-auto d-inline-block' %>
+        <%= f.select :full_time, [['常勤', 'true'], ['非常勤', 'false']], { include_blank: true }, class: 'form-select form-select-sm d-inline-block w-auto' %>
       </td>
     </tr>
     <tr>
@@ -40,9 +40,9 @@
       <td><%= f.text_field :duty_description, class: 'form-control form-control-sm' %></td>
     </tr>
     <tr>
-      <th class="nowrap"><%= f.label :representative_or_family_type %></th>
+      <th class="text-nowrap"><%= f.label :representative_or_family_type %></th>
       <td>
-        <%= f.select :representative_or_family_type, representative_or_family_types, { include_blank: true }, class: 'form-control form-control-sm w-auto d-inline-block' %>
+        <%= f.select :representative_or_family_type, representative_or_family_types, { include_blank: true }, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %>
       </td>
     </tr>
     <tr>

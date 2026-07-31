@@ -15,6 +15,7 @@ module HyaccErrors
   ERR_DONATION_RECIPIENT_LINKED = "既に伝票の存在する寄付先のため削除できません。"
   ERR_DUPLICATED_ASSET_CODE = "資産コードが重複しています。"
   ERR_DUPLICATEE_CARRY_FORWARD_JOURNAL = "繰越仕訳が重複して登録されています。"
+  ERR_EMPLOYEE_BANK_ACCOUNT_INCOMPLETE = "給与振込口座を登録する場合は、金融機関名称・支店名称・口座番号をすべて入力してください。"
   ERR_FILE_ALREADY_EXISTS = "既に存在するファイル名です。ファイル名を変更して下さい。"
   ERR_FISCAL_YEAR_NOT_EXISTS = "会計年度が定義されていません。"
   ERR_INVALID_ACCOUNT_TYPE = "不正な勘定科目区分です。"

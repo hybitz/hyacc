@@ -36,6 +36,51 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_equal employee_params[:representative_or_family_type], e.representative_or_family_type
   end
 
+  def test_登録_給与振込口座が不完全なときはエラーが出る
+    sign_in admin
+    branch = admin.employee.default_branch
+    post :create, xhr: true, params: {
+      employee: employee_params.merge(
+        branch_employees_attributes: {
+          '0' => { branch_id: branch.id, default_branch: true }
+        },
+        employee_bank_account_attributes: {
+          bank_id: bank.id,
+          bank_office_id: '',
+          code: '1234567'
+        }
+      )
+    }
+
+    assert_response :success
+    assert_template :new
+    assert flash[:is_error_message]
+    assert_equal [ERR_EMPLOYEE_BANK_ACCOUNT_INCOMPLETE], flash[:notice]
+  end
+
+  def test_更新_給与振込口座が不完全なら口座が削除される
+    sign_in admin
+    e = employee
+    account = e.employee_bank_account
+    assert account
+
+    patch :update, xhr: true, params: {
+      id: e.id,
+      employee: employee_params.merge(
+        employee_bank_account_attributes: {
+          id: account.id,
+          bank_id: account.bank_id,
+          bank_office_id: '',
+          code: account.code
+        }
+      )
+    }
+
+    assert_response :success
+    assert_template 'common/reload'
+    assert_nil e.reload.employee_bank_account
+  end
+
   def test_編集
     sign_in admin
     get :edit, :params => {:id => employee.id}, :xhr => true

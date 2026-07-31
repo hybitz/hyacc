@@ -18,6 +18,7 @@ ja:
       company: 会社
       customer: 顧客
       employee: 従業員
+      employee_bank_account: 給与振込口座
       fiscal_year: 年度
       inhabitant_tax: 住民税
       journal: 仕訳
@@ -166,6 +167,9 @@ ja:
         sex: 性別
         social_insurance_birthday: 被保険者生年月日
         social_insurance_reference_number: 被保険者整理番号
+
+      employee/employee_bank_account:
+        base: ""
 
       exemption/dependent_family_members:
         family_sub_type: 扶養親族等区分

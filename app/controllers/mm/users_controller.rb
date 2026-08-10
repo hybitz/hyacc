@@ -70,6 +70,8 @@ class Mm::UsersController < Base::HyaccController
 
   def revoke_admin
     @user = User.find(params[:id])
+    @user.company_lock_version = params[:company_lock_version]
+
     begin
       @user.transaction do
         @user.update!(admin: false)
@@ -90,6 +92,7 @@ class Mm::UsersController < Base::HyaccController
   def destroy
     id = params[:id].to_i
     user = User.find(id)
+    user.company_lock_version = params[:company_lock_version]
 
     begin
       user.transaction do

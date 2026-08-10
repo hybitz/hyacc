@@ -60,6 +60,7 @@ class Mm::EmployeesController < Base::HyaccController
   def disable
     @employee = Employee.find(params[:id])
     @employee.disabled = true
+    @employee.company_lock_version = params[:company_lock_version]
 
     begin
       @employee.transaction do
@@ -82,6 +83,7 @@ class Mm::EmployeesController < Base::HyaccController
 
   def destroy
     @employee = Employee.find(params[:id])
+    @employee.company_lock_version = params[:company_lock_version]
 
     begin
       @employee.transaction do

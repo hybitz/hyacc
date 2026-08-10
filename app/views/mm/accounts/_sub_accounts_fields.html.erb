@@ -10,19 +10,22 @@
   }
 </script>
 <table class="table table-sm table-bordered mb-2">
-  <tr>
-    <th>コード</th>
-    <th>補助科目名</th>
-    <th>状態</th>
-  </tr>
-  
-  <% @account.sub_accounts_all.each_with_index do |sa, i| %>
-    <%= render 'sub_account_fields', sub_account: sa, index: i %>
-  <% end %>
-  
-  <tr>
-    <td colspan="4" class="text-right">
-      <%= link_to '追加', '#', class: 'btn btn-link p-0', onclick: 'add_sub_account(this); return false;' %>
-    </td>
-  </tr>
+  <thead>
+    <tr>
+      <th>補助科目コード</th>
+      <th>補助科目名</th>
+      <th>状態</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @account.sub_accounts_all.each_with_index do |sa, i| %>
+      <%= render 'sub_account_fields', sub_account: sa, index: i %>
+    <% end %>
+
+    <tr>
+      <td colspan="3" class="text-end">
+        <%= link_to '追加', '#', class: 'btn btn-sm btn-light', onclick: 'add_sub_account(this); return false;' %>
+      </td>
+    </tr>
+  </tbody>
 </table>

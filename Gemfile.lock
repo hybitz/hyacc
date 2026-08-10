@@ -170,7 +170,7 @@ GEM
       cucumber (>= 7, < 11)
       railties (>= 6.1, < 9)
     cucumber-tag-expressions (6.1.2)
-    daddy (0.12.2)
+    daddy (0.12.3)
       docker-api
       highline
       i18n
@@ -208,7 +208,7 @@ GEM
     drb (2.2.3)
     erb (6.0.4)
     erubi (1.13.1)
-    excon (1.5.0)
+    excon (1.6.0)
       logger
     execjs (2.10.1)
     faraday (2.14.3)
@@ -511,7 +511,7 @@ GEM
     snaky_hash (2.0.7)
       hashie (>= 0.1.0, < 6)
       version_gem (~> 1.1, >= 1.1.14)
-    specinfra (2.95.0)
+    specinfra (2.95.1)
       base64
       net-scp
       net-ssh (>= 2.7)

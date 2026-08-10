@@ -2,6 +2,7 @@ pipeline {
   agent none
   options {
     ansiColor('xterm')
+    lock(resource: 'global-build-lock')
   }
   environment {
     APP_NAME = 'hyacc'

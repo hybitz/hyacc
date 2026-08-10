@@ -1,36 +1,41 @@
-<div style="margin: 20px;">
-<%= form_tag({action: 'create'}, method: 'post') do %>
-<%= @finder_year %>年6月〜翌年5月のデータを登録します。
-<% unless @linked %>
-<div style="margin-bottom:10px; color: red;">従業員マスタと紐づけできませんでした。従業員マスタに登録してください。</div>
-<% end %>
-<%= hidden_field 'finder', 'year', value: finder.year %>
-<%= hidden_field 'commit', 'something' %>
-<table>
-    <tr>
-        <th>#</th>
-        <th>名前</th>
-        <th>住所</th>
-        <th>紐付け従業員</th>
-        <th>確認</th>
-    </tr>
-    <% @list.each_with_index do |ic, index| %>
-      <%= fields_for "inhabitant_csv", ic, index: index do |f| %>
-    <tr>
-        <td><%= index + 1 %></td>
-        <td><%= ic.kanji_last_name + ic.kanji_first_name %></td>
-        <td><%= ic.address %></td>
-        <td>
-          <% if ic.employee_id %>
-            <%= link_to ic.kanji_last_name + ic.kanji_first_name , mm_employee_path(ic.employee_id), remote: true %>
-            <%= f.hidden_field :employee_id %>
+<div class="m-2">
+  <%= flash_notice %>
+  <%= form_tag({action: 'create'}, method: 'post') do %>
+    <p><%= finder.year %>年6月〜翌年5月のデータを登録します。</p>
+
+    <%= hidden_field 'finder', 'year', value: finder.year %>
+
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>名前</th>
+          <th>住所</th>
+          <th>紐付け従業員</th>
+          <th>住民税額（6月〜翌年5月）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @list.each_with_index do |ic, index| %>
+          <%= fields_for "inhabitant_csv", ic, index: index do |f| %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= ic.kanji_last_name + ic.kanji_first_name %></td>
+              <td><%= ic.address %></td>
+              <td>
+                <% if ic.employee_id %>
+                  <%= link_to ic.kanji_last_name + ic.kanji_first_name , mm_employee_path(ic.employee_id), remote: true %>
+                  <%= f.hidden_field :employee_id %>
+                <% end %>
+              </td>
+              <td><%= ic.amounts %><%= f.hidden_field :amounts %></td>
+            </tr>
           <% end %>
-        </td>
-        <td><%= ic.amounts %><%= f.hidden_field :amounts %></td>
-    </tr>
-      <% end %>
-    <% end %>
-</table>
-  <%= submit_tag '登録', {disabled: ! @linked, disable_with: '登録中...'} %>
-<% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= submit_tag '登録', {class: 'btn btn-light', disabled: ! @linked, disable_with: '登録中...'} %>
+    <%= link_to 'キャンセル', mm_inhabitant_taxes_path(finder: {year: finder.year}), class: 'btn btn-light' %>
+  <% end %>
 </div>

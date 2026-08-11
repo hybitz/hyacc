@@ -38,7 +38,7 @@ gem 'rails-i18n', '~> 8.0'
 gem 'remotipart'
 gem 'sassc-rails'
 gem 'sprockets-rails'
-gem 'sqlite3', '~> 2.9'
+gem 'sqlite3', '~> 2.9', force_ruby_platform: true
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'turbolinks', '~> 5'

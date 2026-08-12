@@ -45,7 +45,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :inhabitant_taxes do
+    resources :inhabitant_taxes, except: [:new] do
       collection do
         post 'confirm'
       end

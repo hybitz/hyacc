@@ -4,7 +4,7 @@
       <th><%= f.label :employment_date %></th>
       <td>
         <div class="d-flex flex-nowrap gap-1 align-items-center">
-          <%= f.date_select :employment_date, {}, { class: 'form-select form-select-sm w-auto', style: 'vertical-align: middle;' } %>
+          <%= f.date_select :employment_date, {}, { class: 'form-select form-select-sm w-auto' } %>
         </div>
       </td>
     </tr>
@@ -12,7 +12,7 @@
       <th><%= f.label :retirement_date %></th>
       <td>
         <div class="d-flex flex-nowrap gap-1 align-items-center">
-          <%= f.date_select :retirement_date, { include_blank: true }, { class: 'form-select form-select-sm w-auto', style: 'vertical-align: middle;' } %>
+          <%= f.date_select :retirement_date, { include_blank: true }, { class: 'form-select form-select-sm w-auto' } %>
         </div>
       </td>
     </tr>

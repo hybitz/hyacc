@@ -18,6 +18,7 @@ ja:
       company: 会社
       customer: 顧客
       employee: 従業員
+      employee_bank_account: 給与振込口座
       fiscal_year: 年度
       inhabitant_tax: 住民税
       journal: 仕訳
@@ -110,6 +111,7 @@ ja:
         logo: ロゴ
         name: 会社名
         users: ユーザ
+        labor_insurance_number: 労働保険番号
         social_insurance_number: 社会保険事業所整理番号
         retirement_savings_after: 退職金積立の開始時期
 
@@ -137,7 +139,9 @@ ja:
         <<: *customer_name
 
       employee_bank_account:
+        bank_id: 金融機関名称
         bank_name: 金融機関名称
+        bank_office_id: 支店名称
         bank_office_name: 支店名称
         code: 口座番号
         

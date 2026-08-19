@@ -1,75 +1,95 @@
 <%= flash_notice %>
 
-<table class="table table-sm">
+<table class="table table-sm mb-0">
   <tbody>
     <tr>
-      <th>勘定科目コード</th>
+      <th><%= Account.human_attribute_name :parent_id %></th>
+      <td>
+        <% if @account.parent %>
+          <%= "#{@account.parent.code}：#{@account.parent.name}" %>
+        <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= Account.human_attribute_name :code %></th>
       <td><%= @account.code %></td>
     </tr>
     <tr>
-      <th>勘定科目名</th>
+      <th><%= Account.human_attribute_name :name %></th>
       <td><%= @account.name %></td>
     </tr>
     <tr>
-      <th>貸借区分</th>
+      <th><%= Account.human_attribute_name :short_description %></th>
+      <td><%= @account.short_description %></td>
+    </tr>
+    <tr>
+      <th><%= Account.human_attribute_name :description %></th>
+      <td><%= simple_format(@account.description) if @account.description.present? %></td>
+    </tr>
+    <tr>
+      <th><%= Account.human_attribute_name :dc_type %></th>
       <td><%= @account.dc_type_name %></td>
     </tr>
     <tr>
-      <th>勘定科目区分</th>
+      <th><%= Account.human_attribute_name :account_type %></th>
       <td><%= @account.account_type_name %></td>
     </tr>
     <tr>
-      <th>税区分</th>
+      <th><%= Account.human_attribute_name :tax_type %></th>
       <td><%= @account.tax_type_name %></td>
     </tr>
     <tr>
-      <th>システム必須</th>
-      <td><%= @account.system_required? ? '必須' : '任意' %></td>
-    </tr>
-    <tr>
-      <th>取引区分</th>
+      <th><%= Account.human_attribute_name :trade_type %></th>
       <td><%= @account.trade_type_name %></td>
     </tr>
 
     <% if @account.path.include? HyaccConst::ACCOUNT_CODE_FIXED_ASSET %>
       <tr>
-        <th>減価償却可能</th>
-        <td><%= @account.depreciable? ? 'はい' : 'いいえ' %></td>
+        <th><%= Account.human_attribute_name :depreciable %></th>
+        <td><%= @account.depreciable? ? '可' : '不可' %></td>
       </tr>
       <% if @account.depreciable %>
       <tr>
-      <th>減価償却方法</th>
+        <th><%= Account.human_attribute_name :depreciation_method %></th>
         <td><%= @account.depreciation_method_name %></td>
       </tr>
       <% end %>
     <% end %>
 
     <tr>
-      <th>決算書科目</th>
+      <th><%= Account.human_attribute_name :is_settlement_report_account %></th>
       <td><%= @account.is_settlement_report_account? ? '出力対象' : '出力対象外' %></td>
     </tr>
     <tr>
-      <th>仕訳登録可能</th>
-      <td><%= @account.journalizable? ? 'はい' : 'いいえ' %></td>
+      <th><%= Account.human_attribute_name :journalizable %></th>
+      <td><%= @account.journalizable? ? '可' : '不可' %></td>
     </tr>
     <% if @account.debt? %>
     <tr>
-      <th>買掛金科目</th>
+      <th><%= Account.human_attribute_name :is_trade_account_payable %></th>
       <td><%= @account.is_trade_account_payable? ? 'はい' : 'いいえ' %></td>
     </tr>
     <tr>
-      <th>仮受金科目</th>
+      <th><%= Account.human_attribute_name :is_suspense_receipt_account %></th>
       <td><%= @account.is_suspense_receipt_account? ? 'はい' : 'いいえ' %></td>
     </tr>
     <% end %>
 
     <% if @account.asset? %>
     <tr>
-      <th>仮払金科目</th>
+      <th><%= Account.human_attribute_name :is_temporary_payment_account %></th>
       <td><%= @account.is_temporary_payment_account? ? 'はい' : 'いいえ' %></td>
     </tr>
     <% end %>
 
+    <tr>
+      <th><%= Account.human_attribute_name :sub_account_type %></th>
+      <td><%= @account.sub_account_type_name %></td>
+    </tr>
+    <tr>
+      <th><%= Account.human_attribute_name :system_required %></th>
+      <td><%= @account.system_required? ? '必須' : '任意' %></td>
+    </tr>
     <tr>
       <th>登録日時</th>
       <td><%= @account.created_at.to_fs %></td>
@@ -78,12 +98,6 @@
       <th>更新日時</th>
       <td><%= @account.updated_at.to_fs %></td>
     </tr>
-    <% if @account.journalizable? %>
-    <tr>
-      <th>補助科目区分</th>
-      <td><%= @account.sub_account_type_name %></td>
-    </tr>
-    <% end %>
   </tbody>
 </table>
 

@@ -56,48 +56,48 @@
     </tr>
     <tr>
       <th><%= f.label :tax_type %></th>
-      <td><%= f.select :tax_type, tax_types, {}, class: 'form-control form-control-sm' %></td>
+      <td><%= f.select :tax_type, tax_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
     <tr>
       <th><%= f.label :trade_type %></th>
-      <td><%= f.select :trade_type, trade_types, {}, class: 'form-control form-control-sm' %></td>
+      <td><%= f.select :trade_type, trade_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
 
     <% if @account.path.include? HyaccConst::ACCOUNT_CODE_FIXED_ASSET %>
     <tr>
       <th><%= f.label :depreciable %></th>
-      <td><%= f.select :depreciable, {'可': true, '不可': false}, {}, class: 'form-control form-control-sm' %></td>
+      <td><%= f.select :depreciable, {'可': true, '不可': false}, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
     <tr>
       <th><%= f.label :depreciation_method %></th>
-      <td><%= f.select :depreciation_method, depreciation_methods, { include_blank: true }, class: 'form-control form-control-sm' %></td>
+      <td><%= f.select :depreciation_method, depreciation_methods, { include_blank: true }, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
     <% end %>
 
     <tr>
       <th><%= f.label :is_settlement_report_account %></th>
-      <td><%= f.select :is_settlement_report_account, {'出力対象': true, '出力対象外': false}, {}, class: 'form-control form-control-sm' %></td>
+      <td><%= f.select :is_settlement_report_account, {'出力対象': true, '出力対象外': false}, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
     <tr>
       <th><%= f.label :journalizable %></th>
-      <td><%= f.select :journalizable, {'可': true, '不可': false}, {}, class: 'form-control form-control-sm' %></td>
+      <td><%= f.select :journalizable, {'可': true, '不可': false}, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
 
     <% if @account.debt? %>
       <tr>
         <th><%= f.label :is_trade_account_payable %></th>
-        <td><%= f.select :is_trade_account_payable, {'はい': true, 'いいえ': false}, {}, class: 'form-control form-control-sm' %></td>
+        <td><%= f.select :is_trade_account_payable, {'はい': true, 'いいえ': false}, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
       </tr>
       <tr>
         <th><%= f.label :is_suspense_receipt_account %></th>
-        <td><%= f.select :is_suspense_receipt_account, {'はい': true, 'いいえ': false}, {}, class: 'form-control form-control-sm' %></td>
+        <td><%= f.select :is_suspense_receipt_account, {'はい': true, 'いいえ': false}, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
       </tr>
     <% end %>
 
     <% if @account.asset? %>
       <tr>
         <th><%= f.label :is_temporary_payment_account %></th>
-        <td><%= f.select :is_temporary_payment_account, {'はい': true, 'いいえ': false}, {}, class: 'form-control form-control-sm' %></td>
+        <td><%= f.select :is_temporary_payment_account, {'はい': true, 'いいえ': false}, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
       </tr>
     <% end %>
 
@@ -105,7 +105,7 @@
       <th><%= f.label :sub_account_type %></th>
       <td>
         <% if @account.new_record? %>
-          <%= f.select :sub_account_type, sub_account_types, {}, class: 'form-control form-control-sm' %>
+          <%= f.select :sub_account_type, sub_account_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %>
         <% else %>
           <div class="form-control-plaintext"><%= @account.sub_account_type_name %></div>
         <% end %>

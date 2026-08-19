@@ -1,10 +1,10 @@
 <script> 
   $(document).on('change', '.visibility-toggle', function() {
-    var $el = $(this);
-    var url = $el.data('url');
-    var visible = $el.val();
-    var $row = $el.closest('tr');
-    var $errorEl = $row.find('.update-message');
+    const $el = $(this);
+    const url = $el.data('url');
+    const visible = $el.val();
+    const $row = $el.closest('tr');
+    const $errorEl = $row.find('.update-message');
 
     $errorEl.hide();
 

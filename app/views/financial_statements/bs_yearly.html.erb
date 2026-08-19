@@ -1,25 +1,25 @@
 <script>
   // 構成比の計算
   function updateRatio( id, totalId ) {
-    var elem = getTableCellElement( id );
+    const elem = getTableCellElement( id );
     if (elem == null) {
       return;
     }
 
-    var totalAmount = getValue( getTableCellElement( totalId + '_amount' ) );
+    const totalAmount = getValue( getTableCellElement( totalId + '_amount' ) );
     
-    for ( var i = 0; i < elem.childNodes.length; i ++ ) {
-      var child = elem.childNodes[i];
+    for ( let i = 0; i < elem.childNodes.length; i ++ ) {
+      const child = elem.childNodes[i];
       updateRatio( child, totalId );
     }
     
     if ( elem.id == null ) return;
     else if ( elem.id.match(/.+_amount/i) != null ) {
-      var amount = getValue( elem );
-      var ratio = amount / totalAmount;
+      const amount = getValue( elem );
+      let ratio = amount / totalAmount;
       ratio = parseInt(ratio * 10000 ) / 100;
       
-      var ratioTd = getTableCellElement( elem.id.substring( 0, elem.id.length - 7 ) + '_ratio');
+      const ratioTd = getTableCellElement( elem.id.substring( 0, elem.id.length - 7 ) + '_ratio');
       ratioTd.innerHTML = ratio;
     }
   }

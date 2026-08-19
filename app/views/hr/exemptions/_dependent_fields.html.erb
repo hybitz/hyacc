@@ -12,14 +12,14 @@
 <% end %>
 <script>
   function updateRowState($row) {
-    var exemptionType = $row.find('.exemption_type').val();
-    var $familySubType = $row.find('.family_sub_type');
-    var $nonResident = $row.find('.non_resident');
-    var $nonResidentCode = $row.find('.non_resident_code');
+    const exemptionType = $row.find('.exemption_type').val();
+    const $familySubType = $row.find('.family_sub_type');
+    const $nonResident = $row.find('.non_resident');
+    const $nonResidentCode = $row.find('.non_resident_code');
 
     function setHidden($el, value) {
-      var $row = $el.closest('tr');
-      var name = $el.prop('name');
+      const $row = $el.closest('tr');
+      const name = $el.prop('name');
       $('<input>', {
         type: 'hidden',
         name: name,
@@ -28,8 +28,8 @@
     }
 
     function removeHidden($el) {
-      var $row = $el.closest('tr');
-      var name = $el.prop('name');
+      const $row = $el.closest('tr');
+      const name = $el.prop('name');
       $row.find('input[type=hidden][name="' + name + '"]').remove();
     }
 
@@ -37,7 +37,7 @@
       $familySubType.prop('disabled', false);
       removeHidden($familySubType);
 
-      var fst = $familySubType.val();
+      const fst = $familySubType.val();
 
       if (fst === '2') {
         removeHidden($nonResidentCode);
@@ -97,8 +97,8 @@
   });
 
   $(document).on('ajax:success', '#add-dependent-button', function(e) {
-    var html = e.detail[0];
-    var $newRow = $(html);
+    const html = e.detail[0];
+    const $newRow = $(html);
     $('#dependent-tbody').append($newRow);
     updateRowState($newRow);
   });

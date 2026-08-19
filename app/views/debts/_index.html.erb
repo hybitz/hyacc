@@ -20,7 +20,7 @@
     }).change();
 
     $('#debts_display_flag').click(function() {
-      var checked = $(this).prop('checked');
+      const checked = $(this).prop('checked');
 
       $('tr[id^="debts_"]').each(function() {
         if ($(this).find('div[id^="status_"] a').text() == '精算済み') {
@@ -35,23 +35,23 @@
   });
 
   function hide_sub_accounts() {
-    var sub_account = $('#finder_sub_account_id');
-    var sub_account_label = $('#finder_sub_account_id_title');
+    const sub_account = $('#finder_sub_account_id');
+    const sub_account_label = $('#finder_sub_account_id_title');
     sub_account.hide();
     sub_account_label.hide();
   }
 
   function reload_sub_accounts(json) {
     replace_options('#finder_sub_account_id', json, true);
-    var sub_account = $('#finder_sub_account_id');
-    var sub_account_label = $('#finder_sub_account_id_title'); 
+    const sub_account = $('#finder_sub_account_id');
+    const sub_account_label = $('#finder_sub_account_id_title'); 
     sub_account_label.css('display', sub_account.css('display'));
   }
 
   // 選択された精算科目の確認
   function confirm_current_account(){
-    var account_name = $('#finder_account_id option:selected').text();
-    var sub_account_name = $('#finder_sub_account_id option:selected').text();
+    const account_name = $('#finder_account_id option:selected').text();
+    const sub_account_name = $('#finder_sub_account_id option:selected').text();
 
     if (sub_account_name) {
       return confirm('精算科目「' + account_name + '」、補助科目「' + sub_account_name + '」でよろしいですか？');
@@ -65,8 +65,8 @@
       return false;
     }
 
-    var url = '<%= url_for action: 'create' %>';
-    var params = {
+    const url = '<%= url_for action: 'create' %>';
+    const params = {
       authenticity_token: '<%= form_authenticity_token %>',
       journal_id: journal_id,
       branch_id: branch_id,

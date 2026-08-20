@@ -1,4 +1,5 @@
-var options = {
+(function() {
+  const options = {
   title: '<%= title.present? ? title + '　参照' : '参照' %>',
   buttons: [
     <% unless @account.deleted or @account.system_required? %>
@@ -28,3 +29,4 @@ var options = {
 };
 
 hyacc.current_dialog(options).show('<%=j render 'show' %>');
+})();

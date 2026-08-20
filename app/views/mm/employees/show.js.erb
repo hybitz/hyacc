@@ -1,4 +1,5 @@
-var options = {
+(function() {
+  const options = {
   title: '<%= title + '　参照' %>'
 };
 
@@ -49,3 +50,4 @@ options.buttons.push(
 <% end %>
 
 hyacc.current_dialog(options).show('<%=j render 'show' %>');
+})();

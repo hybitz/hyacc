@@ -18,7 +18,6 @@
     const $nonResidentCode = $row.find('.non_resident_code');
 
     function setHidden($el, value) {
-      const $row = $el.closest('tr');
       const name = $el.prop('name');
       $('<input>', {
         type: 'hidden',

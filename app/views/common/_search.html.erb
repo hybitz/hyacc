@@ -59,7 +59,7 @@
           <script>
             $(document).ready(function() {
               $('#finder_account_id').change(function() {
-                var params = {
+                const params = {
                   account_id: $(this).val()
                 };
                 $.get('<%= sub_accounts_path(format: 'json') %>', params, function(json) {
@@ -81,7 +81,7 @@
            <script>
              function reloadSubAccounts(data){
                replace_options('#finder_sub_account_id', data, true);
-               var subAccount = $('#finder_sub_account_id');
+               const subAccount = $('#finder_sub_account_id');
                if (subAccount != null) {
                  $('#finder_sub_account_id_title').css('display', subAccount.css('display'));
                }

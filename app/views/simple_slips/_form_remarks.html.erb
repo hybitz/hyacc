@@ -5,16 +5,16 @@
     <%= f.text_field :remarks, class: 'remarksText autocomplete' %>
     <script>
       function get_templates(req, res) {
-        var url = '<%= url_for action: 'get_templates', account_code: @simple_slip.my_account.code %>';
-        var params = {format: 'json', query: req.term};
+        const url = '<%= url_for action: 'get_templates', account_code: @simple_slip.my_account.code %>';
+        const params = {format: 'json', query: req.term};
         $.getJSON(url, params, function(json) {
           res(json);
         });
       }
 
       function item_selected(e, ui) {
-        var form = $(e.target).closest('form');
-        var item = ui.item;
+        const form = $(e.target).closest('form');
+        const item = ui.item;
 
         form.find('[name*="\[account_id\]"]').val(item.account_id);
 
@@ -45,7 +45,7 @@
           simple_slip.update_tax_rate();
         }
 
-        var focus = item.focus_on_complete;
+        let focus = item.focus_on_complete;
         if (focus == 'amount' || focus == 'tax_amount') {
           if (item.increase_or_decrease) {
             focus = focus + '_' + item.increase_or_decrease;
@@ -65,7 +65,7 @@
           source: get_templates,
           select: item_selected,
         }).data('ui-autocomplete')._renderItem = function(ul, item) {
-          var html = '<div>'+ item.remarks + '</div>';
+          let html = '<div>'+ item.remarks + '</div>';
           html += '<div style="float: right; display: inline;">' + item.account_code + ":" + item.account_name + '</div>';
           html += '<br style="clear: both;"/>';
           return $('<li>').append(html).appendTo(ul);

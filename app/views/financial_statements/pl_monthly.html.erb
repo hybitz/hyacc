@@ -1,40 +1,40 @@
 <script>
   function add_all_months( account1, account2, account3 ) {
-    var tr1 = document.getElementById( account1 );
-    var tr2 = document.getElementById( account2 );
-    var tr3 = document.getElementById( account3 );
+    const tr1 = document.getElementById( account1 );
+    const tr2 = document.getElementById( account2 );
+    const tr3 = document.getElementById( account3 );
 
-    for ( var i = 0; i < tr1.childNodes.length; i ++ ) {
-      var td1 = tr1.childNodes[i];
+    for ( let i = 0; i < tr1.childNodes.length; i ++ ) {
+      const td1 = tr1.childNodes[i];
       if ( td1.id && td1.id.match(/.+_[0-9]{6}/i) != null ) {
-        var td2 = tr2.childNodes[i];
-        var td3 = tr3.childNodes[i];
+        const td2 = tr2.childNodes[i];
+        const td3 = tr3.childNodes[i];
         add(td1, td2, td3);
       }
     }
   }
   
   function subtract_all_months( account1, account2, account3 ) {
-    var tr1 = document.getElementById( account1 );
-    var tr2 = document.getElementById( account2 );
-    var tr3 = document.getElementById( account3 );
+    const tr1 = document.getElementById( account1 );
+    const tr2 = document.getElementById( account2 );
+    const tr3 = document.getElementById( account3 );
     if(!tr2){return;}
-    for ( var i = 0; i < tr1.childNodes.length; i ++ ) {
-      var td1 = tr1.childNodes[i];
+    for ( let i = 0; i < tr1.childNodes.length; i ++ ) {
+      const td1 = tr1.childNodes[i];
       if ( td1.id && td1.id.match(/.+_[0-9]{6}/i) != null ) {
-        var td2 = tr2.childNodes[i];
-        var td3 = tr3.childNodes[i];
+        const td2 = tr2.childNodes[i];
+        const td3 = tr3.childNodes[i];
         sub(td1, td2, td3);
       }
     }
   }
 
   function calc_sum( account ) {
-    var tr = document.getElementById( account );
+    const tr = document.getElementById( account );
     
-    var sum = 0;
-    for ( var i = 0; i < tr.childNodes.length; i ++ ) {
-      var td = tr.childNodes[i];
+    let sum = 0;
+    for ( let i = 0; i < tr.childNodes.length; i ++ ) {
+      const td = tr.childNodes[i];
       if ( td.id && td.id.match(/.+_[0-9]{6}/i) != null ) {
         sum += getValue( td );
       }

@@ -12,32 +12,32 @@
   });
 
   function show_journals(trigger) {
-    var url = $(trigger).attr('href');
-    var params = $('#search').find('form').serializeArray();
+    const url = $(trigger).attr('href');
+    const params = $('#search').find('form').serializeArray();
     params.push({name: 'format', value: 'html'});
     $.get(url, params, function(html) {
-      var tr = $(trigger).closest('tr');
+      const tr = $(trigger).closest('tr');
       tr.replaceWith(html);
       calcSum(<%= @account.dc_type if @account %>);
     });
   }
 
   function calcSum(dcType) {
-    var container = $('#ledgerContainer');
-    var yearMonth = 0;
-    var monthlySum = 0;
-    var sum = toInt(container.find('#ledger_row_last_year').find('.amountSum').text());
+    const container = $('#ledgerContainer');
+    let yearMonth = 0;
+    let monthlySum = 0;
+    let sum = toInt(container.find('#ledger_row_last_year').find('.amountSum').text());
 
     container.find('.ledgerRow').each(function() {
       // 年月が異なれば月別累計を初期化
-      var ym = toInt($(this).find('.yearMonth').text());
+      const ym = toInt($(this).find('.yearMonth').text());
       if (yearMonth != ym) {
         yearMonth = ym;
         monthlySum = 0;
       }
 
       // 借方
-      var debitAmount = toInt($(this).find('.amountDebit').text());
+      const debitAmount = toInt($(this).find('.amountDebit').text());
       if ( dcType == DC_TYPE_DEBIT ) {
         monthlySum += debitAmount;
         sum += debitAmount;
@@ -47,7 +47,7 @@
       }
 
       // 貸方
-      var creditAmount = toInt($(this).find('.amountCredit').text());
+      const creditAmount = toInt($(this).find('.amountCredit').text());
       if ( dcType == DC_TYPE_CREDIT ) {
         monthlySum += creditAmount;
         sum += creditAmount;

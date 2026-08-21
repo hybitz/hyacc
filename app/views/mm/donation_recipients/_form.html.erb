@@ -48,10 +48,10 @@
 
 <script>
 (function() {
-  var kindSelect = document.querySelector('.donation-recipient-kind');
+  const kindSelect = document.querySelector('.donation-recipient-kind');
   if (!kindSelect) return;
   function toggleRows() {
-    var kind = kindSelect.value;
+    const kind = kindSelect.value;
     document.querySelectorAll('.donation-recipient-fields').forEach(function(tr) {
       tr.style.display = tr.classList.contains('kind-' + kind) ? '' : 'none';
     });

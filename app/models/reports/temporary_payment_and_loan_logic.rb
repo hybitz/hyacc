@@ -1,5 +1,25 @@
 module Reports
   class TemporaryPaymentAndLoanLogic < BaseLogic
+    # 期中利息は受取利息（従業員）・受取利息（取引先）のみ。4221受取利息や独自に追加した4221子科目は集計対象外。
+    LOAN_COUNTERPARTY_ACCOUNT_GROUPS = [
+      {
+        sub_account_type: SUB_ACCOUNT_TYPE_EMPLOYEE,
+        short_term_code: ACCOUNT_CODE_SHORT_TERM_LOAN_EMPLOYEE,
+        long_term_code: ACCOUNT_CODE_LONG_TERM_LOAN_EMPLOYEE,
+        interest_code: ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_EMPLOYEE
+      },
+      {
+        sub_account_type: SUB_ACCOUNT_TYPE_CUSTOMER,
+        short_term_code: ACCOUNT_CODE_SHORT_TERM_LOAN_CUSTOMER,
+        long_term_code: ACCOUNT_CODE_LONG_TERM_LOAN_CUSTOMER,
+        interest_code: ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_CUSTOMER
+      }
+    ]
+
+    PARENT_LOAN_ACCOUNT_CODES = [
+      ACCOUNT_CODE_SHORT_TERM_LOAN,
+      ACCOUNT_CODE_LONG_TERM_LOAN
+    ]
 
     def build_model
       ret = TemporaryPaymentAndLoanModel.new
@@ -14,11 +34,13 @@ module Reports
 
           detail = build_temporary_payment_detail(a, sa, amount_at_end)
           ret.temporary_payment_details << detail
-        end  
+        end
       end
 
-      # TODO: LoanDetailに関する処理を実装する
-      
+      build_loan_details(ret)
+
+      ret.fill_loan_details(7)
+
       ret
     end
 
@@ -37,8 +59,60 @@ module Reports
       detail
     end
 
+    def build_loan_details(ret)
+      listed_amount_at_end = 0
+
+      LOAN_COUNTERPARTY_ACCOUNT_GROUPS.each do |group|
+        account = Account.find_by_code(group[:short_term_code])
+        sub_accounts = account.sub_accounts.presence || []
+
+        sub_accounts.each do |sa|
+          amount_at_end = loan_amount_at_end(group, sa.id)
+          listed_amount_at_end += amount_at_end
+          detail = build_loan_detail(group, sa, amount_at_end)
+          next if detail.amount_at_end == 0 && detail.interest_in_period == 0
+
+          ret.loan_details << detail
+        end
+      end
+
+      other_loan_amount_at_end = PARENT_LOAN_ACCOUNT_CODES.sum { |code| get_amount_at_end(code, nil) } - listed_amount_at_end
+      if other_loan_amount_at_end != 0
+        detail = build_other_loan_detail(other_loan_amount_at_end)
+        ret.loan_details << detail
+      end
+    end
+
+    def build_loan_detail(group, sub_account, amount_at_end)
+      detail = LoanDetailModel.new
+      detail.sub_account_type = group[:sub_account_type]
+      detail.sub_account = sub_account
+      detail.amount_at_end = amount_at_end
+      detail.interest_in_period = loan_interest_in_period(group, sub_account.id)
+      detail.end_ymd = end_ymd
+      detail
+    end
+
+    def build_other_loan_detail(amount_at_end)
+      detail = LoanDetailModel.new
+      detail.other_loan = true
+      detail.amount_at_end = amount_at_end
+      detail.interest_in_period = nil
+      detail.end_ymd = end_ymd
+      detail
+    end
+
+    def loan_amount_at_end(group, sub_account_id)
+      get_amount_at_end_self_only(group[:short_term_code], sub_account_id) +
+        get_amount_at_end_self_only(group[:long_term_code], sub_account_id)
+    end
+
+    def loan_interest_in_period(group, sub_account_id)
+      get_this_term_credit_amount(group[:interest_code], sub_account_id)
+    end
+
   end
-  
+
   class TemporaryPaymentAndLoanModel
 
     def temporary_payment_details
@@ -49,8 +123,23 @@ module Reports
       @loan_details ||= []
     end
 
+    def fill_loan_details(min_count)
+      target = [loan_details.size, min_count].max
+      (loan_details.size ... target).each do
+        loan_details << LoanDetailModel.new
+      end
+    end
+
+    def loan_total_amount_at_end
+      loan_details.sum { |d| d.amount_at_end.to_i }
+    end
+
+    def loan_total_interest_in_period
+      loan_details.sum { |d| d.interest_in_period.to_i }
+    end
+
   end
-  
+
   class TemporaryPaymentDetailModel
     include HyaccConst
 
@@ -63,7 +152,7 @@ module Reports
     def counterpart_name
       customer.formal_name_on(end_ymd) if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
     end
-  
+
     def counterpart_address
       customer.address_on(end_ymd) if account&.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
     end
@@ -110,8 +199,82 @@ module Reports
       result = JournalDetail.find_by_sql(sql.to_a)[0]&.note
     end
   end
-  
-  # TODO: LoanDetailModelクラスを実装する
+
+  class LoanDetailModel
+    include HyaccConst
+
+    attr_accessor :sub_account_type, :sub_account, :amount_at_end, :interest_in_period
+    attr_accessor :other_loan, :end_ymd
+
+    def other_loan?
+      other_loan == true
+    end
+
+    def registration_number
+      return unless sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER
+
+      sub_account.enterprise_number
+    end
+
+    def counterpart_name
+      return if other_loan?
+
+      case sub_account_type
+      when SUB_ACCOUNT_TYPE_EMPLOYEE
+        sub_account.fullname
+      when SUB_ACCOUNT_TYPE_CUSTOMER
+        sub_account.formal_name_on(end_ymd)
+      end
+    end
+
+    def counterpart_address
+      return if other_loan?
+
+      case sub_account_type
+      when SUB_ACCOUNT_TYPE_EMPLOYEE
+        sub_account.address_on(end_ymd)
+      when SUB_ACCOUNT_TYPE_CUSTOMER
+        sub_account.address_on(end_ymd)
+      end
+    end
+
+    def counterpart_relation
+      return if other_loan?
+
+      case sub_account_type
+      when SUB_ACCOUNT_TYPE_EMPLOYEE
+        employee_counterpart_relation
+      when SUB_ACCOUNT_TYPE_CUSTOMER
+        customer_counterpart_relation
+      end
+    end
+
+    # TODO 利率を取得する
+    def interest_rate
+      nil
+    end
+
+    # TODO 担保の内容を取得する
+    def collateral
+      nil
+    end
+
+    private
+
+    def employee_counterpart_relation
+      labels = []
+      labels << '役員' if sub_account.executive?
+      if sub_account.relationship_to_representative.present?
+        labels << "代表者との関係：#{sub_account.relationship_to_representative}"
+      end
+      labels.presence&.join('・')
+    end
+
+    def customer_counterpart_relation
+      labels = []
+      labels << '株主' if sub_account.is_shareholder?
+      labels << '関係会社' if sub_account.is_related_company?
+      labels.presence&.join('・')
+    end
+  end
 end
-
-

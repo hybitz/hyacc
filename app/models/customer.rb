@@ -4,5 +4,6 @@ class Customer < ApplicationRecord
   validates :code, uniqueness: {case_sensitive: false}
   validates :name, presence: true
   validates :formal_name, presence: true
+  validates_with Validators::ReferencedOnDeletionValidator
 
 end

@@ -30,6 +30,7 @@ class Employee < ApplicationRecord
   validates_with Validators::DefaultBranchPresenceValidator
   validates_with Validators::UniqueBranchEmployeesValidator
   validates_with Validators::LastActiveAdminValidator
+  validates_with Validators::ReferencedOnDeletionValidator
   include LastActiveAdminLockable
 
   def self.name_is(name)

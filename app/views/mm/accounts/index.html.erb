@@ -28,8 +28,8 @@
         <% if finder.account_type_asset? %>
           <th class="text-center">仮払金科目</th>
         <% end %>
-    
-        <th></th>
+
+        <th class="text-center"></th>
       </tr>
     </thead>
     <tbody>
@@ -49,9 +49,9 @@
         <% if finder.account_type_asset? %>
           <td class="text-center"><%= image_tag 'check.png', alt: 'はい', title: 'はい' if a.is_temporary_payment_account? %></td>
         <% end %>
-        <td>
-          <%= link_to '編集', {action: 'edit', id: a}, remote: true %>
-          <%= link_to '子科目追加', {action: 'new', parent_id: a}, remote: true %>
+        <td class="text-center text-nowrap">
+          <%= link_to '編集', {action: 'edit', id: a}, remote: true, class: 'btn btn-sm btn-light' %>
+          <%= link_to '子科目追加', {action: 'new', parent_id: a}, remote: true, class: 'btn btn-sm btn-light' %>
         </td>
       </tr>
       <% end %>

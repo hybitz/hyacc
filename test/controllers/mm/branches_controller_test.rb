@@ -82,7 +82,7 @@ class Mm::BranchesControllerTest < ActionController::TestCase
     delete :destroy, xhr: true, params: { id: branch.id }
     assert_response :unprocessable_content
     assert flash[:is_error_message]
-    assert_equal HyaccErrors::ERR_BRANCH_LINKED, flash[:notice]
+    assert_equal [HyaccErrors::ERR_BRANCH_LINKED], flash[:notice]
     assert_not branch.reload.deleted?
   end
 

@@ -1,10 +1,9 @@
-<div id="data_<%= data.id %>">
-  <div class="div_td_yyyy"><%= data.ym %></div>
-  <div class="div_td_user"><%= data.employee.fullname %></div>
-  <div class="div_td_money"><%= to_amount(data.amount, show_zero: true) %></div>
-  <div class="div_td_link">
-    <%= link_to '編集', edit_mm_inhabitant_tax_path(data), remote: true %>
-    <%= link_to '削除', mm_inhabitant_tax_path(data), data: {confirm: '削除しますか?'}, method: :delete %>
+<div id="data_<%= data.id %>" class="d-flex align-items-center border-bottom border-end">
+  <div class="p-2" style="width: 90px;"><%= data.ym %></div>
+  <div class="p-2" style="width: 120px;"><%= data.employee.fullname %></div>
+  <div class="p-2 text-end" style="width: 100px;"><%= to_amount(data.amount, show_zero: true) %></div>
+  <div class="p-2 text-center text-nowrap" style="width: 160px;">
+    <%= link_to '編集', edit_mm_inhabitant_tax_path(data), class: 'btn btn-sm btn-light', remote: true %>
+    <%= link_to '削除', mm_inhabitant_tax_path(data), data: {confirm: '削除しますか?'}, class: 'btn btn-sm btn-light', method: :delete, remote: true %>
   </div>
-  <br clear="all" />
 </div>

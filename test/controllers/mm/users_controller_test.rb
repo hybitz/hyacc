@@ -81,7 +81,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
     other_admin.update!(admin: true)
 
     sign_in admin
-    post :revoke_admin, params: {id: other_admin.id}
+    post :revoke_admin, params: {id: other_admin.id, company_lock_version: admin.employee.company.lock_version}
 
     assert_redirected_to mm_employees_path
     assert_not other_admin.reload.admin?
@@ -90,12 +90,12 @@ class Mm::UsersControllerTest < ActionController::TestCase
   def test_ログイン可能な管理権限を持つユーザーが1人のとき_adminを解除できない
     sign_in admin
 
-    post :revoke_admin, params: {id: admin.id}
+    post :revoke_admin, params: {id: admin.id, company_lock_version: admin.employee.company.lock_version}
 
     assert_redirected_to mm_employees_path
     assert admin.reload.admin?
     assert flash[:is_error_message]
-    assert_equal ERR_LAST_ACTIVE_ADMIN_REVOKE, flash[:notice]
+    assert_equal [ERR_LAST_ACTIVE_ADMIN_REVOKE], flash[:notice]
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身のadminを解除できる
@@ -103,10 +103,27 @@ class Mm::UsersControllerTest < ActionController::TestCase
     other_admin.update!(admin: true)
 
     sign_in admin
-    post :revoke_admin, params: {id: admin.id}
+    post :revoke_admin, params: {id: admin.id, company_lock_version: admin.employee.company.lock_version}
 
     assert_redirected_to root_path
     assert_not admin.reload.admin?
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_古いcompany_lock_versionで自身以外のadminを解除すると失敗する
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    company = admin.employee.company
+    stale_lock_version = company.lock_version
+    company.touch
+
+    post :revoke_admin, params: {id: other_admin.id, company_lock_version: stale_lock_version}
+
+    assert_redirected_to mm_employees_path
+    assert other_admin.reload.admin?
+    assert flash[:is_error_message]
+    assert_equal ERR_STALE_OBJECT, flash[:notice]
   end
 
   def test_create_with_invalid_branch_employees_params
@@ -154,7 +171,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_他人を削除した場合_一覧に遷移すること
     sign_in admin
-    delete :destroy, :params => {:id => user.id}
+    delete :destroy, params: {id: user.id, company_lock_version: admin.employee.company.lock_version}
     assert_redirected_to :action => 'index'
 
     assert user.reload.deleted?
@@ -162,12 +179,12 @@ class Mm::UsersControllerTest < ActionController::TestCase
 
   def test_ログイン可能な管理権限を持つユーザーが1人のとき_自分自身を削除できない
     sign_in admin
-    delete :destroy, params: {id: admin.id}
+    delete :destroy, params: {id: admin.id, company_lock_version: admin.employee.company.lock_version}
 
     assert_redirected_to action: 'index'
     assert_not admin.reload.deleted?
     assert flash[:is_error_message]
-    assert_equal ERR_LAST_ACTIVE_ADMIN_DELETE, flash[:notice]
+    assert_equal [ERR_LAST_ACTIVE_ADMIN_DELETE], flash[:notice]
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_自分自身を削除できる
@@ -175,21 +192,38 @@ class Mm::UsersControllerTest < ActionController::TestCase
     other_admin.update!(admin: true)
 
     sign_in admin
-    delete :destroy, params: {id: admin.id}
+    delete :destroy, params: {id: admin.id, company_lock_version: admin.employee.company.lock_version}
 
     assert_redirected_to new_user_session_path
     assert admin.reload.deleted?
   end
 
-  def test_ログイン可能な管理権限を持つユーザーが2人のとき_他のadminを削除できる
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_自身以外を削除できる
     other_admin = User.find(6)
     other_admin.update!(admin: true)
 
     sign_in admin
-    delete :destroy, params: {id: other_admin.id}
+    delete :destroy, params: {id: other_admin.id, company_lock_version: admin.employee.company.lock_version}
 
     assert_redirected_to action: 'index'
     assert other_admin.reload.deleted?
+  end
+
+  def test_ログイン可能な管理権限を持つユーザーが2人のとき_古いcompany_lock_versionで自身以外を削除すると失敗する
+    other_admin = User.find(6)
+    other_admin.update!(admin: true)
+
+    sign_in admin
+    company = admin.employee.company
+    stale_lock_version = company.lock_version
+    company.touch
+
+    delete :destroy, params: {id: other_admin.id, company_lock_version: stale_lock_version}
+
+    assert_redirected_to action: 'index'
+    assert_not other_admin.reload.deleted?
+    assert flash[:is_error_message]
+    assert_equal ERR_STALE_OBJECT, flash[:notice]
   end
 
   def test_ダイアログ上のエラーメッセージはフォームの項目順に表示されること
@@ -208,7 +242,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
       "生年月日を入力してください", 
       "入社日を入力してください", 
       "デフォルトの所属部門を設定してください。"
-    ], flash[:notice].split("<br/>")
+    ], flash[:notice]
     assert_response :success
     assert_template :new
 
@@ -237,7 +271,7 @@ class Mm::UsersControllerTest < ActionController::TestCase
       "マイナンバーは数値で入力してください", 
       "デフォルトの所属部門を設定してください。", 
       "所属部門が重複しています。"
-    ], flash[:notice].split("<br/>")
+    ], flash[:notice]
     assert_response :success
     assert_template :new
   end

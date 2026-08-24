@@ -40,9 +40,9 @@
           <td class="text-center text-nowrap">
             <%= link_to '編集', edit_mm_employee_path(e), remote: true, class: 'btn btn-sm btn-light' %>
             <% if e.disabled? %>
-              <%= link_to '削除', mm_employee_path(e), data: {confirm: '削除します。よろしいですか？'}, method: 'delete', class: 'btn btn-sm btn-danger' %>
+              <%= link_to '削除', mm_employee_path(e, company_lock_version: current_company.lock_version), data: {confirm: '削除します。よろしいですか？'}, method: 'delete', class: 'btn btn-sm btn-danger' %>
             <% else %>
-              <%= link_to '無効', disable_mm_employee_path(e), data: {confirm: '状態を無効にします。よろしいですか？'}, method: 'post', class: 'btn btn-sm btn-warning' %>
+              <%= link_to '無効', disable_mm_employee_path(e, company_lock_version: current_company.lock_version), data: {confirm: '状態を無効にします。よろしいですか？'}, method: 'post', class: 'btn btn-sm btn-warning' %>
             <% end %>
           </td>
         </tr>

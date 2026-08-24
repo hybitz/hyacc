@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates_format_of :google_account, allow_nil: true, allow_blank: true, with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/
 
   validates_with Validators::LastActiveAdminValidator
+  include LastActiveAdminLockable
 
   has_one :employee
   accepts_nested_attributes_for :employee
@@ -28,13 +29,16 @@ class User < ApplicationRecord
     admin? && active_for_authentication?
   end
 
-  def would_remove_last_active_admin?
+  def admin_becoming_inactive?
     was_active = admin_in_database && !deleted_in_database &&
       !employee.deleted_in_database && !employee.disabled_in_database
     return false unless was_active
 
-    will_be_active = admin? && !deleted? && !employee.disabled? && !employee.deleted?
-    return false if will_be_active
+    !active_admin?
+  end
+
+  def would_remove_last_active_admin?
+    return false unless admin_becoming_inactive?
 
     company_active_admins = self.class.active_admins.where(employees: { company_id: employee.company_id })
     company_active_admins.where.not(id: id).none?
@@ -68,5 +72,11 @@ class User < ApplicationRecord
   def name
     login_id
   end
-  
+
+  private
+
+  def lockable_company
+    employee.company
+  end
+
 end

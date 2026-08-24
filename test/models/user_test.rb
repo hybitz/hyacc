@@ -45,5 +45,77 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.admin?
     assert_not user.would_remove_last_active_admin?
   end
+  def test_admin_becoming_inactive_非adminの変更はfalse
+    assert_not user.admin?
+    user.deleted = true
+    assert_not user.admin_becoming_inactive?
+  end
+
+  def test_admin_becoming_inactive_管理者ユーザーが削除される場合はtrue
+    admin.deleted = true
+    assert admin.admin_becoming_inactive?
+  end
+
+  def test_管理者ユーザーの権限解除でcompanyのlock_versionが上がる
+    other_admin = User.find(9)
+    other_admin.update!(admin: true)
+
+    user = User.find(3)
+    assert user.active_admin?
+    assert_equal user.employee.company_id, other_admin.employee.company_id
+
+    company = user.employee.company
+    before_lock_version = company.lock_version
+
+    user.admin = false
+    user.company_lock_version = before_lock_version
+    user.save!
+
+    assert_equal before_lock_version + 1, company.reload.lock_version
+  end
+
+  def test_管理者ユーザーが削除される場合はcompanyのlock_versionが上がる
+    other_admin = User.find(9)
+    other_admin.update!(admin: true)
+
+    user = User.find(3)
+    assert user.active_admin?
+    assert_equal user.employee.company_id, other_admin.employee.company_id
+
+    company = user.employee.company
+    before_lock_version = company.lock_version
+
+    user.deleted = true
+    user.company_lock_version = before_lock_version
+    user.save!
+
+    assert_equal before_lock_version + 1, company.reload.lock_version
+  end
+
+  def test_slips_per_pageの更新ではcompanyのlock_versionは上がらない
+    company = admin.employee.company
+    before_lock_version = company.lock_version
+
+    admin.slips_per_page = admin.slips_per_page + 1
+    admin.save!
+
+    assert_equal before_lock_version, company.reload.lock_version
+  end
+
+  def test_管理者ユーザーの権限解除でcompany_lock_versionがない場合はエラー
+    other_admin = User.find(9)
+    other_admin.update!(admin: true)
+
+    user = User.find(3)
+    assert user.active_admin?
+    assert_equal user.employee.company_id, other_admin.employee.company_id
+
+    user.admin = false
+
+    e = assert_raises(HyaccException) do
+      user.save!
+    end
+    assert_equal ERR_ILLEGAL_STATE, e.message
+  end
 
 end

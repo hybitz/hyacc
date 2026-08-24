@@ -10,35 +10,39 @@
   });
 </script>
 
+<%= render 'search' %>
+<%= flash_notice %>
 
 <div class="m-2">
-  <%= flash_notice %>
-  <div>
-    <%= render 'search' %>
-  </div>
-  
   <% if @list.present? %>
-    <div class="basic_master">
-      <div>
-        <div class="div_th_yyyy">年月</div>
-        <div class="div_th_user">従業員</div>
-        <div class="div_th_money">金額</div>
-        <div class="div_th_link"></div>
-        <br clear="all" />
+    <div class="my-4">
+      <div class="border-top border-start d-inline-block">
+        <div class="d-flex fw-bold bg-light border-bottom border-end">
+          <div class="p-2" style="width: 90px;">年月</div>
+          <div class="p-2" style="width: 120px;">従業員</div>
+          <div class="p-2 text-center" style="width: 100px;">金額</div>
+          <div class="p-2" style="width: 160px;"></div>
+        </div>
+
+        <% @list.each do |data| %>
+          <%= render 'line', data: data %>
+        <% end %>
       </div>
-      
-      <% @list.each do |data| %>
-        <%= render 'line', data: data %>
+      <% if finder.employee_id.blank? %>
+        <div>
+          <%= will_paginate @list %>
+        </div>
       <% end %>
     </div>
   <% end %>
-  
-  <div class="m-2">
-    <%= flash_notice %>
+
+  <div class="mt-3">
     <%= form_tag({action: 'confirm'}, id: 'inhabitant_upload', multipart: true) do %>
-    CSVファイルをアップロード<br>
-    <%= file_field_tag(:file) %><br>
-    <%= submit_tag("アップロード") %>
+      <div class="mb-2">
+        <label class="form-label">CSVファイルをアップロード</label>
+        <%= file_field_tag(:file, class: 'form-control', style: 'max-width: 400px;') %>
+      </div>
+      <%= submit_tag("アップロード", class: 'btn btn-light') %>
     <% end %>
   </div>
 </div>

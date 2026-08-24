@@ -4,16 +4,17 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
   def test_一覧
     sign_in admin
-    get :index, :params => {:commit => '表示', :finder => {:year=>'2009'}}
+    get :index, :params => {:finder => {:year=>'2009'}}
     assert_response :success
-    assert_not_nil assigns(:list)
+    assert assigns(:list).present?
   end
 
-  def test_新規
+  def test_一覧_従業員で絞り込める
     sign_in admin
-    get :new
+    get :index, :params => {:finder => {:year=>'2009', :employee_id => 1}}
     assert_response :success
-    assert_template :new
+    assert assigns(:list).present?
+    assert assigns(:list).all? { |it| it.employee_id == 1 }
   end
 
   def test_アップロード
@@ -21,21 +22,85 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     post :confirm, params: {file: upload_file('inhabitant_tax.csv')}
     assert_template :confirm
     assert_equal 2, assigns(:list).size
+    assert assigns(:linked)
   end
-  
+
+  def test_アップロード_未紐付け
+    sign_in admin
+    post :confirm, params: {file: upload_file('inhabitant_tax_unlinked.csv')}
+    assert_template :confirm
+    refute assigns(:linked)
+    assert flash[:is_error_message]
+    assert_equal '従業員マスタと紐づけできませんでした。従業員マスタに登録してください。', flash[:notice]
+  end
+
   def test_登録
     sign_in admin
     file = upload_file('inhabitant_tax.csv')
     finder = {:year => '2016'}
-    list, linked = InhabitantCsv.load(file.tempfile, admin.employee.company)
+    list, = InhabitantCsv.load(file, admin.employee.company)
     inhabitant = {}
     list.each_with_index do |ic, index|
       inhabitant[index] = {:employee_id => ic.employee_id, :amounts => ic.amounts}
     end
     post :create, :params => {:inhabitant_csv => inhabitant, :finder => finder}
-    assert_redirected_to action: 'index',  finder: finder
+    assert_redirected_to action: 'index', finder: {year: 2016}
     assert_equal 14, InhabitantTax.where("ym like ?", "2016%").size
     assert_equal 10, InhabitantTax.where("ym like ?", "2017%").size
+  end
+
+  def test_登録_未紐付けは拒否される
+    sign_in admin
+    assert_no_difference('InhabitantTax.count') do
+      post :create, :params => {
+        :inhabitant_csv => {0 => {:amounts => '19000,18200,18200,18200,18200,18200,18200,18200,18200,18200,18200,18200'}},
+        :finder => {:year => '2016'}
+      }
+    end
+    assert_redirected_to action: 'index', finder: {year: 2016}
+    assert flash[:is_error_message]
+    assert_equal '従業員マスタと紐づけできませんでした。従業員マスタに登録してください。', flash[:notice]
+  end
+
+  def test_登録_データが空の場合は拒否される
+    sign_in admin
+    assert_no_difference('InhabitantTax.count') do
+      post :create, :params => {:finder => {:year => '2016'}}
+    end
+    assert_redirected_to action: 'index', finder: {year: 2016}
+    assert flash[:is_error_message]
+    assert_equal '取り込む住民税データがありません。', flash[:notice]
+  end
+
+  def test_登録_不正な金額は保存されない
+    sign_in admin
+    assert_no_difference('InhabitantTax.count') do
+      post :create, :params => {
+        :inhabitant_csv => {
+          0 => {
+            :employee_id => 1,
+            :amounts => 'x,18200,18200,18200,18200,18200,18200,18200,18200,18200,18200,18200'
+          }
+        },
+        :finder => {:year => '2016'}
+      }
+    end
+    assert_redirected_to action: 'index', finder: {year: 2016}
+    assert flash[:is_error_message]
+    assert_equal ['金額は数値で入力してください'], flash[:notice]
+  end
+
+  def test_登録_amountsが無い場合は保存されない
+    sign_in admin
+    assert_no_difference('InhabitantTax.count') do
+      post :create, :params => {
+        :inhabitant_csv => {0 => {:employee_id => 1}},
+        :finder => {:year => '2016'}
+      }
+    end
+    assert_redirected_to action: 'index', finder: {year: 2016}
+    assert flash[:is_error_message]
+    assert_equal ['金額を入力してください'], flash[:notice]
   end
   
   def test_参照
@@ -55,7 +120,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
   def test_更新
     sign_in admin
     patch :update, :xhr => true, :params => {:id => InhabitantTax.first.id,
-      :inhabitant_tax => {:employee_id => 2, :amount => 10000}
+      :inhabitant_tax => {:amount => 10000}
     }
     assert_response :success
     assert_template :show
@@ -63,15 +128,13 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
 
   def test_削除
     sign_in admin
+    target = InhabitantTax.first
 
-    travel_to Time.zone.local(2026, 6, 15) do
-      expected_year = InhabitantTaxFinder.new.year
-
-      assert_difference('InhabitantTax.count', -1) do
-        delete :destroy, :params => {:id => InhabitantTax.first.id}
-      end
-      assert_redirected_to :action => 'index', finder: { year: expected_year }
+    assert_difference('InhabitantTax.count', -1) do
+      delete :destroy, :xhr => true, :params => {:id => target.id}
     end
+    assert_response :success
+    assert_template 'common/reload'
   end
-  
+
 end

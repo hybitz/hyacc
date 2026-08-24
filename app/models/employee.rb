@@ -18,7 +18,11 @@ class Employee < ApplicationRecord
   has_many :exemptions, dependent: :destroy
 
   has_one :employee_bank_account
-  accepts_nested_attributes_for :employee_bank_account
+  accepts_nested_attributes_for :employee_bank_account,
+    reject_if: proc { |attrs|
+      attrs['id'].blank? &&
+        attrs['bank_id'].blank? && attrs['bank_office_id'].blank? && attrs['code'].blank?
+    }
 
   has_many :skills, -> {where deleted: false}, inverse_of: 'employee'
   accepts_nested_attributes_for :skills
@@ -27,6 +31,7 @@ class Employee < ApplicationRecord
   validates_with Validators::UniqueBranchEmployeesValidator
   validates_with Validators::LastActiveAdminValidator
   validates_with Validators::ReferencedOnDeletionValidator
+  include LastActiveAdminLockable
 
   def self.name_is(name)
     where('last_name = ? or first_name = ? or concat(last_name, first_name) = ?', name, name, name)
@@ -155,6 +160,17 @@ class Employee < ApplicationRecord
 
   def representative_or_family_type_name
     REPRESENTATIVE_OR_FAMILY_TYPES[representative_or_family_type]
+  end
+
+  def admin_becoming_inactive?
+    return false unless user
+    user.admin_becoming_inactive?
+  end
+
+  private
+
+  def lockable_company
+    company
   end
 
 end

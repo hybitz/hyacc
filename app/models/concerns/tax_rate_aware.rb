@@ -2,11 +2,11 @@ module TaxRateAware
   extend ActiveSupport::Concern
 
   def tax_rate_percent
-    (self.tax_rate.to_f * 100.0).to_i
+    tax_rate.nil? ? nil : (tax_rate.to_f * 100.0).to_i
   end
 
   def tax_rate_percent=(value)
-    self.tax_rate = value.to_f / 100.0
+    self.tax_rate = value.blank? ? nil : value.to_f / 100.0
   end
 
 end

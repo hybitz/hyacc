@@ -52,7 +52,7 @@ class Mm::CompaniesController < Base::HyaccController
 
     rescue => e
       handle(e)
-      render js: "alert('#{flash.discard :notice}');"
+      render js: "alert('#{Array(flash.discard(:notice)).join('\n')}');"
     end
   end
 

@@ -89,7 +89,7 @@ class Mm::CustomersControllerTest < ActionController::TestCase
     assert_redirected_to :action => 'index'
     assert_not customer.reload.deleted?
     assert flash[:is_error_message]
-    assert_equal ERR_CUSTOMER_LINKED, flash[:notice]
+    assert_equal [ERR_CUSTOMER_LINKED], flash[:notice]
   end
 
 end

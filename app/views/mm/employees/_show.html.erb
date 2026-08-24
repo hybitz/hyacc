@@ -1,120 +1,125 @@
-<div class="row" style="width: 40em;">
-  <div class="col-md-6">
-    <p>
-      <b><%= @e.class.human_attribute_name :last_name %><%= @e.class.human_attribute_name :first_name %>:</b>
-      <%= @e.last_name %><%= @e.first_name %>
-    </p>
+<div class="d-inline-flex flex-nowrap align-items-start gap-3">
+  <table class="table table-sm mb-0 w-auto">
+    <tbody>
+      <tr>
+        <th><%= @e.class.human_attribute_name :last_name %><%= @e.class.human_attribute_name :first_name %></th>
+        <td><%= @e.last_name %><%= @e.first_name %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :name_kana %></th>
+        <td><%= @e.last_name_kana %><%= @e.first_name_kana %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :sex %></th>
+        <td><%= HyaccConst::SEX_TYPES[@e.sex] %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :birth %></th>
+        <td><%= @e.birth %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :zip_code %></th>
+        <td><%= @e.zip_code %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :address %></th>
+        <td><%= @e.address %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :my_number %></th>
+        <td><%= @e.my_number %></td>
+      </tr>
+      <tr>
+        <th class="text-nowrap"><%= @e.class.human_attribute_name :social_insurance_reference_number %></th>
+        <td><%= @e.social_insurance_reference_number %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :num_of_dependent %></th>
+        <td><%= @e.num_of_dependent %></td>
+      </tr>
+      <tr>
+        <th colspan="2" class="text-center">給与振込口座</th>
+      </tr>
+      <tr>
+        <th>金融機関名称</th>
+        <td><%= @e.employee_bank_account&.bank&.name %></td>
+      </tr>
+      <tr>
+        <th>支店名称</th>
+        <td><%= @e.employee_bank_account&.bank_office&.name %></td>
+      </tr>
+      <tr>
+        <th>口座番号</th>
+        <td><%= @e.employee_bank_account&.code %></td>
+      </tr>
+    </tbody>
+  </table>
 
-    <p>
-      <b><%= @e.class.human_attribute_name :name_kana %>:</b>
-      <%= @e.last_name_kana %><%= @e.first_name_kana %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :sex %>:</b>
-      <%= HyaccConst::SEX_TYPES[@e.sex] %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :birth %>:</b>
-      <%= @e.birth %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :zip_code %>:</b>
-      <%= @e.zip_code %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :address %>:</b>
-      <%= @e.address %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :my_number %>:</b>
-      <%= @e.my_number %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :social_insurance_reference_number %>:</b>
-      <%= @e.social_insurance_reference_number %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :num_of_dependent %>:</b>
-      <%= @e.num_of_dependent %>
-    </p>
-
-    <p>
-      <b>金融機関名称:</b>
-      <%= @e.employee_bank_account.bank.name %>
-    </p>
-
-    <p>
-      <b>支店名称:</b>
-      <%= @e.employee_bank_account.bank_office.name %>
-    </p>
-
-    <p>
-      <b>口座番号:</b>
-      <%= @e.employee_bank_account.code %>
-    </p>
-  </div>
-
-  <div class="col-md-6">
-    <p>
-      <b><%= @e.class.human_attribute_name :employment_date %>:</b>
-      <%= @e.employment_date %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :retirement_date %>:</b>
-      <%= @e.retirement_date %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :executive %>:</b>
-      <%= @e.executive? ? "役員" : "従業員" %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :position %>:</b>
-      <%= @e.position %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :full_time %>:</b>
-      <%= @e.full_time.nil? ? '' : (@e.full_time ? '常勤' : '非常勤') %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :duty_description %>:</b>
-      <%= @e.duty_description %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :representative_or_family_type %>:</b>
-      <%= @e.representative_or_family_type_name %>
-    </p>
-
-    <p>
-      <b><%= @e.class.human_attribute_name :relationship_to_representative %>:</b>
-      <%= @e.relationship_to_representative %>
-    </p>
-
-    <p>
-      <b>退職金積立開始時期:</b>
-      <%= get_start_ym_of_retirement_savings(@e) %>
-    </p>
-
-    <p>
-      <b>所属部門:</b>
-      <% @e.branch_employees.each_with_index do |b, i| %>
-        <% if i > 0 %>
-          <span style="margin-left: 60px"></span>
-        <% end %>
-        <%= b.branch.name %><%= "（デフォルト）" if b.default_branch? %><br />
-      <% end %>
-    </p>
-  </div>
+  <table class="table table-sm mb-0 w-auto">
+    <tbody>
+      <tr>
+        <th><%= @e.class.human_attribute_name :employment_date %></th>
+        <td><%= @e.employment_date %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :retirement_date %></th>
+        <td><%= @e.retirement_date %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :executive %></th>
+        <td><%= @e.executive? ? "役員" : "従業員" %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :position %></th>
+        <td><%= @e.position %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :full_time %></th>
+        <td><%= @e.full_time.nil? ? '' : (@e.full_time ? '常勤' : '非常勤') %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :duty_description %></th>
+        <td><%= @e.duty_description %></td>
+      </tr>
+      <tr>
+        <th class="text-nowrap"><%= @e.class.human_attribute_name :representative_or_family_type %></th>
+        <td><%= @e.representative_or_family_type_name %></td>
+      </tr>
+      <tr>
+        <th><%= @e.class.human_attribute_name :relationship_to_representative %></th>
+        <td><%= @e.relationship_to_representative %></td>
+      </tr>
+      <tr>
+        <th>退職金積立開始時期</th>
+        <td><%= get_start_ym_of_retirement_savings(@e) %></td>
+      </tr>
+      <tr>
+        <th>所属部門</th>
+        <td>
+          <% if @branch_employees.any? %>
+            <table class="table table-sm mb-0">
+              <thead>
+                <tr>
+                  <th>部門</th>
+                  <th class="text-center">デフォルト</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @branch_employees.each do |be| %>
+                  <tr>
+                    <td><%= be.branch.name %></td>
+                    <td class="text-center">
+                      <% if be.default_branch? %>
+                        <%= image_tag 'checkmark.gif', size: '16x16', alt: 'はい', title: 'はい' %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% end %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

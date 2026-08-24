@@ -1,5 +1,9 @@
 pipeline {
   agent none
+  options {
+    ansiColor('xterm')
+    lock(resource: 'global-build-lock')
+  }
   environment {
     APP_NAME = 'hyacc'
     HEADLESS = 'true'
@@ -30,12 +34,10 @@ spec:
       }
       steps {
         container('app') {
-          ansiColor('xterm') {
-            sh "bundle exec rake dad:db:create"
-            sh "bundle exec rails db:reset"
-            sh 'bundle exec rake dad:test'
-            sh 'bundle exec rake dad:test user_stories'
-          }
+          sh "bundle exec rake dad:db:create"
+          sh "bundle exec rails db:reset"
+          sh 'bundle exec rake dad:test'
+          sh 'bundle exec rake dad:test user_stories'
         }
       }
       post {

@@ -73,17 +73,17 @@
       alert('仮負債の精算に失敗しました。');
       location.reload();
     });
+  }
 
-    // 選択された精算科目の確認
-    function confirm_current_account(){
-      const account_name = $('#finder_account_id option:selected').text();
-      const sub_account_name = $('#finder_sub_account_id option:selected').text();
+  // 選択された精算科目の確認
+  function confirm_current_account(){
+    const account_name = $('#finder_account_id option:selected').text();
+    const sub_account_name = $('#finder_sub_account_id option:selected').text();
 
-      if (sub_account_name) {
-        return confirm('精算科目「' + account_name + '」、補助科目「' + sub_account_name + '」でよろしいですか？');
-      } else {
-        return confirm('精算科目「' + account_name + '」でよろしいですか？');
-      }
+    if (sub_account_name) {
+      return confirm('精算科目「' + account_name + '」、補助科目「' + sub_account_name + '」でよろしいですか？');
+    } else {
+      return confirm('精算科目「' + account_name + '」でよろしいですか？');
     }
   }
 </script>

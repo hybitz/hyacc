@@ -1,7 +1,7 @@
 (function() {
   const options = {
-  title: '<%= title.present? ? title + '　参照' : '参照' %>',
-  buttons: [
+    title: '<%= title.present? ? title + '　参照' : '参照' %>',
+    buttons: [
     <% unless @account.deleted or @account.system_required? %>
       {
         text: '削除',
@@ -25,8 +25,8 @@
         }
       }
     <% end %>
-  ]
-};
+    ]
+  };
 
-hyacc.current_dialog(options).show('<%=j render 'show' %>');
+  hyacc.current_dialog(options).show('<%=j render 'show' %>');
 })();

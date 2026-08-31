@@ -1,9 +1,9 @@
 (function() {
   const options = {
-  title: '<%= @account.name %>　参照'
-};
+    title: '<%= @account.name %>　参照'
+  };
 
-options.buttons = [];
+  options.buttons = [];
 
 <% if @simple_slip.editable? %>
   options.buttons.push(
@@ -55,5 +55,5 @@ options.buttons = [];
   );
 <% end %>
 
-hyacc.current_dialog(options).show('<%=j render 'show' %>');
+  hyacc.current_dialog(options).show('<%=j render 'show' %>');
 })();

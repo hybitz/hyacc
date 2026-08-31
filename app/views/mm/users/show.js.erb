@@ -1,9 +1,9 @@
 (function() {
   const options = {
-  title: '<%= title.present? ? title + '　参照' : '参照' %>'
-};
+    title: '<%= title.present? ? title + '　参照' : '参照' %>'
+  };
 
-options.buttons = [];
+  options.buttons = [];
 
 <% if @user.active_for_authentication? %>
   <% if @user.admin? %>
@@ -38,5 +38,5 @@ options.buttons = [];
   <% end %>
 <% end %>
 
-hyacc.current_dialog(options).show('<%=j render 'show' %>');
+  hyacc.current_dialog(options).show('<%=j render 'show' %>');
 })();

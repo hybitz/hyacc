@@ -6,6 +6,7 @@ class Branch < ApplicationRecord
 
   validates :code, presence: true
   validates :formal_name, presence: true
+  validates_with Validators::ReferencedOnDeletionValidator
 
   has_many :branch_employees, -> { where deleted: false }
   has_many :employees, through: :branch_employees

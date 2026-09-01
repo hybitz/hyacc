@@ -42,7 +42,7 @@ module Auto::TransferJournal
         jd2.detail_no = jh.journal_details.size
         jd2.dc_type = DC_TYPE_CREDIT
         jd2.account_id = temp_debt.id
-        jd2.sub_account_id = temp_debt.get_sub_account_by_code(@src_jd.branch.code).id
+        jd2.sub_account_id = @src_jd.branch_id
         jd2.branch = branch
         jd2.amount = cost
       end

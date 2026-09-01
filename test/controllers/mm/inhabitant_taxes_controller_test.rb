@@ -25,6 +25,16 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     assert assigns(:linked)
   end
 
+  def test_アップロード_紐付け従業員の参照は閲覧のみ
+    sign_in admin
+    post :confirm, params: {file: upload_file('inhabitant_tax.csv')}
+    assert_template :confirm
+    assigns(:list).each do |ic|
+      next unless ic.employee_id
+      assert_includes @response.body, mm_employee_path(ic.employee_id, view_only: 1)
+    end
+  end
+
   def test_アップロード_未紐付け
     sign_in admin
     post :confirm, params: {file: upload_file('inhabitant_tax_unlinked.csv')}

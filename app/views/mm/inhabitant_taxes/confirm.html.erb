@@ -24,7 +24,7 @@
               <td><%= ic.address %></td>
               <td>
                 <% if ic.employee_id %>
-                  <%= link_to ic.kanji_last_name + ic.kanji_first_name , mm_employee_path(ic.employee_id), remote: true %>
+                  <%= link_to ic.kanji_last_name + ic.kanji_first_name , mm_employee_path(ic.employee_id, view_only: 1), remote: true %>
                   <%= f.hidden_field :employee_id %>
                 <% end %>
               </td>

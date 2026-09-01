@@ -1,17 +1,18 @@
-var options = {
-  title: '<%= title.present? ? title + '　参照' : '参照' %>',
-  buttons: [
+(function() {
+  const options = {
+    title: '<%= title.present? ? title + '　参照' : '参照' %>',
+    buttons: [
     <% unless @account.deleted or @account.system_required? %>
       {
         text: '削除',
         class: 'btn btn-light',
         click: function() {
           if (confirm('削除します。よろしいですか？')) {
-            var params = {
+            const params = {
               authenticity_token: '<%= form_authenticity_token %>',
               _method: 'delete'
             };
-            var result = $.post('<%= mm_account_path(@account) %>', params);
+            const result = $.post('<%= mm_account_path(@account) %>', params);
             result.then(
               function() {
                 location.reload();
@@ -24,7 +25,8 @@ var options = {
         }
       }
     <% end %>
-  ]
-};
+    ]
+  };
 
-hyacc.current_dialog(options).show('<%=j render 'show' %>');
+  hyacc.current_dialog(options).show('<%=j render 'show' %>');
+})();

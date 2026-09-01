@@ -1,6 +1,8 @@
-var options = {
-  title: '<%= @account.name %>　編集',
-  submit: '更新'
-};
+(function() {
+  const options = {
+    title: '<%= @account.name %>　編集',
+    submit: '更新'
+  };
 
-hyacc.current_dialog(options).show('<%=j render 'edit' %>');
+  hyacc.current_dialog(options).show('<%=j render 'edit' %>');
+})();

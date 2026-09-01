@@ -14,8 +14,8 @@ module ApplicationHelper
     ret = <<-"SCRIPT"
       <script>
         $(document).ready(function() {
-          var select = $('#{selector}');
-          var hide = false;
+          const select = $('#{selector}');
+          let hide = false;
           if (select.find('option').length == 0) {
             hide = true;
           } else if (select.find('option').length == 1) {

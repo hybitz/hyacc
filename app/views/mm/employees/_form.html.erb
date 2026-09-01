@@ -5,21 +5,21 @@
     <div class="flex-shrink-0">
       <script>
         $(document).ready(function() {
-          var $form = $('#mm_employee_form');
+          const $form = $('#mm_employee_form');
           $form.off('change.employeeBankAccount submit.employeeBankAccount');
           $form.on('change.employeeBankAccount', 'select[name="employee[employee_bank_account_attributes][bank_id]"]', function() {
-            var $office = $(this).closest('table').find('select[name="employee[employee_bank_account_attributes][bank_office_id]"]');
+            const $office = $(this).closest('table').find('select[name="employee[employee_bank_account_attributes][bank_office_id]"]');
             bank_accounts.update_bank_offices(this, $office);
           });
           $form.on('submit.employeeBankAccount', function(e) {
-            var $id = $form.find('[name="employee[employee_bank_account_attributes][id]"]');
+            const $id = $form.find('[name="employee[employee_bank_account_attributes][id]"]');
             if (!$id.val()) {
               return;
             }
 
-            var bankId = $form.find('[name="employee[employee_bank_account_attributes][bank_id]"]').val();
-            var bankOfficeId = $form.find('[name="employee[employee_bank_account_attributes][bank_office_id]"]').val();
-            var code = $.trim($form.find('[name="employee[employee_bank_account_attributes][code]"]').val() || '');
+            const bankId = $form.find('[name="employee[employee_bank_account_attributes][bank_id]"]').val();
+            const bankOfficeId = $form.find('[name="employee[employee_bank_account_attributes][bank_office_id]"]').val();
+            const code = $.trim($form.find('[name="employee[employee_bank_account_attributes][code]"]').val() || '');
             if (bankId && bankOfficeId && code) {
               return;
             }

@@ -5,6 +5,7 @@
 
   options.buttons = [];
 
+<% unless @view_only %>
   options.buttons.push(
     {
       text: '編集',
@@ -16,36 +17,37 @@
     }
   );
 
-<% if @e.user_loginable? %>
-  <% if @e.user.admin? %>
-    options.buttons.push({
-      text: '管理権限を解除',
-      class: 'btn btn-light',
-      click: function() {
-        if (confirm('管理権限を解除します。よろしいですか？')) {
-          hyacc.current_dialog().close();
-          const form = $('<form>', { method: 'post', action: '<%= revoke_admin_mm_user_path(@e.user) %>' });
-          form.append($('<input>', { type: 'hidden', name: 'authenticity_token', value: '<%= form_authenticity_token %>' }));
-          form.append($('<input>', { type: 'hidden', name: 'company_lock_version', value: '<%= current_company.lock_version %>' }));
-          $('body').append(form);
-          form.submit();
+  <% if @e.user_loginable? %>
+    <% if @e.user.admin? %>
+      options.buttons.push({
+        text: '管理権限を解除',
+        class: 'btn btn-light',
+        click: function() {
+          if (confirm('管理権限を解除します。よろしいですか？')) {
+            hyacc.current_dialog().close();
+            const form = $('<form>', { method: 'post', action: '<%= revoke_admin_mm_user_path(@e.user) %>' });
+            form.append($('<input>', { type: 'hidden', name: 'authenticity_token', value: '<%= form_authenticity_token %>' }));
+            form.append($('<input>', { type: 'hidden', name: 'company_lock_version', value: '<%= current_company.lock_version %>' }));
+            $('body').append(form);
+            form.submit();
+          }
         }
-      }
-    });
-  <% else %>
-    options.buttons.push({
-      text: '管理権限を付与',
-      class: 'btn btn-light',
-      click: function() {
-        if (confirm('管理権限を付与します。よろしいですか？')) {
-          hyacc.current_dialog().close();
-          const form = $('<form>', { method: 'post', action: '<%= grant_admin_mm_user_path(@e.user) %>' });
-          form.append($('<input>', { type: 'hidden', name: 'authenticity_token', value: '<%= form_authenticity_token %>' }));
-          $('body').append(form);
-          form.submit();
+      });
+    <% else %>
+      options.buttons.push({
+        text: '管理権限を付与',
+        class: 'btn btn-light',
+        click: function() {
+          if (confirm('管理権限を付与します。よろしいですか？')) {
+            hyacc.current_dialog().close();
+            const form = $('<form>', { method: 'post', action: '<%= grant_admin_mm_user_path(@e.user) %>' });
+            form.append($('<input>', { type: 'hidden', name: 'authenticity_token', value: '<%= form_authenticity_token %>' }));
+            $('body').append(form);
+            form.submit();
+          }
         }
-      }
-    });
+      });
+    <% end %>
   <% end %>
 <% end %>
 

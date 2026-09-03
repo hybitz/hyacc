@@ -68,6 +68,11 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
       assert_equal 1_950_000, logic.get_deduction
       assert_equal 10_000_000 - 1_950_000 - 150_000, logic.get_after_deduction
     end
+
+    logic.stub(:get_total_base_salary_include_previous, 6_600_001) do
+      assert_equal 4_840_000.9, 6_600_001 - logic.get_deduction
+      assert_equal 4_840_000, logic.get_after_deduction
+    end
   end
 
   def test_get_total_exemption

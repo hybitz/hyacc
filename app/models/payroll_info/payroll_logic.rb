@@ -195,7 +195,10 @@ module PayrollInfo
     # 給与所得控除後
     def get_after_deduction
       # みなし給与で計算
-      [0, get_total_deemed_salary - get_deduction - get_income_adjustment_deduction].max
+      deemed_salary = get_total_deemed_salary
+      deemed_after_deduction = deemed_salary - get_deduction
+      deemed_after_deduction = deemed_after_deduction.floor if deemed_salary >= 6_600_000
+      [0, deemed_after_deduction - get_income_adjustment_deduction].max
     end
 
     def get_exemptions

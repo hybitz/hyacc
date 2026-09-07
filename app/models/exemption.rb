@@ -25,7 +25,7 @@ class Exemption < ApplicationRecord
 
   # https://www.nta.go.jp/taxanswer/shotoku/1140.htm
   def life_insurance_premium
-    if yyyy.between?(2026, 2027) && has_dependent_under_23 == true
+    if yyyy.between?(2026, 2027) && has_dependent_under_23?
       calc_life_insurance_with_dependent_under_23(life_insurance_premium_old, life_insurance_premium_new)
     else
       calc_insurance(life_insurance_premium_old, life_insurance_premium_new)
@@ -68,11 +68,11 @@ class Exemption < ApplicationRecord
 
   def new_calc_insurance(amount)
     ans = 0
-    if amount.to_i < 20_000
+    if amount.to_i <= 20_000
       ans = amount.to_i
-    elsif amount.to_i.between?(20_001, 40_000)
+    elsif amount.to_i <= 40_000
       ans = amount.to_i.fdiv(2).ceil + 10_000
-    elsif amount.to_i.between?(40_001, 80_000)
+    elsif amount.to_i <= 80_000
       ans = amount.to_i.fdiv(4).ceil + 20_000
     else
       ans = 40_000
@@ -95,11 +95,11 @@ class Exemption < ApplicationRecord
 
   def old_calc_insurance(amount)
     ans = 0
-    if amount.to_i < 25_000
+    if amount.to_i <= 25_000
       ans = amount.to_i
-    elsif amount.to_i.between?(25_001, 50_000)
+    elsif amount.to_i <= 50_000
       ans = amount.to_i.fdiv(2).ceil + 12_500
-    elsif amount.to_i.between?(50_001, 100_000)
+    elsif amount.to_i <= 100_000
       ans = amount.to_i.fdiv(4).ceil + 25_000
     else
       ans = 50_000

@@ -24,6 +24,16 @@ class ExemptionsTest < ActiveSupport::TestCase
     assert_equal [2009, 2009], [exemptions[2].fiscal_year_for_december_of_calendar_year.fiscal_year, exemptions[2].yyyy]
   end
 
+  def test_life_insurance_premium_新契約_2万円ちょうどは全額
+    e = Exemption.new(yyyy: 2026, life_insurance_premium_new: 20_000)
+    assert_equal 20_000, e.life_insurance_premium
+  end
+
+  def test_life_insurance_premium_旧契約_25000円ちょうどは全額
+    e = Exemption.new(yyyy: 2026, life_insurance_premium_old: 25_000)
+    assert_equal 25_000, e.life_insurance_premium
+  end
+
   def test_life_insurance_premium_2026_新契約のみ_フラグなしは上限4万
     e = Exemption.new(yyyy: 2026, has_dependent_under_23: false, life_insurance_premium_new: 120_000)
     assert_equal 40_000, e.life_insurance_premium
@@ -40,6 +50,11 @@ class ExemptionsTest < ActiveSupport::TestCase
     assert_equal 60_000, e.life_insurance_premium
 
     e.life_insurance_premium_new = 120_001
+    assert_equal 60_000, e.life_insurance_premium
+  end
+
+  def test_life_insurance_premium_2027_フラグありは特例の上限6万
+    e = Exemption.new(yyyy: 2027, has_dependent_under_23: true, life_insurance_premium_new: 120_001)
     assert_equal 60_000, e.life_insurance_premium
   end
 

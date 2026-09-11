@@ -52,6 +52,10 @@ module ApplicationHelper
     flash_notice(false, 0)
   end
 
+  def class_for_main
+    controller_path.start_with?('mm/') ? 'main mm' : 'main'
+  end
+
   def format_flash_message(message)
     if message.is_a?(Array)
       safe_join(message.map { |line| ERB::Util.html_escape(line) }, tag.br)

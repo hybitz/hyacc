@@ -68,6 +68,22 @@ table {
   margin: 15px;
 }
 
+.main.mm .search,
+.main.mm > form {
+  margin-bottom: 1.5rem;
+}
+
+.main.mm table.table-striped {
+  thead tr:first-child > th:first-child.text-center,
+  tbody > tr > td:first-child.text-center,
+  thead tr:first-child > th:last-child.text-center,
+  tbody > tr > td:last-child.text-center {
+    width: 1%;
+    white-space: nowrap;
+    padding-right: 3rem;
+  }
+}
+
 .subMenu {
   margin: 10px;
 }

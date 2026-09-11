@@ -13,36 +13,32 @@
 <%= render 'search' %>
 <%= flash_notice %>
 
-<div class="m-2">
-  <% if @list.present? %>
-    <div class="my-4">
-      <div class="border-top border-start d-inline-block">
-        <div class="d-flex fw-bold bg-light border-bottom border-end">
-          <div class="p-2" style="width: 90px;">年月</div>
-          <div class="p-2" style="width: 120px;">従業員</div>
-          <div class="p-2 text-center" style="width: 100px;">金額</div>
-          <div class="p-2" style="width: 160px;"></div>
-        </div>
-
-        <% @list.each do |data| %>
-          <%= render 'line', data: data %>
-        <% end %>
-      </div>
-      <% if finder.employee_id.blank? %>
-        <div>
-          <%= will_paginate @list %>
-        </div>
-      <% end %>
+<% if @list.present? %>
+  <div class="border-top border-start d-inline-block">
+    <div class="d-flex fw-bold bg-light border-bottom border-end">
+      <div class="p-2" style="width: 90px;">年月</div>
+      <div class="p-2" style="width: 120px;">従業員</div>
+      <div class="p-2 text-center" style="width: 100px;">金額</div>
+      <div class="p-2" style="width: 160px;"></div>
     </div>
-  <% end %>
 
-  <div class="mt-3">
-    <%= form_tag({action: 'confirm'}, id: 'inhabitant_upload', multipart: true) do %>
-      <div class="mb-2">
-        <label class="form-label">CSVファイルをアップロード</label>
-        <%= file_field_tag(:file, class: 'form-control', style: 'max-width: 400px;') %>
-      </div>
-      <%= submit_tag("アップロード", class: 'btn btn-light') %>
+    <% @list.each do |data| %>
+      <%= render 'line', data: data %>
     <% end %>
   </div>
+  <% if finder.employee_id.blank? %>
+    <div>
+      <%= will_paginate @list %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="mt-3">
+  <%= form_tag({action: 'confirm'}, id: 'inhabitant_upload', multipart: true) do %>
+    <div class="mb-2">
+      <label class="form-label">CSVファイルをアップロード</label>
+      <%= file_field_tag(:file, class: 'form-control', style: 'max-width: 400px;') %>
+    </div>
+    <%= submit_tag("アップロード", class: 'btn btn-light') %>
+  <% end %>
 </div>

@@ -5,7 +5,7 @@
     <thead>
       <tr>
         <th><%= Qualification.human_attribute_name :name %></th>
-        <th><%= Qualification.human_attribute_name :allowance %></th>
+        <th><span class="d-inline-block text-center text-nowrap" style="width: 6em;"><%= Qualification.human_attribute_name :allowance %></span></th>
         <th class="text-center"></th>
       </tr>
     </thead>
@@ -13,7 +13,7 @@
       <% @qualifications.each do |q| %>
         <tr>
           <td><%= q.name %></td>
-          <td><span class="d-inline-block text-end text-nowrap" style="width: 8em;"><%= to_amount(q.allowance, show_zero: true) %></span></td>
+          <td><span class="d-inline-block text-end text-nowrap" style="width: 6em;"><%= to_amount(q.allowance, show_zero: true) %></span></td>
           <td class="text-center text-nowrap">
             <%= link_to '編集', edit_mm_qualification_path(q), class: 'btn btn-sm btn-light', remote: true %>
             <%= link_to '削除', [:mm, q], data: {confirm: "資格 #{q.name} を削除します。\nよろしいですか？"}, class: 'btn btn-sm btn-light', method: :delete %>

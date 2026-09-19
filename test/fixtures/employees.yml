@@ -113,6 +113,16 @@ deleted_employee_user:
   sex: F
   birth: 1990-01-12
 
+deleted_employee:
+  id: 14
+  company_id: 1
+  deleted: true
+  last_name: 削除
+  first_name: 太郎
+  employment_date: 2009-01-01
+  sex: F
+  birth: 1990-01-14
+
 deleted_user_employee:
   id: 13
   company_id: 2

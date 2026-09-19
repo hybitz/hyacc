@@ -53,7 +53,7 @@ class Mm::AccountsController < Base::HyaccController
         update_sub_accounts
       end
 
-      flash[:notice] = '勘定科目を追加しました。'
+      flash[:notice] = "#{@account.name} を追加しました。"
       render 'common/reload'
 
     rescue => e
@@ -77,7 +77,7 @@ class Mm::AccountsController < Base::HyaccController
         update_sub_accounts
       end
 
-      flash[:notice] = '勘定科目を更新しました。'
+      flash[:notice] = "#{@account.name} を更新しました。"
       render 'common/reload'
 
     rescue => e
@@ -100,6 +100,7 @@ class Mm::AccountsController < Base::HyaccController
     end
 
     @account.update!(deleted: true)
+    flash[:notice] = "#{@account.name} を削除しました。"
     render 'common/reload'
   end
 

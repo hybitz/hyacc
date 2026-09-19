@@ -8,11 +8,11 @@ module Base
       @user = User.find(1)
 
       branches = get_branches()
-      assert_equal 3, branches.size
+      assert_equal 5, branches.size
 
       options = {:include=>:deleted}
       branches = get_branches(options)
-      assert_equal 4, branches.size
+      assert_equal 6, branches.size
     end
     
     def test_個人事業主の本社の取得

@@ -81,3 +81,12 @@ customer_00006:
   address: 東京都XXX
   created_at: 2009-06-09 22:56:36 +09:00
   updated_at: 2009-06-09 22:56:36 +09:00
+
+for_deletion:
+  id: 11
+  code: "1100"
+  name: 削除テスト用取引先
+  formal_name: 削除テスト用取引先
+  is_order_entry: true
+  created_at: 2009-06-09 22:56:36 +09:00
+  updated_at: 2009-06-09 22:56:36 +09:00

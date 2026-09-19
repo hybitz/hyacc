@@ -1,50 +1,50 @@
 <% if @account.has_normal_sub_accounts or @account.is_social_expense? %>
   <div class="mt-3">
     <% if @account.sub_accounts.present? %>
-    <div class="table-responsive">
-      <table class="table table-sm table-bordered mb-2">
-        <thead class="thead-light">
-          <tr>
-            <th>補助科目コード</th>
-            <th>補助科目名</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @account.sub_accounts.each do |sa| %>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered mb-2">
+          <thead class="table-light">
             <tr>
-              <td><%= sa.code %></td>
-              <td><%= sa.name %></td>
+              <th>補助科目コード</th>
+              <th>補助科目名</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            <% @account.sub_accounts.each do |sa| %>
+              <tr>
+                <td><%= sa.code %></td>
+                <td><%= sa.name %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     <% else %>
-    <div class="text-muted">補助科目は設定されていません。</div>
+      <div class="text-muted">補助科目は設定されていません。</div>
     <% end %>
   </div>
 <% end %>
 
 <div class="mt-3">
   <% if @account.has_bank_accounts %>
-    <div><%= link_to '金融口座管理へ', controller: 'bank_accounts' %></div>
+    <div><%= link_to '金融口座管理へ', mm_bank_accounts_path, data: { turbolinks: false } %></div>
   <% end %>
 
   <% if @account.has_customers %>
-    <div><%= link_to '取引先管理へ', controller: 'customers' %></div>
+    <div><%= link_to '取引先管理へ', mm_customers_path, data: { turbolinks: false } %></div>
   <% end %>
 
   <% if @account.has_employees %>
     <div>
       <% if current_company.personal? %>
-        <%= link_to 'ユーザ管理へ', controller: '/mm/users' %>
+        <%= link_to 'ユーザ管理へ', mm_users_path, data: { turbolinks: false } %>
       <% else %>
-        <%= link_to '従業員管理へ', controller: '/mm/employees' %>
+        <%= link_to '従業員管理へ', mm_employees_path, data: { turbolinks: false } %>
       <% end %>
     </div>
   <% end %>
 
   <% if @account.has_rents %>
-    <div><%= link_to '地代家賃管理へ', controller: 'rents' %></div>
+    <div><%= link_to '地代家賃管理へ', mm_rents_path, data: { turbolinks: false } %></div>
   <% end %>
 </div>

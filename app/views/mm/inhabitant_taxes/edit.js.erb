@@ -1,2 +1,4 @@
-var div = $('#data_<%= @data.id %>');
-div.replaceWith('<%=j render('form') %>');
+(function() {
+  const div = $('#data_<%= @data.id %>');
+  div.replaceWith('<%=j render('form') %>');
+})();

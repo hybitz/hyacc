@@ -67,4 +67,27 @@ class Mm::CompaniesControllerTest < ActionController::TestCase
     assert_equal 'document.location.reload();', @response.body
   end
 
+  def test_更新_複数バリデーションエラー時はalertで改行連結される
+    invalid_params = {
+      labor_insurance_number: 'abc'
+    }
+
+    company = Company.find(current_company.id)
+    company.attributes = invalid_params
+    assert company.invalid?
+    expected_messages = company.errors.full_messages
+    assert_equal 2, expected_messages.size
+
+    patch :update, xhr: true, params: {id: current_company.id, company: invalid_params}
+
+    assert_response :success
+    assert_match(/\Aalert\('/, @response.body)
+    assert_match(/'\);\z/, @response.body)
+    assert_includes @response.body, '\n'
+    assert_not_includes @response.body, '["'
+    expected_messages.each do |message|
+      assert_includes @response.body, message
+    end
+  end
+
 end

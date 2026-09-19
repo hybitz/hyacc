@@ -14,7 +14,7 @@
   });
   
   function toggleFixedTaxDeduction() {
-    var year = $('#exemption_yyyy').val();
+    const year = $('#exemption_yyyy').val();
     if (year == '2024') {
       $('#fixed-tax-deduction-row').show();
     } else {
@@ -24,8 +24,8 @@
   }
 
   function add_dependent_family_member(trigger) {
-    var table = $(trigger).closest('table');
-    var params = {
+    const table = $(trigger).closest('table');
+    const params = {
       index: table.find('tbody tr').length,
       format: 'html'
     };
@@ -38,7 +38,7 @@
   }
 
   function disableYyyySelection() {
-    var title = $('.ui-dialog-title').html();
+    const title = $('.ui-dialog-title').html();
     if (title.includes('編集')) {
       $('#exemption_yyyy').prop('disabled', true);
     }

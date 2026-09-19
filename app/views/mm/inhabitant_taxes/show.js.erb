@@ -1,2 +1,4 @@
-var div = $('#data_<%= @data.id %>');
-div.replaceWith('<%=j render('line', data: @data) %>');
+(function() {
+  const div = $('#data_<%= @data.id %>');
+  div.replaceWith('<%=j render('line', data: @data) %>');
+})();

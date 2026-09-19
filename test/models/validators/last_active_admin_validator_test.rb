@@ -69,11 +69,13 @@ class LastActiveAdminValidatorTest < ActiveSupport::TestCase
   end
 
   def test_ログイン可能な管理権限を持つユーザーが2人のとき_従業員を削除できる
-    other_admin = User.find(6)
+    other_admin = User.find(9)
+    user = User.find(3)
 
     other_admin.update!(admin: true)
-    assert admin.admin?
+    assert user.admin?
     assert other_admin.admin?
+    assert_equal user.employee.company_id, other_admin.employee.company_id
 
     other_admin.employee.deleted = true
     assert other_admin.employee.valid?

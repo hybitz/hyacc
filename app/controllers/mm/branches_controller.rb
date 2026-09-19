@@ -53,16 +53,20 @@ class Mm::BranchesController < Base::HyaccController
   def destroy
     @branch = load_branch
 
-    if @branch.head_office?
-      raise HyaccException.new(ERR_BRANCH_HEAD_OFFICE) and return
-    end
+    begin
+      raise HyaccException.new(ERR_BRANCH_HEAD_OFFICE) if @branch.head_office?
 
-    @branch.transaction do
-      @branch.destroy_logically!
-    end
+      @branch.transaction do
+        @branch.destroy_logically!
+      end
 
-    flash[:notice] = "#{@branch.formal_name} を削除しました。"
-    render 'common/reload'
+      flash[:notice] = "#{@branch.formal_name} を削除しました。"
+      render 'common/reload'
+
+    rescue => e
+      handle(e)
+      render 'common/reload', status: :unprocessable_content
+    end
   end
 
   private

@@ -1,20 +1,21 @@
-var options = {
-  title: '<%= @title.present? ? @title + '　参照' : '参照' %>'
-};
+(function() {
+  const options = {
+    title: '<%= @title.present? ? @title + '　参照' : '参照' %>'
+  };
 
-options.buttons = [];
+  options.buttons = [];
 
 <% if can_edit(@journal) %>
-options.buttons.push(
-  {
-    text: '編集',
-    class: 'btn btn-light',
-    click: function() {
-      hyacc.current_dialog().close();
-      $.get('<%= url_for edit_journal_path(@journal) %>');
+  options.buttons.push(
+    {
+      text: '編集',
+      class: 'btn btn-light',
+      click: function() {
+        hyacc.current_dialog().close();
+        $.get('<%= url_for edit_journal_path(@journal) %>');
+      }
     }
-  }
-);
+  );
 <% end %>
 
 <% if can_copy(@journal) %>
@@ -40,12 +41,12 @@ options.buttons.push(
           return;
         }
   
-        var params = {
+        const params = {
           authenticity_token: '<%= form_authenticity_token %>',
           _method: 'delete',
           lock_version: <%= @journal.lock_version %>
         };
-        var result = $.post('<%= url_for journal_path(@journal) %>', params);
+        const result = $.post('<%= url_for journal_path(@journal) %>', params);
         result.then(
           function() {
             location.reload();
@@ -59,4 +60,5 @@ options.buttons.push(
   );
 <% end %>
 
-hyacc.current_dialog(options).show('<%=j render 'show' %>');
+  hyacc.current_dialog(options).show('<%=j render 'show' %>');
+})();

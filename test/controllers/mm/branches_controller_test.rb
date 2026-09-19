@@ -79,7 +79,7 @@ class Mm::BranchesControllerTest < ActionController::TestCase
 
   def test_削除
     sign_in admin
-    assert branch = Branch.find_by(company_id: 1, code: 102)
+    branch = branches(:for_deletion)
 
     delete :destroy, xhr: true, params: { id: branch.id }
     assert_response :success
@@ -87,14 +87,27 @@ class Mm::BranchesControllerTest < ActionController::TestCase
     assert branch.reload.deleted?
   end
 
+  def test_紐づいているときは削除できない
+    sign_in admin
+    assert branch = Branch.find_by(company_id: 1, code: 102)
+    assert Branch.where(parent_id: branch.id, deleted: false).exists?
+
+    delete :destroy, xhr: true, params: { id: branch.id }
+    assert_response :unprocessable_content
+    assert flash[:is_error_message]
+    assert_equal [HyaccErrors::ERR_BRANCH_LINKED], flash[:notice]
+    assert_not branch.reload.deleted?
+  end
+
   def test_本店は削除できない
     sign_in admin
     assert head_office = Branch.find_by(company_id: 1, code: 101)
 
-    exception = assert_raises(HyaccException) do
-      delete :destroy, xhr: true, params: { id: head_office.id }
-    end
-    assert_equal HyaccErrors::ERR_BRANCH_HEAD_OFFICE, exception.message
+    delete :destroy, xhr: true, params: { id: head_office.id }
+    assert_response :unprocessable_content
+    assert flash[:is_error_message]
+    assert_equal HyaccErrors::ERR_BRANCH_HEAD_OFFICE, flash[:notice]
+    assert_not head_office.reload.deleted?
   end
 
 end

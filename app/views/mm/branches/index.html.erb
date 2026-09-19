@@ -1,19 +1,23 @@
 <%= flash_notice %>
 <script>
-  var data = [
-    <% current_company.branches.where(parent: nil, deleted: false).each do |b| %>
-      <%= convert_branch_to_json(b) %>,
-    <% end %>
-  ];
+  (function() {
+    const data = [
+      <% current_company.branches.where(parent: nil, deleted: false).each do |b| %>
+        <%= convert_branch_to_json(b) %>,
+      <% end %>
+    ];
 
-  $(document).on('turbolinks:load', function() {
-    $('#branch_tree').tree({
-      data: data,
-      selectable: false,
-      saveState: 'branch_tree',
-      autoEscape: false,
-      dragAndDrop: false,
+    $(document).off('turbolinks:load.mmBranchTree').on('turbolinks:load.mmBranchTree', function() {
+      const $tree = $('#branch_tree');
+      $tree.tree('destroy');
+      $tree.tree({
+        data: data,
+        selectable: false,
+        saveState: 'branch_tree',
+        autoEscape: false,
+        dragAndDrop: false,
+      });
     });
-  });
+  })();
 </script>
 <div id="branch_tree"></div>

@@ -65,7 +65,7 @@ module Auto::TransferJournal
       jd2.detail_no = jh.journal_details.size
       jd2.dc_type =  HyaccUtil.opposite_dc_type(dc_type)
       jd2.account_id = account_branch_office.id
-      jd2.sub_account_id = account_branch_office.get_sub_account_by_code(branch.code).id
+      jd2.sub_account_id = branch.id
       jd2.branch_id = head_office.id
       jd2.amount = amount
     end

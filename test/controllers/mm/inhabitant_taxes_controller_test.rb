@@ -31,7 +31,7 @@ class Mm::InhabitantTaxesControllerTest < ActionController::TestCase
     assert_template :confirm
     assigns(:list).each do |ic|
       next unless ic.employee_id
-      assert_includes @response.body, mm_employee_path(ic.employee_id, view_only: 1)
+      assert_includes @response.body, mm_employee_path(ic.employee_id, view_only: true)
     end
   end
 

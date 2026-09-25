@@ -15,7 +15,7 @@ class Insert8988OnAccounts < ActiveRecord::Migration[8.1]
     a.journalizable = true
     a.trade_type = TRADE_TYPE_INTERNAL
     a.is_settlement_report_account = true
-    a.sub_account_type = SUB_ACCOUNT_TYPE_BRANCH
+    a.sub_account_type = SUB_ACCOUNT_TYPE_BRANCH unless a.persisted?
     a.tax_type = parent.tax_type
     a.company_only = true
     a.system_required = true

@@ -41,6 +41,19 @@ class Mm::BranchesControllerTest < ActionController::TestCase
     end
   end
 
+  def test_登録_部門コード重複
+    sign_in admin
+    existing = Branch.find_by(company_id: 1, code: 102)
+
+    assert_no_difference 'Branch.count' do
+      post :create, xhr: true, params: {
+        branch: branch_params.merge(code: existing.code, parent_id: existing.parent_id)
+      }
+    end
+    assert_response :success
+    assert_template :new
+  end
+
   def test_編集
     sign_in admin
     get :edit, :xhr => true, :params => {:id => branch.id}

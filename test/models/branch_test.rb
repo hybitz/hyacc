@@ -22,6 +22,13 @@ class BranchTest < ActiveSupport::TestCase
     assert branch.errors[:code].present?
   end
 
+  def test_validates_code_uniqueness
+    existing = company.branches.where(deleted: false).first
+    branch = company.branches.build(branch_params.merge(code: existing.code, parent_id: existing.parent_id))
+    assert_not branch.valid?
+    assert branch.errors[:code].include?(I18n.t('errors.messages.taken'))
+  end
+
   def test_validates_formal_name_presence
     branch = company.branches.build(branch_params.merge(formal_name: ''))
     assert_not branch.valid?

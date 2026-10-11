@@ -24,6 +24,10 @@ spec:
         - secretRef:
             name: hyacc-secret
         command: ['bundle', 'exec', 'rails', 's']
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
       - name: memcached
         image: memcached:1.4.39
         args: ['-m', '64']

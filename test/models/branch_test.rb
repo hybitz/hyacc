@@ -29,6 +29,13 @@ class BranchTest < ActiveSupport::TestCase
     assert branch.errors[:code].include?(I18n.t('errors.messages.taken'))
   end
 
+  def test_soft_deleted_branch_code_can_not_be_reused
+    existing = company.branches.create!(branch_params.merge(code: '9001'))
+    existing.update_column(:deleted, true)
+    branch = company.branches.build(branch_params.merge(code: '9001'))
+    assert branch.invalid?
+  end
+
   def test_validates_formal_name_presence
     branch = company.branches.build(branch_params.merge(formal_name: ''))
     assert_not branch.valid?

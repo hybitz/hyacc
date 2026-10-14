@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_25_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_07_000000) do
   create_table "accounts", id: :integer, charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.integer "account_type", null: false
     t.string "code", default: "", null: false
@@ -347,6 +347,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_25_120000) do
     t.integer "earthquake_insurance_premium"
     t.integer "employee_id", null: false
     t.integer "fixed_tax_deduction_amount"
+    t.boolean "has_dependent_under_23"
     t.integer "income_adjustment_deduction_reason"
     t.integer "life_insurance_premium_new"
     t.integer "life_insurance_premium_old"

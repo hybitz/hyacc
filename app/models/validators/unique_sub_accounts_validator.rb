@@ -4,7 +4,7 @@ module Validators
     include HyaccConst
 
     def validate(record)
-      return if [SUB_ACCOUNT_TYPE_EMPLOYEE].include?(record.sub_account_type)
+      return if [SUB_ACCOUNT_TYPE_EMPLOYEE, SUB_ACCOUNT_TYPE_BRANCH].include?(record.sub_account_type)
 
       codes = []
       record.sub_accounts_all.each do |sa|

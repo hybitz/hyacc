@@ -78,5 +78,6 @@ class Mm::RentsControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to :action => 'index'
+    assert_equal '地代家賃5 を削除しました。', flash[:notice]
   end
 end

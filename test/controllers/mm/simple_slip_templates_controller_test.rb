@@ -9,12 +9,30 @@ class Mm::SimpleSlipTemplatesControllerTest < ActionController::TestCase
     assert_template :index
   end
 
+  def test_参照
+    sign_in admin
+    get :show, params: {id: simple_slip_template.id}, xhr: true
+    assert_response :success
+    assert_template 'show'
+    assert_not_nil assigns(:simple_slip_template)
+  end
+
   def test_追加
     sign_in admin
     get :new, :xhr => true
     assert_response :success
     assert_template 'new'
     assert_not_nil assigns(:simple_slip_template)
+  end
+
+  def test_追加_ファインダー引き継ぎ
+    sign_in admin
+    get :new, params: {account_id: social_expense_account.id, remarks: 'テスト'}, xhr: true
+    assert_response :success
+    assert_template 'new'
+    t = assigns(:simple_slip_template)
+    assert_equal social_expense_account.id, t.account_id
+    assert_equal 'テスト', t.remarks
   end
 
   def test_登録

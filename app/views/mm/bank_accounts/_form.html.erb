@@ -9,40 +9,40 @@
     });
   </script>
 
-  <table style="margin:5px;">
+  <table class="table table-sm mb-0">
     <tr>
       <th><%= f.label :bank_id %></th>
-      <td><%= f.collection_select :bank_id, current_company.banks, :id, :name, {}, href: bank_offices_path %></td>
+      <td><%= f.collection_select :bank_id, current_company.banks, :id, :name, {}, href: bank_offices_path, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
     <tr>
       <th><%= f.label :bank_office_id %></th>
       <td>
         <% if f.object.new_record? %>
-          <%= f.collection_select :bank_office_id, current_company.banks.first.bank_offices, :id, :name %>
+          <%= f.collection_select :bank_office_id, current_company.banks.first.bank_offices, :id, :name, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %>
         <% else %>
-          <%= f.collection_select :bank_office_id, f.object.bank.bank_offices, :id, :name %>
+          <%= f.collection_select :bank_office_id, f.object.bank.bank_offices, :id, :name, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %>
         <% end %>
       </td>
     </tr>
     <tr>
       <th><%= f.label :financial_account_type %></th>
-      <td><%= f.select :financial_account_type, financial_account_types %></td>
+      <td><%= f.select :financial_account_type, financial_account_types, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
     <tr>
       <th><%= f.label :code %></th>
-      <td><%= f.text_field :code, maxlength: 10, size: 8 %></td>
+      <td><%= f.text_field :code, maxlength: 10, class: 'form-control form-control-sm', style: 'width: 8em; max-width: 100%;' %></td>
     </tr>
     <tr>
       <th><%= f.label :name %></th>
-      <td><%= f.text_field :name %></td>
+      <td><%= f.text_field :name, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
     </tr>
     <tr>
       <th><%= f.label :holder_name %></th>
-      <td><%= f.text_field :holder_name %></td>
+      <td><%= f.text_field :holder_name, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
     </tr>
     <tr>
       <th><%= f.label :for_payroll %></th>
-      <td><%= f.check_box :for_payroll %></td>
+      <td><%= f.select :for_payroll, {'はい': true, 'いいえ': false}, {}, class: 'form-select form-select-sm d-inline-block w-auto mw-100' %></td>
     </tr>
   </table>
 <% end %>

@@ -25,7 +25,7 @@ class Mm::DonationRecipientsController < Base::HyaccController
         @donation_recipient.save!
       end
 
-      flash[:notice] = "寄付先「#{@donation_recipient.name}」を登録しました。"
+      flash[:notice] = "#{@donation_recipient.name} を登録しました。"
       render 'common/reload'
     rescue => e
       handle(e)
@@ -44,7 +44,7 @@ class Mm::DonationRecipientsController < Base::HyaccController
         @donation_recipient.save!
       end
 
-      flash[:notice] = "寄付先「#{@donation_recipient.name}」を更新しました。"
+      flash[:notice] = "#{@donation_recipient.name} を更新しました。"
       render 'common/reload'
     rescue => e
       handle(e)
@@ -56,15 +56,11 @@ class Mm::DonationRecipientsController < Base::HyaccController
     @donation_recipient = current_company.donation_recipients.find(params[:id])
 
     begin
-      if @donation_recipient.journal_details.exists?
-        raise HyaccException.new(ERR_DONATION_RECIPIENT_LINKED)
-      end
-
       @donation_recipient.transaction do
         @donation_recipient.destroy_logically!
       end
 
-      flash[:notice] = "寄付先「#{@donation_recipient.name}」を削除しました。"
+      flash[:notice] = "#{@donation_recipient.name} を削除しました。"
     rescue => e
       handle(e)
     end

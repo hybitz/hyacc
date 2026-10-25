@@ -1,0 +1,13 @@
+<div class="search">
+  <%= form_with scope: :finder, url: {action: 'index'}, method: 'get', class: 'row' do |f| %>
+    <div class="col-auto">
+      <div class="input-group">
+        <div class="input-group-text">状態</div>
+        <%= f.select :status, rent_status_types, {include_blank: true}, class: 'form-select' %>
+      </div>
+    </div>
+    <div class="col-auto">
+      <%= f.submit '表示', class: 'btn btn-light' %>
+    </div>
+  <% end %>
+</div>

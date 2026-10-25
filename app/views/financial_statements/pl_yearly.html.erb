@@ -1,9 +1,9 @@
 <script>
   // 構成比の計算
   function calcRatio( id, totalAmount ) {
-    var ratio = 0;
+    let ratio = 0;
     if (!isNaN(totalAmount) && totalAmount != 0) {
-      var amount = getValue(document.getElementById(id + '_amount'));
+      const amount = getValue(document.getElementById(id + '_amount'));
       ratio = amount / totalAmount;
       ratio = parseInt(ratio * 10000) / 100;
     }

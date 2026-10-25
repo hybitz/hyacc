@@ -11,8 +11,8 @@ class NotificationTest < ActiveSupport::TestCase
   end
 
   def test_with_active_or_no_employee
-    active_employee = Employee.where(deleted: false).first
-    deleted_employee = Employee.where(deleted: false).second
+    active_employee = Employee.find(1)
+    deleted_employee = Employee.find(7)
     deleted_employee.update!(deleted: true)
     notification1 = Notification.create!(message: "テスト", category: :report_submission, employee: nil)
     notification2 = Notification.create!(message: "テスト", category: :annual_determination, employee: active_employee)

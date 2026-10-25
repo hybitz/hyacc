@@ -1,8 +1,6 @@
 <script>
-  var journal;
-
   $(document).ready(function() {
-    journal = new hyacc.Journal('#journal_form', {
+    window.journal = new hyacc.Journal('#journal_form', {
       accounts_path: '<%= accounts_path(purified_params) %>',
       add_detail_path: '<%= url_for action: 'add_detail' %>',
       get_account_detail_path: '<%= url_for action: 'get_account_detail' %>',

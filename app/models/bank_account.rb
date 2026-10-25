@@ -5,6 +5,7 @@ class BankAccount < ApplicationRecord
   validates :code, :presence => true
   validates :name, :presence => true, uniqueness: {case_sensitive: false}
   validates :holder_name, :presence => true
+  validates_with Validators::ReferencedOnDeletionValidator
 
   def bank_name
     return nil unless bank

@@ -31,6 +31,16 @@ class Mm::BranchesControllerTest < ActionController::TestCase
     assert_template 'common/reload'
   end
 
+  def test_登録_入力エラー
+    sign_in admin
+
+    assert_no_difference 'Branch.count' do
+      post :create, xhr: true, params: { branch: invalid_branch_params }
+      assert_response :success
+      assert_template :new
+    end
+  end
+
   def test_編集
     sign_in admin
     get :edit, :xhr => true, :params => {:id => branch.id}
@@ -45,11 +55,46 @@ class Mm::BranchesControllerTest < ActionController::TestCase
     assert_template 'common/reload'
   end
 
+  def test_更新_入力エラー
+    sign_in admin
+    assert branch = Branch.find_by(company_id: 1, code: 102)
+
+    patch :update, xhr: true, params: { id: branch.id, branch: invalid_branch_params.except(:code, :parent_id) }
+    assert_response :success
+    assert_template :edit
+  end
+
   def test_削除
     sign_in admin
-    delete :destroy, :xhr => true, :params => {:id => branch.id}
+    branch = branches(:for_deletion)
+
+    delete :destroy, xhr: true, params: { id: branch.id }
     assert_response :success
     assert_template 'common/reload'
+    assert branch.reload.deleted?
+  end
+
+  def test_紐づいているときは削除できない
+    sign_in admin
+    assert branch = Branch.find_by(company_id: 1, code: 102)
+    assert Branch.where(parent_id: branch.id, deleted: false).exists?
+
+    delete :destroy, xhr: true, params: { id: branch.id }
+    assert_response :unprocessable_content
+    assert flash[:is_error_message]
+    assert_equal [HyaccErrors::ERR_BRANCH_LINKED], flash[:notice]
+    assert_not branch.reload.deleted?
+  end
+
+  def test_本店は削除できない
+    sign_in admin
+    assert head_office = Branch.find_by(company_id: 1, code: 101)
+
+    delete :destroy, xhr: true, params: { id: head_office.id }
+    assert_response :unprocessable_content
+    assert flash[:is_error_message]
+    assert_equal HyaccErrors::ERR_BRANCH_HEAD_OFFICE, flash[:notice]
+    assert_not head_office.reload.deleted?
   end
 
 end

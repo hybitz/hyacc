@@ -5,3 +5,14 @@
   <%= column %>: <%= row[column] %>
 <% end %>
 <% end %>
+
+for_branch_guard:
+  remarks: 部門削除ガード用
+  keywords: branch guard
+  owner_type: 1
+  owner_id: 1
+  account_id: 20
+  branch_id: 9
+  dc_type: 1
+  tax_type: 2
+  deleted: false

@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://rubygems.org', cooldown: 7
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '~> 3.4.0'
@@ -38,7 +38,7 @@ gem 'rails-i18n', '~> 8.0'
 gem 'remotipart'
 gem 'sassc-rails'
 gem 'sprockets-rails'
-gem 'sqlite3', '~> 1.7'
+gem 'sqlite3', '~> 2.9', force_ruby_platform: true
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'turbolinks', '~> 5'

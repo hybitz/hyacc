@@ -15,4 +15,16 @@ class BranchTest < ActiveSupport::TestCase
     
     assert_equal head.business_office, ichy.business_office
   end
+
+  def test_validates_code_presence
+    branch = company.branches.build(branch_params.merge(code: ''))
+    assert_not branch.valid?
+    assert branch.errors[:code].present?
+  end
+
+  def test_validates_formal_name_presence
+    branch = company.branches.build(branch_params.merge(formal_name: ''))
+    assert_not branch.valid?
+    assert branch.errors[:formal_name].present?
+  end
 end

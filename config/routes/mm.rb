@@ -45,7 +45,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :inhabitant_taxes do
+    resources :inhabitant_taxes, except: [:new] do
       collection do
         post 'confirm'
       end
@@ -65,6 +65,10 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         get 'add_branch'
+      end
+      member do
+        post 'grant_admin'
+        post 'revoke_admin'
       end
     end
   end

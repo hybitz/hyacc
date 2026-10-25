@@ -1,19 +1,24 @@
-<%= fields_for "employee[employee_bank_account_attributes]", @e.employee_bank_account do |f| %>
-  <tr>
-    <th>金融機関名称</th>
-    <td>
-      <%= f.hidden_field :id %>
-      <%= f.collection_select :bank_id, current_company.banks, :id, :name, {}, { href: bank_offices_path, class: 'form-control form-control-sm w-auto d-inline-block' } %>
-    </td>
-  </tr>
-  <tr>
-    <th>支店名称</th>
-    <td>
-      <%= f.collection_select :bank_office_id, f.object.bank.bank_offices, :id, :name, {}, { class: 'form-control form-control-sm w-auto d-inline-block' } %>
-    </td>
-  </tr>
-  <tr>
-    <th>口座番号</th>
-    <td><%= f.text_field :code, class: 'form-control form-control-sm w-auto d-inline-block' %></td>
-  </tr>
+<% if @e.employee_bank_account %>
+  <%= fields_for "employee[employee_bank_account_attributes]", @e.employee_bank_account do |f| %>
+    <tr>
+      <th colspan="2" class="text-center">給与振込口座</th>
+    </tr>
+    <tr>
+      <th>金融機関名称</th>
+      <td>
+        <%= f.hidden_field :id %>
+        <%= f.collection_select :bank_id, current_company.banks, :id, :name, { include_blank: true }, { href: bank_offices_path, class: 'form-select form-select-sm d-inline-block w-auto mw-100' } %>
+      </td>
+    </tr>
+    <tr>
+      <th>支店名称</th>
+      <td>
+        <%= f.collection_select :bank_office_id, f.object.bank&.bank_offices || [], :id, :name, { include_blank: true }, { class: 'form-select form-select-sm d-inline-block w-auto mw-100' } %>
+      </td>
+    </tr>
+    <tr>
+      <th>口座番号</th>
+      <td><%= f.text_field :code, class: 'form-control form-control-sm w-auto d-inline-block' %></td>
+    </tr>
+  <% end %>
 <% end %>

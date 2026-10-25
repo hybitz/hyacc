@@ -11,10 +11,16 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
     @templates = finder.list
   end
 
+  def show
+    @simple_slip_template = SimpleSlipTemplate.find(params[:id])
+  end
+
   def new
     @simple_slip_template = SimpleSlipTemplate.new
     @simple_slip_template.owner_type = OWNER_TYPE_COMPANY
     @simple_slip_template.owner_id = current_company.id
+    @simple_slip_template.account_id = params[:account_id] if params[:account_id].present?
+    @simple_slip_template.remarks = params[:remarks] if params[:remarks].present?
   end
 
   def create

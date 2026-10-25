@@ -398,8 +398,8 @@ class JournalsController::AllocatedCostTest < ActionController::TestCase
   def test_費用配賦_前払費用_人頭割
     branch = Branch.find(1)
     branches = Branch.where(company_id: branch.company_id, deleted: false)
-    assert_equal 3, branches.size
-    assert_equal 3, BranchEmployee.where(branch_id: branches.select(:id), default_branch: true, deleted: false).size
+    assert_equal 5, branches.size
+    assert_equal 4, BranchEmployee.where(branch_id: branches.select(:id), default_branch: true, deleted: false).size
 
     post_jh = Journal.new
     post_jh.remarks = "費用配賦_前払費用_人頭割 #{Time.now}"

@@ -7,9 +7,9 @@ module Base::ExceptionHandler
       HyaccLogger.warn message, e
       store_error_message(message)
     elsif e.is_a? ActiveRecord::RecordInvalid
-      HyaccLogger.info e.record.errors.full_messages
-      message = e.record.errors.full_messages.join('<br/>'.html_safe)
-      store_error_message(message)
+      messages = e.record.errors.full_messages
+      HyaccLogger.info messages
+      store_error_message(messages)
     elsif e.is_a? HyaccException
       message = e.message
       HyaccLogger.warn message, e

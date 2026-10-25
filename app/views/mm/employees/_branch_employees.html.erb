@@ -1,7 +1,7 @@
 <script>
   function add_branch(trigger) {
-    var table = $(trigger).closest('table');
-    var params = {
+    const table = $(trigger).closest('table');
+    const params = {
       index: table.find('tbody tr').length,
       format: 'html'
     };

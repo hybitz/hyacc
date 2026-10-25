@@ -6,3 +6,11 @@
   customer_id: 1
   customer_name: かんとか企画
   project_name: 営業支援システム
+2:
+  id: 2
+  employee_id: 5
+  start_from: 2010-01-01
+  end_to: 2010-12-31
+  customer_id: 2
+  customer_name: 取引先002
+  project_name: プロジェクト

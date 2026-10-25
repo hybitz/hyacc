@@ -1,4 +1,6 @@
-var title = '<%= "#{@title}　編集" %>';
-var html = '<%=j render 'edit_current_fiscal_year' %>';
+(function() {
+  const title = '<%= "#{@title}　編集" %>';
+  const html = '<%=j render 'edit_current_fiscal_year' %>';
 
-hyacc.current_dialog({title: title}).show(html);
+  hyacc.current_dialog({title: title}).show(html);
+})();

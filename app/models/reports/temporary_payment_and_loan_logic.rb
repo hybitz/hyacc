@@ -108,7 +108,7 @@ module Reports
     end
 
     def loan_interest_in_period(group, sub_account_id)
-      get_this_term_credit_amount(group[:interest_code], sub_account_id)
+      get_this_term_amount(group[:interest_code], sub_account_id)
     end
 
   end

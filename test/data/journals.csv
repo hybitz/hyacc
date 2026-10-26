@@ -64,6 +64,7 @@ id,type,company_id,ym,day,slip_type,auto,amount,remarks,payroll_id,depreciation_
 63,,1,202501,20,0,false,50000,貸付金相殺テスト用,,,,,,1,1,0,,false
 64,,1,202602,15,0,false,250000,貸付金相殺テスト用（完済）,,,,,,1,1,0,,false
 65,,1,202602,15,0,false,1000,貸付金テスト用（完済後利息）,,,,,,1,1,0,,false
+66,,1,202603,15,0,false,2000,貸付金テスト用（利息返金）,,,,,,1,1,0,,false
 4453,Auto::Journal::Payroll,1,200812,26,6,false,448285,役員給与　HIRO　12月分,45,,,,,1,1,1,,false
 4467,Auto::Journal::PayrollPay,1,200901,7,6,false,532540,給与支給、立替費用の精算　HIRO,45,,,,,2,1,1,,false
 4705,Auto::Journal::Payroll,1,200901,30,6,false,438745,役員給与　HIRO　1月分,46,,,,,1,1,1,,false

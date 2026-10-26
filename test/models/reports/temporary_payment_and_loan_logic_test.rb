@@ -114,7 +114,7 @@ class Reports::TemporaryPaymentAndLoanLogicTest < ActiveSupport::TestCase
     end
     assert_not_nil employee_detail
     assert_equal 500_000, employee_detail.amount_at_end
-    assert_equal 5_000, employee_detail.interest_in_period
+    assert_equal 3_000, employee_detail.interest_in_period
     assert_equal employee.fullname, employee_detail.counterpart_name
     assert_equal "役員・代表者との関係：#{employee.relationship_to_representative}", employee_detail.counterpart_relation
 
@@ -149,7 +149,27 @@ class Reports::TemporaryPaymentAndLoanLogicTest < ActiveSupport::TestCase
 
     assert_operator model.loan_details.size, :>=, 7
     assert_equal 680_000, model.loan_total_amount_at_end
-    assert_equal 9_000, model.loan_total_interest_in_period
+    assert_equal 7_000, model.loan_total_interest_in_period
+  end
+
+  def test_期中受取利息は借方と貸方を相殺した金額を表示する
+    employee = Employee.find(10)
+    interest_account = Account.find_by_code(ACCOUNT_CODE_INTEREST_RECEIVED_LOAN_EMPLOYEE)
+
+    details = JournalDetail.where(
+      journal_id: @journals_ids, account_id: interest_account.id, branch_id: branch.id, sub_account_id: employee.id
+    )
+    debit_sum = details.where(dc_type: DC_TYPE_DEBIT).sum(:amount)
+    credit_sum = details.where(dc_type: DC_TYPE_CREDIT).sum(:amount)
+
+    model = @logic.build_model
+    employee_detail = model.loan_details.find do |d|
+      d.sub_account_type == SUB_ACCOUNT_TYPE_EMPLOYEE && d.sub_account.id == employee.id
+    end
+
+    assert_equal 2_000, debit_sum
+    assert_equal 5_000, credit_sum
+    assert_equal credit_sum - debit_sum, employee_detail.interest_in_period
   end
 
   def test_貸付金は借方と貸方を相殺した残高を表示する

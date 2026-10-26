@@ -17,6 +17,7 @@ class Insert8989OnAccounts < ActiveRecord::Migration[8.1]
     a.trade_type = TRADE_TYPE_INTERNAL
     a.is_settlement_report_account = true
     a.sub_account_type = SUB_ACCOUNT_TYPE_NORMAL
+    a.sub_account_editable = true
     a.tax_type = TAX_TYPE_NONTAXABLE
     a.company_only = true
     a.system_required = true

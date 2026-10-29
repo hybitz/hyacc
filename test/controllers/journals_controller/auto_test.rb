@@ -305,14 +305,14 @@ class JournalsController::AutoTest < ActionController::TestCase
     assert_equal 5000, auto.journal_details[0].amount, "按分して￥５，０００"
     assert_equal 85, auto.journal_details[1].account_id, "仮負債の明細がある"
     assert_equal 2, auto.journal_details[1].branch_id, "相手部門"
-    assert_equal 32, auto.journal_details[1].sub_account_id, "配賦対象資産を保有している部門"
+    assert_equal post_jh.journal_details[1].branch_id, auto.journal_details[1].sub_account_id, "配賦対象資産を保有している部門"
     assert_equal 5000, auto.journal_details[1].amount, "按分して￥５，０００"
     assert_equal 83, auto.journal_details[2].account_id, "仮資産の明細がある"
     assert_equal post_jh.journal_details[1].branch_id, auto.journal_details[2].branch_id, "配賦対象資産を保有している部門"
     assert_equal 5000, auto.journal_details[2].amount, "按分して￥５，０００"
     assert_equal 85, auto.journal_details[3].account_id, "仮負債の明細がある"
     assert_equal 3, auto.journal_details[3].branch_id, "相手部門"
-    assert_equal 32, auto.journal_details[3].sub_account_id, "配賦対象資産を保有している部門"
+    assert_equal post_jh.journal_details[1].branch_id, auto.journal_details[3].sub_account_id, "配賦対象資産を保有している部門"
     assert_equal 5000, auto.journal_details[3].amount, "按分して￥５，０００"
   end
 

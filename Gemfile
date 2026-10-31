@@ -59,6 +59,7 @@ end
 group :development do
   gem 'rack-mini-profiler'
   gem 'rails-erd'
+  gem 'ruby-graphviz'
   gem 'web-console', '>= 4.1.0'
 end
 

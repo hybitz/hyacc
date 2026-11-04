@@ -250,7 +250,7 @@ class JournalsController < Base::HyaccController
         .order('frequency desc').limit(current_user.account_count_of_frequencies)
 
     # 部門選択用リスト
-    @branches = Branch.not_deleted
+    @branches = get_branches
   end
 
 end

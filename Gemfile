@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '~> 3.4.0'
 gem 'rails', '~> 8.1.0'
 
-gem 'activerecord-session_store'
+gem 'activerecord-session_store', '2.2.0'
 gem 'acts_as_tree'
 gem 'bcrypt'
 gem 'benchmark'

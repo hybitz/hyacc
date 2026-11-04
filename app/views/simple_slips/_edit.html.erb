@@ -10,9 +10,9 @@
 
 <div class="target_account_info">
   <%# 補助科目が存在する科目の場合は補助科目名を表示する %>
-  <% if @account.sub_accounts_all.present? %>
+  <% if @account.sub_accounts_all(company_id: current_company.id).present? %>
     <%= get_sub_account_title(@account) %>：
-    <b><%= @account.get_sub_account_by_id(@simple_slip.my_sub_account_id).name if @simple_slip.my_sub_account_id.present? %></b>
+    <b><%= @account.get_sub_account_by_id(@simple_slip.my_sub_account_id, company_id: current_company.id).name if @simple_slip.my_sub_account_id.present? %></b>
   <% else %>
     &nbsp;
   <% end %>

@@ -12,6 +12,41 @@ class AccountTest < ActiveSupport::TestCase
     refute Accounts::SubAccountsRequestCache.cache.key?(cache_key)
   end
 
+  def test_部門補助科目は会社ごとに分離される
+    company_a = Company.find(1)
+    company_b = Company.find(2)
+    branch_a = Branch.find(2) # company_id: 1, code: 102
+    other_company_branch = branches(:company_b_same_code_as_102)
+    account = Account.find_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
+
+    assert_equal branch_a.code, other_company_branch.code
+    assert_not_equal branch_a.company_id, other_company_branch.company_id
+
+    account.sub_accounts_all(company_id: company_a.id)
+    assert Accounts::SubAccountsRequestCache.cache.key?([SUB_ACCOUNT_TYPE_BRANCH, company_a.id])
+    assert_includes account.sub_accounts(company_id: company_a.id).map(&:id), branch_a.id
+    assert_not_includes account.sub_accounts(company_id: company_a.id).map(&:id), other_company_branch.id
+    assert_equal branch_a.id, account.get_sub_account_by_code(branch_a.code, company_id: company_a.id).id
+
+    assert_includes account.sub_accounts(company_id: company_b.id).map(&:id), other_company_branch.id
+    assert_not_includes account.sub_accounts(company_id: company_b.id).map(&:id), branch_a.id
+    assert_equal other_company_branch.id, account.get_sub_account_by_code(branch_a.code, company_id: company_b.id).id
+    assert_nil account.get_sub_account_by_id(other_company_branch.id, company_id: company_a.id)
+    assert_nil account.get_sub_account_by_id(branch_a.id, company_id: company_b.id)
+    assert_equal branch_a.id, account.get_sub_account_by_code(branch_a.code, company_id: company_a.id).id
+    assert account.has_sub_accounts?(company_id: company_b.id)
+  end
+
+  def test_部門補助科目は会社の指定が必須
+    account = Account.find_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
+    assert_raises(ArgumentError) { account.sub_accounts }
+    assert_raises(ArgumentError) { account.sub_accounts_all }
+    assert_raises(ArgumentError) { account.get_sub_account_by_id(2) }
+    assert_raises(ArgumentError) { account.get_sub_account_by_code('102') }
+    assert_raises(ArgumentError) { account.has_sub_accounts? }
+    assert_raises(ArgumentError) { Account.get_journalizable_accounts }
+  end
+
   def test_ルートとなる勘定科目
     expected = %w{ 資産の部 負債の部 純資産の部 収益の部 費用の部 諸口 }
     actual = Account.where(:parent_id => nil)

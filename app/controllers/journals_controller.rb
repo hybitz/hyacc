@@ -243,7 +243,7 @@ class JournalsController < Base::HyaccController
 
   def setup_view_attributes
     # 勘定科目選択用リスト
-    @accounts = Account.get_journalizable_accounts
+    @accounts = Account.get_journalizable_accounts(company_id: current_company.id)
 
     # 勘定科目の利用頻度
     @frequencies = InputFrequency.where(user_id: current_user.id, input_type: INPUT_TYPE_JOURNAL_ACCOUNT_ID)

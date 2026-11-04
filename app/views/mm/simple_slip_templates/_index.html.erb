@@ -18,7 +18,7 @@
       <tr>
         <td><%= t.remarks %></td>
         <td><%= t.account.name if t.account %></td>
-        <td><%= t.sub_account.name if t.sub_account %></td>
+        <td><%= t.sub_account(company_id: current_company.id)&.name %></td>
         <td><%= t.branch.name if t.branch %></td>
         <td class="text-center"><%= t.dc_type_name %></td>
         <td class="text-center"><%= t.tax_type_name %></td>

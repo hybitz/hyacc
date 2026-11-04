@@ -131,7 +131,7 @@ class Mm::SimpleSlipTemplatesController < Base::HyaccController
   
   def get_sub_accounts
     account = Account.find(params[:account_id])
-    @sub_accounts = account.sub_accounts.sort{|a, b| a.code <=> b.code }
+    @sub_accounts = account.sub_accounts(company_id: current_company.id).sort{|a, b| a.code <=> b.code }
     render partial: 'get_sub_accounts', locals: {sub_accounts: @sub_accounts}
   end
 

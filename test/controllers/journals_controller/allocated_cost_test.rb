@@ -4,7 +4,7 @@ require 'test_helper'
 class JournalsController::AllocatedCostTest < ActionController::TestCase
 
   def setup
-    sign_in users(:user3)
+    sign_in users(:user2)
   end
   
   def test_費用配賦_子部門に均等

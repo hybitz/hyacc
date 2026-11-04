@@ -102,4 +102,39 @@ class Reports::TemporaryPaymentAndLoanLogicTest < ActiveSupport::TestCase
     assert_equal a.name, d.note
     assert_nil largest_detail.note
   end
+
+  def test_部門補助科目を使う内訳書は対象会社の部門で集計する
+    account = Account.find_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
+    account.update!(
+      is_temporary_payment_account: true,
+      is_suspense_receipt_account: true,
+      is_trade_account_payable: true
+    )
+    target_branch = Branch.find(2)
+    source_journal = Journal.find(@journals_ids.first)
+    source_journal.journal_details.create!(
+      detail_no: source_journal.journal_details.maximum(:detail_no) + 1,
+      account: account,
+      sub_account_id: target_branch.id,
+      branch: branch,
+      dc_type: account.dc_type,
+      amount: 1000,
+      tax_type: TAX_TYPE_NONTAXABLE
+    )
+
+    temporary_model = @logic.build_model
+    details = temporary_model.temporary_payment_details.select { |d| d.account.id == account.id }
+    assert_equal [target_branch.id], details.map { |d| d.sub_account.id }
+    assert_equal [1000], details.map(&:amount_at_end)
+
+    suspense_model = Reports::SuspenseReceiptLogic.new(@logic.finder).build_model
+    details = suspense_model.details.select { |d| d.account&.id == account.id }
+    assert_equal [target_branch.id], details.map { |d| d.sub_account.id }
+    assert_equal [1000], details.map(&:amount_at_end)
+
+    payable_model = Reports::TradeAccountPayableLogic.new(@logic.finder).build_model
+    details = payable_model.details.select { |d| d.account.id == account.id }
+    assert_equal [target_branch.name], details.map(&:name)
+    assert_equal [1000], details.map(&:amount_at_end)
+  end
 end

@@ -31,7 +31,7 @@ module Base::ViewAttributeHandler
     
   def get_accounts(options = {})
     if options[:conditions].blank?
-      Account.get_journalizable_accounts
+      Account.get_journalizable_accounts(company_id: current_company.id)
     elsif options[:conditions].is_a?(Hash) && options[:conditions].has_key?(:journalizable)
       Account.where(options[:conditions])
     elsif options[:conditions].is_a?(Array) && options[:conditions][0].include?('journalizable')
@@ -62,10 +62,11 @@ module Base::ViewAttributeHandler
     account = get_account(finder)
     return [] unless account
 
+    company_id = current_company.id
     if has_option?(options[:include], :deleted)
-      ret = account.sub_accounts_all
+      ret = account.sub_accounts_all(company_id: company_id)
     else
-      ret = account.sub_accounts
+      ret = account.sub_accounts(company_id: company_id)
     end
 
     HyaccUtil.sort_by_code(ret)

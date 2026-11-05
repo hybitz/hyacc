@@ -91,7 +91,7 @@ class Mm::CareersController < Base::HyaccController
   def customers_for_select(career)
     customers = @customers.to_a
     customer = career.customer
-    customers << customer if customer && customers.none? { |c| c.id == customer.id }
+    customers << customer if career.persisted? && customer && customers.none? { |c| c.id == customer.id }
     customers
   end
 

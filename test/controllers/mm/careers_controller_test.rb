@@ -94,6 +94,18 @@ class Mm::CareersControllerTest < ActionController::TestCase
     assert_template :new
   end
 
+  def test_登録_入力エラー_論理削除された取引先は選択肢に戻さない
+    sign_in user
+    customer = Customer.where(is_order_entry: true, deleted: false).first
+    assert customer
+    customer.update_columns(deleted: true)
+
+    post :create, xhr: true, params: {career: invalid_career_params.merge(customer_id: customer.id)}
+    assert_response :success
+    assert_template :new
+    assert_not_includes assigns(:customers).map(&:id), customer.id
+  end
+
   def test_編集
     sign_in user
     get :edit, xhr: true, params: {id: career.id}

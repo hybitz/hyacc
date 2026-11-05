@@ -93,7 +93,7 @@ class Mm::RentsController < Base::HyaccController
   def customers_for_select(rent)
     customers = Customer.not_deleted.to_a
     customer = rent.customer
-    customers << customer if customer && customers.none? { |c| c.id == customer.id }
+    customers << customer if rent.persisted? && customer && customers.none? { |c| c.id == customer.id }
     customers
   end
 

@@ -31,6 +31,8 @@
       <%= will_paginate @list %>
     </div>
   <% end %>
+<% else %>
+  <%= render 'common/empty_result' %>
 <% end %>
 
 <div class="mt-3">

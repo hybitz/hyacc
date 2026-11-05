@@ -1,6 +1,7 @@
 <%= render 'common/search' %>
 <%= flash_notice %>
 
+<% if @customers.present? %>
 <table class="customers table table-striped table-hover">
   <thead>
     <tr>
@@ -40,4 +41,7 @@
 </table>
 
 <%= will_paginate @customers %>
+<% else %>
+  <%= render 'common/empty_result' %>
+<% end %>
 <%= link_to '追加', new_mm_customer_path, class: 'add btn btn-light', remote: true %>

@@ -1,4 +1,5 @@
-<div style="margin: 10px;">
-  <div>地代家賃の設定には取引先の登録が必要です。</div>
-  <div><%= link_to '取引先管理へ', mm_customers_path %></div>
-</div>
+<%= render 'common/prerequisite_required',
+           target: '地代家賃',
+           prerequisite: '取引先',
+           link_name: '取引先',
+           link_path: mm_customers_path %>

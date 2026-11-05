@@ -13,12 +13,12 @@ class Mm::RentsController < Base::HyaccController
 
   def new
     @rent = Rent.new
-    @customers = Customer.not_deleted
+    @customers = customers_for_select(@rent)
   end
 
   def edit
     @rent = Rent.find(params[:id])
-    @customers = Customer.not_deleted
+    @customers = customers_for_select(@rent)
   end
 
   def create
@@ -34,7 +34,7 @@ class Mm::RentsController < Base::HyaccController
 
     rescue => e
       handle(e)
-      @customers = Customer.not_deleted
+      @customers = customers_for_select(@rent)
       render action: "new"
     end
   end
@@ -52,7 +52,7 @@ class Mm::RentsController < Base::HyaccController
 
     rescue => e
       handle(e)
-      @customers = Customer.not_deleted
+      @customers = customers_for_select(@rent)
       render :edit
     end
   end
@@ -68,7 +68,7 @@ class Mm::RentsController < Base::HyaccController
   private
 
   def check_customer_exists
-    if Customer.count == 0
+    if Customer.not_deleted.none?
       render :check_customer_exists and return
     end
   end
@@ -88,6 +88,13 @@ class Mm::RentsController < Base::HyaccController
     if params[:finder]
       params.require(:finder).permit(:status)
     end
+  end
+
+  def customers_for_select(rent)
+    customers = Customer.not_deleted.to_a
+    customer = rent.customer
+    customers << customer if customer && customers.none? { |c| c.id == customer.id }
+    customers
   end
 
 end

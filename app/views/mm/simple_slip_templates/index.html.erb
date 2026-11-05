@@ -2,7 +2,7 @@
 <%= flash_notice %>
 
 <% if @templates.empty? %>
-  <div>登録されているテンプレートはありません。</div>
+  <%= render 'common/empty_result' %>
 <% else %>
   <%= render 'index' %>
 <% end %>

@@ -2,7 +2,13 @@ class Mm::SkillsController < Base::HyaccController
   helper_method :finder
 
   def index
-    @skills = finder.list if params[:commit]
+    qualifications_exist = current_company.qualifications.exists?
+    unless qualifications_exist || current_company.employees.joins(:skills).exists?
+      render :check_qualifications and return
+    end
+
+    @show_prerequisite = !qualifications_exist
+    @skills = finder.list if params[:commit] && finder.employee
   end
 
   def new
@@ -76,7 +82,7 @@ class Mm::SkillsController < Base::HyaccController
       params.require(:skill_finder).permit(:employee_id)
     end
   end
-  
+
   def skill_params
     permitted = [:qualified_on]
 

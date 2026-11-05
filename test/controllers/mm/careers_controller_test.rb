@@ -9,6 +9,55 @@ class Mm::CareersControllerTest < ActionController::TestCase
     assert_template :index
   end
 
+  def test_一覧_0件なら空の結果
+    sign_in user
+    Career.delete_all
+
+    get :index
+    assert_response :success
+    assert_select '.alert-warning', text: '該当するデータが見つかりませんでした。'
+    assert_select '.alert-info', count: 0
+  end
+
+  def test_一覧_受注先が論理削除のみで経歴も無ければ前提案内だけ
+    sign_in user
+    Career.delete_all
+    Customer.where(is_order_entry: true).update_all(deleted: true)
+
+    get :index
+    assert_response :success
+    assert_select '.alert-info', text: /業務経歴を追加するには受注先の登録が必要です/
+    assert_select '.alert-info a[href=?]', mm_customers_path, text: '取引先管理へ'
+    assert_select '.alert-warning', count: 0
+    assert_select '.search', count: 0
+    assert_select 'a.add', count: 0
+  end
+
+  def test_一覧_受注先なし・経歴あり・絞り込み0件でも検索と前提案内
+    sign_in user
+    Customer.where(is_order_entry: true).update_all(deleted: true)
+    employee_id = Employee.where(deleted: false).where.not(id: Career.select(:employee_id)).pick(:id)
+    assert employee_id
+
+    get :index, params: { finder: { employee_id: employee_id } }
+    assert_response :success
+    assert_select '.search'
+    assert_select '.alert-info', text: /業務経歴を追加するには受注先の登録が必要です/
+    assert_select '.alert-info a[href=?]', mm_customers_path, text: '取引先管理へ'
+    assert_select '.alert-warning', count: 0
+    assert_select 'a.add', count: 0
+  end
+
+  def test_編集_論理削除された取引先も今の値として選択肢にある
+    sign_in user
+    c = career
+    c.customer.update_columns(deleted: true)
+
+    get :edit, xhr: true, params: {id: c.id}
+    assert_response :success
+    assert_includes assigns(:customers).map(&:id), c.customer_id
+  end
+
   def test_参照
     sign_in user
     get :show, params: {id: career.id}, xhr: true

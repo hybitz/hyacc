@@ -90,11 +90,11 @@ class SimpleSlip
   end
 
   def sub_account
-    account.sub_accounts.find { |sa| sa.id == sub_account_id.to_i } if sub_account_id.to_i > 0
+    account.sub_accounts(company_id: company_id).find { |sa| sa.id == sub_account_id.to_i } if sub_account_id.to_i > 0
   end
 
   def sub_accounts
-    account&.sub_accounts.map{|sa| [sa.name, sa.id] } || []
+    account&.sub_accounts(company_id: company_id).map{|sa| [sa.name, sa.id] } || []
   end
 
   def branch
@@ -150,6 +150,7 @@ class SimpleSlip
   end
 
   def load_journal
+    self.company_id = journal.company_id
     self.ym = journal.ym
     self.day = journal.day
     self.remarks = journal.remarks

@@ -1,8 +1,8 @@
 <%= form_tag({action: 'index', account_code: @finder.account_code}, method: 'get', class: 'row align-items-center') do %>
   <%= hidden_field_tag 'account_code', @finder.account_code %>
 
-  <% if @account.has_sub_accounts? %>
-    <% sub_accounts = @finder.deleted.to_i == 0 ? @account.sub_accounts : @account.sub_accounts_all %>
+  <% if @account.has_sub_accounts?(company_id: current_company.id) %>
+    <% sub_accounts = @finder.deleted.to_i == 0 ? @account.sub_accounts(company_id: current_company.id) : @account.sub_accounts_all(company_id: current_company.id) %>
     <div class="col-auto">
       <div class="input-group">
         <div class="input-group-text"><%= @account.sub_account_type_name %></div>

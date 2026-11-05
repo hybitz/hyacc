@@ -38,6 +38,24 @@ class JournalDetailTest < ActiveSupport::TestCase
     assert @jd.errors[:sub_account].empty?
   end
 
+  def test_他社の部門補助科目は参照できず検証時にクリアされる
+    jd = JournalDetail.find(11573)
+    branch = Branch.find(2)
+    assert_equal branch.company_id, jd.journal.company_id
+    jd.account = Account.find_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
+    jd.sub_account_id = branches(:company_b_same_code_as_102).id
+
+    assert_nil jd.sub_account
+    assert jd.invalid?
+    assert_nil jd.sub_account_id
+    assert jd.errors[:sub_account].any?
+
+    jd.sub_account_id = branch.id
+    assert_equal branch, jd.sub_account
+    assert jd.valid?, jd.errors.full_messages.join("\n")
+    assert_equal branch.id, jd.sub_account_id
+  end
+
   def test_amount_required
     # テスト前は正常に保存できることを前提とする
     @jd = JournalDetail.find(11573)

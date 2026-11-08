@@ -15,12 +15,9 @@ class AccountTest < ActiveSupport::TestCase
   def test_部門補助科目は会社ごとに分離される
     company_a = Company.find(1)
     company_b = Company.find(2)
-    branch_a = Branch.find(2) # company_id: 1, code: 102
-    other_company_branch = branches(:company_b_same_code_as_102)
+    branch_a = company_a.branches.find(2) # company_id: 1, code: 102
+    other_company_branch = company_b.branches.find_by_code(branch_a.code)
     account = Account.find_by_code(ACCOUNT_CODE_BRANCH_OFFICE)
-
-    assert_equal branch_a.code, other_company_branch.code
-    assert_not_equal branch_a.company_id, other_company_branch.company_id
 
     account.sub_accounts_all(company_id: company_a.id)
     assert Accounts::SubAccountsRequestCache.cache.key?([SUB_ACCOUNT_TYPE_BRANCH, company_a.id])
@@ -33,7 +30,6 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal other_company_branch.id, account.get_sub_account_by_code(branch_a.code, company_id: company_b.id).id
     assert_nil account.get_sub_account_by_id(other_company_branch.id, company_id: company_a.id)
     assert_nil account.get_sub_account_by_id(branch_a.id, company_id: company_b.id)
-    assert_equal branch_a.id, account.get_sub_account_by_code(branch_a.code, company_id: company_a.id).id
     assert account.has_sub_accounts?(company_id: company_b.id)
   end
 

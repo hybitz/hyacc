@@ -4,8 +4,8 @@ class BusinessOfficeText < ActiveSupport::TestCase
 
   def test_branches
     bo = company.business_offices.create!(business_office_params)
-    b = company.branches.create!(branch_params.merge(business_office: bo))
-    b2 = company.branches.create!(branch_params.merge(parent: b))
+    b = company.branches.create!(branch_params.merge(business_office: bo, code: '1234'))
+    b2 = company.branches.create!(branch_params.merge(parent: b, code: '1235'))
 
     assert_equal 2, bo.branches.count
     assert_includes bo.branches, b

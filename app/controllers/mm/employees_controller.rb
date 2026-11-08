@@ -13,6 +13,7 @@ class Mm::EmployeesController < Base::HyaccController
       { branch_employees: :branch }
     ).find(params[:id])
     @branch_employees = @e.branch_employees
+    @view_only = params[:view_only].present?
   end
 
   def new

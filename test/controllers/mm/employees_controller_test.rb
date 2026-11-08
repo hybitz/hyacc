@@ -16,6 +16,23 @@ class Mm::EmployeesControllerTest < ActionController::TestCase
     assert_template :show
   end
 
+  def test_参照_編集と管理権限のボタンがある
+    sign_in admin
+    get :show, params: {id: admin.employee.id}, xhr: true
+    assert_response :success
+    assert_includes @response.body, "text: '編集'"
+    assert_includes @response.body, "text: '管理権限を解除'"
+  end
+
+  def test_参照_閲覧のみのときは編集と管理権限のボタンがない
+    sign_in admin
+    get :show, params: {id: admin.employee.id, view_only: 1}, xhr: true
+    assert_response :success
+    assert_not_includes @response.body, "text: '編集'"
+    assert_not_includes @response.body, "text: '管理権限を付与'"
+    assert_not_includes @response.body, "text: '管理権限を解除'"
+  end
+
   def test_追加
     sign_in admin
     get :new, xhr: true

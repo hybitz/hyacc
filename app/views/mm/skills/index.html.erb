@@ -3,10 +3,10 @@
 
 <% if @skills.present? %>
   <div class="col-md-6">
-    <table id="skill_container" class="table table-striped table-hover my-4">
+    <table id="skill_container" class="table table-striped table-hover">
       <thead>
         <tr>
-          <th style="width: 70%;"><%= Qualification.human_attribute_name :name %></th>
+          <th><%= Qualification.human_attribute_name :name %></th>
           <th><%= Skill.human_attribute_name :qualified_on %></th>
           <th class="text-center"></th>
         </tr>

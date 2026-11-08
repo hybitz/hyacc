@@ -13,10 +13,12 @@ class PayrollInfo::PayrollLogicTest < ActiveSupport::TestCase
     assert_equal 349_000, logic.get_base_salaries["20080625"]
   end
   
-  def test_get_deduction
+  def test_get_deduction_2008
     logic = logic_builder(2008)
     assert_equal 975_600, logic.get_deduction
+  end
 
+  def test_get_deduction_2025
     logic = logic_builder(2025)
     logic.stub(:get_total_base_salary_include_previous, 1_899_999) do
       assert_equal 1_899_999, logic.get_total_deemed_salary

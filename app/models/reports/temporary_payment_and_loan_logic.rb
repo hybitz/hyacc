@@ -6,7 +6,7 @@ module Reports
 
       temporary_payment_accounts = Account.where(is_temporary_payment_account: true, deleted: false)
       temporary_payment_accounts.each do |a|
-        sub_accounts = a.sub_accounts.presence || [nil]
+        sub_accounts = a.sub_accounts(company_id: company.id).presence || [nil]
 
         sub_accounts.each do |sa|
           amount_at_end = get_amount_at_end_self_only(a.code, sa&.id)
@@ -113,5 +113,4 @@ module Reports
   
   # TODO: LoanDetailModelクラスを実装する
 end
-
 

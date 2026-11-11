@@ -40,14 +40,15 @@ module Slips
 
       # 補助科目の指定がない場合は、先頭の補助科目を検索条件にする
       account = Account.find_by_code( @account_code )
-      if account.sub_accounts.empty?
+      sub_accounts = account.sub_accounts(company_id: company_id)
+      if sub_accounts.empty?
         put_sub_account_id(0)
       else
         if get_sub_account_id == 0
           if account.sub_account_type == SUB_ACCOUNT_TYPE_EMPLOYEE
             put_sub_account_id(login_user_id)
           else
-            put_sub_account_id(account.sub_accounts[0].id)
+            put_sub_account_id(sub_accounts[0].id)
           end
         end
       end

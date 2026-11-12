@@ -13,8 +13,8 @@
             {selected: jd.account_id, frequencies: @frequencies}, class: "accountSelect" ) %>
     </td>
     <td>
-      <%= f.collection_select :sub_account_id, jd.account.sub_accounts, :id, :name, {},
-            class: 'subAccountSelect', style: ('display: none;' unless jd.account.sub_accounts.present?) %>
+      <%= f.collection_select :sub_account_id, jd.account.sub_accounts(company_id: current_company.id), :id, :name, {},
+            class: 'subAccountSelect', style: ('display: none;' unless jd.account.sub_accounts(company_id: current_company.id).present?) %>
     </td>
     <td>
       <%= f.collection_select :branch_id, @branches, :id, :name, {}, class: 'branchSelect' %>

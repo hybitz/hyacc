@@ -125,7 +125,7 @@ class JournalDetail < ApplicationRecord
     # 補助科目IDが未設定の場合はnilを返す
     return nil if sub_account_id.to_i == 0
 
-    return account.get_sub_account_by_id(sub_account_id)
+    return account.get_sub_account_by_id(sub_account_id, company_id: journal.company_id)
   end
 
   # マスタの名称を明細自身に設定する
@@ -146,7 +146,7 @@ class JournalDetail < ApplicationRecord
 
     # 接待交際費の飲食の場合は人数必須
     if account.sub_account_type == SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
-      social_expense = account.get_sub_account_by_id(sub_account_id)
+      social_expense = account.get_sub_account_by_id(sub_account_id, company_id: journal.company_id)
       if social_expense&.social_expense_number_of_people_required?
         if social_expense_number_of_people.to_i == 0
           errors.add(:social_expense_number_of_people, :blank)
@@ -191,7 +191,7 @@ class JournalDetail < ApplicationRecord
     return unless normalize_sub_account_and_donation_recipient_ids_required?
     return if sub_account_id.to_i == 0 && donation_recipient_id.to_i == 0
 
-    if sub_account_id.to_i != 0 && account && !account.get_sub_account_by_id(sub_account_id)
+    if sub_account_id.to_i != 0 && account && !account.get_sub_account_by_id(sub_account_id, company_id: journal.company_id)
       self.sub_account_id = nil
     end
 

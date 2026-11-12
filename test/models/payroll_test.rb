@@ -111,9 +111,13 @@ class PayrollTest < ActiveSupport::TestCase
 
   def test_bonus_標準賞与額の年度上限到達後は子ども子育て支援金も健康保険と同様にゼロ算定
     e = employee
-    prior = payrolls(:payroll_bonus_health_max_prior)
-    assert_equal e.id, prior.employee_id
-    assert_equal Payroll::BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH, prior.temporary_salary
+    prior = Payroll.new(
+      ym: 202604, is_bonus: true,
+      temporary_salary: Payroll::BONUS_STANDARD_ANNUAL_MAX_FOR_HEALTH,
+      employee: e, pay_day: Date.new(2026, 5, 10)
+    )
+    prior.create_user_id = prior.update_user_id = e.id
+    prior.save!
 
     current = Payroll.new(
       ym: 202605,

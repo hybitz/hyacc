@@ -6,10 +6,8 @@ module Validators
     def validate(record)
       return unless record.my_account
 
-      if record.my_account.sub_accounts.present?
-        if record.my_sub_account_id.to_i == 0
-          record.errors.add(:my_sub_account, I18n.t('errors.messages.empty'))
-        end
+      if record.my_account.sub_accounts(company_id: record.company_id).present? && record.my_sub_account_id.to_i == 0
+        record.errors.add(:my_sub_account, I18n.t('errors.messages.empty'))
       end
     end
 

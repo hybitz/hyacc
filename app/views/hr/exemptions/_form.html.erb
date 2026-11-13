@@ -3,10 +3,12 @@
     hyacc.init_datepicker();
     // 初期表示の確認
     toggleFixedTaxDeduction();
+    toggleDependentUnder23();
   
     // 年が変更されたときに表示を切り替える
     $('#exemption_yyyy').change(function() {
       toggleFixedTaxDeduction();
+      toggleDependentUnder23();
     });
 
     // 編集ダイアログ内の年のセレクトボックスは無効にする
@@ -20,6 +22,16 @@
     } else {
       $('#fixed-tax-deduction-row').hide();
       $('#exemption_fixed_tax_deduction_amount').val('');  // 定額減税の値をリセット
+    }
+  }
+
+  function toggleDependentUnder23() {
+    const year = $('#exemption_yyyy').val();
+    if (year == '2026' || year == '2027') {
+      $('#dependent-under-23-row').show();
+    } else {
+      $('#dependent-under-23-row').hide();
+      $('#exemption_has_dependent_under_23').prop('checked', false);
     }
   }
 
@@ -70,6 +82,12 @@
       <td><%= f.text_field :life_insurance_premium_new, class: 'amount' %></td>
       <th><%= f.label :private_pension_insurance_new %></th>
       <td><%= f.text_field :private_pension_insurance_new, class: 'amount' %></td>
+    </tr>
+    <tr id="dependent-under-23-row" style="display: none;">
+      <th colspan="2"><%= f.label :has_dependent_under_23 %></th>
+      <td><%= f.check_box :has_dependent_under_23 %></td>
+      <th colspan="2"></th>
+      <td></td>
     </tr>
     <tr>
       <th colspan="2">介護医療保険料</th><td><%= f.text_field :care_insurance_premium, class: 'amount' %></td>

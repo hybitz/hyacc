@@ -1,5 +1,6 @@
 <%= flash_notice %>
 
+<% if @donation_recipients.present? %>
 <div class="col-md-6">
   <table class="table table-striped table-hover">
     <thead>
@@ -25,3 +26,7 @@
   <%= will_paginate @donation_recipients %>
   <%= link_to '追加', new_mm_donation_recipient_path, class: 'btn btn-light add', remote: true %>
 </div>
+<% else %>
+  <%= render 'common/empty_result' %>
+  <%= link_to '追加', new_mm_donation_recipient_path, class: 'btn btn-light add', remote: true %>
+<% end %>

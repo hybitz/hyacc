@@ -74,7 +74,7 @@ class Mm::BankAccountsController < Base::HyaccController
   # 銀行が未登録の場合は金融機関管理に誘導する
   def check_banks
     if current_company.banks.empty?
-      render template: 'common/banks_required' and return
+      render :check_banks and return
     end
   end
 

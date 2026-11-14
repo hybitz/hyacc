@@ -19,6 +19,18 @@ class Mm::RentsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_template 'check_customer_exists'
+    assert_select '.alert-info', text: /地代家賃を追加するには取引先の登録が必要です/
+    assert_select '.alert-info a[href=?]', mm_customers_path, text: '取引先管理へ'
+  end
+
+  def test_一覧_取引先が論理削除のみ
+    Customer.update_all(deleted: true)
+
+    get :index
+    assert_response :success
+    assert_template 'check_customer_exists'
+    assert_select '.alert-info', text: /地代家賃を追加するには取引先の登録が必要です/
+    assert_select '.alert-info a[href=?]', mm_customers_path, text: '取引先管理へ'
   end
 
   def test_should_get_new
@@ -56,10 +68,38 @@ class Mm::RentsControllerTest < ActionController::TestCase
     assert_equal 5, assigns(:rent).errors.size
     assert_template 'new'
   end
+
+  def test_登録_入力エラー_論理削除された取引先は選択肢に戻さない
+    customer = Customer.not_deleted.first
+    assert Customer.not_deleted.where.not(id: customer.id).exists?
+    customer.update_columns(deleted: true)
+
+    post :create, xhr: true, params: {
+      rent: {
+        rent_type: "", usage_type: "",
+        address: "住所", customer_id: customer.id,
+        name: "",
+        status: "", start_from: "", end_to: "2009-01-0"
+      }
+    }
+
+    assert_response :success
+    assert_template 'new'
+    assert_not_includes assigns(:customers).map(&:id), customer.id
+  end
   
   def test_should_get_edit
     get :edit, xhr: true, params: {id: rents(:rent_00005).id}
     assert_response :success
+  end
+
+  def test_編集_論理削除された取引先も今の値として選択肢にある
+    rent = rents(:rent_00005)
+    rent.customer.update_columns(deleted: true)
+
+    get :edit, xhr: true, params: {id: rent.id}
+    assert_response :success
+    assert_includes assigns(:customers).map(&:id), rent.customer_id
   end
 
   def test_should_update_rent

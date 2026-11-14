@@ -12,6 +12,14 @@ class Mm::QualificationsControllerTest < ActionDispatch::IntegrationTest
     assert_template 'index'
   end
 
+  def test_一覧_0件なら空の結果
+    Qualification.update_all(deleted: true)
+
+    get mm_qualifications_path
+    assert_response :success
+    assert_select '.alert-warning', text: '該当するデータが見つかりませんでした。'
+  end
+
   def test_新規
     get new_mm_qualification_path, xhr: true
     assert_response :success

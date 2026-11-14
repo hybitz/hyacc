@@ -63,6 +63,8 @@ class Mm::BankAccountsControllerTest < ActionController::TestCase
     sign_in admin
     get :index
     assert_response :success
-    assert_template 'common/banks_required'
+    assert_template :check_banks
+    assert_select '.alert-info', text: /金融口座を追加するには金融機関の登録が必要です/
+    assert_select '.alert-info a[href=?]', mm_banks_path, text: '金融機関管理へ'
   end
 end

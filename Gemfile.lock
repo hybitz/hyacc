@@ -520,7 +520,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sqlite3 (2.10.1)
+    sqlite3 (2.10.2)
       mini_portile2 (~> 2.8.0)
     ssrf_filter (1.6.0)
     strong_actions (0.6.2)
@@ -633,7 +633,7 @@ DEPENDENCIES
   selenium-webdriver
   simplecov
   sprockets-rails
-  sqlite3 (~> 2.9)
+  sqlite3 (~> 2.10)
   strong_actions
   tax_jp
   turbolinks (~> 5)

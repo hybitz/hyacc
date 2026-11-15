@@ -34,6 +34,36 @@ class ExemptionsTest < ActiveSupport::TestCase
     assert_equal 25_000, e.life_insurance_premium
   end
 
+  def test_life_insurance_premium_新契約_各区分の境界
+    e = Exemption.new(yyyy: 2025)
+    {
+      20_000 => 20_000,
+      20_001 => 20_001,
+      40_000 => 30_000,
+      40_001 => 30_001,
+      80_000 => 40_000,
+      80_001 => 40_000
+    }.each do |amount, expected|
+      e.life_insurance_premium_new = amount
+      assert_equal expected, e.life_insurance_premium, "新契約 #{amount}円"
+    end
+  end
+
+  def test_life_insurance_premium_旧契約_各区分の境界
+    e = Exemption.new(yyyy: 2025)
+    {
+      25_000 => 25_000,
+      25_001 => 25_001,
+      50_000 => 37_500,
+      50_001 => 37_501,
+      100_000 => 50_000,
+      100_001 => 50_000
+    }.each do |amount, expected|
+      e.life_insurance_premium_old = amount
+      assert_equal expected, e.life_insurance_premium, "旧契約 #{amount}円"
+    end
+  end
+
   def test_life_insurance_premium_2026_新契約のみ_フラグなしは上限4万
     e = Exemption.new(yyyy: 2026, has_dependent_under_23: false, life_insurance_premium_new: 120_000)
     assert_equal 40_000, e.life_insurance_premium

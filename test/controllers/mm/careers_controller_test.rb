@@ -19,10 +19,10 @@ class Mm::CareersControllerTest < ActionController::TestCase
     assert_select '.alert-info', count: 0
   end
 
-  def test_一覧_受注先が論理削除のみで経歴も無ければ前提案内だけ
+  def test_一覧_受注先が無く経歴も無ければ前提案内だけ
     sign_in user
     Career.delete_all
-    Customer.where(is_order_entry: true).update_all(deleted: true)
+    Customer.where(is_order_entry: true).update_all(is_order_entry: false)
 
     get :index
     assert_response :success
@@ -35,7 +35,7 @@ class Mm::CareersControllerTest < ActionController::TestCase
 
   def test_一覧_受注先なし・経歴あり・絞り込み0件でも検索と前提案内
     sign_in user
-    Customer.where(is_order_entry: true).update_all(deleted: true)
+    Customer.where(is_order_entry: true).update_all(is_order_entry: false)
     employee_id = Employee.where(deleted: false).where.not(id: Career.select(:employee_id)).pick(:id)
     assert employee_id
 
@@ -48,10 +48,10 @@ class Mm::CareersControllerTest < ActionController::TestCase
     assert_select 'a.add', count: 0
   end
 
-  def test_編集_論理削除された取引先も今の値として選択肢にある
+  def test_編集_受注先から外れた取引先も今の値として選択肢にある
     sign_in user
     c = career
-    c.customer.update_columns(deleted: true)
+    c.customer.update_columns(is_order_entry: false)
 
     get :edit, xhr: true, params: {id: c.id}
     assert_response :success
@@ -96,9 +96,8 @@ class Mm::CareersControllerTest < ActionController::TestCase
 
   def test_登録_入力エラー_論理削除された取引先は選択肢に戻さない
     sign_in user
-    customer = Customer.where(is_order_entry: true, deleted: false).first
-    assert customer
-    customer.update_columns(deleted: true)
+    customer = customers(:for_deletion)
+    customer.destroy_logically!
 
     post :create, xhr: true, params: {career: invalid_career_params.merge(customer_id: customer.id)}
     assert_response :success

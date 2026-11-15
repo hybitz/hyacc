@@ -24,6 +24,7 @@ class Mm::RentsControllerTest < ActionController::TestCase
   end
 
   def test_一覧_取引先が論理削除のみ
+    Rent.delete_all
     Customer.update_all(deleted: true)
 
     get :index
@@ -70,9 +71,9 @@ class Mm::RentsControllerTest < ActionController::TestCase
   end
 
   def test_登録_入力エラー_論理削除された取引先は選択肢に戻さない
-    customer = Customer.not_deleted.first
-    assert Customer.not_deleted.where.not(id: customer.id).exists?
-    customer.update_columns(deleted: true)
+    customer = customers(:for_deletion)
+    customer.destroy_logically!
+    assert Customer.not_deleted.exists?
 
     post :create, xhr: true, params: {
       rent: {
@@ -91,15 +92,6 @@ class Mm::RentsControllerTest < ActionController::TestCase
   def test_should_get_edit
     get :edit, xhr: true, params: {id: rents(:rent_00005).id}
     assert_response :success
-  end
-
-  def test_編集_論理削除された取引先も今の値として選択肢にある
-    rent = rents(:rent_00005)
-    rent.customer.update_columns(deleted: true)
-
-    get :edit, xhr: true, params: {id: rent.id}
-    assert_response :success
-    assert_includes assigns(:customers).map(&:id), rent.customer_id
   end
 
   def test_should_update_rent

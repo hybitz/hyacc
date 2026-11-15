@@ -1,10 +1,11 @@
 class Mm::CareersController < Base::HyaccController
-  view_attribute :customers, conditions: ['is_order_entry=?', true]
+  view_attribute :customers, conditions: {is_order_entry: true, deleted: false}
 
   helper_method :finder
 
   def index
     @careers = finder.list
+    @prerequisite_only = @customers.blank? && !Career.exists?
   end
 
   def show
@@ -29,12 +30,14 @@ class Mm::CareersController < Base::HyaccController
       render 'common/reload'
     rescue => e
       handle(e)
+      @customers = customers_for_select(@c)
       render 'new'
     end
   end
 
   def edit
     @c = Career.find(params[:id])
+    @customers = customers_for_select(@c)
   end
 
   def update
@@ -49,6 +52,7 @@ class Mm::CareersController < Base::HyaccController
       render 'common/reload'
     rescue => e
       handle(e)
+      @customers = customers_for_select(@c)
       render 'edit'
     end
   end
@@ -82,6 +86,13 @@ class Mm::CareersController < Base::HyaccController
     params.require(:career).permit(
         :employee_id, :start_from, :end_to, :customer_id, :project_name, :description, :project_size, 
         :role, :process, :hardware_skill, :os_skill, :db_skill, :language_skill, :other_skill)
+  end
+
+  def customers_for_select(career)
+    customers = @customers.to_a
+    customer = career.customer
+    customers << customer if career.persisted? && customer && customers.none? { |c| c.id == customer.id }
+    customers
   end
 
 end

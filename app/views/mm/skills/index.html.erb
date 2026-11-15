@@ -1,3 +1,10 @@
+<% if @show_prerequisite %>
+  <%= render 'common/prerequisite_required',
+             target: 'スキルシート',
+             prerequisite: '資格',
+             link_name: '資格',
+             link_path: mm_qualifications_path %>
+<% end %>
 <%= render 'search' %>
 <%= flash_notice %>
 
@@ -29,4 +36,6 @@
       </tbody>
     </table>
   </div>
+<% elsif @skills && !@show_prerequisite %>
+  <%= render 'common/empty_result' %>
 <% end %>

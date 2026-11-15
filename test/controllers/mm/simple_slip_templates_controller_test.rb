@@ -9,6 +9,15 @@ class Mm::SimpleSlipTemplatesControllerTest < ActionController::TestCase
     assert_template :index
   end
 
+  def test_一覧_0件なら空の結果
+    sign_in admin
+    SimpleSlipTemplate.delete_all
+
+    get :index
+    assert_response :success
+    assert_select '.alert-warning', text: '該当するデータが見つかりませんでした。'
+  end
+
   def test_参照
     sign_in admin
     get :show, params: {id: simple_slip_template.id}, xhr: true

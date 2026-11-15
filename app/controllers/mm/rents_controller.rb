@@ -68,7 +68,7 @@ class Mm::RentsController < Base::HyaccController
   private
 
   def check_customer_exists
-    if Customer.count == 0
+    if Customer.not_deleted.none?
       render :check_customer_exists and return
     end
   end

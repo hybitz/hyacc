@@ -20,12 +20,16 @@ class Exemption < ApplicationRecord
   end
 
   def life_insurance_deduction
-    life_insurance_premium + care_insurance + private_pension_insurance
+    [life_insurance_premium + care_insurance + private_pension_insurance, 120_000].min
   end
 
   # https://www.nta.go.jp/taxanswer/shotoku/1140.htm
   def life_insurance_premium
-    calc_insurance(life_insurance_premium_old, life_insurance_premium_new)
+    if yyyy.between?(2026, 2027) && has_dependent_under_23?
+      calc_life_insurance_with_dependent_under_23(life_insurance_premium_old, life_insurance_premium_new)
+    else
+      calc_insurance(life_insurance_premium_old, life_insurance_premium_new)
+    end
   end
   
   def care_insurance
@@ -56,13 +60,19 @@ class Exemption < ApplicationRecord
     ans
   end
 
+  def calc_life_insurance_with_dependent_under_23(old_amount, new_amount)
+    new_ans = new_calc_insurance_with_dependent_under_23(new_amount)
+    old_ans = old_calc_insurance(old_amount)
+    [new_ans + old_ans, 60_000].min
+  end
+
   def new_calc_insurance(amount)
     ans = 0
-    if amount.to_i < 20_000
+    if amount.to_i <= 20_000
       ans = amount.to_i
-    elsif amount.to_i.between?(20_001, 40_000)
+    elsif amount.to_i <= 40_000
       ans = amount.to_i.fdiv(2).ceil + 10_000
-    elsif amount.to_i.between?(40_001, 80_000)
+    elsif amount.to_i <= 80_000
       ans = amount.to_i.fdiv(4).ceil + 20_000
     else
       ans = 40_000
@@ -70,13 +80,26 @@ class Exemption < ApplicationRecord
     ans
   end
 
+  def new_calc_insurance_with_dependent_under_23(amount)
+    amount = amount.to_i
+    if amount <= 30_000
+      amount
+    elsif amount <= 60_000
+      amount.fdiv(2).ceil + 15_000
+    elsif amount <= 120_000
+      amount.fdiv(4).ceil + 30_000
+    else
+      60_000
+    end
+  end
+
   def old_calc_insurance(amount)
     ans = 0
-    if amount.to_i < 25_000
+    if amount.to_i <= 25_000
       ans = amount.to_i
-    elsif amount.to_i.between?(25_001, 50_000)
+    elsif amount.to_i <= 50_000
       ans = amount.to_i.fdiv(2).ceil + 12_500
-    elsif amount.to_i.between?(50_001, 100_000)
+    elsif amount.to_i <= 100_000
       ans = amount.to_i.fdiv(4).ceil + 25_000
     else
       ans = 50_000

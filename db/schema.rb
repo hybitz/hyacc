@@ -347,6 +347,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_24_153001) do
     t.integer "earthquake_insurance_premium"
     t.integer "employee_id", null: false
     t.integer "fixed_tax_deduction_amount"
+    t.boolean "has_dependent_under_23"
     t.integer "income_adjustment_deduction_reason"
     t.integer "life_insurance_premium_new"
     t.integer "life_insurance_premium_old"

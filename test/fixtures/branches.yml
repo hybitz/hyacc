@@ -82,3 +82,12 @@ with_simple_slip_template:
   parent_id: 2
   path: /1/2/9
   cost_ratio: 100
+company_b_same_code_as_102:
+  id: 10
+  company_id: 2
+  code: 102
+  formal_name: 他社同コード部門
+  name: 他社同コード部門
+  business_office_id: 2
+  path: /10
+  cost_ratio: 100

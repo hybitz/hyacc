@@ -2,8 +2,8 @@ module Accounts::SubAccountsSupport
   include HyaccConst
   include HyaccErrors
   
-  def initialize_sub_accounts_support
-    cache_key = request_cache_key
+  def initialize_sub_accounts_support(company_id: nil)
+    cache_key = request_cache_key(company_id)
     cached = Accounts::SubAccountsRequestCache.cache[cache_key]
     if cached
       @sub_accounts_cache = cached[:active]
@@ -21,7 +21,7 @@ module Accounts::SubAccountsSupport
         @sub_accounts_all_cache << sa
       end
     when SUB_ACCOUNT_TYPE_BRANCH
-      Branch.all.each do |b|
+      Branch.where(company_id: company_id).each do |b|
         @sub_accounts_cache << b unless b.deleted?
         @sub_accounts_all_cache << b
       end
@@ -97,14 +97,14 @@ module Accounts::SubAccountsSupport
 
   # コードに一致する補助科目を取得する
   # 論理削除されている補助科目も対象
-  def get_sub_account_by_code(code)
-    sub_accounts_all.find {|sa| sa.code == code }
+  def get_sub_account_by_code(code, company_id: nil)
+    sub_accounts_all(company_id: company_id).find {|sa| sa.code == code }
   end
   
   # IDに一致する補助科目を取得する
   # 論理削除されている補助科目も対象
-  def get_sub_account_by_id(id)
-    sub_accounts_all.find {|sa| sa.id == id }
+  def get_sub_account_by_id(id, company_id: nil)
+    sub_accounts_all(company_id: company_id).find {|sa| sa.id == id }
   end
   
   def has_bank_accounts
@@ -135,21 +135,21 @@ module Accounts::SubAccountsSupport
     journalizable? and sub_account_type == SUB_ACCOUNT_TYPE_ORDER_PLACEMENT
   end
 
-  def has_sub_accounts?
-    sub_accounts_all.present?
+  def has_sub_accounts?(company_id: nil)
+    sub_accounts_all(company_id: company_id).present?
   end
 
   def is_social_expense?
     sub_account_type == SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
   end
 
-  def sub_accounts
-    initialize_sub_accounts_support
+  def sub_accounts(company_id: nil)
+    initialize_sub_accounts_support(company_id: company_id)
     @sub_accounts_cache
   end
   
-  def sub_accounts_all
-    initialize_sub_accounts_support
+  def sub_accounts_all(company_id: nil)
+    initialize_sub_accounts_support(company_id: company_id)
     @sub_accounts_all_cache
   end
 
@@ -157,7 +157,7 @@ module Accounts::SubAccountsSupport
     @sub_accounts_cache = values.reject{|sa| sa.deleted? }
     @sub_accounts_all_cache = values
 
-    cache_key = request_cache_key
+    cache_key = request_cache_key(nil)
     Accounts::SubAccountsRequestCache.cache[cache_key] = {
       active: @sub_accounts_cache,
       all: @sub_accounts_all_cache
@@ -166,11 +166,14 @@ module Accounts::SubAccountsSupport
 
   private
 
-  def request_cache_key
+  def request_cache_key(company_id)
     case sub_account_type
     when SUB_ACCOUNT_TYPE_NORMAL, SUB_ACCOUNT_TYPE_TAX_AND_DUES,
          SUB_ACCOUNT_TYPE_DONATION, SUB_ACCOUNT_TYPE_SOCIAL_EXPENSE
       [sub_account_type, id]
+    when SUB_ACCOUNT_TYPE_BRANCH
+      raise ArgumentError, '会社の指定がありません。' if company_id.blank?
+      [sub_account_type, company_id]
     else
       sub_account_type
     end

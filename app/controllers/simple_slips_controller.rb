@@ -29,7 +29,7 @@ class SimpleSlipsController < Base::HyaccController
 
   def get_templates
     my_account = Account.find_by_code(finder.account_code)
-    @simple_slip = SimpleSlip.new(my_account_id: my_account.id)
+    @simple_slip = SimpleSlip.new(my_account_id: my_account.id, company_id: current_company.id)
 
     like = '%' + JournalUtil.escape_search(params[:query]) + '%'
     query = 'account_id <> ? and (keywords like ? or remarks like ?) and deleted=?', my_account.id, like, like, false
@@ -91,7 +91,7 @@ class SimpleSlipsController < Base::HyaccController
           "tax_rate_percent":"#{t.tax_rate_percent.to_i > 0 ? t.tax_rate_percent.to_s : nil}",
           "tax_amount":"#{tax_amount.to_s}",
           "focus_on_complete":"#{t.focus_on_complete.to_s}",
-          "sub_accounts":#{account.sub_accounts.map {|sa| {id: sa.id, name: sa.name}}.to_json},
+          "sub_accounts":#{account.sub_accounts(company_id: current_company.id).map {|sa| {id: sa.id, name: sa.name}}.to_json},
           "account_detail":#{account_detail ? account_detail.to_json : '""'},
           "sub_account_detail":#{sub_account_detail ? sub_account_detail.to_json : '""'}
         }
@@ -217,7 +217,7 @@ class SimpleSlipsController < Base::HyaccController
       amount_increase: @simple_slip.amount_increase,
       amount_decrease: @simple_slip.amount_decrease,
       tax_type: get_tax_type_for_current_fy(@simple_slip.tax_type),
-      sub_accounts: account.sub_accounts.map {|sa| {id: sa.id, name: sa.name} },
+      sub_accounts: account.sub_accounts(company_id: current_company.id).map {|sa| {id: sa.id, name: sa.name} },
       account_detail: account_detail.to_s,
       sub_account_detail: sub_account_detail.to_s,
       tax_amount_increase: @simple_slip.tax_amount_increase,
@@ -270,14 +270,14 @@ class SimpleSlipsController < Base::HyaccController
   # 補助科目が必須の場合でまだ補助科目が存在しない場合はマスタメンテに誘導する
   def check_sub_accounts
     unless @account.sub_account_type == SUB_ACCOUNT_TYPE_NORMAL
-      unless @account.has_sub_accounts?
+      unless @account.has_sub_accounts?(company_id: current_company.id)
         render action: :sub_accounts_required and return
       end
     end
   end
 
   def new_slip(hash = {})
-    SimpleSlip.new(hash.merge(my_account_id: @account.id))
+    SimpleSlip.new(hash.merge(my_account_id: @account.id, company_id: current_company.id))
   end
 
   def save_input_frequencies(slip)
@@ -318,7 +318,7 @@ class SimpleSlipsController < Base::HyaccController
   def setup_view_attributes
     # 勘定科目選択用リスト
     # 自身と同じ勘定科目は選択させない（貸借のどちらか一方に限定）
-    @accounts = Account.get_journalizable_accounts.select{|a| a.id != @account.id }
+    @accounts = Account.get_journalizable_accounts(company_id: current_company.id).select{|a| a.id != @account.id }
 
     # 勘定科目の利用頻度
     @frequencies = InputFrequency.latest(current_user.id, INPUT_TYPE_SIMPLE_SLIP_ACCOUNT_ID).limit(current_user.account_count_of_frequencies)

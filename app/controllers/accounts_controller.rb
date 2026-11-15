@@ -5,7 +5,7 @@ class AccountsController < Base::HyaccController
   def show
     account = Account.find(params[:id])
     tax_type = current_company.get_tax_type_for(account)
-    sub_accounts =  HyaccUtil.sort_by_code(account.sub_accounts).collect{|sa| {id: sa.id, name: sa.name} }
+    sub_accounts =  HyaccUtil.sort_by_code(account.sub_accounts(company_id: current_company.id)).collect{|sa| {id: sa.id, name: sa.name} }
 
     render json: {tax_type: tax_type, sub_accounts: sub_accounts}
   end

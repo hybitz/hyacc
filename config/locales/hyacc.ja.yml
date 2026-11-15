@@ -328,6 +328,7 @@ ja:
         life_insurance_premium: 生命保険料
         life_insurance_premium_new: 新契約
         life_insurance_premium_old: 旧契約
+        has_dependent_under_23: 23歳未満の扶養親族がいる
         private_pension_insurance_new: 新契約
         private_pension_insurance_old: 旧契約
         earthquake_insurance_premium: 地震保険料

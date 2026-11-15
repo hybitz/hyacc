@@ -7,8 +7,9 @@ module Reports
       # 対象となる科目ごとに明細を組み立てる
       accounts = Account.where(:is_trade_account_payable => true).order('code')
       accounts.each do |a|
-        if a.sub_accounts_all.present?
-          a.sub_accounts_all.each do |sa|
+        sub_accounts = a.sub_accounts_all(company_id: company.id)
+        if sub_accounts.present?
+          sub_accounts.each do |sa|
             detail = TradeAccountPayableDetailModel.new
             detail.account = a
             if a.sub_account_type == SUB_ACCOUNT_TYPE_CUSTOMER

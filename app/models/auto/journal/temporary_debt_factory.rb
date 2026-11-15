@@ -41,7 +41,7 @@ module Auto::Journal
       
       ## 資産明細
       a = Account.find(@params[:jd].account_id)
-      sa = a.get_sub_account_by_id(@params[:jd].sub_account_id)
+      sa = a.get_sub_account_by_id(@params[:jd].sub_account_id, company_id: jh.company_id)
       assets_branch_id = Branch.find_by(company_id: jh.company_id, code: sa.code).id
       jd = jh.journal_details.build
       jd.detail_no = jh.journal_details.size

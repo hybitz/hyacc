@@ -10,7 +10,7 @@ module AccountAware
   end
 
   def accounts
-    @accounts ||= Account.get_journalizable_accounts
+    @accounts ||= Account.get_journalizable_accounts(company_id: company_id)
   end
 
 end

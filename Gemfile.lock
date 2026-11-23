@@ -410,7 +410,7 @@ GEM
     prettyprint (0.2.1)
     prism (2.0.0-x86_64-linux-gnu)
     public_suffix (7.0.5)
-    puma (8.1.1)
+    puma (8.1.2)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.9)

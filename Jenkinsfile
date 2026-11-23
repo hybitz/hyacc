@@ -47,6 +47,7 @@ spec:
       }
       steps {
         container('app') {
+          sh "bin/bundler-audit"
           sh "bundle exec rake dad:db:create"
           sh "bundle exec rails db:reset"
           sh "bundle exec rails test"

@@ -90,7 +90,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
     assert_redirected_to action: 'index'
     assert_not bank.reload.deleted?
     assert flash[:is_error_message]
-    assert_equal ERR_BANK_LINKED, flash[:notice]
+    assert_equal [ERR_BANK_LINKED], flash[:notice]
   end
 
   def test_無効
@@ -111,7 +111,7 @@ class Mm::BanksControllerTest < ActionController::TestCase
     assert_redirected_to action: 'index'
     assert_not bank.reload.disabled?
     assert flash[:is_error_message]
-    assert_equal ERR_BANK_DISABLE_LINKED, flash[:notice]
+    assert_equal [ERR_BANK_DISABLE_LINKED], flash[:notice]
   end
 
   def test_参照ありでは営業店を無効化できない
@@ -132,9 +132,30 @@ class Mm::BanksControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'edit'
     assert flash[:is_error_message]
-    assert_includes flash[:notice], ERR_BANK_OFFICE_DISABLE_LINKED
+    assert_equal ["金融機関営業店#{ERR_BANK_OFFICE_DISABLE_LINKED}"], flash[:notice]
     assert_not bank.reload.disabled?
     assert_not office.reload.disabled?
+  end
+
+  def test_営業店は無効で新規登録できない
+    sign_in admin
+    bank = banks(:without_linked_accounts)
+
+    assert_no_difference 'BankOffice.count' do
+      patch :update, params: {
+        id: bank.id,
+        bank: {
+          name: bank.name,
+          bank_offices_attributes: {
+            '0' => {code: '999', name: '新規支店', disabled: true}
+          }
+        }
+      }, xhr: true
+    end
+
+    assert_response :success
+    assert_template 'edit'
+    assert_equal ["金融機関営業店#{ERR_BANK_OFFICE_INACTIVE_ON_CREATE}"], flash[:notice]
   end
 
   def test_営業店舗追加

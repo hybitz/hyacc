@@ -38,6 +38,14 @@ class ReferencedOnDeletionValidatorTest < ActiveSupport::TestCase
     assert office.valid?
   end
 
+  def test_BankOffice_新規は参照チェックの対象外
+    assert BankAccount.where(bank_office_id: nil, deleted: false).exists?
+
+    office = banks(:without_linked_accounts).bank_offices.build(code: '999', name: '新規支店', deleted: true)
+    Validators::ReferencedOnDeletionValidator.new.validate(office)
+    assert_empty office.errors
+  end
+
   def test_BankOffice_参照ありでは削除できない
     office = bank_offices(:with_linked_accounts)
     assert(

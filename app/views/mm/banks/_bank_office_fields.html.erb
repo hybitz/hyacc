@@ -10,15 +10,20 @@
     </td>
     <td class="name"><%= f.text_field :name, class: 'form-control form-control-sm' %></td>
     <td class="address"><%= f.text_field :address, class: 'form-control form-control-sm' %></td>
-    <td class="<%= 'text-center' if bank.disabled_in_database || (f.object.persisted? && f.object.disabled_in_database) %>">
+    <% selectable = !bank.disabled_in_database && f.object.persisted? && !f.object.disabled_in_database %>
+    <td class="<%= 'text-center' unless selectable %>">
       <% if bank.disabled_in_database %>
         -
-      <% elsif f.object.persisted? && f.object.disabled_in_database %>
-        <%= HyaccConst::DISABLED_TYPES[f.object.disabled_in_database] %>
-      <% else %>
+      <% elsif selectable %>
         <%= f.select :disabled, HyaccConst::DISABLED_TYPES.invert, {}, class: 'form-select form-select-sm' %>
+      <% else %>
+        <%= HyaccConst::DISABLED_TYPES[f.object.disabled_in_database] %>
       <% end %>
     </td>
-    <td class="text-center"><%= f.check_box :deleted, class: 'form-check-input' %></td>
+    <td class="text-center">
+      <% if f.object.persisted? %>
+        <%= f.check_box :deleted, class: 'form-check-input' %>
+      <% end %>
+    </td>
   </tr>
 <% end %>

@@ -69,6 +69,7 @@ module Validators
               "ReferencedOnDeletionValidator: DELETION_RULES に #{record.class.name} のルールが定義されていません"
       end
 
+      return if record.new_record?
       return unless record.will_save_change_to_deleted? && record.deleted?
 
       if rule[:checks].any? { |check| check.call(record) }

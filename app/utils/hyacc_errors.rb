@@ -6,6 +6,7 @@ module HyaccErrors
   ERR_BANK_DISABLE_LINKED = "金融機関は既に関連口座が存在するため、無効にできません。"
   ERR_BANK_LINKED = "金融機関は既に関連口座が存在するため、削除できません。"
   ERR_BANK_OFFICE_DISABLE_LINKED = "は既に関連口座が存在するため、無効にできません。"
+  ERR_BANK_OFFICE_INACTIVE_ON_CREATE = "は無効または削除の状態で新規登録できません。"
   ERR_BANK_OFFICE_LINKED = "は既に関連口座が存在するため、削除できません。"
   ERR_BRANCH_HEAD_OFFICE = "本店は削除できません。"
   ERR_BRANCH_LINKED = "既に関連データの存在する部門のため削除できません。"

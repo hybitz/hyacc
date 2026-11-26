@@ -1,5 +1,7 @@
 class InhabitantTaxFinder
   include ActiveModel::Model
+  include Pagination
+  include EmployeeAware
 
   attr_accessor :year
 
@@ -13,11 +15,14 @@ class InhabitantTaxFinder
 
     @year.to_i
   end
-  
+
   def list
-    sql = SqlBuilder.new
-    sql.append('ym >= ? and ym <= ?', year.to_s + '06', (year + 1).to_s + '05')
-    InhabitantTax.where(sql.to_a).order('employee_id, ym')
+    scope = InhabitantTax.includes(:employee).where(ym: InhabitantTax.ym_range(year))
+    scope = scope.where(employee_id: employee_id) if employee_id.present?
+    scope = scope.order(:employee_id, :ym)
+    return scope if employee_id.present?
+
+    scope.paginate(page: page, per_page: per_page)
   end
 
 end

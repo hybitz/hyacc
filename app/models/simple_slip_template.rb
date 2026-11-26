@@ -15,9 +15,9 @@ class SimpleSlipTemplate < ApplicationRecord
     FOCUS_ON_COMPLETES[focus_on_complete]
   end
   
-  def sub_account
+  def sub_account(company_id: nil)
     if self.sub_account_id
-      account.get_sub_account_by_id(self.sub_account_id)
+      account.get_sub_account_by_id(self.sub_account_id, company_id: company_id)
     end
   end
   

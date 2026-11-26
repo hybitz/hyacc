@@ -4,7 +4,7 @@
   $(document).ready(function() {
     setTimeout(function() {
       $('.messageDiv').each(function() {
-        var table = $(this).next();
+        const table = $(this).next();
         if(table.width() < $(this).width()){
           $(this).css('width', table.width());
          }

@@ -2,7 +2,13 @@ class Mm::SkillsController < Base::HyaccController
   helper_method :finder
 
   def index
-    @skills = finder.list if params[:commit]
+    qualifications_exist = current_company.qualifications.exists?
+    unless qualifications_exist || current_company.employees.joins(:skills).exists?
+      render :check_qualifications and return
+    end
+
+    @show_prerequisite = !qualifications_exist
+    @skills = finder.list if params[:commit] && finder.employee
   end
 
   def new
@@ -13,12 +19,19 @@ class Mm::SkillsController < Base::HyaccController
 
   def create
     @skill = Skill.new(skill_params)
-    
-    @skill.transaction do
-      @skill.save!
-    end
 
-    render 'common/reload'
+    begin
+      @skill.transaction do
+        @skill.save!
+      end
+
+      flash[:notice] = "#{@skill.qualification.name} の取得情報を登録しました。"
+      render 'common/reload'
+
+    rescue => e
+      handle(e)
+      render :new
+    end
   end
 
   def edit
@@ -28,12 +41,19 @@ class Mm::SkillsController < Base::HyaccController
   def update
     @skill = Skill.find(params[:id])
     @skill.attributes = skill_params
-    
-    @skill.transaction do
-      @skill.save!
+
+    begin
+      @skill.transaction do
+        @skill.save!
+      end
+
+      flash[:notice] = "#{@skill.qualification.name} の取得情報を更新しました。"
+      render 'common/reload'
+
+    rescue => e
+      handle(e)
+      render :edit
     end
-    
-    render 'common/reload'
   end
 
   def destroy
@@ -43,6 +63,7 @@ class Mm::SkillsController < Base::HyaccController
       @skill.destroy_logically!
     end
 
+    flash[:notice] = "#{@skill.qualification.name} の取得情報を削除しました。"
     render 'common/reload'
   end
 
@@ -61,7 +82,7 @@ class Mm::SkillsController < Base::HyaccController
       params.require(:skill_finder).permit(:employee_id)
     end
   end
-  
+
   def skill_params
     permitted = [:qualified_on]
 

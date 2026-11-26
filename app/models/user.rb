@@ -7,6 +7,9 @@ class User < ApplicationRecord
   validates_format_of :password, with: /\A[!-~]*\z/, allow_blank: true  
   validates_format_of :google_account, allow_nil: true, allow_blank: true, with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\z/
 
+  validates_with Validators::LastActiveAdminValidator
+  include LastActiveAdminLockable
+
   has_one :employee
   accepts_nested_attributes_for :employee
 
@@ -14,6 +17,37 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :simple_slip_settings, allow_destroy: true
 
   has_many :user_notifications
+
+  scope :active_admins, -> {
+    joins(:employee).where(
+      admin: true, deleted: false,
+      employees: { disabled: false, deleted: false }
+    )
+  }
+
+  def active_admin?
+    admin? && active_for_authentication?
+  end
+
+  def admin_becoming_inactive?
+    was_active = admin_in_database && !deleted_in_database &&
+      !employee.deleted_in_database && !employee.disabled_in_database
+    return false unless was_active
+
+    !active_admin?
+  end
+
+  def would_remove_last_active_admin?
+    return false unless admin_becoming_inactive?
+
+    company_active_admins = self.class.active_admins.where(employees: { company_id: employee.company_id })
+    company_active_admins.where.not(id: id).none?
+  end
+
+  def active_for_authentication?
+    return false if deleted? || employee.disabled? || employee.deleted?
+    super
+  end
 
   def self.from_omniauth(access_token)
     data = access_token.info
@@ -38,5 +72,11 @@ class User < ApplicationRecord
   def name
     login_id
   end
-  
+
+  private
+
+  def lockable_company
+    employee.company
+  end
+
 end

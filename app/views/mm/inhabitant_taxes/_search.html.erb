@@ -6,6 +6,12 @@
     </div>
   </div>
   <div class="col-auto">
+    <div class="input-group">
+      <div class="input-group-text">従業員</div>
+      <%= select('finder', 'employee_id', to_options(finder.employees), {include_blank: true}, class: 'form-select') %>
+    </div>
+  </div>
+  <div class="col-auto">
     <%= submit_tag '表示', class: 'btn btn-light' %>
   </div>
 <% end %>

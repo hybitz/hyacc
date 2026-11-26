@@ -7,12 +7,18 @@ class Mm::EmployeesController < Base::HyaccController
   end
 
   def show
-    @e = Employee.find(params[:id])
+    @e = Employee.includes(
+      :user,
+      { employee_bank_account: [:bank, :bank_office] },
+      { branch_employees: :branch }
+    ).find(params[:id])
+    @branch_employees = @e.branch_employees
+    @view_only = params[:view_only].present?
   end
 
   def new
     @e = new_employee
-    @e.build_employee_bank_account(bank: current_company.banks.first)
+    build_employee_bank_account_if_needed(@e)
   end
   
   def create
@@ -29,14 +35,14 @@ class Mm::EmployeesController < Base::HyaccController
 
     rescue => e
       handle(e)
-      render action: 'edit'
+      build_employee_bank_account_if_needed(@e)
+      render :new
     end
   end
 
   def edit
     @e = Employee.find(params[:id])
-    eba = @e.employee_bank_account
-    eba ||= @e.build_employee_bank_account(bank: current_company.banks.first)
+    build_employee_bank_account_if_needed(@e)
   end
   
   def update
@@ -53,6 +59,7 @@ class Mm::EmployeesController < Base::HyaccController
 
     rescue => e
       handle(e)
+      build_employee_bank_account_if_needed(@e)
       render action: 'edit'
     end
   end
@@ -60,31 +67,46 @@ class Mm::EmployeesController < Base::HyaccController
   def disable
     @employee = Employee.find(params[:id])
     @employee.disabled = true
-    
-    @employee.transaction do
-      @employee.save!
-    end
+    @employee.company_lock_version = params[:company_lock_version]
+
+    begin
+      @employee.transaction do
+        @employee.save!
+      end
 
     # 無効にしたユーザがログインユーザ自身の場合は、ログアウト
-    if current_user.employee.id == @employee.id
-      reset_session
-      redirect_to root_path
-    else
-      flash[:notice] = "#{@employee.name} を無効にしました。"
+      if current_user.employee.id == @employee.id
+        reset_session
+        redirect_to root_path
+      else
+        flash[:notice] = "#{@employee.name} を無効にしました。"
+        redirect_to action: :index
+      end
+    rescue => e
+      handle(e)
       redirect_to action: :index
     end
   end
 
   def destroy
     @employee = Employee.find(params[:id])
-    @employee.destroy_logically!
+    @employee.company_lock_version = params[:company_lock_version]
+
+    begin
+      @employee.transaction do
+        @employee.destroy_logically!
+      end
 
     # 削除したユーザがログインユーザ自身の場合は、ログアウト
-    if current_user.employee.id == @employee.id
-      reset_session
-      redirect_to root_path
-    else
-      flash[:notice] = "#{@employee.name} を削除しました。"
+      if current_user.employee.id == @employee.id
+        reset_session
+        redirect_to root_path
+      else
+        flash[:notice] = "#{@employee.name} を削除しました。"
+        redirect_to action: :index
+      end
+    rescue => e
+      handle(e)
       redirect_to action: :index
     end
   end
@@ -98,6 +120,13 @@ class Mm::EmployeesController < Base::HyaccController
 
   def new_employee
     current_company.employees.build
+  end
+
+  def build_employee_bank_account_if_needed(employee)
+    return if employee.employee_bank_account
+    return if current_company.banks.empty?
+
+    employee.build_employee_bank_account
   end
   
   def employee_params

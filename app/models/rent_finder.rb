@@ -3,27 +3,19 @@ class RentFinder
   include HyaccConst
   include Pagination
   
-  attr_accessor :deleted
+  attr_accessor :status
   
   def list
-    Rent.where(conditions).order('status, end_to desc').paginate(page: page, per_page: per_page)
-  end
-
-  def deleted?
-    deleted == 'true' if deleted.present?
+    Rent.where(conditions).includes(:customer).order('status, end_to desc').paginate(page: page, per_page: per_page)
   end
 
   private
 
   def conditions
     ret = []
-    if deleted.present?
+    if status.present?
       ret << 'status = ?'
-      if deleted?
-        ret << RENT_STATUS_TYPE_STOP
-      else
-        ret << RENT_STATUS_TYPE_USE
-      end
+      ret << status
     end
     ret
   end

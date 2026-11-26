@@ -1,10 +1,10 @@
-source 'https://rubygems.org'
+source 'https://rubygems.org', cooldown: 7
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '~> 3.4.0'
 gem 'rails', '~> 8.1.0'
 
-gem 'activerecord-session_store'
+gem 'activerecord-session_store', '2.2.0'
 gem 'acts_as_tree'
 gem 'bcrypt'
 gem 'benchmark'
@@ -38,7 +38,7 @@ gem 'rails-i18n', '~> 8.0'
 gem 'remotipart'
 gem 'sassc-rails'
 gem 'sprockets-rails'
-gem 'sqlite3', '~> 1.7'
+gem 'sqlite3', '~> 2.10', force_ruby_platform: true
 gem 'strong_actions'
 gem 'tax_jp'
 gem 'turbolinks', '~> 5'
@@ -51,6 +51,7 @@ group :itamae do
 end
 
 group :development, :test do
+  gem 'bundler-audit', require: false
   gem 'byebug'
   gem 'cucumber'
   gem 'dotenv-rails'
@@ -59,6 +60,7 @@ end
 group :development do
   gem 'rack-mini-profiler'
   gem 'rails-erd'
+  gem 'ruby-graphviz'
   gem 'web-console', '>= 4.1.0'
 end
 

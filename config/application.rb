@@ -36,5 +36,7 @@ module Hyacc
     config.paths['config/routes.rb'] = Dir[Rails.root.join('config/routes/*.rb')] + config.paths['config/routes.rb']
 
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
+
+    config.active_storage.draw_routes = false
   end
 end

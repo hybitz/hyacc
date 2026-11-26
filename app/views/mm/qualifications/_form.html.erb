@@ -1,14 +1,14 @@
 <%= form_with model: [:mm, @qualification], data: {remote: true} do |f| %>
   <%= flash_notice %>
 
-  <table class="m-2">
+  <table class="table table-sm mb-0">
     <tr>
       <th><%= f.label :name %></th>
-      <td><%= f.text_field :name %></td>
+      <td><%= f.text_field :name, class: 'form-control form-control-sm', style: 'width: 15em; max-width: 100%;' %></td>
     </tr>
     <tr>
       <th><%= f.label :allowance %></th>
-      <td><%= f.text_field :allowance %></td>
+      <td><%= f.text_field :allowance, class: 'form-control form-control-sm text-end d-inline-block', style: 'width: 8em; max-width: 100%;' %></td>
     </tr>
   </table>
 <% end %>

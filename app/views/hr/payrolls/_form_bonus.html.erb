@@ -2,14 +2,14 @@
   $(document).ready(function() {
     hyacc.init_datepicker();
 
-    var form = $('.payroll_form form');
+    const form = $('.payroll_form form');
     form.find('.salary').change(load_insurance);
   });
 
   function load_insurance() {
-    var form = $(this).closest('form');
-    var url = '<%= url_for action: 'auto_calc' %>';
-    var params = form.serialize();
+    const form = $(this).closest('form');
+    const url = '<%= url_for action: 'auto_calc' %>';
+    const params = form.serialize();
 
     $.getJSON(url, params, function(taxes) {
       form.find('input[name*="\[health_insurance\]"]').val(taxes.health_insurance);

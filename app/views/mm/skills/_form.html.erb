@@ -10,7 +10,7 @@
     <%= f.hidden_field :qualification_id %>
   <% end %>
 
-  <table class="m-2">
+  <table class="table table-sm mb-0">
     <tr>
       <th><%= f.label :qualification_id %></th>
       <td>
@@ -19,7 +19,7 @@
     </tr>
     <tr>
       <th><%= f.label :qualified_on %></th>
-      <td><%= f.text_field :qualified_on, class: 'datepicker' %></td>
+      <td><%= f.text_field :qualified_on, class: 'form-control form-control-sm datepicker d-inline-block', style: 'width: 8em; max-width: 100%;' %></td>
     </tr>
   </table>
 <% end %>

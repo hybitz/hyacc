@@ -1,6 +1,8 @@
-var options = {
-  title: '<%= title.present? ? title + '　編集' : '編集' %>',
-  submit: '更新'
-};
+(function() {
+  const options = {
+    title: '<%= title.present? ? title + '　編集' : '編集' %>',
+    submit: '更新'
+  };
 
-hyacc.current_dialog(options).show('<%=j render 'form' %>');
+  hyacc.current_dialog(options).show('<%=j render 'form' %>');
+})();

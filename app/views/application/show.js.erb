@@ -1,5 +1,7 @@
-var options = {
-  title: '<%= title.present? ? title + '　参照' : '参照' %>'
-};
+(function() {
+  const options = {
+    title: '<%= title.present? ? title + '　参照' : '参照' %>'
+  };
 
-hyacc.current_dialog(options).show('<%=j render 'show' %>');
+  hyacc.current_dialog(options).show('<%=j render 'show' %>');
+})();

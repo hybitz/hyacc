@@ -281,7 +281,7 @@ class Journal < ApplicationRecord
   def get_credit_amount(account_code, sub_account_code = nil)
     amount = 0
     account = Account.find_by_code(account_code)
-    sub_account = account.get_sub_account_by_code(sub_account_code) if sub_account_code
+    sub_account = account.get_sub_account_by_code(sub_account_code, company_id: company_id) if sub_account_code
     journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_CREDIT && jd.account_id == account.id
         if sub_account_code.nil? || jd.sub_account_id == sub_account.id
@@ -295,7 +295,7 @@ class Journal < ApplicationRecord
   def get_debit_amount(account_code, sub_account_code = nil)
     amount = 0
     account = Account.find_by_code(account_code)
-    sub_account = account.get_sub_account_by_code(sub_account_code) if sub_account_code
+    sub_account = account.get_sub_account_by_code(sub_account_code, company_id: company_id) if sub_account_code
     journal_details.each do | jd |
       if jd.dc_type == DC_TYPE_DEBIT && jd.account_id == account.id
         if sub_account_code.nil? || jd.sub_account_id == sub_account.id

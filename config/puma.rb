@@ -25,18 +25,22 @@
 # Any libraries that use a connection pool or another resource pool should
 # be configured to provide at least as many connections as the number of
 # threads. This includes Active Record's `pool` parameter in `database.yml`.
-threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
+threads_count = ENV.fetch('RAILS_MAX_THREADS', 3)
 threads threads_count, threads_count
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch("PORT", 3000)
+port ENV.fetch('PORT', 3000)
 
 # Allow puma to be restarted by `bin/rails restart` command.
 plugin :tmp_restart
 
 # Run the Solid Queue supervisor inside of Puma for single-server deployments.
-plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
+plugin :solid_queue if ENV['SOLID_QUEUE_IN_PUMA']
 
 # Specify the PID file. Defaults to tmp/pids/server.pid in development.
 # In other environments, only set the PID file if requested.
-pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
+pidfile ENV['PIDFILE'] if ENV['PIDFILE']
+
+# SIGTERM は Pod 切り替え時の通常の停止指示。既定では graceful stop 後に SignalException を
+# 再送出して終了コード 143 になり、旧 Pod が Error 表示で終わるため、0 で終了させる。
+raise_exception_on_sigterm false

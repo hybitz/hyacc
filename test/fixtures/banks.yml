@@ -1,4 +1,4 @@
-data1:
+with_linked_accounts:
   id: 1
   company_id: 1
   code: '0116'
@@ -10,7 +10,7 @@ data1:
   lt_30k_other_bank: 400
   ge_30k_other_bank: 500
     
-data2:
+without_linked_accounts:
   id: 2
   company_id: 1
   code: '0036'

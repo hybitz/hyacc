@@ -9,10 +9,11 @@ class Bank < ApplicationRecord
   validates :code, presence: true
   validates :name, presence: true
   validates_with Validators::ReferencedOnDeletionValidator
+  validates_with Validators::ReferencedOnDisableValidator
 
-  has_many :bank_offices, inverse_of: 'bank'
+  has_many :bank_offices, -> { where(deleted: false) }, inverse_of: 'bank'
   accepts_nested_attributes_for :bank_offices
-  
+
   def get_commission(amount, to)
     case to
     when TO_SAME_OFFICE

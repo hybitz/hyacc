@@ -9,7 +9,7 @@ class ReferencedOnDeletionValidatorTest < ActiveSupport::TestCase
   end
 
   def test_Bank_参照なしで削除できる
-    bank = Bank.find(2)
+    bank = banks(:without_linked_accounts)
     assert_not BankAccount.where(bank_id: bank.id, deleted: false).exists?
     assert_not EmployeeBankAccount.where(bank_id: bank.id).exists?
 
@@ -18,7 +18,7 @@ class ReferencedOnDeletionValidatorTest < ActiveSupport::TestCase
   end
 
   def test_Bank_参照ありでは削除できない
-    bank = Bank.find(1)
+    bank = banks(:with_linked_accounts)
     assert(
       BankAccount.where(bank_id: bank.id, deleted: false).exists? ||
       EmployeeBankAccount.where(bank_id: bank.id).exists?
@@ -27,6 +27,35 @@ class ReferencedOnDeletionValidatorTest < ActiveSupport::TestCase
     bank.deleted = true
     assert bank.invalid?
     assert_equal ERR_BANK_LINKED, bank.errors[:base].first
+  end
+
+  def test_BankOffice_参照なしで削除できる
+    office = bank_offices(:without_linked_accounts)
+    assert_not BankAccount.where(bank_office_id: office.id, deleted: false).exists?
+    assert_not EmployeeBankAccount.where(bank_office_id: office.id).exists?
+
+    office.deleted = true
+    assert office.valid?
+  end
+
+  def test_BankOffice_新規は参照チェックの対象外
+    assert BankAccount.where(bank_office_id: nil, deleted: false).exists?
+
+    office = banks(:without_linked_accounts).bank_offices.build(code: '999', name: '新規支店', deleted: true)
+    Validators::ReferencedOnDeletionValidator.new.validate(office)
+    assert_empty office.errors
+  end
+
+  def test_BankOffice_参照ありでは削除できない
+    office = bank_offices(:with_linked_accounts)
+    assert(
+      BankAccount.where(bank_office_id: office.id, deleted: false).exists? ||
+      EmployeeBankAccount.where(bank_office_id: office.id).exists?
+    )
+
+    office.deleted = true
+    assert office.invalid?
+    assert_equal ERR_BANK_OFFICE_LINKED, office.errors[:base].first
   end
 
   def test_BankAccount_参照なしで削除できる

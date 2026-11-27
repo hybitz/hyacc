@@ -1,26 +1,31 @@
 <table class="table table-sm bank_offices mt-3">
   <thead>
     <tr>
-      <th colspan="4" class="text-center">金融機関営業店</th>
+      <th colspan="5" class="text-center">金融機関営業店</th>
     </tr>
     <tr>
       <th class="text-center"><%= BankOffice.human_attribute_name :code %></th>
       <th><%= BankOffice.human_attribute_name :name %></th>
       <th><%= BankOffice.human_attribute_name :address %></th>
       <th class="text-center"><%= BankOffice.human_attribute_name :disabled %></th>
+      <th class="text-center">削除</th>
     </tr>
   </thead>
 
   <tbody>
     <% bank_offices.each_with_index do |bo, i| %>
-      <%= render 'bank_office_fields', bank_office: bo, index: i %>
+      <%= render 'bank_office_fields', bank: bank, bank_office: bo, index: i %>
     <% end %>
   </tbody>
 
   <tfoot>
     <tr>
-      <td colspan="4">
-        <%= link_to '追加', {action: 'add_bank_office'}, onclick: 'banks.add_bank_office(this); return false;', class: 'btn btn-light' %>
+      <td colspan="5">
+        <% if bank.disabled_in_database %>
+          <span class="text-muted">金融機関が無効のため、営業店は追加できません。</span>
+        <% else %>
+          <%= link_to '追加', add_bank_office_mm_banks_path(bank_id: bank.persisted? ? bank.id : nil), onclick: 'banks.add_bank_office(this); return false;', class: 'btn btn-light' %>
+        <% end %>
       </td>
     </tr>
   </tfoot>

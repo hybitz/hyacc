@@ -10,6 +10,13 @@ module Validators
           ->(record) { EmployeeBankAccount.where(bank_id: record.id).exists? },
         ],
       },
+      'BankOffice' => {
+        error: HyaccErrors::ERR_BANK_OFFICE_LINKED,
+        checks: [
+          ->(record) { BankAccount.where(bank_office_id: record.id, deleted: false).exists? },
+          ->(record) { EmployeeBankAccount.where(bank_office_id: record.id).exists? },
+        ],
+      },
       'BankAccount' => {
         error: HyaccErrors::ERR_BANK_ACCOUNT_LINKED,
         checks: [
@@ -62,6 +69,7 @@ module Validators
               "ReferencedOnDeletionValidator: DELETION_RULES に #{record.class.name} のルールが定義されていません"
       end
 
+      return if record.new_record?
       return unless record.will_save_change_to_deleted? && record.deleted?
 
       if rule[:checks].any? { |check| check.call(record) }
